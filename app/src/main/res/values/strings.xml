@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Ascend</string>
+
+    <string name="phone_number">Phone Number</string>
+    <string name="code">Code</string>
+
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+</resources>

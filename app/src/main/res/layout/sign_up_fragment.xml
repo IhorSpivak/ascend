@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.ui.signup.SignUpViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <com.doneit.ascend.ui.views.IconEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10sp"
+            android:paddingStart="10sp"
+            android:paddingEnd="10sp"
+            app:hint="@{@string/full_name}"
+            app:icon="@{@drawable/user_ic}"
+            app:text="@{model.registrationModel.name}" />
+
+        <com.doneit.ascend.ui.views.IconEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10sp"
+            android:paddingStart="10sp"
+            android:paddingEnd="10sp"
+            app:hint="@{@string/email}"
+            app:icon="@{@drawable/user_ic}"
+            app:text="@{model.registrationModel.email}" />
+
+        <com.doneit.ascend.ui.views.IconEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10sp"
+            android:paddingStart="10sp"
+            android:paddingEnd="10sp"
+            app:hint="@{@string/password}"
+            app:icon="@{@drawable/user_ic}"
+            app:text="@{model.registrationModel.password}" />
+
+        <com.doneit.ascend.ui.views.IconEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10sp"
+            android:paddingStart="10sp"
+            android:paddingEnd="10sp"
+            app:hint="@{@string/password}"
+            app:text="@{model.registrationModel.passwordConfirmation}" />
+
+
+        <Button
+            android:onClick="@{v -> model.registrationClick()}"
+            android:text="Continue"
+            style="@style/ActionButtonStyle" />
+    </LinearLayout>
+</layout>
