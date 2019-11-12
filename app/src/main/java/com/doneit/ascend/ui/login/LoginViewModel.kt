@@ -29,13 +29,18 @@ class LoginViewModel : BaseViewModel() {
 
     @SuppressLint("CheckResult")
     fun singInClick() {
-//        signInUpProvider.logIn(
-//            "${loginModel.phoneCode}${loginModel.phone}",
-//            loginModel.password
-//        )
-//            .doOnSubscribe(::disposeOnDestroy)
-//            .subscribe {
+
+//        loginEvent.postValue(true)
+        signInUpProvider.logIn(
+            "${loginModel.phoneCode}${loginModel.phone}",
+            loginModel.password
+        )
+            .doOnSubscribe(::disposeOnDestroy)
+            .subscribe ({
                 loginEvent.postValue(true)
-//            }
+            }, {
+
+            })
     }
+
 }

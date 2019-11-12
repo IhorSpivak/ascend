@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import androidx.navigation.NavOptions
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.doneit.ascend.R
 import com.doneit.ascend.ui.BaseFragment
@@ -17,7 +18,10 @@ class SplashFragment : BaseFragment(R.layout.splash_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fun toLogin() = findNavController().navigate(R.id.loginFragment)
+        fun toLogin() {
+            val extras = FragmentNavigatorExtras(textView to "logo")
+            findNavController().navigate(R.id.loginFragment, null, null, extras)
+        }
 
         textView.alpha = 0F
 

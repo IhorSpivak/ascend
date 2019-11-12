@@ -5,6 +5,7 @@ import android.util.Log
 import com.doneit.ascend.di.AppComponent
 import com.doneit.ascend.di.DaggerAppComponent
 import com.doneit.ascend.di.NetworkModule
+import com.doneit.ascend.di.SessionModule
 import io.reactivex.plugins.RxJavaPlugins
 
 object Injector {
@@ -18,6 +19,7 @@ class App : Application() {
 
         Injector.appComponent = DaggerAppComponent.builder()
             .networkModule(NetworkModule())
+            .sessionModule(SessionModule(this))
             .build()
 
         RxJavaPlugins.setErrorHandler {

@@ -34,10 +34,25 @@ class LoginFragment: BaseFragment() {
 
         viewModel.loginEvent.observe(this, Observer { success ->
             if (success) {
-                findNavController().navigate(R.id.signUpFragment)
+//                findNavController().navigate(R.id.signUpFragment)
             }
         })
 
+        binding.signUpView.setOnClickListener {
+            findNavController().navigate(R.id.signUpFragment)
+        }
+
+        binding.forgotView.setOnClickListener {
+            findNavController().navigate(R.id.forgotPasswordFragment)
+        }
+
+        binding.policyView.setOnClickListener {
+            findNavController().navigate(R.id.forgotPasswordFragment)
+        }
+
+        binding.termsView.setOnClickListener {
+            findNavController().navigate(R.id.forgotPasswordFragment)
+        }
     }
 }
 

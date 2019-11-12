@@ -14,11 +14,11 @@ import com.doneit.ascend.ui.BaseFragment
 import com.google.gson.annotations.SerializedName
 
 class Registration(
-    var email: String = "",
-    @SerializedName("phone_number") var phone: String = "",
-    @SerializedName("full_name") var name: String = "",
-    @SerializedName("password") var password: String = "",
-    @SerializedName("password_confirmation") var passwordConfirmation: String = ""
+    var email: String = "dff@dffd.ddf",
+    @SerializedName("phone_number") var phone: String = "+2434350005",
+    @SerializedName("full_name") var name: String = "dow jone",
+    @SerializedName("password") var password: String = "dowjone",
+    @SerializedName("password_confirmation") var passwordConfirmation: String = "dowjone"
 )
 
 class ConfirmPhone(

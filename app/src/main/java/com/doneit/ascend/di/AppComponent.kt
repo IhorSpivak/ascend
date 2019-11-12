@@ -8,10 +8,13 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [
-        NetworkModule::class
+        NetworkModule::class,
+        SessionModule::class
     ]
 )
 interface AppComponent {
+
+//    fun context(): Context
 
     fun inject(model: LoginViewModel)
 

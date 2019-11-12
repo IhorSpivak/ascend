@@ -1,6 +1,8 @@
 package com.doneit.ascend.di
 
 import com.doneit.ascend.networking.API
+import com.doneit.ascend.networking.interceptors.AuthInterceptor
+import com.doneit.ascend.networking.interceptors.ErrorInterceptor
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
@@ -16,15 +18,20 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
+    fun provideRetrofit(
+        authInterceptor: AuthInterceptor,
+        errorInterceptor: ErrorInterceptor
+    ): Retrofit {
 
         val client = OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .addInterceptor(
                 HttpLoggingInterceptor()
                     .apply {
                         level = HttpLoggingInterceptor.Level.BODY
                     }
             )
+            .addInterceptor(errorInterceptor)
             .build()
 
         return Retrofit.Builder()

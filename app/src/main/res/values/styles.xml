@@ -1,11 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
+        <item name="colorAccent">#B1B1BF</item>
     </style>
 
     <style name="ActionButtonStyle">
@@ -15,6 +15,11 @@
         <item name="android:textSize">21sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#FF2D55</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>

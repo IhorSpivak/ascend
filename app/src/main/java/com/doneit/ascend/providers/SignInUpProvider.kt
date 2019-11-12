@@ -26,10 +26,15 @@ class LoginResponse(
 
 @Singleton
 open class SignInUpProvider @Inject constructor(
-    var apiProvider: API
+    var apiProvider: API,
+    val storageProvider: StorageProvider
 ) {
 
-    fun logIn(phone: String, password: String) = apiProvider.login(LoginRequest(phone, password))
+    fun logIn(phone: String, password: String) = apiProvider
+        .login(LoginRequest(phone, password))
+        .doOnNext {
+            storageProvider.token = it.token
+        }
 
     fun registration(registration: Registration) = apiProvider.registration(registration)
 
