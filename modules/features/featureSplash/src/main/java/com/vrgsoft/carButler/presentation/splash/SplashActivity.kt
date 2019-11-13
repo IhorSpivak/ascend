@@ -1,11 +1,10 @@
 package com.vrgsoft.carButler.presentation.splash
 
-import android.accounts.AccountManager
+import android.animation.Animator
 import android.os.Bundle
+import android.view.animation.LinearInterpolator
 import com.vrgsoft.core.presentation.activity.BaseActivity
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.activity_splash.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
 
@@ -17,7 +16,26 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_splash)
+
+        textView.alpha = 0F
+
+        textView.animate()
+            .setDuration(100)
+            .setInterpolator(LinearInterpolator())
+            .alpha(1F)
+            .setListener(object : Animator.AnimatorListener {
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    router.goToLogin()
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {}
+
+                override fun onAnimationCancel(animation: Animator?) {}
+
+                override fun onAnimationStart(animation: Animator?) {}
+            })
+            .start()
     }
 }

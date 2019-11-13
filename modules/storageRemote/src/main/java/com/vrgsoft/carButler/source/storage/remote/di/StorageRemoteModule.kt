@@ -1,8 +1,8 @@
 package com.vrgsoft.carButler.source.storage.remote.di
 
-import com.vrgsoft.carButler.source.storage.remote.api.SampleApi
-import com.vrgsoft.carButler.source.storage.remote.repository.sample.ISampleRepository
-import com.vrgsoft.carButler.source.storage.remote.repository.sample.SampleRepository
+import com.vrgsoft.carButler.source.storage.remote.api.UserApi
+import com.vrgsoft.carButler.source.storage.remote.repository.sample.IUserRepository
+import com.vrgsoft.carButler.source.storage.remote.repository.sample.UserRepository
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 
 object StorageRemoteModule {
     fun get() = Kodein.Module("StorageRemoteModule") {
-        bind<SampleApi>() with provider { instance<Retrofit>().create(SampleApi::class.java) }
-        bind<ISampleRepository>() with provider { SampleRepository(instance()) }
+        bind<UserApi>() with provider { instance<Retrofit>().create(UserApi::class.java) }
+        bind<IUserRepository>() with provider { UserRepository(instance()) }
     }
 }
