@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.Injector
 import com.doneit.ascend.providers.SignInUpProvider
 import com.doneit.ascend.ui.BaseViewModel
+import io.reactivex.BackpressureStrategy
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class Login(
@@ -25,19 +27,19 @@ class LoginViewModel : BaseViewModel() {
 
     val loginModel = Login("23")
 
-    val loginEvent = MutableLiveData<Boolean>()
+    private val loginEvent = PublishSubject.create<Boolean>()
+
+    fun subscribe() = loginEvent.toFlowable(BackpressureStrategy.LATEST).toObservable()
 
     @SuppressLint("CheckResult")
     fun singInClick() {
-
-//        loginEvent.postValue(true)
         signInUpProvider.logIn(
             "${loginModel.phoneCode}${loginModel.phone}",
             loginModel.password
         )
             .doOnSubscribe(::disposeOnDestroy)
             .subscribe ({
-                loginEvent.postValue(true)
+                loginEvent.onNext(true)
             }, {
 
             })
