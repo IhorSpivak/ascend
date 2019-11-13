@@ -1,0 +1,12 @@
+ext.flavorConfig = {
+
+    flavorDimensions "type"
+    productFlavors {
+        dev {
+            dimension "type"
+        }
+        prod {
+            dimension "type"
+        }
+    }
+}

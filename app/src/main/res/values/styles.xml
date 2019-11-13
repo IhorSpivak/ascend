@@ -1,25 +1,18 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/white</item>
-        <item name="colorPrimaryDark">@android:color/white</item>
-        <item name="colorAccent">#B1B1BF</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
 
-    <style name="ActionButtonStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">60dp</item>
-        <item name="android:background">@drawable/button_selector</item>
-        <item name="android:textSize">21sp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textColor">@android:color/white</item>
+    <style name="MaterialTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">#50000000</item>
+        <item name="colorPrimaryDark">#70000000</item>
+        <item name="colorAccent">#65c2d7</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
-
-    <style name="error_appearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">#FF2D55</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
 </resources>

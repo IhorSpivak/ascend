@@ -1,2 +1,12 @@
-include ':app'
-rootProject.name='Ascend'
+include ':app',
+
+        ':modules:storageLocal',
+        ':modules:storageRemote',
+
+        ':modules:domain:gateway',
+        ':modules:domain:useCase',
+        ':modules:domain:entity',
+
+        ':modules:features:featureMain',
+        ':modules:features:featureSplash',
+        ':modules:features:featureLogin'

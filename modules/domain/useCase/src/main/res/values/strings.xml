@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name" translatable="false">Use Case</string>
+    <string name="search_empty_message">No results were found for this query \"%s\"!</string>
+    <string name="book_list_empty_message">There are no books in the \"%s\" section yet.</string>
+    <string name="book_genre_empty_message">There are no books in the \"%s\" genre yet.</string>
+    <string name="book_favorites_empty_message">There are no books in the \"Favorites\" section yet.</string>
+    <string name="popular">Popular</string>
+    <string name="viewed">Viewed</string>
+    <string name="loaded">Loaded</string>
+    <string name="read_books">Read books</string>
+    <string name="notification_default_title">Audio books</string>
+    <string name="user_not_run_app_after_first_start">Books have been waiting for you! Choose your favorite and enjoy
+        listening
+    </string>
+    <string name="user_not_run_app_specified_period">Take time to develop your auditory memory!</string>
+    <string name="user_long_time_not_listening_book">\"%s\": You stopped at the most interesting place!</string>
+</resources>

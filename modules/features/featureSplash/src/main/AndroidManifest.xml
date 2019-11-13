@@ -1,0 +1,11 @@
+<manifest package="com.vrgsoft.carButler.presentation.splash"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <uses-permission
+            android:name="android.permission.GET_ACCOUNTS"
+            android:maxSdkVersion="22" />
+    <uses-permission
+            android:name="android.permission.USE_CREDENTIALS"
+            android:maxSdkVersion="22" />
+</manifest>

@@ -1,13 +1,9 @@
 <resources>
-    <string name="app_name">Ascend</string>
-
-    <string name="transition_name_logo">logo</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="code">Code</string>
-
-    <string name="full_name">Full Name</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="password_confirm">Password Confirm</string>
-
+    <string name="app_name">Utopia</string>
+    <string name="books">Books</string>
+    <string name="genres">Genres</string>
+    <string name="favorites">Favorites</string>
+    <string name="selections">Selections</string>
+    <string name="settings">Settings</string>
+    <string name="authors">Authors</string>
 </resources>
