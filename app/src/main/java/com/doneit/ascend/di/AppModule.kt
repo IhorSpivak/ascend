@@ -1,8 +1,11 @@
 package com.doneit.ascend.di
 
 import android.accounts.AccountManager
+import com.doneit.ascend.AuthCustomInterceptor
 import com.doneit.ascend.domain.gateway.di.GatewayModule
 import com.doneit.ascend.domain.use_case.di.UseCaseModule
+import com.doneit.ascend.presentation.AppRouter
+import com.doneit.ascend.presentation.login.LogInContract
 import com.doneit.ascend.presentation.main.IMainRouter
 import com.doneit.ascend.presentation.splash.ISplashRouter
 import com.doneit.ascend.source.storage.local.di.StorageLocalModule
@@ -25,15 +28,16 @@ object AppModule {
         import(GatewayModule.get())
 
         bind<ISplashRouter>() with singleton {
-            com.doneit.ascend.presentation.AppRouter(
+            AppRouter(
                 application
             )
         }
-        bind<IMainRouter>() with singleton { com.doneit.ascend.presentation.AppRouter(application) }
+        bind<IMainRouter>() with singleton { AppRouter(application) }
+        bind<LogInContract.Router>() with singleton { AppRouter(application) }
         bind<String>(tag = "appPackageName") with singleton { application.packageName }
 
-        bind<com.doneit.ascend.AuthCustomInterceptor>() with provider {
-            com.doneit.ascend.AuthCustomInterceptor(
+        bind<AuthCustomInterceptor>() with provider {
+            AuthCustomInterceptor(
                 AccountManager.get(application),
                 instance(tag = "appPackageName")
             )

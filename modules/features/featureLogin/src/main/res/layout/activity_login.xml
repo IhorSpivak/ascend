@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <com.doneit.ascend.presentation.login.view.IconEditText
+        <com.doneit.ascend.presentation.login.views.IconEditText
             android:id="@+id/code"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.doneit.ascend.presentation.login.view.IconEditText
+        <com.doneit.ascend.presentation.login.views.IconEditText
             android:id="@+id/phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             app:layout_constraintStart_toEndOf="@+id/code"
             app:layout_constraintTop_toTopOf="@+id/code" />
 
-        <com.doneit.ascend.presentation.login.view.IconEditText
+        <com.doneit.ascend.presentation.login.views.IconEditText
             android:id="@+id/password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

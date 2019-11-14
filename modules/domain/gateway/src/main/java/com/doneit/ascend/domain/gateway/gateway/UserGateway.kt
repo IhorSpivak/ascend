@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.remote.toEntity
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 import com.vrgsoft.core.gateway.BaseGateway
 import com.vrgsoft.core.remote.error.BaseError
+import com.vrgsoft.core.remote.mapDataIfSuccess
 import com.vrgsoft.networkmanager.NetworkManager
 import com.doneit.ascend.source.storage.remote.repository.sample.IUserRepository as RemoteAccount
 

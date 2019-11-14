@@ -13,14 +13,13 @@ class App : Application(), KodeinAware {
         import(com.doneit.ascend.di.AppModule.module(this@App))
     }
     override val kodeinTrigger = KodeinTrigger()
-    private val interceptor: com.doneit.ascend.AuthCustomInterceptor by instance()
+    private val interceptor: AuthCustomInterceptor by instance()
 
     override fun onCreate() {
         super.onCreate()
 
-        val baseUrlValue = ""//todo
         RetrofitConfig.apply {
-            baseUrl = baseUrlValue
+            baseUrl = getString(R.string.base_url)
             auth = interceptor
             enableLogging()
         }
