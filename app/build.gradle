@@ -10,16 +10,14 @@ android {
             dimension "type"
             versionNameSuffix "-dev"
 
-            resValue "string", "base_url", "https://root.vrgsoft.net/web-booking/web/api/v1/"
-            resValue "integer", "min_word_count", "4"
-
+            resValue "string", "base_url", "https://ascend-backend.herokuapp.com/api/v1/"
         }
 
         prod {
             dimension "type"
             versionNameSuffix "-prod"
 
-            resValue "string", "base_url", "https://web-booking.vrgsoft.net/api/v1/"
+            resValue "string", "base_url", "https://ascend-backend.herokuapp.com/api/v1/"
             resValue "integer", "min_word_count", "150"
         }
     }
@@ -27,7 +25,7 @@ android {
     compileSdkVersion sdk_compile_version
     buildToolsVersion "29.0.0"
     defaultConfig {
-        applicationId "com.vrgsoft.utopia"
+        applicationId "com.doneit.ascend"
         minSdkVersion sdk_min_version
         targetSdkVersion sdk_compile_version
         versionCode version_code

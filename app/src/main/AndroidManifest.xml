@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.vrgsoft.carButler">
+        package="com.doneit.ascend">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-            android:name="com.vrgsoft.carButler.App"
+            android:name="com.doneit.ascend.com.doneit.carButler.App"
             android:allowBackup="true"
             android:fullBackupContent="false"
             android:icon="@mipmap/ic_launcher"
@@ -13,7 +13,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name="com.vrgsoft.carButler.presentation.splash.SplashActivity"
+                android:name="com.doneit.ascend.presentation.splash.SplashActivity"
                 android:icon="@mipmap/ic_launcher"
                 android:noHistory="true"
                 android:roundIcon="@mipmap/ic_launcher_round"
@@ -40,7 +40,7 @@
                 android:screenOrientation="portrait" />
 
         <activity
-                android:name="com.vrgsoft.carButler.presentation.main.MainActivity"
+                android:name="com.doneit.ascend.presentation.main.MainActivity"
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round"
                 android:screenOrientation="portrait">
@@ -48,11 +48,11 @@
         </activity>
 
         <activity
-                android:name="com.vrgsoft.carButler.presentation.test.TestActivity"
+                android:name="com.doneit.ascend.presentation.test.TestActivity"
                 android:icon="@mipmap/ic_launcher"
                 android:roundIcon="@mipmap/ic_launcher_round" />
 
-        <service android:name="com.vrgsoft.carButler.presentation.login.AccountService">
+        <service android:name="com.doneit.ascend.com.doneit.carButler.presentation.login.AccountService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>

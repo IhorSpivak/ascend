@@ -1,4 +1,4 @@
-<manifest package="com.vrgsoft.carButler.presentation.main"
+<manifest package="com.doneit.ascend.presentation.main"
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission
