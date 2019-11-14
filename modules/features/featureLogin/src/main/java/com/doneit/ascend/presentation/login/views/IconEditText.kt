@@ -5,13 +5,14 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
-import androidx.databinding.BindingAdapter
+import androidx.databinding.*
 import com.doneit.ascend.presentation.login.R
 import kotlinx.android.synthetic.main.icon_edit_text.view.*
+import androidx.core.widget.doOnTextChanged
 
 @BindingAdapter("app:icon")
 fun IconEditText.icon(drawable: Drawable?) {
-    if (drawable == null){
+    if (drawable == null) {
         image.visibility = View.GONE
     } else {
         image.setImageDrawable(drawable)
@@ -23,23 +24,35 @@ fun IconEditText.hint(hint: String) {
     textLayout.hint = hint
 }
 
+@BindingAdapter("app:error")
+fun IconEditText.error(error: String?) {
+    textLayout.error = error
+}
+
 @BindingAdapter("app:text")
-fun IconEditText.text(text: String?) {
+fun IconEditText.setText(text: String?) {
     editText.setText(text)
 }
 
-//@InverseBindingAdapter(attribute = "app:text", event = "textAttrChanged")
-//fun IconEditText.getText(text: String?) = editText.text.toString()
+@InverseBindingMethods(
+    value = [
+        InverseBindingMethod(
+            type = IconEditText::class,
+            attribute = "text",
+            method = "getText"
+        )
+    ]
+)
+@BindingMethods(
+    value = [
+        BindingMethod(
+            type = IconEditText::class,
+            attribute = "textAttrChanged",
+            method = "setText"
 
-//@InverseBindingMethods(
-//    value = [
-//        InverseBindingMethod(
-//            type = IconEditText::class,
-//            attribute = "app:text",
-//            method = "getText"
-//        )
-//    ]
-//)
+        )
+    ]
+)
 class IconEditText @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
@@ -50,5 +63,14 @@ class IconEditText @JvmOverloads constructor(
         View.inflate(context, R.layout.icon_edit_text, this)
     }
 
+    fun getText() = editText.text.toString()
 
+    private var listener: InverseBindingListener? = null
+
+    fun setText(listener: InverseBindingListener) {
+        this.listener = listener
+        editText.doOnTextChanged { text, start, count, after ->
+            listener.onChange()
+        }
+    }
 }

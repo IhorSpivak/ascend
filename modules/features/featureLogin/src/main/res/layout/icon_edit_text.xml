@@ -9,22 +9,24 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="16dp"
-        android:layout_height="16dp"
-        app:srcCompat="@drawable/user_ic" />
+        android:layout_height="16dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textLayout"
-        android:paddingStart="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:errorTextAppearance="@style/error_appearance"
+        android:paddingStart="8dp">
 
         <EditText
             android:id="@+id/editText"
-            android:lines="1"
-            android:singleLine="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:lines="1"
+            android:singleLine="true" />
+
 
     </com.google.android.material.textfield.TextInputLayout>
+
 
 </LinearLayout>
