@@ -7,7 +7,7 @@
 
         <!--<variable
             name="model"
-            type="com.doneit.ascend.ui.signup.SignUpViewModel" />-->
+            type="com.doneit.ascend.presentation.login.sign_up.SignUpViewModel" />-->
     </data>
 
     <LinearLayout
