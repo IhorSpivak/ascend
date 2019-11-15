@@ -17,11 +17,5 @@ class LogInActivity: BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.model = viewModel
-
-        /*viewModel.subscribe()
-            .doOnSubscribe(::disposeOnDestroy)
-            .subscribe {
-                findNavController().navigate(R.id.signUpFragment)
-            }*/
     }
 }

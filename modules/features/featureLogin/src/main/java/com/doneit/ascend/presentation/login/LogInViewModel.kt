@@ -1,10 +1,13 @@
 package com.doneit.ascend.presentation.login
 
-import android.annotation.SuppressLint
-import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
+import com.doneit.ascend.domain.entity.LoginUserModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.models.PresentationLoginModel
 import com.vrgsoft.core.presentation.fragment.BaseViewModelImpl
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class LogInViewModel(
     private val router: LogInContract.Router,
@@ -12,18 +15,18 @@ class LogInViewModel(
 ) : BaseViewModelImpl(), LogInContract.ViewModel {
 
     override val loginModel = PresentationLoginModel("23")
+    override val isSignInEnabled = ObservableField<Boolean>(true)
 
-    val loginEvent = MutableLiveData<Boolean>()
-
-    @SuppressLint("CheckResult")
     override fun singInClick() {
-//        signInUpProvider.logIn(
-//            "${loginModel.phoneCode}${loginModel.phone}",
-//            loginModel.password
-//        )
-//            .doOnSubscribe(::disposeOnDestroy)
-//            .subscribe {
-        loginEvent.postValue(true)
-//            }
+        GlobalScope.launch {
+            isSignInEnabled.set(false)
+            val isSuccess = userUseCase.login(LoginUserModel(loginModel.phoneCode+loginModel.phone, loginModel.password))
+            if(isSuccess){
+                launch(Dispatchers.Main) {
+                    router.goToMain()
+                }
+            }
+            isSignInEnabled.set(true)
+        }
     }
 }

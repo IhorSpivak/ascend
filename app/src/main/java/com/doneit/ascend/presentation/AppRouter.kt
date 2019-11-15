@@ -8,6 +8,7 @@ import android.os.Bundle
 import com.doneit.ascend.presentation.login.LogInActivity
 import com.doneit.ascend.presentation.login.LogInContract
 import com.doneit.ascend.presentation.main.IMainRouter
+import com.doneit.ascend.presentation.main.MainActivity
 import com.doneit.ascend.presentation.splash.ISplashRouter
 
 class AppRouter(private val app: Context) : ISplashRouter, IMainRouter, LogInContract.Router {
@@ -17,7 +18,7 @@ class AppRouter(private val app: Context) : ISplashRouter, IMainRouter, LogInCon
     }
 
     override fun goToMain() {
-//        navigateToMain()
+        startActivity<MainActivity>(clear = true)
     }
 
     override fun navigateToSignUp() {
