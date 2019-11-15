@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="android.text.InputType"/>
+        <variable
+            name="inputType"
+            type="Integer" />
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+        <variable
+            name="hint"
+            type="String" />
+        <variable
+            name="error"
+            type="String" />
+        <variable
+            name="text"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="14dp"
+            android:src="@{icon}"
+            android:visibility="@{icon != null? View.VISIBLE : View.GONE }"/>
+
+        <com.doneit.ascend.presentation.login.views.EditWithError
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="@{inputType}"
+            app:hint="@{hint}"
+            app:error="@{error}"
+            app:text="@={text}"/>
+
+    </LinearLayout>
+
+</layout>

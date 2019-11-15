@@ -1,43 +1,42 @@
 package com.doneit.ascend.presentation.login.views
 
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.View
+import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.databinding.*
 import com.doneit.ascend.presentation.login.R
-import kotlinx.android.synthetic.main.icon_edit_text.view.*
+import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import androidx.core.widget.doOnTextChanged
 
-@BindingAdapter("app:icon")
-fun IconEditText.icon(drawable: Drawable?) {
-    if (drawable == null) {
-        image.visibility = View.GONE
-    } else {
-        image.setImageDrawable(drawable)
-    }
-}
-
 @BindingAdapter("app:hint")
-fun IconEditText.hint(hint: String) {
+fun EditWithError.hint(hint: String) {
     textLayout.hint = hint
 }
 
 @BindingAdapter("app:error")
-fun IconEditText.error(error: String?) {
-    textLayout.error = error
+fun EditWithError.error(error: String?) {
+    tvError.text = error
 }
 
 @BindingAdapter("app:text")
-fun IconEditText.setText(text: String?) {
-    editText.setText(text)
+fun EditWithError.setText(text: String?) {
+    if(text != editText.text.toString()){
+        editText.setText(text)
+    }
+}
+
+@BindingAdapter("android:inputType")
+fun EditWithError.setInput(inputType: Int){
+    editText.inputType = inputType or InputType.TYPE_CLASS_TEXT
 }
 
 @InverseBindingMethods(
     value = [
         InverseBindingMethod(
-            type = IconEditText::class,
+            type = EditWithError::class,
             attribute = "text",
             method = "getText"
         )
@@ -46,28 +45,28 @@ fun IconEditText.setText(text: String?) {
 @BindingMethods(
     value = [
         BindingMethod(
-            type = IconEditText::class,
+            type = EditWithError::class,
             attribute = "textAttrChanged",
-            method = "setText"
+            method = "setListener"
 
         )
     ]
 )
-class IconEditText @JvmOverloads constructor(
+class EditWithError @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     init {
-        orientation = HORIZONTAL
+        orientation = VERTICAL
 
-        View.inflate(context, R.layout.icon_edit_text, this)
+        View.inflate(context, R.layout.view_edit_with_error, this)
     }
 
     fun getText() = editText.text.toString()
 
     private var listener: InverseBindingListener? = null
 
-    fun setText(listener: InverseBindingListener) {
+    fun setListener(listener: InverseBindingListener) {
         this.listener = listener
         editText.doOnTextChanged { text, start, count, after ->
             listener.onChange()

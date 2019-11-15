@@ -14,7 +14,7 @@ class LogInViewModel(
     private val userUseCase: UserUseCase
 ) : BaseViewModelImpl(), LogInContract.ViewModel {
 
-    override val loginModel = PresentationLoginModel("23")
+    override val loginModel = PresentationLoginModel()
     override val isSignInEnabled = ObservableField<Boolean>(true)
 
     override fun singInClick() {
