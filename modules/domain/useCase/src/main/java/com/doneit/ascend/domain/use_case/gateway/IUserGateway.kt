@@ -1,7 +1,8 @@
 package com.doneit.ascend.domain.use_case.gateway
 
-import androidx.lifecycle.LiveData
+import com.doneit.ascend.domain.entity.LoginUserModel
+import com.doneit.ascend.domain.entity.User
 
 interface IUserGateway {
-    fun login(registerModel: com.doneit.ascend.domain.entity.LoginUserModel): LiveData<com.doneit.ascend.domain.entity.User>
+    suspend fun login(registerModel: LoginUserModel): User?
 }

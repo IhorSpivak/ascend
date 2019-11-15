@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.gateway.gateway
 
-import androidx.lifecycle.liveData
+import com.doneit.ascend.domain.entity.LoginUserModel
+import com.doneit.ascend.domain.entity.User
 import com.doneit.ascend.domain.gateway.common.mapper.entities.toLoginRequest
 import com.doneit.ascend.domain.gateway.common.mapper.remote.toEntity
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
@@ -19,17 +20,10 @@ internal class UserGateway(
         return ""//todo
     }
 
-    override fun login(loginModel: com.doneit.ascend.domain.entity.LoginUserModel)= liveData<com.doneit.ascend.domain.entity.User> {
-        try {
-            val result = executeRemote { remote.login(loginModel.toLoginRequest()) }
-                .mapDataIfSuccess {
-                    it.toEntity()
-                }
-            if(result != null){
-                emit(result)
+    override suspend fun login(loginModel: LoginUserModel): User? {
+        return executeRemote { remote.login(loginModel.toLoginRequest()) }
+            .mapDataIfSuccess {
+                it.toEntity()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 }
