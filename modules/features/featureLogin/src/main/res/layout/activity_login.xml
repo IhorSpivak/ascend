@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.login.LogInViewModel" />
+            type="com.doneit.ascend.presentation.login.LogInContract.ViewModel" />
     </data>
 
     <ScrollView
@@ -33,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <com.doneit.ascend.ui.views.IconEditText
+            <com.doneit.ascend.presentation.login.views.IconEditText
                 android:id="@+id/code"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:text="@={model.loginModel.phoneCode}" />
 
-            <com.doneit.ascend.ui.views.IconEditText
+            <com.doneit.ascend.presentation.login.views.IconEditText
                 android:id="@+id/phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                 app:layout_constraintTop_toTopOf="@+id/code"
                 app:text="@={model.loginModel.phone}" />
 
-            <com.doneit.ascend.ui.views.IconEditText
+            <com.doneit.ascend.presentation.login.views.IconEditText
                 android:id="@+id/password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

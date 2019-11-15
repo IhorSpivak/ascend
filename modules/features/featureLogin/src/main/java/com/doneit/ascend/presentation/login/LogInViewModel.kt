@@ -2,11 +2,8 @@ package com.doneit.ascend.presentation.login
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
-import com.doneit.ascend.domain.entity.LoginUserModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
-import com.doneit.ascend.presentation.login.models.Login
-import com.vrgsoft.annotations.CreateFactory
-import com.vrgsoft.annotations.ViewModelDiModule
+import com.doneit.ascend.presentation.login.models.PresentationLoginModel
 import com.vrgsoft.core.presentation.fragment.BaseViewModelImpl
 
 class LogInViewModel(
@@ -14,12 +11,12 @@ class LogInViewModel(
     private val userUseCase: UserUseCase
 ) : BaseViewModelImpl(), LogInContract.ViewModel {
 
-    val loginModel = Login("23")
+    override val loginModel = PresentationLoginModel("23")
 
     val loginEvent = MutableLiveData<Boolean>()
 
     @SuppressLint("CheckResult")
-    fun singInClick() {
+    override fun singInClick() {
 //        signInUpProvider.logIn(
 //            "${loginModel.phoneCode}${loginModel.phone}",
 //            loginModel.password

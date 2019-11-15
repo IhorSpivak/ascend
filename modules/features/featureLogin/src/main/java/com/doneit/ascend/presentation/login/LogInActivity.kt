@@ -16,6 +16,7 @@ class LogInActivity: BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        binding.model = viewModel
 
         /*viewModel.subscribe()
             .doOnSubscribe(::disposeOnDestroy)
