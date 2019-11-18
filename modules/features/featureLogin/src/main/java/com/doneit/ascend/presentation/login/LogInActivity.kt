@@ -8,13 +8,16 @@ import android.telephony.TelephonyManager
 import android.view.View
 import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.login.common.CountriesAdapter
 import com.doneit.ascend.presentation.login.databinding.ActivityLoginBinding
 import com.doneit.ascend.presentation.login.utils.fetchCountryListWithReflection
+import com.doneit.ascend.presentation.login.views.error
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.vrgsoft.core.presentation.activity.BaseActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.view.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -42,11 +45,11 @@ class LogInActivity: BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.model = viewModel
 
-        initCountyCodes()
+        init()
         initWithPermissions()
     }
 
-    private fun initCountyCodes() {
+    private fun init() {
         val data = fetchCountryListWithReflection(applicationContext)
         countriesAdapter = CountriesAdapter(data)
         picker.adapter = countriesAdapter
@@ -61,6 +64,10 @@ class LogInActivity: BaseActivity() {
         }
 
         selectByPhoneCode(defaultCountyCode)
+
+        viewModel.errorMessage.observe(this, Observer{
+            password.editWithError.error(getString(it))
+        })
     }
 
     @SuppressLint("MissingPermission")
