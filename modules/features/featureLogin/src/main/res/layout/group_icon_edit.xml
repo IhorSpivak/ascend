@@ -37,6 +37,7 @@
             android:visibility="@{icon != null? View.VISIBLE : View.GONE }"/>
 
         <com.doneit.ascend.presentation.login.views.EditWithError
+            android:id="@+id/editWithError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

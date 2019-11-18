@@ -1,3 +1,7 @@
 <resources>
-
+    <style name="TextInputLayoutAppearance" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/light_gray_e9f0</item>
+        <item name="colorControlActivated">@color/light_gray_e9f0</item>
+        <item name="colorControlHighlight">@color/light_gray_e9f0</item>
+    </style>
 </resources>

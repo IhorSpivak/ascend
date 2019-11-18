@@ -23,13 +23,13 @@ fun EditWithError.error(error: String?) {
 
 @BindingAdapter("app:text")
 fun EditWithError.setText(text: String?) {
-    if(text != editText.text.toString()){
+    if (text != editText.text.toString()) {
         editText.setText(text)
     }
 }
 
 @BindingAdapter("android:inputType")
-fun EditWithError.setInput(inputType: Int){
+fun EditWithError.setInput(inputType: Int) {
     editText.inputType = inputType or InputType.TYPE_CLASS_TEXT
 }
 
@@ -62,7 +62,13 @@ class EditWithError @JvmOverloads constructor(
         View.inflate(context, R.layout.view_edit_with_error, this)
     }
 
-    fun getText() = editText.text.toString()
+    var text: String
+        get() {
+            return editText.text.toString()
+        }
+        set(value) {
+            editText.setText(value)
+        }
 
     private var listener: InverseBindingListener? = null
 
