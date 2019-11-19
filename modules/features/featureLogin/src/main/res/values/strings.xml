@@ -17,6 +17,10 @@
     <string name="or">- or -</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="privacy">Privacy Policy</string>
+    <string name="agreement">I agree with <b>Terms and Conditions</b> and <b>Privacy Policy</b></string>
+    <string name="already_member">Already a member? <b>Sing In</b></string>
+
+    <string name="sign_up_continue">Continue</string>
 
     <string name="phone_format">+%s</string>
 </resources>

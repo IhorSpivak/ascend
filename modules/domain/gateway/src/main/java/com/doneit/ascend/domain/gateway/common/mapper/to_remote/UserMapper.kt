@@ -18,6 +18,7 @@ fun SignUpModel.toSignUpRequest(): SignUpRequest {
         phone,
         name,
         password,
-        passwordConfirmation
+        passwordConfirmation,
+        code
     )
 }

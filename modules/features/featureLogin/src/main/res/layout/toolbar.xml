@@ -13,13 +13,13 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_back" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/toolbarTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

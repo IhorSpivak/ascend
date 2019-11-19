@@ -17,8 +17,6 @@ class AppRouter(private val app: Context) : ISplashRouter, IMainRouter, ILogInRo
         startActivity<LogInActivity>(clear = true)
     }
 
-
-
     override fun goToMain() {
         startActivity<MainActivity>(clear = true)
     }

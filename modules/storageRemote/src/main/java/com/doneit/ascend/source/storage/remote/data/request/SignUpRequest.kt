@@ -7,5 +7,6 @@ data class SignUpRequest(
     @SerializedName("phone_number") var phone: String,
     @SerializedName("full_name") var name: String,
     @SerializedName("password") var password: String,
-    @SerializedName("password_confirmation") var passwordConfirmation: String
+    @SerializedName("password_confirmation") var passwordConfirmation: String,
+    @SerializedName("code") var code: String
 )

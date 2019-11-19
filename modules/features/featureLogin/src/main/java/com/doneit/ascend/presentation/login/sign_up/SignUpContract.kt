@@ -1,16 +1,18 @@
 package com.doneit.ascend.presentation.login.sign_up
 
-import com.doneit.ascend.domain.entity.SignUpModel
+import com.doneit.ascend.presentation.login.models.PresentationSignUpModel
 import com.vrgsoft.core.presentation.fragment.BaseViewModel
 
 interface SignUpContract {
     interface ViewModel: BaseViewModel {
-        val registrationModel: SignUpModel
+        val registrationModel: PresentationSignUpModel
 
-        fun registrationClick()
+        fun continueClick()
+        fun onBackClick()
     }
 
     interface Router {
-
+        fun navigateToVerifyPhone(model: PresentationSignUpModel)
+        fun goBack()
     }
 }
