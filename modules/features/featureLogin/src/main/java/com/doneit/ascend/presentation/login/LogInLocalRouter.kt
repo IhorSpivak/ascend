@@ -2,7 +2,9 @@ package com.doneit.ascend.presentation.login
 
 import com.doneit.ascend.presentation.login.log_in.LogInContract
 import com.doneit.ascend.presentation.login.log_in.LogInFragment
+import com.doneit.ascend.presentation.login.sign_up.SignUpFragment
 import com.doneit.ascend.presentation.main.extensions.replace
+import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 
 class LogInLocalRouter (
     private val activity: LogInActivity,
@@ -14,7 +16,7 @@ class LogInLocalRouter (
     }
 
     override fun navigateToSignUp() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        activity.supportFragmentManager.replaceWithBackStack(R.id.container, SignUpFragment())
     }
 
     override fun goToMain() {

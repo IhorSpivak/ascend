@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-
-        <!--<variable
+        <variable
             name="model"
-            type="com.doneit.ascend.presentation.login.sign_up.SignUpViewModel" />-->
+            type="com.doneit.ascend.presentation.login.sign_up.SignUpContract.ViewModel" />
     </data>
 
     <LinearLayout
@@ -15,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!--<include
+        <include
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,27 +31,29 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <com.doneit.ascend.ui.views.IconEditText
+                <include
+                    layout="@layout/group_icon_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="21dp"
                     android:drawablePadding="10sp"
                     android:paddingStart="10sp"
                     android:paddingEnd="10sp"
-                    app:hint="@{@string/full_name}"
-                    app:icon="@{@drawable/user_ic}"
-                    app:text="@={model.registrationModel.name}" />
+                    bind:hint="@{@string/full_name}"
+                    bind:icon="@{@drawable/ic_user}"
+                    bind:text="@={model.registrationModel.name}" />
 
-                <com.doneit.ascend.ui.views.IconEditText
+                <include
+                    layout="@layout/group_icon_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="10sp"
                     android:paddingStart="10sp"
                     android:paddingEnd="10sp"
-                    app:hint="@{@string/email}"
-                    app:icon="@{@drawable/email_ic}"
-                    app:text="@={model.registrationModel.email}" />
+                    bind:hint="@{@string/email}"
+                    bind:icon="@{@drawable/ic_email}"
+                    bind:text="@={model.registrationModel.email}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -61,42 +62,46 @@
                     android:paddingStart="10sp"
                     android:paddingEnd="10sp">
 
-                    <com.doneit.ascend.ui.views.IconEditText
+                    <include
+                        layout="@layout/group_icon_edit"
                         android:id="@+id/code"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        app:hint="@{@string/code}"
-                        app:icon="@{@drawable/phone_ic}"
-                        app:text="@={model.registrationModel.phone}" />
+                        bind:hint="@{@string/code}"
+                        bind:icon="@{@drawable/ic_phone}"
+                        bind:text="@={model.registrationModel.phone}" />
 
-                    <com.doneit.ascend.ui.views.IconEditText
+                    <include
+                        layout="@layout/group_icon_edit"
                         android:id="@+id/phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:hint="@{@string/phone_number}"
-                        app:text="@={model.registrationModel.phone}" />
+                        bind:hint="@{@string/phone_number}"
+                        bind:text="@={model.registrationModel.phone}" />
                 </LinearLayout>
 
-                <com.doneit.ascend.ui.views.IconEditText
+                <include
+                    layout="@layout/group_icon_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="10sp"
                     android:paddingStart="10sp"
                     android:paddingEnd="10sp"
-                    app:hint="@{@string/password}"
-                    app:icon="@{@drawable/password_ic}"
-                    app:text="@={model.registrationModel.password}" />
+                    bind:hint="@{@string/password}"
+                    bind:icon="@{@drawable/ic_password}"
+                    bind:text="@={model.registrationModel.password}" />
 
-                <com.doneit.ascend.ui.views.IconEditText
+                <include
+                    layout="@layout/group_icon_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:drawablePadding="10sp"
                     android:paddingStart="10sp"
                     android:paddingEnd="10sp"
-                    app:hint="@{@string/password_confirm}"
-                    app:text="@{model.registrationModel.passwordConfirmation}" />
+                    bind:hint="@{@string/password_confirm}"
+                    bind:text="@{model.registrationModel.passwordConfirmation}" />
 
 
                 <CheckBox
@@ -139,26 +144,26 @@
                     android:id="@+id/policyView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
                     android:text="Privacy Policy"
-                    android:layout_marginTop="16dp"
+                    android:textColor="@android:color/black"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:textColor="@android:color/black" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/termsView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginBottom="16dp"
                     android:text="Terms and Conditions"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
-                    android:layout_gravity="center"
                     android:textStyle="bold" />
 
             </LinearLayout>
-        </ScrollView>-->
+        </ScrollView>
     </LinearLayout>
 </layout>

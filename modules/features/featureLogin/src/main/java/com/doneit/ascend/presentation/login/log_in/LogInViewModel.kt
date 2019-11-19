@@ -40,4 +40,8 @@ class LogInViewModel(
             isSignInEnabled.set(true)
         }
     }
+
+    override fun signUpClick() {
+        router.navigateToSignUp()
+    }
 }

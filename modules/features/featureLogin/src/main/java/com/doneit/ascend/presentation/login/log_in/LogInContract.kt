@@ -12,6 +12,7 @@ interface LogInContract {
         val errorMessage: LiveData<String>
 
         fun singInClick()
+        fun signUpClick()
     }
 
     interface Router {
