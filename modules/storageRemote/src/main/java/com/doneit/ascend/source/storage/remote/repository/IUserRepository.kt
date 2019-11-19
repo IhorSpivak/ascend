@@ -1,10 +1,14 @@
 package com.doneit.ascend.source.storage.remote.repository
 
-import com.doneit.ascend.source.storage.remote.data.request.LoginRequest
-import com.doneit.ascend.source.storage.remote.data.response.LoginResponse
+import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
+import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest
+import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 
 interface IUserRepository {
-    suspend fun login(request: LoginRequest): RemoteResponse<LoginResponse, ErrorsListResponse>
+
+    suspend fun signIn(request: LogInRequest): RemoteResponse<AuthResponse, ErrorsListResponse>
+
+    suspend fun signUp(request: SignUpRequest): RemoteResponse<AuthResponse, ErrorsListResponse>
 }

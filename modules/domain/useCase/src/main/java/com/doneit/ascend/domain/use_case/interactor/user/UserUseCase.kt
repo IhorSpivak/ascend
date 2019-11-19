@@ -1,9 +1,12 @@
 package com.doneit.ascend.domain.use_case.interactor.user
 
-import com.doneit.ascend.domain.entity.LoginUserModel
-import com.doneit.ascend.domain.entity.RequestEntity
-import com.doneit.ascend.domain.entity.User
+import com.doneit.ascend.domain.entity.AuthEntity
+import com.doneit.ascend.domain.entity.LogInUserModel
+import com.doneit.ascend.domain.entity.SignUpModel
+import com.doneit.ascend.domain.entity.common.RequestEntity
 
 interface UserUseCase {
-    suspend fun login(registerModel: LoginUserModel): RequestEntity<User, List<String>>
+    suspend fun signIn(logInModel: LogInUserModel): RequestEntity<AuthEntity, List<String>>
+
+    suspend fun signUp(registerModel: SignUpModel): RequestEntity<AuthEntity, List<String>>
 }

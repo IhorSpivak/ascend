@@ -1,10 +1,9 @@
 package com.doneit.ascend.source.storage.remote.api
 
 import com.doneit.ascend.source.storage.remote.data.request.ConfirmPhoneRequest
-import com.doneit.ascend.source.storage.remote.data.request.LoginRequest
-import com.doneit.ascend.source.storage.remote.data.request.RegistrationRequest
-import com.doneit.ascend.source.storage.remote.data.response.LoginResponse
-import com.doneit.ascend.source.storage.remote.data.response.UserResponse
+import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
+import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest
+import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.Body
@@ -14,13 +13,13 @@ import retrofit2.http.POST
 interface UserApi {
 
     @POST("sessions")
-    fun login(@Body request: LoginRequest): Deferred<Response<LoginResponse>>
+    fun signIn(@Body request: LogInRequest): Deferred<Response<AuthResponse>>
 
     @DELETE("sessions/logout")
     fun logOut()
 
     @POST("users")
-    fun registration(@Body request: RegistrationRequest): Deferred<Response<UserResponse>>
+    fun signUp(@Body request: SignUpRequest): Deferred<Response<AuthResponse>>
 
     @POST("users/confirm")
     fun confirmPhone(@Body request: ConfirmPhoneRequest)

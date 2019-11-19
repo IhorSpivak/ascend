@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.login.log_in
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.doneit.ascend.domain.entity.LoginUserModel
+import com.doneit.ascend.domain.entity.LogInUserModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.models.PresentationLoginModel
 import com.vrgsoft.annotations.CreateFactory
@@ -26,7 +26,7 @@ class LogInViewModel(
     override fun singInClick() {
         GlobalScope.launch {
             isSignInEnabled.set(false)
-            val requestEntity = userUseCase.login(LoginUserModel(loginModel.phoneCode+loginModel.phone, loginModel.password))
+            val requestEntity = userUseCase.signIn(LogInUserModel(loginModel.phoneCode+loginModel.phone, loginModel.password))
 
             if(requestEntity.isSuccessful){
                 launch(Dispatchers.Main) {

@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.entity
 
-data class User(
+data class UserEntity(
    val name: String,
    val email: String,
    val phone: String,

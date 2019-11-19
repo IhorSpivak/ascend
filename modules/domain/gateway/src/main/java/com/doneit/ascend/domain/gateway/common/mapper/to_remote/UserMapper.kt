@@ -1,11 +1,23 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
-import com.doneit.ascend.domain.entity.LoginUserModel
-import com.doneit.ascend.source.storage.remote.data.request.LoginRequest
+import com.doneit.ascend.domain.entity.LogInUserModel
+import com.doneit.ascend.domain.entity.SignUpModel
+import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
+import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest
 
-fun LoginUserModel.toLoginRequest(): LoginRequest {
-    return LoginRequest(
+fun LogInUserModel.toLoginRequest(): LogInRequest {
+    return LogInRequest(
         number,
         password
+    )
+}
+
+fun SignUpModel.toSignUpRequest(): SignUpRequest {
+    return SignUpRequest(
+        email,
+        phone,
+        name,
+        password,
+        passwordConfirmation
     )
 }

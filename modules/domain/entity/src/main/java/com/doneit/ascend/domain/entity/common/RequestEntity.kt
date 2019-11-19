@@ -1,4 +1,4 @@
-package com.doneit.ascend.domain.entity
+package com.doneit.ascend.domain.entity.common
 
 data class RequestEntity<T, E>(
     val isSuccessful: Boolean,
