@@ -19,6 +19,4 @@
     <string name="privacy">Privacy Policy</string>
 
     <string name="phone_format">+%s</string>
-
-    <string name="login_error">Wrong login or password</string>
 </resources>

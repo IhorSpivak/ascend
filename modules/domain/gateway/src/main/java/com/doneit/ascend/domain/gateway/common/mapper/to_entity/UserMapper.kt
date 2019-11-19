@@ -1,4 +1,4 @@
-package com.doneit.ascend.domain.gateway.common.mapper.remote
+package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.User
 import com.doneit.ascend.source.storage.remote.data.response.LoginResponse

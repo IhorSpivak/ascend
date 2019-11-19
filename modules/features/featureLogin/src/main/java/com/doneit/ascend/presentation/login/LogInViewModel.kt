@@ -18,19 +18,21 @@ class LogInViewModel(
 
     override val loginModel = PresentationLoginModel()
     override val isSignInEnabled = ObservableField<Boolean>(true)
-    override val errorMessage = MutableLiveData<Int>()
+    override val errorMessage = MutableLiveData<String>()
 
     override fun singInClick() {
         GlobalScope.launch {
             isSignInEnabled.set(false)
-            val isSuccess = userUseCase.login(LoginUserModel(loginModel.phoneCode+loginModel.phone, loginModel.password))
-            if(isSuccess){
+            val requestEntity = userUseCase.login(LoginUserModel(loginModel.phoneCode+loginModel.phone, loginModel.password))
+
+            if(requestEntity.isSuccessful){
                 launch(Dispatchers.Main) {
                     router.goToMain()
                 }
             } else {
-                //todo replace by correct error handling
-                errorMessage.postValue(R.string.login_error)
+                requestEntity.errorModel?.forEach {
+                    errorMessage.postValue(it)
+                }
             }
             isSignInEnabled.set(true)
         }

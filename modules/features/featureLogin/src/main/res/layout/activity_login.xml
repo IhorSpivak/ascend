@@ -147,7 +147,8 @@
                     android:layout_weight="1"
                     android:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
                     app:hint="@{@string/password}"
-                    app:text="@={model.loginModel.password}"/>
+                    app:text="@={model.loginModel.password}"
+                    app:error="@{model.errorMessage}"/>
 
             </LinearLayout>
 
