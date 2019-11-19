@@ -5,24 +5,22 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.os.Bundle
+import com.doneit.ascend.presentation.login.ILogInRouter
 import com.doneit.ascend.presentation.login.LogInActivity
-import com.doneit.ascend.presentation.login.LogInContract
 import com.doneit.ascend.presentation.main.IMainRouter
 import com.doneit.ascend.presentation.main.MainActivity
 import com.doneit.ascend.presentation.splash.ISplashRouter
 
-class AppRouter(private val app: Context) : ISplashRouter, IMainRouter, LogInContract.Router {
+class AppRouter(private val app: Context) : ISplashRouter, IMainRouter, ILogInRouter {
 
     override fun goToLogin() {
         startActivity<LogInActivity>(clear = true)
     }
 
+
+
     override fun goToMain() {
         startActivity<MainActivity>(clear = true)
-    }
-
-    override fun navigateToSignUp() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private inline fun <reified T : Any> startActivity(args: Bundle = Bundle(), clear: Boolean = false) {

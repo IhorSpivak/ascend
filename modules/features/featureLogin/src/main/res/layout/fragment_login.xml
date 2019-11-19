@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.login.LogInContract.ViewModel" />
+            type="com.doneit.ascend.presentation.login.log_in.LogInContract.ViewModel" />
     </data>
 
     <ScrollView

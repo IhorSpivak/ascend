@@ -1,16 +1,19 @@
-package com.doneit.ascend.presentation.login
+package com.doneit.ascend.presentation.login.log_in
 
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.LoginUserModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.models.PresentationLoginModel
+import com.vrgsoft.annotations.CreateFactory
+import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.core.presentation.fragment.BaseViewModelImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
+@CreateFactory
+@ViewModelDiModule
 class LogInViewModel(
     private val router: LogInContract.Router,
     private val userUseCase: UserUseCase

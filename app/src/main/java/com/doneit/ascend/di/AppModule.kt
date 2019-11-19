@@ -5,7 +5,7 @@ import com.doneit.ascend.AuthCustomInterceptor
 import com.doneit.ascend.domain.gateway.di.GatewayModule
 import com.doneit.ascend.domain.use_case.di.UseCaseModule
 import com.doneit.ascend.presentation.AppRouter
-import com.doneit.ascend.presentation.login.LogInContract
+import com.doneit.ascend.presentation.login.ILogInRouter
 import com.doneit.ascend.presentation.main.IMainRouter
 import com.doneit.ascend.presentation.splash.ISplashRouter
 import com.doneit.ascend.source.storage.local.di.StorageLocalModule
@@ -33,7 +33,7 @@ object AppModule {
             )
         }
         bind<IMainRouter>() with singleton { AppRouter(application) }
-        bind<LogInContract.Router>() with singleton { AppRouter(application) }
+        bind<ILogInRouter>() with singleton { AppRouter(application) }
         bind<String>(tag = "appPackageName") with singleton { application.packageName }
 
         bind<AuthCustomInterceptor>() with provider {
