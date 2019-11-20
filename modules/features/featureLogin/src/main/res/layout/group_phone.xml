@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <import type="android.text.InputType" />
+
+        <variable
+            name="text"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.doneit.ascend.presentation.login.views.PhoneCodeView
+            android:id="@+id/phoneCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <include
+            layout="@layout/group_icon_edit"
+            android:id="@+id/phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            bind:hint="@{@string/phone_number}"
+            bind:text="@={text}"
+            bind:inputType="@{InputType.TYPE_CLASS_PHONE}"
+            app:layout_constraintBaseline_toBaselineOf="@id/phoneCode"
+            app:layout_constraintStart_toEndOf="@id/phoneCode"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

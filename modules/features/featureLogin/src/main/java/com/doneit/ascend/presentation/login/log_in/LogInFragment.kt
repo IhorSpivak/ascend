@@ -12,9 +12,9 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentLoginBinding
-import com.doneit.ascend.presentation.login.views.common.CountriesAdapter
 import com.vrgsoft.core.presentation.fragment.BaseFragment
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.group_phone.*
 import org.kodein.di.generic.instance
 
 class LogInFragment : BaseFragment<FragmentLoginBinding>() {
@@ -28,7 +28,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
 
         initSignUpSpannable()
 
-        code.getSelectedCode().observe(this, Observer { code ->
+        phoneCode.getSelectedCode().observe(this, Observer { code ->
             viewModel.loginModel.phoneCode = code
         })
     }

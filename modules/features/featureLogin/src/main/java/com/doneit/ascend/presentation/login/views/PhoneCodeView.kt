@@ -39,6 +39,10 @@ class PhoneCodeView @JvmOverloads constructor(
         fetchCurrentCountryCode()
     }
 
+    override fun getBaseline(): Int {
+        return picker.baseline
+    }
+
     private fun initCountryCodesDropDown() {
         val data = fetchCountryListWithReflection(context!!)
         countriesAdapter = CountriesAdapter(data)

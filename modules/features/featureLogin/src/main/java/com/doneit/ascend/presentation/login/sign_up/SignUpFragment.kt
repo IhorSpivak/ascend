@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.SignUpFragmentBinding
 import com.vrgsoft.core.presentation.fragment.BaseFragment
+import kotlinx.android.synthetic.main.group_phone.*
 import kotlinx.android.synthetic.main.sign_up_fragment.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.kodein.di.generic.instance

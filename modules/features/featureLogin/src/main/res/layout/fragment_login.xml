@@ -49,37 +49,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-            <com.doneit.ascend.presentation.login.views.PhoneCodeView
-                android:id="@+id/code"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/phoneLayout"
+                layout="@layout/group_phone"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="68dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
-
-            <Space
-                android:id="@+id/glPhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8sp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/code" />
-
-            <include
-                android:id="@+id/phone"
-                layout="@layout/group_icon_edit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="24dp"
-                app:layout_constraintBottom_toBottomOf="@+id/glPhone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/code"
-                bind:hint="@{@string/phone_number}"
-                bind:inputType="@{InputType.TYPE_CLASS_PHONE}"
-                bind:text="@={model.loginModel.phone}" />
+                bind:text="@={model.loginModel.phone}"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <include
                 android:id="@+id/password"
@@ -95,8 +74,8 @@
                 bind:text="@={model.loginModel.password}"
                 bind:error="@{model.errorMessage}"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/code"
-                app:layout_constraintTop_toBottomOf="@+id/phone"/>
+                app:layout_constraintStart_toStartOf="@+id/phoneLayout"
+                app:layout_constraintTop_toBottomOf="@+id/phoneLayout"/>
 
             <Button
                 android:id="@+id/signIn"
