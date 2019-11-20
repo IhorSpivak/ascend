@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.doneit.ascend.presentation.login.databinding.FragmentVerifyPhoneBinding
 import com.doneit.ascend.presentation.login.models.PresentationSignUpModel
 import com.vrgsoft.core.presentation.fragment.BaseFragment
+import kotlinx.android.synthetic.main.toolbar.*
 import org.kodein.di.generic.instance
 
 class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
@@ -15,6 +16,9 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
         binding.model = viewModel
 
         viewModel.setModel(arguments!![SIGN_UP_MODEL_TAG] as PresentationSignUpModel)//todo replace by shared ViewModel
+        imBack.setOnClickListener {
+            viewModel.onBackClick()
+        }
     }
 
     companion object {

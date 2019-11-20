@@ -20,6 +20,7 @@ class VerifyPhoneViewModel (
     private lateinit var signUpModel: PresentationSignUpModel
 
     override fun setModel(signUpModel: PresentationSignUpModel) {
+        sendCode()
         this.signUpModel = signUpModel
     }
 
@@ -34,5 +35,15 @@ class VerifyPhoneViewModel (
                 }
             }
         }
+    }
+
+    override fun sendCode() {
+        GlobalScope.launch {
+            userUseCase.getConfirmationCode(signUpModel.getPhoneNumber())
+        }
+    }
+
+    override fun onBackClick() {
+        router.goBack()
     }
 }

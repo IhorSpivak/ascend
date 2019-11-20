@@ -7,6 +7,8 @@ interface VerifyPhoneContract {
     interface ViewModel: BaseViewModel {
         fun setModel(signUpModel: PresentationSignUpModel)
         fun onVerifyClick()
+        fun sendCode()
+        fun onBackClick()
     }
 
     interface Router {

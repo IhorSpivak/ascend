@@ -12,4 +12,8 @@ class PresentationSignUpModel(
     var password: String = "",
     var passwordConfirmation: String = "",
     var code: String = ""
-): Parcelable
+): Parcelable {
+    fun getPhoneNumber(): String {
+        return phoneCode + phone
+    }
+}

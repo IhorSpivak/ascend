@@ -26,7 +26,7 @@ class LogInViewModel(
     override fun singInClick() {
         GlobalScope.launch {
             isSignInEnabled.set(false)
-            val requestEntity = userUseCase.signIn(LogInUserModel(loginModel.phoneCode+loginModel.phone, loginModel.password))
+            val requestEntity = userUseCase.signIn(LogInUserModel(loginModel.getPhoneNumber(), loginModel.password))
 
             if(requestEntity.isSuccessful){
                 launch(Dispatchers.Main) {

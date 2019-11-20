@@ -11,6 +11,7 @@
     <string name="password_confirm">Password Confirm</string>
 
     <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="social_title">Don\'t have an account? <b>Sign Up</b></string>
     <string name="or">- or -</string>
@@ -22,4 +23,10 @@
     <string name="sign_up_continue">Continue</string>
 
     <string name="phone_format">+%s</string>
+    
+    <string name="verify_phone_header">Verify Phone Number</string>
+    <string name="verify_phone_title">Enter 4 digits from SMS</string>
+    <string name="verify">Verify</string>
+    <string name="no_code">Haven\'t received the code yet?</string>
+    <string name="resend">Resend Code</string>
 </resources>

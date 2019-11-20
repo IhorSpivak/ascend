@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
+            bind:title="@{@string/sign_up}"
             android:elevation="8dp" />
 
         <ScrollView
@@ -139,7 +140,7 @@
                     android:layout_height="5dp"
                     android:layout_marginTop="108dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@color/light_gray_f4f7"
+                    android:background="#FF0000"
                     app:layout_constraintVertical_bias="1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

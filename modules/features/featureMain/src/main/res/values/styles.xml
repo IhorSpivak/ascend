@@ -3,6 +3,8 @@
         <item name="colorPrimary">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/white</item>
         <item name="colorAccent">#B1B1BF</item>
+        <item name="buttonStyle">@style/AppTheme.Button</item>
+        <item name="android:buttonStyle">@style/AppTheme.Button</item>
     </style>
 
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button">
