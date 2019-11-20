@@ -6,12 +6,12 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentLoginBinding
+import com.doneit.ascend.presentation.login.utils.applyLinkStyle
+import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.vrgsoft.core.presentation.fragment.BaseFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.group_phone.*
@@ -31,6 +31,10 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
         phoneCode.getSelectedCode().observe(this, Observer { code ->
             viewModel.loginModel.phoneCode = code
         })
+
+        phoneCode.touchListener = {
+            hideKeyboard()
+        }
     }
 
     private fun initSignUpSpannable() {
@@ -45,13 +49,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
             }
         }
         spannable.setSpan(clickableSpan, 23, spannable.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        val color = ContextCompat.getColor(context!!, R.color.defaultTextColor)
-        spannable.setSpan(
-            ForegroundColorSpan(color),
-            23,
-            spannable.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+        context!!.applyLinkStyle(spannable, 23, spannable.length)
 
         tvSocialTitle.text = spannable
         tvSocialTitle.movementMethod = LinkMovementMethod.getInstance()

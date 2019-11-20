@@ -1,29 +1,35 @@
-package com.doneit.ascend.presentation.login.views
+package com.doneit.ascend.presentation.login.views.phone_code
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.telephony.TelephonyManager
 import android.util.AttributeSet
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.FrameLayout
+import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.utils.fetchCountryListWithReflection
-import com.doneit.ascend.presentation.login.views.common.CountriesAdapter
+import com.doneit.ascend.presentation.login.views.phone_code.common.CountriesAdapter
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.synthetic.main.view_phone_code.view.*
 import kotlin.math.max
 
 class PhoneCodeView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr), GestureDetector.OnGestureListener {
+
+    var touchListener: (() -> Unit)? = null
 
     private val selectedCode = MutableLiveData<String>()
     private lateinit var countriesAdapter: CountriesAdapter
+    private lateinit var mDetector: GestureDetectorCompat
 
     init {
         View.inflate(context, R.layout.view_phone_code, this)
@@ -35,6 +41,9 @@ class PhoneCodeView @JvmOverloads constructor(
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+
+        mDetector = GestureDetectorCompat(context, this)
+
         initCountryCodesDropDown()
         fetchCurrentCountryCode()
     }
@@ -56,6 +65,12 @@ class PhoneCodeView @JvmOverloads constructor(
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
+        }
+        picker.setOnTouchListener { view, motionEvent ->
+            if(mDetector.onTouchEvent(motionEvent)) {
+                touchListener?.invoke()
+            }
+            false
         }
 
         selectByPhoneCode(defaultCountyCode)
@@ -85,6 +100,28 @@ class PhoneCodeView @JvmOverloads constructor(
         var position = countriesAdapter.getPositionByPhoneCode(code)
         position = max(position, 0)
         picker.setSelection(position)
+    }
+
+    override fun onShowPress(p0: MotionEvent?) {
+    }
+
+    override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+        return true
+    }
+
+    override fun onDown(p0: MotionEvent?): Boolean {
+        return false
+    }
+
+    override fun onFling(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
+        return false
+    }
+
+    override fun onScroll(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
+        return false
+    }
+
+    override fun onLongPress(p0: MotionEvent?) {
     }
 
     companion object {

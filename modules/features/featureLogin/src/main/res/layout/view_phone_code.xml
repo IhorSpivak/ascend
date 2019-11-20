@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:fontFamily="@font/red_hat_text_normal"
+        style="@style/TextNormal"
         android:text="@string/code"
         android:textColor="@color/light_gray_b1bf"
         android:textSize="10sp"

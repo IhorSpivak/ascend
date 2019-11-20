@@ -20,9 +20,7 @@
             android:layout_height="match_parent"
             android:lines="1"
             android:maxLength="48"
-            android:fontFamily="@font/red_hat_text_normal"
-            android:textColor="@color/default_font_color"
-            android:textSize="18sp"
+            style="@style/TextNormal"
             android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -31,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="4dp"
-        android:fontFamily="@font/red_hat_text_normal"
+        style="@style/TextNormal"
         android:textSize="10sp"
         android:textColor="@color/error_color"
         tools:text="Error"/>

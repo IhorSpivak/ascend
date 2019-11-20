@@ -7,5 +7,6 @@
 
     <style name="HintStyle" parent="TextAppearance.Design.Hint">
         <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/light_gray_b1bf</item>
     </style>
 </resources>

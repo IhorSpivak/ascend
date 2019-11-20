@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.doneit.ascend.presentation.login.views.PhoneCodeView
+        <com.doneit.ascend.presentation.login.views.phone_code.PhoneCodeView
             android:id="@+id/phoneCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
