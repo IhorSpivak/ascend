@@ -1,18 +1,14 @@
 package com.doneit.ascend.presentation.login.models
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
 class PresentationSignUpModel(
-    var email: String = "",
+    var email: ValidatableField = ValidatableField(),
     var phoneCode: String = "",
-    var phone: String = "",
-    var name: String = "",
-    var password: String = "",
-    var passwordConfirmation: String = "",
+    var phone: ValidatableField = ValidatableField(),
+    var name: ValidatableField = ValidatableField(),
+    var password: ValidatableField = ValidatableField(),
+    var passwordConfirmation: ValidatableField = ValidatableField(),
     var code: String = ""
-): Parcelable {
+) {
     fun getPhoneNumber(): String {
         return phoneCode + phone
     }

@@ -11,29 +11,32 @@
             type="com.doneit.ascend.presentation.login.sign_up.SignUpContract.ViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <include
+            android:id="@+id/toolbar"
             layout="@layout/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             bind:title="@{@string/sign_up}"
-            android:elevation="8dp" />
+            android:elevation="8dp"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            android:layout_marginTop="52dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="52dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
@@ -44,7 +47,8 @@
                     android:layout_height="wrap_content"
                     bind:hint="@{@string/full_name}"
                     bind:icon="@{@drawable/ic_user}"
-                    bind:text="@={model.registrationModel.name}"
+                    bind:text="@={model.registrationModel.name.observableField}"
+                    bind:error="@{model.registrationModel.name.observableError}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -57,7 +61,8 @@
                     android:layout_marginTop="32dp"
                     bind:hint="@{@string/email}"
                     bind:icon="@{@drawable/ic_email}"
-                    bind:text="@={model.registrationModel.email}"
+                    bind:text="@={model.registrationModel.email.observableField}"
+                    bind:error="@{model.registrationModel.email.observableError}"
                     app:layout_constraintTop_toBottomOf="@id/userName"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -67,7 +72,8 @@
                     layout="@layout/group_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:text="@={model.registrationModel.phone}"
+                    bind:text="@={model.registrationModel.phone.observableField}"
+                    bind:error="@{model.registrationModel.phone.observableError}"
                     android:layout_marginTop="32dp"
                     app:layout_constraintTop_toBottomOf="@id/email"
                     app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +87,8 @@
                     android:layout_marginTop="32dp"
                     bind:hint="@{@string/password}"
                     bind:icon="@{@drawable/ic_password}"
-                    bind:text="@={model.registrationModel.password}"
+                    bind:text="@={model.registrationModel.password.observableField}"
+                    bind:error="@{model.registrationModel.password.observableError}"
                     bind:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
                     app:layout_constraintTop_toBottomOf="@id/phoneLayout"
                     app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +102,8 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginStart="30dp"
                     bind:hint="@{@string/password_confirm}"
-                    bind:text="@={model.registrationModel.passwordConfirmation}"
+                    bind:text="@={model.registrationModel.passwordConfirmation.observableField}"
+                    bind:error="@{model.registrationModel.passwordConfirmation.observableError}"
                     bind:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -120,6 +128,7 @@
                     android:layout_marginTop="32dp"
                     android:onClick="@{v -> model.continueClick()}"
                     android:text="@string/sign_up_continue"
+                    android:enabled="@{model.canContinue}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cbAgreements"/>
@@ -140,7 +149,7 @@
                     android:layout_height="5dp"
                     android:layout_marginTop="108dp"
                     android:layout_marginBottom="8dp"
-                    android:background="#FF0000"
+                    android:background="@color/light_gray_f4f7"
                     app:layout_constraintVertical_bias="1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -149,5 +158,5 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

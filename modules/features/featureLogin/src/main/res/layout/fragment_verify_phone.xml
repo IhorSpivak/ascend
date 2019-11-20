@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.login.verify_phone.VerifyPhoneContract.ViewModel" />
+            type="com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneContract.ViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,10 +32,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <View
+        <include
             android:id="@+id/placeholder"
+            layout="@layout/group_icon_edit"
             android:layout_width="match_parent"
             android:layout_height="77dp"
+            bind:text="@={model.registrationModel.phoneCode}"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

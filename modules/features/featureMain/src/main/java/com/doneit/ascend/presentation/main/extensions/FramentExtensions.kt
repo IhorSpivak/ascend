@@ -1,6 +1,10 @@
 package com.doneit.ascend.presentation.main.extensions
 
 import android.annotation.SuppressLint
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.vrgsoft.core.presentation.fragment.BaseViewModelImpl
 
 @SuppressLint("CheckResult")
 fun androidx.fragment.app.FragmentManager.replaceWithoutBackStack(containerId: Int,
@@ -41,4 +45,9 @@ fun androidx.fragment.app.FragmentManager.replaceWithBackStack(
         .replace(containerId, fragment, fragment::class.java.simpleName)
         .addToBackStack(fragment::class.java.simpleName)
         .commit()
+}
+
+
+inline fun <reified VM : BaseViewModelImpl> Fragment.vmShared(factory: ViewModelProvider.Factory): VM {
+    return ViewModelProviders.of(activity!!, factory)[VM::class.java]
 }

@@ -9,6 +9,9 @@
         <variable
             name="text"
             type="String" />
+        <variable
+            name="error"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,6 +37,7 @@
             android:layout_marginStart="16dp"
             bind:hint="@{@string/phone_number}"
             bind:text="@={text}"
+            bind:error="@{error}"
             bind:inputType="@{InputType.TYPE_CLASS_PHONE}"
             app:layout_constraintBaseline_toBaselineOf="@id/phoneCode"
             app:layout_constraintStart_toEndOf="@id/phoneCode"
