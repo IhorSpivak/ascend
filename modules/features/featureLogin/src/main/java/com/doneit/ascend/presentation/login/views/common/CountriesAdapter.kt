@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.login.common
+package com.doneit.ascend.presentation.login.views.common
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import com.doneit.ascend.presentation.login.R
 import com.rilixtech.widget.countrycodepicker.Country
-import kotlinx.android.synthetic.main.view_spinner.view.*
+import kotlinx.android.synthetic.main.view_spinner_title.view.*
 
 class CountriesAdapter(
     val countries: List<Country>
@@ -19,7 +19,7 @@ class CountriesAdapter(
     override fun getView(position: Int, recycledView: View?, parent: ViewGroup): View {
         val view = recycledView ?: LayoutInflater
             .from(parent.context)
-            .inflate(R.layout.view_spinner, parent, false)
+            .inflate(R.layout.view_spinner_title, parent, false)
 
         view?.let {
             it.title.text = view.resources.getString(R.string.phone_format, countries[position].phoneCode)

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -11,40 +11,35 @@
         android:layout_height="16dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_phone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.rilixtech.widget.countrycodepicker.CountryCodePicker
+    <Spinner
         android:id="@+id/picker"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        app:ccp_defaultNameCode="US"
-        app:ccp_hideNameCode="true"
-        app:ccp_showFlag="false"
-        app:ccp_textSize="18sp"
-        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toEndOf="@id/icon"/>
 
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/light_gray_e9f0"
-        app:layout_constraintStart_toStartOf="@id/picker"
         app:layout_constraintEnd_toEndOf="@id/picker"
-        app:layout_constraintTop_toBottomOf="@id/picker"/>
+        app:layout_constraintStart_toStartOf="@id/picker"
+        app:layout_constraintTop_toBottomOf="@id/picker" />
 
     <TextView
-        android:id="@+id/hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:fontFamily="@font/red_hat_text_normal"
-        android:textSize="10sp"
-        android:textColor="@color/light_gray_b1bf"
         android:text="@string/code"
+        android:textColor="@color/light_gray_b1bf"
+        android:textSize="10sp"
         app:layout_constraintBottom_toTopOf="@id/picker"
-        app:layout_constraintStart_toStartOf="@id/picker"/>
-
+        app:layout_constraintStart_toStartOf="@id/picker" />
 </androidx.constraintlayout.widget.ConstraintLayout>

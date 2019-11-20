@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.login.common
+package com.doneit.ascend.presentation.login.views.common
 
 import android.view.View
 import com.rilixtech.widget.countrycodepicker.Country
