@@ -16,4 +16,8 @@ internal class UserInteractor(
     override suspend fun signUp(registerModel: SignUpModel): RequestEntity<AuthEntity, List<String>> {
         return userGateway.signUp(registerModel)
     }
+
+    override suspend fun getConfirmationCode(phone: String): RequestEntity<Unit, List<String>> {
+        return userGateway.getConfirmationCode(phone)
+    }
 }

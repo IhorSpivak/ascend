@@ -4,6 +4,7 @@ import com.doneit.ascend.source.storage.remote.data.request.ConfirmPhoneRequest
 import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
 import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
+import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,6 +22,6 @@ interface UserApi {
     @POST("users")
     fun signUp(@Body request: SignUpRequest): Deferred<Response<AuthResponse>>
 
-    @POST("users/confirm")
-    fun confirmPhone(@Body request: ConfirmPhoneRequest)
+    @POST("users/get_code")
+    fun getConfirmationCode(@Body request: ConfirmPhoneRequest): Deferred<Response<OKResponse>>
 }

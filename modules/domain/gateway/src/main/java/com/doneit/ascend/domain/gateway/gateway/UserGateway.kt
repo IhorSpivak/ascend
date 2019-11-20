@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toLoginRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toSignUpRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
+import com.doneit.ascend.source.storage.remote.data.request.ConfirmPhoneRequest
 import com.doneit.ascend.source.storage.remote.repository.IUserRepository
 import com.vrgsoft.networkmanager.NetworkManager
 
@@ -37,6 +38,17 @@ internal class UserGateway(
         return executeRemote { remote.signUp(signUpModel.toSignUpRequest()) }.toRequestEntity(
             {
                 it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun getConfirmationCode(phone: String): RequestEntity<Unit, List<String>> {
+        return executeRemote { remote.getConfirmationCode(ConfirmPhoneRequest(phone)) }.toRequestEntity(
+            {
+                Unit
             },
             {
                 it?.errors

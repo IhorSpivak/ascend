@@ -9,4 +9,6 @@ interface IUserGateway {
     suspend fun signIn(loginMode: LogInUserModel): RequestEntity<AuthEntity, List<String>>
 
     suspend fun signUp(signUpModel: SignUpModel): RequestEntity<AuthEntity, List<String>>
+
+    suspend fun getConfirmationCode(phone: String): RequestEntity<Unit, List<String>>
 }
