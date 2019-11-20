@@ -4,4 +4,8 @@
         <item name="colorControlActivated">@color/light_gray_e9f0</item>
         <item name="colorControlHighlight">@color/light_gray_e9f0</item>
     </style>
+
+    <style name="HintStyle" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">10sp</item>
+    </style>
 </resources>
