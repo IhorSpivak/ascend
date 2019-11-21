@@ -1,19 +1,17 @@
 package com.doneit.ascend.presentation.login.views
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.text.InputType
 import android.util.AttributeSet
 import android.view.View
-import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.*
 import com.doneit.ascend.presentation.login.R
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
-import androidx.core.widget.doOnTextChanged
 
 @BindingAdapter("app:hint")
-fun EditWithError.hint(hint: String) {
+fun EditWithError.hint(hint: String?) {
     textLayout.hint = hint
 }
 
