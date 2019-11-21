@@ -12,8 +12,18 @@ abstract class BaseRepository (
 ) {
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     suspend fun <T, E> execute(call: (() -> Deferred<Response<T>>), expectedErrorType: Class<E>): RemoteResponse<T, E> {
-        val result = call.invoke().await()
-        return result.toRemoteResponse(expectedErrorType)
+        return try {
+            val result = call.invoke().await()
+            result.toRemoteResponse(expectedErrorType)
+        } catch (exception: Exception) {
+            RemoteResponse(
+                false,
+                -1,
+                exception.message?:"",
+                null,
+                expectedErrorType.newInstance()
+            )
+        }
     }
 
     private fun <T, E> Response<T>.toRemoteResponse(errorType: Class<E>): RemoteResponse<T, E> {
