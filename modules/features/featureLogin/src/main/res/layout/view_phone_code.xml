@@ -25,6 +25,7 @@
         app:layout_constraintStart_toEndOf="@id/icon"/>
 
     <View
+        android:id="@+id/underline"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/light_gray_e9f0"
@@ -35,7 +36,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="7dp"
         style="@style/TextNormal"
         android:text="@string/code"
         android:textColor="@color/light_gray_b1bf"

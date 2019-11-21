@@ -39,4 +39,8 @@ class ValidatableField {
             }
         })
     }
+
+    fun removeError() {
+        errors.postValue(null)
+    }
 }

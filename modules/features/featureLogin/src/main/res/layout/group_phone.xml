@@ -29,16 +29,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <include
-            layout="@layout/group_icon_edit"
+        <com.doneit.ascend.presentation.login.views.EditWithError
             android:id="@+id/phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            bind:hint="@{@string/phone_number}"
-            bind:text="@={text}"
-            bind:error="@{error}"
-            bind:inputType="@{InputType.TYPE_CLASS_PHONE}"
+            app:hint="@{@string/phone_number}"
+            app:text="@={text}"
+            app:error="@{error}"
+            app:inputType="@{InputType.TYPE_CLASS_PHONE}"
             app:layout_constraintBaseline_toBaselineOf="@id/phoneCode"
             app:layout_constraintStart_toEndOf="@id/phoneCode"
             app:layout_constraintEnd_toEndOf="parent"/>

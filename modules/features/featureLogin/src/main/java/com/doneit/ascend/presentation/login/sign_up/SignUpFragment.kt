@@ -7,6 +7,7 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import androidx.databinding.OnRebindCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -18,7 +19,6 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.vrgsoft.core.presentation.fragment.BaseFragment
-import kotlinx.android.synthetic.main.group_icon_edit.view.*
 import kotlinx.android.synthetic.main.group_phone.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -42,6 +42,14 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
+
+        binding.addOnRebindCallback(object: OnRebindCallback<FragmentSignUpBinding>(){
+            override fun onBound(binding: FragmentSignUpBinding?) {
+                super.onBound(binding)
+                viewModel.removeErrors()
+                binding?.removeOnRebindCallback(this)
+            }
+        })
 
         imBack.setOnClickListener {
             viewModel.onBackClick()
@@ -81,7 +89,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
     }
 
     private fun applyValidators() {
-        userName.editWithError.editText.setOnFocusChangeListener { _, _ ->
+        userName.editText.setOnFocusChangeListener { _, _ ->
             validate()
         }
     }

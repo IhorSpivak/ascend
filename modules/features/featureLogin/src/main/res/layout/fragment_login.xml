@@ -61,19 +61,18 @@
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <include
+            <com.doneit.ascend.presentation.login.views.EditWithError
                 android:id="@+id/password"
-                layout="@layout/group_icon_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
-                bind:icon="@{@drawable/ic_password}"
-                bind:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
-                bind:hint="@{@string/password}"
-                bind:text="@={model.loginModel.password}"
-                bind:error="@{model.errorMessage}"
+                app:src="@{@drawable/ic_password}"
+                app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
+                app:hint="@{@string/password}"
+                app:text="@={model.loginModel.password}"
+                app:error="@{model.errorMessage}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/phoneLayout"
                 app:layout_constraintTop_toBottomOf="@+id/phoneLayout"/>

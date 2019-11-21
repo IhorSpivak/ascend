@@ -49,7 +49,7 @@ class PhoneCodeView @JvmOverloads constructor(
     }
 
     override fun getBaseline(): Int {
-        return picker.baseline
+        return underline.baseline
     }
 
     private fun initCountryCodesDropDown() {

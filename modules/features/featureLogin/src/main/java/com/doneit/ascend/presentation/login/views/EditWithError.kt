@@ -1,10 +1,11 @@
 package com.doneit.ascend.presentation.login.views
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.text.InputType
 import android.util.AttributeSet
 import android.view.View
-import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
@@ -37,7 +38,14 @@ fun EditWithError.setText(text: String?) {
     }
 }
 
-@BindingAdapter("android:inputType")
+@BindingAdapter("app:src")
+fun EditWithError.setSrc(src: Drawable?) {
+    icon.setImageDrawable(src)
+    icon.visibility = if( src == null) View.GONE else View.VISIBLE
+    requestLayout()
+}
+
+@BindingAdapter("app:inputType")
 fun EditWithError.setInput(inputType: Int) {
     editText.inputType = inputType or InputType.TYPE_CLASS_TEXT
 }
@@ -63,11 +71,9 @@ fun EditWithError.setInput(inputType: Int) {
 )
 class EditWithError @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     init {
-        orientation = VERTICAL
-
         View.inflate(context, R.layout.view_edit_with_error, this)
     }
 
@@ -86,5 +92,9 @@ class EditWithError @JvmOverloads constructor(
         editText.doOnTextChanged { text, start, count, after ->
             listener.onChange()
         }
+    }
+
+    override fun getBaseline(): Int {
+        return editText.baseline
     }
 }

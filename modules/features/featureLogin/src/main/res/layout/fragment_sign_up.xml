@@ -40,29 +40,28 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <include
+                <com.doneit.ascend.presentation.login.views.EditWithError
                     android:id="@+id/userName"
-                    layout="@layout/group_icon_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:hint="@{@string/full_name}"
-                    bind:icon="@{@drawable/ic_user}"
-                    bind:text="@={model.registrationModel.name.observableField}"
-                    bind:error="@{model.registrationModel.name.observableError}"
+                    app:hint="@{@string/full_name}"
+                    app:src="@{@drawable/ic_user}"
+                    app:text="@={model.registrationModel.name.observableField}"
+                    app:error="@{model.registrationModel.name.observableError}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
-                <include
+                <com.doneit.ascend.presentation.login.views.EditWithError
                     android:id="@+id/email"
-                    layout="@layout/group_icon_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    bind:hint="@{@string/email}"
-                    bind:icon="@{@drawable/ic_email}"
-                    bind:text="@={model.registrationModel.email.observableField}"
-                    bind:error="@{model.registrationModel.email.observableError}"
+                    app:hint="@{@string/email}"
+                    app:src="@{@drawable/ic_email}"
+                    app:text="@={model.registrationModel.email.observableField}"
+                    app:error="@{model.registrationModel.email.observableError}"
+                    app:inputType="@{InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS}"
                     app:layout_constraintTop_toBottomOf="@id/userName"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -79,32 +78,30 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
-                <include
+                <com.doneit.ascend.presentation.login.views.EditWithError
                     android:id="@+id/password"
-                    layout="@layout/group_icon_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    bind:hint="@{@string/password}"
-                    bind:icon="@{@drawable/ic_password}"
-                    bind:text="@={model.registrationModel.password.observableField}"
-                    bind:error="@{model.registrationModel.password.observableError}"
-                    bind:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
+                    app:hint="@{@string/password}"
+                    app:src="@{@drawable/ic_password}"
+                    app:text="@={model.registrationModel.password.observableField}"
+                    app:error="@{model.registrationModel.password.observableError}"
+                    app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
                     app:layout_constraintTop_toBottomOf="@id/phoneLayout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
-                <include
+                <com.doneit.ascend.presentation.login.views.EditWithError
                     android:id="@+id/confirmPassword"
-                    layout="@layout/group_icon_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
                     android:layout_marginStart="30dp"
-                    bind:hint="@{@string/password_confirm}"
-                    bind:text="@={model.registrationModel.passwordConfirmation.observableField}"
-                    bind:error="@{model.registrationModel.passwordConfirmation.observableError}"
-                    bind:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
+                    app:hint="@{@string/password_confirm}"
+                    app:text="@={model.registrationModel.passwordConfirmation.observableField}"
+                    app:error="@{model.registrationModel.passwordConfirmation.observableError}"
+                    app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/password"/>

@@ -88,6 +88,16 @@ class SignUpViewModel(
         })
     }
 
+
+
+    override fun removeErrors() {
+        registrationModel.name.removeError()
+        registrationModel.email.removeError()
+        registrationModel.phone.removeError()
+        registrationModel.password.removeError()
+        registrationModel.passwordConfirmation.removeError()
+    }
+
     override fun continueClick() {
         router.navigateToVerifyPhone()
 

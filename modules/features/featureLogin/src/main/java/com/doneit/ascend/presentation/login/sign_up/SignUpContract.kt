@@ -9,6 +9,7 @@ interface SignUpContract {
         val registrationModel: PresentationSignUpModel
         val canContinue: LiveData<Boolean>
 
+        fun removeErrors()
         fun continueClick()
         fun onBackClick()
     }
