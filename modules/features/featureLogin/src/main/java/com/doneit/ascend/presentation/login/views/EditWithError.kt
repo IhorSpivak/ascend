@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.*
+import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.login.R
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 
@@ -18,6 +19,15 @@ fun EditWithError.hint(hint: String?) {
 @BindingAdapter("app:error")
 fun EditWithError.error(error: String?) {
     tvError.text = error
+}
+
+@BindingAdapter("app:error")
+fun EditWithError.error(error: LiveData<Int?>?) {
+    if(error != null && error.value != null){
+        tvError.text = resources.getString(error.value!!)
+    } else {
+        tvError.text = ""
+    }
 }
 
 @BindingAdapter("app:text")

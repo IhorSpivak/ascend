@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.LogInUserModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationLoginModel
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -21,7 +22,7 @@ class LogInViewModel(
 
     override val loginModel = PresentationLoginModel()
     override val isSignInEnabled = ObservableField<Boolean>(true)
-    override val errorMessage = MutableLiveData<String>()
+    override val errorMessage = MutableLiveData<Int?>()
 
     override fun singInClick() {
         GlobalScope.launch {
@@ -33,9 +34,7 @@ class LogInViewModel(
                     router.goToMain()
                 }
             } else {
-                requestEntity.errorModel?.forEach {
-                    errorMessage.postValue(it)
-                }
+                errorMessage.postValue(R.string.error_login)
             }
             isSignInEnabled.set(true)
         }

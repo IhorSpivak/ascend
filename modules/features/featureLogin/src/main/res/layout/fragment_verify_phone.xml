@@ -37,7 +37,7 @@
             layout="@layout/group_icon_edit"
             android:layout_width="match_parent"
             android:layout_height="77dp"
-            bind:text="@={model.registrationModel.phoneCode}"
+            bind:text="@={model.registrationModel.code}"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

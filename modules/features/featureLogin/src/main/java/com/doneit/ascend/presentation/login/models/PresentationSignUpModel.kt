@@ -1,15 +1,18 @@
 package com.doneit.ascend.presentation.login.models
 
+import androidx.databinding.ObservableField
+
 class PresentationSignUpModel(
     var email: ValidatableField = ValidatableField(),
-    var phoneCode: String = "",
+    var phoneCode: ObservableField<String> = ObservableField(""),
     var phone: ValidatableField = ValidatableField(),
     var name: ValidatableField = ValidatableField(),
     var password: ValidatableField = ValidatableField(),
     var passwordConfirmation: ValidatableField = ValidatableField(),
-    var code: String = ""
+    var hasAgreed: ObservableField<Boolean> = ObservableField(false),
+    var code: ObservableField<String> = ObservableField("")
 ) {
     fun getPhoneNumber(): String {
-        return phoneCode + phone
+        return phoneCode.get() + phone.observableField.get()
     }
 }

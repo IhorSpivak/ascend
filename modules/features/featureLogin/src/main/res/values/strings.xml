@@ -29,4 +29,12 @@
     <string name="verify">Verify</string>
     <string name="no_code">Haven\'t received the code yet?</string>
     <string name="resend">Resend Code</string>
+
+    <!--Errors messages-->
+    <string name="error_login">Wrong phone number or password.</string>
+    <string name="error_full_name">Please, enter your Full Name correctly</string>
+    <string name="error_email">The email is incorrect. Please, make sure you entered correct data</string>
+    <string name="error_phone">The number is invalid. Please check it once again</string>
+    <string name="error_password">The password should include at least 1 number, 1 latin letter, and not be less than 6 signs</string>
+    <string name="error_password_confirm">Passwords don\’t match</string>
 </resources>

@@ -6,6 +6,7 @@
     <data>
         <import type="android.view.View"/>
         <import type="android.text.InputType"/>
+        <import type="androidx.lifecycle.LiveData"/>
         <variable
             name="inputType"
             type="Integer" />
@@ -17,7 +18,7 @@
             type="String" />
         <variable
             name="error"
-            type="String" />
+            type="LiveData&lt;Integer>" />
         <variable
             name="text"
             type="String" />

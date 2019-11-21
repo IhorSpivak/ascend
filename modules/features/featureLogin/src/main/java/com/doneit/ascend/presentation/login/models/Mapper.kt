@@ -6,10 +6,10 @@ import com.doneit.ascend.presentation.login.utils.getNotNull
 fun PresentationSignUpModel.toEntity(): SignUpModel {
     return SignUpModel(
         email.observableField.getNotNull(),
-        phoneCode + phone.observableField.getNotNull(),
+        getPhoneNumber(),
         name.observableField.get()?:"",
         password.observableField.getNotNull(),
         passwordConfirmation.observableField.getNotNull(),
-        code
+        code.getNotNull()
     )
 }

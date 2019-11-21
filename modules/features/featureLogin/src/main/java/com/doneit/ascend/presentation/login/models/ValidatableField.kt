@@ -8,18 +8,19 @@ import com.doneit.ascend.presentation.login.utils.getNotNull
 
 class ValidatableField {
     val observableField = ObservableField<String>()
-    val observableError: LiveData<String?>
+    val observableError: LiveData<Int?>
         get() {
             return errors
         }
     var validator: ((String) -> ValidationResult)? = null
-    private var isCorrect = false
+    var onFieldInvalidate: (() -> Unit)? = null
     val isValid: Boolean
         get() {
             return isCorrect
         }
 
-    private val errors = MutableLiveData<String>()
+    private var isCorrect = false
+    private val errors = MutableLiveData<Int?>()
 
     init {
         observableField.addOnPropertyChangedCallback(object :
@@ -27,7 +28,12 @@ class ValidatableField {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 if (validator != null && sender != null) {
                     val validation = validator!!.invoke(observableField.getNotNull())
+                    val oldCorrect = isCorrect
                     isCorrect = validation.isSussed
+                    if (oldCorrect != isCorrect) {
+                        onFieldInvalidate?.invoke()
+                    }
+
                     errors.postValue(validation.errors.firstOrNull())
                 }
             }

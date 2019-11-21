@@ -6,6 +6,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Patterns
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
 import com.doneit.ascend.presentation.login.R
@@ -20,4 +21,22 @@ fun Context.applyLinkStyle(source: SpannableString, start: Int, end: Int) {
 
 fun ObservableField<String>.getNotNull(): String {
     return get()?:""
+}
+
+fun ObservableField<Boolean>.getNotNull(): Boolean {
+    return get()?:false
+}
+
+fun String.isValidPassword(): Boolean {
+    val r = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!\$%!@#£€*?&]{6,}\$")
+    return this.matches(r)
+}
+
+fun String.isValidEmail(): Boolean {
+    return Patterns.EMAIL_ADDRESS.matcher(this).matches()
+}
+
+fun String.isValidName(): Boolean {
+    val r = Regex("[a-zA-Z ]{4,}")
+    return this.matches(r)
 }

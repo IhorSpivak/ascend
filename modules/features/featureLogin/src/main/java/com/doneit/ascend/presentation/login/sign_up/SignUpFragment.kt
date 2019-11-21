@@ -11,15 +11,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.login.R
-import com.doneit.ascend.presentation.login.databinding.SignUpFragmentBinding
+import com.doneit.ascend.presentation.login.databinding.FragmentSignUpBinding
 import com.doneit.ascend.presentation.login.utils.applyLinkStyle
+import com.doneit.ascend.presentation.login.utils.getNotNull
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.vrgsoft.core.presentation.fragment.BaseFragment
 import kotlinx.android.synthetic.main.group_icon_edit.view.*
 import kotlinx.android.synthetic.main.group_phone.*
-import kotlinx.android.synthetic.main.sign_up_fragment.*
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import org.kodein.di.Kodein
@@ -29,7 +30,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
-class SignUpFragment : BaseFragment<SignUpFragmentBinding>() {
+class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName){
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
@@ -49,7 +50,9 @@ class SignUpFragment : BaseFragment<SignUpFragmentBinding>() {
         initSignInSpannable()
 
         phoneCode.getSelectedCode().observe(this, Observer {code ->
-            viewModel.registrationModel.code = code
+            if(code != viewModel.registrationModel.phoneCode.getNotNull()) {
+                viewModel.registrationModel.phoneCode.set(code)
+            }
         })
 
         phoneCode.touchListener = {

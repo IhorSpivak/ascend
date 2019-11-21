@@ -9,7 +9,7 @@ interface LogInContract {
     interface ViewModel: BaseViewModel {
         val loginModel: PresentationLoginModel
         val isSignInEnabled: ObservableField<Boolean>
-        val errorMessage: LiveData<String>
+        val errorMessage: LiveData<Int?>
 
         fun singInClick()
         fun signUpClick()

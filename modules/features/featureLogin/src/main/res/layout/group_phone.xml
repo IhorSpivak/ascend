@@ -11,7 +11,7 @@
             type="String" />
         <variable
             name="error"
-            type="String" />
+            type="androidx.lifecycle.LiveData&lt;Integer>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
