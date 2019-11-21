@@ -12,7 +12,6 @@
         android:id="@+id/textLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hintTextAppearance="@style/HintStyle"
         android:theme="@style/TextInputLayoutAppearance">
         <EditText
             android:id="@+id/editText"
