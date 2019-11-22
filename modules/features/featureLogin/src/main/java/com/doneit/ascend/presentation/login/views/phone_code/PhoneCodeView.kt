@@ -17,6 +17,7 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.utils.fetchCountryListWithReflection
 import com.doneit.ascend.presentation.login.views.phone_code.common.CountriesAdapter
+import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.synthetic.main.view_phone_code.view.*
 import kotlin.math.max
@@ -88,9 +89,12 @@ class PhoneCodeView @JvmOverloads constructor(
                         val telephonyManager =
                             context!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                         val regionCode = telephonyManager.networkCountryIso
-                        val localCountryCode = PhoneNumberUtil.getInstance()
-                            .parse(telephonyManager.line1Number, regionCode).countryCode
-                        selectByPhoneCode(localCountryCode.toString())
+
+                        try{
+                            val localCountryCode = PhoneNumberUtil.getInstance()
+                                .parse(telephonyManager.line1Number, regionCode).countryCode
+                            selectByPhoneCode(localCountryCode.toString())
+                        } catch (_: NumberParseException){}
                     }
                 }
             }
