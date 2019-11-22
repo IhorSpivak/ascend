@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="sig_up_fields_spacing">24dp</dimen>
+    <dimen name="dialog_margin">16dp</dimen>
 </resources>

@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.AdapterView
 import android.widget.FrameLayout
 import androidx.core.view.GestureDetectorCompat
@@ -47,6 +48,11 @@ class PhoneCodeView @JvmOverloads constructor(
 
         initCountryCodesDropDown()
         fetchCurrentCountryCode()
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        setupDropDownWidth()
     }
 
     override fun getBaseline(): Int {
@@ -106,6 +112,26 @@ class PhoneCodeView @JvmOverloads constructor(
         picker.setSelection(position)
     }
 
+    private fun setupDropDownWidth() {
+        var baseParent = this.parent!!
+        while(baseParent.parent != null && baseParent.parent is View){
+            baseParent = baseParent.parent
+        }
+
+        val baseView = baseParent as View
+
+        baseView.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                picker.dropDownWidth =
+                    baseView.width - (2 * resources.getDimension(R.dimen.dialog_margin) + picker.x).toInt()
+                requestLayout()
+                baseView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+
+        })
+    }
+
     override fun onShowPress(p0: MotionEvent?) {
     }
 
@@ -132,5 +158,4 @@ class PhoneCodeView @JvmOverloads constructor(
         private const val defaultCountyCode = "1"
         private const val CODE_FORMAT = "+%s"
     }
-
 }
