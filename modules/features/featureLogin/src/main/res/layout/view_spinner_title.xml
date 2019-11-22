@@ -7,5 +7,6 @@
     android:includeFontPadding="false"
     android:textColor="@color/default_font_color"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="24sp"
     tools:text="+380" />
+    <!--android:layout_height="21sp" - for correct display on android 9.0-->
