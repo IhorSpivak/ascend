@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/etDigits1"
+        style="@style/SmsDigit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/etDigits2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <EditText
+        android:id="@+id/etDigits2"
+        style="@style/SmsDigit"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toStartOf="@id/etDigits3"
+        app:layout_constraintStart_toEndOf="@id/etDigits1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <EditText
+        android:id="@+id/etDigits3"
+        style="@style/SmsDigit"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/etDigits2"
+        app:layout_constraintEnd_toStartOf="@id/etDigits4"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <EditText
+        android:id="@+id/etDigits4"
+        style="@style/SmsDigit"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/etDigits3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
