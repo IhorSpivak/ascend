@@ -4,7 +4,6 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="model"
             type="com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneContract.ViewModel" />
@@ -12,6 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"
@@ -32,14 +32,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <include
-            android:id="@+id/placeholder"
-            layout="@layout/view_sms_code"
+        <com.doneit.ascend.presentation.login.views.SmsCodeView
+            android:id="@+id/smsCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginStart="45dp"
             android:layout_marginEnd="45dp"
+            app:text="@={model.registrationModel.code.observableField}"
             app:layout_constraintTop_toBottomOf="@id/title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -47,6 +47,7 @@
         <Button
             android:id="@+id/btnVerify"
             android:onClick="@{v -> model.onVerifyClick()}"
+            android:enabled="@{model.canContinue}"
             android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +55,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/verify"
-            app:layout_constraintTop_toBottomOf="@id/placeholder" />
+            app:layout_constraintTop_toBottomOf="@id/smsCode" />
 
         <TextView
             android:id="@+id/tvNoCode"

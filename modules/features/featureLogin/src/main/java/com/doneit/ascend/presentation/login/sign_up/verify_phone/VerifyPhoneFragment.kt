@@ -3,11 +3,13 @@ package com.doneit.ascend.presentation.login.sign_up.verify_phone
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.login.databinding.FragmentVerifyPhoneBinding
-import com.doneit.ascend.presentation.login.models.PresentationSignUpModel
 import com.doneit.ascend.presentation.login.sign_up.SignUpViewModel
+import com.doneit.ascend.presentation.login.views.SmsCodeView
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
+import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.vrgsoft.core.presentation.fragment.BaseFragment
+import kotlinx.android.synthetic.main.fragment_verify_phone.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -19,7 +21,7 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName){
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
-        //di should contains for now corresponding ViewModel from SignUpFragments' module
+        //di should contains corresponding ViewModel from SignUpFragments' module for now
         bind<VerifyPhoneContract.ViewModel>() with singleton { vmShared<SignUpViewModel>(instance()) }
     }
 
@@ -31,5 +33,15 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
         imBack.setOnClickListener {
             viewModel.onBackClick()
         }
+
+        smsCode.setSubmitListener(object : SmsCodeView.OnSubmitListener {
+            override fun onSubmit() {
+                hideKeyboard()
+                viewModel.onVerifyClick()
+            }
+        })
+        smsCode.requestFirstFocus()
+
+        viewModel.sendCode()
     }
 }

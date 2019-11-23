@@ -10,7 +10,7 @@ class PresentationSignUpModel(
     var password: ValidatableField = ValidatableField(),
     var passwordConfirmation: ValidatableField = ValidatableField(),
     var hasAgreed: ObservableField<Boolean> = ObservableField(false),
-    var code: ObservableField<String> = ObservableField("")
+    var code: ValidatableField = ValidatableField()
 ) {
     fun getPhoneNumber(): String {
         return phoneCode.get() + phone.observableField.get()

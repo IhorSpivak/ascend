@@ -74,12 +74,25 @@ class SignUpViewModel(
             result
         }
 
-        val invalidationListener = { invalidateFields() }
+        registrationModel.code.validator = {s ->
+            val result = ValidationResult()
+
+            if(s.isValidConfirmationCode().not()){
+                result.isSussed = false
+            }
+
+            result
+        }
+
+        val invalidationListener = { updateCanContinue() }
         registrationModel.name.onFieldInvalidate = invalidationListener
         registrationModel.email.onFieldInvalidate = invalidationListener
         registrationModel.phone.onFieldInvalidate = invalidationListener
         registrationModel.password.onFieldInvalidate = invalidationListener
         registrationModel.passwordConfirmation.onFieldInvalidate = invalidationListener
+        registrationModel.code.onFieldInvalidate = {
+            canContinue.postValue(registrationModel.code.isValid)
+        }
 
         registrationModel.hasAgreed.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
@@ -100,12 +113,14 @@ class SignUpViewModel(
 
     override fun continueClick() {
         router.navigateToVerifyPhone()
-
+        canContinue.postValue(false)
     }
 
     override fun onVerifyClick() {
+        canContinue.postValue(false)
         GlobalScope.launch {
             val requestEntity = userUseCase.signUp(registrationModel.toEntity())
+            canContinue.postValue(true)
 
             if(requestEntity.isSuccessful){
                 launch(Dispatchers.Main) {
@@ -125,14 +140,16 @@ class SignUpViewModel(
         router.goBack()
     }
 
-    private fun invalidateFields() {
-        var isValid = true
-        isValid = isValid and registrationModel.name.isValid
-        isValid = isValid and registrationModel.email.isValid
-        isValid = isValid and registrationModel.phone.isValid
-        isValid = isValid and registrationModel.password.isValid
-        isValid = isValid and registrationModel.passwordConfirmation.isValid
-        isValid = isValid and registrationModel.hasAgreed.getNotNull()
-        canContinue.postValue(isValid)
+    private fun updateCanContinue() {
+        var isFormValid = true
+
+        isFormValid = isFormValid and registrationModel.name.isValid
+        isFormValid = isFormValid and registrationModel.email.isValid
+        isFormValid = isFormValid and registrationModel.phone.isValid
+        isFormValid = isFormValid and registrationModel.password.isValid
+        isFormValid = isFormValid and registrationModel.passwordConfirmation.isValid
+        isFormValid = isFormValid and registrationModel.hasAgreed.getNotNull()
+
+        canContinue.postValue(isFormValid)
     }
 }
