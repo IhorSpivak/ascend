@@ -1,6 +1,6 @@
 package com.doneit.ascend.source.storage.remote.api
 
-import com.doneit.ascend.source.storage.remote.data.request.ConfirmPhoneRequest
+import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
 import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
@@ -23,5 +23,8 @@ interface UserApi {
     fun signUp(@Body request: SignUpRequest): Deferred<Response<AuthResponse>>
 
     @POST("users/get_code")
-    fun getConfirmationCode(@Body request: ConfirmPhoneRequest): Deferred<Response<OKResponse>>
+    fun getConfirmationCode(@Body request: PhoneRequest): Deferred<Response<OKResponse>>
+
+    @POST("users/forgot_password")
+    fun forgotPassword(@Body request: PhoneRequest): Deferred<Response<OKResponse>>
 }

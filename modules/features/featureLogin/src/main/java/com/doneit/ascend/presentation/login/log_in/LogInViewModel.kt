@@ -43,4 +43,8 @@ class LogInViewModel(
     override fun signUpClick() {
         router.navigateToSignUp()
     }
+
+    override fun forgotPasswordClick() {
+        router.navigateToForgotPassword()
+    }
 }

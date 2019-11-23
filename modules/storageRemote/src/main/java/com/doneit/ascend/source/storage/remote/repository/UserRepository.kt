@@ -1,7 +1,7 @@
 package com.doneit.ascend.source.storage.remote.repository
 
 import com.doneit.ascend.source.storage.remote.api.UserApi
-import com.doneit.ascend.source.storage.remote.data.request.ConfirmPhoneRequest
+import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
 import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
@@ -24,7 +24,11 @@ internal class UserRepository(
         return execute({ api.signUp(request) }, ErrorsListResponse::class.java)
     }
 
-    override suspend fun getConfirmationCode(request: ConfirmPhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
+    override suspend fun getConfirmationCode(request: PhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({api.getConfirmationCode(request)}, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun forgotPassword(request: PhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({api.forgotPassword(request)}, ErrorsListResponse::class.java)
     }
 }

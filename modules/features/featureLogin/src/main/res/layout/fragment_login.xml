@@ -99,6 +99,7 @@
                 style="@style/TextNormal"
                 android:text="@string/forgot_password"
                 android:textColor="@color/green_font_color"
+                android:onClick="@{v -> model.forgotPasswordClick()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/signIn" />

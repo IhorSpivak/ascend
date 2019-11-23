@@ -13,9 +13,11 @@ interface LogInContract {
 
         fun singInClick()
         fun signUpClick()
+        fun forgotPasswordClick()
     }
 
     interface Router {
+        fun navigateToForgotPassword()
         fun navigateToSignUp()
         fun goToMain()
     }

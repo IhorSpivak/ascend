@@ -13,3 +13,7 @@ fun PresentationSignUpModel.toEntity(): SignUpModel {
         code.observableField.getNotNull()
     )
 }
+
+fun PresentationPhoneModel.toEntity(): String {
+    return getPhoneNumber()
+}
