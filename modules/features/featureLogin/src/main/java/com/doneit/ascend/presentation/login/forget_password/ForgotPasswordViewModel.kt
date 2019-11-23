@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.login.forget_password
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationPhoneModel
@@ -12,7 +13,6 @@ import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.core.presentation.fragment.BaseViewModelImpl
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -42,7 +42,7 @@ class ForgotPasswordViewModel(
 
     override fun resetClick() {
         canContinue.postValue(false)
-        GlobalScope.launch {
+        viewModelScope.launch {
             val requestEntity = userUseCase.forgotPassword(phoneModel.toEntity())
             canContinue.postValue(true)
 

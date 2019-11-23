@@ -46,6 +46,7 @@ ext {
             coroutinesCore    : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
             coroutinesAndroid : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
             coroutinesAndroidX: "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-alpha03",
+            coroutinesViewModel: "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0-beta01",
             media             : "androidx.media:media:$media_version",
             works             : "android.arch.work:work-runtime-ktx:1.0.1",
             maps              : "com.google.android.gms:play-services-maps:17.0.0"
@@ -305,6 +306,7 @@ ext {
             [configuration: "implementation", dependency: base.coroutinesCore],
             [configuration: "implementation", dependency: base.coroutinesAndroid],
             [configuration: "implementation", dependency: base.coroutinesAndroidX],
+            [configuration: "implementation", dependency: base.coroutinesViewModel],
             [configuration: "implementation", dependency: nav.appcompat],
             [configuration: "implementation", dependency: base.kotlinReflect],
 

@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.login.sign_up
 
 import androidx.databinding.Observable
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationSignUpModel
@@ -118,7 +119,7 @@ class SignUpViewModel(
 
     override fun onVerifyClick() {
         canContinue.postValue(false)
-        GlobalScope.launch {
+        viewModelScope.launch {
             val requestEntity = userUseCase.signUp(registrationModel.toEntity())
             canContinue.postValue(true)
 
