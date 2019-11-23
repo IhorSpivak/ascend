@@ -48,7 +48,7 @@ class CountriesAdapter(
         return view
     }
 
-    fun getPositionByPhoneCode(code: String): Int {
-        return countries.indexOfFirst { it.phoneCode == code }
+    fun getPositionByIso(iso: String): Int {
+        return countries.indexOfFirst { it.iso == iso }
     }
 }
