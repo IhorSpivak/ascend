@@ -11,21 +11,30 @@
     </data>
 
     <LinearLayout
-        android:id="@+id/connectionDialog"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/error_color"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:text="@{text}"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/dialog_description_text_size"
-            tools:text="@string/connecting" />
+        <LinearLayout
+            android:id="@+id/connectionDialog"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="@dimen/dialog_bottom_margin"
+            android:background="@color/error_color"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@{text}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dialog_description_text_size"
+                tools:text="@string/connecting" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
 </layout>

@@ -17,32 +17,47 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dialog_bottom_margin"
-        android:background="@color/green_font_color"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dialog_title_hor_margin"
-            android:layout_marginTop="@dimen/dialog_top_margin"
-            android:layout_marginEnd="@dimen/dialog_title_hor_margin"
-            android:text="@{title}"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/dialog_title_text_size"
-            tools:text="Your Account is blocked" />
+            android:background="@color/green_font_color"
+            android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dialog_title_hor_margin"
-            android:layout_marginTop="@dimen/dialog_top_margin"
-            android:layout_marginEnd="@dimen/dialog_title_hor_margin"
-            android:layout_marginBottom="@dimen/dialog_content_bottom_margin"
-            android:text="@{description}"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/dialog_description_text_size"
-            tools:text="Reason: Obscene picture as an avatar. Contact support fir details." />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dialog_title_hor_margin"
+                android:layout_marginTop="@dimen/dialog_top_margin"
+                android:layout_marginEnd="@dimen/dialog_title_hor_margin"
+                android:text="@{title}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dialog_title_text_size"
+                tools:text="Your Account is blocked" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dialog_title_hor_margin"
+                android:layout_marginTop="@dimen/dialog_top_margin"
+                android:layout_marginEnd="@dimen/dialog_title_hor_margin"
+                android:layout_marginBottom="@dimen/dialog_content_bottom_margin"
+                android:text="@{description}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dialog_description_text_size"
+                tools:text="Reason: Obscene picture as an avatar. Contact support fir details." />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="134dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/ic_hr_rounded"
+            android:backgroundTint="#F4F4F7" />
 
     </LinearLayout>
 </layout>

@@ -17,56 +17,78 @@
             name="buttonText"
             type="String" />
 
+        <variable
+            name="clickListener"
+            type="com.doneit.ascend.presentation.utils.IDialogClickListener" />
+
     </data>
 
     <LinearLayout
+        android:id="@+id/dialogContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/error_color"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dialog_title_hor_margin"
-            android:layout_marginTop="@dimen/dialog_top_margin"
-            android:layout_marginEnd="@dimen/dialog_title_hor_margin"
-            android:text="@{title}"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/dialog_title_text_size"
-            tools:text="Your Account is blocked" />
+            android:background="@color/error_color"
+            android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dialog_title_hor_margin"
-            android:layout_marginTop="@dimen/dialog_top_margin"
-            android:layout_marginEnd="@dimen/dialog_title_hor_margin"
-            android:text="@{description}"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/dialog_description_text_size"
-            tools:text="Reason: Obscene picture as an avatar. Contact support fir details." />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dialog_title_hor_margin"
+                android:layout_marginTop="@dimen/dialog_top_margin"
+                android:layout_marginEnd="@dimen/dialog_title_hor_margin"
+                android:text="@{title}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dialog_title_text_size"
+                tools:text="Your Account is blocked" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_action"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dialog_title_hor_margin"
+                android:layout_marginTop="@dimen/dialog_top_margin"
+                android:layout_marginEnd="@dimen/dialog_title_hor_margin"
+                android:text="@{description}"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/dialog_description_text_size"
+                tools:text="Reason: Obscene picture as an avatar. Contact support fir details." />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_action"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dialog_top_margin"
+                android:layout_marginBottom="@dimen/dialog_content_bottom_margin"
+                android:backgroundTint="@android:color/white"
+                android:onClick="@{() -> clickListener.onClick()}"
+                android:paddingStart="50dp"
+                android:paddingLeft="50dp"
+                android:paddingEnd="50dp"
+                android:paddingRight="50dp"
+                android:text="@{buttonText}"
+                android:textAllCaps="false"
+                android:textColor="@color/error_color"
+                android:textSize="@dimen/dialog_button_text_size"
+                android:theme="@style/Theme.MaterialComponents.Light"
+                app:cornerRadius="5dp"
+                tools:text="Contact Support" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="134dp"
+            android:layout_height="5dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dialog_top_margin"
-            android:layout_marginBottom="@dimen/dialog_content_bottom_margin"
-            android:backgroundTint="@android:color/white"
-            android:paddingStart="50dp"
-            android:paddingLeft="50dp"
-            android:paddingEnd="50dp"
-            android:paddingRight="50dp"
-            android:text="@{buttonText}"
-            android:textAllCaps="false"
-            android:textColor="@color/error_color"
-            android:textSize="@dimen/dialog_button_text_size"
-            android:theme="@style/Theme.MaterialComponents.Light"
-            app:cornerRadius="5dp"
-            tools:text="Contact Support" />
-
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/ic_hr_rounded" />
     </LinearLayout>
+
 </layout>
