@@ -2,7 +2,7 @@
 <resources>
     <dimen name="dialog_top_margin">10dp</dimen>
     <dimen name="dialog_title_hor_margin">20dp</dimen>
-    <dimen name="dialog_content_bottom_margin">20dp</dimen>
+    <dimen name="dialog_content_bottom_margin">10dp</dimen>
     <dimen name="dialog_bottom_margin">20dp</dimen>
     <dimen name="dialog_title_text_size">24sp</dimen>
     <dimen name="dialog_description_text_size">18sp</dimen>

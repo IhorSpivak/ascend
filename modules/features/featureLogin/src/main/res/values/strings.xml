@@ -13,6 +13,7 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="new_password">New Password</string>
     <string name="forgot_password_title">Forgot Password</string>
     <string name="social_title">Don\'t have an account? <b>Sign Up</b></string>
     <string name="or">- or -</string>
@@ -40,4 +41,16 @@
     <string name="error_phone">The number is invalid. Please check it once again</string>
     <string name="error_password">The password should include at least 1 number, 1 latin letter, and not be less than 6 signs</string>
     <string name="error_password_confirm">Passwords don\’t match</string>
+
+    <!--New Password-->
+    <string name="enter_code_from_sms">Enter Code from SMS</string>
+    <string name="haven_code_sms">Haven\'t received the code yet?</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="save_new_password">Save New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+
+    <!--Send SMS Dialog-->
+    <string name="send_sms_title">Password Sent</string>
+    <string name="send_sms_description">Please, check your SMS box and follow the instructions to complete the reset password.</string>
+
 </resources>

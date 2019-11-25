@@ -28,7 +28,11 @@ class ForgotPasswordViewModel(
     init {
         phoneModel.phone.validator = { s ->
             val result = ValidationResult()
-            if(isPhoneValid(phoneModel.phoneCode.getNotNull(), phoneModel.phone.observableField.getNotNull()).not()) {
+            if (isPhoneValid(
+                    phoneModel.phoneCode.getNotNull(),
+                    phoneModel.phone.observableField.getNotNull()
+                ).not()
+            ) {
                 result.isSussed = false
                 result.errors.add(R.string.error_phone)
             }
@@ -46,9 +50,10 @@ class ForgotPasswordViewModel(
             val requestEntity = userUseCase.forgotPassword(phoneModel.toEntity())
             canContinue.postValue(true)
 
-            if(requestEntity.isSuccessful){
+            if (requestEntity.isSuccessful) {
                 launch(Dispatchers.Main) {
                     //todo show success Message
+                    router.navigateToNewPassword(phoneModel.toEntity())
                 }
             }
         }
