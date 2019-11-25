@@ -1,5 +1,7 @@
 package com.doneit.ascend.presentation.login
 
+import com.doneit.ascend.presentation.login.forget_password.ForgotPasswordContract
+import com.doneit.ascend.presentation.login.forget_password.ForgotPasswordFragment
 import com.doneit.ascend.presentation.login.log_in.LogInContract
 import com.doneit.ascend.presentation.login.log_in.LogInFragment
 import com.doneit.ascend.presentation.login.sign_up.SignUpContract
@@ -12,7 +14,8 @@ class LogInLocalRouter(
     private val activity: LogInActivity,
     private val outerRouter: ILogInRouter
 ) : LogInContract.Router,
-    SignUpContract.Router {
+    SignUpContract.Router,
+    ForgotPasswordContract.Router {
 
     override fun goBack() {
         activity.supportFragmentManager.popBackStack()
@@ -28,6 +31,10 @@ class LogInLocalRouter(
 
     override fun navigateToSignUp() {
         activity.supportFragmentManager.replaceWithBackStack(R.id.container, SignUpFragment())
+    }
+
+    override fun navigateToForgotPassword() {
+        activity.supportFragmentManager.replaceWithBackStack(R.id.container, ForgotPasswordFragment())
     }
 
     override fun goToMain() {

@@ -22,7 +22,7 @@
         android:id="@+id/textLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
+        app:hintTextAppearance="@style/HintStyle"
         android:theme="@style/TextInputLayoutAppearance"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintEnd_toEndOf="parent"

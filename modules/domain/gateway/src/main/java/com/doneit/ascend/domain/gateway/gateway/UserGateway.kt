@@ -10,7 +10,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toLoginRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toSignUpRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
-import com.doneit.ascend.source.storage.remote.data.request.ConfirmPhoneRequest
+import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.repository.IUserRepository
 import com.vrgsoft.networkmanager.NetworkManager
 
@@ -46,7 +46,18 @@ internal class UserGateway(
     }
 
     override suspend fun getConfirmationCode(phone: String): RequestEntity<Unit, List<String>> {
-        return executeRemote { remote.getConfirmationCode(ConfirmPhoneRequest(phone)) }.toRequestEntity(
+        return executeRemote { remote.getConfirmationCode(PhoneRequest(phone)) }.toRequestEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun forgotPassword(phone: String): RequestEntity<Unit, List<String>> {
+        return executeRemote { remote.forgotPassword(PhoneRequest(phone)) }.toRequestEntity(
             {
                 Unit
             },

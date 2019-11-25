@@ -26,8 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBaseline_toBaselineOf="@id/phone" />
 
         <com.doneit.ascend.presentation.login.views.EditWithError
             android:id="@+id/phone"
@@ -38,8 +37,9 @@
             app:text="@={text}"
             app:error="@{error}"
             app:inputType="@{InputType.TYPE_CLASS_PHONE}"
-            app:layout_constraintBaseline_toBaselineOf="@id/phoneCode"
             app:layout_constraintStart_toEndOf="@id/phoneCode"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

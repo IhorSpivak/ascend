@@ -20,4 +20,8 @@ internal class UserInteractor(
     override suspend fun getConfirmationCode(phone: String): RequestEntity<Unit, List<String>> {
         return userGateway.getConfirmationCode(phone)
     }
+
+    override suspend fun forgotPassword(phone: String): RequestEntity<Unit, List<String>> {
+        return userGateway.forgotPassword(phone)
+    }
 }

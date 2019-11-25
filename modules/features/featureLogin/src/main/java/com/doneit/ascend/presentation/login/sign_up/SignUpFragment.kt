@@ -7,7 +7,6 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
-import androidx.databinding.OnRebindCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -42,14 +41,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-
-        binding.addOnRebindCallback(object: OnRebindCallback<FragmentSignUpBinding>(){
-            override fun onBound(binding: FragmentSignUpBinding?) {
-                super.onBound(binding)
-                viewModel.removeErrors()
-                binding?.removeOnRebindCallback(this)
-            }
-        })
+        binding.executePendingBindings()
+        viewModel.removeErrors()
 
         imBack.setOnClickListener {
             viewModel.onBackClick()
@@ -66,8 +59,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         phoneCode.touchListener = {
             hideKeyboard()
         }
-
-        applyValidators()
     }
 
     private fun initSignInSpannable() {
@@ -86,38 +77,5 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
         signIn.text = spannable
         signIn.movementMethod = LinkMovementMethod.getInstance()
-    }
-
-    private fun applyValidators() {
-        userName.editText.setOnFocusChangeListener { _, _ ->
-            validate()
-        }
-    }
-
-    private fun validate() {
-        var isValid = true
-        isValid = isValid and validateName()
-
-
-    }
-
-    private fun validateName(): Boolean {
-        return true
-    }
-
-    private fun validateEmail(): Boolean {
-        return true
-    }
-
-    private fun validatePhone(): Boolean {
-        return true
-    }
-
-    private fun validatePassword(): Boolean {
-        return true
-    }
-
-    private fun validateConfirmPassword(): Boolean {
-        return true
     }
 }

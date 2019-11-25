@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.login
 
 import android.os.Bundle
 import com.doneit.ascend.presentation.login.log_in.LogInContract
-import com.vrgsoft.core.presentation.activity.BaseActivity
+import com.doneit.ascend.presentation.main.base.BaseActivity
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance

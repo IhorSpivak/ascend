@@ -10,6 +10,10 @@ fun PresentationSignUpModel.toEntity(): SignUpModel {
         name.observableField.get()?:"",
         password.observableField.getNotNull(),
         passwordConfirmation.observableField.getNotNull(),
-        code.getNotNull()
+        code.observableField.getNotNull()
     )
+}
+
+fun PresentationPhoneModel.toEntity(): String {
+    return getPhoneNumber()
 }

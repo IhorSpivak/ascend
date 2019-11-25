@@ -1,23 +1,20 @@
 package com.doneit.ascend.presentation.login.views.phone_code
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.telephony.TelephonyManager
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.AdapterView
 import android.widget.FrameLayout
 import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.utils.fetchCountryListWithReflection
 import com.doneit.ascend.presentation.login.views.phone_code.common.CountriesAdapter
-import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.android.synthetic.main.view_phone_code.view.*
 import kotlin.math.max
 
@@ -48,6 +45,11 @@ class PhoneCodeView @JvmOverloads constructor(
         fetchCurrentCountryCode()
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        setupDropDownWidth()
+    }
+
     override fun getBaseline(): Int {
         return underline.baseline
     }
@@ -76,30 +78,37 @@ class PhoneCodeView @JvmOverloads constructor(
         selectByPhoneCode(defaultCountyCode)
     }
 
-    @SuppressLint("MissingPermission")
     private fun fetchCurrentCountryCode() {
-        EzPermission.with(context!!)
-            .permissions(
-                Manifest.permission.READ_PHONE_STATE
-            )
-            .request { granted, denied, permanentlyDenied ->
-                for (permission in granted) {
-                    if (permission == Manifest.permission.READ_PHONE_STATE) {
-                        val telephonyManager =
-                            context!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                        val regionCode = telephonyManager.networkCountryIso
-                        val localCountryCode = PhoneNumberUtil.getInstance()
-                            .parse(telephonyManager.line1Number, regionCode).countryCode
-                        selectByPhoneCode(localCountryCode.toString())
-                    }
-                }
-            }
+        val telephonyManager =
+            context!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val regionCode = telephonyManager.networkCountryIso
+        selectByPhoneCode(regionCode)
     }
 
     private fun selectByPhoneCode(code: String) {
-        var position = countriesAdapter.getPositionByPhoneCode(code)
+        var position = countriesAdapter.getPositionByIso(code)
         position = max(position, 0)
         picker.setSelection(position)
+    }
+
+    private fun setupDropDownWidth() {
+        var baseParent = this.parent!!
+        while(baseParent.parent != null && baseParent.parent is View){
+            baseParent = baseParent.parent
+        }
+
+        val baseView = baseParent as View
+
+        baseView.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                picker.dropDownWidth =
+                    baseView.width - (2 * resources.getDimension(R.dimen.dialog_margin) + picker.x).toInt()
+                requestLayout()
+                baseView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+
+        })
     }
 
     override fun onShowPress(p0: MotionEvent?) {
@@ -128,5 +137,4 @@ class PhoneCodeView @JvmOverloads constructor(
         private const val defaultCountyCode = "1"
         private const val CODE_FORMAT = "+%s"
     }
-
 }
