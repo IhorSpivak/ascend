@@ -7,9 +7,9 @@ import com.doneit.ascend.domain.entity.LogInUserModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationLoginModel
+import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
-import com.vrgsoft.core.presentation.fragment.BaseViewModelImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,7 +22,7 @@ class LogInViewModel(
 
     override val loginModel = PresentationLoginModel()
     override val isSignInEnabled = ObservableField<Boolean>(true)
-    override val errorMessage = MutableLiveData<Int?>()
+    override val errorRes = MutableLiveData<Int?>()
 
     override fun singInClick() {
         viewModelScope.launch {
@@ -34,7 +34,7 @@ class LogInViewModel(
                     router.goToMain()
                 }
             } else {
-                errorMessage.postValue(R.string.error_login)
+                errorRes.postValue(R.string.error_login)
             }
             isSignInEnabled.set(true)
         }

@@ -14,14 +14,13 @@ import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentSignUpBinding
 import com.doneit.ascend.presentation.login.utils.applyLinkStyle
 import com.doneit.ascend.presentation.login.utils.getNotNull
+import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
-import com.vrgsoft.core.presentation.fragment.BaseFragment
-import kotlinx.android.synthetic.main.group_phone.*
 import kotlinx.android.synthetic.main.fragment_sign_up.*
+import kotlinx.android.synthetic.main.group_phone.*
 import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind

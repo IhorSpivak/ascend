@@ -19,7 +19,7 @@
     <string name="or">- or -</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="privacy">Privacy Policy</string>
-    <string name="agreement">I agree with <b>Terms and Conditions</b> and <b>Privacy Policy</b></string>
+    <string name="agreement">I agree with <b>Terms and Conditions</b> &amp; <b>Privacy Policy</b></string>
     <string name="already_member">Already a member? <b>Sing In</b></string>
 
     <string name="sign_up_continue">Continue</string>
@@ -39,7 +39,7 @@
     <string name="error_full_name">Please, enter your Full Name correctly</string>
     <string name="error_email">The email is incorrect. Please, make sure you entered correct data</string>
     <string name="error_phone">The number is invalid. Please check it once again</string>
-    <string name="error_password">The password should include at least 1 number, 1 latin letter, and not be less than 6 signs</string>
+    <string name="error_password">The password should contain at least 1 number, 1 latin letter, from 6 till 48 symbols.</string>
     <string name="error_password_confirm">Passwords don\’t match</string>
 
     <!--New Password-->
@@ -49,8 +49,7 @@
     <string name="save_new_password">Save New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
 
-    <!--Send SMS Dialog-->
-    <string name="send_sms_title">Password Sent</string>
-    <string name="send_sms_description">Please, check your SMS box and follow the instructions to complete the reset password.</string>
-
+    <!--Dialog messages-->
+    <string name="title_password_sent">Password Sent</string>
+    <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>
 </resources>

@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.login.databinding.FragmentVerifyPhoneBinding
 import com.doneit.ascend.presentation.login.sign_up.SignUpViewModel
 import com.doneit.ascend.presentation.login.views.SmsCodeView
+import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
-import com.vrgsoft.core.presentation.fragment.BaseFragment
 import kotlinx.android.synthetic.main.fragment_verify_phone.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.kodein.di.Kodein

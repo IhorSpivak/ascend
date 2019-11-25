@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentLoginBinding
 import com.doneit.ascend.presentation.login.utils.applyLinkStyle
+import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
-import com.vrgsoft.core.presentation.fragment.BaseFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.group_phone.*
 import org.kodein.di.generic.instance

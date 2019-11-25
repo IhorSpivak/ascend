@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.vrgsoft.core.presentation.fragment.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 
 @SuppressLint("CheckResult")
 fun androidx.fragment.app.FragmentManager.replaceWithoutBackStack(containerId: Int,

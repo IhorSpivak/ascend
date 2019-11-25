@@ -4,4 +4,7 @@
     <string name="password_sent">Password Sent</string>
     <string name="please_chec">Please, check your SMS box and follow the instructions to complete the reset password.</string>
     <string name="connecting">Connecting&#8230;</string>
+
+    <!--Dialog messages-->
+    <string name="title_error">Error</string>
 </resources>
