@@ -10,7 +10,7 @@ import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.models.toEntity
 import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneContract
 import com.doneit.ascend.presentation.login.utils.*
-import com.vrgsoft.core.presentation.fragment.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -138,6 +138,7 @@ class SignUpViewModel(
     }
 
     override fun onBackClick() {
+        registrationModel.clear()
         router.goBack()
     }
 
