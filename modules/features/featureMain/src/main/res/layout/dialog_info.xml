@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="description"
+            type="String" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dialog_bottom_margin"
+        android:background="@color/green_font_color"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dialog_title_hor_margin"
+            android:layout_marginTop="@dimen/dialog_top_margin"
+            android:layout_marginEnd="@dimen/dialog_title_hor_margin"
+            android:text="@{title}"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dialog_title_text_size"
+            tools:text="Your Account is blocked" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dialog_title_hor_margin"
+            android:layout_marginTop="@dimen/dialog_top_margin"
+            android:layout_marginEnd="@dimen/dialog_title_hor_margin"
+            android:layout_marginBottom="@dimen/dialog_content_bottom_margin"
+            android:text="@{description}"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dialog_description_text_size"
+            tools:text="Reason: Obscene picture as an avatar. Contact support fir details." />
+
+    </LinearLayout>
+</layout>
