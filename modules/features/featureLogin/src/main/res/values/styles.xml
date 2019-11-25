@@ -30,10 +30,4 @@
         <item name="android:textCursorDrawable">@drawable/edit_cursor</item>
         <item name="layout_constraintHorizontal_chainStyle">spread_inside</item>
     </style>
-
-    <!-- styles.xml -->
-    <style name="haven_code_sms">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">#43425D</item>
-    </style>
 </resources>

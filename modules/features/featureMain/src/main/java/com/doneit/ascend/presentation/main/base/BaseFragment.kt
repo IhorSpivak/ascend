@@ -11,7 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.models.PresentationMessage
+import com.doneit.ascend.presentation.utils.ConnectionObserver
+import com.doneit.ascend.presentation.utils.showNoConnectionDialog
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.KodeinTrigger
@@ -43,6 +46,10 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     abstract val viewModel: BaseViewModel
 
     //endregion
+
+    private val connectionObserver: ConnectionObserver by lazy {
+        ConnectionObserver(this@BaseFragment.context!!)
+    }
 
     protected lateinit var binding: B
     private var initialized = false
@@ -79,6 +86,16 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
         })
 
         viewCreated(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        connectionObserver.networkStateChanged.observe(this, Observer {
+            if (!it) {
+                this.showNoConnectionDialog(getString(R.string.connecting))
+            }
+        })
     }
 
     //endregion

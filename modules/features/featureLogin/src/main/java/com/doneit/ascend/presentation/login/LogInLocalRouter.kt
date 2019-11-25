@@ -28,7 +28,11 @@ class LogInLocalRouter(
         activity.supportFragmentManager.popBackStack()
     }
 
-    override fun navigateToLogInFragment() {
+    override fun goBackToLogin() {
+        //todo
+    }
+
+    fun navigateToLogInFragment() {
         activity.supportFragmentManager.replace(R.id.container, LogInFragment())
     }
 

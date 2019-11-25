@@ -54,9 +54,6 @@ class ForgotPasswordViewModel(
 
             if (requestEntity.isSuccessful) {
                 launch(Dispatchers.Main) {
-                    successMessage.postValue(PresentationMessage(
-                        Messages.PASSWORD_SENT.getId()
-                    ))
                     router.navigateToNewPassword(phoneModel.toEntity())
                 }
             } else {

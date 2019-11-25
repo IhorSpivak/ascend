@@ -8,12 +8,18 @@ import com.doneit.ascend.presentation.login.models.PresentationNewPasswordModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.new_password.common.NewPasswordArgs
 import com.doneit.ascend.presentation.login.utils.getNotNull
+import com.doneit.ascend.presentation.login.utils.isValidConfirmationCode
 import com.doneit.ascend.presentation.login.utils.isValidPassword
-import com.vrgsoft.core.presentation.fragment.BaseViewModelImpl
-import com.vrgsoft.networkmanager.livedata.SingleLiveManager
+import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.models.PresentationMessage
+import com.doneit.ascend.presentation.utils.Messages
+import com.vrgsoft.annotations.CreateFactory
+import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+@CreateFactory
+@ViewModelDiModule
 class NewPasswordViewModel(
     private val userUseCase: UserUseCase,
     private val router: NewPasswordContract.Router
@@ -21,15 +27,12 @@ class NewPasswordViewModel(
 
     override val newPasswordModel = PresentationNewPasswordModel()
     override val canSave = MutableLiveData<Boolean>()
-    override val showSuccessSendSMSMessage = SingleLiveManager(false)
-    private val phone = MutableLiveData<String>()
 
     init {
         newPasswordModel.code.validator = { s ->
             val result = ValidationResult()
 
-            // TODO: it is valid validation
-            if (s.isNotEmpty()) {
+            if (s.isValidConfirmationCode().not()) {
                 result.isSussed = false
             }
 
@@ -65,7 +68,8 @@ class NewPasswordViewModel(
     }
 
     override fun applyArguments(args: NewPasswordArgs) {
-        phone.postValue(args.phone)
+        newPasswordModel.phoneNumber = args.phone
+        showCodeSentMessage()
     }
 
     override fun removeErrors() {
@@ -76,25 +80,42 @@ class NewPasswordViewModel(
 
     override fun saveClick() {
         canSave.postValue(false)
+        //todo make request
     }
 
     override fun resendCodeClick() {
         canSave.postValue(false)
 
         viewModelScope.launch {
-            val requestEntity = userUseCase.forgotPassword(phone.value ?: return@launch)
+            val requestEntity = userUseCase.forgotPassword(newPasswordModel.phoneNumber)
             canSave.postValue(true)
 
             if (requestEntity.isSuccessful) {
                 launch(Dispatchers.Main) {
-                    showSuccessSendSMSMessage.call(true)
+                    showCodeSentMessage()
                 }
+            } else {
+                errorMessage.postValue(
+                    PresentationMessage(
+                        Messages.EROR.getId(),
+                        null,
+                        requestEntity.errorModel!!.first()
+                    )
+                )
             }
         }
     }
 
     override fun onBackClick() {
-        router.navigateToLogInFragment()
+        router.goBack()
+    }
+
+    private fun showCodeSentMessage() {
+        successMessage.postValue(
+            PresentationMessage(
+                Messages.PASSWORD_SENT.getId()
+            )
+        )
     }
 
     private fun updateCanSave() {
