@@ -14,6 +14,15 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+fun Fragment.showDefaultError(errorMessage: String) {
+    showErrorDialog(
+        getString(R.string.title_error),
+        errorMessage,
+        "",
+        null
+    )
+}
+
 fun Fragment.showErrorDialog(
     errorTitle: String,
     errorMessage: String,

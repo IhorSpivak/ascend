@@ -9,9 +9,11 @@ import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.models.toEntity
 import com.doneit.ascend.presentation.login.utils.getNotNull
 import com.doneit.ascend.presentation.login.utils.isPhoneValid
+import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.models.PresentationMessage
+import com.doneit.ascend.presentation.utils.Messages
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
-import com.vrgsoft.core.presentation.fragment.BaseViewModelImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -48,8 +50,18 @@ class ForgotPasswordViewModel(
 
             if(requestEntity.isSuccessful){
                 launch(Dispatchers.Main) {
-                    //todo show success Message
+                    successMessage.postValue(PresentationMessage(
+                        Messages.PASSWORD_SENT.getId()
+                    ))
                 }
+            } else {
+                errorMessage.postValue(
+                    PresentationMessage(
+                    Messages.EROR.getId(),
+                        null,
+                        requestEntity.errorModel!!.first()
+                )
+                )
             }
         }
     }

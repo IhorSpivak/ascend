@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.login.sign_up
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.login.models.PresentationSignUpModel
-import com.vrgsoft.core.presentation.fragment.BaseViewModel
+import com.doneit.ascend.presentation.main.base.BaseViewModel
 
 interface SignUpContract {
     interface ViewModel: BaseViewModel {
