@@ -13,7 +13,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toSignUpRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
-import com.doneit.ascend.source.storage.remote.repository.IUserRepository
+import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository
 import com.vrgsoft.networkmanager.NetworkManager
 
 internal class UserGateway(

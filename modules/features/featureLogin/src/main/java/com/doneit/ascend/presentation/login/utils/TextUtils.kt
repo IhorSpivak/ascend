@@ -45,3 +45,8 @@ fun String.isValidName(): Boolean {
 fun String.isValidConfirmationCode(): Boolean {
     return length == SmsCodeView.NUMBERS_COUNT
 }
+
+fun String.isValidAnswer(): Boolean {
+    val r = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!\$%!@#£€*?&]{6,}\$")
+    return this.length in 3..48 && this.matches(r)
+}

@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.login.sign_up
 import androidx.databinding.Observable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationSignUpModel
@@ -18,16 +19,17 @@ import kotlinx.coroutines.launch
 
 class SignUpViewModel(
     private val userUseCase: UserUseCase,
+    private val questionUseCase: QuestionUseCase,
     private val router: SignUpContract.Router
-): BaseViewModelImpl(), SignUpContract.ViewModel, VerifyPhoneContract.ViewModel {
+) : BaseViewModelImpl(), SignUpContract.ViewModel, VerifyPhoneContract.ViewModel {
 
     override val registrationModel = PresentationSignUpModel()
     override val canContinue = MutableLiveData<Boolean>()
 
     init {
-        registrationModel.name.validator = {s ->
+        registrationModel.name.validator = { s ->
             val result = ValidationResult()
-            if(s.isValidName().not()) {
+            if (s.isValidName().not()) {
                 result.isSussed = false
                 result.errors.add(R.string.error_full_name)
             }
@@ -35,28 +37,32 @@ class SignUpViewModel(
             result
         }
 
-        registrationModel.email.validator = {s ->
+        registrationModel.email.validator = { s ->
             val result = ValidationResult()
-            if(s.isValidEmail().not()) {
+            if (s.isValidEmail().not()) {
                 result.isSussed = false
                 result.errors.add(R.string.error_email)
             }
             result
         }
 
-        registrationModel.phone.validator = {s ->
+        registrationModel.phone.validator = { s ->
             val result = ValidationResult()
-            if(isPhoneValid(registrationModel.phoneCode.getNotNull(), registrationModel.phone.observableField.getNotNull()).not()) {
+            if (isPhoneValid(
+                    registrationModel.phoneCode.getNotNull(),
+                    registrationModel.phone.observableField.getNotNull()
+                ).not()
+            ) {
                 result.isSussed = false
                 result.errors.add(R.string.error_phone)
             }
             result
         }
 
-        registrationModel.password.validator = {s ->
+        registrationModel.password.validator = { s ->
             val result = ValidationResult()
 
-            if(s.isValidPassword().not()){
+            if (s.isValidPassword().not()) {
                 result.isSussed = false
                 result.errors.add(R.string.error_password)
             }
@@ -64,10 +70,10 @@ class SignUpViewModel(
             result
         }
 
-        registrationModel.passwordConfirmation.validator = {s ->
+        registrationModel.passwordConfirmation.validator = { s ->
             val result = ValidationResult()
 
-            if(s != registrationModel.password.observableField.getNotNull()){
+            if (s != registrationModel.password.observableField.getNotNull()) {
                 result.isSussed = false
                 result.errors.add(R.string.error_password_confirm)
             }
@@ -75,10 +81,10 @@ class SignUpViewModel(
             result
         }
 
-        registrationModel.code.validator = {s ->
+        registrationModel.code.validator = { s ->
             val result = ValidationResult()
 
-            if(s.isValidConfirmationCode().not()){
+            if (s.isValidConfirmationCode().not()) {
                 result.isSussed = false
             }
 
@@ -95,13 +101,13 @@ class SignUpViewModel(
             canContinue.postValue(registrationModel.code.isValid)
         }
 
-        registrationModel.hasAgreed.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback(){
+        registrationModel.hasAgreed.addOnPropertyChangedCallback(object :
+            Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 invalidationListener()
             }
         })
     }
-
 
 
     override fun removeErrors() {
@@ -123,9 +129,18 @@ class SignUpViewModel(
             val requestEntity = userUseCase.signUp(registrationModel.toEntity())
             canContinue.postValue(true)
 
-            if(requestEntity.isSuccessful){
+            if (requestEntity.isSuccessful) {
                 launch(Dispatchers.Main) {
-                    router.goToMain()
+
+                    // 1) load questions list
+                    val questionsRequest = questionUseCase.getList(requestEntity.successModel!!.token)
+
+                    if (questionsRequest.isSuccessful) {
+                        // TODO: save their to local storage
+
+                        // 2) navigate to First Time Login screen
+                        router.navigateToFirstTimeLogin()
+                    }
                 }
             }
         }

@@ -58,7 +58,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginTop="68dp"
-                bind:text="@={model.loginModel.phone}"
+                bind:text="@={model.loginModel.phone.observableField}"
+                bind:error="@{model.loginModel.phone.observableError}"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
                 app:layout_constraintStart_toStartOf="parent"/>
 

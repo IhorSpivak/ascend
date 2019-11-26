@@ -14,6 +14,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="new_password">New Password</string>
+    <string name="first_time_login">First Time Login</string>
     <string name="forgot_password_title">Forgot Password</string>
     <string name="social_title">Don\'t have an account? <b>Sign Up</b></string>
     <string name="or">- or -</string>
@@ -25,7 +26,7 @@
     <string name="sign_up_continue">Continue</string>
 
     <string name="phone_format">+%s</string>
-    
+
     <string name="verify_phone_header">Verify Phone Number</string>
     <string name="verify_phone_title">Enter 4 digits from SMS</string>
     <string name="verify">Verify</string>
@@ -48,6 +49,12 @@
     <string name="resend_code">Resend Code</string>
     <string name="save_new_password">Save New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
+
+    <!--First Time Login-->
+    <string name="first_time_login_title">Before signing in please complete the questionnaire</string>
+    <string name="complete">Complete</string>
+    <string name="add_your_answer">Add your answer</string>
+    <string name="answer_error">Size from 2 till 48 symbols and spacebars, case sensitive, latin letters only.</string>
 
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>

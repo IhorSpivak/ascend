@@ -17,6 +17,7 @@ interface SignUpContract {
     interface Router {
         fun navigateToVerifyPhone()
         fun goToMain()
+        fun navigateToFirstTimeLogin()
         fun goBack()
     }
 }

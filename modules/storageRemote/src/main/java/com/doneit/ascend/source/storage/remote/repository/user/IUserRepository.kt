@@ -1,4 +1,4 @@
-package com.doneit.ascend.source.storage.remote.repository
+package com.doneit.ascend.source.storage.remote.repository.user
 
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.data.request.LogInRequest

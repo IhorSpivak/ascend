@@ -8,6 +8,7 @@ import com.doneit.ascend.presentation.AppRouter
 import com.doneit.ascend.presentation.login.ILogInRouter
 import com.doneit.ascend.presentation.main.IMainRouter
 import com.doneit.ascend.presentation.splash.ISplashRouter
+import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.source.storage.local.di.StorageLocalModule
 import com.doneit.ascend.source.storage.remote.di.StorageRemoteModule
 import com.vrgsoft.retrofit.RetrofitModule
@@ -35,6 +36,7 @@ object AppModule {
         bind<IMainRouter>() with singleton { AppRouter(application) }
         bind<ILogInRouter>() with singleton { AppRouter(application) }
         bind<String>(tag = "appPackageName") with singleton { application.packageName }
+        bind<LocalStorage>() with singleton { LocalStorage(application.applicationContext) }
 
         bind<AuthCustomInterceptor>() with provider {
             AuthCustomInterceptor(

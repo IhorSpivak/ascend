@@ -29,7 +29,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
         initSignUpSpannable()
 
         phoneCode.getSelectedCode().observe(this, Observer { code ->
-            viewModel.loginModel.phoneCode = code
+            viewModel.loginModel.phoneCode.set(code)
         })
 
         phoneCode.touchListener = {
