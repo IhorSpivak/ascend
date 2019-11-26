@@ -5,4 +5,11 @@ class PresentationNewPasswordModel(
     var code: ValidatableField = ValidatableField(),
     var password: ValidatableField = ValidatableField(),
     var passwordConfirmation: ValidatableField = ValidatableField()
-)
+) {
+    fun clear() {
+        phoneNumber = ""
+        code.observableField.set("")
+        password.observableField.set("")
+        passwordConfirmation.observableField.set("")
+    }
+}

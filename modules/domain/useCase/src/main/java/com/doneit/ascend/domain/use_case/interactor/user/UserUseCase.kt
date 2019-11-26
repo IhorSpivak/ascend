@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.use_case.interactor.user
 
 import com.doneit.ascend.domain.entity.AuthEntity
 import com.doneit.ascend.domain.entity.LogInUserModel
+import com.doneit.ascend.domain.entity.ResetPasswordModel
 import com.doneit.ascend.domain.entity.SignUpModel
 import com.doneit.ascend.domain.entity.common.RequestEntity
 
@@ -13,4 +14,6 @@ interface UserUseCase {
     suspend fun getConfirmationCode(phone: String): RequestEntity<Unit, List<String>>
 
     suspend fun forgotPassword(phone: String): RequestEntity<Unit, List<String>>
+
+    suspend fun resetPassword(resetModel: ResetPasswordModel) : RequestEntity<Unit, List<String>>
 }

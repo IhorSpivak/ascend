@@ -3,6 +3,7 @@ package com.doneit.ascend.source.storage.remote.repository
 import com.doneit.ascend.source.storage.remote.api.UserApi
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
+import com.doneit.ascend.source.storage.remote.data.request.ResetPasswordRequest
 import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
@@ -30,5 +31,9 @@ internal class UserRepository(
 
     override suspend fun forgotPassword(request: PhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({api.forgotPassword(request)}, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun resetPassword(request: ResetPasswordRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({api.resetPassword(request)}, ErrorsListResponse::class.java)
     }
 }

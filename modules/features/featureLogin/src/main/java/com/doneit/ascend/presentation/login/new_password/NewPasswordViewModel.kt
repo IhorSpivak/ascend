@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationNewPasswordModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
+import com.doneit.ascend.presentation.login.models.toEntity
 import com.doneit.ascend.presentation.login.new_password.common.NewPasswordArgs
 import com.doneit.ascend.presentation.login.utils.getNotNull
 import com.doneit.ascend.presentation.login.utils.isValidConfirmationCode
@@ -80,7 +81,24 @@ class NewPasswordViewModel(
 
     override fun saveClick() {
         canSave.postValue(false)
-        //todo make request
+        viewModelScope.launch {
+            val requestEntity = userUseCase.resetPassword(newPasswordModel.toEntity())
+            canSave.postValue(true)
+
+            if (requestEntity.isSuccessful) {
+                launch(Dispatchers.Main) {
+                    router.goToMain()
+                }
+            } else {
+                errorMessage.postValue(
+                    PresentationMessage(
+                        Messages.EROR.getId(),
+                        null,
+                        requestEntity.errorModel!!.first()
+                    )
+                )
+            }
+        }
     }
 
     override fun resendCodeClick() {
@@ -107,6 +125,7 @@ class NewPasswordViewModel(
     }
 
     override fun onBackClick() {
+        newPasswordModel.clear()
         router.goBack()
     }
 

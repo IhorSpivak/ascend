@@ -2,6 +2,7 @@ package com.doneit.ascend.source.storage.remote.api
 
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
+import com.doneit.ascend.source.storage.remote.data.request.ResetPasswordRequest
 import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
@@ -27,4 +28,7 @@ interface UserApi {
 
     @POST("users/forgot_password")
     fun forgotPassword(@Body request: PhoneRequest): Deferred<Response<OKResponse>>
+
+    @POST("users/reset_password")
+    fun resetPassword(@Body request: ResetPasswordRequest): Deferred<Response<OKResponse>>
 }
