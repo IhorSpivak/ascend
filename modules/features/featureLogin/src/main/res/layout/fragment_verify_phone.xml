@@ -71,6 +71,7 @@
         <TextView
             android:id="@+id/resend"
             android:onClick="@{v -> model.sendCode()}"
+            android:enabled="@{model.canResendCode}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextNormal"

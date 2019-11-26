@@ -53,6 +53,7 @@
                 android:layout_marginStart="@dimen/dialog_title_hor_margin"
                 android:layout_marginTop="@dimen/dialog_top_margin"
                 android:layout_marginEnd="@dimen/dialog_title_hor_margin"
+                android:layout_marginBottom="@dimen/dialog_content_bottom_margin"
                 android:text="@{description}"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/dialog_description_text_size"
@@ -64,7 +65,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dialog_top_margin"
                 android:layout_marginBottom="@dimen/dialog_content_bottom_margin"
                 android:backgroundTint="@android:color/white"
                 android:onClick="@{() -> clickListener.onClick()}"
@@ -83,6 +83,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/underline"
             android:layout_width="134dp"
             android:layout_height="5dp"
             android:layout_gravity="center_horizontal"

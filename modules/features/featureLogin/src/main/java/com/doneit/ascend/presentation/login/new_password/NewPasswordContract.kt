@@ -10,6 +10,7 @@ interface NewPasswordContract {
     interface ViewModel : ArgumentedViewModel<NewPasswordArgs> {
         val newPasswordModel: PresentationNewPasswordModel
         val canSave: LiveData<Boolean>
+        val canResendCode: LiveData<Boolean>
 
         fun removeErrors()
         fun saveClick()

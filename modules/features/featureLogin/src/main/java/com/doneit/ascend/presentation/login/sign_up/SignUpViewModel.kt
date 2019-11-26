@@ -12,8 +12,9 @@ import com.doneit.ascend.presentation.login.models.toEntity
 import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneContract
 import com.doneit.ascend.presentation.login.utils.*
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.utils.Constants
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -25,6 +26,7 @@ class SignUpViewModel(
 
     override val registrationModel = PresentationSignUpModel()
     override val canContinue = MutableLiveData<Boolean>()
+    override val canResendCode = MutableLiveData<Boolean>(true)
 
     init {
         registrationModel.name.validator = { s ->
@@ -147,8 +149,11 @@ class SignUpViewModel(
     }
 
     override fun sendCode() {
-        GlobalScope.launch {
+        canResendCode.postValue(false)
+        viewModelScope.launch {
             userUseCase.getConfirmationCode(registrationModel.getPhoneNumber())
+            delay(Constants.RESEND_CODE_INTERVAL)
+            canResendCode.postValue(true)
         }
     }
 

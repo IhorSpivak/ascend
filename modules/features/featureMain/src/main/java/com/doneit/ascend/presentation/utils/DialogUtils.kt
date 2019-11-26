@@ -42,6 +42,7 @@ fun Fragment.showErrorDialog(
 
     if (buttonText.isEmpty()) {
         binding.btnAction.visibility = View.GONE
+        binding.underline.visibility = View.GONE
     } else {
         binding.buttonText = buttonText
     }

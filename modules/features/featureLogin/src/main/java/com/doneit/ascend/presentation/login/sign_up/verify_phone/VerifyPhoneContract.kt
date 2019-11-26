@@ -8,6 +8,7 @@ interface VerifyPhoneContract {
     interface ViewModel: BaseViewModel {
         val registrationModel: PresentationSignUpModel
         val canContinue: LiveData<Boolean>
+        val canResendCode: LiveData<Boolean>
 
         fun onVerifyClick()
         fun sendCode()

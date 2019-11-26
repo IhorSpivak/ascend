@@ -13,10 +13,12 @@ import com.doneit.ascend.presentation.login.utils.isValidConfirmationCode
 import com.doneit.ascend.presentation.login.utils.isValidPassword
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.models.PresentationMessage
+import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.Messages
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -28,6 +30,7 @@ class NewPasswordViewModel(
 
     override val newPasswordModel = PresentationNewPasswordModel()
     override val canSave = MutableLiveData<Boolean>()
+    override val canResendCode = MutableLiveData<Boolean>(true)
 
     init {
         newPasswordModel.code.validator = { s ->
@@ -103,6 +106,7 @@ class NewPasswordViewModel(
 
     override fun resendCodeClick() {
         canSave.postValue(false)
+        canResendCode.postValue(false)
 
         viewModelScope.launch {
             val requestEntity = userUseCase.forgotPassword(newPasswordModel.phoneNumber)
@@ -121,6 +125,9 @@ class NewPasswordViewModel(
                     )
                 )
             }
+
+            delay(Constants.RESEND_CODE_INTERVAL)
+            canResendCode.postValue(true)
         }
     }
 
