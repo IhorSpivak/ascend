@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.animation.LinearInterpolator
 import com.vrgsoft.core.presentation.activity.BaseActivity
 import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
 
@@ -27,7 +30,10 @@ class SplashActivity : BaseActivity() {
             .setListener(object : Animator.AnimatorListener {
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    router.goToLogin()
+                    GlobalScope.launch {
+                        delay(2900)
+                        router.goToLogin()
+                    }
                 }
 
                 override fun onAnimationRepeat(animation: Animator?) {}

@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.DialogConnectionBinding
 import com.doneit.ascend.presentation.main.databinding.DialogErrorBinding
 import com.doneit.ascend.presentation.main.databinding.DialogInfoBinding
@@ -14,8 +14,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-fun Fragment.showDefaultError(errorMessage: String) {
-    showErrorDialog(
+fun BaseFragment<*>.showDefaultError(errorMessage: String) {
+     showErrorDialog(
         getString(R.string.title_error),
         errorMessage,
         "",
@@ -23,7 +23,7 @@ fun Fragment.showDefaultError(errorMessage: String) {
     )
 }
 
-fun Fragment.showErrorDialog(
+fun BaseFragment<*>.showErrorDialog(
     errorTitle: String,
     errorMessage: String,
     buttonText: String,
@@ -76,10 +76,12 @@ fun Fragment.showErrorDialog(
         }
     }
 
+    this.shownDialog?.dismiss()
+    this.shownDialog = dialog
     dialog.show()
 }
 
-fun Fragment.showInfoDialog(
+fun BaseFragment<*>.showInfoDialog(
     errorTitle: String,
     errorMessage: String,
     isAutoClose: Boolean = true
@@ -93,6 +95,8 @@ fun Fragment.showInfoDialog(
     dialog.setContentView(binding.root)
     dialog.setCancelable(false)
 
+    this.shownDialog?.dismiss()
+    this.shownDialog = dialog
     dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     dialog.show()
 
@@ -106,7 +110,7 @@ fun Fragment.showInfoDialog(
     return dialog
 }
 
-fun Fragment.showNoConnectionDialog(text: String, isAutoClose: Boolean = true): BottomSheetDialog {
+fun BaseFragment<*>.showNoConnectionDialog(text: String, isAutoClose: Boolean = true): BottomSheetDialog {
 
     val binding =
         DialogConnectionBinding.inflate(LayoutInflater.from(this.context), null, false)
@@ -115,6 +119,8 @@ fun Fragment.showNoConnectionDialog(text: String, isAutoClose: Boolean = true): 
     val dialog = BottomSheetDialog(requireContext(), R.style.TransparentBottomSheetDialog)
     dialog.setContentView(binding.root)
 
+    this.shownDialog?.dismiss()
+    this.shownDialog = dialog
     dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     dialog.show()
 

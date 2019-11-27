@@ -150,6 +150,10 @@ class SignUpViewModel(
                         router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
                     }
                 }
+            } else {
+                if(requestEntity.errorModel!!.isNotEmpty()) {
+                    showErrorMessage(requestEntity.errorModel!!.first())
+                }
             }
         }
     }
@@ -159,29 +163,25 @@ class SignUpViewModel(
         viewModelScope.launch {
             val requestEntity = userUseCase.getConfirmationCode(registrationModel.getPhoneNumber())
 
-            if (requestEntity.isSuccessful) {
-                launch(Dispatchers.Main) {
-                    successMessage.postValue(
-                        PresentationMessage(
-                            Messages.PASSWORD_SENT.getId()
-                        )
-                    )
-                }
-            } else {
+            if (requestEntity.isSuccessful.not()) {
                 if(requestEntity.errorModel!!.isNotEmpty()) {
-                    errorMessage.postValue(
-                        PresentationMessage(
-                            Messages.EROR.getId(),
-                            null,
-                            requestEntity.errorModel!!.first()
-                        )
-                    )
+                    showErrorMessage(requestEntity.errorModel!!.first())
                 }
             }
 
             delay(Constants.RESEND_CODE_INTERVAL)
             canResendCode.postValue(true)
         }
+    }
+
+    private fun showErrorMessage(message: String){
+        errorMessage.postValue(
+            PresentationMessage(
+                Messages.EROR.getId(),
+                null,
+                message
+            )
+        )
     }
 
     override fun onBackClick() {

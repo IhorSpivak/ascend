@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.base
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,6 +27,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     //region Kodein
 
     private val _parentKodein: Kodein by closestKodein()
+    var shownDialog: Dialog? = null
     override val kodein: Kodein = Kodein.lazy {
         extend(_parentKodein, true)
         with(parentFragment) {
