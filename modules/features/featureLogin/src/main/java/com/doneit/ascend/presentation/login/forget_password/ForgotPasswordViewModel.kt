@@ -57,13 +57,15 @@ class ForgotPasswordViewModel(
                     router.navigateToNewPassword(phoneModel.toEntity())
                 }
             } else {
-                errorMessage.postValue(
-                    PresentationMessage(
-                    Messages.EROR.getId(),
-                        null,
-                        requestEntity.errorModel!!.first()
-                )
-                )
+                if(requestEntity.errorModel!!.isNotEmpty()){
+                    errorMessage.postValue(
+                        PresentationMessage(
+                            Messages.EROR.getId(),
+                            null,
+                            requestEntity.errorModel!!.first()
+                        )
+                    )
+                }
             }
         }
     }

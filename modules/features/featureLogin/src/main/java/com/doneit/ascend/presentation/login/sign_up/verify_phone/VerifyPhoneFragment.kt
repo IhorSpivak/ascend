@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.login.sign_up.verify_phone
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentVerifyPhoneBinding
 import com.doneit.ascend.presentation.login.sign_up.SignUpViewModel
 import com.doneit.ascend.presentation.login.views.SmsCodeView
@@ -9,6 +10,10 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.main.models.PresentationMessage
+import com.doneit.ascend.presentation.utils.Messages
+import com.doneit.ascend.presentation.utils.showDefaultError
+import com.doneit.ascend.presentation.utils.showInfoDialog
 import kotlinx.android.synthetic.main.fragment_verify_phone.*
 import kotlinx.android.synthetic.main.toolbar.*
 import org.kodein.di.Kodein
@@ -43,5 +48,24 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
         smsCode.requestFirstFocus()
 
         viewModel.sendCode()
+    }
+
+    override fun handleSuccessMessage(message: PresentationMessage) {
+        when(message.id) {
+            Messages.PASSWORD_SENT.getId() -> {
+                showInfoDialog(
+                    getString(R.string.title_password_sent),
+                    getString(R.string.content_password_sent)
+                )
+            }
+        }
+    }
+
+    override fun handleErrorMessage(message: PresentationMessage) {
+        when(message.id) {
+            Messages.EROR.getId() -> {
+                showDefaultError(message.content!!)
+            }
+        }
     }
 }

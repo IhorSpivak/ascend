@@ -12,7 +12,9 @@ import com.doneit.ascend.presentation.login.models.toEntity
 import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneContract
 import com.doneit.ascend.presentation.login.utils.*
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.presentation.utils.UIReturnStep
 import kotlinx.coroutines.Dispatchers
@@ -154,7 +156,28 @@ class SignUpViewModel(
     override fun sendCode() {
         canResendCode.postValue(false)
         viewModelScope.launch {
-            userUseCase.getConfirmationCode(registrationModel.getPhoneNumber())
+            val requestEntity = userUseCase.getConfirmationCode(registrationModel.getPhoneNumber())
+
+            if (requestEntity.isSuccessful) {
+                launch(Dispatchers.Main) {
+                    successMessage.postValue(
+                        PresentationMessage(
+                            Messages.PASSWORD_SENT.getId()
+                        )
+                    )
+                }
+            } else {
+                if(requestEntity.errorModel!!.isNotEmpty()) {
+                    errorMessage.postValue(
+                        PresentationMessage(
+                            Messages.EROR.getId(),
+                            null,
+                            requestEntity.errorModel!!.first()
+                        )
+                    )
+                }
+            }
+
             delay(Constants.RESEND_CODE_INTERVAL)
             canResendCode.postValue(true)
         }

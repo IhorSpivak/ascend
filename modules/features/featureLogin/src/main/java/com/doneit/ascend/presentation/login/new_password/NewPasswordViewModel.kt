@@ -93,13 +93,15 @@ class NewPasswordViewModel(
                     router.goToMain()
                 }
             } else {
-                errorMessage.postValue(
-                    PresentationMessage(
-                        Messages.EROR.getId(),
-                        null,
-                        requestEntity.errorModel!!.first()
+                if(requestEntity.errorModel!!.isNotEmpty()) {
+                    errorMessage.postValue(
+                        PresentationMessage(
+                            Messages.EROR.getId(),
+                            null,
+                            requestEntity.errorModel!!.first()
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -117,13 +119,15 @@ class NewPasswordViewModel(
                     showCodeSentMessage()
                 }
             } else {
-                errorMessage.postValue(
-                    PresentationMessage(
-                        Messages.EROR.getId(),
-                        null,
-                        requestEntity.errorModel!!.first()
+                if(requestEntity.errorModel!!.isNotEmpty()){
+                    errorMessage.postValue(
+                        PresentationMessage(
+                            Messages.EROR.getId(),
+                            null,
+                            requestEntity.errorModel!!.first()
+                        )
                     )
-                )
+                }
             }
 
             delay(Constants.RESEND_CODE_INTERVAL)
