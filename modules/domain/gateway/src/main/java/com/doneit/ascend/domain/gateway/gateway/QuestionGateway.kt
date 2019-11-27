@@ -4,14 +4,18 @@ import com.doneit.ascend.domain.entity.QuestionEntity
 import com.doneit.ascend.domain.entity.common.RequestEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toRequestEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntityList
+import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toQuestionEntityList
+import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toQuestionList
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IQuestionGateway
-import com.doneit.ascend.source.storage.remote.repository.question.IQuestionRepository
 import com.vrgsoft.networkmanager.NetworkManager
+import com.doneit.ascend.source.storage.local.repository.question.IQuestionRepository as LocalRepository
+import com.doneit.ascend.source.storage.remote.repository.question.IQuestionRepository as RemoteRepository
 
 internal class QuestionGateway(
     errors: NetworkManager,
-    private val remote: IQuestionRepository
+    private val remote: RemoteRepository,
+    private val local: LocalRepository
 ) : BaseGateway(errors), IQuestionGateway {
 
     override fun <T> calculateMessage(error: T): String {
@@ -27,5 +31,17 @@ internal class QuestionGateway(
                 it?.errors
             }
         )
+    }
+
+    override suspend fun getQuestionsList(): List<QuestionEntity> {
+        return local.getAll().toQuestionList()
+    }
+
+    override suspend fun insert(questions: List<QuestionEntity>) {
+        local.insert(questions.toQuestionEntityList())
+    }
+
+    override suspend fun deleteAllQuestions() {
+        local.removeAll()
     }
 }

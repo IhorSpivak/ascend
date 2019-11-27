@@ -27,6 +27,7 @@ object GatewayModule {
         bind<IQuestionGateway>() with provider {
             QuestionGateway(
                 instance(),
+                instance(),
                 instance()
             )
         }

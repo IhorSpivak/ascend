@@ -32,7 +32,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName){
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
-        bind<ViewModel>(tag = SignUpViewModel::class.java.simpleName) with provider { SignUpViewModel(instance(), instance(), instance()) }
+        bind<ViewModel>(tag = SignUpViewModel::class.java.simpleName) with provider { SignUpViewModel(instance(), instance(), instance(), instance()) }
         bind<SignUpContract.ViewModel>() with singleton { vmShared<SignUpViewModel>(instance()) }
     }
 

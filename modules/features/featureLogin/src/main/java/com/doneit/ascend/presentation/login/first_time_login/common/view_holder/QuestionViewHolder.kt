@@ -17,27 +17,37 @@ class QuestionViewHolder(
     private val listener: QuestionStateListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private lateinit var model: PresentationAnswerModel
+    private var model: PresentationAnswerModel = PresentationAnswerModel(1, -1)
 
     fun bind(item: QuestionEntity) {
+        listener.setState(item.id, false)
 
         model = PresentationAnswerModel(item.id, -1)
-        initValidator()
 
         with(binding) {
             this.item = item
             this.answerModel = model
             binding.executePendingBindings()
+
+            initValidator(item.id)
         }
     }
 
-    private fun initValidator() {
+    private fun initValidator(id: Long) {
         model.answer.validator = { s ->
             val result = ValidationResult()
 
             if (s.isValidAnswer().not()) {
                 result.isSussed = false
                 result.errors.add(R.string.answer_error)
+            }
+
+            listener.setState(id, result.isSussed)
+            listener.setQuestionAnswer(id, s)
+
+            model.answer.onFieldInvalidate = {
+                itemView.requestLayout()
+                itemView.invalidate()
             }
 
             result
@@ -53,7 +63,7 @@ class QuestionViewHolder(
                 false
             )
 
-            return QuestionViewHolder(binding,listener)
+            return QuestionViewHolder(binding, listener)
         }
     }
 }

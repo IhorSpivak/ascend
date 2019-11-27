@@ -4,20 +4,34 @@
     <data>
 
         <variable
+            name="parentId"
+            type="Long" />
+
+        <variable
             name="item"
             type="com.doneit.ascend.domain.entity.AnswerOptionEntity" />
 
+        <variable
+            name="clickListener"
+            type="com.doneit.ascend.presentation.login.first_time_login.common.RadioButtonClickListener" />
+
     </data>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <RadioButton
+        android:id="@+id/rbOption"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:button="@drawable/custom_checkbox"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{(view) -> clickListener.onClick(view, parentId, item.id)}"
+        android:paddingStart="10dp"
+        android:paddingEnd="0dp"
+        android:text="@{item.title}"
+        android:layout_weight="1"
+        android:layout_columnWeight="1"
+        android:textSize="22sp" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{item.title}" />
-
-    </LinearLayout>
 </layout>

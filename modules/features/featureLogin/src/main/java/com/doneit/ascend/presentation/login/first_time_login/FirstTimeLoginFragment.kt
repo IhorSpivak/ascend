@@ -24,7 +24,6 @@ class FirstTimeLoginFragment :
         binding.model = viewModel
         binding.adapter = adapter
         binding.executePendingBindings()
-        viewModel.removeErrors()
 
         toolbar.imBack.visibility = View.INVISIBLE
     }

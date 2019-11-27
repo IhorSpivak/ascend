@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -8,10 +7,6 @@
         <variable
             name="item"
             type="com.doneit.ascend.domain.entity.QuestionEntity" />
-
-        <variable
-            name="adapter"
-            type="com.doneit.ascend.presentation.login.first_time_login.common.AnswerOptionsAdapter" />
 
     </data>
 
@@ -28,12 +23,12 @@
             android:textSize="24sp"
             tools:text="How did you hear anbout us?" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.doneit.ascend.presentation.login.first_time_login.common.GridRadioGroup
+            android:id="@+id/rgOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:setAdapter="@{adapter}"
-            app:spanCount="2" />
+            android:layout_marginTop="12dp"
+            android:columnCount="2" />
 
     </LinearLayout>
 </layout>

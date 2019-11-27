@@ -16,16 +16,16 @@ import com.doneit.ascend.presentation.login.views.SmsCodeView
 fun Context.applyLinkStyle(source: SpannableString, start: Int, end: Int) {
     val spanStrategy = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
     val color = ContextCompat.getColor(this, R.color.default_font_color)
-    source.setSpan(StyleSpan(Typeface.BOLD),start, end, spanStrategy)
+    source.setSpan(StyleSpan(Typeface.BOLD), start, end, spanStrategy)
     source.setSpan(ForegroundColorSpan(color), start, end, spanStrategy)
 }
 
 fun ObservableField<String>.getNotNull(): String {
-    return get()?:""
+    return get() ?: ""
 }
 
 fun ObservableField<Boolean>.getNotNull(): Boolean {
-    return get()?:false
+    return get() ?: false
 }
 
 fun String.isValidPassword(): Boolean {
@@ -47,6 +47,6 @@ fun String.isValidConfirmationCode(): Boolean {
 }
 
 fun String.isValidAnswer(): Boolean {
-    val r = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!\$%!@#£€*?&]{6,}\$")
-    return this.length in 3..48 && this.matches(r)
+    val r = Regex("^[a-zA-Z\\s]{3,48}\$")
+    return this.matches(r)
 }

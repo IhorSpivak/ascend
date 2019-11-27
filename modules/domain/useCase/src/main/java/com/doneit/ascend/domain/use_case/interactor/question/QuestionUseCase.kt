@@ -5,4 +5,7 @@ import com.doneit.ascend.domain.entity.common.RequestEntity
 
 interface QuestionUseCase {
     suspend fun getList(sessionToken: String): RequestEntity<List<QuestionEntity>, List<String>>
+    suspend fun insert(questions: List<QuestionEntity>)
+    suspend fun deleteAllQuestions()
+    suspend fun getQuestionsList(): List<QuestionEntity>
 }

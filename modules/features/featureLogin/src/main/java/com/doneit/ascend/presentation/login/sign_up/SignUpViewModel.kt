@@ -13,6 +13,8 @@ import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneCont
 import com.doneit.ascend.presentation.login.utils.*
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.LocalStorage
+import com.doneit.ascend.presentation.utils.UIReturnStep
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -21,7 +23,8 @@ import kotlinx.coroutines.launch
 class SignUpViewModel(
     private val userUseCase: UserUseCase,
     private val questionUseCase: QuestionUseCase,
-    private val router: SignUpContract.Router
+    private val router: SignUpContract.Router,
+    private val localStorage: LocalStorage
 ) : BaseViewModelImpl(), SignUpContract.ViewModel, VerifyPhoneContract.ViewModel {
 
     override val registrationModel = PresentationSignUpModel()
@@ -134,14 +137,14 @@ class SignUpViewModel(
             if (requestEntity.isSuccessful) {
                 launch(Dispatchers.Main) {
 
-                    // 1) load questions list
-                    val questionsRequest = questionUseCase.getList(requestEntity.successModel!!.token)
+                    val questionsRequest =
+                        questionUseCase.getList(requestEntity.successModel!!.token)
 
                     if (questionsRequest.isSuccessful) {
-                        // TODO: save their to local storage
+                        questionUseCase.insert(questionsRequest.successModel!!)
 
-                        // 2) navigate to First Time Login screen
-                        router.navigateToFirstTimeLogin()
+                        localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
+                        router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
                     }
                 }
             }

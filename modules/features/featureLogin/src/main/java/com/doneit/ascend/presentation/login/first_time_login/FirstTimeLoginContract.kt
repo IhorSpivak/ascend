@@ -11,9 +11,10 @@ interface FirstTimeLoginContract {
         val canComplete: LiveData<Boolean>
         val questions: LiveData<List<QuestionEntity>>
 
-        fun removeErrors()
         fun completeClick()
     }
 
-    interface Router
+    interface Router {
+        fun goToMain()
+    }
 }

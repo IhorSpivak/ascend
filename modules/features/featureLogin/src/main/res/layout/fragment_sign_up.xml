@@ -4,6 +4,7 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.text.InputType" />
 
         <variable
@@ -21,125 +22,125 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            bind:title="@{@string/sign_up}"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            bind:title="@{@string/sign_up}" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="48dp"
                 android:paddingStart="16dp"
+                android:paddingTop="48dp"
                 android:paddingEnd="16dp">
 
                 <com.doneit.ascend.presentation.login.views.EditWithError
                     android:id="@+id/userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:hint="@{@string/full_name}"
-                    app:src="@{@drawable/ic_user}"
-                    app:text="@={model.registrationModel.name.observableField}"
                     app:error="@{model.registrationModel.name.observableError}"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:hint="@{@string/full_name}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:src="@{@drawable/ic_user}"
+                    app:text="@={model.registrationModel.name.observableField}" />
 
                 <com.doneit.ascend.presentation.login.views.EditWithError
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/sig_up_fields_spacing"
-                    app:hint="@{@string/email}"
-                    app:src="@{@drawable/ic_email}"
-                    app:text="@={model.registrationModel.email.observableField}"
                     app:error="@{model.registrationModel.email.observableError}"
+                    app:hint="@{@string/email}"
                     app:inputType="@{InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS}"
-                    app:layout_constraintTop_toBottomOf="@id/userName"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/userName"
+                    app:src="@{@drawable/ic_email}"
+                    app:text="@={model.registrationModel.email.observableField}" />
 
                 <include
                     android:id="@+id/phoneLayout"
                     layout="@layout/group_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:text="@={model.registrationModel.phone.observableField}"
-                    bind:error="@{model.registrationModel.phone.observableError}"
                     android:layout_marginTop="@dimen/sig_up_fields_spacing"
-                    app:layout_constraintTop_toBottomOf="@id/email"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/email"
+                    bind:error="@{model.registrationModel.phone.observableError}"
+                    bind:text="@={model.registrationModel.phone.observableField}" />
 
                 <com.doneit.ascend.presentation.login.views.EditWithError
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/sig_up_fields_spacing"
-                    app:hint="@{@string/password}"
-                    app:src="@{@drawable/ic_password}"
-                    app:text="@={model.registrationModel.password.observableField}"
                     app:error="@{model.registrationModel.password.observableError}"
+                    app:hint="@{@string/password}"
                     app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
-                    app:layout_constraintTop_toBottomOf="@id/phoneLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintTop_toBottomOf="@id/phoneLayout"
+                    app:src="@{@drawable/ic_password}"
+                    app:text="@={model.registrationModel.password.observableField}" />
 
                 <com.doneit.ascend.presentation.login.views.EditWithError
                     android:id="@+id/confirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sig_up_fields_spacing"
                     android:layout_marginStart="30dp"
-                    app:hint="@{@string/password_confirm}"
-                    app:text="@={model.registrationModel.passwordConfirmation.observableField}"
+                    android:layout_marginTop="@dimen/sig_up_fields_spacing"
                     app:error="@{model.registrationModel.passwordConfirmation.observableError}"
+                    app:hint="@{@string/password_confirm}"
                     app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/password"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/password"
+                    app:text="@={model.registrationModel.passwordConfirmation.observableField}" />
 
 
                 <CheckBox
                     android:id="@+id/cbAgreements"
+                    style="@style/TextNormal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/sig_up_fields_spacing"
-                    style="@style/TextNormal"
 
-                    android:paddingStart="16dp"
                     android:checked="@={model.registrationModel.hasAgreed}"
+                    android:paddingStart="16dp"
                     android:text="@string/agreement"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/confirmPassword"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/confirmPassword" />
 
                 <Button
                     android:id="@+id/btnContinue"
                     style="@style/AppTheme.Button"
                     android:layout_marginTop="@dimen/sig_up_fields_spacing"
+                    android:enabled="@{model.canContinue}"
                     android:onClick="@{v -> model.continueClick()}"
                     android:text="@string/sign_up_continue"
-                    android:enabled="@{model.canContinue}"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cbAgreements"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cbAgreements" />
 
                 <TextView
                     android:id="@+id/signIn"
+                    style="@style/TextNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="64dp"
-                    style="@style/TextNormal"
                     android:text="@string/already_member"
-                    app:layout_constraintTop_toBottomOf="@id/btnContinue"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnContinue" />
 
                 <View
                     android:layout_width="134dp"
@@ -147,11 +148,11 @@
                     android:layout_marginTop="108dp"
                     android:layout_marginBottom="8dp"
                     android:background="@color/light_gray_f4f7"
-                    app:layout_constraintVertical_bias="1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/signIn" />
+                    app:layout_constraintTop_toBottomOf="@id/signIn"
+                    app:layout_constraintVertical_bias="1" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
