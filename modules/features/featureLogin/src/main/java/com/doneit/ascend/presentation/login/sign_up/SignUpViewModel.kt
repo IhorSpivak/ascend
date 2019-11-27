@@ -14,8 +14,8 @@ import com.doneit.ascend.presentation.login.utils.*
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Constants
-import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.LocalStorage
+import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.UIReturnStep
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -137,6 +137,7 @@ class SignUpViewModel(
             canContinue.postValue(true)
 
             if (requestEntity.isSuccessful) {
+                localStorage.saveSessionToken(requestEntity.successModel!!.token)
                 launch(Dispatchers.Main) {
 
                     val questionsRequest =

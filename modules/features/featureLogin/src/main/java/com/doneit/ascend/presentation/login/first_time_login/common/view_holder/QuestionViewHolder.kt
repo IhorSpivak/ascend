@@ -3,7 +3,6 @@ package com.doneit.ascend.presentation.login.first_time_login.common.view_holder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.QuestionEntity
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.TemplateQuestionItemBinding
@@ -11,11 +10,12 @@ import com.doneit.ascend.presentation.login.first_time_login.common.QuestionStat
 import com.doneit.ascend.presentation.login.models.PresentationAnswerModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.utils.isValidAnswer
+import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
 
 class QuestionViewHolder(
     private val binding: TemplateQuestionItemBinding,
     private val listener: QuestionStateListener
-) : RecyclerView.ViewHolder(binding.root) {
+) : LifecycleViewHolder(binding.root) {
 
     private var model: PresentationAnswerModel = PresentationAnswerModel(1, -1)
 
@@ -27,6 +27,7 @@ class QuestionViewHolder(
         with(binding) {
             this.item = item
             this.answerModel = model
+            this.lifecycleOwner = this@QuestionViewHolder
             binding.executePendingBindings()
 
             initValidator(item.id)

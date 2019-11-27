@@ -20,6 +20,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
 class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
@@ -27,7 +28,7 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
     override val viewModelModule = Kodein.Module(this::class.java.simpleName){
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
         //di should contains corresponding ViewModel from SignUpFragments' module for now
-        bind<VerifyPhoneContract.ViewModel>() with singleton { vmShared<SignUpViewModel>(instance()) }
+        bind<VerifyPhoneContract.ViewModel>() with provider { vmShared<SignUpViewModel>(instance()) }
     }
 
     override val viewModel: VerifyPhoneContract.ViewModel by instance()

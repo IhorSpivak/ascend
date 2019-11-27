@@ -40,9 +40,10 @@ class SelectAnswerViewHolder(
                 val binding =
                     TemplateAnswerItemBinding.inflate(LayoutInflater.from(binding.root.context))
 
-                binding.parentId = item.id
                 binding.item = it
-                binding.clickListener = clickListener
+                binding.rbOption.setOnCheckedChangeListener { compoundButton, b ->
+                    clickListener.onClick(compoundButton, item.id, it.id)
+                }
 
                 val param: GridLayout.LayoutParams = GridLayout.LayoutParams(
                     GridLayout.spec(
