@@ -42,7 +42,9 @@ class SelectAnswerViewHolder(
 
                 binding.item = it
                 binding.rbOption.setOnCheckedChangeListener { compoundButton, b ->
-                    clickListener.onClick(compoundButton, item.id, it.id)
+                    if(b){
+                        clickListener.onClick(compoundButton, item.id, it.id)
+                    }
                 }
 
                 val param: GridLayout.LayoutParams = GridLayout.LayoutParams(

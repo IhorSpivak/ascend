@@ -23,6 +23,7 @@ class FirstTimeLoginFragment :
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
         binding.adapter = adapter
+        binding.lifecycleOwner = this
         binding.executePendingBindings()
 
         toolbar.imBack.visibility = View.INVISIBLE
