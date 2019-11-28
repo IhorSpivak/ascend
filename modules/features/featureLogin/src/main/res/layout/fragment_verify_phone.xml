@@ -4,10 +4,14 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneContract.ViewModel" />
+
+        <import type="android.view.View" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,69 +22,82 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            bind:title="@{@string/verify_phone_header}"
-            android:elevation="8dp" />
+            android:elevation="8dp"
+            bind:title="@{@string/verify_phone_header}" />
 
         <TextView
             android:id="@+id/title"
+            style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextNormal"
             android:layout_marginTop="40dp"
             android:text="@string/verify_phone_title"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <com.doneit.ascend.presentation.login.views.SmsCodeView
             android:id="@+id/smsCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
             android:layout_marginStart="45dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="45dp"
-            app:text="@={model.registrationModel.code.observableField}"
-            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:text="@={model.registrationModel.code.observableField}" />
 
         <Button
             android:id="@+id/btnVerify"
-            android:onClick="@{v -> model.onVerifyClick()}"
-            android:enabled="@{model.canContinue}"
-            android:layout_marginTop="40dp"
+            style="@style/AppTheme.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/AppTheme.Button"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
+            android:enabled="@{model.canContinue}"
+            android:onClick="@{v -> model.onVerifyClick()}"
             android:text="@string/verify"
             app:layout_constraintTop_toBottomOf="@id/smsCode" />
 
         <TextView
             android:id="@+id/tvNoCode"
+            style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextNormal"
-            android:text="@string/no_code"
             android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/btnVerify"
+            android:text="@string/no_code"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/btnVerify" />
 
         <TextView
             android:id="@+id/resend"
-            android:onClick="@{v -> model.sendCode()}"
-            android:enabled="@{model.canResendCode}"
+            style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextNormal"
-            android:textColor="@color/green_font_color"
-            android:text="@string/resend"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/tvNoCode"
+            android:enabled="@{model.canResendCode}"
+            android:onClick="@{v -> model.sendCode()}"
+            android:text="@string/resend"
+            android:textColor="@color/green_font_color"
+            android:visibility="@{model.canShowTimer ? View.GONE : View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/tvNoCode" />
+
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{model.timerValue}"
+            android:textColor="@color/green_font_color"
+            android:visibility="@{model.canShowTimer ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/resend" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

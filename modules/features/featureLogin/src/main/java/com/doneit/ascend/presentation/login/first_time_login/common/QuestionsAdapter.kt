@@ -1,18 +1,20 @@
 package com.doneit.ascend.presentation.login.first_time_login.common
 
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.QuestionEntity
 import com.doneit.ascend.presentation.login.first_time_login.common.view_holder.QuestionViewHolder
 import com.doneit.ascend.presentation.login.first_time_login.common.view_holder.SelectAnswerViewHolder
+import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
 
 class QuestionsAdapter(
     private val items: MutableList<QuestionEntity>,
     private val listener: QuestionStateListener
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<LifecycleViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LifecycleViewHolder {
 
         return when (QuestionType.values()[viewType]) {
             QuestionType.QUESTION -> QuestionViewHolder.create(parent, listener)
@@ -23,7 +25,7 @@ class QuestionsAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LifecycleViewHolder, position: Int) {
 
         when (QuestionType.values()[holder.itemViewType]) {
             QuestionType.QUESTION -> (holder as QuestionViewHolder).bind(items[position])
@@ -68,5 +70,10 @@ class QuestionsAdapter(
         items.addAll(newItems)
 
         diff.dispatchUpdatesTo(this)
+    }
+
+    override fun onViewRecycled(holder: LifecycleViewHolder) {
+        holder.unbind()
+        super.onViewRecycled(holder)
     }
 }

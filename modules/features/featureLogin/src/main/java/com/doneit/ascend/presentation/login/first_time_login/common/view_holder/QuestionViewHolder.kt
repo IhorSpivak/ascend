@@ -28,6 +28,7 @@ class QuestionViewHolder(
             this.item = item
             this.answerModel = model
             this.lifecycleOwner = this@QuestionViewHolder
+            this@QuestionViewHolder.onAppear(model.answer.observableError)
             binding.executePendingBindings()
 
             initValidator(item.id)

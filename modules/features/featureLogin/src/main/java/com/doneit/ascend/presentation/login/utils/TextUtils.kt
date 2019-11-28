@@ -46,7 +46,11 @@ fun String.isValidConfirmationCode(): Boolean {
     return length == SmsCodeView.NUMBERS_COUNT
 }
 
+fun String.isValidCodeFromSms(): Boolean {
+    return this.length in 1..4
+}
+
 fun String.isValidAnswer(): Boolean {
-    val r = Regex("^[a-zA-Z\\s]{3,48}\$")
+    val r = Regex("^[a-zA-Z\\s]{2,48}\$")
     return this.matches(r)
 }

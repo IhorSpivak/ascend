@@ -1,9 +1,11 @@
 package com.doneit.ascend.domain.gateway.di
 
 import com.doneit.ascend.domain.gateway.gateway.AnswerGateway
+import com.doneit.ascend.domain.gateway.gateway.PageGateway
 import com.doneit.ascend.domain.gateway.gateway.QuestionGateway
 import com.doneit.ascend.domain.gateway.gateway.UserGateway
 import com.doneit.ascend.domain.use_case.gateway.IAnswerGateway
+import com.doneit.ascend.domain.use_case.gateway.IPageGateway
 import com.doneit.ascend.domain.use_case.gateway.IQuestionGateway
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 import com.vrgsoft.networkmanager.NetworkManager
@@ -34,6 +36,13 @@ object GatewayModule {
 
         bind<IAnswerGateway>() with provider {
             AnswerGateway(
+                instance(),
+                instance()
+            )
+        }
+
+        bind<IPageGateway>() with provider {
+            PageGateway(
                 instance(),
                 instance()
             )

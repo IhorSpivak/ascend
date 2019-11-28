@@ -59,7 +59,6 @@ class LogInViewModel(
                 )
 
             if (requestEntity.isSuccessful) {
-
                 val token = requestEntity.successModel?.token
                 token?.let {
                     localStorage.saveSessionToken(it)
@@ -77,6 +76,14 @@ class LogInViewModel(
 
     override fun signUpClick() {
         router.navigateToSignUp()
+    }
+
+    override fun termsClick() {
+        router.navigateToTerms()
+    }
+
+    override fun privacyPolicyClick() {
+        router.navigateToPrivacyPolicy()
     }
 
     override fun forgotPasswordClick() {

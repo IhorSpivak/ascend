@@ -49,6 +49,7 @@
     <string name="resend_code">Resend Code</string>
     <string name="save_new_password">Save New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
+    <string name="allow_code_digits">01234567890</string>
 
     <!--First Time Login-->
     <string name="first_time_login_title">Before signing in please complete the questionnaire</string>

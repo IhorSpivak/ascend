@@ -5,11 +5,10 @@ import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.text.method.DigitsKeyListener
 import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.login.R
@@ -82,6 +81,8 @@ class EditWithError @JvmOverloads constructor(
             }
         }
 
+    var everWordWithCapitalLetter: Boolean = false
+
     private var listener: InverseBindingListener? = null
 
     fun setListener(listener: InverseBindingListener) {
@@ -95,8 +96,48 @@ class EditWithError @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 editText.removeTextChangedListener(this)
-                if (s.toString().startsWith(" ")) {
-                    editText.setText(s.toString().trim())
+
+                val builder = StringBuilder()
+                val currentText = s.toString()
+                val lastSymbol = if(currentText.isNotEmpty()) currentText[currentText.length - 1] else ' '
+                val currSelection = editText.selectionEnd
+
+                if (everWordWithCapitalLetter) {
+
+                    val words = s.toString().split(" ")
+
+                    for (value in words) {
+                        if (value.isEmpty()) {
+                            continue
+                        }
+
+                        builder.append(value.capitalize())
+                        builder.append(" ")
+                    }
+
+                    var formattedTest = builder.toString()
+
+                    if (lastSymbol != ' ') {
+                        formattedTest = formattedTest.substring(0, formattedTest.length - 1)
+                    }
+
+                    if (formattedTest.startsWith(" ")) {
+                        editText.setText(formattedTest.trim())
+                    } else {
+                        editText.setText(formattedTest)
+
+                        if(currSelection + 1 == formattedTest.length) {
+                            editText.setSelection(formattedTest.length)
+                        }
+                        else {
+                            editText.setSelection(currSelection)
+                        }
+                    }
+                }
+                else {
+                    if (s.toString().startsWith(" ")) {
+                        editText.setText(s.toString().trim())
+                    }
                 }
 
                 editText.addTextChangedListener(this)
@@ -111,7 +152,7 @@ class EditWithError @JvmOverloads constructor(
     }
 
     fun setError(error: LiveData<Int?>?) {
-        if(error != null && error.value != null){
+        if (error != null && error.value != null) {
             tvError.text = resources.getString(error.value!!)
         } else {
             tvError.text = ""
@@ -120,12 +161,16 @@ class EditWithError @JvmOverloads constructor(
 
     fun setSrc(src: Drawable?) {
         icon.setImageDrawable(src)
-        icon.visibility = if( src == null) View.GONE else View.VISIBLE
+        icon.visibility = if (src == null) View.GONE else View.VISIBLE
         requestLayout()
     }
 
     fun setInput(inputType: Int) {
         editText.inputType = inputType or InputType.TYPE_CLASS_TEXT
+    }
+
+    fun setDigits(values: String) {
+        editText.keyListener = DigitsKeyListener.getInstance(values)
     }
 
     override fun getBaseline(): Int {

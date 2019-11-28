@@ -70,7 +70,6 @@ class FirstTimeLoginViewModel(
             questionId,
             answer,
             null
-
         )
     }
 

@@ -20,6 +20,9 @@ import com.doneit.ascend.presentation.utils.UIReturnStep
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.timerTask
 
 
 class SignUpViewModel(
@@ -32,6 +35,10 @@ class SignUpViewModel(
     override val registrationModel = PresentationSignUpModel()
     override val canContinue = MutableLiveData<Boolean>()
     override val canResendCode = MutableLiveData<Boolean>(true)
+    override val canShowTimer = MutableLiveData<Boolean>(false)
+    override val timerValue = MutableLiveData<String>()
+    override var sendTimer: Timer? = null
+    override var end: Long = 0
 
     init {
         registrationModel.name.validator = { s ->
@@ -132,6 +139,8 @@ class SignUpViewModel(
 
     override fun onVerifyClick() {
         canContinue.postValue(false)
+        startTimer()
+
         viewModelScope.launch {
             val requestEntity = userUseCase.signUp(registrationModel.toEntity())
             canContinue.postValue(true)
@@ -151,7 +160,7 @@ class SignUpViewModel(
                     }
                 }
             } else {
-                if(requestEntity.errorModel!!.isNotEmpty()) {
+                if (requestEntity.errorModel!!.isNotEmpty()) {
                     showErrorMessage(requestEntity.errorModel!!.first())
                 }
             }
@@ -160,11 +169,13 @@ class SignUpViewModel(
 
     override fun sendCode() {
         canResendCode.postValue(false)
+        startTimer()
+
         viewModelScope.launch {
             val requestEntity = userUseCase.getConfirmationCode(registrationModel.getPhoneNumber())
 
             if (requestEntity.isSuccessful.not()) {
-                if(requestEntity.errorModel!!.isNotEmpty()) {
+                if (requestEntity.errorModel!!.isNotEmpty()) {
                     showErrorMessage(requestEntity.errorModel!!.first())
                 }
             }
@@ -174,7 +185,7 @@ class SignUpViewModel(
         }
     }
 
-    private fun showErrorMessage(message: String){
+    private fun showErrorMessage(message: String) {
         errorMessage.postValue(
             PresentationMessage(
                 Messages.EROR.getId(),
@@ -187,6 +198,37 @@ class SignUpViewModel(
     override fun onBackClick() {
         registrationModel.clear()
         router.goBack()
+    }
+
+    private fun startTimer() {
+        sendTimer = Timer()
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MINUTE, 1)
+        end = calendar.timeInMillis
+
+        canShowTimer.postValue(true)
+
+        sendTimer?.schedule(timerTask {
+            val currentTime = Calendar.getInstance().time
+            val diffInMs = end - currentTime.time
+
+            if (diffInMs <= 0) {
+                canShowTimer.postValue(false)
+
+                sendTimer?.cancel()
+                sendTimer = null
+                return@timerTask
+            }
+
+            val diffInSec: Long = TimeUnit.MILLISECONDS.toSeconds(diffInMs)
+            timerValue.postValue(
+                String.format(
+                    "00:%s",
+                    if (diffInSec < 10) "0${diffInSec}" else "$diffInSec"
+                )
+            )
+        }, 0, 1000)
     }
 
     private fun updateCanContinue() {

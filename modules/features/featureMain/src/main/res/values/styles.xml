@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/white</item>
@@ -6,6 +6,8 @@
 
         <item name="buttonStyle">@style/AppTheme.Button</item>
         <item name="android:buttonStyle">@style/AppTheme.Button</item>
+
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
 
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button">

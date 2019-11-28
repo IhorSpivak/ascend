@@ -9,7 +9,7 @@ import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.models.toEntity
 import com.doneit.ascend.presentation.login.new_password.common.NewPasswordArgs
 import com.doneit.ascend.presentation.login.utils.getNotNull
-import com.doneit.ascend.presentation.login.utils.isValidConfirmationCode
+import com.doneit.ascend.presentation.login.utils.isValidCodeFromSms
 import com.doneit.ascend.presentation.login.utils.isValidPassword
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.models.PresentationMessage
@@ -36,7 +36,7 @@ class NewPasswordViewModel(
         newPasswordModel.code.validator = { s ->
             val result = ValidationResult()
 
-            if (s.isValidConfirmationCode().not()) {
+            if (s.isValidCodeFromSms().not()) {
                 result.isSussed = false
             }
 
@@ -93,7 +93,7 @@ class NewPasswordViewModel(
                     router.goToMain()
                 }
             } else {
-                if(requestEntity.errorModel!!.isNotEmpty()) {
+                if (requestEntity.errorModel!!.isNotEmpty()) {
                     errorMessage.postValue(
                         PresentationMessage(
                             Messages.EROR.getId(),
@@ -119,7 +119,7 @@ class NewPasswordViewModel(
                     showCodeSentMessage()
                 }
             } else {
-                if(requestEntity.errorModel!!.isNotEmpty()){
+                if (requestEntity.errorModel!!.isNotEmpty()) {
                     errorMessage.postValue(
                         PresentationMessage(
                             Messages.EROR.getId(),

@@ -22,15 +22,3 @@ fun setQuestionsAdapter(
 
     view.adapter = adapter
 }
-
-@BindingAdapter("app:setAdapter")
-fun setAnswersAdapter(
-    view: RecyclerView,
-    adapter: AnswerOptionsAdapter
-) {
-    if (view.adapter is AnswerOptionsAdapter) {
-        return
-    }
-
-    view.adapter = adapter
-}

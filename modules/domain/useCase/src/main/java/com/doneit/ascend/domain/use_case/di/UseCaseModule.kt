@@ -2,6 +2,8 @@ package com.doneit.ascend.domain.use_case.di
 
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerInteractor
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
+import com.doneit.ascend.domain.use_case.interactor.page.PageInteractor
+import com.doneit.ascend.domain.use_case.interactor.page.PageUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionInteractor
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserInteractor
@@ -27,6 +29,12 @@ object UseCaseModule {
 
         bind<AnswerUseCase>() with provider {
             AnswerInteractor(
+                instance()
+            )
+        }
+
+        bind<PageUseCase>() with provider {
+            PageInteractor(
                 instance()
             )
         }

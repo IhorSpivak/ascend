@@ -13,12 +13,16 @@ interface LogInContract {
 
         fun singInClick()
         fun signUpClick()
+        fun termsClick()
+        fun privacyPolicyClick()
         fun forgotPasswordClick()
     }
 
     interface Router {
         fun navigateToForgotPassword()
         fun navigateToSignUp()
+        fun navigateToTerms()
+        fun navigateToPrivacyPolicy()
         fun goToMain()
     }
 }

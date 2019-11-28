@@ -48,8 +48,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:inputType="@{InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES}"
                     app:src="@{@drawable/ic_user}"
-                    app:text="@={model.registrationModel.name.observableField}" />
+                    app:text="@={model.registrationModel.name.observableField}"
+                    app:everWordWithCapitalLetter="@{true}"/>
 
                 <com.doneit.ascend.presentation.login.views.EditWithError
                     android:id="@+id/email"

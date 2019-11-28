@@ -16,6 +16,9 @@ import com.doneit.ascend.presentation.login.new_password.common.NewPasswordArgs
 import com.doneit.ascend.presentation.login.sign_up.SignUpContract
 import com.doneit.ascend.presentation.login.sign_up.SignUpFragment
 import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneFragment
+import com.doneit.ascend.presentation.login.web_page.WebPageContract
+import com.doneit.ascend.presentation.login.web_page.WebPageFragment
+import com.doneit.ascend.presentation.login.web_page.common.WebPageArgs
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 import com.vrgsoft.core.presentation.fragment.argumented.ArgumentedFragment
@@ -29,7 +32,8 @@ class LogInLocalRouter(
     SignUpContract.Router,
     ForgotPasswordContract.Router,
     NewPasswordContract.Router,
-    FirstTimeLoginContract.Router {
+    FirstTimeLoginContract.Router,
+    WebPageContract.Router {
 
     override fun goBack() {
         activity.supportFragmentManager.popBackStack()
@@ -49,6 +53,28 @@ class LogInLocalRouter(
 
     override fun navigateToSignUp() {
         activity.supportFragmentManager.replaceWithBackStack(R.id.container, SignUpFragment())
+    }
+
+    override fun navigateToTerms() {
+        val args = WebPageArgs("Terms & Conditions", "terms_and_conditions")
+
+        val fragment = WebPageFragment()
+        (fragment as Fragment).arguments = Bundle().apply {
+            putParcelable(ArgumentedFragment.KEY_ARGS, args)
+        }
+
+        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
+    }
+
+    override fun navigateToPrivacyPolicy() {
+        val args = WebPageArgs("Privacy Policy", "privacy_policy")
+
+        val fragment = WebPageFragment()
+        (fragment as Fragment).arguments = Bundle().apply {
+            putParcelable(ArgumentedFragment.KEY_ARGS, args)
+        }
+
+        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
     }
 
     override fun navigateToNewPassword(phone: String) {
