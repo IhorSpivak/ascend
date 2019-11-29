@@ -194,6 +194,6 @@ class EditWithError @JvmOverloads constructor(
     }
 
     override fun getBaseline(): Int {
-        return editText.baseline
+        return textLayout.baseline
     }
 }

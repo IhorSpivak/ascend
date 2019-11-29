@@ -115,6 +115,6 @@ class LogInLocalRouter(
             putParcelable(ArgumentedFragment.KEY_ARGS, args)
         }
 
-        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
+        activity.supportFragmentManager.replace(R.id.container, fragment)
     }
 }

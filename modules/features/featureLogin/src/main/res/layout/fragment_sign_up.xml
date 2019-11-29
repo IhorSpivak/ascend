@@ -46,10 +46,10 @@
                     app:error="@{model.registrationModel.name.observableError}"
                     app:everWordWithCapitalLetter="@{true}"
                     app:hint="@{@string/full_name}"
-                    app:inputType="@{InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:inputType="@{InputType.TYPE_TEXT_FLAG_CAP_SENTENCES}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_user}"
                     app:text="@={model.registrationModel.name.observableField}" />

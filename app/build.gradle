@@ -5,6 +5,21 @@ apply plugin: 'kotlin-android-extensions'
 android {
     flavorDimensions "type"
 
+    signingConfigs {
+        prod {
+            keyAlias 'ascend'
+            keyPassword 'ascend'
+            storeFile file('$rootDir/../ascend_key.jks')
+            storePassword 'ascend'
+        }
+        dev {
+            keyAlias 'ascend'
+            keyPassword 'ascend'
+            storeFile file('$rootDir/../ascend_key.jks')
+            storePassword 'ascend'
+        }
+    }
+
     productFlavors {
         dev {
             dimension "type"
@@ -18,12 +33,7 @@ android {
             versionNameSuffix "-prod"
 
             resValue "string", "base_url", "https://ascend-backend.herokuapp.com/api/v1/"
-            resValue "integer", "min_word_count", "150"
         }
-    }
-
-    packagingOptions{
-        exclude 'META-INF/gateway_release.kotlin_module'
     }
 
     compileSdkVersion sdk_compile_version
@@ -50,6 +60,10 @@ android {
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/gateway_release.kotlin_module'
     }
 }
 
