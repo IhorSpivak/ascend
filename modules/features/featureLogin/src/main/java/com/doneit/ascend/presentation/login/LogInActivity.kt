@@ -6,6 +6,7 @@ import com.doneit.ascend.presentation.login.log_in.LogInContract
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.presentation.utils.UIReturnStep
+import com.facebook.FacebookSdk
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -26,6 +27,7 @@ class LogInActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FacebookSdk.sdkInitialize(applicationContext)
         setContentView(R.layout.activity_log_in)
 
         val step = localStorage.getUIReturnStep()

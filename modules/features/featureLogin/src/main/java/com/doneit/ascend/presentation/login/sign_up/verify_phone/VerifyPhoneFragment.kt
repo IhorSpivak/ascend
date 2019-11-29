@@ -37,7 +37,7 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
         binding.model = viewModel
 
         imBack.setOnClickListener {
-            viewModel.onBackClick()
+            viewModel.onBackClick(false)
         }
 
         smsCode.setSubmitListener(object : SmsCodeView.OnSubmitListener {

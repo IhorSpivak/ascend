@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <import type="android.text.InputType" />
 
         <variable
             name="text"
             type="String" />
+
         <variable
             name="error"
             type="androidx.lifecycle.LiveData&lt;Integer>" />
@@ -18,16 +19,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/email"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/email">
 
         <com.doneit.ascend.presentation.login.views.phone_code.PhoneCodeView
             android:id="@+id/phoneCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/phone" />
+            app:layout_constraintBaseline_toBaselineOf="@id/phone"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.doneit.ascend.presentation.login.views.EditWithError
             android:id="@+id/phone"
@@ -35,27 +36,28 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             app:hint="@{@string/phone_number}"
-            app:text="@={text}"
+            app:saveState="@{false}"
             app:inputType="@{InputType.TYPE_CLASS_PHONE}"
-            app:layout_constraintStart_toEndOf="@id/phoneCode"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/phoneCode"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:text="@={text}" />
 
         <TextView
             android:id="@+id/tvEr"
+            style="@style/TextNormal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="4dp"
-            style="@style/TextNormal"
-            android:textSize="10sp"
             android:textColor="@color/error_color"
+            android:textSize="10sp"
             app:error="@{error}"
             app:layout_constraintBottom_toBottomOf="@id/phone"
-            app:layout_constraintStart_toStartOf="@id/phoneCode"
             app:layout_constraintEnd_toEndOf="@id/phone"
-            tools:text="Error"/>
+            app:layout_constraintStart_toStartOf="@id/phoneCode"
+            tools:text="Error" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

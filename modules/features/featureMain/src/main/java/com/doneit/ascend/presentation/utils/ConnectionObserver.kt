@@ -12,7 +12,7 @@ class ConnectionObserver(val context: Context) {
     private var isNetworkAvailable: Boolean = true
         set(value) {
             if (field != value) {
-                field = value;
+                field = value
                 networkStateChanged.postValue(field)
             }
         }
@@ -22,7 +22,7 @@ class ConnectionObserver(val context: Context) {
             override fun run() {
                 isNetworkAvailable = checkInternetConnection(context)
             }
-        }, Constants.TIME_CHECK_NETWORK)
+        }, 0, Constants.TIME_CHECK_NETWORK)
     }
 
     companion object {

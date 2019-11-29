@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Ascend</string>
+    <string name="facebook_app_id">596118814262747</string>
+    <string name="fb_login_protocol_scheme">fb596118814262747</string>
 </resources>

@@ -67,6 +67,9 @@ class EditWithError @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
+    private var isCheckOnMaxLength = false
+    private var maxLength = 0
+
     init {
         View.inflate(context, R.layout.view_edit_with_error, this)
     }
@@ -98,13 +101,19 @@ class EditWithError @JvmOverloads constructor(
                 editText.removeTextChangedListener(this)
 
                 val builder = StringBuilder()
-                val currentText = s.toString()
-                val lastSymbol = if(currentText.isNotEmpty()) currentText[currentText.length - 1] else ' '
+
+                val currentText = if (isCheckOnMaxLength && s.toString().length >= maxLength)
+                    s.toString().substring(0, maxLength)
+                else
+                    s.toString()
+
+                val lastSymbol =
+                    if (currentText.isNotEmpty()) currentText[currentText.length - 1] else ' '
                 val currSelection = editText.selectionEnd
 
                 if (everWordWithCapitalLetter) {
 
-                    val words = s.toString().split(" ")
+                    val words = currentText.split(" ")
 
                     for (value in words) {
                         if (value.isEmpty()) {
@@ -126,17 +135,19 @@ class EditWithError @JvmOverloads constructor(
                     } else {
                         editText.setText(formattedTest)
 
-                        if(currSelection + 1 == formattedTest.length) {
+                        if (currSelection + 1 == formattedTest.length) {
                             editText.setSelection(formattedTest.length)
-                        }
-                        else {
+                        } else {
                             editText.setSelection(currSelection)
                         }
                     }
-                }
-                else {
-                    if (s.toString().startsWith(" ")) {
-                        editText.setText(s.toString().trim())
+                } else {
+                    if (currentText.startsWith(" ")) {
+                        editText.setText(currentText.trim())
+                    }
+                    else {
+                        editText.setText(currentText)
+                        editText.setSelection(if(currSelection > currentText.length) currentText.length else currSelection)
                     }
                 }
 
@@ -171,6 +182,15 @@ class EditWithError @JvmOverloads constructor(
 
     fun setDigits(values: String) {
         editText.keyListener = DigitsKeyListener.getInstance(values)
+    }
+
+    fun setSaveState(isSaveEnabled: Boolean) {
+        editText.isSaveEnabled = isSaveEnabled
+    }
+
+    fun setMaxLength(length: Int) {
+        isCheckOnMaxLength = true
+        maxLength = length
     }
 
     override fun getBaseline(): Int {

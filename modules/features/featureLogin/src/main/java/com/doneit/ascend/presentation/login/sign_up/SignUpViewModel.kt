@@ -139,7 +139,6 @@ class SignUpViewModel(
 
     override fun onVerifyClick() {
         canContinue.postValue(false)
-        startTimer()
 
         viewModelScope.launch {
             val requestEntity = userUseCase.signUp(registrationModel.toEntity())
@@ -167,9 +166,12 @@ class SignUpViewModel(
         }
     }
 
-    override fun sendCode() {
+    override fun sendCode(isStartTimer: Boolean) {
         canResendCode.postValue(false)
-        startTimer()
+
+        if(isStartTimer) {
+            startTimer()
+        }
 
         viewModelScope.launch {
             val requestEntity = userUseCase.getConfirmationCode(registrationModel.getPhoneNumber())
@@ -195,9 +197,24 @@ class SignUpViewModel(
         )
     }
 
-    override fun onBackClick() {
-        registrationModel.clear()
+    override fun onBackClick(clearModel: Boolean) {
+
+        if(clearModel) {
+            registrationModel.clear()
+        }
+        else {
+            updateCanContinue()
+        }
+
         router.goBack()
+    }
+
+    override fun onTermsAndConditionsClick() {
+        router.navigateToTerms()
+    }
+
+    override fun onPrivacyPolicyClick() {
+        router.navigateToPrivacyPolicy()
     }
 
     private fun startTimer() {

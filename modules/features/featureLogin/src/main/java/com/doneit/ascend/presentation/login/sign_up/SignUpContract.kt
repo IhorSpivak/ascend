@@ -12,13 +12,17 @@ interface SignUpContract {
 
         fun removeErrors()
         fun continueClick()
-        fun onBackClick()
+        fun onBackClick(clearModel: Boolean = true)
+        fun onTermsAndConditionsClick()
+        fun onPrivacyPolicyClick()
     }
 
     interface Router {
         fun navigateToVerifyPhone()
         fun goToMain()
-        fun navigateToFirstTimeLogin(questions: List< QuestionEntity>)
+        fun navigateToFirstTimeLogin(questions: List<QuestionEntity>)
         fun goBack()
+        fun navigateToTerms()
+        fun navigateToPrivacyPolicy()
     }
 }

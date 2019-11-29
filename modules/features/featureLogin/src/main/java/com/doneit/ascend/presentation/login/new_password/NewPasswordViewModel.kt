@@ -20,6 +20,9 @@ import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.timerTask
 
 @CreateFactory
 @ViewModelDiModule
@@ -31,6 +34,10 @@ class NewPasswordViewModel(
     override val newPasswordModel = PresentationNewPasswordModel()
     override val canSave = MutableLiveData<Boolean>()
     override val canResendCode = MutableLiveData<Boolean>(true)
+    override val canShowTimer = MutableLiveData<Boolean>(false)
+    override val timerValue = MutableLiveData<String>()
+    override var sendTimer: Timer? = null
+    override var end: Long = 0
 
     init {
         newPasswordModel.code.validator = { s ->
@@ -110,6 +117,8 @@ class NewPasswordViewModel(
         canSave.postValue(false)
         canResendCode.postValue(false)
 
+        startTimer()
+
         viewModelScope.launch {
             val requestEntity = userUseCase.forgotPassword(newPasswordModel.phoneNumber)
             canSave.postValue(true)
@@ -156,5 +165,36 @@ class NewPasswordViewModel(
         isFormValid = isFormValid and newPasswordModel.passwordConfirmation.isValid
 
         canSave.postValue(isFormValid)
+    }
+
+    private fun startTimer() {
+        sendTimer = Timer()
+
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MINUTE, 1)
+        end = calendar.timeInMillis
+
+        canShowTimer.postValue(true)
+
+        sendTimer?.schedule(timerTask {
+            val currentTime = Calendar.getInstance().time
+            val diffInMs = end - currentTime.time
+
+            if (diffInMs <= 0) {
+                canShowTimer.postValue(false)
+
+                sendTimer?.cancel()
+                sendTimer = null
+                return@timerTask
+            }
+
+            val diffInSec: Long = TimeUnit.MILLISECONDS.toSeconds(diffInMs)
+            timerValue.postValue(
+                String.format(
+                    "00:%s",
+                    if (diffInSec < 10) "0${diffInSec}" else "$diffInSec"
+                )
+            )
+        }, 0, 1000)
     }
 }

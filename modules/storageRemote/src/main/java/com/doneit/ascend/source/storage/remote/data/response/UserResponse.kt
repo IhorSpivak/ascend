@@ -7,5 +7,6 @@ data class UserResponse(
     @SerializedName("email") val email: String,
     @SerializedName("phone_number") val phone: String,
     @SerializedName("created_at") val createdAt: String,
-    @SerializedName("updated_at") val updatedAt: String
+    @SerializedName("updated_at") val updatedAt: String,
+    @SerializedName("unanswered_questions") val unansweredQuestions: List<Int>?
 )

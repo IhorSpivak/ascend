@@ -1,9 +1,6 @@
 package com.doneit.ascend.domain.use_case.interactor.user
 
-import com.doneit.ascend.domain.entity.AuthEntity
-import com.doneit.ascend.domain.entity.LogInUserModel
-import com.doneit.ascend.domain.entity.ResetPasswordModel
-import com.doneit.ascend.domain.entity.SignUpModel
+import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.common.RequestEntity
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 
@@ -12,6 +9,10 @@ internal class UserInteractor(
 ) : UserUseCase {
     override suspend fun signIn(logInModel: LogInUserModel): RequestEntity<AuthEntity, List<String>> {
         return userGateway.signIn(logInModel)
+    }
+
+    override suspend fun socialSignIn(socialLogInModel: SocialLogInModel): RequestEntity<AuthEntity, List<String>> {
+        return userGateway.socialSignIn(socialLogInModel)
     }
 
     override suspend fun signUp(registerModel: SignUpModel): RequestEntity<AuthEntity, List<String>> {

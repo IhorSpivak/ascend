@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.login.log_in
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -10,9 +11,14 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentLoginBinding
+import com.doneit.ascend.presentation.login.utils.LoginHelper
 import com.doneit.ascend.presentation.login.utils.applyLinkStyle
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
+import com.facebook.AccessToken
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.group_phone.*
 import org.kodein.di.generic.instance
@@ -35,6 +41,50 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
         phoneCode.touchListener = {
             hideKeyboard()
         }
+
+        viewModel.facebookNeedLoginSubject.observe(this) {
+            if (it != null && it) {
+
+                val accessToken = AccessToken.getCurrentAccessToken()
+                val isLoggedIn = accessToken != null && !accessToken.isExpired
+
+                if(isLoggedIn) {
+                    viewModel.onFacebookLogin(accessToken)
+                }
+                else {
+                    binding.btnFB.callOnClick()
+                }
+            }
+        }
+
+        binding.btnFB.apply {
+            setReadPermissions(listOf("email"))
+            fragment = this@LogInFragment
+
+            registerCallback(LoginHelper.callbackManager, object : FacebookCallback<LoginResult?> {
+                override fun onSuccess(result: LoginResult?) {
+                    if(result != null) {
+                        viewModel.onFacebookLogin(result.accessToken)
+                    }
+                    else {
+                        // TODO: show error message
+                    }
+                }
+
+                override fun onCancel() {
+
+                }
+
+                override fun onError(error: FacebookException?) {
+
+                }
+            })
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        LoginHelper.callbackManager?.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun initSignUpSpannable() {

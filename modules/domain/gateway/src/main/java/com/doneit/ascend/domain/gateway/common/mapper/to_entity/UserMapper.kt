@@ -18,6 +18,7 @@ fun UserResponse.toEntity(): UserEntity {
         email,
         phone,
         createdAt,
-        updatedAt
+        updatedAt,
+        unansweredQuestions
     )
 }

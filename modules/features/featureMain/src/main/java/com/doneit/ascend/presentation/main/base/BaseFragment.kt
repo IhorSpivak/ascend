@@ -47,6 +47,8 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
     abstract val viewModel: BaseViewModel
 
+    private var noConnectionDialog: Dialog? = null
+
     //endregion
 
     private val connectionObserver: ConnectionObserver by lazy {
@@ -94,8 +96,11 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
         super.onResume()
 
         connectionObserver.networkStateChanged.observe(this, Observer {
-            if (!it) {
-                this.showNoConnectionDialog(getString(R.string.connecting))
+            if (it) {
+                noConnectionDialog?.dismiss()
+            }
+            else {
+                noConnectionDialog = this.showNoConnectionDialog(getString(R.string.connecting), false)
             }
         })
     }

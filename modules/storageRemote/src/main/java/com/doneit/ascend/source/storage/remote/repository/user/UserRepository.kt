@@ -1,10 +1,7 @@
 package com.doneit.ascend.source.storage.remote.repository.user
 
 import com.doneit.ascend.source.storage.remote.api.UserApi
-import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
-import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
-import com.doneit.ascend.source.storage.remote.data.request.ResetPasswordRequest
-import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest
+import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
@@ -20,6 +17,10 @@ internal class UserRepository(
 
     override suspend fun signIn(request: LogInRequest): RemoteResponse<AuthResponse, ErrorsListResponse> {
         return execute({ api.signIn(request) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun socialSignIn(request: SocialLoginRequest): RemoteResponse<AuthResponse, ErrorsListResponse> {
+        return  execute({api.socialSignInAsync(request)}, ErrorsListResponse::class.java)
     }
 
     override suspend fun signUp(request: SignUpRequest): RemoteResponse<AuthResponse, ErrorsListResponse> {

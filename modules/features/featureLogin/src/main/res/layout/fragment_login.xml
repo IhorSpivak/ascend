@@ -27,11 +27,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="38dp"
                 android:fontFamily="@font/red_hat_font"
-                android:textStyle="bold"
                 android:text="@string/title"
                 android:textAllCaps="true"
                 android:textColor="@color/default_font_color"
                 android:textSize="32sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -56,27 +56,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
                 android:layout_marginTop="68dp"
-                bind:text="@={model.loginModel.phone.observableField}"
-                bind:error="@{model.loginModel.phone.observableError}"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
-                app:layout_constraintStart_toStartOf="parent"/>
+                bind:error="@{model.loginModel.phone.observableError}"
+                bind:text="@={model.loginModel.phone.observableField}" />
 
             <com.doneit.ascend.presentation.login.views.EditWithError
                 android:id="@+id/password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="24dp"
-                app:src="@{@drawable/ic_password}"
-                app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
-                app:hint="@{@string/password}"
-                app:text="@={model.loginModel.password}"
+                android:orientation="horizontal"
                 app:error="@{model.errorRes}"
+                app:hint="@{@string/password}"
+                app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
                 app:layout_constraintEnd_toEndOf="@id/phoneLayout"
                 app:layout_constraintStart_toStartOf="@+id/phoneLayout"
-                app:layout_constraintTop_toBottomOf="@+id/phoneLayout"/>
+                app:layout_constraintTop_toBottomOf="@+id/phoneLayout"
+                app:saveState="@{false}"
+                app:src="@{@drawable/ic_password}"
+                app:text="@={model.loginModel.password}" />
 
             <Button
                 android:id="@+id/signIn"
@@ -94,13 +95,13 @@
 
             <TextView
                 android:id="@+id/forgotView"
+                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                style="@style/TextNormal"
+                android:onClick="@{v -> model.forgotPasswordClick()}"
                 android:text="@string/forgot_password"
                 android:textColor="@color/green_font_color"
-                android:onClick="@{v -> model.forgotPasswordClick()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/signIn" />
@@ -118,11 +119,11 @@
 
                 <TextView
                     android:id="@+id/tvSocialTitle"
-                    android:clickable="true"
+                    style="@style/TextNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="36dp"
-                    style="@style/TextNormal"
+                    android:clickable="true"
                     android:text="@string/social_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -130,11 +131,11 @@
 
                 <TextView
                     android:id="@+id/tvOr"
+                    style="@style/TextNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:alpha="0.5"
-                    style="@style/TextNormal"
                     android:text="@string/or"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -146,11 +147,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="35dp"
                     android:layout_marginTop="24dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> model.onFacebookLoginClick()}"
                     android:src="@drawable/ic_facebook"
                     app:layout_constraintEnd_toStartOf="@id/google"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvOr" />
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/btnFB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/facebook" />
 
                 <ImageView
                     android:id="@+id/google"
@@ -180,12 +193,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
-                android:text="@string/terms_and_conditions"
-                android:textColor="@color/default_font_color"
-                android:textSize="18sp"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="@{() -> model.termsClick()}"
+                android:text="@string/terms_and_conditions"
+                android:textColor="@color/default_font_color"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -198,8 +211,8 @@
                 android:layout_marginTop="16dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="@string/privacy"
                 android:onClick="@{() -> model.privacyPolicyClick()}"
+                android:text="@string/privacy"
                 android:textColor="@color/default_font_color"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -213,11 +226,11 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@color/light_gray_f4f7"
-                app:layout_constraintVertical_bias="1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/policyView" />
+                app:layout_constraintTop_toBottomOf="@id/policyView"
+                app:layout_constraintVertical_bias="1" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

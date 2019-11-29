@@ -44,14 +44,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:error="@{model.registrationModel.name.observableError}"
+                    app:everWordWithCapitalLetter="@{true}"
                     app:hint="@{@string/full_name}"
+                    app:inputType="@{InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:inputType="@{InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES}"
+                    app:saveState="@{false}"
                     app:src="@{@drawable/ic_user}"
-                    app:text="@={model.registrationModel.name.observableField}"
-                    app:everWordWithCapitalLetter="@{true}"/>
+                    app:text="@={model.registrationModel.name.observableField}" />
 
                 <com.doneit.ascend.presentation.login.views.EditWithError
                     android:id="@+id/email"
@@ -64,6 +65,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/userName"
+                    app:saveState="@{false}"
                     app:src="@{@drawable/ic_email}"
                     app:text="@={model.registrationModel.email.observableField}" />
 
@@ -90,6 +92,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/phoneLayout"
+                    app:saveState="@{false}"
                     app:src="@{@drawable/ic_password}"
                     app:text="@={model.registrationModel.password.observableField}" />
 
@@ -105,22 +108,28 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/password"
+                    app:saveState="@{false}"
                     app:text="@={model.registrationModel.passwordConfirmation.observableField}" />
 
+                <TextView
+                    android:id="@+id/tvCheckboxDescription"
+                    style="@style/TextNormal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/sig_up_fields_spacing"
+                    android:paddingStart="16dp"
+                    app:layout_constraintStart_toEndOf="@+id/cbAgreements"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/confirmPassword" />
 
                 <CheckBox
                     android:id="@+id/cbAgreements"
-                    style="@style/TextNormal"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sig_up_fields_spacing"
-
                     android:checked="@={model.registrationModel.hasAgreed}"
-                    android:paddingStart="16dp"
-                    android:text="@string/agreement"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvCheckboxDescription"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/confirmPassword" />
+                    app:layout_constraintTop_toTopOf="@+id/tvCheckboxDescription" />
 
                 <Button
                     android:id="@+id/btnContinue"

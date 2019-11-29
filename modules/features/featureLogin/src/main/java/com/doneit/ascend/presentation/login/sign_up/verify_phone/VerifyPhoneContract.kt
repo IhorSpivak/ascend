@@ -16,7 +16,8 @@ interface VerifyPhoneContract {
         val end: Long
 
         fun onVerifyClick()
-        fun sendCode()
-        fun onBackClick()
+
+        fun sendCode(isStartTimer: Boolean = false)
+        fun onBackClick(clearModel: Boolean)
     }
 }

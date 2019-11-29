@@ -1,11 +1,14 @@
 package com.doneit.ascend.presentation.login.sign_up
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.text.style.StyleSpan
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -30,9 +33,16 @@ import org.kodein.di.generic.singleton
 
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
-    override val viewModelModule = Kodein.Module(this::class.java.simpleName){
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
-        bind<ViewModel>(tag = SignUpViewModel::class.java.simpleName) with provider { SignUpViewModel(instance(), instance(), instance(), instance()) }
+        bind<ViewModel>(tag = SignUpViewModel::class.java.simpleName) with provider {
+            SignUpViewModel(
+                instance(),
+                instance(),
+                instance(),
+                instance()
+            )
+        }
         bind<SignUpContract.ViewModel>() with provider { vmShared<SignUpViewModel>(instance()) }
     }
 
@@ -49,8 +59,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
         initSignInSpannable()
 
-        phoneCode.getSelectedCode().observe(this, Observer {code ->
-            if(code != viewModel.registrationModel.phoneCode.getNotNull()) {
+        phoneCode.getSelectedCode().observe(this, Observer { code ->
+            if (code != viewModel.registrationModel.phoneCode.getNotNull()) {
                 viewModel.registrationModel.phoneCode.set(code)
             }
         })
@@ -58,6 +68,30 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         phoneCode.touchListener = {
             hideKeyboard()
         }
+    }
+
+    private fun setClickable(
+        text: String,
+        linkedText: String,
+        ss: SpannableString,
+        clickableTextHandler: Any
+    ) {
+
+        val startIndex = text.indexOf(linkedText)
+        ss.setSpan(
+            clickableTextHandler,
+            startIndex,
+            startIndex + linkedText.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        val boldSpan = StyleSpan(Typeface.BOLD)
+        ss.setSpan(
+            boldSpan,
+            startIndex,
+            startIndex + linkedText.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
     }
 
     private fun initSignInSpannable() {
@@ -76,5 +110,34 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
         signIn.text = spannable
         signIn.movementMethod = LinkMovementMethod.getInstance()
+
+        // terms & condition and privacy policy
+        val text = getString(R.string.agreement)
+        val ss = SpannableString(text)
+
+        val termsLinkedText = getString(R.string.terms_link)
+        val privacyLinkedText = getString(R.string.privacy_link)
+
+        setClickable(text, termsLinkedText, ss, object : ClickableSpan() {
+            override fun onClick(p0: View) {
+                viewModel.onTermsAndConditionsClick()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = false
+            }
+        })
+        setClickable(text, privacyLinkedText, ss, object : ClickableSpan() {
+            override fun onClick(p0: View) {
+                viewModel.onPrivacyPolicyClick()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                ds.isUnderlineText = false
+            }
+        })
+
+        tvCheckboxDescription.text = ss
+        tvCheckboxDescription.movementMethod = LinkMovementMethod.getInstance()
     }
 }

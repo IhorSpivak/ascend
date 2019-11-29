@@ -1,9 +1,6 @@
 package com.doneit.ascend.source.storage.remote.api
 
-import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
-import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
-import com.doneit.ascend.source.storage.remote.data.request.ResetPasswordRequest
-import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest
+import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import kotlinx.coroutines.Deferred
@@ -16,6 +13,9 @@ interface UserApi {
 
     @POST("sessions")
     fun signIn(@Body request: LogInRequest): Deferred<Response<AuthResponse>>
+
+    @POST("sessions/social_login")
+    fun socialSignInAsync(@Body request: SocialLoginRequest): Deferred<Response<AuthResponse>>
 
     @DELETE("sessions/logout")
     fun logOut()
