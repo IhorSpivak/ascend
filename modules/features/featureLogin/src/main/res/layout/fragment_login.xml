@@ -170,10 +170,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_google"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:onClick="@{() -> model.onGoogleLoginClick()}"
                     app:layout_constraintBottom_toBottomOf="@id/facebook"
                     app:layout_constraintEnd_toStartOf="@id/twitter"
                     app:layout_constraintStart_toEndOf="@id/facebook"
                     app:layout_constraintTop_toTopOf="@id/facebook" />
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/btnGoogleBg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/google" />
 
                 <ImageView
                     android:id="@+id/twitter"

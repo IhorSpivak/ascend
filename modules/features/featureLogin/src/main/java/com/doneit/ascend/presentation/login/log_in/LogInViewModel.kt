@@ -36,6 +36,7 @@ class LogInViewModel(
     override val loginModel = PresentationLoginModel()
     override val isSignInEnabled = ObservableField<Boolean>(true)
     override val facebookNeedLoginSubject = SingleLiveManager<Boolean>()
+    override val googleNeedLoginSubject = SingleLiveManager<Boolean>()
     override val errorRes = MutableLiveData<Int?>()
 
     init {
@@ -118,6 +119,50 @@ class LogInViewModel(
             val socialLogInModel = SocialLogInModel(
                 LoginUtils.SOCIAL_TYPE_FACEBOOK,
                 accessToken.token
+            )
+
+            val requestEntity = userUseCase.socialSignIn(socialLogInModel)
+
+            if (requestEntity.isSuccessful) {
+
+                if (requestEntity.successModel != null) {
+                    localStorage.saveSessionToken(requestEntity.successModel!!.token)
+
+                    if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
+                        requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty()
+                    ) {
+                        launch(Dispatchers.Main) {
+                            val questionsRequest =
+                                questionUseCase.getList(requestEntity.successModel!!.token)
+
+                            if (questionsRequest.isSuccessful) {
+                                questionUseCase.insert(questionsRequest.successModel!!)
+
+                                localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
+                                router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
+                            }
+                        }
+                    } else {
+                        router.goToMain()
+                    }
+                } else {
+                    // TODO: show error message
+                }
+            }
+        }
+    }
+
+    override fun onGoogleLoginClick() {
+        //router.navigateToGoogleLogin()
+        googleNeedLoginSubject.call(true)
+    }
+
+    override fun loginWithGoogle(idToken: String) {
+        GlobalScope.launch {
+
+            val socialLogInModel = SocialLogInModel(
+                LoginUtils.SOCIAL_TYPE_GOOGLE,
+                idToken
             )
 
             val requestEntity = userUseCase.socialSignIn(socialLogInModel)

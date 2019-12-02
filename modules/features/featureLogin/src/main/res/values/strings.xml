@@ -62,4 +62,6 @@
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>
     <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>
+
+    <string name="server_client_id" translatable="false">782179262877-blgh224u0eldj7ck2e15t8cc7pc0u18j.apps.googleusercontent.com</string>
 </resources>
