@@ -18,6 +18,7 @@ import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.facebook.AccessToken
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.group_phone.*
@@ -58,7 +59,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
         }
 
         binding.btnFB.apply {
-            setReadPermissions(listOf("email"))
+
             fragment = this@LogInFragment
 
             registerCallback(LoginHelper.callbackManager, object : FacebookCallback<LoginResult?> {
@@ -79,6 +80,11 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
 
                 }
             })
+
+            LoginManager.getInstance().logInWithReadPermissions(
+                activity,
+                listOf("email")
+            )
         }
     }
 
