@@ -15,7 +15,7 @@ internal class AnswerRepository(
 
     override suspend fun createAnswers(
         sessionToken: String,
-        answers: List<AnswerRequest>
+        answers: AnswerRequest
     ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute(
             { api.createAnswersAsync(sessionToken, answers) },

@@ -3,7 +3,7 @@ package com.doneit.ascend.domain.gateway.gateway
 import com.doneit.ascend.domain.entity.AnswerEntity
 import com.doneit.ascend.domain.entity.common.RequestEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toRequestEntity
-import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntityList
+import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.source.storage.remote.repository.answer.IAnswerRepository
 import com.vrgsoft.networkmanager.NetworkManager
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
@@ -22,7 +22,7 @@ internal class AnswerGateway(
         sessionToken: String,
         answers: List<AnswerEntity>
     ): RequestEntity<Unit, List<String>> {
-        return executeRemote { remote.createAnswers(sessionToken, answers.toEntityList()) }.toRequestEntity(
+        return executeRemote { remote.createAnswers(sessionToken, answers.toRequest()) }.toRequestEntity(
             {
                 Unit
             },

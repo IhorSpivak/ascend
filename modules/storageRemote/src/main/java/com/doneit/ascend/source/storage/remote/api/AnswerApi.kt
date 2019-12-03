@@ -10,5 +10,5 @@ import retrofit2.http.POST
 
 interface AnswerApi {
     @POST("answers")
-    fun createAnswersAsync(@Header("Session-Token") sessionToken: String, @Body answers: List<AnswerRequest>) : Deferred<Response<OKResponse>>
+    fun createAnswersAsync(@Header("Session-Token") sessionToken: String, @Body answers: AnswerRequest) : Deferred<Response<OKResponse>>
 }

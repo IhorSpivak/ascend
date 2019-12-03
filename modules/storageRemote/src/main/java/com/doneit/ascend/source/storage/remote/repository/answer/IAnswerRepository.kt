@@ -7,5 +7,5 @@ import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListRe
 import retrofit2.http.Header
 
 interface IAnswerRepository {
-    suspend fun createAnswers(@Header("Session-Token") sessionToken: String, answers: List<AnswerRequest>): RemoteResponse<OKResponse, ErrorsListResponse>
+    suspend fun createAnswers(@Header("Session-Token") sessionToken: String, answers: AnswerRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 }

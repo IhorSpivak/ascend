@@ -6,16 +6,12 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name="com.doneit.ascend.presentation.splash.SplashActivity"
-            android:icon="@mipmap/ic_launcher"
             android:noHistory="true"
-            android:roundIcon="@mipmap/ic_launcher_round"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,15 +23,11 @@
 
         <activity
             android:name=".presentation.login.LogInActivity"
-            android:icon="@mipmap/ic_launcher"
-            android:roundIcon="@mipmap/ic_launcher_round"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name="com.doneit.ascend.presentation.main.MainActivity"
-            android:icon="@mipmap/ic_launcher"
-            android:roundIcon="@mipmap/ic_launcher_round"
             android:screenOrientation="portrait">
 
         </activity>
