@@ -33,11 +33,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.common.api.Scope
+import com.twitter.sdk.android.core.Callback
+import com.twitter.sdk.android.core.TwitterCore
+import com.twitter.sdk.android.core.TwitterException
+import com.twitter.sdk.android.core.TwitterSession
+import com.twitter.sdk.android.core.identity.TwitterAuthClient
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.group_phone.*
+import okhttp3.*
+import org.json.JSONException
+import org.json.JSONObject
 import org.kodein.di.generic.instance
 import java.io.IOException
 import java.util.*
@@ -52,7 +58,10 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>(), LoginListener {
 
     private var newUserToken: String = DEFAULT_TOKEN
 
+    private val twitterAuthClient: TwitterAuthClient = TwitterAuthClient()
+
     override fun viewCreated(savedInstanceState: Bundle?) {
+
         binding.lifecycleOwner = this
         binding.model = viewModel
 
@@ -86,6 +95,38 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>(), LoginListener {
             }
         }
 
+        viewModel.twitterNeedLoginSubject.observe(this) {
+            if (it != null && it) {
+
+                val twitterSession: TwitterSession? =
+                    TwitterCore.getInstance().sessionManager.activeSession
+
+                if (twitterSession == null) {
+                    twitterAuthClient.authorize(activity!!, object : Callback<TwitterSession>() {
+                        override fun failure(e: TwitterException?) {
+                            Log.e("Twitter", "Failed to authenticate user " + e?.message)
+                        }
+
+                        override fun success(result: com.twitter.sdk.android.core.Result<TwitterSession>?) {
+                            val session: TwitterSession = result?.data!!
+
+                            val authToken = session.authToken
+                            val token: String = authToken.token
+                            val secret = authToken.secret
+
+                            viewModel.loginWithTwitter(token, secret)
+                        }
+                    })
+                } else {
+                    val authToken = twitterSession.authToken
+                    val token: String = authToken.token
+                    val secret = authToken.secret
+
+                    viewModel.loginWithTwitter(token, secret)
+                }
+            }
+        }
+
         binding.btnFB.apply {
             setPermissions(listOf("email"))
             fragment = this@LogInFragment
@@ -108,9 +149,12 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>(), LoginListener {
                 }
             })
         }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        btnTwitter.onActivityResult(requestCode, resultCode, data)
         LoginHelper.callbackManager?.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == RESULT_OK) {
@@ -162,12 +206,6 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>(), LoginListener {
         val gso = GoogleSignInOptions.Builder(
             GoogleSignInOptions.DEFAULT_SIGN_IN
         )
-            .requestScopes(
-                Scope(Scopes.PROFILE),
-                Scope(Scopes.DRIVE_FULL),
-                Scope(Scopes.DRIVE_FILE),
-                Scope(Scopes.DRIVE_APPFOLDER)
-            )
             .requestIdToken(getString(R.string.server_client_id))
             .requestServerAuthCode(getString(R.string.server_client_id), false)
             .requestProfile()
@@ -234,7 +272,11 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>(), LoginListener {
 
             // Signed in successfully, show authenticated UI.
             mGoogleAccount = result.signInAccount
-            val googleToken = mGoogleAccount!!.idToken
+            val googleToken: String = mGoogleAccount!!.serverAuthCode!!
+
+            // TODO: send code to server
+            getAccessToken(googleToken)
+
             Log.d("GoogleSignInToken=", googleToken)
 
             if (newUserToken == "-1") {
@@ -246,6 +288,44 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>(), LoginListener {
         } else { // Signed out, show unauthenticated UI.
             Log.d("GoogleSignIn", "Signed out, show unauthenticated UI.")
         }
+    }
+
+    private fun getAccessToken(authCode: String) {
+        val client = OkHttpClient()
+
+        val requestBody: RequestBody = FormBody.Builder()
+            .add("grant_type", "authorization_code")
+            .add("client_id", getString(R.string.server_client_id))
+            .add("client_secret", getString(R.string.server_client_secret))
+            .add("code", authCode)
+            .build()
+
+        val request: Request = Request.Builder()
+            .url("https://www.googleapis.com/oauth2/v4/token")
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                try {
+                    val jsonObject = JSONObject(response.body()?.string())
+                    val mAccessToken = jsonObject.get("access_token").toString()
+
+                    viewModel.loginWithGoogle(mAccessToken)
+
+                    //val mTokenType = jsonObject.get("token_type").toString()
+                    //val mRefreshToken = jsonObject.get("refresh_token").toString()
+                    Log.e("myLog", mAccessToken)
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        })
     }
 
     private val googleExchangeCodeToken: Unit

@@ -87,4 +87,7 @@ dependencies {
     implementation 'com.google.guava:guava:27.0.1-android'// for fix "android Duplicate class com.google.common.util.concurrent.ListenableFuture found in modules guava-23.5-jre.jar"
 
     implementation 'com.facebook.android:facebook-login:5.11.2'
+
+    implementation 'com.twitter.sdk.android:twitter:3.1.0'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.0'
 }

@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.presentation.login.log_in.LogInContract
 import com.doneit.ascend.presentation.login.log_in.LogInFragment
@@ -52,6 +53,12 @@ class LogInActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.container)
+
+        if (fragment != null) {
+            fragment.onActivityResult(requestCode, resultCode, data)
+        }
 
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)

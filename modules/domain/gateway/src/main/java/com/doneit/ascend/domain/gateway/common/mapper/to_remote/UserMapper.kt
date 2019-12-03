@@ -19,7 +19,8 @@ fun LogInUserModel.toLoginRequest(): LogInRequest {
 fun SocialLogInModel.toSocialLoginRequest() : SocialLoginRequest {
     return SocialLoginRequest(
         socialType,
-        accessToken
+        accessToken,
+        accessTokenSecret
     )
 }
 

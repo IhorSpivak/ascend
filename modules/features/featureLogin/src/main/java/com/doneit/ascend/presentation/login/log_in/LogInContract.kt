@@ -14,6 +14,7 @@ interface LogInContract {
         val isSignInEnabled: ObservableField<Boolean>
         val facebookNeedLoginSubject: SingleLiveManager<Boolean>
         val googleNeedLoginSubject: SingleLiveManager<Boolean>
+        val twitterNeedLoginSubject: SingleLiveManager<Boolean>
         val errorRes: LiveData<Int?>
 
         fun singInClick()
@@ -25,6 +26,8 @@ interface LogInContract {
         fun onFacebookLogin(accessToken: AccessToken)
         fun onGoogleLoginClick()
         fun loginWithGoogle(idToken: String)
+        fun onTwitterLoginClick()
+        fun loginWithTwitter(token: String, secretToken: String)
     }
 
     interface Router {

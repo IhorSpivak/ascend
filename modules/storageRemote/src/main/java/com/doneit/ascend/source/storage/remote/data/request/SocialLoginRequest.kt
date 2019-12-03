@@ -4,5 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class SocialLoginRequest(
     @SerializedName("social_type") val socialType: String,
-    @SerializedName("access_token") val accessToken: String
+    @SerializedName("access_token") val accessToken: String,
+    @SerializedName("access_token_secret") val accessTokenSecret: String?
 )

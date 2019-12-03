@@ -62,4 +62,9 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.1.0'//todo move to versions or remove
     implementation 'com.facebook.android:facebook-login:5.11.2'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    implementation 'com.twitter.sdk.android:twitter:3.1.0'
+    implementation 'com.twitter.sdk.android:twitter-core:3.1.0'
+
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 }

@@ -1,6 +1,11 @@
 package com.doneit.ascend
 
 import android.app.Application
+import android.util.Log
+import com.twitter.sdk.android.core.DefaultLogger
+import com.twitter.sdk.android.core.Twitter
+import com.twitter.sdk.android.core.TwitterAuthConfig
+import com.twitter.sdk.android.core.TwitterConfig
 import com.vrgsoft.retrofit.common.RetrofitConfig
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -17,6 +22,19 @@ class App : Application(), KodeinAware {
 
     override fun onCreate() {
         super.onCreate()
+
+        val config: TwitterConfig = TwitterConfig.Builder(this)
+            .logger(DefaultLogger(Log.DEBUG)) //enable logging when app is in debug mode
+            .twitterAuthConfig(
+                TwitterAuthConfig(
+                    "QuUS4uhda9xPk4ySCv0w2aimU",
+                    "qI1VxvWbHbyKpwW8xEcBrukpPCN6a6z01sV8GnNG8G6eg1mwRi"
+                )
+            )
+            .debug(true)
+            .build()
+
+        Twitter.initialize(config)
 
         RetrofitConfig.apply {
             baseUrl = getString(R.string.base_url)
