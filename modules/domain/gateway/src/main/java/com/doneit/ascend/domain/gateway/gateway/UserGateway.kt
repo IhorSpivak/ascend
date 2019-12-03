@@ -56,6 +56,17 @@ internal class UserGateway(
         )
     }
 
+    override suspend fun signUpValidation(signUpModel: SignUpModel): RequestEntity<Unit, List<String>> {
+        return executeRemote { remote.signUpValidation(signUpModel.toSignUpRequest()) }.toRequestEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override suspend fun getConfirmationCode(phone: String): RequestEntity<Unit, List<String>> {
         return executeRemote { remote.getConfirmationCode(PhoneRequest(phone)) }.toRequestEntity(
             {

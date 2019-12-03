@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.utils
 
 enum class Messages {
-    EROR,
+    DEFAULT_ERROR,
     PASSWORD_SENT,
     ACCOUNT_BLOCKED;
 

@@ -61,12 +61,4 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
             }
         }
     }
-
-    override fun handleErrorMessage(message: PresentationMessage) {
-        when(message.id) {
-            Messages.EROR.getId() -> {
-                showDefaultError(message.content!!)
-            }
-        }
-    }
 }

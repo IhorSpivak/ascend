@@ -71,7 +71,7 @@ class WebPageFragment : ArgumentedFragment<FragmentWebPageBinding, WebPageArgs>(
 
     override fun handleErrorMessage(message: PresentationMessage) {
         when(message.id) {
-            Messages.EROR.getId() -> {
+            Messages.DEFAULT_ERROR.getId() -> {
                 showDefaultError(message.content!!)
             }
         }

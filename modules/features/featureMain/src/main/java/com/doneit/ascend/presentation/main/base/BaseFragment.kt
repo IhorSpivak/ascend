@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.ConnectionObserver
+import com.doneit.ascend.presentation.utils.Messages
+import com.doneit.ascend.presentation.utils.showDefaultError
 import com.doneit.ascend.presentation.utils.showNoConnectionDialog
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -140,7 +142,13 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     }
 
     open fun handleSuccessMessage(message: PresentationMessage) {}
-    open fun handleErrorMessage(message: PresentationMessage) {}
+    open fun handleErrorMessage(message: PresentationMessage) {
+        when(message.id) {
+            Messages.DEFAULT_ERROR.getId() -> {
+                showDefaultError(message.content!!)
+            }
+        }
+    }
 
     //endregion
 

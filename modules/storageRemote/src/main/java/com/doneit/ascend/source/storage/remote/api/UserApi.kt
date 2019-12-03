@@ -23,6 +23,9 @@ interface UserApi {
     @POST("users")
     fun signUp(@Body request: SignUpRequest): Deferred<Response<AuthResponse>>
 
+    @POST("users/validation")
+    fun signUpValidation(@Body request: SignUpRequest): Deferred<Response<OKResponse>>
+
     @POST("users/get_code")
     fun getConfirmationCode(@Body request: PhoneRequest): Deferred<Response<OKResponse>>
 

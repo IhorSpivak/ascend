@@ -14,6 +14,8 @@ interface IUserRepository {
 
     suspend fun signUp(request: SignUpRequest): RemoteResponse<AuthResponse, ErrorsListResponse>
 
+    suspend fun signUpValidation(request: SignUpRequest): RemoteResponse<OKResponse, ErrorsListResponse>
+
     suspend fun getConfirmationCode(request: PhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun forgotPassword(request: PhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse>

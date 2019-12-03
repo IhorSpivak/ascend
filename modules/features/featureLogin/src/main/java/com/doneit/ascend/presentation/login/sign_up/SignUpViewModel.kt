@@ -17,6 +17,7 @@ import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.UIReturnStep
+import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -133,8 +134,19 @@ class SignUpViewModel(
     }
 
     override fun continueClick() {
-        router.navigateToVerifyPhone()
         canContinue.postValue(false)
+        viewModelScope.launch {
+            val requestEntity = userUseCase.signUpValidation(registrationModel.toEntity())
+            canContinue.postValue(true)
+
+            if(requestEntity.isSuccessful){
+                router.navigateToVerifyPhone()
+            } else {
+                if(requestEntity.errorModel!!.isNotEmpty()) {
+                    showErrorMessage(requestEntity.errorModel!!.toErrorMessage())
+                }
+            }
+        }
     }
 
     override fun onVerifyClick() {
@@ -160,7 +172,7 @@ class SignUpViewModel(
                 }
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
-                    showErrorMessage(requestEntity.errorModel!!.first())
+                    showErrorMessage(requestEntity.errorModel!!.toErrorMessage())
                 }
             }
         }
@@ -190,7 +202,7 @@ class SignUpViewModel(
     private fun showErrorMessage(message: String) {
         errorMessage.postValue(
             PresentationMessage(
-                Messages.EROR.getId(),
+                Messages.DEFAULT_ERROR.getId(),
                 null,
                 message
             )

@@ -27,6 +27,10 @@ internal class UserRepository(
         return execute({ api.signUp(request) }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun signUpValidation(request: SignUpRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({api.signUpValidation(request)}, ErrorsListResponse::class.java)
+    }
+
     override suspend fun getConfirmationCode(request: PhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.getConfirmationCode(request) }, ErrorsListResponse::class.java)
     }

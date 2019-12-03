@@ -10,6 +10,8 @@ interface UserUseCase {
 
     suspend fun signUp(registerModel: SignUpModel): RequestEntity<AuthEntity, List<String>>
 
+    suspend fun signUpValidation(registerModel: SignUpModel): RequestEntity<Unit, List<String>>
+
     suspend fun getConfirmationCode(phone: String): RequestEntity<Unit, List<String>>
 
     suspend fun forgotPassword(phone: String): RequestEntity<Unit, List<String>>
