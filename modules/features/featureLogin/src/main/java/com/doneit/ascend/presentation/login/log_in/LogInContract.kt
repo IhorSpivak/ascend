@@ -13,7 +13,6 @@ interface LogInContract {
         val loginModel: PresentationLoginModel
         val isSignInEnabled: ObservableField<Boolean>
         val facebookNeedLoginSubject: SingleLiveManager<Boolean>
-        val googleNeedLoginSubject: SingleLiveManager<Boolean>
         val twitterNeedLoginSubject: SingleLiveManager<Boolean>
         val errorRes: LiveData<Int?>
 

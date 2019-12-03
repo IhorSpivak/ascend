@@ -103,10 +103,10 @@ class LogInLocalRouter(
     }
 
     override fun navigateToGoogleLogin() {
-//        val client = LoginHelper.getGoogleSignInClient(activity)
+        val client = LoginHelper.getGoogleSignInClient(activity)
 
-//        val signInIntent = client.signInIntent
-//        activity.startActivityForResult(signInIntent, RC_SIGN_IN)
+        val signInIntent = client.signInIntent
+        activity.startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     override fun navigateToFirstTimeLogin(questions: List<QuestionEntity>) {

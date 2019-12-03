@@ -59,24 +59,5 @@ class LogInActivity : BaseActivity() {
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data)
         }
-
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
-        }
-    }
-
-    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
-        try {
-            val account = completedTask.getResult(ApiException::class.java)
-
-            val fragment = supportFragmentManager.findFragmentById(R.id.container)
-
-            if (fragment is LogInFragment) {
-                fragment.loginWithGoogle(account?.idToken, account?.displayName)
-            }
-        } catch (e: ApiException) {
-            e.printStackTrace()
-        }
     }
 }

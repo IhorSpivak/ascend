@@ -36,12 +36,11 @@ class LogInViewModel(
     override val loginModel = PresentationLoginModel()
     override val isSignInEnabled = ObservableField<Boolean>(true)
     override val facebookNeedLoginSubject = SingleLiveManager<Boolean>()
-    override val googleNeedLoginSubject = SingleLiveManager<Boolean>()
     override val twitterNeedLoginSubject = SingleLiveManager<Boolean>()
     override val errorRes = MutableLiveData<Int?>()
 
     init {
-        loginModel.phone.validator = { s ->
+        loginModel.phone.validator = { _ ->
             val result = ValidationResult()
             if (isPhoneValid(
                     loginModel.phoneCode.getNotNull(),
@@ -124,8 +123,7 @@ class LogInViewModel(
     }
 
     override fun onGoogleLoginClick() {
-        //router.navigateToGoogleLogin()
-        googleNeedLoginSubject.call(true)
+        router.navigateToGoogleLogin()
     }
 
     override fun loginWithGoogle(idToken: String) {
@@ -180,7 +178,6 @@ class LogInViewModel(
                     }
                 } else {
                     // TODO: show error message
-
                 }
             }
         }

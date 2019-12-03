@@ -27,8 +27,8 @@ class App : Application(), KodeinAware {
             .logger(DefaultLogger(Log.DEBUG)) //enable logging when app is in debug mode
             .twitterAuthConfig(
                 TwitterAuthConfig(
-                    "QuUS4uhda9xPk4ySCv0w2aimU",
-                    "qI1VxvWbHbyKpwW8xEcBrukpPCN6a6z01sV8GnNG8G6eg1mwRi"
+                    getString(R.string.twitter_consumer_key),
+                    getString(R.string.twitter_consumer_secret)
                 )
             )
             .debug(true)
