@@ -6,16 +6,16 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.databinding.DialogConnectionBinding
 import com.doneit.ascend.presentation.main.databinding.DialogErrorBinding
 import com.doneit.ascend.presentation.main.databinding.DialogInfoBinding
+import com.doneit.ascend.presentation.main.views.ConnectionSnackbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 fun BaseFragment<*>.showDefaultError(errorMessage: String) {
-     showErrorDialog(
+    showErrorDialog(
         getString(R.string.title_error),
         errorMessage,
         "",
@@ -110,26 +110,12 @@ fun BaseFragment<*>.showInfoDialog(
     return dialog
 }
 
-fun BaseFragment<*>.showNoConnectionDialog(text: String, isAutoClose: Boolean = true): BottomSheetDialog {
+fun BaseFragment<*>.showNoConnectionDialog(
+    text: String
+): ConnectionSnackbar {
 
-    val binding =
-        DialogConnectionBinding.inflate(LayoutInflater.from(this.context), null, false)
-    binding.text = text
+    val snackbar = ConnectionSnackbar.make(this.view!!, text)
+    snackbar.show()
 
-    val dialog = BottomSheetDialog(requireContext(), R.style.TransparentBottomSheetDialog)
-    dialog.setContentView(binding.root)
-
-    this.shownDialog?.dismiss()
-    this.shownDialog = dialog
-    dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-    dialog.show()
-
-    if (isAutoClose) {
-        GlobalScope.launch {
-            delay(Constants.TIME_AUTO_CLOSE_DIALOG)
-            dialog.dismiss()
-        }
-    }
-
-    return dialog
+    return snackbar
 }
