@@ -7,4 +7,21 @@
 
     <!--Dialog messages-->
     <string name="title_error">Error</string>
+
+    <!--Menu Items-->
+    <string name="home">Home</string>
+    <string name="my_content">My Content</string>
+    <string name="ascension_plan">Ascension Plan</string>
+    <string name="profile">Profile</string>
+    <string name="empty"> </string>
+
+    <!--Home Tabs-->
+    <string name="daily">Daily</string>
+    <string name="webinar">Webinar</string>
+    <string name="recovery">Recovery</string>
+    <string name="master_mind">MasterMind</string>
+
+    <string name="my_daily_gr">My Daily Groups List</string>
+    <string name="following">Following</string>
+    <string name="all_masterm">All MasterMinds</string>
 </resources>

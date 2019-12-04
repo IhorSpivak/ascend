@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.models.PresentationMessage
+import com.doneit.ascend.presentation.main.views.ConnectionSnackbar
 import com.doneit.ascend.presentation.utils.ConnectionObserver
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.showDefaultError
@@ -49,7 +50,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
     abstract val viewModel: BaseViewModel
 
-    private var noConnectionDialog: Dialog? = null
+    private var noConnectionDialog: ConnectionSnackbar? = null
 
     //endregion
 
@@ -67,7 +68,11 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
         super.onAttach(context)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         setHasOptionsMenu(true)
         if (!initialized) {
             binding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false)
@@ -100,9 +105,9 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
         connectionObserver.networkStateChanged.observe(this, Observer {
             if (it) {
                 noConnectionDialog?.dismiss()
-            }
-            else {
-                noConnectionDialog = this.showNoConnectionDialog(getString(R.string.connecting), false)
+            } else {
+                noConnectionDialog =
+                    this.showNoConnectionDialog(getString(R.string.connecting))
             }
         })
     }
@@ -143,7 +148,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
     open fun handleSuccessMessage(message: PresentationMessage) {}
     open fun handleErrorMessage(message: PresentationMessage) {
-        when(message.id) {
+        when (message.id) {
             Messages.DEFAULT_ERROR.getId() -> {
                 showDefaultError(message.content!!)
             }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/my_content"
+        android:icon="@drawable/ic_my_content"
+        android:title="@string/my_content"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/empty"
+        android:title="@string/empty"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/ascension_plan"
+        android:icon="@drawable/ic_ascension_plan"
+        android:title="@string/ascension_plan"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile"
+        app:showAsAction="ifRoom" />
+</menu>
