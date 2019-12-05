@@ -37,6 +37,7 @@ internal class UserGateway(
     override suspend fun socialSignIn(socialLoginModel: SocialLogInModel): RequestEntity<AuthEntity, List<String>> {
         return executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest())}.toRequestEntity(
             {
+
                 it?.toEntity()
             },
             {

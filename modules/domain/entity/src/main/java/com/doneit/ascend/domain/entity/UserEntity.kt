@@ -6,5 +6,8 @@ data class UserEntity(
    val phone: String?,
    val createdAt: String?,
    val updatedAt: String?,
-   val unansweredQuestions: List<Int>?
+   val unansweredQuestions: List<Int>?,
+   val rating: Int,
+   val role: String?,
+   val community: String?
 )

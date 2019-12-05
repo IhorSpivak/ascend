@@ -19,6 +19,9 @@ fun UserResponse.toEntity(): UserEntity {
         phone,
         createdAt,
         updatedAt,
-        unansweredQuestions
+        unansweredQuestions,
+        rating ?: 0,
+        role,
+        community
     )
 }

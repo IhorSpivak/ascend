@@ -69,13 +69,31 @@ class LogInViewModel(
                 )
 
             if (requestEntity.isSuccessful) {
-                val token = requestEntity.successModel?.token
-                token?.let {
-                    localStorage.saveSessionToken(it)
+                requestEntity.successModel?.let {
+                    localStorage.saveUser(
+                        it.userEntity,
+                        it.token
+                    )
                 }
 
-                launch(Dispatchers.Main) {
-                    router.goToMain()
+                if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
+                    requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty()
+                ) {
+                    launch(Dispatchers.Main) {
+                        val questionsRequest =
+                            questionUseCase.getList(requestEntity.successModel!!.token)
+
+                        if (questionsRequest.isSuccessful) {
+                            questionUseCase.insert(questionsRequest.successModel!!)
+
+                            localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
+                            router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
+                        }
+                    }
+                } else {
+                    launch(Dispatchers.Main) {
+                        router.goToMain()
+                    }
                 }
             } else {
                 errorRes.postValue(R.string.error_login)
@@ -157,7 +175,12 @@ class LogInViewModel(
             if (requestEntity.isSuccessful) {
 
                 if (requestEntity.successModel != null) {
-                    localStorage.saveSessionToken(requestEntity.successModel!!.token)
+                    requestEntity.successModel?.let {
+                        localStorage.saveUser(
+                            it.userEntity,
+                            it.token
+                        )
+                    }
 
                     if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
                         requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty()

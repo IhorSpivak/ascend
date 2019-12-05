@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="imageUrl"
+            type="String" />
+
+        <variable
+            name="name"
+            type="String" />
+
+        <variable
+            name="rating"
+            type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/followerImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/ic_stroke_plus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setImage="@{imageUrl}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/followerName"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal|top"
+            android:text="@{name}"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/followerImage"
+            app:layout_constraintStart_toStartOf="@+id/followerImage"
+            app:layout_constraintTop_toBottomOf="@id/followerImage"
+            tools:text="Ralph Nguyen" />
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rbRating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="@{rating}"
+            android:theme="@style/RatingBarTheme"
+            app:layout_constraintEnd_toEndOf="@id/followerImage"
+            app:layout_constraintStart_toStartOf="@id/followerImage"
+            app:layout_constraintTop_toBottomOf="@+id/followerName" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

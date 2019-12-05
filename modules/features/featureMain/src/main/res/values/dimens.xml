@@ -7,4 +7,9 @@
     <dimen name="dialog_title_text_size">24sp</dimen>
     <dimen name="dialog_description_text_size">18sp</dimen>
     <dimen name="dialog_button_text_size">14sp</dimen>
+    <dimen name="toolbar_size">56dp</dimen>
+
+    <dimen name="create_group_horizontal_margin">20dp</dimen>
+    <dimen name="create_group_top_margin">32dp</dimen>
+
 </resources>

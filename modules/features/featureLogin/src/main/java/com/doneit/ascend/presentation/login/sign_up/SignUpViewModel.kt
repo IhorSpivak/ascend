@@ -139,10 +139,10 @@ class SignUpViewModel(
             val requestEntity = userUseCase.signUpValidation(registrationModel.toEntity())
             canContinue.postValue(true)
 
-            if(requestEntity.isSuccessful){
+            if (requestEntity.isSuccessful) {
                 router.navigateToVerifyPhone()
             } else {
-                if(requestEntity.errorModel!!.isNotEmpty()) {
+                if (requestEntity.errorModel!!.isNotEmpty()) {
                     showErrorMessage(requestEntity.errorModel!!.toErrorMessage())
                 }
             }
@@ -157,7 +157,11 @@ class SignUpViewModel(
             canContinue.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                localStorage.saveSessionToken(requestEntity.successModel!!.token)
+
+                requestEntity.successModel?.let {
+                    localStorage.saveUser(it.userEntity, it.token)
+                }
+
                 launch(Dispatchers.Main) {
 
                     val questionsRequest =
@@ -181,7 +185,7 @@ class SignUpViewModel(
     override fun sendCode(isStartTimer: Boolean) {
         canResendCode.postValue(false)
 
-        if(isStartTimer) {
+        if (isStartTimer) {
             startTimer()
         }
 
@@ -211,10 +215,9 @@ class SignUpViewModel(
 
     override fun onBackClick(clearModel: Boolean) {
 
-        if(clearModel) {
+        if (clearModel) {
             registrationModel.clear()
-        }
-        else {
+        } else {
             updateCanContinue()
         }
 

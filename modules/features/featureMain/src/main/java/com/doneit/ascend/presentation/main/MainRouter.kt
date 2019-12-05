@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.main
 
+import android.content.Intent
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
+import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
@@ -12,9 +14,10 @@ class MainRouter(
     BottomNavigationChangeListener {
 
     override val containerId = activity.getContainerId()
+    private val fullContainerId = activity.getFullContainerId()
 
     fun onBack() {
-        // TODO: navigate to back
+        activity.supportFragmentManager.popBackStack()
     }
 
     override fun navigateToHome() {
@@ -34,6 +37,6 @@ class MainRouter(
     }
 
     fun navigateToCreateGroup() {
-        // TODO: navigate to create group screen
+        activity.startActivity(Intent(activity, CreateGroupActivity::class.java))
     }
 }

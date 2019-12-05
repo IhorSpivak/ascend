@@ -8,5 +8,9 @@ data class UserResponse(
     @SerializedName("phone_number") val phone: String,
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("updated_at") val updatedAt: String,
-    @SerializedName("unanswered_questions") val unansweredQuestions: List<Int>?
+    @SerializedName("unanswered_questions") val unansweredQuestions: List<Int>?,
+    @SerializedName("rating") val rating: Int?,
+    @SerializedName("role") val role: String?,
+    @SerializedName("community") val community: String?
+
 )

@@ -12,93 +12,142 @@
             name="adapter"
             type="com.doneit.ascend.presentation.main.home.common.TabAdapter" />
 
+        <variable
+            name="followerAdapter"
+            type="com.doneit.ascend.presentation.main.home.common.FollowerAdapter" />
+
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@android:color/white">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/vpGroups"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="320dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:setAdapter="@{adapter}">
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tlGroups"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vpGroups"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="370dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tabIndicatorColor="@android:color/transparent">
+                app:setAdapter="@{adapter}">
 
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tlGroups"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tabIndicatorColor="@android:color/transparent"
+                    app:tabSelectedTextColor="@color/colorAccent"
+                    app:tabTextAppearance="@style/TapTextAppearance"
+                    app:tabTextColor="@color/colorAccent_inactive">
 
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-            </com.google.android.material.tabs.TabLayout>
-        </androidx.viewpager.widget.ViewPager>
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/my_daily_gr"
-            style="@style/TextNormalSecond"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/my_daily_gr"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vpGroups" />
+                </com.google.android.material.tabs.TabLayout>
+            </androidx.viewpager.widget.ViewPager>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_help"
-            app:layout_constraintBottom_toBottomOf="@+id/my_daily_gr"
-            app:layout_constraintStart_toEndOf="@+id/my_daily_gr"
-            app:layout_constraintTop_toTopOf="@+id/my_daily_gr" />
+            <TextView
+                android:id="@+id/my_daily_gr"
+                style="@style/TextNormalSecond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/my_daily_gr"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vpGroups" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/following"
-            style="@style/TextNormal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="32dp"
-            android:gravity="bottom"
-            android:text="@string/following"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/my_daily_gr" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_help"
+                app:layout_constraintBottom_toBottomOf="@+id/my_daily_gr"
+                app:layout_constraintStart_toEndOf="@+id/my_daily_gr"
+                app:layout_constraintTop_toTopOf="@+id/my_daily_gr" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/all_masterm"
-            style="@style/TextNormalSecond"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="@string/all_masterm"
-            app:layout_constraintBottom_toBottomOf="@+id/following"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/following" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/following"
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:gravity="bottom"
+                android:text="@string/following"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/my_daily_gr" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/all_masterm"
+                style="@style/TextNormalSecond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/all_masterm"
+                app:layout_constraintBottom_toBottomOf="@+id/following"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/following" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/add_master_ming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_stroke_plus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/following" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/followerName"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal|top"
+                android:text="@string/add_master_mind"
+                android:textColor="#B1B1BF"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/add_master_ming"
+                app:layout_constraintStart_toStartOf="@+id/add_master_ming"
+                app:layout_constraintTop_toBottomOf="@id/add_master_ming" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/following"
+                app:setAdapter="@{followerAdapter}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
