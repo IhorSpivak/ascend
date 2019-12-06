@@ -16,6 +16,9 @@ object GatewayModule {
         bind<IUserGateway>() with provider {
             UserGateway(
                 instance(),
+                instance(),
+                instance(),
+                instance(),
                 instance()
             )
         }

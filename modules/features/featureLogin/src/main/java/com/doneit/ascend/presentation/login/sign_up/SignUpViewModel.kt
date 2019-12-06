@@ -14,6 +14,7 @@ import com.doneit.ascend.presentation.login.utils.*
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.Constants.TYPE_MASTER_MIND
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.UIReturnStep
@@ -159,19 +160,21 @@ class SignUpViewModel(
             if (requestEntity.isSuccessful) {
 
                 requestEntity.successModel?.let {
-                    localStorage.saveUser(it.userEntity, it.token)
-                }
+                    userUseCase.insert(it.userEntity, it.token)
 
-                launch(Dispatchers.Main) {
+                    if (it.userEntity.role != TYPE_MASTER_MIND) {
 
-                    val questionsRequest =
-                        questionUseCase.getList(requestEntity.successModel!!.token)
+                        launch(Dispatchers.Main) {
+                            val questionsRequest =
+                                questionUseCase.getList(requestEntity.successModel!!.token)
 
-                    if (questionsRequest.isSuccessful) {
-                        questionUseCase.insert(questionsRequest.successModel!!)
+                            if (questionsRequest.isSuccessful) {
+                                questionUseCase.insert(questionsRequest.successModel!!)
 
-                        localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
-                        router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
+                                localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
+                                router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
+                            }
+                        }
                     }
                 }
             } else {

@@ -1,9 +1,17 @@
 package com.doneit.ascend.domain.gateway.gateway
 
+import android.accounts.Account
+import android.accounts.AccountManager
+import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.common.RequestEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toRequestEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toLoginRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toResetPasswordRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toSignUpRequest
@@ -11,12 +19,17 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toSocialLoginReq
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
-import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository
 import com.vrgsoft.networkmanager.NetworkManager
+import com.doneit.ascend.source.storage.local.repository.user.IUserRepository as LocalRepository
+import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository as RemoteRepository
+
 
 internal class UserGateway(
     errors: NetworkManager,
-    private val remote: IUserRepository
+    private val remote: RemoteRepository,
+    private val local: LocalRepository,
+    private val accountManager: AccountManager,
+    private val context: Context
 ) : BaseGateway(errors), IUserGateway {
 
     override fun <T> calculateMessage(error: T): String {
@@ -35,7 +48,7 @@ internal class UserGateway(
     }
 
     override suspend fun socialSignIn(socialLoginModel: SocialLogInModel): RequestEntity<AuthEntity, List<String>> {
-        return executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest())}.toRequestEntity(
+        return executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest()) }.toRequestEntity(
             {
 
                 it?.toEntity()
@@ -99,5 +112,46 @@ internal class UserGateway(
                 it?.errors
             }
         )
+    }
+
+    override suspend fun insert(user: UserEntity, token: String) {
+        local.insert(user.toUserLocal())
+
+        // save token
+        val account = Account(user.name, context.packageName)
+
+        val accounts = accountManager.getAccountsByType(context.packageName)
+
+        if (accounts.isNotEmpty()) {
+            for (accountItem in accounts) {
+                try {
+                    if (android.os.Build.VERSION.SDK_INT >= 22) {
+                        accountManager.removeAccountExplicitly(accountItem)
+                    } else {
+                        accountManager.removeAccount(accountItem, null, null)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
+        accountManager.addAccountExplicitly(account, ARG_AM_PASSWORD, null)
+        accountManager.setAuthToken(account, "Bearer", token)
+    }
+
+    override fun getUser(): LiveData<UserEntity> {
+        return liveData {
+            val userLive = MutableLiveData<UserEntity>()
+            emitSource(userLive)
+
+            val user = local.getFirstUser()
+
+            userLive.postValue(user.toUserEntity())
+        }
+    }
+
+    companion object {
+        private const val ARG_AM_PASSWORD = "7ds9f87jF*J(SDFM(7"
     }
 }

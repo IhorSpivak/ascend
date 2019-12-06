@@ -14,6 +14,7 @@ import com.doneit.ascend.presentation.login.utils.LoginUtils
 import com.doneit.ascend.presentation.login.utils.getNotNull
 import com.doneit.ascend.presentation.login.utils.isPhoneValid
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.utils.Constants.TYPE_MASTER_MIND
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.presentation.utils.UIReturnStep
 import com.facebook.AccessToken
@@ -70,29 +71,27 @@ class LogInViewModel(
 
             if (requestEntity.isSuccessful) {
                 requestEntity.successModel?.let {
-                    localStorage.saveUser(
-                        it.userEntity,
-                        it.token
-                    )
-                }
+                    userUseCase.insert(it.userEntity, it.token)
 
-                if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
-                    requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty()
-                ) {
-                    launch(Dispatchers.Main) {
-                        val questionsRequest =
-                            questionUseCase.getList(requestEntity.successModel!!.token)
+                    if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
+                        requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty() &&
+                        it.userEntity.role != TYPE_MASTER_MIND
+                    ) {
+                        launch(Dispatchers.Main) {
+                            val questionsRequest =
+                                questionUseCase.getList(requestEntity.successModel!!.token)
 
-                        if (questionsRequest.isSuccessful) {
-                            questionUseCase.insert(questionsRequest.successModel!!)
+                            if (questionsRequest.isSuccessful) {
+                                questionUseCase.insert(questionsRequest.successModel!!)
 
-                            localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
-                            router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
+                                localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
+                                router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
+                            }
                         }
-                    }
-                } else {
-                    launch(Dispatchers.Main) {
-                        router.goToMain()
+                    } else {
+                        launch(Dispatchers.Main) {
+                            router.goToMain()
+                        }
                     }
                 }
             } else {
@@ -176,28 +175,26 @@ class LogInViewModel(
 
                 if (requestEntity.successModel != null) {
                     requestEntity.successModel?.let {
-                        localStorage.saveUser(
-                            it.userEntity,
-                            it.token
-                        )
-                    }
+                        userUseCase.insert(it.userEntity, it.token)
 
-                    if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
-                        requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty()
-                    ) {
-                        launch(Dispatchers.Main) {
-                            val questionsRequest =
-                                questionUseCase.getList(requestEntity.successModel!!.token)
+                        if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
+                            requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty() &&
+                            it.userEntity.role != TYPE_MASTER_MIND
+                        ) {
+                            launch(Dispatchers.Main) {
+                                val questionsRequest =
+                                    questionUseCase.getList(requestEntity.successModel!!.token)
 
-                            if (questionsRequest.isSuccessful) {
-                                questionUseCase.insert(questionsRequest.successModel!!)
+                                if (questionsRequest.isSuccessful) {
+                                    questionUseCase.insert(questionsRequest.successModel!!)
 
-                                localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
-                                router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
+                                    localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
+                                    router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
+                                }
                             }
+                        } else {
+                            router.goToMain()
                         }
-                    } else {
-                        router.goToMain()
                     }
                 } else {
                     // TODO: show error message

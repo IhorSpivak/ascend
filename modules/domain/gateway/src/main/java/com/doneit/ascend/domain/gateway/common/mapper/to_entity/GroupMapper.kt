@@ -18,7 +18,7 @@ fun ThumbnailResponse.toEntity(): ThumbnailEntity {
 fun ImageResponse.toEntity(): ImageEntity {
     return ImageEntity(
         url,
-        thumbnail.toEntity()
+        thumbnail?.toEntity()
     )
 }
 

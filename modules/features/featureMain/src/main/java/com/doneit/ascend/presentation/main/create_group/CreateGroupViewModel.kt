@@ -137,9 +137,7 @@ class CreateGroupViewModel(
             canCreate.postValue(true)
 
             if (requestEntity.isSuccessful) {
-
-            } else {
-
+                router.onBack()
             }
         }
     }

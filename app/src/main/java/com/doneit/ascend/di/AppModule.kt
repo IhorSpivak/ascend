@@ -36,7 +36,7 @@ object AppModule {
         bind<IMainRouter>() with singleton { AppRouter(application) }
         bind<ILogInRouter>() with singleton { AppRouter(application) }
         bind<String>(tag = "appPackageName") with singleton { application.packageName }
-        bind<LocalStorage>() with singleton { LocalStorage(application.applicationContext, instance()) }
+        bind<LocalStorage>() with singleton { LocalStorage(application.applicationContext) }
 
         bind<AuthCustomInterceptor>() with provider {
             AuthCustomInterceptor(

@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.use_case.interactor.user
 
+import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.common.RequestEntity
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
@@ -33,5 +34,13 @@ internal class UserInteractor(
 
     override suspend fun resetPassword(resetModel: ResetPasswordModel): RequestEntity<Unit, List<String>> {
         return userGateway.resetPassword(resetModel)
+    }
+
+    override suspend fun insert(user: UserEntity, token: String) {
+        userGateway.insert(user, token)
+    }
+
+    override fun getUser(): LiveData<UserEntity> {
+        return userGateway.getUser()
     }
 }

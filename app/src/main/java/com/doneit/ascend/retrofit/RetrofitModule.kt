@@ -37,16 +37,19 @@ object RetrofitModule {
 
             builder.cache(instance())
 
+
+
+            builder.connectTimeout(100, TimeUnit.SECONDS)
+            builder.retryOnConnectionFailure(true)
+            builder.addInterceptor(instance<AuthInterceptor>())
+            builder.addInterceptor(HeaderInterceptor())
+
             if (RetrofitConfig.enableLogging) {
                 val loggingInterceptor = HttpLoggingInterceptor()
                 loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
                 builder.addInterceptor(loggingInterceptor)
             }
 
-            builder.connectTimeout(100, TimeUnit.SECONDS)
-            builder.retryOnConnectionFailure(true)
-            builder.addInterceptor(instance<AuthInterceptor>())
-            builder.addInterceptor(HeaderInterceptor())
             builder.build()
         }
 

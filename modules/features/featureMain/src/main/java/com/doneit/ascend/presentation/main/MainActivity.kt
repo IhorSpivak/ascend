@@ -2,14 +2,16 @@ package com.doneit.ascend.presentation.main
 
 import android.os.Bundle
 import android.view.View
-import com.doneit.ascend.presentation.main.MainRouter
-import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.common.BottomNavigationAdapter
 import com.doneit.ascend.presentation.main.common.ToolbarListener
 import com.doneit.ascend.presentation.utils.Constants.TYPE_MASTER_MIND
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.vrgsoft.core.presentation.activity.BaseActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -28,6 +30,7 @@ class MainActivity : BaseActivity(), ToolbarListener {
 
     private val router: MainRouter by instance()
     private val localStorage: LocalStorage by instance()
+    private val userUseCase: UserUseCase by instance()
 
     fun getContainerId() = R.id.container
     fun getFullContainerId() =
@@ -49,12 +52,16 @@ class MainActivity : BaseActivity(), ToolbarListener {
 
         router.navigateToHome()
 
-        val user = localStorage.loadUser()
+        GlobalScope.launch(Dispatchers.Main) {
+            val user = userUseCase.getUser()
 
-        if (user.role == TYPE_MASTER_MIND) {
-            setCreateGroupState(true)
-        } else {
-            setCreateGroupState(false)
+            user.observeForever {
+                if (it.role == TYPE_MASTER_MIND) {
+                    setCreateGroupState(true)
+                } else {
+                    setCreateGroupState(false)
+                }
+            }
         }
     }
 

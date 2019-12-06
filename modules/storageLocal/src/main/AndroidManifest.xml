@@ -1,2 +1,4 @@
 <manifest
-        package="com.doneit.ascend.source.storage.local"/>
+        package="com.doneit.ascend.source.storage.local">
+
+</manifest>
