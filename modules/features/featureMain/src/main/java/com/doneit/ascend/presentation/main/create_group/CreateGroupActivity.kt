@@ -27,12 +27,6 @@ class CreateGroupActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_group)
 
-        btbBack.setOnClickListener {
-            finish()
-        }
-
-        tvTitle.text = getString(R.string.create_group)
-
         router.navigateToCreateGroup()
     }
 }

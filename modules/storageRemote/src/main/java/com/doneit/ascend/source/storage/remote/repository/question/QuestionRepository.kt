@@ -12,7 +12,7 @@ internal class QuestionRepository(
     private val api: QuestionApi
 ) : BaseRepository(gson), IQuestionRepository {
 
-    override suspend fun getList(sessionToken: String): RemoteResponse<QuestionsListResponse, ErrorsListResponse> {
-        return execute({ api.getQuestionsAsync(sessionToken) }, ErrorsListResponse::class.java)
+    override suspend fun getList(): RemoteResponse<QuestionsListResponse, ErrorsListResponse> {
+        return execute({ api.getQuestionsAsync() }, ErrorsListResponse::class.java)
     }
 }

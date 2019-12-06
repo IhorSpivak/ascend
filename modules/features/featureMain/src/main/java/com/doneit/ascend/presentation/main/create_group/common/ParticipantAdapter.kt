@@ -5,11 +5,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 class ParticipantAdapter(
-    private val items: MutableList<String>
+    private val items: MutableList<String>,
+    private val listener: IClickListener
 ) : RecyclerView.Adapter<ParticipantViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ParticipantViewHolder {
-        return ParticipantViewHolder.create(parent)
+        return ParticipantViewHolder.create(parent, listener)
     }
 
     override fun getItemCount(): Int = items.size

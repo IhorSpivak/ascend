@@ -10,7 +10,7 @@ class CreateGroupRouter(
     override val containerId = activity.getContainerId()
 
     fun onBack() {
-        activity.supportFragmentManager.popBackStack()
+        activity.finish()
     }
 
     fun navigateToCreateGroup() {

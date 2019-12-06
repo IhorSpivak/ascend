@@ -19,10 +19,9 @@ internal class AnswerGateway(
     }
 
     override suspend fun createAnswers(
-        sessionToken: String,
         answers: List<AnswerEntity>
     ): RequestEntity<Unit, List<String>> {
-        return executeRemote { remote.createAnswers(sessionToken, answers.toRequest()) }.toRequestEntity(
+        return executeRemote { remote.createAnswers(answers.toRequest()) }.toRequestEntity(
             {
                 Unit
             },

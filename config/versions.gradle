@@ -141,6 +141,11 @@ ext {
             [configuration: "implementation", dependency: other.downloader],
 
             [configuration: "implementation", dependency: core.retrofit],
+            [configuration: "implementation", dependency: retrofit.main],
+            [configuration: "implementation", dependency: retrofit.adapter],
+            [configuration: "implementation", dependency: retrofit.gson],
+            [configuration: "implementation", dependency: retrofit.scalars],
+            [configuration: "implementation", dependency: retrofit.coroutines],
 
             [configuration: "testImplementation", dependency: tests.core],
             [configuration: "testImplementation", dependency: tests.coreTesting],

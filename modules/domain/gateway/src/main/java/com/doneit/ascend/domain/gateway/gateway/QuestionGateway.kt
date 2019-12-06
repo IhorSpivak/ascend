@@ -23,7 +23,7 @@ internal class QuestionGateway(
     }
 
     override suspend fun getList(sessionToken: String): RequestEntity<List<QuestionEntity>, List<String>> {
-        return executeRemote { remote.getList(sessionToken) }.toRequestEntity(
+        return executeRemote { remote.getList() }.toRequestEntity(
             {
                 it?.questions?.toEntityList()
             },

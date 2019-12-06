@@ -9,9 +9,8 @@ internal class AnswerInteractor(
 ) : AnswerUseCase {
 
     override suspend fun createAnswers(
-        sessionToken: String,
         answers: List<AnswerEntity>
     ): RequestEntity<Unit, List<String>> {
-        return answerGateway.createAnswers(sessionToken, answers)
+        return answerGateway.createAnswers(answers)
     }
 }

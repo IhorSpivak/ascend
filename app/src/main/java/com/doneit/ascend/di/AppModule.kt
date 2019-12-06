@@ -9,9 +9,9 @@ import com.doneit.ascend.presentation.login.ILogInRouter
 import com.doneit.ascend.presentation.main.IMainRouter
 import com.doneit.ascend.presentation.splash.ISplashRouter
 import com.doneit.ascend.presentation.utils.LocalStorage
+import com.doneit.ascend.retrofit.RetrofitModule
 import com.doneit.ascend.source.storage.local.di.StorageLocalModule
 import com.doneit.ascend.source.storage.remote.di.StorageRemoteModule
-import com.vrgsoft.retrofit.RetrofitModule
 import org.kodein.di.Kodein
 import org.kodein.di.android.androidModule
 import org.kodein.di.generic.bind

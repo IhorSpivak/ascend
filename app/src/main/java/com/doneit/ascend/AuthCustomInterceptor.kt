@@ -1,8 +1,7 @@
 package com.doneit.ascend
 
 import android.accounts.AccountManager
-import com.vrgsoft.retrofit.common.Auth
-import java.lang.StringBuilder
+import com.doneit.ascend.retrofit.common.Auth
 
 class AuthCustomInterceptor(
     private val manager: AccountManager,
@@ -11,16 +10,13 @@ class AuthCustomInterceptor(
     override fun createAuthHeaderString(): String {
         val accounts = manager.getAccountsByType(packageName)
 
-        var res = StringBuilder("")
         if (accounts.isNotEmpty()) {
             val account = accounts[0]
-            val token = manager.blockingGetAuthToken(account, "Bearer", false)
-
-            res.append("Bearer $token")
+            return manager.blockingGetAuthToken(account, "Bearer", false)
         }
 
         //res.append("?platform=android")
 
-        return res.toString()
+        return ""
     }
 }

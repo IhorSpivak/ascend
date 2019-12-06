@@ -1,11 +1,10 @@
 package com.doneit.ascend.source.storage.remote.di
 
-import com.doneit.ascend.source.storage.remote.api.AnswerApi
-import com.doneit.ascend.source.storage.remote.api.PageApi
-import com.doneit.ascend.source.storage.remote.api.QuestionApi
-import com.doneit.ascend.source.storage.remote.api.UserApi
+import com.doneit.ascend.source.storage.remote.api.*
 import com.doneit.ascend.source.storage.remote.repository.answer.AnswerRepository
 import com.doneit.ascend.source.storage.remote.repository.answer.IAnswerRepository
+import com.doneit.ascend.source.storage.remote.repository.group.GroupRepository
+import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.doneit.ascend.source.storage.remote.repository.page.IPageRepository
 import com.doneit.ascend.source.storage.remote.repository.page.PageRepository
 import com.doneit.ascend.source.storage.remote.repository.question.IQuestionRepository
@@ -27,6 +26,8 @@ object StorageRemoteModule {
         bind<QuestionApi>() with provider { instance<Retrofit>().create(QuestionApi::class.java) }
         bind<AnswerApi>() with provider { instance<Retrofit>().create(AnswerApi::class.java) }
         bind<PageApi>() with provider { instance<Retrofit>().create(PageApi::class.java) }
+        bind<GroupApi>() with provider { instance<Retrofit>().create(GroupApi::class.java) }
+
         bind<IUserRepository>() with provider {
             UserRepository(
                 instance(),
@@ -48,6 +49,13 @@ object StorageRemoteModule {
 
         bind<IPageRepository>() with provider {
             PageRepository(
+                instance(),
+                instance()
+            )
+        }
+
+        bind<IGroupRepository>() with provider {
+            GroupRepository(
                 instance(),
                 instance()
             )

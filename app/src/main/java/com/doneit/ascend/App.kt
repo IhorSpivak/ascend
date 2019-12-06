@@ -2,11 +2,11 @@ package com.doneit.ascend
 
 import android.app.Application
 import android.util.Log
+import com.doneit.ascend.retrofit.common.RetrofitConfig
 import com.twitter.sdk.android.core.DefaultLogger
 import com.twitter.sdk.android.core.Twitter
 import com.twitter.sdk.android.core.TwitterAuthConfig
 import com.twitter.sdk.android.core.TwitterConfig
-import com.vrgsoft.retrofit.common.RetrofitConfig
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.KodeinTrigger
@@ -39,6 +39,7 @@ class App : Application(), KodeinAware {
         RetrofitConfig.apply {
             baseUrl = getString(R.string.base_url)
             auth = interceptor
+
             enableLogging()
         }
 

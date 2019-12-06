@@ -4,5 +4,5 @@ import com.doneit.ascend.domain.entity.AnswerEntity
 import com.doneit.ascend.domain.entity.common.RequestEntity
 
 interface AnswerUseCase {
-    suspend fun createAnswers(sessionToken: String, answers: List<AnswerEntity>): RequestEntity<Unit, List<String>>
+    suspend fun createAnswers(answers: List<AnswerEntity>): RequestEntity<Unit, List<String>>
 }

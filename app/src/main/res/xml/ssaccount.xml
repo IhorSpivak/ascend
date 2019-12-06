@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
-        android:accountType="com.vrgsoft.utopia"
+        android:accountType="com.doneit.ascend"
         android:icon="@drawable/ic_android"
-        android:label="Utopia"
+        android:label="Ascend"
         android:smallIcon="@drawable/ic_android">
 
 </account-authenticator>

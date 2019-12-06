@@ -23,7 +23,7 @@ fun String.isValid4Number(): Boolean {
 }
 
 fun String.isDescriptionValid(): Boolean {
-    val r = Regex("^[a-zA-Z0-9\\s_.]d{1,4}\$")
+    val r = Regex("^[a-zA-Z0-9\\s_.]{2,1000}\$")
     return this.matches(r)
 }
 

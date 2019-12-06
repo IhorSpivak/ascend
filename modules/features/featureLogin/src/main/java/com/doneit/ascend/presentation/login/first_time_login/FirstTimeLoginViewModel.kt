@@ -36,7 +36,6 @@ class FirstTimeLoginViewModel(
 
             val requestEntity =
                 answerUseCase.createAnswers(
-                    localStorage.getSessionToken(),
                     answers.toList()
                 )
 

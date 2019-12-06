@@ -1,18 +1,25 @@
 package com.doneit.ascend.presentation.main.create_group
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.main.models.ValidatableField
 import com.doneit.ascend.presentation.main.models.ValidationResult
+import com.doneit.ascend.presentation.main.models.toEntity
 import com.doneit.ascend.presentation.utils.*
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import kotlinx.coroutines.launch
 
 @CreateFactory
 @ViewModelDiModule
-class CreateGroupViewModel : BaseViewModelImpl(), CreateGroupContract.ViewModel {
+class CreateGroupViewModel(
+    private val groupUseCase: GroupUseCase,
+    private val router: CreateGroupRouter
+) : BaseViewModelImpl(), CreateGroupContract.ViewModel {
 
     override val createGroupModel = PresentationCreateGroupModel()
     override var email: ValidatableField = ValidatableField()
@@ -71,7 +78,7 @@ class CreateGroupViewModel : BaseViewModelImpl(), CreateGroupContract.ViewModel 
 
             if (s.isDescriptionValid().not()) {
                 result.isSussed = false
-                result.errors.add(R.string.error_price)
+                result.errors.add(R.string.error_description)
             }
 
             result
@@ -114,9 +121,43 @@ class CreateGroupViewModel : BaseViewModelImpl(), CreateGroupContract.ViewModel 
 
             newParticipantList.add(newParticipantEmail)
             participants.postValue(newParticipantList)
+            createGroupModel.participants.set(newParticipantList)
 
             email.observableField.set("")
         }
+    }
+
+    override fun completeClick() {
+        canCreate.postValue(false)
+
+        viewModelScope.launch {
+            val requestEntity =
+                groupUseCase.createGroup(createGroupModel.toEntity("master_mind")) // TODO: fix group type
+
+            canCreate.postValue(true)
+
+            if (requestEntity.isSuccessful) {
+
+            } else {
+
+            }
+        }
+    }
+
+    override fun backClick() {
+        router.onBack()
+    }
+
+    override fun onClickRemove(value: String) {
+        val participantsList = participants.value
+        val newParticipantList = mutableListOf<String>()
+
+        if (participantsList != null && participantsList.isNotEmpty()) {
+            newParticipantList.addAll(participantsList.filter { s -> s != value })
+        }
+
+        participants.postValue(newParticipantList)
+        createGroupModel.participants.set(newParticipantList)
     }
 
     private fun updateCanCreate() {

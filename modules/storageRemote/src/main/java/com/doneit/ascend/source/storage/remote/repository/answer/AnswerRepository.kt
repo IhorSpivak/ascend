@@ -14,11 +14,10 @@ internal class AnswerRepository(
 ) : BaseRepository(gson), IAnswerRepository {
 
     override suspend fun createAnswers(
-        sessionToken: String,
         answers: AnswerRequest
     ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute(
-            { api.createAnswersAsync(sessionToken, answers) },
+            { api.createAnswersAsync(answers) },
             ErrorsListResponse::class.java
         )
     }
