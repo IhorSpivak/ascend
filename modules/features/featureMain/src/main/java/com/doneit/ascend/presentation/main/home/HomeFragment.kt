@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.common.ToolbarListener
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
 import com.doneit.ascend.presentation.main.home.common.FollowerAdapter
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
@@ -24,17 +23,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-
         binding.lifecycleOwner = this
         binding.model = viewModel
         binding.adapter = adapter
         binding.followerAdapter = followerAdapter
 
         viewModel.user.observe(this, Observer {
-            it?.let { userIt ->
-                (activity as ToolbarListener).setTitle("${getString(R.string.main_title)} ${userIt.community}")
-                (activity as ToolbarListener).backButtonChangeVisibility(false)
+            it?.let {
+                binding.tvTitle.text = getString(R.string.main_title, it.community)
             }
         })
+
+
     }
 }

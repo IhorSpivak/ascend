@@ -29,7 +29,7 @@ import java.util.*
 
 class LogInLocalRouter(
     private val activity: LogInActivity,
-    private val outerRouter: ILogInRouter
+    private val outerRouter: ILogInAppRouter
 ) : LogInContract.Router,
     SignUpContract.Router,
     ForgotPasswordContract.Router,

@@ -5,13 +5,13 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.os.Bundle
-import com.doneit.ascend.presentation.login.ILogInRouter
+import com.doneit.ascend.presentation.login.ILogInAppRouter
 import com.doneit.ascend.presentation.login.LogInActivity
-import com.doneit.ascend.presentation.main.IMainRouter
+import com.doneit.ascend.presentation.main.IMainAppRouter
 import com.doneit.ascend.presentation.main.MainActivity
 import com.doneit.ascend.presentation.splash.ISplashRouter
 
-class AppRouter(private val app: Context) : ISplashRouter, IMainRouter, ILogInRouter {
+class AppRouter(private val app: Context) : ISplashRouter, IMainAppRouter, ILogInAppRouter {
 
     override fun goToLogin() {
         startActivity<LogInActivity>(clear = true)

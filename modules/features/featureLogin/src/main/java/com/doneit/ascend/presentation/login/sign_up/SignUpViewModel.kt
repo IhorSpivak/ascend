@@ -144,7 +144,7 @@ class SignUpViewModel(
                 router.navigateToVerifyPhone()
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
-                    showErrorMessage(requestEntity.errorModel!!.toErrorMessage())
+                    showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
                 }
             }
         }
@@ -179,7 +179,7 @@ class SignUpViewModel(
                 }
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
-                    showErrorMessage(requestEntity.errorModel!!.toErrorMessage())
+                    showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
                 }
             }
         }
@@ -197,23 +197,13 @@ class SignUpViewModel(
 
             if (requestEntity.isSuccessful.not()) {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
-                    showErrorMessage(requestEntity.errorModel!!.first())
+                    showDefaultErrorMessage(requestEntity.errorModel!!.first())
                 }
             }
 
             delay(Constants.RESEND_CODE_INTERVAL)
             canResendCode.postValue(true)
         }
-    }
-
-    private fun showErrorMessage(message: String) {
-        errorMessage.postValue(
-            PresentationMessage(
-                Messages.DEFAULT_ERROR.getId(),
-                null,
-                message
-            )
-        )
     }
 
     override fun onBackClick(clearModel: Boolean) {

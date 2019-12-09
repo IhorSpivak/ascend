@@ -1,5 +1,5 @@
 package com.doneit.ascend.presentation.login
 
-interface ILogInRouter {
+interface ILogInAppRouter {
     fun goToMain()
 }

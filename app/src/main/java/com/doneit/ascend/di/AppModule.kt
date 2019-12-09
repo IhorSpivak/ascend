@@ -5,8 +5,8 @@ import com.doneit.ascend.AuthCustomInterceptor
 import com.doneit.ascend.domain.gateway.di.GatewayModule
 import com.doneit.ascend.domain.use_case.di.UseCaseModule
 import com.doneit.ascend.presentation.AppRouter
-import com.doneit.ascend.presentation.login.ILogInRouter
-import com.doneit.ascend.presentation.main.IMainRouter
+import com.doneit.ascend.presentation.login.ILogInAppRouter
+import com.doneit.ascend.presentation.main.IMainAppRouter
 import com.doneit.ascend.presentation.splash.ISplashRouter
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.retrofit.RetrofitModule
@@ -33,8 +33,8 @@ object AppModule {
                 application
             )
         }
-        bind<IMainRouter>() with singleton { AppRouter(application) }
-        bind<ILogInRouter>() with singleton { AppRouter(application) }
+        bind<IMainAppRouter>() with singleton { AppRouter(application) }
+        bind<ILogInAppRouter>() with singleton { AppRouter(application) }
         bind<String>(tag = "appPackageName") with singleton { application.packageName }
         bind<LocalStorage>() with singleton { LocalStorage(application.applicationContext) }
 

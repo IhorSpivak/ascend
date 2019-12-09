@@ -12,7 +12,11 @@ interface IUserRepository {
 
     suspend fun socialSignIn(request: SocialLoginRequest): RemoteResponse<AuthResponse, ErrorsListResponse>
 
+    suspend fun signOut(): RemoteResponse<OKResponse, ErrorsListResponse>
+
     suspend fun signUp(request: SignUpRequest): RemoteResponse<AuthResponse, ErrorsListResponse>
+
+    suspend fun deleteAccount(): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun signUpValidation(request: SignUpRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 

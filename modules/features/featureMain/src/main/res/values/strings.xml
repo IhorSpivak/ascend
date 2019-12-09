@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Ascend</string>
-    <string name="main_title">Ascend</string>
+    <string name="main_title">Ascend %s</string>
+    <string name="profile_title">Profile</string>
     <string name="your_account">Your Account is blocked</string>
     <string name="password_sent">Password Sent</string>
     <string name="please_chec">Please, check your SMS box and follow the instructions to complete the reset password.</string>
@@ -54,4 +55,9 @@
     <string name="error_description">The Group Description from 2 till 1000 symbols</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_complete">Complete</string>
+
+
+    <!--Profile-->
+    <string name="sign_out">Log Out</string>
+    <string name="delete_account">Delete account</string>
 </resources>

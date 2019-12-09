@@ -7,9 +7,13 @@ import com.doneit.ascend.domain.entity.common.RequestEntity
 interface IUserGateway {
     suspend fun signIn(loginMode: LogInUserModel): RequestEntity<AuthEntity, List<String>>
 
+    suspend fun signOut(): RequestEntity<Unit, List<String>>
+
     suspend fun socialSignIn(socialLoginModel: SocialLogInModel): RequestEntity<AuthEntity, List<String>>
 
     suspend fun signUp(signUpModel: SignUpModel): RequestEntity<AuthEntity, List<String>>
+
+    suspend fun deleteAccount(): RequestEntity<Unit, List<String>>
 
     suspend fun signUpValidation(signUpModel: SignUpModel): RequestEntity<Unit, List<String>>
 
@@ -21,5 +25,5 @@ interface IUserGateway {
 
     suspend fun insert(user: UserEntity, token: String)
 
-    fun getUser(): LiveData<UserEntity>
+    fun getUser(): LiveData<UserEntity?>
 }

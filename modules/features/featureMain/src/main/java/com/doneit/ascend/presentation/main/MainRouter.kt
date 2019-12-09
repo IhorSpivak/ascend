@@ -4,20 +4,27 @@ import android.content.Intent
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.extensions.replace
+import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.main.home.HomeFragment
+import com.doneit.ascend.presentation.profile.ProfileContract
+import com.doneit.ascend.presentation.profile.ProfileFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class MainRouter(
     private val activity: MainActivity,
-    private val appRouter: IMainRouter
+    private val appRouter: IMainAppRouter
 ) : FragmentRouter(activity.supportFragmentManager),
-    BottomNavigationChangeListener {
+    BottomNavigationChangeListener,
+    ProfileContract.Router {
 
     override val containerId = activity.getContainerId()
-    private val fullContainerId = activity.getFullContainerId()
 
     fun onBack() {
         activity.supportFragmentManager.popBackStack()
+    }
+
+    override fun navigateToLogin() {
+        appRouter.goToLogin()
     }
 
     override fun navigateToHome() {
@@ -33,7 +40,7 @@ class MainRouter(
     }
 
     override fun navigateToProfile() {
-        // TODO: navigate to profile screen
+        activity.supportFragmentManager.replaceWithBackStack(containerId, ProfileFragment())
     }
 
     fun navigateToCreateGroup() {

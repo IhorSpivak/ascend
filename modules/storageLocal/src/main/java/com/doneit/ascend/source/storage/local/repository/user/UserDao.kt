@@ -12,9 +12,9 @@ interface UserDao {
 
     @Transaction
     @Query("SELECT * FROM users LIMIT 1")
-    suspend fun getFirstUser(): UserLocal
+    suspend fun getFirstUser(): UserLocal?
 
     @Transaction
-    @Query("DELETE FROM users WHERE user_id = :id")
-    suspend fun remove(id: Long)
+    @Query("DELETE FROM users")
+    suspend fun remove()
 }

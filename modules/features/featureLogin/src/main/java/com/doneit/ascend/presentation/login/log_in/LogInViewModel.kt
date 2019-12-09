@@ -168,7 +168,7 @@ class LogInViewModel(
     }
 
     private fun socialLogin(socialLogInModel: SocialLogInModel) {
-        GlobalScope.launch {
+        viewModelScope.launch {
             val requestEntity = userUseCase.socialSignIn(socialLogInModel)
 
             if (requestEntity.isSuccessful) {

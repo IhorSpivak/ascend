@@ -1,104 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fullContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/blMain"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_size"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/main_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/btbBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="8dp"
-
-                    android:layout_marginBottom="15dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_back"
-                    android:tint="#7E7D8F"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvTitle"
-                    style="@style/Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/btbSearch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_search"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toStartOf="@+id/btbNotification"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/btbNotification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_notifications"
-                    android:visibility="visible"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/toolbar_size"
+        android:layout_height="match_parent"
         android:layout_marginBottom="58dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/blMain" />
-
-    <FrameLayout
-        android:id="@+id/containerBig"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/toolbar_size"
-        android:layout_marginBottom="58dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
@@ -123,10 +36,10 @@
             android:id="@+id/mainBottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:itemIconTint="@drawable/select_item_bottom_bar_selector"
+            app:itemIconTint="@color/select_item_bottom_bar_selector"
             app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
             app:itemTextAppearanceInactive="@style/BottomNavigationView.Inactive"
-            app:itemTextColor="@drawable/select_item_bottom_bar_selector"
+            app:itemTextColor="@color/select_item_bottom_bar_selector"
             app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,7 +52,7 @@
         android:id="@+id/fabCreateGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/gray_accent_color"
+        android:backgroundTint="@color/selecor_btn_enabled"
         android:tint="@android:color/white"
         app:borderWidth="0dp"
         app:layout_anchor="@id/bottom_app_bar"

@@ -12,12 +12,20 @@ internal class UserInteractor(
         return userGateway.signIn(logInModel)
     }
 
+    override suspend fun signOut(): RequestEntity<Unit, List<String>> {
+        return userGateway.signOut()
+    }
+
     override suspend fun socialSignIn(socialLogInModel: SocialLogInModel): RequestEntity<AuthEntity, List<String>> {
         return userGateway.socialSignIn(socialLogInModel)
     }
 
     override suspend fun signUp(registerModel: SignUpModel): RequestEntity<AuthEntity, List<String>> {
         return userGateway.signUp(registerModel)
+    }
+
+    override suspend fun deleteAccount(): RequestEntity<Unit, List<String>> {
+        return userGateway.deleteAccount()
     }
 
     override suspend fun signUpValidation(registerModel: SignUpModel): RequestEntity<Unit, List<String>> {
@@ -40,7 +48,7 @@ internal class UserInteractor(
         userGateway.insert(user, token)
     }
 
-    override fun getUser(): LiveData<UserEntity> {
+    override fun getUser(): LiveData<UserEntity?> {
         return userGateway.getUser()
     }
 }

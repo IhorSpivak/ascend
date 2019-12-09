@@ -7,9 +7,13 @@ import com.doneit.ascend.domain.entity.common.RequestEntity
 interface UserUseCase {
     suspend fun signIn(logInModel: LogInUserModel): RequestEntity<AuthEntity, List<String>>
 
+    suspend fun signOut(): RequestEntity<Unit, List<String>>
+
     suspend fun socialSignIn(socialLogInModel: SocialLogInModel): RequestEntity<AuthEntity, List<String>>
 
     suspend fun signUp(registerModel: SignUpModel): RequestEntity<AuthEntity, List<String>>
+
+    suspend fun deleteAccount(): RequestEntity<Unit, List<String>>
 
     suspend fun signUpValidation(registerModel: SignUpModel): RequestEntity<Unit, List<String>>
 
@@ -21,5 +25,5 @@ interface UserUseCase {
 
     suspend fun insert(user: UserEntity, token: String)
 
-    fun getUser(): LiveData<UserEntity>
+    fun getUser(): LiveData<UserEntity?>
 }

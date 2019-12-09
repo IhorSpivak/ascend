@@ -19,16 +19,24 @@ internal class UserRepository(
         return execute({ api.signIn(request) }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun signOut(): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.signOut() }, ErrorsListResponse::class.java)
+    }
+
     override suspend fun socialSignIn(request: SocialLoginRequest): RemoteResponse<AuthResponse, ErrorsListResponse> {
-        return  execute({api.socialSignInAsync(request)}, ErrorsListResponse::class.java)
+        return execute({ api.socialSignInAsync(request) }, ErrorsListResponse::class.java)
     }
 
     override suspend fun signUp(request: SignUpRequest): RemoteResponse<AuthResponse, ErrorsListResponse> {
         return execute({ api.signUp(request) }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun deleteAccount(): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.deleteAccount() }, ErrorsListResponse::class.java)
+    }
+
     override suspend fun signUpValidation(request: SignUpRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
-        return execute({api.signUpValidation(request)}, ErrorsListResponse::class.java)
+        return execute({ api.signUpValidation(request) }, ErrorsListResponse::class.java)
     }
 
     override suspend fun getConfirmationCode(request: PhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse> {

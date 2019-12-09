@@ -47,6 +47,24 @@ internal class UserGateway(
         )
     }
 
+    override suspend fun signOut(): RequestEntity<Unit, List<String>> {
+        val result = executeRemote { remote.signOut() }.toRequestEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+
+        if(result.isSuccessful) {
+            local.remove()
+            removeAccounts()
+        }
+
+        return result
+    }
+
     override suspend fun socialSignIn(socialLoginModel: SocialLogInModel): RequestEntity<AuthEntity, List<String>> {
         return executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest()) }.toRequestEntity(
             {
@@ -68,6 +86,24 @@ internal class UserGateway(
                 it?.errors
             }
         )
+    }
+
+    override suspend fun deleteAccount(): RequestEntity<Unit, List<String>> {
+        val result =  executeRemote { remote.deleteAccount() }.toRequestEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+
+        if(result.isSuccessful) {
+            local.remove()
+            removeAccounts()
+        }
+
+        return result
     }
 
     override suspend fun signUpValidation(signUpModel: SignUpModel): RequestEntity<Unit, List<String>> {
@@ -120,6 +156,24 @@ internal class UserGateway(
         // save token
         val account = Account(user.name, context.packageName)
 
+        removeAccounts()
+
+        accountManager.addAccountExplicitly(account, ARG_AM_PASSWORD, null)
+        accountManager.setAuthToken(account, "Bearer", token)
+    }
+
+    override fun getUser(): LiveData<UserEntity?> {
+        return liveData {
+            val userLive = MutableLiveData<UserEntity>()
+            emitSource(userLive)
+
+            val user = local.getFirstUser()
+
+            userLive.postValue(user?.toUserEntity())
+        }
+    }
+
+    private fun removeAccounts() {
         val accounts = accountManager.getAccountsByType(context.packageName)
 
         if (accounts.isNotEmpty()) {
@@ -134,20 +188,6 @@ internal class UserGateway(
                     e.printStackTrace()
                 }
             }
-        }
-
-        accountManager.addAccountExplicitly(account, ARG_AM_PASSWORD, null)
-        accountManager.setAuthToken(account, "Bearer", token)
-    }
-
-    override fun getUser(): LiveData<UserEntity> {
-        return liveData {
-            val userLive = MutableLiveData<UserEntity>()
-            emitSource(userLive)
-
-            val user = local.getFirstUser()
-
-            userLive.postValue(user.toUserEntity())
         }
     }
 

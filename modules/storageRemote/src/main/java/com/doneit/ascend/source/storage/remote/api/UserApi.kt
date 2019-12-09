@@ -18,10 +18,13 @@ interface UserApi {
     fun socialSignInAsync(@Body request: SocialLoginRequest): Deferred<Response<AuthResponse>>
 
     @DELETE("sessions/logout")
-    fun logOut()
+    fun signOut(): Deferred<Response<OKResponse>>
 
     @POST("users")
     fun signUp(@Body request: SignUpRequest): Deferred<Response<AuthResponse>>
+
+    @DELETE("users/profile")
+    fun deleteAccount(): Deferred<Response<OKResponse>>
 
     @POST("users/validation")
     fun signUpValidation(@Body request: SignUpRequest): Deferred<Response<OKResponse>>

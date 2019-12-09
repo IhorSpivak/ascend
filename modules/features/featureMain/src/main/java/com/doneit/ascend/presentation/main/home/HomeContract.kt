@@ -6,7 +6,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 
 interface HomeContract {
     interface ViewModel : BaseViewModel {
-        val user: LiveData<UserEntity>
+        val user: LiveData<UserEntity?>
     }
 
     interface Router

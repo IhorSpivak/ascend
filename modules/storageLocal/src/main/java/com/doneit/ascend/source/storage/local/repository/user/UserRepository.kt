@@ -11,11 +11,11 @@ internal class UserRepository(
         database.userDao().insert(user)
     }
 
-    override suspend fun getFirstUser(): UserLocal {
+    override suspend fun getFirstUser(): UserLocal? {
         return database.userDao().getFirstUser()
     }
 
-    override suspend fun remove(id: Long) {
-        database.userDao().remove(id)
+    override suspend fun remove() {
+        database.userDao().remove()
     }
 }
