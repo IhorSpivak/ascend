@@ -13,6 +13,7 @@
             type="com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter" />
 
         <import type="android.text.InputType" />
+        <import type="android.view.View"/>
 
     </data>
 
@@ -201,6 +202,7 @@
                     app:src="@{@drawable/ic_description}"
                     app:text="@={model.createGroupModel.description.observableField}" />
 
+                <!--todo remove this container-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/uploadImagePlaceHolder"
                     android:layout_width="match_parent"
@@ -228,6 +230,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvUploadFile"
                         style="@style/TextNormal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -238,35 +241,43 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/ivUploadFileIcon" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                    android:layout_marginTop="@dimen/create_group_top_margin"
-                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                    android:backgroundTint="@android:color/transparent"
-                    android:visibility="invisible"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="0dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/description">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/ivUploadFile"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/grPlaceholder"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/ic_edit_round"
-                        android:src="@drawable/ic_pen" />
-                </androidx.cardview.widget.CardView>
+                        android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.VISIBLE : View.GONE}"
+                        app:constraint_referenced_ids="ivUploadFileIcon,tvUploadFile"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="0dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:scaleType="centerCrop" />
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icEdit"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.GONE : View.VISIBLE}"
+                    android:background="@drawable/ic_edit_round"
+                    android:src="@drawable/ic_pen"
+                    android:scaleType="center"
+                    app:layout_constraintStart_toStartOf="@+id/uploadImagePlaceHolder"
+                    app:layout_constraintTop_toTopOf="@+id/uploadImagePlaceHolder"/>
 
                 <TextView
                     android:id="@+id/reservation"

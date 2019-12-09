@@ -56,6 +56,8 @@ dependencies {
 
     implementation project(':modules:domain:useCase')
 
+    implementation 'com.androidisland.ezpermission:ezpermission:0.1.4'
+
     //Wheel DatePicker
     implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.3'
 }

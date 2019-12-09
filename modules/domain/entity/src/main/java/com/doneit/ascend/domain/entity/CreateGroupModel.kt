@@ -6,5 +6,6 @@ data class CreateGroupModel(
     val startTime: String,
     val groupType: String,
     val price: String,
+    val imagePath: String,
     val participants: List<String>?
 )

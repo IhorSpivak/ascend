@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.utils
 import android.util.Patterns
 import androidx.databinding.ObservableField
 
-fun ObservableField<String>.getNotNull(): String {
+fun ObservableField<String?>.getNotNull(): String {
     return get() ?: ""
 }
 
@@ -29,4 +29,8 @@ fun String.isDescriptionValid(): Boolean {
 
 fun String.isValidEmail(): Boolean {
     return Patterns.EMAIL_ADDRESS.matcher(this).matches() && this.length <= 48
+}
+
+fun String.getFileExtension(): String {
+    return substring(lastIndexOf("."))
 }

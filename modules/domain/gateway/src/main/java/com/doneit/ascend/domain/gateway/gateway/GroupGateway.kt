@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.vrgsoft.networkmanager.NetworkManager
+import java.io.File
 
 internal class GroupGateway(
     errors: NetworkManager,
@@ -21,7 +22,7 @@ internal class GroupGateway(
     }
 
     override suspend fun createGroup(groupModel: CreateGroupModel): RequestEntity<GroupEntity, List<String>> {
-        return executeRemote { remote.createGroup(groupModel.toCreateGroupRequest()) }.toRequestEntity(
+        return executeRemote { remote.createGroup(File(groupModel.imagePath), groupModel.toCreateGroupRequest()) }.toRequestEntity(
             {
                 it?.toEntity()
             },

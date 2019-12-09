@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 @ViewModelDiModule
 class CreateGroupViewModel(
     private val groupUseCase: GroupUseCase,
-    private val router: CreateGroupRouter
+    private val router: CreateGroupContract.Router
 ) : BaseViewModelImpl(), CreateGroupContract.ViewModel, CalendarPickerContract.ViewModel {
 
     override val createGroupModel = PresentationCreateGroupModel()
@@ -96,6 +96,16 @@ class CreateGroupViewModel(
             result
         }
 
+        createGroupModel.image.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isEmpty()) {
+                result.isSussed = false
+            }
+
+            result
+        }
+
         val invalidationListener = { updateCanCreate() }
         createGroupModel.name.onFieldInvalidate = invalidationListener
         // TODO: uncommite when calendar picker is ready
@@ -104,6 +114,7 @@ class CreateGroupViewModel(
         createGroupModel.startDate.onFieldInvalidate = invalidationListener
         createGroupModel.price.onFieldInvalidate = invalidationListener
         createGroupModel.description.onFieldInvalidate = invalidationListener
+        createGroupModel.image.onFieldInvalidate = invalidationListener
 
         email.onFieldInvalidate = { updateCanAddParticipant() }
     }
@@ -138,7 +149,7 @@ class CreateGroupViewModel(
             canCreate.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                router.onBack()
+                router.closeActivity()
             }
         }
     }
@@ -189,6 +200,7 @@ class CreateGroupViewModel(
         isFormValid = isFormValid and createGroupModel.startDate.isValid
         isFormValid = isFormValid and createGroupModel.price.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
+        isFormValid = isFormValid and createGroupModel.image.isValid
 
         canCreate.postValue(isFormValid)
     }

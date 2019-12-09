@@ -10,4 +10,6 @@ object Constants {
     const val TAB_SYMBOL = "\t"
 
     const val TYPE_MASTER_MIND = "master_mind"
+
+    const val COMPRESSION_QUALITY = 80
 }

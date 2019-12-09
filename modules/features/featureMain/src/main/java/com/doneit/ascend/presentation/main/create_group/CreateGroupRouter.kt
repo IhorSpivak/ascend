@@ -6,7 +6,6 @@ import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.calendar_picker.CalendarPickerFragment
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeFragment
-import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
@@ -24,6 +23,10 @@ class CreateGroupRouter(
         } else {
             activity.supportFragmentManager.popBackStack()
         }
+    }
+
+    override fun closeActivity() {
+        activity.finish()
     }
 
     override fun navigateToCreateGroup(type: String) {

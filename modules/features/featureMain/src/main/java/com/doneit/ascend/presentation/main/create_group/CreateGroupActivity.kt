@@ -5,16 +5,28 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_create_group.*
+import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 
 class CreateGroupActivity : BaseActivity() {
 
     override fun diModule() = Kodein.Module("CreateGroupActivity") {
-        bind<CreateGroupRouter>() with provider {
+        bind<CreateGroupRouter>() with singleton {
+            CreateGroupRouter(
+                this@CreateGroupActivity
+            )
+        }
+
+        bind<CreateGroupContract.Router>() with singleton {
+            CreateGroupRouter(
+                this@CreateGroupActivity
+            )
+        }
+
+        bind<SelectGroupTypeContract.Router>() with singleton {
             CreateGroupRouter(
                 this@CreateGroupActivity
             )

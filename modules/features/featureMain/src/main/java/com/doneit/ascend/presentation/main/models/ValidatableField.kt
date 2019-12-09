@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.presentation.utils.getNotNull
 
 class ValidatableField {
-    val observableField = ObservableField<String>("")
+    val observableField = ObservableField<String?>("")
     val observableError: LiveData<Int?>
         get() {
             return errors

@@ -21,6 +21,8 @@ interface CreateGroupContract {
     }
 
     interface Router {
+        fun onBack()
+        fun closeActivity()
         fun navigateToCalendarPiker()
     }
 }

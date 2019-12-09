@@ -30,7 +30,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         viewModel.user.observe(this, Observer {
             it?.let {
-                binding.tvTitle.text = getString(R.string.main_title, it.community)
+                it.community?.let { community ->
+                    binding.tvTitle.text = getString(R.string.main_title, community)
+                }
             }
         })
 

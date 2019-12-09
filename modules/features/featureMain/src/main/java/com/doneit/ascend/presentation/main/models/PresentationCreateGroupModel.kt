@@ -10,7 +10,7 @@ class PresentationCreateGroupModel(
     var startDate: ValidatableField = ValidatableField(),
     var price: ValidatableField = ValidatableField(),
     var description: ValidatableField = ValidatableField(),
-    var image: ObservableField<Any> = ObservableField(),
+    var image: ValidatableField = ValidatableField(),
     var participants: ObservableField<List<String>> = ObservableField(),
     var groupType: String = "",
     var hours: String = "",

@@ -10,6 +10,7 @@ fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
         startDate.observableField.getNotNull(),
         groupType,
         price.observableField.getNotNull(),
+        image.observableField.getNotNull(),
         participants.get()
     )
 }
