@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.main.create_group
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_create_group.*
@@ -28,5 +30,13 @@ class CreateGroupActivity : BaseActivity() {
         setContentView(R.layout.activity_create_group)
 
         router.navigateToSelectGroupType()
+    }
+
+    fun clearBackground() {
+        window.setBackgroundDrawable(null)
+    }
+
+    fun restoreBackground() {
+        window.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(applicationContext, android.R.color.white)))
     }
 }

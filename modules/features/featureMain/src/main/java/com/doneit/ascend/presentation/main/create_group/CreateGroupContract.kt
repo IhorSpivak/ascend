@@ -8,7 +8,6 @@ import com.doneit.ascend.presentation.main.models.ValidatableField
 
 interface CreateGroupContract {
     interface ViewModel : ArgumentedViewModel<CreateGroupArgs>, IClickListener {
-        val groupType: LiveData<String>
         val createGroupModel: PresentationCreateGroupModel
         var email: ValidatableField
         val canCreate: LiveData<Boolean>
@@ -18,7 +17,10 @@ interface CreateGroupContract {
         fun addNewParticipant()
         fun completeClick()
         fun backClick()
+        fun chooseScheduleTouch()
     }
 
-    interface Router
+    interface Router {
+        fun navigateToCalendarPiker()
+    }
 }

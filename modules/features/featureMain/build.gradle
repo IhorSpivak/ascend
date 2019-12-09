@@ -55,4 +55,7 @@ dependencies {
     }
 
     implementation project(':modules:domain:useCase')
+
+    //Wheel DatePicker
+    implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.3'
 }

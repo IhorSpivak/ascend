@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.calendar_picker.CalendarPickerContract
 import com.doneit.ascend.presentation.main.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.main.models.ValidatableField
 import com.doneit.ascend.presentation.main.models.ValidationResult
@@ -19,9 +20,8 @@ import kotlinx.coroutines.launch
 class CreateGroupViewModel(
     private val groupUseCase: GroupUseCase,
     private val router: CreateGroupRouter
-) : BaseViewModelImpl(), CreateGroupContract.ViewModel {
+) : BaseViewModelImpl(), CreateGroupContract.ViewModel, CalendarPickerContract.ViewModel {
 
-    override val groupType = MutableLiveData<String>()
     override val createGroupModel = PresentationCreateGroupModel()
     override var email: ValidatableField = ValidatableField()
     override val canCreate = MutableLiveData<Boolean>()
@@ -133,7 +133,7 @@ class CreateGroupViewModel(
 
         viewModelScope.launch {
             val requestEntity =
-                groupUseCase.createGroup(createGroupModel.toEntity(groupType.value ?: ""))
+                groupUseCase.createGroup(createGroupModel.toEntity(createGroupModel.groupType))
 
             canCreate.postValue(true)
 
@@ -147,8 +147,24 @@ class CreateGroupViewModel(
         router.onBack()
     }
 
+    override fun chooseScheduleTouch() {
+        router.navigateToCalendarPiker()
+    }
+
+    override fun okClick() {
+        router.onBack()
+    }
+
+    override fun setHours(hours: String) {
+        createGroupModel.hours = hours
+    }
+
+    override fun setMinutes(minutes: String) {
+        createGroupModel.minutes = minutes
+    }
+
     override fun applyArguments(args: CreateGroupArgs) {
-        groupType.postValue(args.groupType)
+        createGroupModel.groupType = args.groupType
     }
 
     override fun onClickRemove(value: String) {

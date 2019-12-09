@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.create_group
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
+import com.doneit.ascend.presentation.main.calendar_picker.CalendarPickerFragment
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeFragment
 import com.doneit.ascend.presentation.main.extensions.replace
@@ -37,6 +38,10 @@ class CreateGroupRouter(
     }
 
     fun navigateToSelectGroupType() {
-        activity.supportFragmentManager.replace(containerId, SelectGroupTypeFragment())
+        activity.supportFragmentManager.replaceWithBackStack(containerId, SelectGroupTypeFragment())
+    }
+
+    override fun navigateToCalendarPiker() {
+        activity.supportFragmentManager.replaceWithBackStack(containerId, CalendarPickerFragment())
     }
 }

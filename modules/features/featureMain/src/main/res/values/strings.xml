@@ -67,4 +67,11 @@
     <string name="mastermind_group_title">MasterMind Group</string>
     <string name="mastermind_group_description">Offer a combination of brainstorming, education, peer accountability and support in a group setting to sharpen your business and personal skills</string>
     <string name="su">Su</string>
+    <string name="mo">Mo</string>
+    <string name="tu">Tu</string>
+    <string name="we">We</string>
+    <string name="th">Th</string>
+    <string name="fr">Fr</string>
+    <string name="sa">Sa</string>
+    <string name="ok">OK</string>
 </resources>
