@@ -27,6 +27,6 @@ class CreateGroupActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_group)
 
-        router.navigateToCreateGroup()
+        router.navigateToSelectGroupType()
     }
 }

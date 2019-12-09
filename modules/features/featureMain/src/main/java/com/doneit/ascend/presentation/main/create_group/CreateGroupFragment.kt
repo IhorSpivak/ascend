@@ -2,13 +2,13 @@ package com.doneit.ascend.presentation.main.create_group
 
 import android.os.Bundle
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import org.kodein.di.generic.instance
 
-class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
+class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, CreateGroupArgs>() {
 
     override val viewModelModule = CreateGroupViewModelModule.get(this)
     override val viewModel: CreateGroupContract.ViewModel by instance()

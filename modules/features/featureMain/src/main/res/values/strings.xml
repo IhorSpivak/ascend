@@ -60,4 +60,11 @@
     <!--Profile-->
     <string name="sign_out">Log Out</string>
     <string name="delete_account">Delete account</string>
+    <string name="webinar_group_title">Webinar</string>
+    <string name="webinar_group_description">This webinar groups is an online meeting or presentation held via the Internet in real time</string>
+    <string name="support_group_title">Support Group</string>
+    <string name="support_group_description">Provide an opportunity for people to share personal experiences, feelings and helps people who are going through or have gone through similar experiences</string>
+    <string name="mastermind_group_title">MasterMind Group</string>
+    <string name="mastermind_group_description">Offer a combination of brainstorming, education, peer accountability and support in a group setting to sharpen your business and personal skills</string>
+    <string name="su">Su</string>
 </resources>

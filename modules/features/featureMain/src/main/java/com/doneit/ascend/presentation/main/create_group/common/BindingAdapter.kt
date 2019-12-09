@@ -10,7 +10,6 @@ fun setAdapter(
     adapter: ParticipantAdapter,
     items: LiveData<List<String>>
 ) {
-
     if (view.adapter is ParticipantAdapter) {
         items.value?.let {
             (view.adapter as ParticipantAdapter).update(it)

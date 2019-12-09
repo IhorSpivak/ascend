@@ -21,6 +21,7 @@ class CreateGroupViewModel(
     private val router: CreateGroupRouter
 ) : BaseViewModelImpl(), CreateGroupContract.ViewModel {
 
+    override val groupType = MutableLiveData<String>()
     override val createGroupModel = PresentationCreateGroupModel()
     override var email: ValidatableField = ValidatableField()
     override val canCreate = MutableLiveData<Boolean>()
@@ -132,7 +133,7 @@ class CreateGroupViewModel(
 
         viewModelScope.launch {
             val requestEntity =
-                groupUseCase.createGroup(createGroupModel.toEntity("master_mind")) // TODO: fix group type
+                groupUseCase.createGroup(createGroupModel.toEntity(groupType.value ?: ""))
 
             canCreate.postValue(true)
 
@@ -144,6 +145,10 @@ class CreateGroupViewModel(
 
     override fun backClick() {
         router.onBack()
+    }
+
+    override fun applyArguments(args: CreateGroupArgs) {
+        groupType.postValue(args.groupType)
     }
 
     override fun onClickRemove(value: String) {
