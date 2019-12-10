@@ -1,6 +1,6 @@
 package com.doneit.ascend.presentation.main.models
 
-import com.doneit.ascend.domain.entity.CreateGroupModel
+import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.presentation.utils.getNotNull
 
 fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {

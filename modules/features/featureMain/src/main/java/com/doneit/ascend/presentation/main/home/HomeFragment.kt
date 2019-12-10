@@ -33,6 +33,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         })
 
         setTitle(viewModel.user.value?.community)
+
+        viewModel.updateGroups()
     }
 
     private fun setTitle(community: String?) {

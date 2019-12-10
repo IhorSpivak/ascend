@@ -6,12 +6,17 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import com.doneit.ascend.domain.entity.*
-import com.doneit.ascend.domain.entity.common.RequestEntity
-import com.doneit.ascend.domain.gateway.common.mapper.toRequestEntity
+import com.doneit.ascend.domain.entity.AuthEntity
+import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.common.ResponseEntity
+import com.doneit.ascend.domain.entity.dto.LogInUserModel
+import com.doneit.ascend.domain.entity.dto.ResetPasswordModel
+import com.doneit.ascend.domain.entity.dto.SignUpModel
+import com.doneit.ascend.domain.entity.dto.SocialLogInModel
+import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserEntity
-import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserLocal
+import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toUserLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toLoginRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toResetPasswordRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toSignUpRequest
@@ -36,8 +41,8 @@ internal class UserGateway(
         return ""//todo, not required for now
     }
 
-    override suspend fun signIn(logInModel: LogInUserModel): RequestEntity<AuthEntity, List<String>> {
-        return executeRemote { remote.signIn(logInModel.toLoginRequest()) }.toRequestEntity(
+    override suspend fun signIn(logInModel: LogInUserModel): ResponseEntity<AuthEntity, List<String>> {
+        return executeRemote { remote.signIn(logInModel.toLoginRequest()) }.toResponseEntity(
             {
                 it?.toEntity()
             },
@@ -47,8 +52,8 @@ internal class UserGateway(
         )
     }
 
-    override suspend fun signOut(): RequestEntity<Unit, List<String>> {
-        val result = executeRemote { remote.signOut() }.toRequestEntity(
+    override suspend fun signOut(): ResponseEntity<Unit, List<String>> {
+        val result = executeRemote { remote.signOut() }.toResponseEntity(
             {
                 Unit
             },
@@ -65,8 +70,8 @@ internal class UserGateway(
         return result
     }
 
-    override suspend fun socialSignIn(socialLoginModel: SocialLogInModel): RequestEntity<AuthEntity, List<String>> {
-        return executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest()) }.toRequestEntity(
+    override suspend fun socialSignIn(socialLoginModel: SocialLogInModel): ResponseEntity<AuthEntity, List<String>> {
+        return executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest()) }.toResponseEntity(
             {
 
                 it?.toEntity()
@@ -77,8 +82,8 @@ internal class UserGateway(
         )
     }
 
-    override suspend fun signUp(signUpModel: SignUpModel): RequestEntity<AuthEntity, List<String>> {
-        return executeRemote { remote.signUp(signUpModel.toSignUpRequest()) }.toRequestEntity(
+    override suspend fun signUp(signUpModel: SignUpModel): ResponseEntity<AuthEntity, List<String>> {
+        return executeRemote { remote.signUp(signUpModel.toSignUpRequest()) }.toResponseEntity(
             {
                 it?.toEntity()
             },
@@ -88,8 +93,8 @@ internal class UserGateway(
         )
     }
 
-    override suspend fun deleteAccount(): RequestEntity<Unit, List<String>> {
-        val result =  executeRemote { remote.deleteAccount() }.toRequestEntity(
+    override suspend fun deleteAccount(): ResponseEntity<Unit, List<String>> {
+        val result =  executeRemote { remote.deleteAccount() }.toResponseEntity(
             {
                 Unit
             },
@@ -106,8 +111,8 @@ internal class UserGateway(
         return result
     }
 
-    override suspend fun signUpValidation(signUpModel: SignUpModel): RequestEntity<Unit, List<String>> {
-        return executeRemote { remote.signUpValidation(signUpModel.toSignUpRequest()) }.toRequestEntity(
+    override suspend fun signUpValidation(signUpModel: SignUpModel): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.signUpValidation(signUpModel.toSignUpRequest()) }.toResponseEntity(
             {
                 Unit
             },
@@ -117,8 +122,8 @@ internal class UserGateway(
         )
     }
 
-    override suspend fun getConfirmationCode(phone: String): RequestEntity<Unit, List<String>> {
-        return executeRemote { remote.getConfirmationCode(PhoneRequest(phone)) }.toRequestEntity(
+    override suspend fun getConfirmationCode(phone: String): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.getConfirmationCode(PhoneRequest(phone)) }.toResponseEntity(
             {
                 Unit
             },
@@ -128,8 +133,8 @@ internal class UserGateway(
         )
     }
 
-    override suspend fun forgotPassword(phone: String): RequestEntity<Unit, List<String>> {
-        return executeRemote { remote.forgotPassword(PhoneRequest(phone)) }.toRequestEntity(
+    override suspend fun forgotPassword(phone: String): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.forgotPassword(PhoneRequest(phone)) }.toResponseEntity(
             {
                 Unit
             },
@@ -139,8 +144,8 @@ internal class UserGateway(
         )
     }
 
-    override suspend fun resetPassword(resetModel: ResetPasswordModel): RequestEntity<Unit, List<String>> {
-        return executeRemote { remote.resetPassword(resetModel.toResetPasswordRequest()) }.toRequestEntity(
+    override suspend fun resetPassword(resetModel: ResetPasswordModel): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.resetPassword(resetModel.toResetPasswordRequest()) }.toResponseEntity(
             {
                 Unit
             },

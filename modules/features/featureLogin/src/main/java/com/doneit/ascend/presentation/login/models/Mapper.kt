@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.login.models
 
-import com.doneit.ascend.domain.entity.ResetPasswordModel
-import com.doneit.ascend.domain.entity.SignUpModel
+import com.doneit.ascend.domain.entity.dto.ResetPasswordModel
+import com.doneit.ascend.domain.entity.dto.SignUpModel
 import com.doneit.ascend.presentation.login.utils.getNotNull
 
 fun PresentationSignUpModel.toEntity(): SignUpModel {

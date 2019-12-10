@@ -1,4 +1,4 @@
-package com.doneit.ascend.domain.entity
+package com.doneit.ascend.domain.entity.dto
 
 data class ResetPasswordModel(
     val phone: String,

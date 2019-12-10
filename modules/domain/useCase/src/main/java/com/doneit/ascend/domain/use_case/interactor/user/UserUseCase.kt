@@ -2,26 +2,30 @@ package com.doneit.ascend.domain.use_case.interactor.user
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.*
-import com.doneit.ascend.domain.entity.common.RequestEntity
+import com.doneit.ascend.domain.entity.common.ResponseEntity
+import com.doneit.ascend.domain.entity.dto.LogInUserModel
+import com.doneit.ascend.domain.entity.dto.ResetPasswordModel
+import com.doneit.ascend.domain.entity.dto.SignUpModel
+import com.doneit.ascend.domain.entity.dto.SocialLogInModel
 
 interface UserUseCase {
-    suspend fun signIn(logInModel: LogInUserModel): RequestEntity<AuthEntity, List<String>>
+    suspend fun signIn(logInModel: LogInUserModel): ResponseEntity<AuthEntity, List<String>>
 
-    suspend fun signOut(): RequestEntity<Unit, List<String>>
+    suspend fun signOut(): ResponseEntity<Unit, List<String>>
 
-    suspend fun socialSignIn(socialLogInModel: SocialLogInModel): RequestEntity<AuthEntity, List<String>>
+    suspend fun socialSignIn(socialLogInModel: SocialLogInModel): ResponseEntity<AuthEntity, List<String>>
 
-    suspend fun signUp(registerModel: SignUpModel): RequestEntity<AuthEntity, List<String>>
+    suspend fun signUp(registerModel: SignUpModel): ResponseEntity<AuthEntity, List<String>>
 
-    suspend fun deleteAccount(): RequestEntity<Unit, List<String>>
+    suspend fun deleteAccount(): ResponseEntity<Unit, List<String>>
 
-    suspend fun signUpValidation(registerModel: SignUpModel): RequestEntity<Unit, List<String>>
+    suspend fun signUpValidation(registerModel: SignUpModel): ResponseEntity<Unit, List<String>>
 
-    suspend fun getConfirmationCode(phone: String): RequestEntity<Unit, List<String>>
+    suspend fun getConfirmationCode(phone: String): ResponseEntity<Unit, List<String>>
 
-    suspend fun forgotPassword(phone: String): RequestEntity<Unit, List<String>>
+    suspend fun forgotPassword(phone: String): ResponseEntity<Unit, List<String>>
 
-    suspend fun resetPassword(resetModel: ResetPasswordModel) : RequestEntity<Unit, List<String>>
+    suspend fun resetPassword(resetModel: ResetPasswordModel) : ResponseEntity<Unit, List<String>>
 
     suspend fun insert(user: UserEntity, token: String)
 

@@ -3,8 +3,8 @@ package com.doneit.ascend.presentation.login.log_in
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.LogInUserModel
-import com.doneit.ascend.domain.entity.SocialLogInModel
+import com.doneit.ascend.domain.entity.dto.LogInUserModel
+import com.doneit.ascend.domain.entity.dto.SocialLogInModel
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.R
@@ -22,7 +22,6 @@ import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @CreateFactory

@@ -1,8 +1,8 @@
 package com.doneit.ascend.domain.gateway.gateway
 
 import com.doneit.ascend.domain.entity.AnswerEntity
-import com.doneit.ascend.domain.entity.common.RequestEntity
-import com.doneit.ascend.domain.gateway.common.mapper.toRequestEntity
+import com.doneit.ascend.domain.entity.common.ResponseEntity
+import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.source.storage.remote.repository.answer.IAnswerRepository
 import com.vrgsoft.networkmanager.NetworkManager
@@ -20,8 +20,8 @@ internal class AnswerGateway(
 
     override suspend fun createAnswers(
         answers: List<AnswerEntity>
-    ): RequestEntity<Unit, List<String>> {
-        return executeRemote { remote.createAnswers(answers.toRequest()) }.toRequestEntity(
+    ): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.createAnswers(answers.toRequest()) }.toResponseEntity(
             {
                 Unit
             },

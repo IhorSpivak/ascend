@@ -1,8 +1,8 @@
 package com.doneit.ascend.domain.gateway.gateway
 
 import com.doneit.ascend.domain.entity.QuestionEntity
-import com.doneit.ascend.domain.entity.common.RequestEntity
-import com.doneit.ascend.domain.gateway.common.mapper.toRequestEntity
+import com.doneit.ascend.domain.entity.common.ResponseEntity
+import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntityList
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toQuestionEntityList
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toQuestionList
@@ -22,8 +22,8 @@ internal class QuestionGateway(
         return ""//todo, not required for now
     }
 
-    override suspend fun getList(sessionToken: String): RequestEntity<List<QuestionEntity>, List<String>> {
-        return executeRemote { remote.getList() }.toRequestEntity(
+    override suspend fun getList(sessionToken: String): ResponseEntity<List<QuestionEntity>, List<String>> {
+        return executeRemote { remote.getList() }.toResponseEntity(
             {
                 it?.questions?.toEntityList()
             },

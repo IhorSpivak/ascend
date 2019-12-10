@@ -1,9 +1,9 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
-import com.doneit.ascend.domain.entity.LogInUserModel
-import com.doneit.ascend.domain.entity.ResetPasswordModel
-import com.doneit.ascend.domain.entity.SignUpModel
-import com.doneit.ascend.domain.entity.SocialLogInModel
+import com.doneit.ascend.domain.entity.dto.LogInUserModel
+import com.doneit.ascend.domain.entity.dto.ResetPasswordModel
+import com.doneit.ascend.domain.entity.dto.SignUpModel
+import com.doneit.ascend.domain.entity.dto.SocialLogInModel
 import com.doneit.ascend.source.storage.remote.data.request.LogInRequest
 import com.doneit.ascend.source.storage.remote.data.request.ResetPasswordRequest
 import com.doneit.ascend.source.storage.remote.data.request.SignUpRequest

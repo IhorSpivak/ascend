@@ -15,6 +15,7 @@ fun AuthResponse.toEntity(): AuthEntity {
 
 fun UserResponse.toEntity(): UserEntity {
     return UserEntity(
+        id,
         name,
         email,
         phone,
@@ -27,21 +28,9 @@ fun UserResponse.toEntity(): UserEntity {
     )
 }
 
-fun UserEntity.toUserLocal(): UserLocal {
-    return UserLocal(
-        name = this@toUserLocal.name,
-        email = this@toUserLocal.email,
-        phone = this@toUserLocal.phone,
-        createdAt = this@toUserLocal.createdAt,
-        updatedAt = this@toUserLocal.updatedAt,
-        role = this@toUserLocal.role,
-        rating = this@toUserLocal.rating,
-        community = this@toUserLocal.community
-    )
-}
-
 fun UserLocal.toUserEntity(): UserEntity {
     return UserEntity(
+        id = id,
         name = this@toUserEntity.name,
         email = this@toUserEntity.email,
         phone = this@toUserEntity.phone,
