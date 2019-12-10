@@ -13,6 +13,7 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
+import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.utils.copyCompressed
 import com.doneit.ascend.presentation.utils.getFileExtension
@@ -35,6 +36,8 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
         bind<ViewModel>(tag = CreateGroupViewModel::class.java.simpleName) with provider {
             CreateGroupViewModel(
+                instance(),
+                instance(),
                 instance(),
                 instance()
             )
@@ -59,9 +62,20 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
 
         tvTitle.text = getString(R.string.create_group)
 
-        chooseSchedule.editText.setOnTouchListener { _, _ ->
-            viewModel.chooseScheduleTouch()
-            true
+        chooseSchedule.editText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                viewModel.chooseScheduleTouch()
+                chooseSchedule.clearFocus()
+                hideKeyboard()
+            }
+        }
+
+        startDate.editText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                viewModel.chooseStartDateTouch()
+                chooseSchedule.clearFocus()
+                hideKeyboard()
+            }
         }
 
         binding.uploadImagePlaceHolder.setOnClickListener {
@@ -78,8 +92,8 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             .permissions(
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
-            .request { granted , _, _ ->
-                if(granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            .request { granted, _, _ ->
+                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     val intent = Intent(Intent.ACTION_PICK)
                     intent.type = "image/*"
                     startActivityForResult(intent, GALLERY_REQUEST_CODE)
@@ -106,7 +120,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         val fileName = TEMP_IMAGE_NAME + path.getFileExtension()
 
         GlobalScope.launch {
-            val compressed = context!!.copyCompressed(path,  fileName)
+            val compressed = context!!.copyCompressed(path, fileName)
 
             launch(Dispatchers.Main) {
                 binding.image.setImageURI(Uri.parse(compressed))

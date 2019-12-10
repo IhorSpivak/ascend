@@ -1,14 +1,15 @@
 package com.doneit.ascend.presentation.main.create_group
 
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract
+import com.doneit.ascend.presentation.utils.CalendarPickerUtil
+import com.doneit.ascend.presentation.utils.DatePickerUtil
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
 class CreateGroupActivity : BaseActivity() {
@@ -31,6 +32,18 @@ class CreateGroupActivity : BaseActivity() {
                 this@CreateGroupActivity
             )
         }
+
+        bind<CalendarPickerUtil>() with provider {
+            CalendarPickerUtil(
+                instance()
+            )
+        }
+
+        bind<DatePickerUtil>() with provider {
+            DatePickerUtil(
+                instance()
+            )
+        }
     }
 
     private val router: CreateGroupRouter by instance()
@@ -42,13 +55,5 @@ class CreateGroupActivity : BaseActivity() {
         setContentView(R.layout.activity_create_group)
 
         router.navigateToSelectGroupType()
-    }
-
-    fun clearBackground() {
-        window.setBackgroundDrawable(null)
-    }
-
-    fun restoreBackground() {
-        window.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(applicationContext, android.R.color.white)))
     }
 }

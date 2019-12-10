@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.models
 
 import androidx.databinding.ObservableField
-import java.sql.Date
 
 class PresentationCreateGroupModel(
     var name: ValidatableField = ValidatableField(),
@@ -14,5 +13,11 @@ class PresentationCreateGroupModel(
     var participants: ObservableField<List<String>> = ObservableField(),
     var groupType: String = "",
     var hours: String = "",
-    var minutes: String = ""
+    var minutes: String = "",
+    var timeType: String = "",
+    var month: Int = 0,
+    var day: Int = 0,
+    var year: Int = 0,
+    var scheduleDays: MutableList<String> = mutableListOf(),
+    var scheduleTime: ValidatableField = ValidatableField()
 )

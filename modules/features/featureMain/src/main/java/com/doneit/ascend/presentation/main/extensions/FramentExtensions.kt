@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 
 @SuppressLint("CheckResult")
-fun androidx.fragment.app.FragmentManager.replaceWithoutBackStack(containerId: Int,
-                                                                  fragment: androidx.fragment.app.Fragment) {
+fun androidx.fragment.app.FragmentManager.replaceWithoutBackStack(
+    containerId: Int,
+    fragment: androidx.fragment.app.Fragment
+) {
     beginTransaction()
         .replace(containerId, fragment, fragment::class.java.simpleName)
         .addToBackStack(null)
@@ -43,6 +45,17 @@ fun androidx.fragment.app.FragmentManager.replaceWithBackStack(
 ) {
     beginTransaction()
         .replace(containerId, fragment, fragment::class.java.simpleName)
+        .addToBackStack(fragment::class.java.simpleName)
+        .commit()
+}
+
+@SuppressLint("CheckResult")
+fun androidx.fragment.app.FragmentManager.add(
+    containerId: Int,
+    fragment: androidx.fragment.app.Fragment
+) {
+    beginTransaction()
+        .add(containerId, fragment, fragment::class.java.simpleName)
         .addToBackStack(fragment::class.java.simpleName)
         .commit()
 }

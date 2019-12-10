@@ -10,7 +10,7 @@ interface CreateGroupContract {
     interface ViewModel : ArgumentedViewModel<CreateGroupArgs>, IClickListener {
         val createGroupModel: PresentationCreateGroupModel
         var email: ValidatableField
-        val canCreate: LiveData<Boolean>
+        val canComplete: LiveData<Boolean>
         val canAddParticipant: LiveData<Boolean>
         val participants: LiveData<List<String>>
 
@@ -18,11 +18,13 @@ interface CreateGroupContract {
         fun completeClick()
         fun backClick()
         fun chooseScheduleTouch()
+        fun chooseStartDateTouch()
     }
 
     interface Router {
         fun onBack()
         fun closeActivity()
         fun navigateToCalendarPiker()
+        fun navigateToDatePicker()
     }
 }

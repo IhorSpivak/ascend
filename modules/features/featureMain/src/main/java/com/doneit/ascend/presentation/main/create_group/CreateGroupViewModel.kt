@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.calendar_picker.CalendarPickerContract
+import com.doneit.ascend.presentation.main.date_picker.DatePickerContract
 import com.doneit.ascend.presentation.main.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.main.models.ValidatableField
 import com.doneit.ascend.presentation.main.models.ValidationResult
@@ -19,13 +20,19 @@ import kotlinx.coroutines.launch
 @ViewModelDiModule
 class CreateGroupViewModel(
     private val groupUseCase: GroupUseCase,
-    private val router: CreateGroupContract.Router
-) : BaseViewModelImpl(), CreateGroupContract.ViewModel, CalendarPickerContract.ViewModel {
+    private val router: CreateGroupContract.Router,
+    private val calendarUtil: CalendarPickerUtil,
+    private val datePickerUtil: DatePickerUtil
+) : BaseViewModelImpl(),
+    CreateGroupContract.ViewModel,
+    CalendarPickerContract.ViewModel,
+    DatePickerContract.ViewModel {
 
     override val createGroupModel = PresentationCreateGroupModel()
     override var email: ValidatableField = ValidatableField()
-    override val canCreate = MutableLiveData<Boolean>()
+    override val canComplete = MutableLiveData<Boolean>()
     override val canAddParticipant = MutableLiveData<Boolean>()
+    override val canOk = MutableLiveData<Boolean>()
 
     override val participants = MutableLiveData<List<String>>()
 
@@ -52,16 +59,16 @@ class CreateGroupViewModel(
             result
         }
 
-        createGroupModel.startDate.validator = { s ->
-            val result = ValidationResult()
-
-            if (s.isValidStartDate().not()) {
-                result.isSussed = false
-                result.errors.add(R.string.error_start_date)
-            }
-
-            result
-        }
+//        createGroupModel.startDate.validator = { s ->
+//            val result = ValidationResult()
+//
+//            if (s.isValidStartDate().not()) {
+//                result.isSussed = false
+//                result.errors.add(R.string.error_start_date)
+//            }
+//
+//            result
+//        }
 
         createGroupModel.price.validator = { s ->
             val result = ValidationResult()
@@ -108,10 +115,9 @@ class CreateGroupViewModel(
 
         val invalidationListener = { updateCanCreate() }
         createGroupModel.name.onFieldInvalidate = invalidationListener
-        // TODO: uncommite when calendar picker is ready
 //        createGroupModel.schedule.onFieldInvalidate = invalidationListener
         createGroupModel.numberOfMeetings.onFieldInvalidate = invalidationListener
-        createGroupModel.startDate.onFieldInvalidate = invalidationListener
+//        createGroupModel.startDate.onFieldInvalidate = invalidationListener
         createGroupModel.price.onFieldInvalidate = invalidationListener
         createGroupModel.description.onFieldInvalidate = invalidationListener
         createGroupModel.image.onFieldInvalidate = invalidationListener
@@ -140,19 +146,20 @@ class CreateGroupViewModel(
     }
 
     override fun completeClick() {
-        canCreate.postValue(false)
+        canComplete.postValue(false)
 
         viewModelScope.launch {
             val requestEntity =
                 groupUseCase.createGroup(createGroupModel.toEntity(createGroupModel.groupType))
 
-            canCreate.postValue(true)
+            canComplete.postValue(true)
 
             if (requestEntity.isSuccessful) {
                 router.closeActivity()
             }
         }
     }
+
 
     override fun backClick() {
         router.onBack()
@@ -162,7 +169,12 @@ class CreateGroupViewModel(
         router.navigateToCalendarPiker()
     }
 
+    override fun chooseStartDateTouch() {
+        router.navigateToDatePicker()
+    }
+
     override fun okClick() {
+        changeSchedule()
         router.onBack()
     }
 
@@ -172,6 +184,24 @@ class CreateGroupViewModel(
 
     override fun setMinutes(minutes: String) {
         createGroupModel.minutes = minutes
+    }
+
+    override fun setTimeType(timeType: String) {
+        createGroupModel.timeType = timeType
+    }
+
+    override fun changeDayState(day: CalendarDay, state: Boolean) {
+        if (state) {
+            createGroupModel.scheduleDays.add(calendarUtil.getString(day))
+        } else {
+            val item = createGroupModel.scheduleDays.find { p -> p == calendarUtil.getString(day) }
+
+            item?.let {
+                createGroupModel.scheduleDays.remove(it)
+            }
+        }
+
+        canOk.postValue(createGroupModel.scheduleDays.size != 0)
     }
 
     override fun applyArguments(args: CreateGroupArgs) {
@@ -197,12 +227,12 @@ class CreateGroupViewModel(
         // TODO: uncommite when calendar picker is ready
 //        isFormValid = isFormValid and createGroupModel.schedule.isValid
         isFormValid = isFormValid and createGroupModel.numberOfMeetings.isValid
-        isFormValid = isFormValid and createGroupModel.startDate.isValid
+//        isFormValid = isFormValid and createGroupModel.startDate.isValid
         isFormValid = isFormValid and createGroupModel.price.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
 
-        canCreate.postValue(isFormValid)
+        canComplete.postValue(isFormValid)
     }
 
     private fun updateCanAddParticipant() {
@@ -211,5 +241,51 @@ class CreateGroupViewModel(
         isFormValid = isFormValid and email.isValid
 
         canAddParticipant.postValue(isFormValid)
+    }
+
+    private fun changeSchedule() {
+        val builder = StringBuilder()
+
+        for ((index, value) in createGroupModel.scheduleDays.iterator().withIndex()) {
+            if (index != createGroupModel.scheduleDays.size - 1) {
+                builder.append("$value, ")
+            } else {
+                builder.append("$value ")
+            }
+        }
+
+        builder.append("${createGroupModel.hours}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
+        createGroupModel.scheduleTime.observableField.set(builder.toString())
+
+        createGroupModel.scheduleDays.clear()
+    }
+
+    private fun changeStartDate() {
+        createGroupModel.startDate.observableField.set(
+            "${createGroupModel.day} ${datePickerUtil.getStringValue(
+                createGroupModel.month
+            )} ${createGroupModel.year}"
+        )
+    }
+
+    override fun cancelClick() {
+        router.onBack()
+    }
+
+    override fun doneClick() {
+        changeStartDate()
+        router.onBack()
+    }
+
+    override fun setMonth(month: Int) {
+        createGroupModel.month = month
+    }
+
+    override fun setDay(day: Int) {
+        createGroupModel.day = day
+    }
+
+    override fun setYear(year: Int) {
+        createGroupModel.year = year
     }
 }

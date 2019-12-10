@@ -1,8 +1,30 @@
 package com.doneit.ascend.presentation.utils
 
-class CalendarPickerUtil {
+import android.content.Context
+import com.doneit.ascend.presentation.main.R
+
+class CalendarPickerUtil(
+    private val context: Context
+) {
+
+    fun getString(day: CalendarDay): String {
+        val resId: Int = when (day) {
+            CalendarDay.MONDAY -> R.string.mon
+            CalendarDay.TUESDAY -> R.string.tue
+            CalendarDay.WEDNESDAY -> R.string.wed
+            CalendarDay.THURSDAY -> R.string.thu
+            CalendarDay.FRIDAY -> R.string.fri
+            CalendarDay.SATURDAY -> R.string.sat
+            CalendarDay.SUNDAY -> R.string.sun
+        }
+
+        return context.getString(resId)
+    }
 
     companion object {
+
+        const val DEFAULT_TIME_TYPE = "AM"
+
         fun getHours(hours: Int): List<String> {
             val list = mutableListOf<String>()
 

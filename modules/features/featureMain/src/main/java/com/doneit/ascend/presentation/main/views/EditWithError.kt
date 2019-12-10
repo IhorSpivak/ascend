@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.views
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.Editable
+import android.text.InputFilter
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
@@ -13,6 +14,7 @@ import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.R
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
+
 
 @InverseBindingMethods(
     value = [
@@ -67,12 +69,12 @@ class EditWithError @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private var isCheckOnMaxLength = false
-    private var maxLength = 0
-
     init {
         View.inflate(context, R.layout.view_edit_with_error, this)
-        maxLength = 64
+
+        this.editText.filters = arrayOf<InputFilter>(
+            InputFilter.LengthFilter(48)
+        )
     }
 
     var text: String
@@ -85,35 +87,62 @@ class EditWithError @JvmOverloads constructor(
             }
         }
 
+    var everWordWithCapitalLetter: Boolean = false
+    var editing: Boolean = false
+
     private var listener: InverseBindingListener? = null
 
     fun setListener(listener: InverseBindingListener) {
         this.listener = listener
-        editText.addTextChangedListener(object : TextWatcher {
+
+        editText.addTextChangedListener(getNewTextChangedListener())
+    }
+
+    private fun getNewTextChangedListener(): TextWatcher {
+        return object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
+
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
             }
 
-            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 editText.removeTextChangedListener(this)
 
-                val currSelection = editText.selectionEnd
+                val currentText = s.toString()
 
-                val currentText = if (isCheckOnMaxLength && s.toString().length >= maxLength)
-                    s.toString().substring(0, maxLength)
-                else
-                    s.toString()
+                val lastSymbol =
+                    if (currentText.isNotEmpty()) currentText[currentText.length - 1] else null
 
-                editText.setText(currentText)
-                editText.setSelection(if (currSelection > currentText.length) currentText.length else currSelection)
+                if (everWordWithCapitalLetter) {
+
+                    val words = mutableListOf<String>()
+
+                    for (value in currentText.split(" ")) {
+                        if (value.isEmpty()) {
+                            continue
+                        }
+
+                        words.add(value.capitalize())
+                    }
+
+                    var formattedTest = words.joinToString(separator = " ")
+
+                    if (lastSymbol == ' ') {
+                        formattedTest += lastSymbol
+                    }
+
+                    editText.setText(formattedTest)
+                    editText.setSelection(formattedTest.length)
+                }
 
                 editText.addTextChangedListener(this)
 
-                listener.onChange()
+                listener?.onChange()
             }
-        })
+        }
     }
 
     fun setHint(hint: String?) {
@@ -147,8 +176,9 @@ class EditWithError @JvmOverloads constructor(
     }
 
     fun setMaxLength(length: Int) {
-        isCheckOnMaxLength = true
-        maxLength = length
+        this.editText.filters = arrayOf<InputFilter>(
+            InputFilter.LengthFilter(length)
+        )
     }
 
     override fun getBaseline(): Int {

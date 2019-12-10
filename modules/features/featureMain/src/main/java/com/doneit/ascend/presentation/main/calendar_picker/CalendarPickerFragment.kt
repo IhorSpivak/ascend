@@ -1,14 +1,18 @@
 package com.doneit.ascend.presentation.main.calendar_picker
 
 import android.os.Bundle
+import android.widget.CompoundButton
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
-import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.main.databinding.FragmentCalendarPickerBinding
+import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.CalendarDay
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
+import com.doneit.ascend.presentation.utils.CalendarPickerUtil.Companion.DEFAULT_TIME_TYPE
 import kotlinx.android.synthetic.main.fragment_calendar_picker.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -35,9 +39,14 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         binding.model = viewModel
         binding.executePendingBindings()
 
-        hoursPicker.data = CalendarPickerUtil.getHours(CalendarPickerUtil.getHours("AM"))
+        hoursPicker.data =
+            CalendarPickerUtil.getHours(CalendarPickerUtil.getHours(DEFAULT_TIME_TYPE))
         minutesPicker.data = CalendarPickerUtil.getMinutes()
         timeTypePicker.data = CalendarPickerUtil.getTimeType()
+
+        viewModel.setHours("00")
+        viewModel.setMinutes("00")
+        viewModel.setTimeType(DEFAULT_TIME_TYPE)
 
         hoursPicker.setOnItemSelectedListener { _, data, _ ->
             viewModel.setHours(data as String)
@@ -48,20 +57,33 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         }
 
         timeTypePicker.setOnItemSelectedListener { _, data, _ ->
+            viewModel.setTimeType(data as String)
+
             hoursPicker.data =
                 CalendarPickerUtil.getHours(CalendarPickerUtil.getHours(data as String))
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
+        val checkedListener = CompoundButton.OnCheckedChangeListener { button, isChecked ->
+            when (button.id) {
+                R.id.btn_mo -> viewModel.changeDayState(CalendarDay.MONDAY, isChecked)
+                R.id.btn_tu -> viewModel.changeDayState(CalendarDay.TUESDAY, isChecked)
+                R.id.btn_we -> viewModel.changeDayState(CalendarDay.WEDNESDAY, isChecked)
+                R.id.btn_th -> viewModel.changeDayState(CalendarDay.THURSDAY, isChecked)
+                R.id.btn_fr -> viewModel.changeDayState(CalendarDay.FRIDAY, isChecked)
+                R.id.btn_sa -> viewModel.changeDayState(CalendarDay.SATURDAY, isChecked)
+                R.id.btn_su -> viewModel.changeDayState(CalendarDay.SUNDAY, isChecked)
+            }
+        }
 
-        (activity as CreateGroupActivity).clearBackground()
-    }
+        btn_mo.setOnCheckedChangeListener(checkedListener)
+        btn_tu.setOnCheckedChangeListener(checkedListener)
+        btn_we.setOnCheckedChangeListener(checkedListener)
+        btn_th.setOnCheckedChangeListener(checkedListener)
+        btn_fr.setOnCheckedChangeListener(checkedListener)
+        btn_sa.setOnCheckedChangeListener(checkedListener)
+        btn_sa.setOnCheckedChangeListener(checkedListener)
+        btn_su.setOnCheckedChangeListener(checkedListener)
 
-    override fun onStop() {
-        super.onStop()
-
-        (activity as CreateGroupActivity).restoreBackground()
+        hideKeyboard()
     }
 }

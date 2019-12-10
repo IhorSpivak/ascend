@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.utils.extensions
 
 import com.doneit.ascend.presentation.utils.Constants
-import java.lang.StringBuilder
 
 fun List<String>.toErrorMessage(): String {
     val res = StringBuilder()

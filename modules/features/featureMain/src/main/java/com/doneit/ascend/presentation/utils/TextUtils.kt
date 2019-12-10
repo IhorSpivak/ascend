@@ -8,12 +8,7 @@ fun ObservableField<String?>.getNotNull(): String {
 }
 
 fun String.isValidGroupName(): Boolean {
-    val r = Regex("^[a-zA-Z0-9._-]{2,64}\$")
-    return this.matches(r)
-}
-
-fun String.isValidStartDate(): Boolean {
-    val r = Regex("^\\d{2}-\\d{2}-\\d{4}\$")
+    val r = Regex("^[a-zA-Z0-9\\s._-]{2,64}\$")
     return this.matches(r)
 }
 

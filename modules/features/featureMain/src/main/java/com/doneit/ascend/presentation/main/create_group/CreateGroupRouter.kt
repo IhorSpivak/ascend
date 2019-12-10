@@ -6,6 +6,8 @@ import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.calendar_picker.CalendarPickerFragment
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeFragment
+import com.doneit.ascend.presentation.main.date_picker.DatePickerFragment
+import com.doneit.ascend.presentation.main.extensions.add
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 import com.vrgsoft.core.presentation.router.FragmentRouter
@@ -46,6 +48,10 @@ class CreateGroupRouter(
     }
 
     override fun navigateToCalendarPiker() {
-        activity.supportFragmentManager.replaceWithBackStack(containerId, CalendarPickerFragment())
+        activity.supportFragmentManager.add(containerId, CalendarPickerFragment())
+    }
+
+    override fun navigateToDatePicker() {
+        activity.supportFragmentManager.add(containerId, DatePickerFragment())
     }
 }

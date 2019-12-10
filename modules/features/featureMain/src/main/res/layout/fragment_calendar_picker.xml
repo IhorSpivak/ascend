@@ -13,7 +13,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -34,14 +36,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:paddingBottom="5dp">
+                    android:layout_marginTop="24dp">
 
                     <ToggleButton
+                        android:id="@+id/btn_su"
                         style="@style/TextNormal"
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
+                        android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/day_button_selector"
                         android:textColor="@drawable/day_button_text_selector"
@@ -50,9 +53,10 @@
                         android:textSize="14sp" />
 
                     <ToggleButton
+                        android:id="@+id/btn_mo"
                         style="@style/TextNormal"
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/day_button_selector"
@@ -62,9 +66,10 @@
                         android:textSize="14sp" />
 
                     <ToggleButton
+                        android:id="@+id/btn_tu"
                         style="@style/TextNormal"
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/day_button_selector"
@@ -74,9 +79,10 @@
                         android:textSize="14sp" />
 
                     <ToggleButton
+                        android:id="@+id/btn_we"
                         style="@style/TextNormal"
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/day_button_selector"
@@ -86,9 +92,10 @@
                         android:textSize="14sp" />
 
                     <ToggleButton
+                        android:id="@+id/btn_th"
                         style="@style/TextNormal"
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/day_button_selector"
@@ -98,9 +105,10 @@
                         android:textSize="14sp" />
 
                     <ToggleButton
+                        android:id="@+id/btn_fr"
                         style="@style/TextNormal"
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/day_button_selector"
@@ -111,9 +119,10 @@
                         android:textSize="14sp" />
 
                     <ToggleButton
+                        android:id="@+id/btn_sa"
                         style="@style/TextNormal"
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="24dp"
                         android:layout_weight="1"
@@ -126,17 +135,18 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="173dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp">
 
                     <com.aigestudio.wheelpicker.WheelPicker
                         android:id="@+id/hoursPicker"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         aigestudio:wheel_atmospheric="true"
                         aigestudio:wheel_curved="true"
-                        aigestudio:wheel_cyclic="false"
+                        aigestudio:wheel_cyclic="true"
                         aigestudio:wheel_item_align="right"
                         aigestudio:wheel_item_space="40dp"
                         aigestudio:wheel_item_text_color="#D1D1D1"
@@ -145,12 +155,12 @@
 
                     <com.aigestudio.wheelpicker.WheelPicker
                         android:id="@+id/minutesPicker"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_marginStart="27dp"
                         aigestudio:wheel_atmospheric="true"
                         aigestudio:wheel_curved="true"
-                        aigestudio:wheel_cyclic="false"
+                        aigestudio:wheel_cyclic="true"
                         aigestudio:wheel_item_align="right"
                         aigestudio:wheel_item_space="40dp"
                         aigestudio:wheel_item_text_color="#D1D1D1"
@@ -159,9 +169,9 @@
 
                     <com.aigestudio.wheelpicker.WheelPicker
                         android:id="@+id/timeTypePicker"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_marginStart="27dp"
                         aigestudio:wheel_atmospheric="true"
                         aigestudio:wheel_curved="true"
                         aigestudio:wheel_cyclic="false"
@@ -170,7 +180,6 @@
                         aigestudio:wheel_item_text_color="#D1D1D1"
                         aigestudio:wheel_item_text_size="23sp"
                         aigestudio:wheel_selected_item_text_color="@color/colorAccent" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -186,6 +195,7 @@
                         android:layout_marginTop="24dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_cancel_selector"
+                        android:onClick="@{() -> model.backClick()}"
                         android:text="@string/btn_cancel"
                         android:textColor="@color/colorAccent"
                         android:textSize="16sp" />
@@ -201,12 +211,13 @@
                         android:layout_marginBottom="24dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_ok_selector"
+                        android:enabled="@{model.canOk}"
+                        android:onClick="@{() -> model.okClick()}"
                         android:text="@string/ok"
                         android:textColor="@android:color/white"
                         android:textSize="16sp" />
 
                 </LinearLayout>
-
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

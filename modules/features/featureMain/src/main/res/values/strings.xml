@@ -55,7 +55,7 @@
     <string name="error_description">The Group Description from 2 till 1000 symbols</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_complete">Complete</string>
-
+    <string name="btn_done">Done</string>
 
     <!--Profile-->
     <string name="sign_out">Log Out</string>
@@ -66,6 +66,7 @@
     <string name="support_group_description">Provide an opportunity for people to share personal experiences, feelings and helps people who are going through or have gone through similar experiences</string>
     <string name="mastermind_group_title">MasterMind Group</string>
     <string name="mastermind_group_description">Offer a combination of brainstorming, education, peer accountability and support in a group setting to sharpen your business and personal skills</string>
+
     <string name="su">Su</string>
     <string name="mo">Mo</string>
     <string name="tu">Tu</string>
@@ -74,4 +75,25 @@
     <string name="fr">Fr</string>
     <string name="sa">Sa</string>
     <string name="ok">OK</string>
+
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="june">June</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
 </resources>

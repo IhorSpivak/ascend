@@ -29,7 +29,7 @@
             android:textSize="24sp"
             tools:text="How did you hear anbout us?" />
 
-        <com.doneit.ascend.presentation.login.views.EditWithError
+        <com.doneit.ascend.presentation.main.views.EditWithError
             android:id="@+id/answer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
