@@ -29,13 +29,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.followerAdapter = followerAdapter
 
         viewModel.user.observe(this, Observer {
-            it?.let {
-                it.community?.let { community ->
-                    binding.tvTitle.text = getString(R.string.main_title, community)
-                }
-            }
+            setTitle(it?.community)
         })
 
+        setTitle(viewModel.user.value?.community)
+    }
 
+    private fun setTitle(community: String?) {
+        var title = getString(R.string.main_title)
+        community?.let {
+             title += " $community"
+        }
+
+        binding.tvTitle.text = title
     }
 }

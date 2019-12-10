@@ -129,7 +129,8 @@
                         app:tabIndicatorColor="@android:color/transparent"
                         app:tabSelectedTextColor="@color/colorAccent"
                         app:tabTextAppearance="@style/TapTextAppearance"
-                        app:tabTextColor="@color/colorAccent_inactive">
+                        app:tabTextColor="@color/colorAccent_inactive"
+                        app:tabMode="scrollable">
 
                         <com.google.android.material.tabs.TabItem
                             android:layout_width="wrap_content"
