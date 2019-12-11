@@ -7,11 +7,14 @@ import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 
-abstract class BaseRepository (
+abstract class BaseRepository(
     private val gson: Gson
 ) {
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    suspend fun <T, E> execute(call: (() -> Deferred<Response<T>>), expectedErrorType: Class<E>): RemoteResponse<T, E> {
+    suspend fun <T, E> execute(
+        call: (() -> Deferred<Response<T>>),
+        expectedErrorType: Class<E>
+    ): RemoteResponse<T, E> {
         return try {
             val result = call.invoke().await()
             result.toRemoteResponse(expectedErrorType)
@@ -19,7 +22,7 @@ abstract class BaseRepository (
             RemoteResponse(
                 false,
                 -1,
-                exception.message?:"",
+                exception.message ?: "",
                 null,
                 expectedErrorType.newInstance()
             )
@@ -30,7 +33,7 @@ abstract class BaseRepository (
         var error: E? = null
         try {
             error = gson.fromJson(errorBody()?.string(), errorType)
-        } catch (exception: JsonSyntaxException){
+        } catch (exception: JsonSyntaxException) {
             exception.printStackTrace()
         }
 

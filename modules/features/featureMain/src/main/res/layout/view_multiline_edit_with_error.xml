@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/mainContainer"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <ImageView
@@ -12,9 +11,9 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="14dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/textLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,18 +23,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:theme="@style/TextInputLayoutAppearance"
+        app:hintAnimationEnabled="true"
         app:hintTextAppearance="@style/HintStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editText"
+            android:id="@+id/multilineEditText"
             style="@style/TextNormal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:lines="1"
-            android:singleLine="true" />
+            android:inputType="textMultiLine"
+            android:minLines="1"
+            android:singleLine="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

@@ -6,9 +6,22 @@ enum class GroupType {
     RECOVERY,
     FAMILY,
     SUCCESS,
-    SPIRITUAL;
+    SPIRITUAL,
+    SUPPORT;
 
     override fun toString(): String {
         return super.toString().toLowerCase()
+    }
+}
+
+fun GroupType.toStringValue(): String {
+    return when (this) {
+        GroupType.MASTER_MIND -> "master_mind"
+        GroupType.WEBINAR -> "webinar"
+        GroupType.RECOVERY -> "recovery"
+        GroupType.FAMILY -> "family"
+        GroupType.SUCCESS -> "success"
+        GroupType.SPIRITUAL -> "spiritual"
+        GroupType.SUPPORT -> "support"
     }
 }

@@ -115,14 +115,14 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp">
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/vpGroups"
-                        android:layout_width="match_parent"
-                        android:layout_height="370dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:setAdapter="@{adapter}">
+                <com.doneit.ascend.presentation.main.views.NoSwipeViewPager
+                    android:id="@+id/vpGroups"
+                    android:layout_width="match_parent"
+                    android:layout_height="370dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:setAdapter="@{adapter}">
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tlGroups"
@@ -153,8 +153,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
-                        </com.google.android.material.tabs.TabLayout>
-                    </androidx.viewpager.widget.ViewPager>
+                    </com.google.android.material.tabs.TabLayout>
+                </com.doneit.ascend.presentation.main.views.NoSwipeViewPager>
 
                     <TextView
                         android:id="@+id/my_daily_gr"

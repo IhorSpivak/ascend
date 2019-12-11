@@ -123,6 +123,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/userName"
+                    app:noFocusable="@{true}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_calendar}"
                     app:text="@{model.createGroupModel.scheduleTime.observableField}" />
@@ -156,7 +157,7 @@
                     app:digits="@{@string/allow_date_digits}"
                     app:error="@{model.createGroupModel.startDate.observableError}"
                     app:hint="@{@string/start_date}"
-                    app:inputType="@{InputType.TYPE_CLASS_NUMBER}"
+                    app:noFocusable="@{true}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/numberOfMeetings"
@@ -183,7 +184,7 @@
                     app:src="@{@drawable/ic_price}"
                     app:text="@={model.createGroupModel.price.observableField}" />
 
-                <com.doneit.ascend.presentation.main.views.EditWithError
+                <com.doneit.ascend.presentation.main.views.MultilineEditWithError
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -193,11 +194,11 @@
                     app:digits="@{@string/allow_description_digits}"
                     app:error="@{model.createGroupModel.description.observableError}"
                     app:hint="@{@string/description}"
-                    app:inputType="@{InputType.TYPE_CLASS_TEXT}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/price"
                     app:maxLength="@{1000}"
+                    app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_description}"
                     app:text="@={model.createGroupModel.description.observableField}" />
@@ -308,7 +309,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/add_participant_box"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
@@ -324,9 +325,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="28dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="5dp"
                         app:digits="@{@string/allow_email_digits}"
                         app:error="@{model.email.observableError}"
                         app:hint="@{@string/reserved_person_email}"

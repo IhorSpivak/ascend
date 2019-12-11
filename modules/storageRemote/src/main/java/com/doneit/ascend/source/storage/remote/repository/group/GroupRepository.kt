@@ -19,7 +19,10 @@ internal class GroupRepository(
     private val api: GroupApi
 ) : BaseRepository(gson), IGroupRepository {
 
-    override suspend fun createGroup(file: File, request: CreateGroupRequest): RemoteResponse<GroupResponse, ErrorsListResponse> {
+    override suspend fun createGroup(
+        file: File,
+        request: CreateGroupRequest
+    ): RemoteResponse<GroupResponse, ErrorsListResponse> {
         return execute({
 
             var builder = MultipartBody.Builder()
@@ -36,14 +39,31 @@ internal class GroupRepository(
             stringPart = MultipartBody.Part.createFormData("group_type", request.groupType)
             builder = builder.addPart(stringPart)
 
+            request.days?.forEach {
+                stringPart = MultipartBody.Part.createFormData("wdays[]", it.toString())
+                builder = builder.addPart(stringPart)
+            }
+
+            stringPart = MultipartBody.Part.createFormData(
+                "meetings_count",
+                Gson().toJson(request.meetingsCount)
+            )
+            builder = builder.addPart(stringPart)
+
             stringPart = MultipartBody.Part.createFormData("price", request.price)
             builder = builder.addPart(stringPart)
 
-            stringPart = MultipartBody.Part.createFormData("participants", Gson().toJson(request.participants))
+            stringPart = MultipartBody.Part.createFormData(
+                "participants",
+                Gson().toJson(request.participants)
+            )
             builder = builder.addPart(stringPart)
 
-            val filePart = MultipartBody.Part.createFormData("image", file.name, RequestBody.create(
-                MediaType.parse("image/*"), file))
+            val filePart = MultipartBody.Part.createFormData(
+                "image", file.name, RequestBody.create(
+                    MediaType.parse("image/*"), file
+                )
+            )
             builder = builder.addPart(filePart)
 
             api.createGroupAsync(builder.build().parts())
@@ -52,13 +72,15 @@ internal class GroupRepository(
 
     override suspend fun getGroupsList(listRequest: GroupListRequest): RemoteResponse<GroupListResponse, ErrorsListResponse> {
         return execute({
-            api.getGroupsAsync(listRequest.page,
+            api.getGroupsAsync(
+                listRequest.page,
                 listRequest.perPage,
                 listRequest.sortColumn,
                 listRequest.sortType,
                 listRequest.name,
                 listRequest.userId,
-                listRequest.groupType)
+                listRequest.groupType
+            )
         }, ErrorsListResponse::class.java)
     }
 }

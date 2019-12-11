@@ -1,10 +1,10 @@
 package com.doneit.ascend.presentation.main.models
 
 import androidx.databinding.ObservableField
+import com.doneit.ascend.presentation.utils.CalendarDay
 
 class PresentationCreateGroupModel(
     var name: ValidatableField = ValidatableField(),
-    var schedule: ValidatableField = ValidatableField(),
     var numberOfMeetings: ValidatableField = ValidatableField(),
     var startDate: ValidatableField = ValidatableField(),
     var price: ValidatableField = ValidatableField(),
@@ -18,6 +18,7 @@ class PresentationCreateGroupModel(
     var month: Int = 0,
     var day: Int = 0,
     var year: Int = 0,
-    var scheduleDays: MutableList<String> = mutableListOf(),
+    var selectedDays: MutableList<CalendarDay> = mutableListOf(),
+    var scheduleDays: MutableList<CalendarDay> = mutableListOf(),
     var scheduleTime: ValidatableField = ValidatableField()
 )

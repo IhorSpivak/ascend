@@ -56,7 +56,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun setTitle(community: String?) {
         var title = getString(R.string.main_title)
         community?.let {
-             title += " $community"
+            title += " $community"
         }
 
         binding.tvTitle.text = title

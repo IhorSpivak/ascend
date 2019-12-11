@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.androidisland.ezpermission.EzPermission
@@ -13,7 +14,6 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
-import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.utils.copyCompressed
 import com.doneit.ascend.presentation.utils.getFileExtension
@@ -62,20 +62,14 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
 
         tvTitle.text = getString(R.string.create_group)
 
-        chooseSchedule.editText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                viewModel.chooseScheduleTouch()
-                chooseSchedule.clearFocus()
-                hideKeyboard()
-            }
+        chooseSchedule.editText.setOnClickListener {
+            viewModel.chooseScheduleTouch()
+            chooseSchedule.clearFocus()
         }
 
-        startDate.editText.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                viewModel.chooseStartDateTouch()
-                chooseSchedule.clearFocus()
-                hideKeyboard()
-            }
+        startDate.editText.setOnClickListener {
+            viewModel.chooseStartDateTouch()
+            chooseSchedule.clearFocus()
         }
 
         binding.uploadImagePlaceHolder.setOnClickListener {
@@ -88,15 +82,22 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
     }
 
     private fun pickFromGallery() {
+
         EzPermission.with(context!!)
             .permissions(
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
             .request { granted, _, _ ->
                 if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    val intent = Intent(Intent.ACTION_PICK)
-                    intent.type = "image/*"
-                    startActivityForResult(intent, GALLERY_REQUEST_CODE)
+                    val galleryIntent = Intent(Intent.ACTION_PICK)
+                    galleryIntent.type = "image/*"
+
+                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+                    val chooser = Intent.createChooser(galleryIntent, "Select App to select Image")
+                    chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
+
+                    startActivityForResult(chooser, GALLERY_REQUEST_CODE)
                 }
             }
     }
