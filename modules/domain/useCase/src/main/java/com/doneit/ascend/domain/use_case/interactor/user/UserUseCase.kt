@@ -29,5 +29,7 @@ interface UserUseCase {
 
     suspend fun insert(user: UserEntity, token: String)
 
+    suspend fun hasSignedInUser(): Boolean
+
     fun getUser(): LiveData<UserEntity?>
 }

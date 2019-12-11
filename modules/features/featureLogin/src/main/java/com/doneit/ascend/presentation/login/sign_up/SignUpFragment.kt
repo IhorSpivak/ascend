@@ -13,6 +13,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.presentation.login.LogInActivity
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentSignUpBinding
 import com.doneit.ascend.presentation.login.utils.applyLinkStyle
@@ -34,7 +35,7 @@ import org.kodein.di.generic.singleton
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
-        bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
+        bind<ViewModelProvider.Factory>(tag = LogInActivity.SIGN_UP_VM_TAG) with singleton { CommonViewModelFactory(kodein.direct) }
         bind<ViewModel>(tag = SignUpViewModel::class.java.simpleName) with provider {
             SignUpViewModel(
                 instance(),
@@ -43,7 +44,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
                 instance()
             )
         }
-        bind<SignUpContract.ViewModel>() with provider { vmShared<SignUpViewModel>(instance()) }
+        bind<SignUpContract.ViewModel>() with provider { vmShared<SignUpViewModel>(instance(tag = LogInActivity.SIGN_UP_VM_TAG)) }
     }
 
     override val viewModel: SignUpContract.ViewModel by instance()

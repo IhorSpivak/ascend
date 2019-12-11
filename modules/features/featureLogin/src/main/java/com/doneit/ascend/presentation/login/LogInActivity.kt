@@ -3,34 +3,38 @@ package com.doneit.ascend.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.login.log_in.LogInContract
-import com.doneit.ascend.presentation.login.log_in.LogInFragment
 import com.doneit.ascend.presentation.main.base.BaseActivity
-import com.doneit.ascend.presentation.utils.Constants.RC_SIGN_IN
-import com.doneit.ascend.presentation.utils.LocalStorage
-import com.doneit.ascend.presentation.utils.UIReturnStep
+import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.facebook.FacebookSdk
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
+import org.kodein.di.direct
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
 class LogInActivity : BaseActivity() {
     override fun diModule() = Kodein.Module("LogInActivity") {
         bind<LogInLocalRouter>() with singleton { LogInLocalRouter(this@LogInActivity, instance()) }
         bind<LogInContract.Router>() with singleton { instance<LogInLocalRouter>() }
+        bind<LogInActivityContract.Router>() with singleton { instance<LogInLocalRouter>() }
+
+        bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
+        bind<ViewModel>(tag = LogInActivityViewModel::class.java.simpleName) with provider {
+            LogInActivityViewModel(
+                instance(),
+                instance(),
+                instance(),
+                instance()
+            )
+        }
+        bind<LogInActivityContract.ViewModel>() with provider { vm<LogInActivityViewModel>(instance()) }
     }
 
-    private val router: LogInLocalRouter by instance()
-    private val localStorage: LocalStorage by instance()
-    private val questionUseCase: QuestionUseCase by instance()
+    private val viewModel: LogInActivityContract.ViewModel by instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,17 +42,7 @@ class LogInActivity : BaseActivity() {
         FacebookSdk.sdkInitialize(applicationContext)
         setContentView(R.layout.activity_log_in)
 
-
-        val step = localStorage.getUIReturnStep()
-        when (step) {
-            UIReturnStep.FIRST_TIME_LOGIN -> {
-                GlobalScope.launch {
-                    val questions = questionUseCase.getQuestionsList()
-                    router.navigateToFirstTimeLogin(questions)
-                }
-            }
-            else -> router.navigateToLogInFragment()
-        }
+        viewModel.tryToLogin()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -59,5 +53,9 @@ class LogInActivity : BaseActivity() {
         if (fragment != null) {
             fragment.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    companion object {
+        const val SIGN_UP_VM_TAG = "SignUpFlow"
     }
 }

@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.login.sign_up.verify_phone
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.presentation.login.LogInActivity
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentVerifyPhoneBinding
 import com.doneit.ascend.presentation.login.sign_up.SignUpViewModel
@@ -28,7 +29,7 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
     override val viewModelModule = Kodein.Module(this::class.java.simpleName){
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
         //di should contains corresponding ViewModel from SignUpFragments' module for now
-        bind<VerifyPhoneContract.ViewModel>() with provider { vmShared<SignUpViewModel>(instance()) }
+        bind<VerifyPhoneContract.ViewModel>() with provider { vmShared<SignUpViewModel>(instance(tag = LogInActivity.SIGN_UP_VM_TAG)) }
     }
 
     override val viewModel: VerifyPhoneContract.ViewModel by instance()

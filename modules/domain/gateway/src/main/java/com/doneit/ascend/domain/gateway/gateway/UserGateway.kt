@@ -34,7 +34,7 @@ internal class UserGateway(
     private val remote: RemoteRepository,
     private val local: LocalRepository,
     private val accountManager: AccountManager,
-    private val context: Context
+    private val packageName: String
 ) : BaseGateway(errors), IUserGateway {
 
     override fun <T> calculateMessage(error: T): String {
@@ -155,11 +155,12 @@ internal class UserGateway(
         )
     }
 
+    //todo do it on login responses
     override suspend fun insert(user: UserEntity, token: String) {
         local.insert(user.toUserLocal())
 
         // save token
-        val account = Account(user.name, context.packageName)
+        val account = Account(user.name, packageName)
 
         removeAccounts()
 
@@ -178,8 +179,12 @@ internal class UserGateway(
         }
     }
 
+    override suspend fun hasSignedInUser(): Boolean {
+        return accountManager.getAccountsByType(packageName).isNotEmpty()
+    }
+
     private fun removeAccounts() {
-        val accounts = accountManager.getAccountsByType(context.packageName)
+        val accounts = accountManager.getAccountsByType(packageName)
 
         if (accounts.isNotEmpty()) {
             for (accountItem in accounts) {

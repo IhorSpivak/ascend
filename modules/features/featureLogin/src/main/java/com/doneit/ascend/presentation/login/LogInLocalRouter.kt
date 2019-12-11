@@ -30,7 +30,8 @@ import java.util.*
 class LogInLocalRouter(
     private val activity: LogInActivity,
     private val outerRouter: ILogInAppRouter
-) : LogInContract.Router,
+) : LogInActivityContract.Router,
+    LogInContract.Router,
     SignUpContract.Router,
     ForgotPasswordContract.Router,
     NewPasswordContract.Router,
@@ -45,7 +46,7 @@ class LogInLocalRouter(
         //todo
     }
 
-    fun navigateToLogInFragment() {
+    override fun navigateToLogInFragment() {
         activity.supportFragmentManager.replace(R.id.container, LogInFragment())
     }
 

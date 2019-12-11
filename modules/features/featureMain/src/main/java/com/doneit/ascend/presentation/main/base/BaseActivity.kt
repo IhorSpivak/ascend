@@ -4,6 +4,8 @@ import android.os.Build
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Resources
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import java.util.*
 
 
@@ -44,5 +46,9 @@ abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivit
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.displayMetrics)
         return context
+    }
+
+    inline fun <reified VM : BaseViewModelImpl> vm(factory: ViewModelProvider.Factory): VM {
+        return ViewModelProviders.of(this, factory)[VM::class.java]
     }
 }
