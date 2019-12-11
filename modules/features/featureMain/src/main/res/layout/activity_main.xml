@@ -52,21 +52,13 @@
         android:id="@+id/fabCreateGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:backgroundTint="@color/selecor_btn_enabled"
         android:tint="@android:color/white"
         app:borderWidth="0dp"
-        app:layout_anchor="@id/placeholder"
-        android:layout_gravity="center|top"
-        app:layout_anchorGravity="top|center_horizontal"
-        app:srcCompat="@drawable/ic_camera_plus" />
-
-    <!--todo try to remove this trick-->
-    <View
-        android:id="@+id/placeholder"
-        android:layout_width="10dp"
-        android:layout_height="15dp"
         app:layout_anchor="@id/bottom_app_bar"
+        android:layout_gravity="bottom|center_horizontal"
         app:layout_anchorGravity="bottom|center_horizontal"
-        android:layout_gravity="center|center_horizontal"/>
+        app:srcCompat="@drawable/ic_camera_plus" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
