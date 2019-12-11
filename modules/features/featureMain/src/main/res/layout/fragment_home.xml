@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="15dp">
 
-                <androidx.viewpager.widget.ViewPager
+                <com.doneit.ascend.presentation.main.views.NoSwipeViewPager
                     android:id="@+id/vpGroups"
                     android:layout_width="match_parent"
                     android:layout_height="370dp"
@@ -149,7 +149,7 @@
                             android:layout_height="wrap_content" />
 
                     </com.google.android.material.tabs.TabLayout>
-                </androidx.viewpager.widget.ViewPager>
+                </com.doneit.ascend.presentation.main.views.NoSwipeViewPager>
 
                 <TextView
                     android:id="@+id/my_daily_gr"

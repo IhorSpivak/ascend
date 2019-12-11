@@ -192,16 +192,16 @@ class CreateGroupViewModel(
 
     override fun changeDayState(day: CalendarDay, state: Boolean) {
         if (state) {
-            createGroupModel.scheduleDays.add(calendarUtil.getString(day))
+            createGroupModel.selectedDays.add(day)
         } else {
-            val item = createGroupModel.scheduleDays.find { p -> p == calendarUtil.getString(day) }
+            val item = createGroupModel.selectedDays.find { p -> p == day }
 
             item?.let {
-                createGroupModel.scheduleDays.remove(it)
+                createGroupModel.selectedDays.remove(it)
             }
         }
 
-        canOk.postValue(createGroupModel.scheduleDays.size != 0)
+        canOk.postValue(createGroupModel.selectedDays.size != 0)
     }
 
     override fun applyArguments(args: CreateGroupArgs) {
@@ -244,13 +244,15 @@ class CreateGroupViewModel(
     }
 
     private fun changeSchedule() {
+
         val builder = StringBuilder()
 
-        for ((index, value) in createGroupModel.scheduleDays.iterator().withIndex()) {
-            if (index != createGroupModel.scheduleDays.size - 1) {
-                builder.append("$value, ")
+        createGroupModel.selectedDays.sortBy { it.ordinal }
+        for ((index, value) in createGroupModel.selectedDays.iterator().withIndex()) {
+            if (index != createGroupModel.selectedDays.size - 1) {
+                builder.append("${calendarUtil.getString(value)}, ")
             } else {
-                builder.append("$value ")
+                builder.append("${calendarUtil.getString(value)} ")
             }
         }
 
@@ -258,6 +260,8 @@ class CreateGroupViewModel(
         createGroupModel.scheduleTime.observableField.set(builder.toString())
 
         createGroupModel.scheduleDays.clear()
+        createGroupModel.scheduleDays.addAll(createGroupModel.selectedDays)
+        createGroupModel.selectedDays.clear()
     }
 
     private fun changeStartDate() {

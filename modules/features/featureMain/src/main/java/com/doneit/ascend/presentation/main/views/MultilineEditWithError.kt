@@ -13,12 +13,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.R
-import kotlinx.android.synthetic.main.view_edit_with_error.view.*
+import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 
 @InverseBindingMethods(
     value = [
         InverseBindingMethod(
-            type = EditWithError::class,
+            type = MultilineEditWithError::class,
             attribute = "text",
             method = "getText"
         )
@@ -27,74 +27,71 @@ import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 @BindingMethods(
     value = [
         BindingMethod(
-            type = EditWithError::class,
+            type = MultilineEditWithError::class,
             attribute = "text",
             method = "setText"
 
         ),
         BindingMethod(
-            type = EditWithError::class,
+            type = MultilineEditWithError::class,
             attribute = "textAttrChanged",
             method = "setListener"
 
         ),
         BindingMethod(
-            type = EditWithError::class,
+            type = MultilineEditWithError::class,
             attribute = "hint",
             method = "setHint"
 
         ),
         BindingMethod(
-            type = EditWithError::class,
+            type = MultilineEditWithError::class,
             attribute = "error",
             method = "setError"
 
         ),
         BindingMethod(
-            type = EditWithError::class,
+            type = MultilineEditWithError::class,
             attribute = "src",
             method = "setSrc"
 
         ),
         BindingMethod(
-            type = EditWithError::class,
-            attribute = "inputType",
+            type = MultilineEditWithError::class,
+            attribute = "multilineInput",
             method = "setInput"
 
         )
     ]
 )
-class EditWithError @JvmOverloads constructor(
+class MultilineEditWithError @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     init {
-        View.inflate(context, R.layout.view_edit_with_error, this)
+        View.inflate(context, R.layout.view_multiline_edit_with_error, this)
 
-        this.editText.filters = arrayOf<InputFilter>(
+        this.multilineEditText.filters = arrayOf<InputFilter>(
             InputFilter.LengthFilter(48)
         )
     }
 
     var text: String
         get() {
-            return editText.text.toString()
+            return multilineEditText.text.toString()
         }
         set(value) {
-            if (value != editText.text.toString()) {
-                editText.setText(value)
+            if (value != multilineEditText.text.toString()) {
+                multilineEditText.setText(value)
             }
         }
-
-    var everWordWithCapitalLetter: Boolean = false
-    var editing: Boolean = false
 
     private var listener: InverseBindingListener? = null
 
     fun setListener(listener: InverseBindingListener) {
         this.listener = listener
 
-        editText.addTextChangedListener(object : TextWatcher {
+        multilineEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
 
             }
@@ -105,36 +102,14 @@ class EditWithError @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
+                multilineEditText.removeTextChangedListener(this)
 
                 val currentText = s.toString()
-
-                val lastSymbol =
-                    if (currentText.isNotEmpty()) currentText[currentText.length - 1] else null
-
-                if (everWordWithCapitalLetter) {
-                    editText.removeTextChangedListener(this)
-
-                    val words = mutableListOf<String>()
-
-                    for (value in currentText.split(" ")) {
-                        if (value.isEmpty()) {
-                            continue
-                        }
-
-                        words.add(value.capitalize())
-                    }
-
-                    var formattedTest = words.joinToString(separator = " ")
-
-                    if (lastSymbol == ' ') {
-                        formattedTest += lastSymbol
-                    }
-
-                    editText.setText(formattedTest)
-                    editText.setSelection(formattedTest.length)
-
-                    editText.addTextChangedListener(this)
+                if (currentText.startsWith(" ")) {
+                    multilineEditText.setText(currentText.substring(1))
                 }
+
+                multilineEditText.addTextChangedListener(this)
 
                 listener.onChange()
             }
@@ -159,29 +134,22 @@ class EditWithError @JvmOverloads constructor(
         requestLayout()
     }
 
-    fun setInput(inputType: Int) {
-        editText.inputType = inputType or InputType.TYPE_CLASS_TEXT
+    fun setDigits(values: String) {
+        multilineEditText.keyListener = DigitsKeyListener.getInstance(values)
     }
 
-    fun setDigits(values: String) {
-        editText.keyListener = DigitsKeyListener.getInstance(values)
+    fun setMultilineInput(inputType: Int) {
+        multilineEditText.inputType = inputType or InputType.TYPE_CLASS_TEXT
     }
 
     fun setSaveState(isSaveEnabled: Boolean) {
-        editText.isSaveEnabled = isSaveEnabled
+        multilineEditText.isSaveEnabled = isSaveEnabled
     }
 
     fun setMaxLength(length: Int) {
-        this.editText.filters = arrayOf<InputFilter>(
+        multilineEditText.filters = arrayOf<InputFilter>(
             InputFilter.LengthFilter(length)
         )
-    }
-
-    fun setNoFocusable(isEnable: Boolean) {
-        if (isEnable) {
-            editText.inputType = InputType.TYPE_NULL
-            editText.isFocusable = false
-        }
     }
 
     override fun getBaseline(): Int {

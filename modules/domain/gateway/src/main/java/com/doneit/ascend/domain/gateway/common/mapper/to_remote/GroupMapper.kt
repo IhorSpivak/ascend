@@ -12,7 +12,9 @@ fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
         startTime,
         groupType,
         price,
-        participants
+        participants,
+        days,
+        meetingsCount
     )
 }
 

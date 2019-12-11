@@ -1,12 +1,14 @@
 package com.doneit.ascend.presentation.main.home.common
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.fragment.app.FragmentStatePagerAdapter
+import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.daily.DailyFragment
-import com.doneit.ascend.presentation.main.home.HomeFragment
+import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
+import com.doneit.ascend.presentation.main.groups.GroupsFragment
+import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
 
 class TabAdapter(
     fragmentManager: FragmentManager,
@@ -26,37 +28,14 @@ class TabAdapter(
         return titles[position]
     }
 
-//    val onPageChangeListener = object : ViewPager.OnPageChangeListener {
-//        override fun onPageScrollStateChanged(state: Int) {
-//
-//        }
-//
-//        override fun onPageScrolled(
-//            position: Int,
-//            positionOffset: Float,
-//            positionOffsetPixels: Int
-//        ) {
-//
-//        }
-//
-//        override fun onPageSelected(position: Int) {
-////            this@TabAdapter.onPageSelected(position)
-//        }
-//    }
-
-//    fun onPageSelected(position: Int) {
-//        if (fragments[position] is IViewPageOnSelectSubscriber) {
-//            (fragments[position] as IViewPageOnSelectSubscriber).initSearchListener()
-//        }
-//    }
-
     companion object {
         fun newInstance(fragment: Fragment, fragmentManager: FragmentManager): TabAdapter {
+
             var fragments: ArrayList<Fragment> = arrayListOf(
-                DailyFragment(),
-                DailyFragment(),
-                DailyFragment(),
-                DailyFragment()
+                getFragment(GroupType.MASTER_MIND), // TODO: fix
+                getFragment(GroupType.WEBINAR),
+                getFragment(GroupType.RECOVERY),
+                getFragment(GroupType.MASTER_MIND)
             )
 
             val titles: ArrayList<String> = arrayListOf(
@@ -67,6 +46,17 @@ class TabAdapter(
             )
 
             return TabAdapter(fragmentManager, fragments, titles)
+        }
+
+        private fun getFragment(groupType: GroupType): Fragment {
+            val args = GroupsArgs(groupType.ordinal)
+
+            val fragment = GroupsFragment()
+            (fragment as Fragment).arguments = Bundle().apply {
+                putParcelable(ArgumentedFragment.KEY_ARGS, args)
+            }
+
+            return fragment
         }
     }
 }
