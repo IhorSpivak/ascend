@@ -40,10 +40,10 @@ fun GroupResponse.toEntity(): GroupEntity {
         startTime,
         groupType,
         price,
-        image.toEntity(),
+        image?.toEntity(),
         createdAt,
         updatedAt,
-        owner.toEntity(),
+        owner?.toEntity(),
         participantsCount
     )
 }

@@ -2,6 +2,7 @@ package com.doneit.ascend.source.storage.remote.data.request
 
 import com.google.gson.annotations.SerializedName
 
+//used like dto
 class GroupListRequest(
     page: Int?,
     perPage: Int?,

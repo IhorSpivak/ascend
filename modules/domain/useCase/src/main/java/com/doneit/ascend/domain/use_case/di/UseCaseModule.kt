@@ -4,6 +4,8 @@ import com.doneit.ascend.domain.use_case.interactor.answer.AnswerInteractor
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupInteractor
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
+import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindInteractor
+import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.page.PageInteractor
 import com.doneit.ascend.domain.use_case.interactor.page.PageUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionInteractor
@@ -43,6 +45,12 @@ object UseCaseModule {
 
         bind<GroupUseCase>() with provider {
             GroupInteractor(
+                instance()
+            )
+        }
+
+        bind<MasterMindUseCase>() with provider {
+            MasterMindInteractor(
                 instance()
             )
         }

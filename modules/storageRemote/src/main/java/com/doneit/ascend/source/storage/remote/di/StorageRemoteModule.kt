@@ -5,6 +5,8 @@ import com.doneit.ascend.source.storage.remote.repository.answer.AnswerRepositor
 import com.doneit.ascend.source.storage.remote.repository.answer.IAnswerRepository
 import com.doneit.ascend.source.storage.remote.repository.group.GroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
+import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
+import com.doneit.ascend.source.storage.remote.repository.master_minds.MasterMindRepository
 import com.doneit.ascend.source.storage.remote.repository.page.IPageRepository
 import com.doneit.ascend.source.storage.remote.repository.page.PageRepository
 import com.doneit.ascend.source.storage.remote.repository.question.IQuestionRepository
@@ -27,6 +29,7 @@ object StorageRemoteModule {
         bind<AnswerApi>() with provider { instance<Retrofit>().create(AnswerApi::class.java) }
         bind<PageApi>() with provider { instance<Retrofit>().create(PageApi::class.java) }
         bind<GroupApi>() with provider { instance<Retrofit>().create(GroupApi::class.java) }
+        bind<MasterMindApi>() with provider { instance<Retrofit>().create(MasterMindApi::class.java) }
 
         bind<IUserRepository>() with provider {
             UserRepository(
@@ -58,6 +61,14 @@ object StorageRemoteModule {
             GroupRepository(
                 instance(),
                 instance()
+            )
+        }
+
+        bind<IMasterMindRepository>() with provider {
+            MasterMindRepository(
+                instance(),
+                instance()
+
             )
         }
     }
