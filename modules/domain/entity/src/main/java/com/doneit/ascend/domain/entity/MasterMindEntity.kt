@@ -4,7 +4,7 @@ data class MasterMindEntity(
     val id: Long,
     val fullName: String?,
     val displayName: String?,
-    val rating: Double,
+    val rating: Float,
     val followed: Boolean,
     val rated: Boolean,
     val image: ImageEntity?

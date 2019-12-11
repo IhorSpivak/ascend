@@ -23,11 +23,17 @@ class HomeViewModel(
     override val user = userUseCase.getUser()
     override val groups = MutableLiveData<List<GroupEntity>>()
     override val masterMinds = MutableLiveData<List<MasterMindEntity>>()
+    override val isRefreshing = MutableLiveData<Boolean>()
 
     override fun updateData() {
         viewModelScope.launch {
-            launch { updateGroups() }
-            launch { updateMasterMinds() }
+            isRefreshing.postValue(true)
+            val task1 = launch { updateGroups() }
+            val task2 = launch { updateMasterMinds() }
+
+            task1.join()
+            task2.join()
+            isRefreshing.postValue(false)
         }
     }
 

@@ -8,6 +8,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 
 interface HomeContract {
     interface ViewModel : BaseViewModel {
+        val isRefreshing: LiveData<Boolean>
         val user: LiveData<UserEntity?>
         val groups: LiveData<List<GroupEntity>>
         val masterMinds: LiveData<List<MasterMindEntity>>
