@@ -115,14 +115,14 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp">
 
-                <com.doneit.ascend.presentation.main.views.NoSwipeViewPager
-                    android:id="@+id/vpGroups"
-                    android:layout_width="match_parent"
-                    android:layout_height="370dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:setAdapter="@{adapter}">
+                    <com.doneit.ascend.presentation.main.views.NoSwipeViewPager
+                        android:id="@+id/vpGroups"
+                        android:layout_width="match_parent"
+                        android:layout_height="370dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:setAdapter="@{adapter}">
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tlGroups"
@@ -153,16 +153,19 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
-                    </com.google.android.material.tabs.TabLayout>
-                </com.doneit.ascend.presentation.main.views.NoSwipeViewPager>
+                        </com.google.android.material.tabs.TabLayout>
+                    </com.doneit.ascend.presentation.main.views.NoSwipeViewPager>
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/my_daily_gr"
                         style="@style/TextNormalSecond"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{() -> model.navigateToGroupList()}"
                         android:text="@string/my_daily_gr"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/vpGroups" />

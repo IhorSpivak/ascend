@@ -17,12 +17,18 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val userUseCase: UserUseCase,
     private val masterMindUseCase: MasterMindUseCase,
-    private val groupUseCase: GroupUseCase
+    private val groupUseCase: GroupUseCase,
+    private val router: HomeContract.Router
 ) : BaseViewModelImpl(), HomeContract.ViewModel {
 
     override val user = userUseCase.getUser()
     override val groups = MutableLiveData<List<GroupEntity>>()
     override val masterMinds = MutableLiveData<List<MasterMindEntity>>()
+
+    override fun navigateToGroupList() {
+        router.navigateToGroupList()
+    }
+
     override val isRefreshing = MutableLiveData<Boolean>()
 
     override fun updateData() {
@@ -40,7 +46,7 @@ class HomeViewModel(
     private suspend fun updateGroups() {
         val responseEntity = groupUseCase.getDefaultGroupList()
 
-        if(responseEntity.isSuccessful) {
+        if (responseEntity.isSuccessful) {
             groups.postValue(responseEntity.successModel!!)
         }
     }
@@ -48,7 +54,7 @@ class HomeViewModel(
     private suspend fun updateMasterMinds() {
         val responseEntity = masterMindUseCase.getDafaultMasterMindList()
 
-        if(responseEntity.isSuccessful) {
+        if (responseEntity.isSuccessful) {
             masterMinds.postValue(responseEntity.successModel!!)
         }
     }

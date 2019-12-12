@@ -17,6 +17,7 @@ import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBindin
 import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.utils.copyCompressed
 import com.doneit.ascend.presentation.utils.getFileExtension
+import com.doneit.ascend.presentation.utils.showErrorDialog
 import com.doneit.ascend.presentation.utils.uriToFilePath
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
@@ -78,6 +79,12 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
 
         binding.icEdit.setOnClickListener {
             pickFromGallery()
+        }
+
+        viewModel.networkErrorMessage.observe(this) {
+            it?.let { errorMessageIt ->
+                this.showErrorDialog("Error", errorMessageIt, "", isAutoClose = true)
+            }
         }
     }
 

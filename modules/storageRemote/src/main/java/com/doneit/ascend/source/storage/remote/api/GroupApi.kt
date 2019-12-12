@@ -19,5 +19,6 @@ interface GroupApi {
                        @Header("sort_type") sortType: String?,
                        @Header("name") name: String?,
                        @Header("user_id") userId: Long?,
-                       @Header("group_type") groupType: String?): Deferred<Response<GroupListResponse>>
+                       @Header("group_type") groupType: String?,
+                       @Header("my_groups") myGroups: Boolean?): Deferred<Response<GroupListResponse>>
 }

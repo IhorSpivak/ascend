@@ -8,7 +8,15 @@ interface DatePickerContract {
         fun doneClick()
 
         fun setMonth(month: Int)
+        fun getMonth(): Int
+        fun setMonthPosition(position: Int)
+        fun getMonthPosition(): Int
         fun setDay(day: Int)
+        fun setDayPosition(position: Int)
+        fun getDayPosition(): Int
         fun setYear(year: Int)
+        fun getYear(): Int
+        fun setYearPosition(position: Int)
+        fun getYearPosition(): Int
     }
 }

@@ -44,23 +44,22 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         minutesPicker.data = CalendarPickerUtil.getMinutes()
         timeTypePicker.data = CalendarPickerUtil.getTimeType()
 
-        viewModel.setHours("00")
-        viewModel.setMinutes("00")
-        viewModel.setTimeType(DEFAULT_TIME_TYPE)
-
-        hoursPicker.setOnItemSelectedListener { _, data, _ ->
+        hoursPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setHours(data as String)
+            viewModel.setHoursPosition(position)
         }
 
-        minutesPicker.setOnItemSelectedListener { _, data, _ ->
+        minutesPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setMinutes(data as String)
+            viewModel.setMinutesPosition(position)
         }
 
-        timeTypePicker.setOnItemSelectedListener { _, data, _ ->
+        timeTypePicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setTimeType(data as String)
+            viewModel.setTimeTypePosition(position)
 
             hoursPicker.data =
-                CalendarPickerUtil.getHours(CalendarPickerUtil.getHours(data as String))
+                CalendarPickerUtil.getHours(CalendarPickerUtil.getHours(data))
         }
 
         val checkedListener = CompoundButton.OnCheckedChangeListener { button, isChecked ->
@@ -81,8 +80,45 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         btn_th.setOnCheckedChangeListener(checkedListener)
         btn_fr.setOnCheckedChangeListener(checkedListener)
         btn_sa.setOnCheckedChangeListener(checkedListener)
-        btn_sa.setOnCheckedChangeListener(checkedListener)
         btn_su.setOnCheckedChangeListener(checkedListener)
+
+        timeTypePicker.postDelayed(
+            {
+                timeTypePicker.selectedItemPosition = viewModel.getTimeTypePosition()
+
+
+                hoursPicker.data =
+                    CalendarPickerUtil.getHours(CalendarPickerUtil.getHours(viewModel.getTimeType()))
+
+                hoursPicker.postDelayed({
+                    hoursPicker.selectedItemPosition = viewModel.getHoursPosition()
+
+                    viewModel.setHours(hoursPicker.data[viewModel.getHoursPosition()] as String)
+                    viewModel.setMinutes(minutesPicker.data[viewModel.getMinutesPosition()] as String)
+                    viewModel.setTimeType(timeTypePicker.data[viewModel.getTimeTypePosition()] as String)
+                }, 100)
+            }, 100
+        )
+
+        minutesPicker.postDelayed({
+            minutesPicker.selectedItemPosition = viewModel.getMinutesPosition()
+        }, 100)
+
+        btn_mo.postDelayed({
+            val selectedDays = viewModel.getSelectedDay()
+
+            selectedDays.forEach {
+                when (it) {
+                    CalendarDay.SATURDAY -> btn_sa.isChecked = true
+                    CalendarDay.FRIDAY -> btn_fr.isChecked = true
+                    CalendarDay.THURSDAY -> btn_th.isChecked = true
+                    CalendarDay.WEDNESDAY -> btn_we.isChecked = true
+                    CalendarDay.TUESDAY -> btn_tu.isChecked = true
+                    CalendarDay.MONDAY -> btn_mo.isChecked = true
+                    CalendarDay.SUNDAY -> btn_su.isChecked = true
+                }
+            }
+        }, 100)
 
         hideKeyboard()
     }

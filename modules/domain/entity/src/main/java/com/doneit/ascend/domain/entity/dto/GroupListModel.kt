@@ -6,5 +6,6 @@ class GroupListModel(
     sortColumn: String? = null,
     sortType: SortType? = null,
     val name: String? = null,
-    val groupType: GroupType? = GroupType.MASTER_MIND
+    val groupType: GroupType? = GroupType.MASTER_MIND,
+    val myGroups: Boolean? = null
 ): BasePagedModel(page, perPage, sortColumn, sortType)

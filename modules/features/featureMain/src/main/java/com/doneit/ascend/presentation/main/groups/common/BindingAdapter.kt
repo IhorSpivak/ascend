@@ -46,17 +46,19 @@ fun setTime(view: androidx.appcompat.widget.AppCompatTextView, dateTime: String)
 
         date?.let {
 
-            val sdf = SimpleDateFormat("hh:mm aa (ZZZ)")
+            val sdf = SimpleDateFormat("hh:mm aa")
             val formattedTime = sdf.format(it)
 
             val cal = Calendar.getInstance()
             cal.time = date
 
-//            val tz: TimeZone = cal.timeZone
+            val tz: TimeZone = cal.timeZone
 
+            val isDayLight: Boolean = tz.inDaylightTime(date)
             view.text = String.format(
-                "%s",
-                formattedTime
+                "%s (%s)",
+                formattedTime,
+                tz.getDisplayName(isDayLight, TimeZone.SHORT)
             )
         }
     } catch (e: Exception) {

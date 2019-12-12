@@ -26,6 +26,7 @@ fun GroupListModel.toRequest(userId: Long?): GroupListRequest {
         sortType?.toString(),
         name,
         userId,
-        groupType?.toString()
+        groupType?.toString(),
+        myGroups
     )
 }

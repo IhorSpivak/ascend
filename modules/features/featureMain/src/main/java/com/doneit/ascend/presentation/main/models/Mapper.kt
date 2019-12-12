@@ -20,6 +20,6 @@ fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
 
 fun List<CalendarDay>.toDays(): List<Int> {
     return this.map {
-        it.ordinal - 1
+        it.ordinal
     }
 }

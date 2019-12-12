@@ -37,9 +37,8 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
         binding.model = viewModel
         binding.executePendingBindings()
 
-        yearPicker.selectedYear = Calendar.getInstance().get(Calendar.YEAR)
         dayPicker.selectedDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        monthPicker.setSelectedItemPosition(Calendar.getInstance().get(Calendar.MONTH), true)
+
 
         viewModel.setDay(dayPicker.selectedDay)
         viewModel.setMonth(1)
@@ -47,20 +46,64 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
 
         monthPicker.data = datePickerUtil.getMonthList()
 
-        dayPicker.setOnItemSelectedListener { _, data, _ ->
+        dayPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setDay(data as Int)
+            viewModel.setDayPosition(position)
         }
 
-        monthPicker.setOnItemSelectedListener { _, data, _ ->
+        monthPicker.setOnItemSelectedListener { _, data, position ->
             val month = datePickerUtil.getNumberValue(data as String)
 
             viewModel.setMonth(month)
+            viewModel.setMonthPosition(position)
             dayPicker.month = month
+
         }
 
-        yearPicker.setOnItemSelectedListener { _, data, _ ->
+        yearPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setYear(data as Int)
+            viewModel.setYearPosition(position)
+
+            dayPicker.year = data
         }
+
+        yearPicker.postDelayed(
+            {
+                if (viewModel.getYearPosition() == 0) {
+                    yearPicker.selectedYear = Calendar.getInstance().get(Calendar.YEAR)
+                } else {
+                    yearPicker.selectedItemPosition = viewModel.getYearPosition()
+                }
+
+                dayPicker.year = viewModel.getYear()
+                dayPicker.month = viewModel.getMonth()
+
+                monthPicker.postDelayed({
+
+                    if(viewModel.getMonth() == 0) {
+                        monthPicker.setSelectedItemPosition(
+                            Calendar.getInstance().get(Calendar.MONTH),
+                            true
+                        )
+                    }
+                    else {
+                        monthPicker.selectedItemPosition = viewModel.getMonthPosition()
+                    }
+
+                    dayPicker.postDelayed({
+                        dayPicker.selectedItemPosition = viewModel.getDayPosition()
+
+                        viewModel.setYear(yearPicker.data[viewModel.getYearPosition()] as Int)
+
+                        val month =
+                            datePickerUtil.getNumberValue(monthPicker.data[viewModel.getMonthPosition()] as String)
+                        viewModel.setMonth(month)
+                        viewModel.setDay(dayPicker.data[viewModel.getDayPosition()] as Int)
+                    }, 50)
+                }, 50)
+            },
+            100
+        )
 
         hideKeyboard()
     }

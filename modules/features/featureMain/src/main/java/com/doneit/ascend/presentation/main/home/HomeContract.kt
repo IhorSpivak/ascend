@@ -13,8 +13,12 @@ interface HomeContract {
         val groups: LiveData<List<GroupEntity>>
         val masterMinds: LiveData<List<MasterMindEntity>>
 
+        fun navigateToGroupList()
+
         fun updateData()
     }
 
-    interface Router
+    interface Router {
+        fun navigateToGroupList()
+    }
 }

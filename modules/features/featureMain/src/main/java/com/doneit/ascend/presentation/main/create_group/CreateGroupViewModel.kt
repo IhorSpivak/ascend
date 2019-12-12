@@ -14,6 +14,7 @@ import com.doneit.ascend.presentation.main.models.toEntity
 import com.doneit.ascend.presentation.utils.*
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -35,6 +36,7 @@ class CreateGroupViewModel(
     override val canOk = MutableLiveData<Boolean>()
 
     override val participants = MutableLiveData<List<String>>()
+    override val networkErrorMessage = SingleLiveManager<String>()
 
     init {
         createGroupModel.name.validator = { s ->
@@ -157,6 +159,15 @@ class CreateGroupViewModel(
             if (requestEntity.isSuccessful) {
                 router.closeActivity()
             }
+            else {
+                val builder = java.lang.StringBuilder()
+
+                requestEntity.errorModel?.forEach {
+                    builder.appendln(it)
+                }
+
+                networkErrorMessage.call(builder.toString())
+            }
         }
     }
 
@@ -182,12 +193,40 @@ class CreateGroupViewModel(
         createGroupModel.hours = hours
     }
 
+    override fun getHoursPosition(): Int {
+        return createGroupModel.hoursPosition
+    }
+
+    override fun setHoursPosition(position: Int) {
+        createGroupModel.hoursPosition = position
+    }
+
     override fun setMinutes(minutes: String) {
         createGroupModel.minutes = minutes
     }
 
+    override fun getMinutesPosition(): Int {
+        return createGroupModel.minutesPosition
+    }
+
+    override fun setMinutesPosition(position: Int) {
+        createGroupModel.minutesPosition = position
+    }
+
     override fun setTimeType(timeType: String) {
         createGroupModel.timeType = timeType
+    }
+
+    override fun getTimeType(): String {
+        return createGroupModel.timeType
+    }
+
+    override fun getTimeTypePosition(): Int {
+        return createGroupModel.timeTypePosition
+    }
+
+    override fun setTimeTypePosition(position: Int) {
+        createGroupModel.timeTypePosition = position
     }
 
     override fun changeDayState(day: CalendarDay, state: Boolean) {
@@ -202,6 +241,10 @@ class CreateGroupViewModel(
         }
 
         canOk.postValue(createGroupModel.selectedDays.size != 0)
+    }
+
+    override fun getSelectedDay(): List<CalendarDay> {
+        return createGroupModel.scheduleDays
     }
 
     override fun applyArguments(args: CreateGroupArgs) {
@@ -274,6 +317,8 @@ class CreateGroupViewModel(
 
     override fun cancelClick() {
         router.onBack()
+
+        canOk.postValue(false)
     }
 
     override fun doneClick() {
@@ -285,11 +330,43 @@ class CreateGroupViewModel(
         createGroupModel.month = month
     }
 
+    override fun getMonth(): Int {
+        return createGroupModel.month
+    }
+
+    override fun setMonthPosition(position: Int) {
+        createGroupModel.monthPosition = position
+    }
+
+    override fun getMonthPosition(): Int {
+        return createGroupModel.monthPosition
+    }
+
     override fun setDay(day: Int) {
         createGroupModel.day = day
     }
 
+    override fun setDayPosition(position: Int) {
+        createGroupModel.dayPosition = position
+    }
+
+    override fun getDayPosition(): Int {
+        return createGroupModel.dayPosition
+    }
+
     override fun setYear(year: Int) {
         createGroupModel.year = year
+    }
+
+    override fun getYear(): Int {
+        return createGroupModel.year
+    }
+
+    override fun setYearPosition(position: Int) {
+        createGroupModel.yearPosition = position
+    }
+
+    override fun getYearPosition(): Int {
+        return createGroupModel.yearPosition
     }
 }

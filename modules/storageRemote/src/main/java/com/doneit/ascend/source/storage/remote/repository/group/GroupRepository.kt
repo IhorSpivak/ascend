@@ -79,7 +79,8 @@ internal class GroupRepository(
                 listRequest.sortType,
                 listRequest.name,
                 listRequest.userId,
-                listRequest.groupType
+                listRequest.groupType,
+                listRequest.myGroups
             )
         }, ErrorsListResponse::class.java)
     }

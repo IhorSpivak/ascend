@@ -25,3 +25,15 @@ fun GroupType.toStringValue(): String {
         GroupType.SUPPORT -> "support"
     }
 }
+
+fun GroupType.toStringValueUI(): String {
+    return when (this) {
+        GroupType.MASTER_MIND -> "Master Mind"
+        GroupType.WEBINAR -> "Webinar"
+        GroupType.RECOVERY -> "Recovery"
+        GroupType.FAMILY -> "Family"
+        GroupType.SUCCESS -> "Success"
+        GroupType.SPIRITUAL -> "Spiritual"
+        GroupType.SUPPORT -> "Support"
+    }
+}

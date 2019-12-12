@@ -27,7 +27,7 @@ fun BaseFragment<*>.showErrorDialog(
     errorTitle: String,
     errorMessage: String,
     buttonText: String,
-    clickListener: IDialogClickListener?,
+    clickListener: IDialogClickListener? = null,
     isFullColored: Boolean = true,
     isAutoClose: Boolean = true
 ) {

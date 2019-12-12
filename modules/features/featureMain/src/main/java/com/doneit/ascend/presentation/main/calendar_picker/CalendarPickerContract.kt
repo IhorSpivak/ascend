@@ -11,8 +11,16 @@ interface CalendarPickerContract {
         fun backClick()
         fun okClick()
         fun setHours(hours: String)
+        fun getHoursPosition(): Int
+        fun setHoursPosition(position: Int)
         fun setMinutes(minutes: String)
+        fun getMinutesPosition(): Int
+        fun setMinutesPosition(position: Int)
         fun setTimeType(timeType: String)
+        fun getTimeType(): String
+        fun getTimeTypePosition(): Int
+        fun setTimeTypePosition(position: Int)
         fun changeDayState(day: CalendarDay, state: Boolean)
+        fun getSelectedDay(): List<CalendarDay>
     }
 }

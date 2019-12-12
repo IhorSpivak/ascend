@@ -10,5 +10,6 @@ class GroupListRequest(
     sortType: String?,
     @SerializedName("name") val name: String?,
     @SerializedName("user_id") val userId: Long?,
-    @SerializedName("group_type") val groupType: String?
+    @SerializedName("group_type") val groupType: String?,
+    @SerializedName("my_groups") val myGroups: Boolean?
 ): BasePagedModel(page, perPage, sortColumn, sortType)
