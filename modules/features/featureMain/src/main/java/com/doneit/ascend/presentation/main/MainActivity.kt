@@ -44,7 +44,7 @@ class MainActivity : BaseActivity() {
         router.navigateToHome()
 
         GlobalScope.launch(Dispatchers.Main) {
-            val user = userUseCase.getUser()
+            val user = userUseCase.getUserLive()
 
             user.observe(this@MainActivity, Observer {
                 setCreateGroupState(it?.role == TYPE_MASTER_MIND)

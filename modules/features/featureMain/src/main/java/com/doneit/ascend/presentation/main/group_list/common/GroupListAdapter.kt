@@ -4,9 +4,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.UserEntity
 
 class GroupListAdapter(
-    private val items: MutableList<GroupEntity>
+    private val items: MutableList<GroupEntity>,
+    private var user: UserEntity? = null
 ) : RecyclerView.Adapter<GroupHorViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupHorViewHolder {
@@ -16,7 +18,11 @@ class GroupListAdapter(
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: GroupHorViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], user)
+    }
+
+    fun setUser(user: UserEntity) {
+        this.user = user
     }
 
     fun updateData(newItems: List<GroupEntity>) {

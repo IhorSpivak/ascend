@@ -1,11 +1,12 @@
 package com.doneit.ascend.presentation.main.groups.common
 
 import android.view.View
+import android.widget.Button
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.presentation.main.model.GroupListWithUser
 import com.doneit.ascend.presentation.utils.DatePickerUtil
 import java.text.SimpleDateFormat
 import java.util.*
@@ -70,12 +71,13 @@ fun setTime(view: androidx.appcompat.widget.AppCompatTextView, dateTime: String)
 fun setAdapter(
     view: androidx.recyclerview.widget.RecyclerView,
     adapter: GroupAdapter,
-    groups: LiveData<List<GroupEntity>>
+    groups: LiveData<GroupListWithUser>
 ) {
 
     if (view.adapter is GroupAdapter) {
         groups.value?.let {
-            (view.adapter as GroupAdapter).updateData(it)
+            (view.adapter as GroupAdapter).setUser(it.user)
+            (view.adapter as GroupAdapter).updateData(it.groups!!)
         }
 
         return
@@ -87,19 +89,19 @@ fun setAdapter(
 @BindingAdapter("app:setVisibility")
 fun setPlaceholderVisibility(
     view: androidx.constraintlayout.widget.ConstraintLayout,
-    groups: LiveData<List<GroupEntity>>
+    groups: LiveData<GroupListWithUser>
 ) {
     view.visibility =
-        if (groups.value == null || groups.value?.isEmpty() == true) View.VISIBLE else View.INVISIBLE
+        if (groups.value == null || groups.value?.groups?.isEmpty() == true) View.VISIBLE else View.INVISIBLE
 }
 
 @BindingAdapter("app:setVisibility")
 fun setPlaceholderVisibility(
     view: androidx.recyclerview.widget.RecyclerView,
-    groups: LiveData<List<GroupEntity>>
+    groups: LiveData<GroupListWithUser>
 ) {
     view.visibility =
-        if (groups.value == null || groups.value?.isEmpty() == true) View.INVISIBLE else View.VISIBLE
+        if (groups.value == null || groups.value?.groups?.isEmpty() == true) View.INVISIBLE else View.VISIBLE
 }
 
 @BindingAdapter("app:setImage")
@@ -108,4 +110,9 @@ fun setImage(view: AppCompatImageView, url: String?) {
     Glide.with(view)
         .load(url)
         .into(view)
+}
+
+@BindingAdapter("app:setVisibility")
+fun setVisibility(view: Button, isShow: Boolean) {
+    view.visibility = if (isShow) View.VISIBLE else View.GONE
 }

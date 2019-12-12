@@ -31,5 +31,7 @@ interface UserUseCase {
 
     suspend fun hasSignedInUser(): Boolean
 
-    fun getUser(): LiveData<UserEntity?>
+    fun getUserLive(): LiveData<UserEntity?>
+
+    suspend fun getUser() : UserEntity?
 }

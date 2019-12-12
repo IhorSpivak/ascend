@@ -80,13 +80,12 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
 
                 monthPicker.postDelayed({
 
-                    if(viewModel.getMonth() == 0) {
+                    if (viewModel.getMonth() == 0) {
                         monthPicker.setSelectedItemPosition(
                             Calendar.getInstance().get(Calendar.MONTH),
                             true
                         )
-                    }
-                    else {
+                    } else {
                         monthPicker.selectedItemPosition = viewModel.getMonthPosition()
                     }
 

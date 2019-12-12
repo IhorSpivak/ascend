@@ -9,13 +9,21 @@
             name="item"
             type="com.doneit.ascend.domain.entity.GroupEntity" />
 
+        <variable
+            name="showJoinButton"
+            type="Boolean" />
+
+        <variable
+            name="showStartButton"
+            type="Boolean" />
+
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="4dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -135,10 +143,23 @@
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/button_join_background"
                 android:text="@string/join_to_discussion"
-                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGroupDescription" />
+                app:layout_constraintTop_toBottomOf="@+id/tvGroupDescription"
+                app:setVisibility="@{showJoinButton}" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/button_start_background"
+                android:text="@string/start_group"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGroupDescription"
+                app:setVisibility="@{showStartButton}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -21,7 +21,7 @@ class HomeViewModel(
     private val router: HomeContract.Router
 ) : BaseViewModelImpl(), HomeContract.ViewModel {
 
-    override val user = userUseCase.getUser()
+    override val user = userUseCase.getUserLive()
     override val groups = MutableLiveData<List<GroupEntity>>()
     override val masterMinds = MutableLiveData<List<MasterMindEntity>>()
 

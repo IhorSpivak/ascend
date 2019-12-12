@@ -58,7 +58,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
         ConnectionObserver(this@BaseFragment.context!!)
     }
 
-    protected lateinit var binding: B
+    protected var binding: B by AutoClearedValue()
     private var initialized = false
 
     //region lifecycle
@@ -74,10 +74,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        if (!initialized) {
-            binding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false)
-            initialized = true
-        }
+        binding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false)
         return binding.root
     }
 
