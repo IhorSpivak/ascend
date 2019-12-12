@@ -11,9 +11,9 @@ import java.io.FileOutputStream
 
 private const val JPG = "jpg"
 
-suspend fun Context.copyCompressed(path: String, name: String): String{
-    val bitmap = BitmapFactory.decodeFile(path)
-    val image = File(externalCacheDir!!.path+File.separatorChar+name)//cacheDir.path)
+suspend fun Context.copyCompressed(sourcePath: String, destinationPath: String): String{
+    val bitmap = BitmapFactory.decodeFile(sourcePath)
+    val image = File(destinationPath)
     try{
         if(image.exists().not()) {
             image.createNewFile()
@@ -21,7 +21,7 @@ suspend fun Context.copyCompressed(path: String, name: String): String{
 
         val out = FileOutputStream(image)
 
-        if(path.contains(JPG)) {
+        if(sourcePath.contains(JPG)) {
             bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, out)
         } else {
             bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, out)
@@ -32,6 +32,20 @@ suspend fun Context.copyCompressed(path: String, name: String): String{
     } catch (e: Exception){ }
 
     return image.path
+}
+
+fun Context.createCameraPhotoUri(name: String): Uri {
+    var directory = File(externalCacheDir!!.path)
+    if (!directory.exists()) {
+        directory.mkdirs()
+    }
+
+    val imageFile = File.createTempFile(name, ".jpg", directory)
+    if(imageFile.exists().not()) {
+        imageFile.createNewFile()
+    }
+
+    return Uri.fromFile(imageFile)
 }
 
 fun Activity.uriToFilePath(uri: Uri): String {

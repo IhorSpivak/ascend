@@ -16,6 +16,7 @@ import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapte
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
 import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.utils.copyCompressed
+import com.doneit.ascend.presentation.utils.createCameraPhotoUri
 import com.doneit.ascend.presentation.utils.getFileExtension
 import com.doneit.ascend.presentation.utils.uriToFilePath
 import kotlinx.android.synthetic.main.fragment_create_group.*
@@ -29,6 +30,8 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+import java.io.File
+
 
 class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, CreateGroupArgs>() {
 
@@ -49,6 +52,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         }
     }
 
+    private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
     override val viewModel: CreateGroupContract.ViewModel by instance()
 
     private val adapter: ParticipantAdapter by lazy {
@@ -85,16 +89,20 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
 
         EzPermission.with(context!!)
             .permissions(
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
             .request { granted, _, _ ->
                 if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
                     val galleryIntent = Intent(Intent.ACTION_PICK)
                     galleryIntent.type = "image/*"
 
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri)
 
-                    val chooser = Intent.createChooser(galleryIntent, "Select App to select Image")
+
+                    val chooser = Intent.createChooser(galleryIntent, "Select an App to choose an Image")
                     chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
 
                     startActivityForResult(chooser, GALLERY_REQUEST_CODE)
@@ -102,26 +110,32 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             }
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK)
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
-                    val selected = data!!.data
+                    if(data != null) {
+                        val selected = data.data
 
-                    selected?.let {
-                        val path = activity!!.uriToFilePath(it)
-                        handleImageURI(path)
+                        selected?.let {
+                            val path = activity!!.uriToFilePath(it)
+                            handleImageURI(path)
+                        }
+                    } else {
+                        handleImageURI(cameraPhotoUri.path!!)
                     }
                 }
             }
     }
 
-    private fun handleImageURI(path: String) {
-        val fileName = TEMP_IMAGE_NAME + path.getFileExtension()
+    private fun handleImageURI(sourcePath: String) {
+        val destinationPath = context!!.externalCacheDir!!.path+ File.separatorChar + TEMP_IMAGE_NAME + sourcePath.getFileExtension()
 
         GlobalScope.launch {
-            val compressed = context!!.copyCompressed(path, fileName)
+            val compressed = context!!.copyCompressed(sourcePath, destinationPath)
 
             launch(Dispatchers.Main) {
                 binding.image.setImageURI(Uri.parse(compressed))
