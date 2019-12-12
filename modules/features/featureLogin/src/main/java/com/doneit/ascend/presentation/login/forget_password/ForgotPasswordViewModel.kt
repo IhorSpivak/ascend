@@ -58,7 +58,7 @@ class ForgotPasswordViewModel(
                 }
             } else {
                 if(requestEntity.errorModel!!.isNotEmpty()){
-                    errorMessage.postValue(
+                    errorMessage.call(
                         PresentationMessage(
                             Messages.DEFAULT_ERROR.getId(),
                             null,

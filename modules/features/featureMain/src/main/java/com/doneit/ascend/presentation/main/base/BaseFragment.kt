@@ -88,13 +88,17 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
             lifecycleOwner = this@BaseFragment
         }
 
-        viewModel.successMessage.observe(this, Observer {
-            handleSuccessMessage(it)
-        })
+        viewModel.successMessage.observe(this) {
+            it?.let {
+                handleSuccessMessage(it)
+            }
+        }
 
-        viewModel.errorMessage.observe(this, Observer {
-            handleErrorMessage(it)
-        })
+        viewModel.errorMessage.observe(this) {
+            it?.let {
+                handleErrorMessage(it)
+            }
+        }
 
         viewCreated(savedInstanceState)
     }

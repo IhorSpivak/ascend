@@ -101,7 +101,7 @@ class NewPasswordViewModel(
                 }
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
-                    errorMessage.postValue(
+                    errorMessage.call(
                         PresentationMessage(
                             Messages.DEFAULT_ERROR.getId(),
                             null,
@@ -129,7 +129,7 @@ class NewPasswordViewModel(
                 }
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
-                    errorMessage.postValue(
+                    errorMessage.call(
                         PresentationMessage(
                             Messages.DEFAULT_ERROR.getId(),
                             null,
@@ -150,7 +150,7 @@ class NewPasswordViewModel(
     }
 
     private fun showCodeSentMessage() {
-        successMessage.postValue(
+        successMessage.call(
             PresentationMessage(
                 Messages.PASSWORD_SENT.getId()
             )
