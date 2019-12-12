@@ -36,11 +36,15 @@ class ValidatableField {
 
                     errors.postValue(validation.errors.firstOrNull())
                 }
+
+                if(observableField.getNotNull().isEmpty()) {
+                    removeError()
+                }
             }
         })
     }
 
-    fun removeError() {
+    private fun removeError() {
         errors.postValue(null)
     }
 }
