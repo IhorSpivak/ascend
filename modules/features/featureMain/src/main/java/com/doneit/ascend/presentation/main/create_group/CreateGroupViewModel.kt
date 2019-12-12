@@ -12,6 +12,7 @@ import com.doneit.ascend.presentation.main.models.ValidatableField
 import com.doneit.ascend.presentation.main.models.ValidationResult
 import com.doneit.ascend.presentation.main.models.toEntity
 import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
@@ -160,13 +161,9 @@ class CreateGroupViewModel(
                 router.closeActivity()
             }
             else {
-                val builder = java.lang.StringBuilder()
-
-                requestEntity.errorModel?.forEach {
-                    builder.appendln(it)
+                if (requestEntity.errorModel!!.isNotEmpty()) {
+                    showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
                 }
-
-                networkErrorMessage.call(builder.toString())
             }
         }
     }

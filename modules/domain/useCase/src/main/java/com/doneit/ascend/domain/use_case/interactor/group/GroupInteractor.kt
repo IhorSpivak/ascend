@@ -15,7 +15,9 @@ internal class GroupInteractor(
     }
 
     override suspend fun getDefaultGroupList(): ResponseEntity<List<GroupEntity>, List<String>> {
-        return groupGateway.getGroupsList(GroupListModel())
+        return groupGateway.getGroupsList(GroupListModel(
+            myGroups = true
+        ))
     }
 
     override suspend fun getGroupList(model: GroupListModel): ResponseEntity<List<GroupEntity>, List<String>> {

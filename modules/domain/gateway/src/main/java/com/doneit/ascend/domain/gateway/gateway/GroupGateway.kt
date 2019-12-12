@@ -37,8 +37,7 @@ internal class GroupGateway(
     }
 
     override suspend fun getGroupsList(groupListModel: GroupListModel): ResponseEntity<List<GroupEntity>, List<String>> {
-        val userId = userLocal.getFirstUser()?.id
-        return remote.getGroupsList(groupListModel.toRequest(userId)).toResponseEntity(
+        return remote.getGroupsList(groupListModel.toRequest()).toResponseEntity(
             {
                 it?.groups?.map { it.toEntity() }
             },

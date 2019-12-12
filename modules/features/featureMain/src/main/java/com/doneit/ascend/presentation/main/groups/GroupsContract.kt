@@ -8,6 +8,8 @@ import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
 interface GroupsContract {
     interface ViewModel : ArgumentedViewModel<GroupsArgs> {
         val groups: LiveData<List<GroupEntity>>
+
+        fun updateGroups()
     }
 
     interface Router

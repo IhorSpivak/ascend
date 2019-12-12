@@ -18,7 +18,7 @@ fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
     )
 }
 
-fun GroupListModel.toRequest(userId: Long?): GroupListRequest {
+fun GroupListModel.toRequest(): GroupListRequest {
     return GroupListRequest(
         page,
         perPage,
