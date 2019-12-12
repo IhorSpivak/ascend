@@ -2,7 +2,6 @@ package com.doneit.ascend.domain.gateway.gateway
 
 import android.accounts.Account
 import android.accounts.AccountManager
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -27,7 +26,6 @@ import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.vrgsoft.networkmanager.NetworkManager
 import com.doneit.ascend.source.storage.local.repository.user.IUserRepository as LocalRepository
 import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository as RemoteRepository
-
 
 internal class UserGateway(
     errors: NetworkManager,
@@ -168,7 +166,7 @@ internal class UserGateway(
         accountManager.setAuthToken(account, "Bearer", token)
     }
 
-    override fun getUser(): LiveData<UserEntity?> {
+    override fun getUserLive(): LiveData<UserEntity?> {
         return liveData {
             val userLive = MutableLiveData<UserEntity>()
             emitSource(userLive)
@@ -179,6 +177,10 @@ internal class UserGateway(
         }
     }
 
+    override suspend fun geUser(): UserEntity? {
+        return local.getFirstUser()?.toUserEntity()
+    }
+    
     override suspend fun hasSignedInUser(): Boolean {
         return accountManager.getAccountsByType(packageName).isNotEmpty()
     }

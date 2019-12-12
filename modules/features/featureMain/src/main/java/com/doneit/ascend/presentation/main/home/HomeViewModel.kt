@@ -24,10 +24,10 @@ class HomeViewModel(
     private val router: HomeContract.Router
 ) : BaseViewModelImpl(), HomeContract.ViewModel, GroupsContract.ViewModel {
 
-    override val user = userUseCase.getUser()
+    override val user = userUseCase.getUserLive()
+    override val groups = MutableLiveData<List<GroupEntity>>()
     override val masterMinds = MutableLiveData<List<MasterMindEntity>>()
     override val isRefreshing = MutableLiveData<Boolean>()
-    override val groups = MutableLiveData<List<GroupEntity>>()
     private  var groupType: GroupType? = null
 
     override fun applyArguments(args: GroupsArgs) {
@@ -72,7 +72,17 @@ class HomeViewModel(
         val responseEntity = groupUseCase.getGroupList(model)
 
         if (responseEntity.isSuccessful) {
-            groups.postValue(responseEntity.successModel!!)
+            if (result.isSuccessful) {
+
+                val user = userUseCase.getUser()
+
+                groups.postValue(
+                    GroupListWithUser(
+                        result.successModel,
+                        user!!
+                    )
+                )
+            }
         }
     }
 

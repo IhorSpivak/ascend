@@ -52,8 +52,12 @@ internal class UserInteractor(
         userGateway.insert(user, token)
     }
 
-    override fun getUser(): LiveData<UserEntity?> {
-        return userGateway.getUser()
+    override fun getUserLive(): LiveData<UserEntity?> {
+        return userGateway.getUserLive()
+    }
+
+    override suspend fun getUser(): UserEntity? {
+        return userGateway.geUser()
     }
 
     override suspend fun hasSignedInUser(): Boolean {

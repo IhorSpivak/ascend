@@ -65,6 +65,6 @@ class MainRouter(
             putParcelable(ArgumentedFragment.KEY_ARGS, args)
         }
 
-        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
+        activity.supportFragmentManager.replaceWithBackStack(containerId, fragment)
     }
 }
