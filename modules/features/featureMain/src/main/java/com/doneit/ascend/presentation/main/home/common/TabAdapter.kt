@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
-import com.doneit.ascend.presentation.main.groups.GroupsFragment
-import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
+import com.doneit.ascend.presentation.main.home.group.GroupsFragment
+import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs
 
 class TabAdapter(
     fragmentManager: FragmentManager,

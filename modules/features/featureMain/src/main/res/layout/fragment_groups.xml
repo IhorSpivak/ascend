@@ -6,11 +6,11 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.groups.GroupsContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.home.group.GroupsContract.ViewModel" />
 
         <variable
             name="adapter"
-            type="com.doneit.ascend.presentation.main.groups.common.GroupAdapter" />
+            type="com.doneit.ascend.presentation.main.home.group.common.GroupAdapter" />
 
     </data>
 
@@ -79,6 +79,7 @@
                 android:layout_marginStart="20dp"
                 android:orientation="horizontal"
                 android:visibility="gone"
+                android:clipChildren="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.groups.common
+package com.doneit.ascend.presentation.main.home.group.common
 
 import android.view.View
 import android.widget.Button

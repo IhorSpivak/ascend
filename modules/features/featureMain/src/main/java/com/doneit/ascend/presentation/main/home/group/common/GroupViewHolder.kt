@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.groups.common
+package com.doneit.ascend.presentation.main.home.group.common
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -23,7 +23,7 @@ class GroupViewHolder(
             val startDate: Date = dateFormat.parse(item.startTime)
             val currentDate = Calendar.getInstance().time
 
-            if (startDate.after(currentDate) && user != null) {
+            if (startDate.before(currentDate) && user != null) {
                 // show
 
                 if (user.role == "master_mind") {

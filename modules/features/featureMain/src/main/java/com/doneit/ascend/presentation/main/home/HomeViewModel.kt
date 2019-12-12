@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.main.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.dto.GroupListModel
 import com.doneit.ascend.domain.entity.dto.GroupType
@@ -11,10 +10,9 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.groups.GroupsContract
-import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
-import com.vrgsoft.annotations.CreateFactory
-import com.vrgsoft.annotations.ViewModelDiModule
+import com.doneit.ascend.presentation.main.home.group.GroupsContract
+import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs
+import com.doneit.ascend.presentation.main.model.GroupListWithUser
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -25,7 +23,7 @@ class HomeViewModel(
 ) : BaseViewModelImpl(), HomeContract.ViewModel, GroupsContract.ViewModel {
 
     override val user = userUseCase.getUserLive()
-    override val groups = MutableLiveData<List<GroupEntity>>()
+    override val groups = MutableLiveData<GroupListWithUser>()
     override val masterMinds = MutableLiveData<List<MasterMindEntity>>()
     override val isRefreshing = MutableLiveData<Boolean>()
     private  var groupType: GroupType? = null
@@ -72,13 +70,13 @@ class HomeViewModel(
         val responseEntity = groupUseCase.getGroupList(model)
 
         if (responseEntity.isSuccessful) {
-            if (result.isSuccessful) {
+            if (responseEntity.isSuccessful) {
 
                 val user = userUseCase.getUser()
 
                 groups.postValue(
                     GroupListWithUser(
-                        result.successModel,
+                        responseEntity.successModel,
                         user!!
                     )
                 )

@@ -1,22 +1,17 @@
-package com.doneit.ascend.presentation.main.groups
+package com.doneit.ascend.presentation.main.home.group
 
 import android.os.Bundle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.main.MainActivity
-import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupsBinding
 import com.doneit.ascend.presentation.main.extensions.vmShared
-import com.doneit.ascend.presentation.main.groups.common.GroupAdapter
-import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
+import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
+import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs
 import com.doneit.ascend.presentation.main.home.HomeViewModel
 import org.kodein.di.Kodein
-import org.kodein.di.direct
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import org.kodein.di.generic.singleton
 
 class GroupsFragment : ArgumentedFragment<FragmentGroupsBinding, GroupsArgs>() {
 
