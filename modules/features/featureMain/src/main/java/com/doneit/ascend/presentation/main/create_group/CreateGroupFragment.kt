@@ -77,7 +77,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             chooseSchedule.clearFocus()
         }
 
-        binding.uploadImagePlaceHolder.setOnClickListener {
+        binding.placeholderDash.setOnClickListener {
             pickFromGallery()
         }
 
@@ -145,7 +145,6 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             val compressed = context!!.copyCompressed(sourcePath, destinationPath)
 
             launch(Dispatchers.Main) {
-                binding.image.setImageURI(Uri.parse(compressed))
                 viewModel.createGroupModel.image.observableField.set(compressed)
             }
         }

@@ -216,6 +216,7 @@
                     app:layout_constraintTop_toBottomOf="@id/description">
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/placeholderDash"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_dash_stroke_accent" />
@@ -247,7 +248,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.VISIBLE : View.GONE}"
-                        app:constraint_referenced_ids="ivUploadFileIcon,tvUploadFile" />
+                        app:constraint_referenced_ids="ivUploadFileIcon,tvUploadFile, placeholderDash" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -262,7 +263,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@android:color/transparent"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            app:path = "@{model.createGroupModel.image.observableField}"/>
                     </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
