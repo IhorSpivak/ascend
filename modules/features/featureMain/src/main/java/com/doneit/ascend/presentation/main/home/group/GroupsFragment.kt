@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.home.group
 
 import android.os.Bundle
+import android.view.View
 import com.doneit.ascend.presentation.main.MainActivity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupsBinding
@@ -26,6 +27,14 @@ class GroupsFragment : ArgumentedFragment<FragmentGroupsBinding, GroupsArgs>() {
         GroupAdapter(mutableListOf())
     }
 
+    private lateinit var groupsArg: GroupsArgs
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        groupsArg = arguments!!.getParcelable(KEY_ARGS)!!
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.lifecycleOwner = this
         binding.model = viewModel
@@ -34,6 +43,7 @@ class GroupsFragment : ArgumentedFragment<FragmentGroupsBinding, GroupsArgs>() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.applyArguments(groupsArg)
         viewModel.updateGroups()
     }
 }

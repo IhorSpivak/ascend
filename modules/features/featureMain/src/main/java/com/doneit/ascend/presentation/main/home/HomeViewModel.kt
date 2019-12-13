@@ -62,9 +62,9 @@ class HomeViewModel(
 
     private suspend fun fetchGroups() {
         val model = GroupListModel(
-            perPage = 10,
             sortType = SortType.DESC,
-            groupType = groupType
+            groupType = groupType,
+            myGroups =  true
         )
 
         val responseEntity = groupUseCase.getGroupList(model)

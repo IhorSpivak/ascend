@@ -22,7 +22,7 @@ fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: String)
             val cal = Calendar.getInstance()
             cal.time = date
 
-            val dayOfWeek = cal[Calendar.DAY_OF_WEEK]
+            val month = cal[Calendar.MONTH]
             val dayOfMonth = cal[Calendar.DAY_OF_MONTH]
 
             val datePickerUtil = DatePickerUtil(view.context)
@@ -31,7 +31,7 @@ fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: String)
                 String.format(
                     "%s %s",
                     dayOfMonth.toString(),
-                    datePickerUtil.getStringValue(dayOfWeek)
+                    datePickerUtil.getStringValue(month+1)
                 )
         }
     } catch (e: Exception) {

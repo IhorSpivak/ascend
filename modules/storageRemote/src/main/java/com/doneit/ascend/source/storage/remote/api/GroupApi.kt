@@ -13,12 +13,12 @@ interface GroupApi {
     fun createGroupAsync(@Part part: List<MultipartBody.Part>): Deferred<Response<GroupResponse>>
 
     @GET("groups")
-    fun getGroupsAsync(@Header("page") page: Int?,
-                       @Header("per_page") perPage: Int?,
-                       @Header("sort_column") sortColumn: String?,
-                       @Header("sort_type") sortType: String?,
-                       @Header("name") name: String?,
-                       @Header("user_id") userId: Long?,
-                       @Header("group_type") groupType: String?,
-                       @Header("my_groups") myGroups: Boolean?): Deferred<Response<GroupListResponse>>
+    fun getGroupsAsync(@Query("page") page: Int?,
+                       @Query("per_page") perPage: Int?,
+                       @Query("sort_column") sortColumn: String?,
+                       @Query("sort_type") sortType: String?,
+                       @Query("name") name: String?,
+                       @Query("user_id") userId: Long?,
+                       @Query("group_type") groupType: String?,
+                       @Query("my_groups") myGroups: Boolean?): Deferred<Response<GroupListResponse>>
 }
