@@ -48,13 +48,12 @@
                         android:background="@android:color/transparent"
                         android:onClick="@{() -> model.backClick()}"
                         android:paddingStart="8dp"
-                        android:paddingTop="15dp"
                         android:paddingEnd="15dp"
-                        android:paddingBottom="15dp"
                         android:src="@drawable/ic_back"
                         android:tint="#7E7D8F"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvTitle"

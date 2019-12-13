@@ -56,7 +56,7 @@ class MainRouter(
     override fun navigateToGroupList(groupType: GroupType) {
 
         val intent = Intent(activity, GroupListActivity::class.java)
-        intent.putExtra(GroupListActivity.ARG_GROUP_TYPE, groupType)
+        intent.putExtra(GroupListActivity.ARG_GROUP_TYPE, groupType.ordinal)
 
         activity.startActivity(intent)
     }
