@@ -102,4 +102,6 @@
 
     <string name="group_list_template">My %s Groups List</string>
 
+    <!--Search-->
+    <string name="search_title">Search</string>
 </resources>

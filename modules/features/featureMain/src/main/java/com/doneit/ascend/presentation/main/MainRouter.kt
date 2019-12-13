@@ -14,6 +14,8 @@ import com.doneit.ascend.presentation.main.group_list.GroupListFragment
 import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
+import com.doneit.ascend.presentation.main.search.SearchActivity
+import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.profile.ProfileContract
 import com.doneit.ascend.presentation.profile.ProfileFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
@@ -66,5 +68,9 @@ class MainRouter(
         }
 
         activity.supportFragmentManager.replaceWithBackStack(containerId, fragment)
+    }
+
+    override fun navigateToSearch() {
+        activity.startActivity(Intent(activity, SearchActivity::class.java))
     }
 }

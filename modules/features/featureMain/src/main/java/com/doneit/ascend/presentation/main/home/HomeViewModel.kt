@@ -84,6 +84,10 @@ class HomeViewModel(
         }
     }
 
+    override fun onSearchClick() {
+        router.navigateToSearch()
+    }
+
     private suspend fun fetchMasterMinds() {
         val responseEntity = masterMindUseCase.getDafaultMasterMindList()
 
