@@ -183,6 +183,7 @@ internal class UserGateway(
     
     override suspend fun hasSignedInUser(): Boolean {
         return accountManager.getAccountsByType(packageName).isNotEmpty()
+                && (local.getFirstUser() != null)
     }
 
     private fun removeAccounts() {
