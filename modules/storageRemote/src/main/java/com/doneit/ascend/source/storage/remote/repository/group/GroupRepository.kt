@@ -53,11 +53,11 @@ internal class GroupRepository(
             stringPart = MultipartBody.Part.createFormData("price", request.price)
             builder = builder.addPart(stringPart)
 
-            stringPart = MultipartBody.Part.createFormData(
-                "participants",
-                Gson().toJson(request.participants)
-            )
-            builder = builder.addPart(stringPart)
+
+            request.participants?.forEach {
+                stringPart = MultipartBody.Part.createFormData("participants[]", it)
+                builder = builder.addPart(stringPart)
+            }
 
             val filePart = MultipartBody.Part.createFormData(
                 "image", file.name, RequestBody.create(
