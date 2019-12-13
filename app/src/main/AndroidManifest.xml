@@ -41,6 +41,11 @@
         </activity>
 
         <activity
+            android:name=".presentation.main.search.SearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".presentation.main.group_list.GroupListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />

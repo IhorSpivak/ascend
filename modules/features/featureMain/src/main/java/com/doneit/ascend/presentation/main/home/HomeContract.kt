@@ -17,9 +17,11 @@ interface HomeContract {
         fun navigateToGroupList()
         fun updateData()
         fun updateMasterMinds()
+        fun onSearchClick()
     }
 
     interface Router {
         fun navigateToGroupList(groupType: GroupType)
+        fun navigateToSearch()
     }
 }
