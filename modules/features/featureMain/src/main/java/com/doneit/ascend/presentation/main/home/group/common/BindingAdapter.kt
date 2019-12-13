@@ -6,7 +6,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
-import com.doneit.ascend.presentation.main.model.GroupListWithUser
+import com.doneit.ascend.presentation.main.models.GroupListWithUser
 import com.doneit.ascend.presentation.utils.DatePickerUtil
 import java.text.SimpleDateFormat
 import java.util.*
@@ -77,7 +77,7 @@ fun setAdapter(
     if (view.adapter is GroupAdapter) {
         groups.value?.let {
             (view.adapter as GroupAdapter).setUser(it.user)
-            (view.adapter as GroupAdapter).updateData(it.groups!!)
+            (view.adapter as GroupAdapter).submitList(it.groups!!)
         }
 
         return

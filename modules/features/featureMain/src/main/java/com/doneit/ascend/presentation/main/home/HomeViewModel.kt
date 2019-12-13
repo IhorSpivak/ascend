@@ -12,7 +12,8 @@ import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.home.group.GroupsContract
 import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs
-import com.doneit.ascend.presentation.main.model.GroupListWithUser
+import com.doneit.ascend.presentation.main.models.GroupListWithUser
+import com.doneit.ascend.domain.entity.dto.toStringValueUI
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -26,14 +27,16 @@ class HomeViewModel(
     override val groups = MutableLiveData<GroupListWithUser>()
     override val masterMinds = MutableLiveData<List<MasterMindEntity>>()
     override val isRefreshing = MutableLiveData<Boolean>()
+    override val groupName = MutableLiveData<String>()
     private  var groupType: GroupType? = null
 
     override fun applyArguments(args: GroupsArgs) {
         groupType = GroupType.values()[args.groupType]
+        groupName.postValue(groupType?.toStringValueUI())
     }
 
     override fun navigateToGroupList() {
-        router.navigateToGroupList()
+        router.navigateToGroupList(groupType ?: GroupType.MASTER_MIND)
     }
 
     override fun updateData() {

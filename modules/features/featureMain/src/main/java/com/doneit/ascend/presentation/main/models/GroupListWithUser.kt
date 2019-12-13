@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.model
+package com.doneit.ascend.presentation.main.models
 
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.UserEntity

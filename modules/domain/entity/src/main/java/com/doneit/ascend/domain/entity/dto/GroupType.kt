@@ -7,7 +7,8 @@ enum class GroupType {
     FAMILY,
     SUCCESS,
     SPIRITUAL,
-    SUPPORT;
+    SUPPORT,
+    DAILY;
 
     override fun toString(): String {
         return super.toString().toLowerCase()
@@ -23,6 +24,7 @@ fun GroupType.toStringValue(): String {
         GroupType.SUCCESS -> "success"
         GroupType.SPIRITUAL -> "spiritual"
         GroupType.SUPPORT -> "support"
+        GroupType.DAILY -> "daily"
     }
 }
 
@@ -35,5 +37,6 @@ fun GroupType.toStringValueUI(): String {
         GroupType.SUCCESS -> "Success"
         GroupType.SPIRITUAL -> "Spiritual"
         GroupType.SUPPORT -> "Support"
+        GroupType.DAILY -> "Daily"
     }
 }

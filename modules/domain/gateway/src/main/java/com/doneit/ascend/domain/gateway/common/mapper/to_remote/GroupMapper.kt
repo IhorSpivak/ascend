@@ -30,3 +30,16 @@ fun GroupListModel.toRequest(): GroupListRequest {
         myGroups
     )
 }
+
+fun GroupListModel.toRequest(currPage: Int): GroupListRequest {
+    return GroupListRequest(
+        currPage,
+        perPage,
+        sortColumn,
+        sortType?.toString(),
+        name,
+        userId,
+        groupType?.toString(),
+        myGroups
+    )
+}

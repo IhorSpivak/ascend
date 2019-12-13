@@ -32,7 +32,7 @@ class TabAdapter(
         fun newInstance(fragment: Fragment, fragmentManager: FragmentManager): TabAdapter {
 
             var fragments: ArrayList<Fragment> = arrayListOf(
-                getFragment(GroupType.MASTER_MIND), // TODO: fix
+                getFragment(GroupType.DAILY),
                 getFragment(GroupType.WEBINAR),
                 getFragment(GroupType.RECOVERY),
                 getFragment(GroupType.MASTER_MIND)

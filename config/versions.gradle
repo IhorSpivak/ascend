@@ -182,7 +182,7 @@ ext {
             [configuration: "implementation", dependency: base.coroutinesAndroid],
             [configuration: "implementation", dependency: base.coroutinesAndroidX],
 
-            [configuration: "implementation", dependency: paging.core],
+            [configuration: "api", dependency: paging.core],
 
             [configuration: "implementation", dependency: room.runtime],
             [configuration: "implementation", dependency: room.ktx],
@@ -200,7 +200,7 @@ ext {
             [configuration: "implementation", dependency: base.coroutinesCore],
             [configuration: "implementation", dependency: base.coroutinesAndroid],
 
-            [configuration: "implementation", dependency: paging.core],
+            [configuration: "api", dependency: paging.core],
     ]
 
     bookView = [
@@ -340,7 +340,7 @@ ext {
             [configuration: "implementation", dependency: base.coroutinesAndroidX],
             [configuration: "implementation", dependency: base.kotlinReflect],
 
-            [configuration: "implementation", dependency: paging.core],
+            [configuration: "api", dependency: paging.core],
 
             [configuration: "implementation", dependency: glide.glide],
             [configuration: "kapt", dependency: glide.compiler],
@@ -385,7 +385,7 @@ ext {
             [configuration: "implementation", dependency: kodein.generic],
             [configuration: "implementation", dependency: kodein.framework],
 
-            [configuration: "implementation", dependency: paging.core],
+            [configuration: "api", dependency: paging.core],
 
             [configuration: "implementation", dependency: core.gateway],
             [configuration: "implementation", dependency: core.networkmanager],
@@ -406,7 +406,7 @@ ext {
             [configuration: "implementation", dependency: base.coroutinesAndroid],
             [configuration: "implementation", dependency: base.coroutinesAndroidX],
 
-            [configuration: "implementation", dependency: paging.core],
+            [configuration: "api", dependency: paging.core],
 
             [configuration: "implementation", dependency: core.networkmanager],
 

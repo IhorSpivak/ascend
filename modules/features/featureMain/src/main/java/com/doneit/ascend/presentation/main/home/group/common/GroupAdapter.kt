@@ -25,7 +25,7 @@ class GroupAdapter(
         this.user = user
     }
 
-    fun updateData(newItems: List<GroupEntity>) {
+    fun submitList(newItems: List<GroupEntity>) {
 
         val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

@@ -48,7 +48,6 @@ object GatewayModule {
         bind<IGroupGateway>() with provider {
             GroupGateway(
                 instance(),
-                instance(),
                 instance()
             )
         }

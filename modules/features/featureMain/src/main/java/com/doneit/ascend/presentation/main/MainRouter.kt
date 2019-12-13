@@ -1,17 +1,12 @@
 package com.doneit.ascend.presentation.main
 
 import android.content.Intent
-import android.os.Bundle
-import androidx.fragment.app.Fragment
 import com.doneit.ascend.domain.entity.dto.GroupType
-import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
-import com.doneit.ascend.presentation.main.group_list.GroupListContract
-import com.doneit.ascend.presentation.main.group_list.GroupListFragment
-import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
+import com.doneit.ascend.presentation.main.group_list.GroupListActivity
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.profile.ProfileContract
@@ -24,12 +19,11 @@ class MainRouter(
 ) : FragmentRouter(activity.supportFragmentManager),
     BottomNavigationChangeListener,
     ProfileContract.Router,
-    HomeContract.Router,
-    GroupListContract.Router {
+    HomeContract.Router {
 
     override val containerId = activity.getContainerId()
 
-    override fun onBack() {
+    fun onBack() {
         activity.supportFragmentManager.popBackStack()
     }
 
@@ -57,14 +51,11 @@ class MainRouter(
         activity.startActivity(Intent(activity, CreateGroupActivity::class.java))
     }
 
-    override fun navigateToGroupList() {
-        val args = GroupListArgs(GroupType.MASTER_MIND.ordinal, null)
+    override fun navigateToGroupList(groupType: GroupType) {
 
-        val fragment = GroupListFragment()
-        (fragment as Fragment).arguments = Bundle().apply {
-            putParcelable(ArgumentedFragment.KEY_ARGS, args)
-        }
+        val intent = Intent(activity, GroupListActivity::class.java)
+        intent.putExtra(GroupListActivity.ARG_GROUP_TYPE, groupType)
 
-        activity.supportFragmentManager.replaceWithBackStack(containerId, fragment)
+        activity.startActivity(intent)
     }
 }

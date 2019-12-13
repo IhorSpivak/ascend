@@ -19,7 +19,7 @@ class GroupViewHolder(
         binding.item = item
 
         try {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm")
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault())
             val startDate: Date = dateFormat.parse(item.startTime)
             val currentDate = Calendar.getInstance().time
 

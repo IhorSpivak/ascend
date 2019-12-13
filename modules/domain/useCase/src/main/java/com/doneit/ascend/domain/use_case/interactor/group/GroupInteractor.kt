@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.use_case.interactor.group
 
+import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
@@ -14,13 +15,11 @@ internal class GroupInteractor(
         return groupGateway.createGroup(groupModel)
     }
 
-    override suspend fun getDefaultGroupList(): ResponseEntity<List<GroupEntity>, List<String>> {
-        return groupGateway.getGroupsList(GroupListModel(
-            myGroups = true
-        ))
-    }
-
     override suspend fun getGroupList(model: GroupListModel): ResponseEntity<List<GroupEntity>, List<String>> {
         return groupGateway.getGroupsList(model)
+    }
+
+    override suspend fun getGroupListPaged(model: GroupListModel): PagedList<GroupEntity> {
+        return groupGateway.getGroupsListPaged(model)
     }
 }
