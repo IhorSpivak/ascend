@@ -12,4 +12,4 @@ data class GroupEntity(
     val updatedAt: String?,
     val owner: OwnerEntity?,
     val participantsCount: Int?
-)
+): SearchEntity()

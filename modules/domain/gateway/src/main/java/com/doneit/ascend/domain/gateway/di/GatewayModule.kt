@@ -58,5 +58,13 @@ object GatewayModule {
                 instance()
             )
         }
+
+        bind<ISearchGateway>() with provider {
+            SearchGateway(
+                instance(),
+                instance(),
+                instance()
+            )
+        }
     }
 }

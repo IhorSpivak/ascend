@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toCreateGroupRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
+import com.doneit.ascend.domain.gateway.gateway.data_source.GroupDataSource
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.vrgsoft.networkmanager.NetworkManager
@@ -59,7 +60,11 @@ internal class GroupGateway(
             .setPageSize(groupListModel.perPage?:10)
             .build()
 
-        val dataSource = GroupDataSource(GlobalScope, remote, groupListModel)
+        val dataSource = GroupDataSource(
+            GlobalScope,
+            remote,
+            groupListModel
+        )
         val executor = MainThreadExecutor()
 
         return PagedList.Builder<Int, GroupEntity>(dataSource, config)

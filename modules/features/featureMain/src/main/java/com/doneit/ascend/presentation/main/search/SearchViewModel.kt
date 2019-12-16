@@ -1,38 +1,50 @@
 package com.doneit.ascend.presentation.main.search
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.GroupEntity
-import com.doneit.ascend.domain.entity.dto.GroupListModel
+import com.doneit.ascend.domain.entity.SearchEntity
+import com.doneit.ascend.domain.entity.dto.SearchModel
 import com.doneit.ascend.domain.entity.dto.SortType
-import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
+import com.doneit.ascend.domain.use_case.interactor.search.SearchUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import kotlinx.coroutines.GlobalScope
+import com.doneit.ascend.presentation.utils.Constants
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val router: SearchContract.Router,
-    private val groupUseCase: GroupUseCase
+    private val searchUseCase: SearchUseCase
 ) : BaseViewModelImpl(), SearchContract.ViewModel {
 
     init {
-        GlobalScope.launch {
-
-            val model = GroupListModel(
-                page = 1,
-                perPage = 5,
+        viewModelScope.launch {
+            val model = SearchModel(
+                perPage = Constants.PER_PAGE_COMMON,
                 sortColumn = "name",
                 sortType = SortType.ASC,
-                name = "ggg",
-                myGroups = true
+                query = ""
             )
 
-            val result = groupUseCase.getGroupListPaged(model)
+            val result = searchUseCase.getSearchResultPaged(model)
             groups.postValue(result)
         }
     }
 
-    override val groups = MutableLiveData<PagedList<GroupEntity>>()
+    override val groups = MutableLiveData<PagedList<SearchEntity>>()
+
+    override fun submitRequest(query: String) {
+        viewModelScope.launch {
+            val model = SearchModel(
+                perPage = Constants.PER_PAGE_COMMON,
+                sortColumn = "name",
+                sortType = SortType.ASC,
+                query = query
+            )
+
+            val result = searchUseCase.getSearchResultPaged(model)
+            groups.postValue(result)
+        }
+    }
 
     override fun goBack() {
         router.closeActivity()

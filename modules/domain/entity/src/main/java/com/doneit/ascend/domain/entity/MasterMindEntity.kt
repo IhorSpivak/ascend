@@ -8,4 +8,4 @@ data class MasterMindEntity(
     val followed: Boolean,
     val rated: Boolean,
     val image: ImageEntity?
-)
+): SearchEntity()

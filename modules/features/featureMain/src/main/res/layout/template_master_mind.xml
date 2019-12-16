@@ -18,8 +18,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvImage"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             app:cardCornerRadius="40dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -27,8 +27,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:setImage="@{item.image.url}"
+                android:scaleType="centerCrop"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -37,10 +39,11 @@
             style="@style/TextNormal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginEnd="9dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@{item.fullName}"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cvImage"
             app:layout_constraintTop_toTopOf="@id/cvImage"
@@ -53,13 +56,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@{item.fullName}"
-            android:textColor="#7E7D8F"
+            android:text="California, USA"
+            android:textColor="@color/light_gray_8f"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cvImage"
-            app:layout_constraintTop_toBottomOf="@id/tvFullName"
-            tools:text="California, USA" />
+            app:layout_constraintTop_toBottomOf="@id/tvFullName" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCategory"
@@ -97,12 +99,11 @@
             android:layout_marginTop="4dp"
             android:clickable="true"
             android:focusable="true"
-            android:text="@{item.fullName}"
-            android:textColor="#598E7E"
+            android:text="@string/see_groups"
+            android:textColor="@color/green_font_color"
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/cvImage"
-            app:layout_constraintTop_toBottomOf="@id/rbRating"
-            tools:text="See Groups (2)" />
+            app:layout_constraintTop_toBottomOf="@id/rbRating" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

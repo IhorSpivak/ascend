@@ -1,4 +1,4 @@
-package com.doneit.ascend.domain.gateway.gateway
+package com.doneit.ascend.domain.gateway.gateway.data_source
 
 import androidx.paging.PageKeyedDataSource
 import com.doneit.ascend.domain.entity.GroupEntity

@@ -10,6 +10,8 @@ import com.doneit.ascend.domain.use_case.interactor.page.PageInteractor
 import com.doneit.ascend.domain.use_case.interactor.page.PageUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionInteractor
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
+import com.doneit.ascend.domain.use_case.interactor.search.SearchInteractor
+import com.doneit.ascend.domain.use_case.interactor.search.SearchUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserInteractor
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import org.kodein.di.Kodein
@@ -51,6 +53,12 @@ object UseCaseModule {
 
         bind<MasterMindUseCase>() with provider {
             MasterMindInteractor(
+                instance()
+            )
+        }
+
+        bind<SearchUseCase>() with provider {
+            SearchInteractor(
                 instance()
             )
         }

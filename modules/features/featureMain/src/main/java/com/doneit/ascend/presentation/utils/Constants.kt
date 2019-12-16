@@ -12,4 +12,5 @@ object Constants {
     const val TYPE_MASTER_MIND = "master_mind"
 
     const val COMPRESSION_QUALITY = 80
+    const val PER_PAGE_COMMON = 60
 }

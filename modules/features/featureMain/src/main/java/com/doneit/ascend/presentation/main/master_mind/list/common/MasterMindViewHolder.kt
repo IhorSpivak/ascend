@@ -5,15 +5,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
 import com.doneit.ascend.presentation.main.databinding.TemplateMasterMindBinding
+import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
 
 class MasterMindViewHolder(
     private val binding: TemplateMasterMindBinding
-) : LifecycleViewHolder(binding.root) {
+) : SearchViewHolder(binding.root) {
 
     fun bind(item: MasterMindEntity) {
         binding.item = item
+
         binding.executePendingBindings()
     }
 
