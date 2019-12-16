@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.doneit.ascend.presentation.main.MainRouter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
@@ -17,7 +16,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
-class SearchActivity: BaseActivity() {
+class SearchActivity : BaseActivity() {
     override fun diModule() = Kodein.Module("LogInActivity") {
         bind<SearchRouter>() with singleton {
             SearchRouter(

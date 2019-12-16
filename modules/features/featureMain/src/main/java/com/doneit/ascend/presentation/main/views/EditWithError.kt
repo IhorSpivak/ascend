@@ -76,6 +76,8 @@ class EditWithError @JvmOverloads constructor(
         )
     }
 
+    var lastText: String = ""
+
     var text: String
         get() {
             return editText.text.toString()
@@ -105,35 +107,38 @@ class EditWithError @JvmOverloads constructor(
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-
                 val currentText = s.toString()
 
-                val lastSymbol =
-                    if (currentText.isNotEmpty()) currentText[currentText.length - 1] else null
+                if (everWordWithCapitalLetter &&
+                    currentText != lastText
+                ) {
+                    if (currentText.length > lastText.length) {
+                        val lastSymbol =
+                            if (currentText.isNotEmpty()) currentText[currentText.length - 1] else null
 
-                if (everWordWithCapitalLetter) {
-                    editText.removeTextChangedListener(this)
+                        val words = mutableListOf<String>()
 
-                    val words = mutableListOf<String>()
+                        for (value in currentText.split(" ")) {
+                            if (value.isEmpty()) {
+                                continue
+                            }
 
-                    for (value in currentText.split(" ")) {
-                        if (value.isEmpty()) {
-                            continue
+                            words.add(value.capitalize())
                         }
 
-                        words.add(value.capitalize())
+                        var formattedTest = words.joinToString(separator = " ")
+
+                        if (lastSymbol == ' ') {
+                            formattedTest += lastSymbol
+                        }
+
+                        lastText = formattedTest
+
+                        editText.setText(formattedTest)
+                        editText.setSelection(formattedTest.length)
+                    } else {
+                        lastText = currentText
                     }
-
-                    var formattedTest = words.joinToString(separator = " ")
-
-                    if (lastSymbol == ' ') {
-                        formattedTest += lastSymbol
-                    }
-
-                    editText.setText(formattedTest)
-                    editText.setSelection(formattedTest.length)
-
-                    editText.addTextChangedListener(this)
                 }
 
                 listener.onChange()

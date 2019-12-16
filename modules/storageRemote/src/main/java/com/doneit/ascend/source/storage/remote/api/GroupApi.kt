@@ -21,4 +21,6 @@ interface GroupApi {
                        @Query("user_id") userId: Long?,
                        @Query("group_type") groupType: String?,
                        @Query("my_groups") myGroups: Boolean?): Deferred<Response<GroupListResponse>>
+
+
 }

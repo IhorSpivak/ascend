@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.gateway.gateway
 
+import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.MasterMindListModel
@@ -28,5 +29,9 @@ internal class MasterMindGateway(
                 it?.errors
             }
         )
+    }
+
+    override suspend fun getMasterMindsPagedList(listRequest: MasterMindListModel): ResponseEntity<PagedList<MasterMindEntity>, List<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
