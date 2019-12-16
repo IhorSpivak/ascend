@@ -38,6 +38,7 @@ class CreateGroupViewModel(
 
     override val participants = MutableLiveData<List<String>>()
     override val networkErrorMessage = SingleLiveManager<String>()
+    override val clearReservationSeat = SingleLiveManager<Boolean>()
 
     init {
         createGroupModel.name.validator = { s ->
@@ -145,6 +146,7 @@ class CreateGroupViewModel(
             createGroupModel.participants.set(newParticipantList)
 
             email.observableField.set("")
+            clearReservationSeat.call(true)
         }
     }
 

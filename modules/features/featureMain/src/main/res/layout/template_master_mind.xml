@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.doneit.ascend.domain.entity.UserEntity" />
+            type="com.doneit.ascend.domain.entity.MasterMindEntity" />
 
     </data>
 
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="9dp"
             android:layout_marginEnd="9dp"
-            android:text="@{item.name}"
+            android:text="@{item.fullName}"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cvImage"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@{item.name}"
+            android:text="@{item.fullName}"
             android:textColor="#7E7D8F"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@{item.name}"
+            android:text="@{item.fullName}"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cvImage"
@@ -97,7 +97,7 @@
             android:layout_marginTop="4dp"
             android:clickable="true"
             android:focusable="true"
-            android:text="@{item.name}"
+            android:text="@{item.fullName}"
             android:textColor="#598E7E"
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/cvImage"

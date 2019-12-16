@@ -22,8 +22,16 @@ class GroupListRouter(
         }
     }
 
-    fun navigateToStart(groupType: Int) {
-        val args = GroupListArgs(groupType, null)
+    fun navigateToStart(groupType: Int, isMyGroups: Int, isAllGroups: Boolean) {
+        val args = GroupListArgs(
+            groupType,
+            when (isMyGroups) {
+                0 -> false
+                1 -> true
+                else -> null
+            },
+            isAllGroups
+        )
 
         val fragment = GroupListFragment()
         (fragment as Fragment).arguments = Bundle().apply {

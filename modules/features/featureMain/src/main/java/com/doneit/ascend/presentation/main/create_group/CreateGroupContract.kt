@@ -15,6 +15,7 @@ interface CreateGroupContract {
         val canAddParticipant: LiveData<Boolean>
         val participants: LiveData<List<String>>
         val networkErrorMessage: SingleLiveManager<String>
+        val clearReservationSeat: SingleLiveManager<Boolean>
 
         fun addNewParticipant()
         fun completeClick()

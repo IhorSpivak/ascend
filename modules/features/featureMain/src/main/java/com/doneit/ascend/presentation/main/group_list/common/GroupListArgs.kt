@@ -6,5 +6,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class GroupListArgs(
     val groupType: Int,
-    val isMyGroups: Boolean? = null
+    val isMyGroups: Boolean?,
+    val isAllGroups: Boolean
 ) : BaseArguments()

@@ -91,8 +91,11 @@
             app:layout_constraintTop_toBottomOf="@+id/blMain">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
 
                 <com.doneit.ascend.presentation.main.views.EditWithError
                     android:id="@+id/userName"
@@ -157,10 +160,10 @@
                     app:digits="@{@string/allow_date_digits}"
                     app:error="@{model.createGroupModel.startDate.observableError}"
                     app:hint="@{@string/start_date}"
-                    app:noFocusable="@{true}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/numberOfMeetings"
+                    app:noFocusable="@{true}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_favorite_date}"
                     app:text="@{model.createGroupModel.startDate.observableField}" />
@@ -264,7 +267,7 @@
                             android:layout_height="match_parent"
                             android:background="@android:color/transparent"
                             android:scaleType="centerCrop"
-                            app:path = "@{model.createGroupModel.image.observableField}"/>
+                            app:path="@{model.createGroupModel.image.observableField}" />
                     </androidx.cardview.widget.CardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -346,14 +349,14 @@
                         android:id="@+id/add_participant"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:layout_marginEnd="15dp"
                         android:layout_marginTop="18dp"
+                        android:layout_marginEnd="15dp"
                         android:backgroundTint="@android:color/transparent"
                         android:enabled="@{model.canAddParticipant}"
                         android:onClick="@{() -> model.addNewParticipant()}"
                         android:src="@drawable/ic_add"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

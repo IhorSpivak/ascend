@@ -9,7 +9,6 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
-import com.doneit.ascend.presentation.main.models.GroupListWithUser
 import com.doneit.ascend.presentation.main.models.GroupListWithUserPaged
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -37,9 +36,10 @@ class GroupListViewModel(
             groupType.postValue(GroupType.values()[args.groupType].toStringValueUI())
 
             val model = GroupListModel(
-                perPage = 5,
+                perPage = 50,
                 sortType = SortType.DESC,
-                groupType = GroupType.values()[args.groupType]
+                groupType = if (args.isAllGroups) null else GroupType.values()[args.groupType],
+                myGroups = args.isMyGroups
             )
 
             val result = groupUseCase.getGroupListPaged(model)

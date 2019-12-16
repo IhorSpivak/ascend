@@ -104,4 +104,5 @@
 
     <!--Search-->
     <string name="search_title">Search</string>
+    <string name="masterminds">MasterMinds</string>
 </resources>

@@ -5,8 +5,6 @@ import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
-import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
-import kotlinx.coroutines.Job
 
 interface HomeContract {
     interface ViewModel : BaseViewModel {
@@ -18,10 +16,12 @@ interface HomeContract {
         fun updateData()
         fun updateMasterMinds()
         fun onSearchClick()
+        fun onAllMasterMindsClick()
     }
 
     interface Router {
-        fun navigateToGroupList(groupType: GroupType)
+        fun navigateToGroupList(groupType: GroupType?, isMyGroups: Boolean?, isAllGroups: Boolean)
         fun navigateToSearch()
+        fun navigateToAllMasterMinds()
     }
 }

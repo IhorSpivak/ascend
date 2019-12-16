@@ -3,7 +3,6 @@ package com.doneit.ascend.presentation.main.create_group
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
@@ -14,12 +13,9 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
+import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
-import com.doneit.ascend.presentation.utils.copyCompressed
-import com.doneit.ascend.presentation.utils.createCameraPhotoUri
-import com.doneit.ascend.presentation.utils.getFileExtension
-import com.doneit.ascend.presentation.utils.showErrorDialog
-import com.doneit.ascend.presentation.utils.uriToFilePath
+import com.doneit.ascend.presentation.utils.*
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +28,6 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 import java.io.File
-
 
 class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, CreateGroupArgs>() {
 
@@ -68,13 +63,13 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         tvTitle.text = getString(R.string.create_group)
 
         chooseSchedule.editText.setOnClickListener {
+            mainContainer.requestFocus()
             viewModel.chooseScheduleTouch()
-            chooseSchedule.clearFocus()
         }
 
         startDate.editText.setOnClickListener {
+            mainContainer.requestFocus()
             viewModel.chooseStartDateTouch()
-            chooseSchedule.clearFocus()
         }
 
         binding.placeholderDash.setOnClickListener {
@@ -88,6 +83,13 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         viewModel.networkErrorMessage.observe(this) {
             it?.let { errorMessageIt ->
                 this.showErrorDialog("Error", errorMessageIt, "", isAutoClose = true)
+            }
+        }
+
+        viewModel.clearReservationSeat.observe(this) {
+            it?.let {
+                hideKeyboard()
+                mainContainer.requestFocus()
             }
         }
     }
@@ -109,7 +111,8 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri)
 
 
-                    val chooser = Intent.createChooser(galleryIntent, "Select an App to choose an Image")
+                    val chooser =
+                        Intent.createChooser(galleryIntent, "Select an App to choose an Image")
                     chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
 
                     startActivityForResult(chooser, GALLERY_REQUEST_CODE)
@@ -118,13 +121,12 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
     }
 
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK)
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
-                    if(data != null) {
+                    if (data != null) {
                         val selected = data.data
 
                         selected?.let {
@@ -139,7 +141,8 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
     }
 
     private fun handleImageURI(sourcePath: String) {
-        val destinationPath = context!!.externalCacheDir!!.path+ File.separatorChar + TEMP_IMAGE_NAME + sourcePath.getFileExtension()
+        val destinationPath =
+            context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME + sourcePath.getFileExtension()
 
         GlobalScope.launch {
             val compressed = context!!.copyCompressed(sourcePath, destinationPath)

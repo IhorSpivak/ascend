@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.dto.GroupListModel
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.SortType
+import com.doneit.ascend.domain.entity.dto.toStringValueUI
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -13,7 +14,6 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.home.group.GroupsContract
 import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs
 import com.doneit.ascend.presentation.main.models.GroupListWithUser
-import com.doneit.ascend.domain.entity.dto.toStringValueUI
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -28,15 +28,20 @@ class HomeViewModel(
     override val masterMinds = MutableLiveData<List<MasterMindEntity>>()
     override val isRefreshing = MutableLiveData<Boolean>()
     override val groupName = MutableLiveData<String>()
-    private  var groupType: GroupType? = null
+    private var groupType: GroupType? = null
+    private var isMyGroups: Boolean? = null
+    private var isAllGroups: Boolean = true
 
     override fun applyArguments(args: GroupsArgs) {
         groupType = GroupType.values()[args.groupType]
         groupName.postValue(groupType?.toStringValueUI())
+
+        isAllGroups = args.isAllGroups
+        isMyGroups = args.isMineGroups
     }
 
     override fun navigateToGroupList() {
-        router.navigateToGroupList(groupType ?: GroupType.MASTER_MIND)
+        router.navigateToGroupList(groupType, isMyGroups, isAllGroups)
     }
 
     override fun updateData() {
@@ -66,8 +71,8 @@ class HomeViewModel(
     private suspend fun fetchGroups() {
         val model = GroupListModel(
             sortType = SortType.DESC,
-            groupType = groupType,
-            myGroups =  true
+            groupType = if (isAllGroups) null else groupType,
+            myGroups = isMyGroups
         )
 
         val responseEntity = groupUseCase.getGroupList(model)
@@ -89,6 +94,10 @@ class HomeViewModel(
 
     override fun onSearchClick() {
         router.navigateToSearch()
+    }
+
+    override fun onAllMasterMindsClick() {
+        router.navigateToAllMasterMinds()
     }
 
     private suspend fun fetchMasterMinds() {

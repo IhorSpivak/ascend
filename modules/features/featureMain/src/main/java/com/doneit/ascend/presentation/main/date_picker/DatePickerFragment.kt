@@ -71,18 +71,25 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
             {
                 if (viewModel.getYearPosition() == 0) {
                     yearPicker.selectedYear = Calendar.getInstance().get(Calendar.YEAR)
+                    viewModel.setYear(yearPicker.selectedYear)
                 } else {
                     yearPicker.selectedItemPosition = viewModel.getYearPosition()
+                    viewModel.setYear(yearPicker.data[yearPicker.selectedItemPosition] as Int)
                 }
 
                 dayPicker.year = viewModel.getYear()
                 dayPicker.month = viewModel.getMonth()
 
+                val cal = Calendar.getInstance()
+
                 monthPicker.postDelayed({
 
-                    if (viewModel.getMonth() == 0) {
+                    if (viewModel.getMonthPosition() == -1) {
+                        val calcMonth = cal.get(Calendar.MONTH)
+                        viewModel.setMonthPosition(calcMonth)
+
                         monthPicker.setSelectedItemPosition(
-                            Calendar.getInstance().get(Calendar.MONTH),
+                            calcMonth,
                             true
                         )
                     } else {
@@ -90,14 +97,18 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
                     }
 
                     dayPicker.postDelayed({
-                        dayPicker.selectedItemPosition = viewModel.getDayPosition()
 
-                        viewModel.setYear(yearPicker.data[viewModel.getYearPosition()] as Int)
+                        if (viewModel.getDayPosition() == -1) {
+                            val calDay = cal.get(Calendar.DAY_OF_MONTH)
+                            viewModel.setDay(dayPicker.data[calDay - 1] as Int)
+                        } else {
+                            dayPicker.selectedItemPosition = viewModel.getDayPosition()
+                            viewModel.setDay(dayPicker.data[viewModel.getDayPosition()] as Int)
+                        }
 
                         val month =
                             datePickerUtil.getNumberValue(monthPicker.data[viewModel.getMonthPosition()] as String)
                         viewModel.setMonth(month)
-                        viewModel.setDay(dayPicker.data[viewModel.getDayPosition()] as Int)
                     }, 50)
                 }, 50)
             },
