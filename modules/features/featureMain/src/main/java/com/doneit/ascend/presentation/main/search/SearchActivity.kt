@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivitySearchBindingImpl
+import com.doneit.ascend.presentation.main.search.common.SearchGroupsAdapter
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -29,6 +30,7 @@ class SearchActivity: BaseActivity() {
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
         bind<ViewModel>(tag = SearchViewModel::class.java.simpleName) with provider {
             SearchViewModel(
+                instance(),
                 instance()
             )
         }
@@ -38,11 +40,17 @@ class SearchActivity: BaseActivity() {
     private val viewModel: SearchContract.ViewModel by instance()
     private lateinit var binding: ActivitySearchBindingImpl
 
+    private val groupsAdapter: SearchGroupsAdapter by lazy {
+        SearchGroupsAdapter()
+    }
+
     fun getContainerId() = R.id.container
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search)
+
+        binding.groupsAdapter = this.groupsAdapter
 
         binding.btnBack.setOnClickListener {
             viewModel.goBack()

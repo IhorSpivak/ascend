@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.doneit.ascend.domain.entity.UserEntity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvImage"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFullName"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_marginEnd="9dp"
+            android:text="@{item.name}"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cvImage"
+            app:layout_constraintTop_toTopOf="@id/cvImage"
+            tools:text="Alex Williamson" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLocation"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@{item.name}"
+            android:textColor="#7E7D8F"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cvImage"
+            app:layout_constraintTop_toBottomOf="@id/tvFullName"
+            tools:text="California, USA" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCategory"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@{item.name}"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cvImage"
+            app:layout_constraintTop_toBottomOf="@id/tvLocation"
+            tools:text="Recovery MasterMind Coach" />
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rbRating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="4dp"
+            android:numStars="5"
+            android:rating="@{item.rating}"
+            android:theme="@style/RatingBarTheme"
+            app:layout_constraintStart_toEndOf="@id/cvImage"
+            app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSeeGroups"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="@{item.name}"
+            android:textColor="#598E7E"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/cvImage"
+            app:layout_constraintTop_toBottomOf="@id/rbRating"
+            tools:text="See Groups (2)" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

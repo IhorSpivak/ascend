@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout>
+
     <data>
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.search.SearchContract.ViewModel" />
+
+        <variable
+            name="groupsAdapter"
+            type="com.doneit.ascend.presentation.main.search.common.SearchGroupsAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -51,21 +57,32 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="11dp"
                         android:text="@string/search_title"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:layout_marginTop="11dp"
                         android:layout_marginStart="24dp"
+                        android:layout_marginTop="11dp"
                         android:layout_marginEnd="24dp"
-                        app:cardCornerRadius="4dp"
                         app:cardBackgroundColor="@color/light_gray_f4f7"
-                        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                        app:cardCornerRadius="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+                        <!--                        <com.doneit.ascend.presentation.main.views.EditWithError-->
+                        <!--                            android:id="@+id/searchField"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="match_parent"-->
+                        <!--                            android:layout_marginStart="8dp"-->
+                        <!--                            android:layout_marginEnd="8dp"-->
+                        <!--                            app:hint="@{@string/search_title}"-->
+                        <!--                            app:maxLength="@{48}"-->
+                        <!--                            app:saveState="@{false}"-->
+                        <!--                            app:src="@{@drawable/ic_search}" />-->
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -78,18 +95,27 @@
                                 android:layout_height="16dp"
                                 android:layout_marginStart="4dp"
                                 android:background="@android:color/transparent"
-                                android:src="@drawable/ic_search"/>
+                                android:src="@drawable/ic_search" />
 
-                            <TextView
+                            <EditText
                                 android:id="@+id/tvSearch"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_marginStart="8dp"
-                                style="@style/TextNormal"
-                                android:textSize="14sp"
-                                android:includeFontPadding="false"
-                                tools:text="Query"/>
+                                android:layout_marginEnd="8dp"
+                                android:background="@null" />
+
+
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/tvSearch"-->
+                            <!--                                android:layout_width="0dp"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:layout_weight="1"-->
+                            <!--                                android:layout_marginStart="8dp"-->
+                            <!--                                style="@style/TextNormal"-->
+                            <!--                                android:textSize="14sp"-->
+                            <!--                                android:includeFontPadding="false"-->
+                            <!--                                tools:text="Query"/>-->
                         </LinearLayout>
 
 
@@ -102,11 +128,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:paddingTop="16dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            android:paddingTop="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchBar"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:setAdapter="@{groupsAdapter}"
+            app:setAdapterData="@{model.groups}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
