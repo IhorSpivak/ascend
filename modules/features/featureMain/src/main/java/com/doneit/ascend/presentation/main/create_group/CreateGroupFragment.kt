@@ -124,13 +124,11 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         if (resultCode == Activity.RESULT_OK)
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
-                    if(data != null) {
+                    if(data?.data != null) {
                         val selected = data.data
 
-                        selected?.let {
-                            val path = activity!!.uriToFilePath(it)
-                            handleImageURI(path)
-                        }
+                        val path = activity!!.uriToFilePath(selected!!)
+                        handleImageURI(path)
                     } else {
                         handleImageURI(cameraPhotoUri.path!!)
                     }
