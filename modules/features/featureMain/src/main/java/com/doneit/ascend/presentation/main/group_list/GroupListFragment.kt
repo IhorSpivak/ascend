@@ -18,7 +18,9 @@ class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupList
     override val viewModel: GroupListContract.ViewModel by instance()
 
     private val adapter: GroupListAdapter by lazy {
-        GroupListAdapter()
+        GroupListAdapter{
+            viewModel.onGroupClick(it)
+        }
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {

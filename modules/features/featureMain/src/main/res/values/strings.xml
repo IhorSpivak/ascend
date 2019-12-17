@@ -105,7 +105,7 @@
     <!--Search-->
     <string name="search_title">Search</string>
     <string name="masterminds">MasterMinds</string>
-    <string name="see_groups">See Groups (2)</string>
+    <string name="see_groups">See Groups (%d)</string>
 
     <!--Group Info-->
     <string name="meetings_count"><b>%d/%d</b> Meetings</string>
@@ -113,7 +113,6 @@
     <string name="subscribe">SUBSCRIBE</string>
     <string name="joined">JOINED</string>
     <string name="attendees"><b>%d</b> Attendees</string>
-    <string name="see_groups">See Groups (%d)</string>
 
     <!--MasterMind Tab-->
     <string name="tab_all">All</string>

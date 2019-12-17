@@ -12,9 +12,11 @@ interface GroupListContract {
         val groupType: LiveData<String>
 
         fun backClick()
+        fun onGroupClick(id: Long)
     }
 
     interface Router {
         fun onBack()
+        fun navigateToGroupInfo(id: Long)
     }
 }

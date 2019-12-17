@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.entity
 
 import com.doneit.ascend.domain.entity.dto.GroupType
 
-data class GroupEntity(
+class GroupEntity(
     id: Long,
     val name: String?,
     val description: String?,

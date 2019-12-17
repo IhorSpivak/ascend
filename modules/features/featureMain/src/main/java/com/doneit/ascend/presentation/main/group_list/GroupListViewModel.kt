@@ -53,4 +53,8 @@ class GroupListViewModel(
             )
         }
     }
+
+    override fun onGroupClick(id: Long) {
+        router.navigateToGroupInfo(id)
+    }
 }
