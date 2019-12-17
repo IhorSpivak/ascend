@@ -76,48 +76,39 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/srLayout"
+        <com.doneit.ascend.presentation.main.views.NoSwipeViewPager
+            android:id="@+id/vpMasterMinds"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mainToolBar">
+            app:layout_constraintTop_toBottomOf="@+id/mainToolBar"
+            app:setAdapter="@{tabAdapter}">
 
-            <com.doneit.ascend.presentation.main.views.NoSwipeViewPager
-                android:id="@+id/vpMasterMinds"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tlMasterMinds"
                 android:layout_width="match_parent"
-                android:layout_height="410dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:setAdapter="@{tabAdapter}">
+                app:tabIndicatorColor="@color/colorAccent"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/colorAccent"
+                app:tabTextAppearance="@style/MasterMindTapTextAppearance"
+                app:tabTextColor="@color/colorAccent_inactive">
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tlMasterMinds"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tabIndicatorColor="@android:color/transparent"
-                    app:tabMode="scrollable"
-                    app:tabSelectedTextColor="@color/colorAccent"
-                    app:tabTextAppearance="@style/TapTextAppearance"
-                    app:tabTextColor="@color/colorAccent_inactive">
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/t2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+            </com.google.android.material.tabs.TabLayout>
+        </com.doneit.ascend.presentation.main.views.NoSwipeViewPager>
 
-                </com.google.android.material.tabs.TabLayout>
-            </com.doneit.ascend.presentation.main.views.NoSwipeViewPager>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

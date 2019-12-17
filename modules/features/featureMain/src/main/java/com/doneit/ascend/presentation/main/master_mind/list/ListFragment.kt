@@ -20,5 +20,10 @@ class ListFragment : ArgumentedFragment<FragmentMasterMindListBinding, ListArgs>
         binding.lifecycleOwner = this
         binding.model = viewModel
         binding.adapter = adapter
+
+        binding.srLayout.setOnRefreshListener {
+            binding.srLayout.isRefreshing = false
+            viewModel.updateData()
+        }
     }
 }

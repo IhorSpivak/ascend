@@ -14,7 +14,7 @@ internal class MasterMindInteractor(
         return groupGateway.getMasterMindsList(MasterMindListModel(followed = true))
     }
 
-    override suspend fun getMasterMindList(isFollowed: Boolean): ResponseEntity<PagedList<MasterMindEntity>, List<String>> {
+    override suspend fun getMasterMindList(isFollowed: Boolean): PagedList<MasterMindEntity> {
         return groupGateway.getMasterMindsPagedList(MasterMindListModel(followed = isFollowed))
     }
 }

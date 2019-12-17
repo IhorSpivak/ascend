@@ -31,16 +31,14 @@ class TabAdapter(
     companion object {
         fun newInstance(context: Context, fragmentManager: FragmentManager): TabAdapter {
 
-            var fragments: ArrayList<Fragment> = arrayListOf(
+            val fragments: ArrayList<Fragment> = arrayListOf(
                 getFragment(false),
                 getFragment(true)
             )
 
             val titles: ArrayList<String> = arrayListOf(
-                context.getString(R.string.daily),
-                context.getString(R.string.webinar),
-                context.getString(R.string.recovery),
-                context.getString(R.string.master_mind)
+                context.getString(R.string.tab_all),
+                context.getString(R.string.tab_following)
             )
 
             return TabAdapter(fragmentManager, fragments, titles)

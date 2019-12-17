@@ -9,6 +9,8 @@ import com.doneit.ascend.presentation.main.master_mind.list.common.ListArgs
 interface ListContract {
     interface ViewModel : ArgumentedViewModel<ListArgs> {
         val masterMinds: LiveData<PagedList<MasterMindEntity>>
+
+        fun updateData()
     }
 
     interface Router

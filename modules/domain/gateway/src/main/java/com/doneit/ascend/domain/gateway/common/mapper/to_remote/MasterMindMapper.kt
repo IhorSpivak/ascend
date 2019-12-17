@@ -15,3 +15,16 @@ fun MasterMindListModel.toRequest(): MasterMindListRequest {
         rated
     )
 }
+
+fun MasterMindListModel.toRequest(page: Int): MasterMindListRequest {
+    return MasterMindListRequest(
+        page,
+        perPage,
+        sortColumn,
+        sortType?.toString(),
+        fullName,
+        displayName,
+        followed,
+        rated
+    )
+}
