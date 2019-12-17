@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.entity
 
 import com.doneit.ascend.domain.entity.dto.GroupType
 
-data class GroupEntity(
+data class GroupDetailsEntity (
     val id: Long,
     val name: String?,
     val description: String?,
@@ -10,8 +10,12 @@ data class GroupEntity(
     val groupType: GroupType?,
     val price: Float?,
     val image: ImageEntity?,
+    val meetingsCount: Int?,
     val createdAt: String?,
     val updatedAt: String?,
     val owner: OwnerEntity?,
-    val participantsCount: Int?
-): SearchEntity()
+    val subscribed: Boolean?,
+    val invited: Boolean?,
+    val participantsCount: Int?,
+    val invitesCount: Int?
+)

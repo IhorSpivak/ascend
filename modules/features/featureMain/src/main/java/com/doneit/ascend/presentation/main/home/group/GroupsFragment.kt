@@ -24,7 +24,9 @@ class GroupsFragment : ArgumentedFragment<FragmentGroupsBinding, GroupsArgs>() {
     override val viewModel: GroupsContract.ViewModel by instance()
 
     private val adapter: GroupAdapter by lazy {
-        GroupAdapter(mutableListOf())
+        GroupAdapter(mutableListOf()) {
+            viewModel.onGroupClick(it)
+        }
     }
 
     private lateinit var groupsArg: GroupsArgs

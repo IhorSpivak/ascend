@@ -6,6 +6,7 @@ import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
+import com.doneit.ascend.presentation.main.group_info.GroupInfoActivity
 import com.doneit.ascend.presentation.main.group_list.GroupListActivity
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
@@ -79,5 +80,11 @@ class MainRouter(
 
     override fun navigateToAllMasterMinds() {
         activity.startActivity(Intent(activity, MasterMindActivity::class.java))
+    }
+
+    override fun navigateToGroupInfo(id: Long) {
+        val intent = Intent(activity, GroupInfoActivity::class.java)
+        intent.putExtra(GroupInfoActivity.GROUP_ID, id)
+        activity.startActivity(intent)
     }
 }

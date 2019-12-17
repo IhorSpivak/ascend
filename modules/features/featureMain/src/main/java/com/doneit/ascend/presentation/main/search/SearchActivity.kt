@@ -19,7 +19,7 @@ import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
 class SearchActivity : BaseActivity() {
-    override fun diModule() = Kodein.Module("LogInActivity") {
+    override fun diModule() = Kodein.Module("SearchActivity") {
         bind<SearchRouter>() with singleton {
             SearchRouter(
                 this@SearchActivity

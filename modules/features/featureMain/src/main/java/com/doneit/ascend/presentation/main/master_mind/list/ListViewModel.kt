@@ -21,12 +21,12 @@ class ListViewModel(
 
     override fun applyArguments(args: ListArgs) {
 
-        GlobalScope.launch {
+        /*GlobalScope.launch {
             val masterMinds = masterMindUseCase.getMasterMindList(args.isFollowed)
 
             if (masterMinds.isSuccessful) {
                 this@ListViewModel.masterMinds.postValue(masterMinds.successModel)
             }
-        }
+        }*/
     }
 }
