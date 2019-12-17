@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.main.group_list
 
 import android.os.Bundle
+import com.doneit.ascend.presentation.common.TopListDecorator
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupListBinding
 import com.doneit.ascend.presentation.main.group_list.common.GroupListAdapter
@@ -23,5 +25,8 @@ class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupList
         binding.lifecycleOwner = this
         binding.model = viewModel
         binding.adapter = adapter
+
+        val decorator = TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
+        binding.rvGroups.addItemDecoration(decorator)
     }
 }

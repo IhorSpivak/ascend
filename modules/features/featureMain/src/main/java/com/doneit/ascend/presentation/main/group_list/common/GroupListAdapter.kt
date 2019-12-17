@@ -21,6 +21,10 @@ class GroupListAdapter(
         holder.bind(getItem(position)!!, user)
     }
 
+    override fun getItemId(position: Int): Long {
+        return getItem(position)!!.id
+    }
+
     fun setUser(user: UserEntity) {
         this.user = user
     }

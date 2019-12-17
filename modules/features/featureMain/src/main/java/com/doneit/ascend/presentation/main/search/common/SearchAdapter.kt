@@ -29,6 +29,10 @@ class SearchAdapter : PagedListAdapter<SearchEntity, SearchViewHolder>(SearchDif
         }
     }
 
+    override fun getItemId(position: Int): Long {
+        return getItem(position)!!.id
+    }
+
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         when(val model = getItem(position)) {
             is GroupEntity -> {

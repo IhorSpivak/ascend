@@ -24,7 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="41dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="26dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,6 +32,7 @@
             app:layout_constraintTop_toBottomOf="@+id/mainToolBar">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMasterMinds"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

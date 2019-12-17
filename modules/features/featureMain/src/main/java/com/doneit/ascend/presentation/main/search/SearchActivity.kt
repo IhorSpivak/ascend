@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.presentation.common.TopListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
@@ -53,6 +54,10 @@ class SearchActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.adapter = this.adapter
         binding.model = viewModel
+
+
+        val decorator = TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
+        binding.rvSearch.addItemDecoration(decorator)
 
         binding.btnBack.setOnClickListener {
             viewModel.goBack()

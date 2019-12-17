@@ -1,11 +1,14 @@
 package com.doneit.ascend.domain.entity
 
-data class MasterMindEntity(
-    val id: Long,
+class MasterMindEntity(
+    id: Long,
     val fullName: String?,
     val displayName: String?,
+    val description: String?,
+    val location: String?,
+    val groupsCount: Int?,
     val rating: Float,
     val followed: Boolean,
     val rated: Boolean,
     val image: ImageEntity?
-): SearchEntity()
+): SearchEntity(id)

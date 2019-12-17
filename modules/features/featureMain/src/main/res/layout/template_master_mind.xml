@@ -56,7 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:text="California, USA"
+            android:text="@{item.location}"
+            tools:text="California USA"
             android:textColor="@color/light_gray_8f"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,14 +65,16 @@
             app:layout_constraintTop_toBottomOf="@id/tvFullName" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvCategory"
+            android:id="@+id/tvDescription"
             style="@style/TextNormal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@{item.fullName}"
+            android:text="@{item.description}"
             android:textSize="12sp"
+            android:maxLines="1"
+            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cvImage"
             app:layout_constraintTop_toBottomOf="@id/tvLocation"
@@ -88,7 +91,7 @@
             android:rating="@{item.rating}"
             android:theme="@style/RatingBarTheme"
             app:layout_constraintStart_toEndOf="@id/cvImage"
-            app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSeeGroups"
@@ -99,7 +102,7 @@
             android:layout_marginTop="4dp"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/see_groups"
+            android:text="@{String.format(@string/see_groups, item.groupsCount ?? 0)}"
             android:textColor="@color/green_font_color"
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@id/cvImage"

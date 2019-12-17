@@ -105,7 +105,7 @@
     <!--Search-->
     <string name="search_title">Search</string>
     <string name="masterminds">MasterMinds</string>
-    <string name="see_groups">See Groups (2)</string>
+    <string name="see_groups">See Groups (%d)</string>
 
     <!--MasterMind Tab-->
     <string name="tab_all">All</string>

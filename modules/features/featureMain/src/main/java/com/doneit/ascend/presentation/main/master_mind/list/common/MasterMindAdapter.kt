@@ -18,4 +18,8 @@ class MasterMindAdapter :
     override fun onBindViewHolder(holder: MasterMindViewHolder, position: Int) {
         holder.bind(getItem(position)!!)
     }
+
+    override fun getItemId(position: Int): Long {
+        return getItem(position)!!.id
+    }
 }

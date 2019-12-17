@@ -1,7 +1,7 @@
 package com.doneit.ascend.domain.entity
 
-data class GroupEntity(
-    val id: Long,
+class GroupEntity(
+    id: Long,
     val name: String?,
     val description: String?,
     val startTime: String?,
@@ -12,4 +12,4 @@ data class GroupEntity(
     val updatedAt: String?,
     val owner: OwnerEntity?,
     val participantsCount: Int?
-): SearchEntity()
+): SearchEntity(id)
