@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.gateway.gateway
 
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.GroupDetailsEntity
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
@@ -71,5 +72,16 @@ internal class GroupGateway(
             .setFetchExecutor(executor)
             .setNotifyExecutor(executor)
             .build()
+    }
+
+    override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupDetailsEntity, List<String>> {
+        return executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
     }
 }

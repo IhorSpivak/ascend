@@ -8,7 +8,8 @@ import com.doneit.ascend.domain.entity.UserEntity
 
 class GroupAdapter(
     private val items: MutableList<GroupEntity>,
-    private var user: UserEntity? = null
+    private var user: UserEntity? = null,
+    private val onItemClick: (id: Long) -> Unit
 ) : RecyclerView.Adapter<GroupViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
@@ -19,6 +20,9 @@ class GroupAdapter(
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         holder.bind(items[position], user)
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke(items[position].id)
+        }
     }
 
     fun setUser(user: UserEntity) {

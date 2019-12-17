@@ -12,7 +12,6 @@ interface GroupsContract {
 
         fun updateGroups()
         fun navigateToGroupList()
+        fun onGroupClick(id: Long)
     }
-
-    interface Router
 }

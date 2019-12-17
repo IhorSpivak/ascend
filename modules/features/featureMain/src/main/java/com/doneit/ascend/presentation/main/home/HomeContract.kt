@@ -23,5 +23,6 @@ interface HomeContract {
         fun navigateToGroupList(groupType: GroupType?, isMyGroups: Boolean?, isAllGroups: Boolean)
         fun navigateToSearch()
         fun navigateToAllMasterMinds()
+        fun navigateToGroupInfo(id: Long)
     }
 }

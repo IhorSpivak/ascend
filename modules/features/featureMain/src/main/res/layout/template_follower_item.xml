@@ -40,7 +40,8 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_stroke_plus"
                 android:scaleType="centerCrop"
-                app:setImage="@{imageUrl}" />
+                app:setImage="@{imageUrl}"
+                app:placeholder="@{@drawable/ic_stroke_plus}"/>
         </androidx.cardview.widget.CardView>
 
         <androidx.appcompat.widget.AppCompatTextView

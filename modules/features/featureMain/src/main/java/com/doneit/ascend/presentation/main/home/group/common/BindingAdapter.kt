@@ -104,13 +104,13 @@ fun setPlaceholderVisibility(
         if (groups.value == null || groups.value?.groups?.isEmpty() == true) View.INVISIBLE else View.VISIBLE
 }
 
-@BindingAdapter("app:setImage")
+/*@BindingAdapter("app:setImage")
 fun setImage(view: AppCompatImageView, url: String?) {
 
     Glide.with(view)
         .load(url)
         .into(view)
-}
+}*/
 
 @BindingAdapter("app:setVisibility")
 fun setVisibility(view: Button, isShow: Boolean) {

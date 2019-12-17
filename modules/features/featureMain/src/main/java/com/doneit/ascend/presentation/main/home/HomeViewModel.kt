@@ -100,6 +100,10 @@ class HomeViewModel(
         router.navigateToAllMasterMinds()
     }
 
+    override fun onGroupClick(id: Long) {
+        router.navigateToGroupInfo(id)
+    }
+
     private suspend fun fetchMasterMinds() {
         val responseEntity = masterMindUseCase.getDafaultMasterMindList()
 
