@@ -4,8 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.QuestionEntity
+import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.TemplateAnswerItemBinding
 import com.doneit.ascend.presentation.login.databinding.TemplateSelectAnswerItemBinding
@@ -18,23 +17,20 @@ class SelectAnswerViewHolder(
     private val listener: QuestionStateListener
 ) : LifecycleViewHolder(binding.root) {
 
-    fun bind(item: QuestionEntity) {
-        listener.setState(item.id, false)
-
+    fun bind(item: QuestionListEntity) {
         with(binding) {
-            this.item = item
+            this.title = item.community?.title
 
-            item.options?.forEach { optionIt ->
+            item.community?.answerOptions?.forEach { optionValue ->
                 val binding =
                     TemplateAnswerItemBinding.inflate(LayoutInflater.from(binding.root.context))
 
-                binding.item = optionIt
+                binding.title = optionValue
                 binding.rbOption.setOnCheckedChangeListener { view, isChecked ->
                     if (isChecked) {
                         (rgOptions as GridRadioGroup).clickByRadioButton(view)
 
-                        listener.setState(item.id, true)
-                        listener.setSelectedAnswer(item.id, optionIt.id)
+                        listener.setCommunity(optionValue)
                     }
                 }
 

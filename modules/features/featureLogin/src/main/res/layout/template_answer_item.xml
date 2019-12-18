@@ -3,8 +3,8 @@
 
     <data>
         <variable
-            name="item"
-            type="com.doneit.ascend.domain.entity.AnswerOptionEntity" />
+            name="title"
+            type="String" />
     </data>
 
     <RadioButton
@@ -18,7 +18,7 @@
         android:focusable="true"
         android:paddingStart="10dp"
         android:paddingEnd="0dp"
-        android:text="@{item.title}"
+        android:text="@{title}"
         android:layout_weight="1"
         android:layout_columnWeight="1"
         android:textSize="22sp" />

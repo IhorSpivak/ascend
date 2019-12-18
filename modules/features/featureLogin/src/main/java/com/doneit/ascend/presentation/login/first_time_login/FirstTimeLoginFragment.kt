@@ -1,9 +1,17 @@
 package com.doneit.ascend.presentation.login.first_time_login
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.GridLayout
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentFirstTimeLoginBinding
+import com.doneit.ascend.presentation.login.databinding.TemplateAnswerItemBinding
+import com.doneit.ascend.presentation.login.databinding.TemplateSelectAnswerItemBinding
 import com.doneit.ascend.presentation.login.first_time_login.common.FirstTimeLoginArgs
+import com.doneit.ascend.presentation.login.first_time_login.common.GridRadioGroup
 import com.doneit.ascend.presentation.login.first_time_login.common.QuestionsAdapter
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import kotlinx.android.synthetic.main.fragment_first_time_login.*
@@ -27,5 +35,51 @@ class FirstTimeLoginFragment :
         binding.executePendingBindings()
 
         toolbar.imBack.visibility = View.INVISIBLE
+
+        viewModel.questions.observe(this, Observer {
+
+            val questionBinding: TemplateSelectAnswerItemBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(communityBox.context),
+                R.layout.template_select_answer_item,
+                communityBox,
+                false
+            )
+
+            with(questionBinding) {
+                this.title = it.community?.title
+
+                it.community?.answerOptions?.forEach { optionValue ->
+                    val binding =
+                        TemplateAnswerItemBinding.inflate(LayoutInflater.from(questionBinding.root.context))
+
+                    binding.title = optionValue
+                    binding.rbOption.setOnCheckedChangeListener { view, isChecked ->
+                        if (isChecked) {
+                            (rgOptions as GridRadioGroup).clickByRadioButton(view)
+
+                            viewModel.setCommunity(optionValue)
+                        }
+                    }
+
+                    rgOptions.addView(binding.root, getOptionViewParams())
+                }
+            }
+
+            communityBox.addView(questionBinding.root)
+        })
+
+
+    }
+
+    private fun getOptionViewParams(): GridLayout.LayoutParams {
+        val param = GridLayout.LayoutParams(
+            GridLayout.spec(
+                GridLayout.UNDEFINED, GridLayout.FILL, 1f
+            ),
+            GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f)
+        )
+        param.width = 0
+
+        return param
     }
 }

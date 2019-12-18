@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="item"
-            type="com.doneit.ascend.domain.entity.QuestionEntity" />
+            name="title"
+            type="String" />
 
     </data>
 
@@ -18,7 +18,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{item.title}"
+            android:text="@{title}"
             android:textColor="@color/green_font_color"
             android:textSize="24sp"
             tools:text="How did you hear anbout us?" />

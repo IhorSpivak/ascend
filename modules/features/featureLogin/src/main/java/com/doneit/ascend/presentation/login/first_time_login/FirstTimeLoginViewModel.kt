@@ -2,7 +2,8 @@ package com.doneit.ascend.presentation.login.first_time_login
 
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.AnswerEntity
-import com.doneit.ascend.domain.entity.QuestionEntity
+import com.doneit.ascend.domain.entity.AnswersEntity
+import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.presentation.login.first_time_login.common.FirstTimeLoginArgs
@@ -24,9 +25,10 @@ class FirstTimeLoginViewModel(
 ) : BaseViewModelImpl(), FirstTimeLoginContract.ViewModel {
 
     override val canComplete = MutableLiveData<Boolean>()
-    override val questions = MutableLiveData<List<QuestionEntity>>()
+    override val questions = MutableLiveData<QuestionListEntity>()
     private val questionsStates: MutableMap<Long, Boolean> = mutableMapOf()
     private val questionsAnswers: MutableMap<Long, AnswerEntity> = mutableMapOf()
+    private val community = MutableLiveData<String>()
 
     override fun completeClick() {
         canComplete.postValue(false)
@@ -36,7 +38,10 @@ class FirstTimeLoginViewModel(
 
             val requestEntity =
                 answerUseCase.createAnswers(
-                    answers.toList()
+                    AnswersEntity(
+                        community = community.value!!,
+                        answers = answers.toList()
+                    )
                 )
 
             canComplete.postValue(true)
@@ -80,7 +85,12 @@ class FirstTimeLoginViewModel(
         )
     }
 
-    private fun updateCanComplete() {
+    override fun setCommunity(community: String) {
+        this.community.postValue(community)
+        updateCanComplete(true)
+    }
+
+    private fun updateCanComplete(isSelectedCommunity: Boolean = false) {
         var isFormValid = true
 
         questionsStates.values.forEach {
@@ -90,6 +100,9 @@ class FirstTimeLoginViewModel(
             }
         }
 
-        canComplete.postValue(isFormValid)
+        canComplete.postValue(
+            (isFormValid && isSelectedCommunity) ||
+                    (isFormValid && community.value != null)
+        )
     }
 }
