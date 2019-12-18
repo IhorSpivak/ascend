@@ -84,4 +84,15 @@ internal class GroupGateway(
             }
         )
     }
+
+    override suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.deleteGroup(groupId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
 }

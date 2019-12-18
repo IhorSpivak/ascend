@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.GroupDetailsEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class GroupInfoViewModel(
@@ -18,7 +19,7 @@ class GroupInfoViewModel(
         viewModelScope.launch {
             val response = groupUseCase.getGroupDetails(groupId)
 
-            if(response.isSuccessful) {
+            if (response.isSuccessful) {
                 group.postValue(response.successModel)
             }
         }
@@ -28,6 +29,12 @@ class GroupInfoViewModel(
     }
 
     override fun subscribe() {
+    }
+
+    override fun deleteGroup() {
+        GlobalScope.launch {
+            groupUseCase.deleteGroup(group.value?.id ?: return@launch)
+        }
     }
 
     override fun onBackPressed() {

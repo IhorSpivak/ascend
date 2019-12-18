@@ -117,4 +117,9 @@
     <!--MasterMind Tab-->
     <string name="tab_all">All</string>
     <string name="tab_following">Following</string>
+
+    <!--Dialogs-->
+    <string name="btn_positive">OK</string>
+    <string name="btn_negative">Cancel</string>
+    <string name="btn_delete">Delete</string>
 </resources>

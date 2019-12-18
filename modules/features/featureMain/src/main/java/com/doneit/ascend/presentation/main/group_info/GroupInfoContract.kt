@@ -12,6 +12,7 @@ interface GroupInfoContract {
         fun loadData(groupId: Long)
         fun join()
         fun subscribe()
+        fun deleteGroup()
     }
 
     interface Router {
