@@ -8,6 +8,7 @@ interface CalendarPickerContract {
     interface ViewModel : BaseViewModel {
         val canOk: LiveData<Boolean>
 
+        fun backDateClick()
         fun backClick()
         fun okClick()
         fun setHours(hours: String)

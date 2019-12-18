@@ -39,11 +39,11 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
 
         dayPicker.selectedDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 
-
         viewModel.setDay(dayPicker.selectedDay)
         viewModel.setMonth(1)
         viewModel.setYear(yearPicker.selectedYear)
 
+        monthPicker.clearAnimation()
         monthPicker.data = datePickerUtil.getMonthList()
 
         dayPicker.setOnItemSelectedListener { _, data, position ->
@@ -67,53 +67,45 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
             dayPicker.year = data
         }
 
-        yearPicker.postDelayed(
-            {
-                if (viewModel.getYearPosition() == 0) {
-                    yearPicker.selectedYear = Calendar.getInstance().get(Calendar.YEAR)
-                    viewModel.setYear(yearPicker.selectedYear)
-                } else {
-                    yearPicker.selectedItemPosition = viewModel.getYearPosition()
-                    viewModel.setYear(yearPicker.data[yearPicker.selectedItemPosition] as Int)
-                }
+        if (viewModel.getYearPosition() == 0) {
+            yearPicker.selectedYear = Calendar.getInstance().get(Calendar.YEAR)
+            viewModel.setYear(yearPicker.selectedYear)
+        } else {
+            yearPicker.selectedItemPosition = viewModel.getYearPosition()
+            viewModel.setYear(yearPicker.data[yearPicker.selectedItemPosition] as Int)
+        }
 
-                dayPicker.year = viewModel.getYear()
-                dayPicker.month = viewModel.getMonth()
+        dayPicker.year = viewModel.getYear()
+        dayPicker.month = viewModel.getMonth()
 
-                val cal = Calendar.getInstance()
+        val cal = Calendar.getInstance()
 
-                monthPicker.postDelayed({
+        monthPicker.postDelayed({
 
-                    if (viewModel.getMonthPosition() == -1) {
-                        val calcMonth = cal.get(Calendar.MONTH)
-                        viewModel.setMonthPosition(calcMonth)
+            if (viewModel.getMonthPosition() == -1) {
+                val calcMonth = cal.get(Calendar.MONTH)
+                viewModel.setMonthPosition(calcMonth)
 
-                        monthPicker.setSelectedItemPosition(
-                            calcMonth,
-                            true
-                        )
-                    } else {
-                        monthPicker.selectedItemPosition = viewModel.getMonthPosition()
-                    }
+                monthPicker.setSelectedItemPosition(
+                    calcMonth, false
+                )
+            } else {
+                monthPicker.selectedItemPosition = viewModel.getMonthPosition()
+            }
 
-                    dayPicker.postDelayed({
+            if (viewModel.getDayPosition() == -1) {
+                val calDay = cal.get(Calendar.DAY_OF_MONTH)
+                viewModel.setDay(dayPicker.data[calDay - 1] as Int)
+            } else {
+                dayPicker.selectedItemPosition = viewModel.getDayPosition()
+                viewModel.setDay(dayPicker.data[viewModel.getDayPosition()] as Int)
+            }
 
-                        if (viewModel.getDayPosition() == -1) {
-                            val calDay = cal.get(Calendar.DAY_OF_MONTH)
-                            viewModel.setDay(dayPicker.data[calDay - 1] as Int)
-                        } else {
-                            dayPicker.selectedItemPosition = viewModel.getDayPosition()
-                            viewModel.setDay(dayPicker.data[viewModel.getDayPosition()] as Int)
-                        }
+            val month =
+                datePickerUtil.getNumberValue(monthPicker.data[viewModel.getMonthPosition()] as String)
+            viewModel.setMonth(month)
 
-                        val month =
-                            datePickerUtil.getNumberValue(monthPicker.data[viewModel.getMonthPosition()] as String)
-                        viewModel.setMonth(month)
-                    }, 50)
-                }, 50)
-            },
-            100
-        )
+        }, 1)
 
         hideKeyboard()
     }

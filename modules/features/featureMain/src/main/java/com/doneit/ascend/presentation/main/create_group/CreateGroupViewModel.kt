@@ -162,8 +162,7 @@ class CreateGroupViewModel(
 
             if (requestEntity.isSuccessful) {
                 router.closeActivity()
-            }
-            else {
+            } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
                     showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
                 }
@@ -323,6 +322,11 @@ class CreateGroupViewModel(
 
     override fun doneClick() {
         changeStartDate()
+        router.onBack()
+    }
+
+    override fun backDateClick() {
+        router.onBack()
         router.onBack()
     }
 
