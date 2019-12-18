@@ -96,25 +96,12 @@ fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: String)
 @BindingAdapter("app:setTime")
 fun setTime(view: androidx.appcompat.widget.AppCompatTextView, dateTime: String) {
     try {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm")
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         val date: Date? = dateFormat.parse(dateTime)
 
         date?.let {
-
-            val sdf = SimpleDateFormat("hh:mm aa")
-            val formattedTime = sdf.format(it)
-
-            val cal = Calendar.getInstance()
-            cal.time = date
-
-            val tz: TimeZone = cal.timeZone
-
-            val isDayLight: Boolean = tz.inDaylightTime(date)
-            view.text = String.format(
-                "%s (%s)",
-                formattedTime,
-                tz.getDisplayName(isDayLight, TimeZone.SHORT)
-            )
+            val sdf = SimpleDateFormat("hh:mm aa (z)")
+            view.text = sdf.format(it)
         }
     } catch (e: Exception) {
         e.printStackTrace()
