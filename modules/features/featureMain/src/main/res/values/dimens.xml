@@ -15,4 +15,7 @@
     <dimen name="mm_list_top_padding">40dp</dimen>
     <dimen name="groups_list_top_padding">24dp</dimen>
     <dimen name="search_list_top_padding">16dp</dimen>
+    <dimen name="info_holder_radius">20dp</dimen>
+    <dimen name="holder_icon_radius">40dp</dimen>
+    <dimen name="group_holder_icon_radius">8dp</dimen>
 </resources>

@@ -98,24 +98,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/ivGroupImage"
                 tools:text="Nibh et lobortis" />
 
-            <androidx.cardview.widget.CardView
+            <com.doneit.ascend.presentation.main.views.MasterMindIcon
                 android:id="@+id/ivOwnerImage"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                app:cardCornerRadius="8dp"
+                app:url="@{item.owner.image.url}"
+                app:name="@{item.owner.fullName}"
+                app:radius="@{@dimen/group_holder_icon_radius}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGroupName">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:setImage="@{item.owner.image.thumbnail.url}"
-                    app:placeholder="@{@drawable/ic_stroke_plus}"/>
-
-            </androidx.cardview.widget.CardView>
-
+                app:layout_constraintTop_toBottomOf="@+id/tvGroupName"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/ownerName"

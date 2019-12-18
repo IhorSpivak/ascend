@@ -85,23 +85,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.cardview.widget.CardView
+                <com.doneit.ascend.presentation.main.views.MasterMindIcon
                     android:id="@+id/icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="24dp"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="0dp"
+                    app:url="@{model.group.owner.image.url}"
+                    app:name="@{model.group.owner.fullName}"
+                    app:radius="@{@dimen/info_holder_radius}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:setImage="@{model.group.owner.image.url}"
-                        android:scaleType="centerCrop"
-                        tools:src="@drawable/ic_user" />
-                </androidx.cardview.widget.CardView>
+                    app:layout_constraintTop_toBottomOf="@id/title"/>
 
                 <TextView
                     android:id="@+id/tvName"
