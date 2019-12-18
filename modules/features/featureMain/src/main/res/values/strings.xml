@@ -112,6 +112,7 @@
     <string name="group_price">&lt;b>%.2f&lt;/b> USD</string>
     <string name="subscribe">SUBSCRIBE</string>
     <string name="joined">JOINED</string>
+    <string name="delete_group">Delete Group</string>
     <string name="attendees">&lt;b>%d&lt;/b> Attendees</string>
 
     <!--MasterMind Tab-->
@@ -121,5 +122,6 @@
     <!--Dialogs-->
     <string name="btn_positive">OK</string>
     <string name="btn_negative">Cancel</string>
-    <string name="btn_delete">Delete</string>
+    <string name="btn_delete">Yes, delete</string>
+    <string name="delete_content">If you delete a group, it cannot be restored and all funds will be returned to the participants.</string>
 </resources>

@@ -19,14 +19,12 @@ class GroupViewHolder(
         binding.item = item
 
         try {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault())
-            val startDate: Date = dateFormat.parse(item.startTime)
             val currentDate = Calendar.getInstance().time
 
-            if (startDate.before(currentDate) && user != null) {
+            if (item.startTime?.before(currentDate) == true && user != null) {
                 // show
 
-                if (user.role == "master_mind") {
+                if (user.isMasterMind) {
                     binding.showJoinButton = false
                     binding.showStartButton = true
                 } else {

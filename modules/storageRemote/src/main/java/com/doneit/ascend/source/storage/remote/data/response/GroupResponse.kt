@@ -10,8 +10,13 @@ data class GroupResponse(
     @SerializedName("group_type") val groupType: String,
     @SerializedName("price") val price: Float,
     @SerializedName("image") val image: ImageResponse,
+    @SerializedName("meetings_count") val meetingsCount: Int,
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("updated_at") val updatedAt: String,
     @SerializedName("owner") val owner: OwnerResponse,
-    @SerializedName("participants_count") val participantsCount: Int
+    @SerializedName("subscribed") val subscribed: Boolean,
+    @SerializedName("invited") val invited: Boolean,
+    @SerializedName("participants_count") val participantsCount: Int,
+    @SerializedName("invites_count") val invitesCount: Int,
+    @SerializedName("wdays") val daysOfWeek: List<Int>
 )

@@ -7,7 +7,6 @@ import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.common.BottomNavigationAdapter
-import com.doneit.ascend.presentation.utils.Constants.TYPE_MASTER_MIND
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -52,7 +51,7 @@ class MainActivity : BaseActivity() {
             val user = userUseCase.getUserLive()
 
             user.observe(this@MainActivity, Observer {
-                setCreateGroupState(it?.role == TYPE_MASTER_MIND)
+                setCreateGroupState(it?.isMasterMind?:false)
             })
         }
     }

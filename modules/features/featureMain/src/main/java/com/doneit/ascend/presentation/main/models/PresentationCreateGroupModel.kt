@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.main.models
 
 import androidx.databinding.ObservableField
-import com.doneit.ascend.presentation.utils.CalendarDay
+import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 
 class PresentationCreateGroupModel(
@@ -25,7 +25,7 @@ class PresentationCreateGroupModel(
     var dayPosition: Int = -1,
     var year: Int = 0,
     var yearPosition: Int = 0,
-    var selectedDays: MutableList<CalendarDay> = mutableListOf(),
-    var scheduleDays: MutableList<CalendarDay> = mutableListOf(),
+    var selectedDays: MutableList<CalendarDayEntity> = mutableListOf(),
+    var scheduleDays: MutableList<CalendarDayEntity> = mutableListOf(),
     var scheduleTime: ValidatableField = ValidatableField()
 )

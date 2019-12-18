@@ -13,7 +13,7 @@ data class UserLocal(
     val createdAt: String? = "",
     val updatedAt: String? = "",
     val rating: Int = -1,
-    val role: String? = "",
+    val isMasterMind: Boolean,
     val community: String? = ""
 
 )

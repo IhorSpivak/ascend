@@ -9,6 +9,6 @@ data class UserEntity(
    val updatedAt: String?,
    val unansweredQuestions: List<Int>?,
    val rating: Int,
-   val role: String?,
+   val isMasterMind: Boolean,
    val community: String?
 )

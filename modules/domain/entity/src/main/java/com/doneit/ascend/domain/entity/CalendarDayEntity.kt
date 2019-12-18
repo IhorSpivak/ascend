@@ -1,6 +1,6 @@
-package com.doneit.ascend.presentation.utils
+package com.doneit.ascend.domain.entity
 
-enum class CalendarDay {
+enum class CalendarDayEntity {
     SUNDAY,
     MONDAY,
     TUESDAY,

@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.create_group
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -228,7 +229,7 @@ class CreateGroupViewModel(
         createGroupModel.timeTypePosition = position
     }
 
-    override fun changeDayState(day: CalendarDay, state: Boolean) {
+    override fun changeDayState(day: CalendarDayEntity, state: Boolean) {
         if (state) {
             createGroupModel.selectedDays.add(day)
         } else {
@@ -242,7 +243,7 @@ class CreateGroupViewModel(
         canOk.postValue(createGroupModel.selectedDays.size != 0)
     }
 
-    override fun getSelectedDay(): List<CalendarDay> {
+    override fun getSelectedDay(): List<CalendarDayEntity> {
         return createGroupModel.scheduleDays
     }
 

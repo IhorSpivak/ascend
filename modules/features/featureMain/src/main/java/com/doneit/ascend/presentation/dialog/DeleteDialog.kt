@@ -7,12 +7,13 @@ import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.DialogQuestionBinding
 
-class QuestionDialog {
+class DeleteDialog {
 
     companion object {
         fun create(
             context: Context,
             title: String,
+            contentRes: Int,
             posBtnRes: Int,
             negBtnRes: Int,
             call: ((QuestionButtonType) -> Unit)
@@ -27,6 +28,7 @@ class QuestionDialog {
 
             with(binding) {
                 this.header = title
+                this.content = context.getString(contentRes)
                 this.buttonPositiveText = context.getString(posBtnRes)
                 this.buttonNegativeText = context.getString(negBtnRes)
             }

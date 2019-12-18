@@ -11,6 +11,14 @@
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
 
+    <style name="AppTransparentToolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_selector</item>
         <item name="android:textColor">@android:color/white</item>

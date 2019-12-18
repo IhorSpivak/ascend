@@ -10,6 +10,10 @@
             type="String" />
 
         <variable
+            name="content"
+            type="String" />
+
+        <variable
             name="button_positive_text"
             type="String" />
 
@@ -39,16 +43,36 @@
             style="@style/TextNormal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginTop="6dp"
             android:gravity="center"
             android:lineSpacingExtra="0sp"
             android:text="@{header}"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="@color/error_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnClose"
             tools:text="Report Abuse" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvContent"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@{content}"
+            android:textSize="14sp"
+            android:textColor="@color/error_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:text="If you delete a group, it cannot be restored and all funds will be returned to the participants" />
 
         <Button
             android:id="@+id/btnNegative"
@@ -56,17 +80,18 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="7dp"
             android:layout_marginBottom="40dp"
-            android:backgroundTint="#F4F4F7"
+            android:background="@drawable/bg_btn_cancel"
             android:text="@{button_negative_text}"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/error_color"
             android:textSize="16sp"
+            tools:text="Cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnPositive"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toBottomOf="@+id/tvContent" />
 
         <Button
             android:id="@+id/btnPositive"
@@ -74,17 +99,19 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="7dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="40dp"
-            android:backgroundTint="@color/colorAccent"
+            android:background="@drawable/bg_btn_delete"
             android:text="@{button_positive_text}"
             android:textColor="@android:color/white"
             android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Yes, delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btnNegative"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toBottomOf="@+id/tvContent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

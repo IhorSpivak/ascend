@@ -66,15 +66,13 @@ fun setImage(view: AppCompatImageView, url: String?, placeholder: Drawable?) {
 }
 
 @BindingAdapter("app:setDate")
-fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: String) {
+fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date?) {
 
-    try {//todo refactor
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault())
-        val date: Date? = dateFormat.parse(dateTime)
+    try {
 
-        date?.let {
+        dateTime?.let {
             val cal = Calendar.getInstance()
-            cal.time = date
+            cal.time = dateTime
 
             val month = cal[Calendar.MONTH]
             val dayOfMonth = cal[Calendar.DAY_OF_MONTH]
@@ -94,12 +92,10 @@ fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: String)
 }
 
 @BindingAdapter("app:setTime")
-fun setTime(view: androidx.appcompat.widget.AppCompatTextView, dateTime: String) {
+fun setTime(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date) {
     try {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-        val date: Date? = dateFormat.parse(dateTime)
 
-        date?.let {
+        dateTime?.let {
             val sdf = SimpleDateFormat("hh:mm aa (z)")
             view.text = sdf.format(it)
         }

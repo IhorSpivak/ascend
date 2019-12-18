@@ -10,7 +10,7 @@ import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.main.databinding.FragmentCalendarPickerBinding
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
-import com.doneit.ascend.presentation.utils.CalendarDay
+import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil.Companion.DEFAULT_TIME_TYPE
 import kotlinx.android.synthetic.main.fragment_calendar_picker.*
@@ -64,13 +64,13 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
 
         val checkedListener = CompoundButton.OnCheckedChangeListener { button, isChecked ->
             when (button.id) {
-                R.id.btn_mo -> viewModel.changeDayState(CalendarDay.MONDAY, isChecked)
-                R.id.btn_tu -> viewModel.changeDayState(CalendarDay.TUESDAY, isChecked)
-                R.id.btn_we -> viewModel.changeDayState(CalendarDay.WEDNESDAY, isChecked)
-                R.id.btn_th -> viewModel.changeDayState(CalendarDay.THURSDAY, isChecked)
-                R.id.btn_fr -> viewModel.changeDayState(CalendarDay.FRIDAY, isChecked)
-                R.id.btn_sa -> viewModel.changeDayState(CalendarDay.SATURDAY, isChecked)
-                R.id.btn_su -> viewModel.changeDayState(CalendarDay.SUNDAY, isChecked)
+                R.id.btn_mo -> viewModel.changeDayState(CalendarDayEntity.MONDAY, isChecked)
+                R.id.btn_tu -> viewModel.changeDayState(CalendarDayEntity.TUESDAY, isChecked)
+                R.id.btn_we -> viewModel.changeDayState(CalendarDayEntity.WEDNESDAY, isChecked)
+                R.id.btn_th -> viewModel.changeDayState(CalendarDayEntity.THURSDAY, isChecked)
+                R.id.btn_fr -> viewModel.changeDayState(CalendarDayEntity.FRIDAY, isChecked)
+                R.id.btn_sa -> viewModel.changeDayState(CalendarDayEntity.SATURDAY, isChecked)
+                R.id.btn_su -> viewModel.changeDayState(CalendarDayEntity.SUNDAY, isChecked)
             }
         }
 
@@ -109,13 +109,13 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
 
             selectedDays.forEach {
                 when (it) {
-                    CalendarDay.SATURDAY -> btn_sa.isChecked = true
-                    CalendarDay.FRIDAY -> btn_fr.isChecked = true
-                    CalendarDay.THURSDAY -> btn_th.isChecked = true
-                    CalendarDay.WEDNESDAY -> btn_we.isChecked = true
-                    CalendarDay.TUESDAY -> btn_tu.isChecked = true
-                    CalendarDay.MONDAY -> btn_mo.isChecked = true
-                    CalendarDay.SUNDAY -> btn_su.isChecked = true
+                    CalendarDayEntity.SATURDAY -> btn_sa.isChecked = true
+                    CalendarDayEntity.FRIDAY -> btn_fr.isChecked = true
+                    CalendarDayEntity.THURSDAY -> btn_th.isChecked = true
+                    CalendarDayEntity.WEDNESDAY -> btn_we.isChecked = true
+                    CalendarDayEntity.TUESDAY -> btn_tu.isChecked = true
+                    CalendarDayEntity.MONDAY -> btn_mo.isChecked = true
+                    CalendarDayEntity.SUNDAY -> btn_su.isChecked = true
                 }
             }
         }, 100)

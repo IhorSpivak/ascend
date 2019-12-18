@@ -12,11 +12,8 @@ import com.doneit.ascend.presentation.login.models.toEntity
 import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneContract
 import com.doneit.ascend.presentation.login.utils.*
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Constants
-import com.doneit.ascend.presentation.utils.Constants.TYPE_MASTER_MIND
 import com.doneit.ascend.presentation.utils.LocalStorage
-import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.UIReturnStep
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import kotlinx.coroutines.Dispatchers
@@ -162,7 +159,7 @@ class SignUpViewModel(
                 requestEntity.successModel?.let {
                     userUseCase.insert(it.userEntity, it.token)
 
-                    if (it.userEntity.role != TYPE_MASTER_MIND) {
+                    if (it.userEntity.isMasterMind.not()) {
 
                         launch(Dispatchers.Main) {
                             val questionsRequest =

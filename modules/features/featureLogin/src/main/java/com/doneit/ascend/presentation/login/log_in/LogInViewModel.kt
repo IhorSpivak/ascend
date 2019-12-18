@@ -14,7 +14,6 @@ import com.doneit.ascend.presentation.login.utils.LoginUtils
 import com.doneit.ascend.presentation.login.utils.getNotNull
 import com.doneit.ascend.presentation.login.utils.isPhoneValid
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.utils.Constants.TYPE_MASTER_MIND
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.presentation.utils.UIReturnStep
 import com.facebook.AccessToken
@@ -74,7 +73,7 @@ class LogInViewModel(
 
                     if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
                         requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty() &&
-                        it.userEntity.role != TYPE_MASTER_MIND
+                        it.userEntity.isMasterMind.not()
                     ) {
                         launch(Dispatchers.Main) {
                             val questionsRequest =
@@ -178,7 +177,7 @@ class LogInViewModel(
 
                         if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
                             requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty() &&
-                            it.userEntity.role != TYPE_MASTER_MIND
+                            it.userEntity.isMasterMind.not()
                         ) {
                             launch(Dispatchers.Main) {
                                 val questionsRequest =

@@ -3,7 +3,6 @@ package com.doneit.ascend.source.storage.remote.repository.group
 import com.doneit.ascend.source.storage.remote.api.GroupApi
 import com.doneit.ascend.source.storage.remote.data.request.CreateGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.GroupListRequest
-import com.doneit.ascend.source.storage.remote.data.response.GroupDetailsResponse
 import com.doneit.ascend.source.storage.remote.data.response.GroupListResponse
 import com.doneit.ascend.source.storage.remote.data.response.GroupResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
@@ -87,7 +86,7 @@ internal class GroupRepository(
         }, ErrorsListResponse::class.java)
     }
 
-    override suspend fun getGroupDetails(groupId: Long): RemoteResponse<GroupDetailsResponse, ErrorsListResponse> {
+    override suspend fun getGroupDetails(groupId: Long): RemoteResponse<GroupResponse, ErrorsListResponse> {
         return execute({ api.getGroupDetailsAsync(groupId) }, ErrorsListResponse::class.java)
     }
 

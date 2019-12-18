@@ -2,7 +2,6 @@ package com.doneit.ascend.source.storage.remote.repository.group
 
 import com.doneit.ascend.source.storage.remote.data.request.CreateGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.GroupListRequest
-import com.doneit.ascend.source.storage.remote.data.response.GroupDetailsResponse
 import com.doneit.ascend.source.storage.remote.data.response.GroupListResponse
 import com.doneit.ascend.source.storage.remote.data.response.GroupResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
@@ -15,7 +14,7 @@ interface IGroupRepository {
 
     suspend fun getGroupsList(listRequest: GroupListRequest): RemoteResponse<GroupListResponse, ErrorsListResponse>
 
-    suspend fun getGroupDetails(groupId: Long): RemoteResponse<GroupDetailsResponse, ErrorsListResponse>
+    suspend fun getGroupDetails(groupId: Long): RemoteResponse<GroupResponse, ErrorsListResponse>
 
     suspend fun deleteGroup(groupId: Long) : RemoteResponse<OKResponse, ErrorsListResponse>
 }

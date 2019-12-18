@@ -1,21 +1,22 @@
 package com.doneit.ascend.presentation.utils
 
 import android.content.Context
+import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.presentation.main.R
 
 class CalendarPickerUtil(
     private val context: Context
 ) {
 
-    fun getString(day: CalendarDay): String {
+    fun getString(day: CalendarDayEntity): String {
         val resId: Int = when (day) {
-            CalendarDay.MONDAY -> R.string.mon
-            CalendarDay.TUESDAY -> R.string.tue
-            CalendarDay.WEDNESDAY -> R.string.wed
-            CalendarDay.THURSDAY -> R.string.thu
-            CalendarDay.FRIDAY -> R.string.fri
-            CalendarDay.SATURDAY -> R.string.sat
-            CalendarDay.SUNDAY -> R.string.sun
+            CalendarDayEntity.MONDAY -> R.string.mon
+            CalendarDayEntity.TUESDAY -> R.string.tue
+            CalendarDayEntity.WEDNESDAY -> R.string.wed
+            CalendarDayEntity.THURSDAY -> R.string.thu
+            CalendarDayEntity.FRIDAY -> R.string.fri
+            CalendarDayEntity.SATURDAY -> R.string.sat
+            CalendarDayEntity.SUNDAY -> R.string.sun
         }
 
         return context.getString(resId)

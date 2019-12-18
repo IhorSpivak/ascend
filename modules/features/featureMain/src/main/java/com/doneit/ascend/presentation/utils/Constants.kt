@@ -9,8 +9,6 @@ object Constants {
     const val END_OF_LINE = "\n"
     const val TAB_SYMBOL = "\t"
 
-    const val TYPE_MASTER_MIND = "master_mind"
-
     const val COMPRESSION_QUALITY = 80
     const val PER_PAGE_COMMON = 60
 }

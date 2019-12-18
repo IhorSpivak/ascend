@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.main.calendar_picker
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.base.BaseViewModel
-import com.doneit.ascend.presentation.utils.CalendarDay
+import com.doneit.ascend.domain.entity.CalendarDayEntity
 
 interface CalendarPickerContract {
     interface ViewModel : BaseViewModel {
@@ -20,7 +20,7 @@ interface CalendarPickerContract {
         fun getTimeType(): String
         fun getTimeTypePosition(): Int
         fun setTimeTypePosition(position: Int)
-        fun changeDayState(day: CalendarDay, state: Boolean)
-        fun getSelectedDay(): List<CalendarDay>
+        fun changeDayState(day: CalendarDayEntity, state: Boolean)
+        fun getSelectedDay(): List<CalendarDayEntity>
     }
 }

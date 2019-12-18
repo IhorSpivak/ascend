@@ -11,7 +11,7 @@ fun UserEntity.toUserLocal(): UserLocal {
         phone = this@toUserLocal.phone,
         createdAt = this@toUserLocal.createdAt,
         updatedAt = this@toUserLocal.updatedAt,
-        role = this@toUserLocal.role,
+        isMasterMind = this@toUserLocal.isMasterMind,
         rating = this@toUserLocal.rating,
         community = this@toUserLocal.community
     )

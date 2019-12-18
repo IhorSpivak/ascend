@@ -18,15 +18,13 @@ class GroupHorViewHolder(
     fun bind(item: GroupEntity, user: UserEntity?) {
         binding.item = item
 
-        try {//todo refactor
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val startDate: Date = dateFormat.parse(item.startTime)
+        try {
             val currentDate = Calendar.getInstance().time
 
-            if (startDate.before(currentDate) && user != null) {
+            if (item.startTime?.before(currentDate) == true && user != null) {
                 // show
 
-                if (user.role == "master_mind") {
+                if (user.isMasterMind) {
                     binding.showJoinButton = false
                     binding.showStartButton = true
                 } else {

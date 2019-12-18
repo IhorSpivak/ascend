@@ -1,6 +1,5 @@
 package com.doneit.ascend.source.storage.remote.api
 
-import com.doneit.ascend.source.storage.remote.data.response.GroupDetailsResponse
 import com.doneit.ascend.source.storage.remote.data.response.GroupListResponse
 import com.doneit.ascend.source.storage.remote.data.response.GroupResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
@@ -27,7 +26,7 @@ interface GroupApi {
     ): Deferred<Response<GroupListResponse>>
 
     @GET("groups/{id}")
-    fun getGroupDetailsAsync(@Path("id") id: Long): Deferred<Response<GroupDetailsResponse>>
+    fun getGroupDetailsAsync(@Path("id") id: Long): Deferred<Response<GroupResponse>>
 
     @DELETE("groups/{id}")
     fun deleteGroupAsync(@Path("id") id: Long) : Deferred<Response<OKResponse>>
