@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.text.Html"/>
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.group_info.GroupInfoContract.ViewModel" />
@@ -138,7 +138,7 @@
                     style="@style/TextNormal"
                     android:textSize="16dp"
                     android:textColor="@color/light_gray_8f"
-                    android:text="@{String.format(@string/meetings_count, 0, model.group.meetingsCount)}"
+                    app:html="@{@string/meetings_count( 0, model.group.meetingsCount)}"
                     tools:text="@string/meetings_count"
                     app:layout_constraintTop_toTopOf="@id/icon"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -149,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     style="@style/TextNormal"
-                    android:text="@{String.format(@string/group_price, model.group.price)}"
+                    app:html="@{@string/group_price(model.group.price)}"
                     tools:text="@string/group_price"
                     app:layout_constraintTop_toBottomOf="@id/tvMeetings"
                     app:layout_constraintEnd_toEndOf="@id/tvMeetings"
@@ -199,7 +199,6 @@
                     android:textSize="14sp"
                     android:textColor="@color/light_gray_8f"
                     android:layout_marginStart="8dp"
-                    android:text="@{model.group.startTime}"
                     tools:text="18 Aug 2019"
                     app:layout_constraintTop_toTopOf="@id/icCalendar"
                     app:layout_constraintBottom_toBottomOf="@id/icCalendar"
@@ -223,7 +222,6 @@
                     android:textSize="14sp"
                     android:textColor="@color/light_gray_8f"
                     android:layout_marginStart="8dp"
-                    android:text="@{model.group.startTime}"
                     tools:text="Mon, Tue 13:00 pm"
                     app:layout_constraintTop_toTopOf="@id/icSchedule"
                     app:layout_constraintBottom_toBottomOf="@id/icSchedule"
@@ -270,7 +268,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             style="@style/TextNormal"
-                            android:text="@{String.format(@string/attendees, model.group.participantsCount)}"
+                            app:html="@{@string/attendees(model.group.participantsCount)}"
                             tools:text="12 Attendees"
                             android:layout_gravity="center_vertical"/>
                     </LinearLayout>

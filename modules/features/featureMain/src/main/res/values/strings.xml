@@ -108,11 +108,11 @@
     <string name="see_groups">See Groups (%d)</string>
 
     <!--Group Info-->
-    <string name="meetings_count"><b>%d/%d</b> Meetings</string>
-    <string name="group_price"><b>%.2f</b> USD</string>
+    <string name="meetings_count">&lt;b>%d/%d&lt;/b> Meetings</string>
+    <string name="group_price">&lt;b>%.2f&lt;/b> USD</string>
     <string name="subscribe">SUBSCRIBE</string>
     <string name="joined">JOINED</string>
-    <string name="attendees"><b>%d</b> Attendees</string>
+    <string name="attendees">&lt;b>%d&lt;/b> Attendees</string>
 
     <!--MasterMind Tab-->
     <string name="tab_all">All</string>

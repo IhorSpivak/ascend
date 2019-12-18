@@ -18,7 +18,7 @@ class GroupHorViewHolder(
     fun bind(item: GroupEntity, user: UserEntity?) {
         binding.item = item
 
-        try {
+        try {//todo refactor
             val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val startDate: Date = dateFormat.parse(item.startTime)
             val currentDate = Calendar.getInstance().time

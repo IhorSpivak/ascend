@@ -2,12 +2,14 @@ package com.doneit.ascend.presentation.main.group_info
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityGroupInfoBindingImpl
+import com.doneit.ascend.presentation.utils.toDayMonthYear
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -46,10 +48,13 @@ class GroupInfoActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.model = viewModel
 
+        viewModel.group.observe(this, Observer {
+            binding.tvStartDate.text = it.startTime?.toDayMonthYear()
+            binding.tvSchedule.text = it.startTime?.toDayMonthYear()
+        })
+
         val groupId = intent.getLongExtra(GROUP_ID, -1)
         viewModel.loadData(groupId)
-
-
     }
 
     companion object {

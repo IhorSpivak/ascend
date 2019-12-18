@@ -14,7 +14,7 @@ import java.util.*
 @BindingAdapter("app:setDate")
 fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: String) {
 
-    try {
+    try {//todo refactor
         val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault())
         val date: Date? = dateFormat.parse(dateTime)
 
