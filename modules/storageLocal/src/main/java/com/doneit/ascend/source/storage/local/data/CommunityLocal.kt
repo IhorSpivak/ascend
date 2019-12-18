@@ -6,16 +6,16 @@ import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import kotlin.random.Random
 
-@Entity(tableName = "questions")
-data class QuestionLocal(
+@Entity(tableName = "communities")
+data class CommunityLocal(
     @PrimaryKey
-    @ColumnInfo(name = "question_id")
+    @ColumnInfo(name = "community_id")
     var id: Long = Random.nextLong(),
     var title: String = "",
-    var type: String = "",
-    var createdAt: String = "",
-    var updatedAt: String = "",
+
+    @ColumnInfo(name = "question_id")
+    var questionId: Long = 0,
 
     @Ignore
-    val options: List<AnswerOptionLocal> = listOf()
+    var options: List<AnswerOptionLocal> = listOf()
 )

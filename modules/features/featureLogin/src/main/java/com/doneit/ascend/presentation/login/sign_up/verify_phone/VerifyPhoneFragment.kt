@@ -13,7 +13,6 @@ import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.main.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
-import com.doneit.ascend.presentation.utils.showDefaultError
 import com.doneit.ascend.presentation.utils.showInfoDialog
 import kotlinx.android.synthetic.main.fragment_verify_phone.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -26,9 +25,13 @@ import org.kodein.di.generic.singleton
 
 class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
 
-    override val viewModelModule = Kodein.Module(this::class.java.simpleName){
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         //todo resolve extra factory provide
-        bind<ViewModelProvider.Factory>(tag = LogInActivity.SIGN_UP_VM_TAG) with singleton { CommonViewModelFactory(kodein.direct) }
+        bind<ViewModelProvider.Factory>(tag = LogInActivity.SIGN_UP_VM_TAG) with singleton {
+            CommonViewModelFactory(
+                kodein.direct
+            )
+        }
         //di should contains corresponding ViewModel from SignUpFragments' module for now
         bind<VerifyPhoneContract.ViewModel>() with provider { vmShared<SignUpViewModel>(instance(tag = LogInActivity.SIGN_UP_VM_TAG)) }
     }
@@ -54,7 +57,7 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
     }
 
     override fun handleSuccessMessage(message: PresentationMessage) {
-        when(message.id) {
+        when (message.id) {
             Messages.PASSWORD_SENT.getId() -> {
                 showInfoDialog(
                     getString(R.string.title_password_sent),

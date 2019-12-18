@@ -1,17 +1,17 @@
 package com.doneit.ascend.domain.use_case.interactor.question
 
-import com.doneit.ascend.domain.entity.QuestionEntity
+import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.use_case.gateway.IQuestionGateway
 
 internal class QuestionInteractor(
     private val questionGateway: IQuestionGateway
 ) : QuestionUseCase {
-    override suspend fun getList(sessionToken: String): ResponseEntity<List<QuestionEntity>, List<String>> {
+    override suspend fun getList(sessionToken: String): ResponseEntity<QuestionListEntity, List<String>> {
         return questionGateway.getList(sessionToken)
     }
 
-    override suspend fun insert(questions: List<QuestionEntity>) {
+    override suspend fun insert(questions: QuestionListEntity) {
         questionGateway.insert(questions)
     }
 
@@ -19,7 +19,7 @@ internal class QuestionInteractor(
         questionGateway.deleteAllQuestions()
     }
 
-    override suspend fun getQuestionsList(): List<QuestionEntity> {
+    override suspend fun getQuestionsList(): QuestionListEntity {
         return questionGateway.getQuestionsList()
     }
 }

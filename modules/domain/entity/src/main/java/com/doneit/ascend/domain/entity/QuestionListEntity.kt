@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class AnswerOptionEntity(
-    val id: Long,
-    val title: String
+class QuestionListEntity(
+    val questions: List<QuestionEntity>,
+    val community: CommunityQuestionEntity?
 ) : Parcelable

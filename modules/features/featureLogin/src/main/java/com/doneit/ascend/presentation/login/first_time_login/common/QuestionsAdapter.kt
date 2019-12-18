@@ -1,10 +1,10 @@
 package com.doneit.ascend.presentation.login.first_time_login.common
 
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.QuestionEntity
+import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.presentation.login.first_time_login.common.view_holder.QuestionViewHolder
 import com.doneit.ascend.presentation.login.first_time_login.common.view_holder.SelectAnswerViewHolder
 import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
@@ -13,6 +13,8 @@ class QuestionsAdapter(
     private val items: MutableList<QuestionEntity>,
     private val listener: QuestionStateListener
 ) : RecyclerView.Adapter<LifecycleViewHolder>() {
+
+    private var questionModel: QuestionListEntity? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LifecycleViewHolder {
 
@@ -29,7 +31,7 @@ class QuestionsAdapter(
 
         when (QuestionType.values()[holder.itemViewType]) {
             QuestionType.QUESTION -> (holder as QuestionViewHolder).bind(items[position])
-            QuestionType.SELECT_ANSWER -> (holder as SelectAnswerViewHolder).bind(items[position])
+            //QuestionType.SELECT_ANSWER -> (holder as SelectAnswerViewHolder).bind(items[position])
             else -> (holder as QuestionViewHolder).bind(items[position])
         }
     }
@@ -50,7 +52,9 @@ class QuestionsAdapter(
         }
     }
 
-    fun updateData(newItems: List<QuestionEntity>) {
+    fun updateData(questionModel: QuestionListEntity) {
+        this.questionModel = questionModel
+        val newItems = questionModel.questions
 
         val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

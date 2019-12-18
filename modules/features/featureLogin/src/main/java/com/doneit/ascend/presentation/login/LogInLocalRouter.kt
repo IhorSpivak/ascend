@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.doneit.ascend.domain.entity.QuestionEntity
+import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.presentation.login.first_time_login.FirstTimeLoginContract
 import com.doneit.ascend.presentation.login.first_time_login.FirstTimeLoginFragment
 import com.doneit.ascend.presentation.login.first_time_login.common.FirstTimeLoginArgs
@@ -24,8 +24,6 @@ import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.utils.Constants.RC_SIGN_IN
 import com.vrgsoft.core.presentation.fragment.argumented.ArgumentedFragment
-import java.text.SimpleDateFormat
-import java.util.*
 
 class LogInLocalRouter(
     private val activity: LogInActivity,
@@ -110,15 +108,9 @@ class LogInLocalRouter(
         activity.startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    override fun navigateToFirstTimeLogin(questions: List<QuestionEntity>) {
+    override fun navigateToFirstTimeLogin(questions: QuestionListEntity) {
 
-        // sort questions by date
-
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.getDefault())
-
-        val args = FirstTimeLoginArgs(questions.sortedBy {
-            dateFormat.parse(it.updatedAt)
-        })
+        val args = FirstTimeLoginArgs(questions)
 
         val fragment = FirstTimeLoginFragment()
         (fragment as Fragment).arguments = Bundle().apply {

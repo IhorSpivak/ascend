@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.login.sign_up
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.QuestionEntity
+import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.presentation.login.models.PresentationSignUpModel
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 
@@ -20,7 +21,7 @@ interface SignUpContract {
     interface Router {
         fun navigateToVerifyPhone()
         fun goToMain()
-        fun navigateToFirstTimeLogin(questions: List<QuestionEntity>)
+        fun navigateToFirstTimeLogin(questions: QuestionListEntity)
         fun goBack()
         fun navigateToTerms()
         fun navigateToPrivacyPolicy()

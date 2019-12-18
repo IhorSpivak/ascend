@@ -1,11 +1,11 @@
 package com.doneit.ascend.domain.gateway.gateway
 
-import com.doneit.ascend.domain.entity.QuestionEntity
+import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntityList
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toQuestionEntityList
-import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toQuestionList
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IQuestionGateway
 import com.vrgsoft.networkmanager.NetworkManager
@@ -22,10 +22,10 @@ internal class QuestionGateway(
         return ""//todo, not required for now
     }
 
-    override suspend fun getList(sessionToken: String): ResponseEntity<List<QuestionEntity>, List<String>> {
+    override suspend fun getList(sessionToken: String): ResponseEntity<QuestionListEntity, List<String>> {
         return executeRemote { remote.getList() }.toResponseEntity(
             {
-                it?.questions?.toEntityList()
+                it?.toEntityList()
             },
             {
                 it?.errors
@@ -33,11 +33,11 @@ internal class QuestionGateway(
         )
     }
 
-    override suspend fun getQuestionsList(): List<QuestionEntity> {
-        return local.getAll().toQuestionList()
+    override suspend fun getQuestionsList(): QuestionListEntity {
+        return local.getAll().toEntity()
     }
 
-    override suspend fun insert(questions: List<QuestionEntity>) {
+    override suspend fun insert(questions: QuestionListEntity) {
         local.insert(questions.toQuestionEntityList())
     }
 
