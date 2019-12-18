@@ -6,7 +6,7 @@ interface DatePickerContract {
     interface ViewModel : BaseViewModel {
         fun cancelClick()
         fun doneClick()
-
+        fun backDateClick()
         fun setMonth(month: Int)
         fun getMonth(): Int
         fun setMonthPosition(position: Int)
