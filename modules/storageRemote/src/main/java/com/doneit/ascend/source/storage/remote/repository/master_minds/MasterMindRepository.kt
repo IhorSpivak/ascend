@@ -3,6 +3,7 @@ package com.doneit.ascend.source.storage.remote.repository.master_minds
 import com.doneit.ascend.source.storage.remote.api.MasterMindApi
 import com.doneit.ascend.source.storage.remote.data.request.MasterMindListRequest
 import com.doneit.ascend.source.storage.remote.data.response.MasterMindListResponse
+import com.doneit.ascend.source.storage.remote.data.response.MasterMindResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
@@ -25,5 +26,9 @@ internal class MasterMindRepository(
                 listRequest.followed,
                 listRequest.rated)
         }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun getMMProfile(id: Long): RemoteResponse<MasterMindResponse, ErrorsListResponse> {
+        return execute({api.getProfile(id)}, ErrorsListResponse::class.java)
     }
 }

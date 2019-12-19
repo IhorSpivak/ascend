@@ -34,4 +34,6 @@ interface IUserGateway {
     fun getUserLive(): LiveData<UserEntity?>
 
     suspend fun geUser(): UserEntity?
+
+    suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>>
 }

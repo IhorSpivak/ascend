@@ -18,6 +18,7 @@ interface GroupInfoContract {
         fun joinToDiscussion()
         fun startGroup()
         fun deleteGroup()
+        fun report(content: String)
     }
 
     interface Router {

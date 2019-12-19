@@ -8,6 +8,7 @@ data class MasterMindResponse (
     @SerializedName("display_name") val displayName: String,
     @SerializedName("description") val description: String,
     @SerializedName("location") val location: String,
+    @SerializedName("bio") val bio: String,
     @SerializedName("rating") val rating: Float,
     @SerializedName("groups_count") val groupsCount: Int,
     @SerializedName("followed") val followed: Boolean,

@@ -1,120 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@android:color/transparent"
+        android:src="@drawable/ic_close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btnClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/ic_close"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+        style="@style/TextNormal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:lineSpacingExtra="0sp"
+        android:text="@string/report_abuse"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnClose"
+        tools:text="Report Abuse" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/title"
-            style="@style/TextNormal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="center"
-            android:lineSpacingExtra="0sp"
-            android:text="@string/report_abuse"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnClose"
-            tools:text="Report Abuse" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/enter_reason"
+        style="@style/TextNormal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:lineSpacingExtra="0sp"
+        android:text="@string/enter_reason"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="Enter a reason" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/enter_reason"
-            style="@style/TextNormal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="center"
-            android:lineSpacingExtra="0sp"
-            android:text="@string/enter_reason"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            tools:text="Enter a reason" />
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/tvReason"
+        style="@style/TextNormal"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="24dp"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/enter_reason"
+        android:background="@drawable/edit_text_rounded_background"
+        android:digits="@string/allow_reason_digits"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:maxLength="120"
+        android:textSize="14sp"
+        android:focusable="false"
+        android:hint="@string/reason"
+        tools:text="@string/reason" />
 
-        <LinearLayout
-            android:id="@+id/tvEditTextBox"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="11dp"
-            android:layout_marginEnd="24dp"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_rounded_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/enter_reason">
+    <Button
+        android:id="@+id/btnNegative"
+        style="@style/AppTheme.Button"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="#F4F4F7"
+        android:text="@string/btn_cancel"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnPositive"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvReason" />
 
-            <EditText
-                android:id="@+id/tvReason"
-                style="@style/TextNormal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="@android:color/transparent"
-                android:digits="@string/allow_reason_digits"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:maxLength="120"
-                android:textSize="14sp"
-                android:focusable="false"
-                tools:text="@string/reason" />
+    <Button
+        android:id="@+id/btnPositive"
+        style="@style/AppTheme.Button"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/btn_send"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnNegative"
+        app:layout_constraintTop_toBottomOf="@+id/tvReason" />
 
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnNegative"
-            style="@style/AppTheme.Button"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="7dp"
-            android:layout_marginBottom="40dp"
-            android:backgroundTint="#F4F4F7"
-            android:text="@string/btn_cancel"
-            android:textColor="@color/colorAccent"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnPositive"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEditTextBox" />
-
-        <Button
-            android:id="@+id/btnPositive"
-            style="@style/AppTheme.Button"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="40dp"
-            android:backgroundTint="@color/colorAccent"
-            android:text="@string/btn_send"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btnNegative"
-            app:layout_constraintTop_toBottomOf="@+id/tvEditTextBox" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

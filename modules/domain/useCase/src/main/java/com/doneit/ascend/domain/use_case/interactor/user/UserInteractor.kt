@@ -63,4 +63,8 @@ internal class UserInteractor(
     override suspend fun hasSignedInUser(): Boolean {
         return userGateway.hasSignedInUser()
     }
+
+    override suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>> {
+        return userGateway.report(content,id)
+    }
 }

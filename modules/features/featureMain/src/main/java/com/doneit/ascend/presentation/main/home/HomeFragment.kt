@@ -48,7 +48,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private val mastermindsAdapter: MastermindAdapter by lazy {
-        MastermindAdapter(mutableListOf())
+        MastermindAdapter(mutableListOf()){
+            viewModel.openProfile(it)
+        }
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {

@@ -52,4 +52,15 @@ internal class MasterMindGateway(
             .setNotifyExecutor(executor)
             .build()
     }
+
+    override suspend fun getProfile(id: Long): ResponseEntity<MasterMindEntity, List<String>> {
+        return executeRemote { remote.getMMProfile(id) }.toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+    }
 }

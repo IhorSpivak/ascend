@@ -11,6 +11,7 @@ import com.doneit.ascend.presentation.main.group_list.GroupListActivity
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.master_mind.MasterMindActivity
+import com.doneit.ascend.presentation.main.master_mind_profile.MMProfileActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.doneit.ascend.presentation.profile.ProfileContract
 import com.doneit.ascend.presentation.profile.ProfileFragment
@@ -85,6 +86,13 @@ class MainRouter(
     override fun navigateToGroupInfo(id: Long) {
         val intent = Intent(activity, GroupInfoActivity::class.java)
         intent.putExtra(GroupInfoActivity.GROUP_ID, id)
+        activity.startActivity(intent)
+    }
+
+    override fun openProfile(id: Long) {
+        //todo replace by MainRouter method invocation
+        val intent = Intent(activity, MMProfileActivity::class.java)
+        intent.putExtra(MMProfileActivity.MM_ID, id)
         activity.startActivity(intent)
     }
 }

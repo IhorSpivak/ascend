@@ -11,7 +11,10 @@ interface ListContract {
         val masterMinds: LiveData<PagedList<MasterMindEntity>>
 
         fun updateData()
+        fun openProfile(id: Long)
     }
 
-    interface Router
+    interface Router {
+        fun openProfile(id: Long)
+    }
 }

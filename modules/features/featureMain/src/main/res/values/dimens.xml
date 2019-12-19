@@ -18,4 +18,5 @@
     <dimen name="info_holder_radius">20dp</dimen>
     <dimen name="holder_icon_radius">40dp</dimen>
     <dimen name="group_holder_icon_radius">8dp</dimen>
+    <dimen name="mm_profile_radius">80dp</dimen>
 </resources>

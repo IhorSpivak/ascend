@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import kotlinx.coroutines.launch
 
 class GroupInfoViewModel(
@@ -88,5 +89,17 @@ class GroupInfoViewModel(
 
     override fun onBackPressed() {
         router.closeActivity()
+    }
+
+    override fun report(content: String) {
+        viewModelScope.launch {
+            group.value?.let {
+                val res = userUseCase.report(content, it.owner!!.id)
+                if(res.isSuccessful.not()) {
+                    showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
+                }
+            }
+
+        }
     }
 }

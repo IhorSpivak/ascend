@@ -10,6 +10,7 @@ fun MasterMindResponse.toEntity(): MasterMindEntity {
         displayName,
         description,
         location,
+        bio,
         groupsCount,
         rating,
         followed,

@@ -131,4 +131,8 @@
     <string name="reason">Reason</string>
     <string name="delete_group_description">Are you sure you want to delete this group?</string>
     <string name="btn_follow">Follow</string>
+    <string name="btn_unfollow">Unfollow</string>
+    <string name="groups_created">%d Groups Created</string>
+    <string name="mm_see_groups">See groups</string>
+    <string name="set_rating">Set Rating</string>
 </resources>

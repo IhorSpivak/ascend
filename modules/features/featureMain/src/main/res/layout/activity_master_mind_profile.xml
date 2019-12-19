@@ -4,9 +4,10 @@
 
     <data>
 
+        <import type="android.view.View"/>
         <variable
-            name="item"
-            type="com.doneit.ascend.domain.entity.MasterMindEntity" />
+            name="model"
+            type="com.doneit.ascend.presentation.main.master_mind_profile.MMProfileContract.ViewModel" />
 
     </data>
 
@@ -57,7 +58,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.cardview.widget.CardView
+                    <com.doneit.ascend.presentation.main.views.MasterMindIcon
                         android:id="@+id/ivImage"
                         android:layout_width="160dp"
                         android:layout_height="160dp"
@@ -65,18 +66,10 @@
                         app:cardCornerRadius="80dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:setImage="@{item.image.url}" />
-
-                    </androidx.cardview.widget.CardView>
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:name="@{model.profile.fullName}"
+                        app:radius="@{@dimen/mm_profile_radius}"
+                        app:url="@{model.profile.image.url}" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvName"
@@ -87,7 +80,7 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="20dp"
                         android:gravity="center"
-                        android:text="@{item.fullName}"
+                        android:text="@{model.profile.fullName}"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +96,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="20dp"
                         android:gravity="center"
-                        android:text="@{item.fullName}"
+                        android:text="@{model.profile.location}"
                         android:textColor="#7E7D8F"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +110,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:numStars="5"
-                        android:rating="@{item.rating}"
+                        android:rating="@{model.profile.rating}"
                         android:theme="@style/RatingBarTheme"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -133,20 +126,37 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="20dp"
                         android:gravity="center"
-                        android:text="@{item.description}"
+                        android:text="@{model.profile.description}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rbRating"
                         tools:text="MasterMind" />
 
                     <Button
-                        android:id="@+id/btnContinue"
+                        android:id="@+id/btnFollow"
                         style="@style/AppTheme.Button"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="20dp"
                         android:layout_marginBottom="24dp"
                         android:text="@string/btn_follow"
+                        android:visibility="@{model.profile.followed? View.GONE: View.VISIBLE}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
+
+                    <Button
+                        android:id="@+id/btnUnFollow"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@drawable/ic_bg_btn_joined"
+                        android:text="@string/btn_unfollow"
+                        android:textColor="@color/default_font_color"
+                        android:visibility="@{model.profile.followed? View.VISIBLE: View.GONE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -157,18 +167,74 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clGroups"
             android:layout_width="match_parent"
             android:layout_height="72dp"
-            android:backgroundTint="#F4F4F7"
+            android:background="@color/light_gray_f4f7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mainBar">
 
+            <TextView
+                android:id="@+id/tvGroups"
+                style="@style/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@{@string/groups_created(model.profile.groupsCount)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="32 Groups Created" />
 
-
+            <TextView
+                android:id="@+id/tvSeeGroups"
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/mm_see_groups"
+                android:textColor="@color/green_font_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            style="@style/TextNormal"
+            tools:text="Commodo et egestas tempus, varius massa ornare sapien placerat. A sed urna, nullam tristique et iaculis orci. Tellus et nulla interdum felis accumsan dignissim velit dignissim turpis."
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clGroups"/>
+
+        <TextView
+            android:id="@+id/tvRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/set_rating"
+            android:layout_marginTop="24dp"
+            style="@style/TextNormal"
+            android:textColor="@color/light_gray_8f"
+            app:layout_constraintTop_toBottomOf="@id/tvContent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rbRatingSet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:numStars="5"
+            android:theme="@style/RatingBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

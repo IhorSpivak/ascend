@@ -17,4 +17,8 @@ internal class MasterMindInteractor(
     override suspend fun getMasterMindList(isFollowed: Boolean): PagedList<MasterMindEntity> {
         return groupGateway.getMasterMindsPagedList(MasterMindListModel(followed = isFollowed))
     }
+
+    override suspend fun getProfile(id: Long): ResponseEntity<MasterMindEntity, List<String>> {
+        return groupGateway.getProfile(id)
+    }
 }

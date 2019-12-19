@@ -111,4 +111,8 @@ class HomeViewModel(
             masterMinds.postValue(responseEntity.successModel!!)
         }
     }
+
+    override fun openProfile(id: Long) {
+        router.openProfile(id)
+    }
 }

@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.MasterMindEntity
 
 class MastermindAdapter(
-    private val items: MutableList<MasterMindEntity>
+    private val items: MutableList<MasterMindEntity>,
+    private val onItemClick:(Long)->Unit
 ) : RecyclerView.Adapter<MastermindViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MastermindViewHolder {
@@ -17,6 +18,9 @@ class MastermindAdapter(
 
     override fun onBindViewHolder(holder: MastermindViewHolder, position: Int) {
         holder.bind(items[position])
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke(items[position].id)
+        }
     }
 
     fun updateData(newItems: List<MasterMindEntity>) {

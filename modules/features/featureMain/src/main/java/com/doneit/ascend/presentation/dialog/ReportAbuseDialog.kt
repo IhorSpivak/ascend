@@ -7,28 +7,36 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.doneit.ascend.presentation.main.R
 import kotlinx.android.synthetic.main.dialog_report_abuse.view.*
+import android.view.WindowManager
 
-class ReportAboseDialog {
+
+
+class ReportAbuseDialog {
 
     companion object {
         fun create(
             context: Context,
-            call: ((String?) -> Unit)
+            call: ((String) -> Unit)
         ): AlertDialog {
 
             val mDialogView =
-                LayoutInflater.from(context).inflate(R.layout.dialog_report_abuse, null)
+                LayoutInflater.from(context).inflate(R.layout.dialog_report_abuse, null, false)
+
+            val dialog = AlertDialog.Builder(context, R.style.AppThemeAlertDialog)
+                .setCancelable(false)
+                .setView(mDialogView)
+                .create()
 
             mDialogView.btnPositive.setOnClickListener {
                 call.invoke(mDialogView.tvReason.text.toString())
             }
 
             mDialogView.btnNegative.setOnClickListener {
-                call.invoke(null)
+                dialog.dismiss()
             }
 
             mDialogView.btnClose.setOnClickListener {
-                call.invoke(null)
+                dialog.dismiss()
             }
 
             mDialogView.tvReason.addTextChangedListener(object : TextWatcher {
@@ -44,24 +52,13 @@ class ReportAboseDialog {
                     val r = Regex("^[a-zA-Z\\s-_.]{1,120}\$")
                     val text = p0.toString()
 
-                    if (text.isEmpty() || text.length > 120 || !text.matches(r)) {
-                        // TODO: show error if needs
-
-                    }
+                    mDialogView.btnPositive.isEnabled = (text.isEmpty() || text.length > 120 || !text.matches(r)).not()
                 }
             })
 
-            mDialogView.tvReason.postDelayed(
-                {
-                    mDialogView.tvReason.clearFocus()
-                }, 50
-            )
+            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
-            val dialog = AlertDialog.Builder(context, R.style.AppThemeAlertDialog)
-                .setCancelable(false)
-                .setView(mDialogView)
-
-            return dialog.show()
+            return dialog
         }
     }
 }

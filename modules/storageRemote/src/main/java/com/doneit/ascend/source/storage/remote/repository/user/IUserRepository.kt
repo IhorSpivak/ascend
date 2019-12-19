@@ -25,4 +25,6 @@ interface IUserRepository {
     suspend fun forgotPassword(request: PhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun resetPassword(request: ResetPasswordRequest): RemoteResponse<OKResponse, ErrorsListResponse>
+
+    suspend fun report(content: String, id: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 }

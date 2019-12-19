@@ -50,4 +50,8 @@ internal class UserRepository(
     override suspend fun resetPassword(request: ResetPasswordRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.resetPassword(request) }, ErrorsListResponse::class.java)
     }
+
+    override suspend fun report(content: String, id: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({api.report(content,id)}, ErrorsListResponse::class.java)
+    }
 }

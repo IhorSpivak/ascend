@@ -5,9 +5,7 @@ import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface UserApi {
 
@@ -37,4 +35,7 @@ interface UserApi {
 
     @POST("users/reset_password")
     fun resetPassword(@Body request: ResetPasswordRequest): Deferred<Response<OKResponse>>
+
+    @POST("users/{id}/report")
+    fun report(@Query("content") report: String, @Path("id")id: Long): Deferred<Response<OKResponse>>
 }

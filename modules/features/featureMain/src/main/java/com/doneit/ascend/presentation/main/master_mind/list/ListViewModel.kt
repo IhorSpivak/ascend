@@ -14,7 +14,8 @@ import kotlinx.coroutines.launch
 @CreateFactory
 @ViewModelDiModule
 class ListViewModel(
-    private val masterMindUseCase: MasterMindUseCase
+    private val masterMindUseCase: MasterMindUseCase,
+    private val router: ListContract.Router
 ) : BaseViewModelImpl(), ListContract.ViewModel {
 
     override val masterMinds = MutableLiveData<PagedList<MasterMindEntity>>()
@@ -34,5 +35,10 @@ class ListViewModel(
             val masterMinds = masterMindUseCase.getMasterMindList(isFollowed)
             this@ListViewModel.masterMinds.postValue(masterMinds)
         }
+    }
+
+
+    override fun openProfile(id: Long) {
+        router.openProfile(id)
     }
 }

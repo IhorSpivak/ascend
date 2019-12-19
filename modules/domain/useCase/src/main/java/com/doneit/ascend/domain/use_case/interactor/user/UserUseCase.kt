@@ -34,4 +34,6 @@ interface UserUseCase {
     fun getUserLive(): LiveData<UserEntity?>
 
     suspend fun getUser() : UserEntity?
+
+    suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>>
 }

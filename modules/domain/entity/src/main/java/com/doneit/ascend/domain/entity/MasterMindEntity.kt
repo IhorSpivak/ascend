@@ -6,6 +6,7 @@ class MasterMindEntity(
     val displayName: String?,
     val description: String?,
     val location: String?,
+    val bio: String?,
     val groupsCount: Int?,
     val rating: Float,
     val followed: Boolean,

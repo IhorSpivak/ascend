@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityMasterMindBinding
 import com.doneit.ascend.presentation.main.master_mind.common.TabAdapter
+import com.doneit.ascend.presentation.main.master_mind.list.ListContract
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -25,6 +26,8 @@ class MasterMindActivity : BaseActivity() {
         }
 
         bind<MasterMindContract.Router>() with singleton { instance<MasterMindRouter>() }
+
+        bind<ListContract.Router>() with singleton { instance<MasterMindRouter>() }
 
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
         bind<ViewModel>(tag = MasterMindViewModel::class.java.simpleName) with provider {

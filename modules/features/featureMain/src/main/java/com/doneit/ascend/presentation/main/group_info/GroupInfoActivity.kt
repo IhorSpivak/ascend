@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.group_info
 
-import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
@@ -10,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.dialog.DeleteDialog
 import com.doneit.ascend.presentation.dialog.QuestionButtonType
+import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
@@ -105,6 +105,13 @@ class GroupInfoActivity : BaseActivity() {
                     QuestionButtonType.POSITIVE -> viewModel.deleteGroup()
                 }
             }
+        }
+
+        ic_abuse.setOnClickListener {
+            currentDialog = ReportAbuseDialog.create(this) {
+                viewModel.report(it)
+            }
+            currentDialog?.show()
         }
     }
 

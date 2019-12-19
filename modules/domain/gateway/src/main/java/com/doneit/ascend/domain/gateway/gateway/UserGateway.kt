@@ -204,6 +204,17 @@ internal class UserGateway(
         }
     }
 
+    override suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.report(content,id)}.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     companion object {
         private const val ARG_AM_PASSWORD = "7ds9f87jF*J(SDFM(7"
     }
