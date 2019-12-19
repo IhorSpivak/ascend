@@ -42,7 +42,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/red_hat_font"
                 android:letterSpacing="0.1"
-                android:text="@string/subtitle"
                 android:textAllCaps="true"
                 android:textColor="@color/green_font_color"
                 android:textSize="22sp"

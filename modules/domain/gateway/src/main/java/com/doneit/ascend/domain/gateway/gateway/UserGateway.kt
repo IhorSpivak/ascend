@@ -61,7 +61,7 @@ internal class UserGateway(
         )
 
         if(result.isSuccessful) {
-            local.remove()
+            //local.remove()
             removeAccounts()
         }
 
@@ -102,7 +102,7 @@ internal class UserGateway(
         )
 
         if(result.isSuccessful) {
-            local.remove()
+            //local.remove()
             removeAccounts()
         }
 

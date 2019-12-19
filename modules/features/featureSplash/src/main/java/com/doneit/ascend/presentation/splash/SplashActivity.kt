@@ -40,7 +40,7 @@ class SplashActivity : BaseActivity() {
 
         tvTitle.alpha = 0F
 
-        tvSubtitle.animate()
+        tvTitle.animate()
             .setDuration(100)
             .setInterpolator(LinearInterpolator())
             .alpha(1F)
@@ -50,6 +50,7 @@ class SplashActivity : BaseActivity() {
                     GlobalScope.launch {
                         delay(2900)
                         router.goToLogin()
+
                     }
                 }
 
@@ -61,9 +62,16 @@ class SplashActivity : BaseActivity() {
             })
             .start()
 
+        tvSubtitle.animate()
+            .setDuration(100)
+            .setInterpolator(LinearInterpolator())
+            .alpha(1F)
+            .start()
+
         viewModel.user.observe(this, Observer {
             it?.let {
                 tvSubtitle.text = it.community
+
             }
         })
     }

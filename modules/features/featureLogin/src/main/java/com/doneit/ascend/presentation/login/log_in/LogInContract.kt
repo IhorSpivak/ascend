@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.QuestionEntity
 import com.doneit.ascend.domain.entity.QuestionListEntity
+import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.presentation.login.models.PresentationLoginModel
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.facebook.AccessToken
@@ -16,6 +17,7 @@ interface LogInContract {
         val facebookNeedLoginSubject: SingleLiveManager<Boolean>
         val twitterNeedLoginSubject: SingleLiveManager<Boolean>
         val errorRes: LiveData<Int?>
+        val user: LiveData<UserEntity?>
 
         fun singInClick()
         fun signUpClick()

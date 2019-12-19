@@ -38,6 +38,8 @@ class LogInViewModel(
     override val twitterNeedLoginSubject = SingleLiveManager<Boolean>()
     override val errorRes = MutableLiveData<Int?>()
 
+    override val user = userUseCase.getUserLive()
+
     init {
         loginModel.phone.validator = { _ ->
             val result = ValidationResult()

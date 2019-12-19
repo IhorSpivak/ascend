@@ -126,6 +126,12 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
                 }
             })
         }
+
+        viewModel.user.observe(this, Observer {
+            it?.let {
+                tvSubtitle.text = it.community
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
