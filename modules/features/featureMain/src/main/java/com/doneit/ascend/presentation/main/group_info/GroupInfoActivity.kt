@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.group_info
 
-import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog

@@ -39,4 +39,9 @@ dependencies {
     rootProject.featureSplash.each {
         add(it.configuration, it.dependency, it.options)
     }
+
+    //todo organize dependencies
+    implementation project(':modules:domain:entity')
+    implementation project(':modules:domain:useCase')
+
 }
