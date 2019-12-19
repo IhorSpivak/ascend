@@ -47,6 +47,7 @@
     <string name="allow_date_digits">0123456789-</string>
     <string name="allow_email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@.</string>
     <string name="allow_description_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_. </string>
+    <string name="allow_reason_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_. </string>
     <string name="reserved_person_email">Reserved Person Email</string>
     <string name="error_group_name">Please, enter the Group Name correctly</string>
     <string name="error_start_date">The Start date cannot be past. Please check.</string>
@@ -124,4 +125,10 @@
     <string name="btn_negative">Cancel</string>
     <string name="btn_delete">Yes, delete</string>
     <string name="delete_content">If you delete a group, it cannot be restored and all funds will be returned to the participants.</string>
+    <string name="btn_send">Send</string>
+    <string name="enter_reason">Enter a reason</string>
+    <string name="report_abuse">Report Abuse</string>
+    <string name="reason">Reason</string>
+    <string name="delete_group_description">Are you sure you want to delete this group?</string>
+    <string name="btn_follow">Follow</string>
 </resources>
