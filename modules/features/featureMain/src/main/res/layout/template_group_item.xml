@@ -35,7 +35,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:setImage="@{item.image.url}"
-                app:placeholder="@{@drawable/ic_stroke_plus}"/>
+                app:placeholder="@{@drawable/group_item_placeholder}"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvName"

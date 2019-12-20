@@ -9,4 +9,8 @@ class MasterMindViewModel(
     override fun goBack() {
         router.closeActivity()
     }
+
+    override fun onSearchClick() {
+        router.navigateToSearch()
+    }
 }

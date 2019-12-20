@@ -19,7 +19,7 @@ class ListViewModel(
 ) : BaseViewModelImpl(), ListContract.ViewModel {
 
     override val masterMinds = MutableLiveData<PagedList<MasterMindEntity>>()
-    private var isFollowed: Boolean = false
+    private var isFollowed: Boolean? = false
 
     override fun updateData() {
         loadMasterMind(isFollowed)
@@ -30,7 +30,7 @@ class ListViewModel(
         loadMasterMind(isFollowed)
     }
 
-    private fun loadMasterMind(isFollowed: Boolean) {
+    private fun loadMasterMind(isFollowed: Boolean?) {
         GlobalScope.launch {
             val masterMinds = masterMindUseCase.getMasterMindList(isFollowed)
             this@ListViewModel.masterMinds.postValue(masterMinds)

@@ -33,24 +33,42 @@ class GroupListViewModel(
     override fun applyArguments(args: GroupListArgs) {
         GlobalScope.launch {
 
-            groupType.postValue(GroupType.values()[args.groupType].toStringValueUI())
+            if (args.groupType != null) {
+                groupType.postValue(GroupType.values()[args.groupType].toStringValueUI())
 
-            val model = GroupListModel(
-                perPage = 50,
-                sortType = SortType.DESC,
-                groupType = if (args.isAllGroups) null else GroupType.values()[args.groupType],
-                myGroups = args.isMyGroups
-            )
-
-            val result = groupUseCase.getGroupListPaged(model)
-
-            val user = userUseCase.getUser()
-            groups.postValue(
-                GroupListWithUserPaged(
-                    result,
-                    user!!
+                val model = GroupListModel(
+                    perPage = 50,
+                    sortType = SortType.DESC,
+                    groupType = if (args.isAllGroups == true) null else GroupType.values()[args.groupType],
+                    myGroups = args.isMyGroups
                 )
-            )
+
+                val result = groupUseCase.getGroupListPaged(model)
+
+                val user = userUseCase.getUser()
+                groups.postValue(
+                    GroupListWithUserPaged(
+                        result,
+                        user!!
+                    )
+                )
+            } else {
+                val model = GroupListModel(
+                    perPage = 50,
+                    sortType = SortType.DESC,
+                    userId = args.userId
+                )
+
+                val result = groupUseCase.getGroupListPaged(model)
+
+                val user = userUseCase.getUser()
+                groups.postValue(
+                    GroupListWithUserPaged(
+                        result,
+                        user!!
+                    )
+                )
+            }
         }
     }
 

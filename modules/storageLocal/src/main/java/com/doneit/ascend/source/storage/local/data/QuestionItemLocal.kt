@@ -10,7 +10,7 @@ import kotlin.random.Random
 data class QuestionItemLocal(
     @PrimaryKey
     @ColumnInfo(name = "question_item_id")
-    var id: Long = Random.nextLong(),
+    var id: Long = 0,
     var title: String = "",
     var type: String = "",
     var createdAt: String = "",

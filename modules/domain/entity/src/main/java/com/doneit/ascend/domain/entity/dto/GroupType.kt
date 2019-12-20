@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.entity.dto
 
 enum class GroupType {
     MASTER_MIND,
-    WEBINAR,
+    WEBINARS,
     RECOVERY,
     FAMILY,
     SUCCESS,
@@ -18,7 +18,7 @@ enum class GroupType {
 fun GroupType.toStringValue(): String {
     return when (this) {
         GroupType.MASTER_MIND -> "master_mind"
-        GroupType.WEBINAR -> "webinar"
+        GroupType.WEBINARS -> "webinar"
         GroupType.RECOVERY -> "recovery"
         GroupType.FAMILY -> "family"
         GroupType.SUCCESS -> "success"
@@ -28,10 +28,24 @@ fun GroupType.toStringValue(): String {
     }
 }
 
+fun String?.parseTo(): GroupType {
+    return when (this?.toLowerCase()) {
+        "master_mind" -> GroupType.MASTER_MIND
+        "webinar" -> GroupType.WEBINARS
+        "recovery" -> GroupType.RECOVERY
+        "family" -> GroupType.FAMILY
+        "success" -> GroupType.SUCCESS
+        "spiritual" -> GroupType.SPIRITUAL
+        "support" -> GroupType.SUPPORT
+        "daily" -> GroupType.DAILY
+        else -> GroupType.MASTER_MIND
+    }
+}
+
 fun GroupType.toStringValueUI(): String {
     return when (this) {
         GroupType.MASTER_MIND -> "Master Mind"
-        GroupType.WEBINAR -> "Webinar"
+        GroupType.WEBINARS -> "Webinars"
         GroupType.RECOVERY -> "Recovery"
         GroupType.FAMILY -> "Family"
         GroupType.SUCCESS -> "Success"

@@ -13,6 +13,7 @@ import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.main.home.common.MastermindAdapter
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import com.doneit.ascend.presentation.utils.extensions.visible
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -22,8 +23,12 @@ import org.kodein.di.generic.singleton
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    override val viewModelModule  = Kodein.Module(this::class.java.simpleName) {
-        bind<ViewModelProvider.Factory>(tag = MainActivity.HOME_VM_TAG) with singleton { CommonViewModelFactory(kodein.direct) }
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
+        bind<ViewModelProvider.Factory>(tag = MainActivity.HOME_VM_TAG) with singleton {
+            CommonViewModelFactory(
+                kodein.direct
+            )
+        }
         bind<ViewModel>(tag = HomeViewModel::class.java.simpleName) with provider {
             HomeViewModel(
                 instance(),
@@ -40,15 +45,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
 
-
     override val viewModel: HomeContract.ViewModel by instance()
 
-    private val adapter: TabAdapter by lazy {
-        TabAdapter.newInstance(this, childFragmentManager)
-    }
-
     private val mastermindsAdapter: MastermindAdapter by lazy {
-        MastermindAdapter(mutableListOf()){
+        MastermindAdapter(mutableListOf()) {
             viewModel.openProfile(it)
         }
     }
@@ -56,11 +56,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.lifecycleOwner = this
         binding.model = viewModel
-        binding.adapter = adapter
         binding.mastermindAdapter = mastermindsAdapter
 
         viewModel.user.observe(this, Observer {
             setTitle(it?.community)
+
+            if(it != null) {
+                vpGroups.adapter = TabAdapter.newInstance(this, childFragmentManager, it.community)
+            }
         })
 
         viewModel.masterMinds.observe(this, Observer {

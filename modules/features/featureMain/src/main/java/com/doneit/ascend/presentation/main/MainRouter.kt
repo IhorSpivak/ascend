@@ -90,7 +90,6 @@ class MainRouter(
     }
 
     override fun openProfile(id: Long) {
-        //todo replace by MainRouter method invocation
         val intent = Intent(activity, MMProfileActivity::class.java)
         intent.putExtra(MMProfileActivity.MM_ID, id)
         activity.startActivity(intent)

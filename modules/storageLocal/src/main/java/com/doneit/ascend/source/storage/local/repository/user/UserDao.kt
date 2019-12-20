@@ -11,6 +11,10 @@ interface UserDao {
     suspend fun insert(user: UserLocal)
 
     @Transaction
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(user: UserLocal)
+
+    @Transaction
     @Query("SELECT * FROM users LIMIT 1")
     suspend fun getFirstUser(): UserLocal?
 

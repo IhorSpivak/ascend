@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.master_mind
 import android.content.Intent
 import com.doneit.ascend.presentation.main.master_mind.list.ListContract
 import com.doneit.ascend.presentation.main.master_mind_profile.MMProfileActivity
+import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class MasterMindRouter(
@@ -22,5 +23,9 @@ class MasterMindRouter(
         val intent = Intent(activity, MMProfileActivity::class.java)
         intent.putExtra(MMProfileActivity.MM_ID, id)
         activity.startActivity(intent)
+    }
+
+    override fun navigateToSearch() {
+        activity.startActivity(Intent(activity, SearchActivity::class.java))
     }
 }

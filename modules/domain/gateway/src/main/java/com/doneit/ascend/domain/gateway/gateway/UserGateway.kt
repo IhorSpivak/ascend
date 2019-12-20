@@ -166,6 +166,10 @@ internal class UserGateway(
         accountManager.setAuthToken(account, "Bearer", token)
     }
 
+    override suspend fun update(user: UserEntity) {
+        local.update(user.toUserLocal())
+    }
+
     override fun getUserLive(): LiveData<UserEntity?> {
         return liveData {
             val userLive = MutableLiveData<UserEntity>()

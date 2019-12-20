@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.AnswersEntity
 import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
+import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.first_time_login.common.FirstTimeLoginArgs
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.LocalStorage
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 class FirstTimeLoginViewModel(
     private val questionUseCase: QuestionUseCase,
     private val answerUseCase: AnswerUseCase,
+    private val userUseCase: UserUseCase,
     private val router: FirstTimeLoginContract.Router,
     private val localStorage: LocalStorage
 ) : BaseViewModelImpl(), FirstTimeLoginContract.ViewModel {
@@ -50,6 +52,11 @@ class FirstTimeLoginViewModel(
                 try {
                     localStorage.saveUIReturnStep(UIReturnStep.NONE)
                     questionUseCase.deleteAllQuestions()
+
+                    val user = userUseCase.getUser()
+                    user?.let {
+                        userUseCase.update(it.copy(community = community.value))
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 } finally {

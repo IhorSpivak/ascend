@@ -27,16 +27,23 @@ class GroupListActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_group)
 
-        val groupType = intent.getIntExtra(ARG_GROUP_TYPE, GroupType.MASTER_MIND.ordinal)
+        val groupType = intent.getIntExtra(ARG_GROUP_TYPE, -1)
         val isMyGroups = intent.getIntExtra(ARG_IS_MINE, 0)
         val isAllGroups = intent.getBooleanExtra(ARG_IS_ALL, false)
+        val userId = intent.getLongExtra(ARG_USER_ID, -1)
 
-        router.navigateToStart(groupType, isMyGroups, isAllGroups)
+        if(groupType != -1) {
+            router.navigateToStart(groupType, isMyGroups, isAllGroups)
+        }
+        else {
+            router.navigateToStart(userId)
+        }
     }
 
     companion object {
         const val ARG_GROUP_TYPE = "arg_group_type"
         const val ARG_IS_MINE = "arg_is_mine"
         const val ARG_IS_ALL = "arg_is_all"
+        const val ARG_USER_ID = "arg_user_id"
     }
 }

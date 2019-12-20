@@ -5,12 +5,14 @@ import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.home.common.TabAdapter
 
 interface HomeContract {
     interface ViewModel : BaseViewModel {
         val isRefreshing: LiveData<Boolean>
         val user: LiveData<UserEntity?>
         val masterMinds: LiveData<List<MasterMindEntity>>
+        val tabAdapter: LiveData<TabAdapter>
 
         fun navigateToGroupList()
         fun updateData()

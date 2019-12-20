@@ -56,5 +56,9 @@ class MasterMindActivity : BaseActivity() {
         binding.btnBack.setOnClickListener {
             viewModel.goBack()
         }
+
+        binding.btnSearch.setOnClickListener {
+            viewModel.onSearchClick()
+        }
     }
 }

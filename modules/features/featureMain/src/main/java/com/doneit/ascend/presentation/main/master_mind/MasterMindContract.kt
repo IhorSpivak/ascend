@@ -4,10 +4,12 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 
 interface MasterMindContract {
     interface ViewModel : BaseViewModel {
+        fun onSearchClick()
         fun goBack()
     }
 
     interface Router {
         fun closeActivity()
+        fun navigateToSearch()
     }
 }

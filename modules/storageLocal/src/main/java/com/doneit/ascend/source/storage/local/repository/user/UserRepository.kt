@@ -11,6 +11,10 @@ internal class UserRepository(
         database.userDao().insert(user)
     }
 
+    override suspend fun update(user: UserLocal) {
+        database.userDao().update(user)
+    }
+
     override suspend fun getFirstUser(): UserLocal? {
         return database.userDao().getFirstUser()
     }

@@ -5,5 +5,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class ListArgs(
-    val isFollowed: Boolean
+    val isFollowed: Boolean?
 ) : BaseArguments()

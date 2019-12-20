@@ -65,12 +65,12 @@ class GroupInfoActivity : BaseActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
 
-        viewModel.group.observe(this, Observer {group ->
+        viewModel.group.observe(this, Observer { group ->
             binding.tvStartDate.text = group.startTime?.toDayMonthYear()
 
             val builder = StringBuilder()
 
-            if(group.daysOfWeek != null) {//todo refactor
+            if (group.daysOfWeek != null) {//todo refactor
                 val list = group.daysOfWeek!!.toMutableList()
                 val calendarUtil = CalendarPickerUtil(applicationContext)//todo move to di
 
@@ -95,12 +95,12 @@ class GroupInfoActivity : BaseActivity() {
         btnDelete.setOnClickListener {
             currentDialog = DeleteDialog.create(
                 this,
-                "Delete this group?",
+                getString(R.string.delete_this_group),
                 R.string.delete_content,
                 R.string.btn_delete,
                 R.string.btn_negative
             ) {
-                when(it) {
+                when (it) {
                     QuestionButtonType.NEGATIVE -> currentDialog?.dismiss()
                     QuestionButtonType.POSITIVE -> viewModel.deleteGroup()
                 }

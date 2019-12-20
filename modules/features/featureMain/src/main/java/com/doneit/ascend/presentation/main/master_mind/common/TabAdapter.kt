@@ -32,7 +32,7 @@ class TabAdapter(
         fun newInstance(context: Context, fragmentManager: FragmentManager): TabAdapter {
 
             val fragments: ArrayList<Fragment> = arrayListOf(
-                getFragment(false),
+                getFragment(null),
                 getFragment(true)
             )
 
@@ -44,7 +44,7 @@ class TabAdapter(
             return TabAdapter(fragmentManager, fragments, titles)
         }
 
-        private fun getFragment(isFollowing: Boolean): Fragment {
+        private fun getFragment(isFollowing: Boolean?): Fragment {
             val args = ListArgs(isFollowing)
 
             val fragment = ListFragment()

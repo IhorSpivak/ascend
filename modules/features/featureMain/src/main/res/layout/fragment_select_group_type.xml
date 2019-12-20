@@ -89,7 +89,7 @@
                     app:listener="@{model}"
                     app:title="@{@string/webinar_group_title}"
                     app:titleColor="@{@color/webinar_color}"
-                    app:type="@{GroupType.WEBINAR}" />
+                    app:type="@{GroupType.WEBINARS}" />
 
                 <include
                     layout="@layout/template_group_type"

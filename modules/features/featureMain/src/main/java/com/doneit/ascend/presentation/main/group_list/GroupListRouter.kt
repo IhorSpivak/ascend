@@ -43,6 +43,17 @@ class GroupListRouter(
         activity.supportFragmentManager.replace(containerId, fragment)
     }
 
+    fun navigateToStart(userId: Long) {
+        val args = GroupListArgs(null, null, null,  userId)
+
+        val fragment = GroupListFragment()
+        (fragment as Fragment).arguments = Bundle().apply {
+            putParcelable(ArgumentedFragment.KEY_ARGS, args)
+        }
+
+        activity.supportFragmentManager.replace(containerId, fragment)
+    }
+
     override fun navigateToGroupInfo(id: Long) {
         //todo replace by MainRouter method invocation
         val intent = Intent(activity, GroupInfoActivity::class.java)

@@ -29,11 +29,14 @@ interface UserUseCase {
 
     suspend fun insert(user: UserEntity, token: String)
 
+    suspend fun update(user: UserEntity)
+
     suspend fun hasSignedInUser(): Boolean
 
     fun getUserLive(): LiveData<UserEntity?>
 
     suspend fun getUser() : UserEntity?
+
 
     suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>>
 }

@@ -11,6 +11,7 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import com.doneit.ascend.presentation.main.home.group.GroupsContract
 import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs
 import com.doneit.ascend.presentation.main.models.GroupListWithUser
@@ -26,6 +27,8 @@ class HomeViewModel(
     override val user = userUseCase.getUserLive()
     override val groups = MutableLiveData<GroupListWithUser>()
     override val masterMinds = MutableLiveData<List<MasterMindEntity>>()
+    override val tabAdapter = MutableLiveData<TabAdapter>()
+
     override val isRefreshing = MutableLiveData<Boolean>()
     override val groupName = MutableLiveData<String>()
     private var groupType: GroupType? = null
@@ -105,7 +108,7 @@ class HomeViewModel(
     }
 
     private suspend fun fetchMasterMinds() {
-        val responseEntity = masterMindUseCase.getDafaultMasterMindList()
+        val responseEntity = masterMindUseCase.getDefaultMasterMindList()
 
         if (responseEntity.isSuccessful) {
             masterMinds.postValue(responseEntity.successModel!!)

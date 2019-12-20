@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.dto.parseTo
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.home.group.GroupsFragment
@@ -29,19 +30,19 @@ class TabAdapter(
     }
 
     companion object {
-        fun newInstance(fragment: Fragment, fragmentManager: FragmentManager): TabAdapter {
+        fun newInstance(fragment: Fragment, fragmentManager: FragmentManager, userCommunity: String?): TabAdapter {
 
             var fragments: ArrayList<Fragment> = arrayListOf(
                 getFragment(GroupType.DAILY, isMineGroups = true, isAllGroups = true),
-                getFragment(GroupType.WEBINAR, isMineGroups = null, isAllGroups = false),
-                getFragment(GroupType.RECOVERY, isMineGroups = null, isAllGroups = false),
+                getFragment(GroupType.WEBINARS, isMineGroups = null, isAllGroups = false),
+                getFragment(userCommunity.parseTo(), isMineGroups = null, isAllGroups = false),
                 getFragment(GroupType.MASTER_MIND, isMineGroups = null, isAllGroups = false)
             )
 
             val titles: ArrayList<String> = arrayListOf(
                 fragment.getString(R.string.daily),
-                fragment.getString(R.string.webinar),
-                fragment.getString(R.string.recovery),
+                fragment.getString(R.string.webinars),
+                userCommunity ?: "",
                 fragment.getString(R.string.master_mind)
             )
 

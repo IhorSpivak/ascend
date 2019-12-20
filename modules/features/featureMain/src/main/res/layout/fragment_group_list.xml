@@ -60,7 +60,7 @@
                         style="@style/Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{String.format(@string/group_list_template, model.groupType)}"
+                        android:text="@{model.groupType != null ? String.format(@string/group_list_template, model.groupType) : @string/group_list}"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

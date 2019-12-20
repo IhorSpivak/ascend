@@ -25,11 +25,17 @@ class ListFragment : ArgumentedFragment<FragmentMasterMindListBinding, ListArgs>
         binding.model = viewModel
         binding.adapter = adapter
 
-        val decorator = TopListDecorator(resources.getDimension(R.dimen.mm_list_top_padding).toInt())
+        val decorator =
+            TopListDecorator(resources.getDimension(R.dimen.mm_list_top_padding).toInt())
         binding.rvMasterMinds.addItemDecoration(decorator)
         binding.srLayout.setOnRefreshListener {
             binding.srLayout.isRefreshing = false
             viewModel.updateData()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateData()
     }
 }

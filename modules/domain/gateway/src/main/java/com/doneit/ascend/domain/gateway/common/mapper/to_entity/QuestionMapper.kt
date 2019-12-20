@@ -58,6 +58,7 @@ fun List<AnswerOptionEntity>.toAnswerEntityList(): List<AnswerOptionLocal> {
 
 fun QuestionEntity.toEntity(): QuestionItemLocal {
     return QuestionItemLocal(
+        id = this@toEntity.id,
         title = this@toEntity.title,
         createdAt = this@toEntity.createdAt,
         updatedAt = this@toEntity.updatedAt,
@@ -138,6 +139,6 @@ fun CommunityLocal.toEntity(): CommunityQuestionEntity {
 fun QuestionWithAnswerOptions.toEntity(): QuestionListEntity {
     return QuestionListEntity(
         questions = this@toEntity.questionItem?.toQuestionItemsList() ?: listOf(),
-        community =  this@toEntity.community?.toEntity()
+        community = this@toEntity.community?.toEntity()
     )
 }
