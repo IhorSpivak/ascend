@@ -43,7 +43,17 @@ class SearchActivity : BaseActivity() {
     private lateinit var binding: ActivitySearchBindingImpl
 
     private val adapter: SearchAdapter by lazy {
-        SearchAdapter()
+        SearchAdapter (
+            {
+                viewModel.openGroupList(it)
+            },
+            {
+                viewModel.onMMClick(it)
+            },
+            {
+                viewModel.onGroupClick(it)
+            }
+        )
     }
 
     fun getContainerId() = R.id.container

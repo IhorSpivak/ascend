@@ -5,7 +5,8 @@ import androidx.paging.PagedListAdapter
 import com.doneit.ascend.domain.entity.MasterMindEntity
 
 class MasterMindAdapter(
-    private val onItemClick:(id: Long)->Unit
+    private val onItemClick:(id: Long)->Unit,
+    private val onSeeGroupsClick: (id: Long)->Unit
 ) :
     PagedListAdapter<MasterMindEntity, MasterMindViewHolder>(MasterMindDiffCallback()) {
 
@@ -18,7 +19,7 @@ class MasterMindAdapter(
     }
 
     override fun onBindViewHolder(holder: MasterMindViewHolder, position: Int) {
-        holder.bind(getItem(position)!!)
+        holder.bind(getItem(position)!!, onSeeGroupsClick)
         holder.itemView.setOnClickListener {
             onItemClick.invoke(getItem(position)!!.id)
         }

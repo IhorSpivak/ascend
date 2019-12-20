@@ -12,8 +12,12 @@ class MasterMindViewHolder(
     private val binding: TemplateMasterMindBinding
 ) : SearchViewHolder(binding.root) {
 
-    fun bind(item: MasterMindEntity) {
+    fun bind(item: MasterMindEntity, onSeeGroupsClick: (id: Long)->Unit) {
         binding.item = item
+
+        binding.tvSeeGroups.setOnClickListener {
+            onSeeGroupsClick.invoke(item.id)
+        }
 
         binding.executePendingBindings()
     }

@@ -46,6 +46,18 @@ class SearchViewModel(
         }
     }
 
+    override fun openGroupList(id: Long) {
+        router.navigateToGroupList(id)
+    }
+
+    override fun onMMClick(id: Long) {
+        router.navigateToProfile(id)
+    }
+
+    override fun onGroupClick(id: Long) {
+        router.navigateToGroupInfo(id)
+    }
+
     override fun goBack() {
         router.closeActivity()
     }

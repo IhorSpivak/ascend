@@ -15,9 +15,14 @@ class ListFragment : ArgumentedFragment<FragmentMasterMindListBinding, ListArgs>
     override val viewModel: ListContract.ViewModel by instance()
 
     private val adapter: MasterMindAdapter by lazy {
-        MasterMindAdapter {
-            viewModel.openProfile(it)
-        }
+        MasterMindAdapter(
+            {
+                viewModel.openProfile(it)
+            },
+            {
+                viewModel.openGroupList(it)
+            }
+        )
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {

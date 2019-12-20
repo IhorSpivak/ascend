@@ -12,9 +12,11 @@ interface ListContract {
 
         fun updateData()
         fun openProfile(id: Long)
+        fun openGroupList(id: Long)
     }
 
     interface Router {
         fun openProfile(id: Long)
+        fun navigateToGroupList(userId: Long)
     }
 }

@@ -8,7 +8,11 @@ import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.presentation.main.group_list.common.GroupHorViewHolder
 import com.doneit.ascend.presentation.main.master_mind.list.common.MasterMindViewHolder
 
-class SearchAdapter : PagedListAdapter<SearchEntity, SearchViewHolder>(SearchDiffCallback()) {
+class SearchAdapter(
+    private val onSeeGroupsClick: (id: Long)->Unit,
+    private val onMMClick: (id: Long)->Unit,
+    private val onGroupClick: (id: Long)->Unit
+) : PagedListAdapter<SearchEntity, SearchViewHolder>(SearchDiffCallback()) {
 
     init {
         setHasStableIds(true)
@@ -34,12 +38,19 @@ class SearchAdapter : PagedListAdapter<SearchEntity, SearchViewHolder>(SearchDif
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        when(val model = getItem(position)) {
+        val model = getItem(position)
+        when(model) {
             is GroupEntity -> {
                 (holder as GroupHorViewHolder).bind(model, null)
+                holder.itemView.setOnClickListener {
+                    onGroupClick.invoke(model.id)
+                }
             }
             is MasterMindEntity -> {
-                (holder as MasterMindViewHolder).bind(model)
+                (holder as MasterMindViewHolder).bind(model, onSeeGroupsClick)
+                holder.itemView.setOnClickListener {
+                    onMMClick.invoke(model.id)
+                }
             }
         }
     }

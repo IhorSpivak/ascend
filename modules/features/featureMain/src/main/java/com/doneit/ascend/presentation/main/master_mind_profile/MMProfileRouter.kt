@@ -15,10 +15,6 @@ class MMProfileRouter (
         activity.finish()
     }
 
-    override fun navigateToMMGroups() {
-
-    }
-
     override fun navigateToGroupList(userId: Long) {
 
         val intent = Intent(activity, GroupListActivity::class.java)

@@ -30,7 +30,6 @@ interface MMProfileContract {
     }
     interface Router {
         fun closeActivity()
-        fun navigateToMMGroups()
         fun navigateToGroupList(userId: Long)
     }
 }

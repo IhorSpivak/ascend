@@ -41,4 +41,8 @@ class ListViewModel(
     override fun openProfile(id: Long) {
         router.openProfile(id)
     }
+
+    override fun openGroupList(id: Long) {
+        router.navigateToGroupList(id)
+    }
 }

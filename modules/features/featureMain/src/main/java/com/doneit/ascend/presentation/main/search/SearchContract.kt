@@ -11,9 +11,15 @@ interface SearchContract {
 
         fun submitRequest(query: String)
         fun goBack()
+        fun openGroupList(id: Long)
+        fun onMMClick(id: Long)
+        fun onGroupClick(id: Long)
     }
 
     interface Router {
         fun closeActivity()
+        fun navigateToGroupList(userId: Long)
+        fun navigateToGroupInfo(id: Long)
+        fun navigateToProfile(id: Long)
     }
 }
