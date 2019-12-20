@@ -12,282 +12,272 @@
             type="com.doneit.ascend.presentation.main.group_info.GroupInfoContract.ViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/imageGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.555" />
+
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/imageGuide"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setImage="@{model.group.image.url}"
+            tools:background="@color/light_gray_e9f0" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/imageGuide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.555" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toTopOf="@id/imageGuide"
-                app:layout_constraintTop_toTopOf="parent"
-                app:setImage="@{model.group.image.url}"
-                tools:background="@color/light_gray_e9f0" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:onClick="@{(v) -> model.onBackPressed()}"
-                android:padding="8dp"
-                android:src="@drawable/ic_back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/mainGuide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.446" />
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:fitsSystemWindows="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@drawable/bg_white_round_top"
-                android:clipToPadding="false"
-                android:minHeight="375dp"
-                android:paddingStart="24dp"
-                android:paddingTop="30dp"
-                android:paddingEnd="24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mainGuide">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/title"
-                    style="@style/Title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="@{model.group.name}"
-                    app:layout_constraintEnd_toStartOf="@id/ic_abuse"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Title" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ic_abuse"
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/mainGuide"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_info"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.446" />
 
-                <com.doneit.ascend.presentation.main.views.MasterMindIcon
-                    android:id="@+id/icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title"
-                    app:name="@{model.group.owner.fullName}"
-                    app:radius="@{@dimen/info_holder_radius}"
-                    app:url="@{model.group.owner.image.url}" />
-
-                <TextView
-                    android:id="@+id/tvName"
-                    style="@style/TextNormal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@{model.group.owner.fullName}"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toTopOf="@id/rbRating"
-                    app:layout_constraintEnd_toStartOf="@id/tvMeetings"
-                    app:layout_constraintStart_toEndOf="@id/icon"
-                    app:layout_constraintTop_toTopOf="@id/icon"
-                    app:layout_constraintVertical_chainStyle="packed" />
-
-                <androidx.appcompat.widget.AppCompatRatingBar
-                    android:id="@+id/rbRating"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:numStars="5"
-                    android:rating="@{model.group.owner.rating}"
-                    android:theme="@style/RatingBarTheme"
-                    app:layout_constraintBottom_toBottomOf="@id/icon"
-                    app:layout_constraintStart_toStartOf="@id/tvName"
-                    app:layout_constraintTop_toBottomOf="@id/tvName" />
-
-                <TextView
-                    android:id="@+id/tvMeetings"
-                    style="@style/TextNormal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/light_gray_8f"
-                    android:textSize="16dp"
-                    app:html="@{@string/meetings_count( 0, model.group.meetingsCount)}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/icon"
-                    tools:text="@string/meetings_count" />
-
-                <TextView
-                    android:id="@+id/tvPrice"
-                    style="@style/TextNormal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    app:html="@{@string/group_price(model.group.price)}"
-                    app:layout_constraintEnd_toEndOf="@id/tvMeetings"
-                    app:layout_constraintStart_toStartOf="@id/tvMeetings"
-                    app:layout_constraintTop_toBottomOf="@id/tvMeetings"
-                    tools:text="@string/group_price" />
-
-                <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/brMaster"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="tvPrice,rbRating,icon" />
-
-                <Button
-                    android:id="@+id/btnJoined"
-                    style="@style/AppTheme.Button"
-                    android:layout_marginTop="18dp"
-                    android:enabled="false"
-                    android:background="@drawable/ic_bg_btn_joined"
-                    android:textColor="@color/light_gray_8f"
-                    android:text="@string/joined"
-                    app:layout_constraintTop_toBottomOf="@id/brMaster"
-                    android:visibility="visible"/>
-
-                <Button
-                    android:id="@+id/btnSubscribe"
-                    style="@style/AppTheme.Button"
-                    android:layout_marginTop="18dp"
-                    android:onClick="@{(v) -> model.subscribe()}"
-                    android:text="@string/subscribe"
-                    app:layout_constraintTop_toBottomOf="@id/brMaster"
-                    app:setVisibility="@{model.btnSubscribeVisible}"/>
-
-                <Button
-                    android:id="@+id/btnJoinToDisc"
-                    style="@style/AppTheme.Button"
-                    android:layout_marginTop="18dp"
-                    android:background="@drawable/button_join_background"
-                    android:onClick="@{(v) -> model.joinToDiscussion()}"
-                    android:text="@string/join_to_discussion"
-                    android:textAllCaps="true"
-                    android:textColor="@color/default_font_color"
-                    app:layout_constraintTop_toBottomOf="@id/brMaster"
-                    app:setVisibility="@{model.btnJoinVisible}"/>
-
-                <Button
-                    android:id="@+id/btnStart"
-                    style="@style/AppTheme.Button"
-                    android:layout_marginTop="18dp"
-                    android:background="@drawable/button_start_background"
-                    android:text="@string/start_group"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp"
-                    android:onClick="@{(v) -> model.startGroup()}"
-                    app:layout_constraintTop_toBottomOf="@id/brMaster"
-                    app:setVisibility="@{model.btnStartVisible}" />
-
-                <Button
-                    android:id="@+id/btnDelete"
-                    style="@style/AppTheme.Button"
-                    android:layout_marginTop="18dp"
-                    android:background="@drawable/ic_bg_btn_delete"
-                    android:text="@string/delete_group"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintTop_toBottomOf="@id/brMaster"
-                    app:setVisibility="@{model.btnDeleteVisible}" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/icCalendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/ic_calendar"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btnJoined" />
-
-                <TextView
-                    android:id="@+id/tvStartDate"
-                    style="@style/TextNormal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/light_gray_8f"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@id/icCalendar"
-                    app:layout_constraintStart_toEndOf="@id/icCalendar"
-                    app:layout_constraintTop_toTopOf="@id/icCalendar"
-                    tools:text="18 Aug 2019" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/icSchedule"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:src="@drawable/ic_schedule"
-                    app:layout_constraintBottom_toBottomOf="@id/icCalendar"
-                    app:layout_constraintStart_toEndOf="@id/tvStartDate"
-                    app:layout_constraintTop_toTopOf="@id/icCalendar" />
-
-                <TextView
-                    android:id="@+id/tvSchedule"
-                    style="@style/TextNormal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/light_gray_8f"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@id/icSchedule"
-                    app:layout_constraintStart_toEndOf="@id/icSchedule"
-                    app:layout_constraintTop_toTopOf="@id/icSchedule"
-                    tools:text="Mon, Tue 13:00 pm" />
-
-                <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/brInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="icCalendar,tvStartDate,icSchedule,tvSchedule" />
-
-                <TextView
-                    android:id="@+id/description"
-                    style="@style/TextNormal"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/brInfo" />
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="64dp"
-                    app:cardCornerRadius="4dp"
-                    app:cardElevation="2dp"
+                    android:background="@drawable/bg_white_round_top"
+                    android:clipToPadding="false"
+                    android:minHeight="375dp"
+                    android:paddingStart="24dp"
+                    android:paddingTop="30dp"
+                    android:paddingEnd="24dp"
+                    app:layout_constraintVertical_bias="1"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/description">
+                    app:layout_constraintTop_toBottomOf="@id/mainGuide">
+
+                    <TextView
+                        android:id="@+id/title"
+                        style="@style/Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="@{model.group.name}"
+                        app:layout_constraintEnd_toStartOf="@id/ic_abuse"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Title" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ic_abuse"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_info"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.doneit.ascend.presentation.main.views.MasterMindIcon
+                        android:id="@+id/icon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="24dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/title"
+                        app:name="@{model.group.owner.fullName}"
+                        app:radius="@{@dimen/info_holder_radius}"
+                        app:url="@{model.group.owner.image.url}" />
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        style="@style/TextNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@{model.group.owner.fullName}"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toTopOf="@id/rbRating"
+                        app:layout_constraintEnd_toStartOf="@id/tvMeetings"
+                        app:layout_constraintStart_toEndOf="@id/icon"
+                        app:layout_constraintTop_toTopOf="@id/icon"
+                        app:layout_constraintVertical_chainStyle="packed" />
+
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/rbRating"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:numStars="5"
+                        android:rating="@{model.group.owner.rating}"
+                        android:theme="@style/RatingBarTheme"
+                        app:layout_constraintBottom_toBottomOf="@id/icon"
+                        app:layout_constraintStart_toStartOf="@id/tvName"
+                        app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+                    <TextView
+                        android:id="@+id/tvMeetings"
+                        style="@style/TextNormal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/light_gray_8f"
+                        android:textSize="16dp"
+                        app:html="@{@string/meetings_count( 0, model.group.meetingsCount)}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/icon"
+                        tools:text="@string/meetings_count" />
+
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        style="@style/TextNormal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        app:html="@{@string/group_price(model.group.price)}"
+                        app:layout_constraintEnd_toEndOf="@id/tvMeetings"
+                        app:layout_constraintStart_toStartOf="@id/tvMeetings"
+                        app:layout_constraintTop_toBottomOf="@id/tvMeetings"
+                        tools:text="@string/group_price" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/brMaster"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="tvPrice,rbRating,icon" />
+
+                    <Button
+                        android:id="@+id/btnJoined"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginTop="18dp"
+                        android:enabled="false"
+                        android:background="@drawable/ic_bg_btn_joined"
+                        android:textColor="@color/light_gray_8f"
+                        android:text="@string/joined"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster"
+                        android:visibility="visible"/>
+
+                    <Button
+                        android:id="@+id/btnSubscribe"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginTop="18dp"
+                        android:onClick="@{(v) -> model.subscribe()}"
+                        android:text="@string/subscribe"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster"
+                        app:setVisibility="@{model.btnSubscribeVisible}"/>
+
+                    <Button
+                        android:id="@+id/btnJoinToDisc"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginTop="18dp"
+                        android:background="@drawable/button_join_background"
+                        android:onClick="@{(v) -> model.joinToDiscussion()}"
+                        android:text="@string/join_to_discussion"
+                        android:textAllCaps="true"
+                        android:textColor="@color/default_font_color"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster"
+                        app:setVisibility="@{model.btnJoinVisible}"/>
+
+                    <Button
+                        android:id="@+id/btnStart"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginTop="18dp"
+                        android:background="@drawable/button_start_background"
+                        android:text="@string/start_group"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        android:onClick="@{(v) -> model.startGroup()}"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster"
+                        app:setVisibility="@{model.btnStartVisible}" />
+
+                    <Button
+                        android:id="@+id/btnDelete"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginTop="18dp"
+                        android:background="@drawable/ic_bg_btn_delete"
+                        android:text="@string/delete_group"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster"
+                        app:setVisibility="@{model.btnDeleteVisible}" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/icCalendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:src="@drawable/ic_calendar"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btnJoined" />
+
+                    <TextView
+                        android:id="@+id/tvStartDate"
+                        style="@style/TextNormal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/light_gray_8f"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/icCalendar"
+                        app:layout_constraintStart_toEndOf="@id/icCalendar"
+                        app:layout_constraintTop_toTopOf="@id/icCalendar"
+                        tools:text="18 Aug 2019" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/icSchedule"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:src="@drawable/ic_schedule"
+                        app:layout_constraintBottom_toBottomOf="@id/icCalendar"
+                        app:layout_constraintStart_toEndOf="@id/tvStartDate"
+                        app:layout_constraintTop_toTopOf="@id/icCalendar" />
+
+                    <TextView
+                        android:id="@+id/tvSchedule"
+                        style="@style/TextNormal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textColor="@color/light_gray_8f"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/icSchedule"
+                        app:layout_constraintStart_toEndOf="@id/icSchedule"
+                        app:layout_constraintTop_toTopOf="@id/icSchedule"
+                        tools:text="Mon, Tue 13:00 pm" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/brInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="icCalendar,tvStartDate,icSchedule,tvSchedule" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        style="@style/TextNormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        tools:text="description"
+                        app:layout_constraintTop_toBottomOf="@id/brInfo"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="16dp">
+                        android:layout_height="56dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="64dp"
+                        android:background="@drawable/bg_white_bordered"
+                        android:padding="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/description"
+                        app:layout_constraintBottom_toBottomOf="parent">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
@@ -305,10 +295,20 @@
                             tools:text="12 Attendees" />
                     </LinearLayout>
 
-                </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:onClick="@{(v) -> model.onBackPressed()}"
+            android:padding="8dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
