@@ -39,6 +39,7 @@ class ReportAbuseDialog {
                 dialog.dismiss()
             }
 
+            mDialogView.btnPositive.isEnabled = false
             mDialogView.tvReason.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
 
@@ -52,7 +53,7 @@ class ReportAbuseDialog {
                     val r = Regex("^[a-zA-Z\\s-_.]{1,120}\$")
                     val text = p0.toString()
 
-                    mDialogView.btnPositive.isEnabled = (text.isEmpty() || text.length > 120 || !text.matches(r)).not()
+                    mDialogView.btnPositive.isEnabled = text.matches(r)
                 }
             })
 

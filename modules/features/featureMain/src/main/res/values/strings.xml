@@ -19,7 +19,7 @@
 
     <!--Home Tabs-->
     <string name="daily">Daily</string>
-    <string name="webinar">Webinar</string>
+    <string name="webinars">Webinars</string>
     <string name="recovery">Recovery</string>
     <string name="master_mind">MasterMind</string>
 
@@ -47,7 +47,7 @@
     <string name="allow_date_digits">0123456789-</string>
     <string name="allow_email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@.</string>
     <string name="allow_description_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_. </string>
-    <string name="allow_reason_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_. </string>
+    <string name="allow_reason_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.  </string>
     <string name="reserved_person_email">Reserved Person Email</string>
     <string name="error_group_name">Please, enter the Group Name correctly</string>
     <string name="error_start_date">The Start date cannot be past. Please check.</string>
@@ -102,6 +102,7 @@
     <string name="start_group">Start group</string>
 
     <string name="group_list_template">My %s Groups List</string>
+    <string name="group_list">Groups List</string>
 
     <!--Search-->
     <string name="search_title">Search</string>
@@ -135,4 +136,6 @@
     <string name="groups_created">%d Groups Created</string>
     <string name="mm_see_groups">See groups</string>
     <string name="set_rating">Set Rating</string>
+
+    <string name="delete_this_group">Delete this group?</string>
 </resources>
