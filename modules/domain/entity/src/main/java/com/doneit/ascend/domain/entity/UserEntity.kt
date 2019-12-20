@@ -8,7 +8,7 @@ data class UserEntity(
    val createdAt: String?,
    val updatedAt: String?,
    val unansweredQuestions: List<Int>?,
-   val rating: Int,
+   val rating: Float?,
    val isMasterMind: Boolean,
    val community: String?
 )
