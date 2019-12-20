@@ -22,7 +22,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/mainToolBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="92dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -72,6 +72,31 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tlMasterMinds"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:tabIndicatorColor="@color/colorAccent"
+                        app:tabMode="fixed"
+                        app:tabSelectedTextColor="@color/colorAccent"
+                        app:tabTextAppearance="@style/MasterMindTapTextAppearance"
+                        app:tabTextColor="@color/colorAccent_inactive"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent">
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="8dp"/>
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="8dp"/>
+
+                    </com.google.android.material.tabs.TabLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
@@ -84,31 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mainToolBar"
-            app:setAdapter="@{tabAdapter}">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tlMasterMinds"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tabIndicatorColor="@color/colorAccent"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/colorAccent"
-                app:tabTextAppearance="@style/MasterMindTapTextAppearance"
-                app:tabTextColor="@color/colorAccent_inactive">
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </com.google.android.material.tabs.TabLayout>
-        </com.doneit.ascend.presentation.main.views.NoSwipeViewPager>
+            app:setAdapter="@{tabAdapter}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
