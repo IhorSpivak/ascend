@@ -10,7 +10,7 @@ data class UserResponse(
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("updated_at") val updatedAt: String,
     @SerializedName("unanswered_questions") val unansweredQuestions: List<Int>?,
-    @SerializedName("rating") val rating: Int?,
+    @SerializedName("rating") val rating: Float,
     @SerializedName("role") val role: String?,
     @SerializedName("community") val community: String?
 

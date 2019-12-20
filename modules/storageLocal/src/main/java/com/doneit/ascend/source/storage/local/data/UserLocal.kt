@@ -12,7 +12,7 @@ data class UserLocal(
     val phone: String? = "",
     val createdAt: String? = "",
     val updatedAt: String? = "",
-    val rating: Int = -1,
+    val rating: Float? = -1f,
     val isMasterMind: Boolean,
     val community: String? = ""
 

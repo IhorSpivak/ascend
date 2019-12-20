@@ -26,7 +26,7 @@ fun UserResponse.toEntity(): UserEntity {
         createdAt,
         updatedAt,
         unansweredQuestions,
-        rating ?: 0,
+        rating,
         role?.isMasterMind()?:false,
         community
     )

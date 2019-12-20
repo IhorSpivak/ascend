@@ -53,6 +53,8 @@ class MasterMindActivity : BaseActivity() {
 
         binding.tabAdapter = this.tabAdapter
 
+        binding.tlMasterMinds.setupWithViewPager(binding.vpMasterMinds)
+
         binding.btnBack.setOnClickListener {
             viewModel.goBack()
         }
