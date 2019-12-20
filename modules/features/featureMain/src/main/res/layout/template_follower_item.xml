@@ -25,24 +25,16 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <androidx.cardview.widget.CardView
+        <com.doneit.ascend.presentation.main.views.MasterMindIcon
             android:id="@+id/followerImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="40dp"
+            app:name="@{name}"
+            app:radius="@{@dimen/holder_icon_radius}"
+            app:url="@{imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_stroke_plus"
-                android:scaleType="centerCrop"
-                app:setImage="@{imageUrl}"
-                app:placeholder="@{@drawable/ic_stroke_plus}"/>
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/followerName"
