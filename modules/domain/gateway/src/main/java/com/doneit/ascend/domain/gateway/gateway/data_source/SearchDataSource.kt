@@ -21,7 +21,7 @@ class SearchDataSource(
     private val requestModel: SearchModel
 ) : PageKeyedDataSource<Int, SearchEntity>() {
 
-    private var lastGroupPage: Int? = null
+    private var lastMMPage: Int? = null
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -30,10 +30,10 @@ class SearchDataSource(
         scope.launch {
             try {
 
-                val page = 1
+                var page = 1
                 var masterMindCount: Int? = null
 
-                val groups = remoteMasterMind.getMasterMindsList(requestModel.toMasterMindRequest(page)).toResponseEntity(
+                val masterMinds = remoteMasterMind.getMasterMindsList(requestModel.toMasterMindRequest(page)).toResponseEntity(
                     {
                         masterMindCount = it?.count
                         it?.users?.map { groupIt -> groupIt.toEntity() }
@@ -43,16 +43,37 @@ class SearchDataSource(
                     }
                 )
 
+                val res = mutableListOf<SearchEntity>()
+
                 if(masterMindCount != null) {
                     val perPage = requestModel.perPage?:10
-                    lastGroupPage = ceil(masterMindCount!!.toDouble() / perPage).toInt()
+                    lastMMPage = ceil(masterMindCount!!.toDouble() / perPage).toInt()
                 } else {
-                    lastGroupPage = 0
+                    lastMMPage = 0
                 }
 
-                if (groups.isSuccessful) {
-                    callback.onResult(groups.successModel ?: listOf(), null, page + 1)
+                if (masterMinds.isSuccessful) {
+                    res.addAll(masterMinds.successModel ?: listOf())
                 }
+
+                if(res.size < params.requestedLoadSize) {
+                    val groups =
+                        remoteGroup.getGroupsList(requestModel.toGroupRequest(page)).toResponseEntity(
+                            {
+                                it?.groups?.map { groupIt -> groupIt.toEntity() }
+                            },
+                            {
+                                it?.errors
+                            }
+                        )
+                    if(groups.isSuccessful) {
+                        res.addAll(groups.successModel ?: listOf())
+                        page++
+                    }
+                }
+
+                callback.onResult(res, null, page + 1)
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -64,7 +85,7 @@ class SearchDataSource(
             try {
 
                 var res: ResponseEntity<List<SearchEntity>, List<String>>?
-                if(params.key <= lastGroupPage?:0) {
+                if(params.key <= lastMMPage?:0) {
                     res =
                         remoteMasterMind.getMasterMindsList(requestModel.toMasterMindRequest(params.key)).toResponseEntity(
                             {
@@ -76,7 +97,7 @@ class SearchDataSource(
                         )
                 } else {
                     res =
-                        remoteGroup.getGroupsList(requestModel.toGroupRequest(params.key - lastGroupPage!!)).toResponseEntity(
+                        remoteGroup.getGroupsList(requestModel.toGroupRequest(params.key - lastMMPage!!)).toResponseEntity(
                             {
                                 it?.groups?.map { groupIt -> groupIt.toEntity() }
                             },
