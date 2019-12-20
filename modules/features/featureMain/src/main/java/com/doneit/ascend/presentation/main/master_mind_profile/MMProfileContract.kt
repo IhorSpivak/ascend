@@ -2,18 +2,35 @@ package com.doneit.ascend.presentation.main.master_mind_profile
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.MasterMindEntity
+import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface MMProfileContract {
+
     interface ViewModel: BaseViewModel {
         val profile : LiveData<MasterMindEntity>
+
+        val enableFollow: LiveData<Boolean>
+        val enableUnfollow: LiveData<Boolean>
+        val followed: LiveData<Boolean>
+        val rated: LiveData<Boolean>
+        val sendReportStatus: SingleLiveManager<Boolean>
+
+        fun onFollowClick()
+        fun onUnfollowClick()
+        fun setRating(rating: Int)
+        fun onSeeGroupsClick()
+        fun sendReport(content: String)
 
         fun loadData(id: Long)
         fun report(content: String)
         fun goBack()
-    }
 
+    }
     interface Router {
         fun closeActivity()
+        fun navigateToMMGroups()
+        fun navigateToGroupList(userId: Long)
     }
 }

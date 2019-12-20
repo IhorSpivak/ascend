@@ -29,6 +29,8 @@ interface IUserGateway {
 
     suspend fun insert(user: UserEntity, token: String)
 
+    suspend fun update(user: UserEntity)
+
     suspend fun hasSignedInUser(): Boolean
 
     fun getUserLive(): LiveData<UserEntity?>

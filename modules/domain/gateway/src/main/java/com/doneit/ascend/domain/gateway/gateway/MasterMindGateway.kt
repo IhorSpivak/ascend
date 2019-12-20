@@ -63,4 +63,51 @@ internal class MasterMindGateway(
             }
         )
     }
+
+    override suspend fun follow(userId: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.follow(userId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun unfollow(userId: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.unfollow(userId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun setRating(userId: Long, rating: Int): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.setRatting(userId, rating) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun sendReport(
+        userId: Long,
+        content: String
+    ): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.sendReport(userId, content) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
 }

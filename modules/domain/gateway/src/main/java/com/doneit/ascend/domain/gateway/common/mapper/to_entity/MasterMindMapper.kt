@@ -15,6 +15,7 @@ fun MasterMindResponse.toEntity(): MasterMindEntity {
         rating,
         followed,
         rated,
-        image.toEntity()
+        image.toEntity(),
+        allowRating
     )
 }

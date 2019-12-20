@@ -20,86 +20,89 @@
             android:id="@+id/mmIcon"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:url="@{item.image.url}"
-            app:name="@{item.fullName}"
-            app:radius="@{@dimen/holder_icon_radius}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:name="@{item.fullName}"
+            app:radius="@{@dimen/holder_icon_radius}"
+            app:url="@{item.image.url}" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvFullName"
-            style="@style/TextNormal"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@{item.fullName}"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/mmIcon"
-            app:layout_constraintTop_toTopOf="@id/mmIcon"
-            tools:text="Alex Williamson" />
+            app:layout_constraintStart_toEndOf="@+id/mmIcon"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvLocation"
-            style="@style/TextNormal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@{item.location}"
-            tools:text="California USA"
-            android:textColor="@color/light_gray_8f"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/mmIcon"
-            app:layout_constraintTop_toBottomOf="@id/tvFullName" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvFullName"
+                style="@style/TextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{item.fullName}"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Alex Williamson" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvDescription"
-            style="@style/TextNormal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@{item.description}"
-            android:textSize="12sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/mmIcon"
-            app:layout_constraintTop_toBottomOf="@id/tvLocation"
-            tools:text="Recovery MasterMind Coach" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvLocation"
+                style="@style/TextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{item.location}"
+                android:textColor="@color/light_gray_8f"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:visibilityByData="@{item.location}"
+                tools:text="California USA" />
 
-        <androidx.appcompat.widget.AppCompatRatingBar
-            android:id="@+id/rbRating"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="4dp"
-            android:numStars="5"
-            android:rating="@{item.rating}"
-            android:theme="@style/RatingBarTheme"
-            app:layout_constraintStart_toEndOf="@id/mmIcon"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDescription"
+                style="@style/TextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{item.description}"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:visibilityByData="@{item.description}"
+                tools:text="Recovery MasterMind Coach" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSeeGroups"
-            style="@style/TextNormal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@{String.format(@string/see_groups, item.groupsCount ?? 0)}"
-            android:textColor="@color/green_font_color"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/mmIcon"
-            app:layout_constraintTop_toBottomOf="@id/rbRating" />
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/rbRating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="4dp"
+                android:numStars="5"
+                android:rating="@{item.rating}"
+                android:theme="@style/RatingBarTheme" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSeeGroups"
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:layout_marginTop="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@{String.format(@string/see_groups, item.groupsCount ?? 0)}"
+                android:textColor="@color/green_font_color"
+                android:textSize="12sp" />
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -2,8 +2,11 @@ package com.doneit.ascend.source.storage.remote.repository.master_minds
 
 import com.doneit.ascend.source.storage.remote.api.MasterMindApi
 import com.doneit.ascend.source.storage.remote.data.request.MasterMindListRequest
+import com.doneit.ascend.source.storage.remote.data.request.RatingRequest
+import com.doneit.ascend.source.storage.remote.data.request.ReportRequest
 import com.doneit.ascend.source.storage.remote.data.response.MasterMindListResponse
 import com.doneit.ascend.source.storage.remote.data.response.MasterMindResponse
+import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
@@ -16,7 +19,7 @@ internal class MasterMindRepository(
 
     override suspend fun getMasterMindsList(listRequest: MasterMindListRequest): RemoteResponse<MasterMindListResponse, ErrorsListResponse> {
         return execute({
-            api.getMasterMindsList(
+            api.getMasterMindsListAsync(
                 listRequest.page,
                 listRequest.perPage,
                 listRequest.sortColumn,
@@ -24,11 +27,34 @@ internal class MasterMindRepository(
                 listRequest.fullName,
                 listRequest.displayName,
                 listRequest.followed,
-                listRequest.rated)
+                listRequest.rated
+            )
         }, ErrorsListResponse::class.java)
     }
 
     override suspend fun getMMProfile(id: Long): RemoteResponse<MasterMindResponse, ErrorsListResponse> {
-        return execute({api.getProfile(id)}, ErrorsListResponse::class.java)
+        return execute({ api.getProfileAsync(id) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun follow(userId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.followAsync(userId) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun unfollow(userId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.unfollowAsync(userId) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun setRatting(
+        userId: Long,
+        rating: Int
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.setRatingAsync(userId, RatingRequest(rating)) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun sendReport(
+        userId: Long,
+        content: String
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.sendReportAsync(userId, ReportRequest(content)) }, ErrorsListResponse::class.java)
     }
 }

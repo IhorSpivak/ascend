@@ -13,5 +13,6 @@ data class MasterMindResponse (
     @SerializedName("groups_count") val groupsCount: Int,
     @SerializedName("followed") val followed: Boolean,
     @SerializedName("rated") val rated: Boolean,
-    @SerializedName("image") val image: ImageResponse
+    @SerializedName("image") val image: ImageResponse,
+    @SerializedName("allow_rating") val allowRating: Boolean
 )

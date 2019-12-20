@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.master_mind_profile
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
@@ -50,9 +51,16 @@ class MMProfileActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.model = viewModel
 
-
         val id = intent.getLongExtra(MM_ID, -1)
         viewModel.loadData(id)
+
+        viewModel.sendReportStatus.observe(this) {
+            if (it == true) {
+                currentDialog?.dismiss()
+            } else {
+                Toast.makeText(this, "Send Error", Toast.LENGTH_LONG).show()
+            }
+        }
 
         btnInto.setOnClickListener {
             currentDialog = ReportAbuseDialog.create(this) {
@@ -63,6 +71,22 @@ class MMProfileActivity : BaseActivity() {
 
         btnBack.setOnClickListener {
             viewModel.goBack()
+        }
+
+        rbRatingSet.setOnRatingBarChangeListener { _, rating, fromUser ->
+            if (fromUser) {
+                viewModel.setRating(rating.toInt())
+            }
+        }
+
+        btnInto.setOnClickListener {
+            currentDialog = ReportAbuseDialog.create(
+                this
+            ) {
+                viewModel.sendReport(it)
+            }
+
+            currentDialog?.show()
         }
     }
 
