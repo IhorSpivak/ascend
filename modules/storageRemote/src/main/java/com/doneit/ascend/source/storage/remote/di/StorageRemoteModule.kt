@@ -7,6 +7,8 @@ import com.doneit.ascend.source.storage.remote.repository.group.GroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.doneit.ascend.source.storage.remote.repository.master_minds.MasterMindRepository
+import com.doneit.ascend.source.storage.remote.repository.notification.INotificationRepository
+import com.doneit.ascend.source.storage.remote.repository.notification.NotificationRepository
 import com.doneit.ascend.source.storage.remote.repository.page.IPageRepository
 import com.doneit.ascend.source.storage.remote.repository.page.PageRepository
 import com.doneit.ascend.source.storage.remote.repository.question.IQuestionRepository
@@ -30,6 +32,7 @@ object StorageRemoteModule {
         bind<PageApi>() with provider { instance<Retrofit>().create(PageApi::class.java) }
         bind<GroupApi>() with provider { instance<Retrofit>().create(GroupApi::class.java) }
         bind<MasterMindApi>() with provider { instance<Retrofit>().create(MasterMindApi::class.java) }
+        bind<NotificationApi>() with provider { instance<Retrofit>().create(NotificationApi::class.java) }
 
         bind<IUserRepository>() with provider {
             UserRepository(
@@ -69,6 +72,13 @@ object StorageRemoteModule {
                 instance(),
                 instance()
 
+            )
+        }
+
+        bind<INotificationRepository>() with provider {
+            NotificationRepository(
+                instance(),
+                instance()
             )
         }
     }

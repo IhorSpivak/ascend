@@ -89,6 +89,9 @@
                         android:layout_marginBottom="15dp"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_notifications"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{() -> model.onNotificationClick()}"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

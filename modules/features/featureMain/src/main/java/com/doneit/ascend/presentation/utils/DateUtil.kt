@@ -13,3 +13,7 @@ fun Date.toDayMonthYear(): String {
     }
     return res
 }
+
+fun String.toDate(): Date? {
+    return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).parse(this)
+}

@@ -118,4 +118,8 @@ class HomeViewModel(
     override fun openProfile(id: Long) {
         router.openProfile(id)
     }
+
+    override fun onNotificationClick() {
+        router.navigateToNotifications()
+    }
 }

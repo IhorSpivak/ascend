@@ -66,5 +66,12 @@ object GatewayModule {
                 instance()
             )
         }
+
+        bind<INotificationGateway>() with provider {
+            NotificationGateway(
+                instance(),
+                instance()
+            )
+        }
     }
 }

@@ -20,6 +20,7 @@ interface HomeContract {
         fun onSearchClick()
         fun onAllMasterMindsClick()
         fun openProfile(id: Long)
+        fun onNotificationClick()
     }
 
     interface Router {
@@ -28,5 +29,6 @@ interface HomeContract {
         fun navigateToAllMasterMinds()
         fun navigateToGroupInfo(id: Long)
         fun openProfile(id: Long)
+        fun navigateToNotifications()
     }
 }

@@ -138,4 +138,10 @@
     <string name="set_rating">Set Rating</string>
 
     <string name="delete_this_group">Delete this group?</string>
+    <string name="notifications">Notifications</string>
+    <string name="from">from</string>
+    <string name="by">by</string>
+    <string name="you_got_invite">You got invite</string>
+    <string name="new_group">New group</string>
+    <string name="group_started">Group started</string>
 </resources>

@@ -12,6 +12,7 @@ import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.master_mind.MasterMindActivity
 import com.doneit.ascend.presentation.main.master_mind_profile.MMProfileActivity
+import com.doneit.ascend.presentation.main.notification.NotificationActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.doneit.ascend.presentation.profile.ProfileContract
 import com.doneit.ascend.presentation.profile.ProfileFragment
@@ -92,6 +93,11 @@ class MainRouter(
     override fun openProfile(id: Long) {
         val intent = Intent(activity, MMProfileActivity::class.java)
         intent.putExtra(MMProfileActivity.MM_ID, id)
+        activity.startActivity(intent)
+    }
+
+    override fun navigateToNotifications() {
+        val intent = Intent(activity, NotificationActivity::class.java)
         activity.startActivity(intent)
     }
 }

@@ -61,6 +61,11 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
+            android:name=".presentation.main.notification.NotificationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".presentation.main.group_info.GroupInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
