@@ -101,7 +101,7 @@
     <string name="join_to_discussion">Join to discussion</string>
     <string name="start_group">Start group</string>
 
-    <string name="group_list_template">My %s Groups List</string>
+    <string name="group_list_template">%s Groups List</string>
     <string name="group_list">Groups List</string>
 
     <!--Search-->
