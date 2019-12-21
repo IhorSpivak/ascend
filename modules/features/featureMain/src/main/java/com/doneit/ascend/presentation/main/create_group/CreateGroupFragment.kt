@@ -144,7 +144,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME + sourcePath.getFileExtension()
 
         GlobalScope.launch {
-            val compressed = context!!.copyCompressed(sourcePath, destinationPath)
+            val compressed = copyCompressed(sourcePath, destinationPath)
 
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(compressed)
