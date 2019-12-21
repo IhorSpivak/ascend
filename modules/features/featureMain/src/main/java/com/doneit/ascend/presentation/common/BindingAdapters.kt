@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.MasterMindEntity
+import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.group_list.common.GroupListAdapter
@@ -83,7 +84,7 @@ fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date?) 
                 String.format(
                     "%s %s",
                     dayOfMonth.toString(),
-                    datePickerUtil.getStringValue(month+1)
+                    MonthEntity.values()[month].toString()
                 )
         }
     } catch (e: Exception) {
