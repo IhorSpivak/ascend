@@ -99,7 +99,8 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         EzPermission.with(context!!)
             .permissions(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
             )
             .request { granted, _, _ ->
                 if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -143,7 +144,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME + sourcePath.getFileExtension()
 
         GlobalScope.launch {
-            val compressed = context!!.copyCompressed(sourcePath, destinationPath)
+            val compressed = copyCompressed(sourcePath, destinationPath)
 
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(compressed)

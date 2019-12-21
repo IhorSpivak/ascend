@@ -37,13 +37,19 @@ class MasterMindIcon @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-
     init {
         View.inflate(context, R.layout.view_master_mind_icon, this)
     }
 
     fun setName(name: String?) {
-        tvPlaceholder.text = name?.get(0)?.toString()
+        if(name.isNullOrBlank().not()) {
+            val splited = name!!.split(' ')
+            var res = name[0].toString()
+            if(splited.size > 1) {
+                res += splited[1][0]
+            }
+            tvPlaceholder.text = res
+        }
     }
 
     fun setUrl(url: String?) {

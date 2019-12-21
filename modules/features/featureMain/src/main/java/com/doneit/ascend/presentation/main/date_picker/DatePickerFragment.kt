@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.date_picker
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
@@ -37,14 +38,17 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
         binding.model = viewModel
         binding.executePendingBindings()
 
-        dayPicker.selectedDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        val cal = Calendar.getInstance()
+
+        dayPicker.selectedDay = cal.get(Calendar.DAY_OF_MONTH)
 
         viewModel.setDay(dayPicker.selectedDay)
-        viewModel.setMonth(1)
         viewModel.setYear(yearPicker.selectedYear)
 
         monthPicker.clearAnimation()
-        monthPicker.data = datePickerUtil.getMonthList()
+        monthPicker.data = viewModel.getMonthList() //MonthEntity.values().toList()
+
+        dayPicker.year = viewModel.getYear()
 
         dayPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setDay(data as Int)
@@ -52,12 +56,10 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
         }
 
         monthPicker.setOnItemSelectedListener { _, data, position ->
-            val month = datePickerUtil.getNumberValue(data as String)
+            val month = (data as MonthEntity)
 
             viewModel.setMonth(month)
-            viewModel.setMonthPosition(position)
-            dayPicker.month = month
-
+            dayPicker.month = month.toNumeric()
         }
 
         yearPicker.setOnItemSelectedListener { _, data, position ->
@@ -75,23 +77,12 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
             viewModel.setYear(yearPicker.data[yearPicker.selectedItemPosition] as Int)
         }
 
-        dayPicker.year = viewModel.getYear()
-        dayPicker.month = viewModel.getMonth()
-
-        val cal = Calendar.getInstance()
-
         monthPicker.postDelayed({
 
-            if (viewModel.getMonthPosition() == -1) {
-                val calcMonth = cal.get(Calendar.MONTH)
-                viewModel.setMonthPosition(calcMonth)
-
-                monthPicker.setSelectedItemPosition(
-                    calcMonth, false
-                )
-            } else {
-                monthPicker.selectedItemPosition = viewModel.getMonthPosition()
-            }
+            val month = viewModel.getMonth()
+            val position = monthPicker.data.indexOf(month)
+            monthPicker.setSelectedItemPosition(position, false)
+            dayPicker.month = month.toNumeric()
 
             if (viewModel.getDayPosition() == -1) {
                 val calDay = cal.get(Calendar.DAY_OF_MONTH)
@@ -100,10 +91,6 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
                 dayPicker.selectedItemPosition = viewModel.getDayPosition()
                 viewModel.setDay(dayPicker.data[viewModel.getDayPosition()] as Int)
             }
-
-            val month =
-                datePickerUtil.getNumberValue(monthPicker.data[viewModel.getMonthPosition()] as String)
-            viewModel.setMonth(month)
 
         }, 1)
 

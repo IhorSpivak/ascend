@@ -61,6 +61,12 @@ import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
             attribute = "multilineInput",
             method = "setInput"
 
+        ),
+        BindingMethod(
+            type = MultilineEditWithError::class,
+            attribute = "digits",
+            method = "setDigits"
+
         )
     ]
 )

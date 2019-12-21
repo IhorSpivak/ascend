@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.create_group
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.CalendarDayEntity
+import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -64,16 +65,16 @@ class CreateGroupViewModel(
             result
         }
 
-//        createGroupModel.startDate.validator = { s ->
-//            val result = ValidationResult()
-//
-//            if (s.isValidStartDate().not()) {
-//                result.isSussed = false
-//                result.errors.add(R.string.error_start_date)
-//            }
-//
-//            result
-//        }
+        createGroupModel.startDate.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isValidStrartDate().not()) {
+                result.isSussed = false
+                result.errors.add(R.string.error_start_date)
+            }
+
+            result
+        }
 
         createGroupModel.price.validator = { s ->
             val result = ValidationResult()
@@ -120,9 +121,8 @@ class CreateGroupViewModel(
 
         val invalidationListener = { updateCanCreate() }
         createGroupModel.name.onFieldInvalidate = invalidationListener
-//        createGroupModel.schedule.onFieldInvalidate = invalidationListener
         createGroupModel.numberOfMeetings.onFieldInvalidate = invalidationListener
-//        createGroupModel.startDate.onFieldInvalidate = invalidationListener
+        createGroupModel.startDate.onFieldInvalidate = invalidationListener
         createGroupModel.price.onFieldInvalidate = invalidationListener
         createGroupModel.description.onFieldInvalidate = invalidationListener
         createGroupModel.image.onFieldInvalidate = invalidationListener
@@ -266,10 +266,11 @@ class CreateGroupViewModel(
         var isFormValid = true
 
         isFormValid = isFormValid and createGroupModel.name.isValid
-        // TODO: uncommite when calendar picker is ready
-//        isFormValid = isFormValid and createGroupModel.schedule.isValid
+        isFormValid = isFormValid and
+                createGroupModel.scheduleTime.observableField.getNotNull().isNotEmpty() and
+                createGroupModel.scheduleDays.isNotEmpty()
         isFormValid = isFormValid and createGroupModel.numberOfMeetings.isValid
-//        isFormValid = isFormValid and createGroupModel.startDate.isValid
+        isFormValid = isFormValid and createGroupModel.startDate.isValid
         isFormValid = isFormValid and createGroupModel.price.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
@@ -309,9 +310,22 @@ class CreateGroupViewModel(
     private fun changeStartDate() {
         createGroupModel.startDate.observableField.set(
             "${createGroupModel.day} ${datePickerUtil.getStringValue(
-                createGroupModel.month
+                createGroupModel.month.toNumeric()
             )} ${createGroupModel.year}"
         )
+    }
+
+    override fun getMonthList(): List<MonthEntity> {
+        val monthList = mutableListOf<MonthEntity>()
+        val commonMonthList = MonthEntity.values()
+        val actualMonth = createGroupModel.month.ordinal
+
+        for(i in 0..11){
+            val totalIndex = (i+actualMonth)%commonMonthList.size
+            monthList.add(commonMonthList[totalIndex])
+        }
+
+        return monthList
     }
 
     override fun cancelClick() {
@@ -330,20 +344,12 @@ class CreateGroupViewModel(
         router.onBack()
     }
 
-    override fun setMonth(month: Int) {
-        createGroupModel.month = month
-    }
-
-    override fun getMonth(): Int {
+    override fun getMonth(): MonthEntity {
         return createGroupModel.month
     }
 
-    override fun setMonthPosition(position: Int) {
-        createGroupModel.monthPosition = position
-    }
-
-    override fun getMonthPosition(): Int {
-        return createGroupModel.monthPosition
+    override fun setMonth(month: MonthEntity) {
+        createGroupModel.month = month
     }
 
     override fun setDay(day: Int) {

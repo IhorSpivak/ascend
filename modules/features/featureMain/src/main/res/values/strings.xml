@@ -46,8 +46,8 @@
     <string name="allow_number_digits">0123456789</string>
     <string name="allow_date_digits">0123456789-</string>
     <string name="allow_email_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@.</string>
-    <string name="allow_description_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_. </string>
-    <string name="allow_reason_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.  </string>
+    <string name="allow_description_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_ .</string>
+    <string name="allow_reason_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_ .</string>
     <string name="reserved_person_email">Reserved Person Email</string>
     <string name="error_group_name">Please, enter the Group Name correctly</string>
     <string name="error_start_date">The Start date cannot be past. Please check.</string>
@@ -101,7 +101,7 @@
     <string name="join_to_discussion">Join to discussion</string>
     <string name="start_group">Start group</string>
 
-    <string name="group_list_template">My %s Groups List</string>
+    <string name="group_list_template">%s Groups List</string>
     <string name="group_list">Groups List</string>
 
     <!--Search-->

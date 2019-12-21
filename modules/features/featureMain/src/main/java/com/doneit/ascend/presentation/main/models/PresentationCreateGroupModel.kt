@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.models
 
 import androidx.databinding.ObservableField
 import com.doneit.ascend.domain.entity.CalendarDayEntity
+import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 
 class PresentationCreateGroupModel(
@@ -19,8 +20,7 @@ class PresentationCreateGroupModel(
     var minutesPosition: Int = 0,
     var timeType: String = CalendarPickerUtil.DEFAULT_TIME_TYPE,
     var timeTypePosition: Int = 0,
-    var month: Int = 0,
-    var monthPosition: Int = -1,
+    var month: MonthEntity = MonthEntity.getActual(),
     var day: Int = 0,
     var dayPosition: Int = -1,
     var year: Int = 0,

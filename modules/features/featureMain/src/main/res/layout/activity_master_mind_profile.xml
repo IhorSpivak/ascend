@@ -146,6 +146,7 @@
                         android:onClick="@{() -> model.onFollowClick()}"
                         android:text="@string/btn_follow"
                         android:visibility="@{model.followed? View.GONE: View.VISIBLE}"
+                        android:background="@drawable/bg_btn_default_enabled"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +168,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
+                        app:layout_constraintTop_toBottomOf="@id/tvShortDescription"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>

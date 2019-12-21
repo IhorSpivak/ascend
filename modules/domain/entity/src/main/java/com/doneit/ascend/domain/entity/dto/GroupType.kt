@@ -28,6 +28,7 @@ fun GroupType.toStringValue(): String {
     }
 }
 
+//todo replace with @SerializedName
 fun String?.parseTo(): GroupType {
     return when (this?.toLowerCase()) {
         "master_mind" -> GroupType.MASTER_MIND
@@ -51,6 +52,6 @@ fun GroupType.toStringValueUI(): String {
         GroupType.SUCCESS -> "Success"
         GroupType.SPIRITUAL -> "Spiritual"
         GroupType.SUPPORT -> "Support"
-        GroupType.DAILY -> "Daily"
+        GroupType.DAILY -> "My Daily"
     }
 }
