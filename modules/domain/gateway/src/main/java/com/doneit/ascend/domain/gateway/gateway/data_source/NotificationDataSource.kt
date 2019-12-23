@@ -21,9 +21,6 @@ class NotificationDataSource(
     private val items: List<NotificationEntity>
 ) : PageKeyedDataSource<Int, NotificationEntity>() {
 
-    private var masterMindCount: Int? = null
-    private var lastMMPage: Int? = null
-
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, NotificationEntity>
@@ -34,13 +31,6 @@ class NotificationDataSource(
                 val page = 1
 
                 val result = loadMasterMindList(page)
-
-                if (masterMindCount != null) {
-                    val perPage = notificationRequest.perPage ?: 10
-                    lastMMPage = ceil(masterMindCount!!.toDouble() / perPage).toInt()
-                } else {
-                    lastMMPage = 0
-                }
 
                 if (result.isSuccessful) {
                     callback.onResult(result.successModel ?: listOf(), null, page + 1)
@@ -84,8 +74,7 @@ class NotificationDataSource(
 
         return remote.getAllNotifications(request).toResponseEntity(
             {
-                masterMindCount = it?.count
-                it?.notifications?.map { notificationIt -> notificationIt.toEntity() }
+                items//it?.notifications?.map { notificationIt -> notificationIt.toEntity() }
             },
             {
                 it?.errors

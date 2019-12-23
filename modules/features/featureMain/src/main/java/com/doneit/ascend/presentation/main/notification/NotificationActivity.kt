@@ -1,18 +1,15 @@
 package com.doneit.ascend.presentation.main.notification
 
 import android.os.Bundle
-import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityNotificationBinding
 import com.doneit.ascend.presentation.main.notification.common.NotificationsAdapter
-import com.doneit.ascend.presentation.main.notification.common.SwipeToDeleteCallback
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -54,11 +51,6 @@ class NotificationActivity : BaseActivity() {
 
     private val viewModel: NotificationContract.ViewModel by instance()
     private lateinit var binding: ActivityNotificationBinding
-//    private val callback: SwipeToDeleteCallback by lazy {
-//        SwipeToDeleteCallback(this@NotificationActivity, {
-//            Log.e("myLog", it.toString())
-//        })
-//    }
 
     fun getContainerId() = R.id.container
 
@@ -75,8 +67,5 @@ class NotificationActivity : BaseActivity() {
         viewModel.notifications.observe(this, Observer {
             this.adapter.submitList(it)
         })
-
-//        val itemTouchHelper = ItemTouchHelper(callback)
-//        itemTouchHelper.attachToRecyclerView(binding.rvNotifications)
     }
 }
