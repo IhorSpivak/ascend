@@ -23,10 +23,19 @@ fun UserResponse.toEntity(): UserEntity {
         name,
         email,
         phone,
+        location,
         createdAt,
         updatedAt,
+        meetingStarted,
+        newGroups,
+        inviteToMeeting,
         unansweredQuestions,
+        image?.toEntity(),
+        displayName,
+        description,
+        bio,
         rating,
+        role,
         role?.isMasterMind()?:false,
         community
     )
@@ -38,11 +47,20 @@ fun UserLocal.toUserEntity(): UserEntity {
         name = this@toUserEntity.name,
         email = this@toUserEntity.email,
         phone = this@toUserEntity.phone,
+        location = this@toUserEntity.location,
         createdAt = this@toUserEntity.createdAt,
         updatedAt = this@toUserEntity.updatedAt,
-        isMasterMind = this@toUserEntity.isMasterMind,
+        meetingStarted = this@toUserEntity.meetingStarted,
+        newGroups = this@toUserEntity.newGroups,
+        inviteToMeeting = this@toUserEntity.inviteToMeeting,
+        displayName = this@toUserEntity.displayName,
+        description = this@toUserEntity.description,
+        bio = this@toUserEntity.bio,
         rating = this@toUserEntity.rating,
+        role = this@toUserEntity.role,
+        isMasterMind = this@toUserEntity.isMasterMind,
         community = this@toUserEntity.community,
-        unansweredQuestions = listOf()
+        unansweredQuestions = listOf(),
+        image = null
     )
 }

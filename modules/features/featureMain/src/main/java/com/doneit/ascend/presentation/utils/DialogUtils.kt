@@ -4,12 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.DialogErrorBinding
 import com.doneit.ascend.presentation.main.databinding.DialogInfoBinding
 import com.doneit.ascend.presentation.main.views.ConnectionSnackbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.dialog_change_photo.*
+import kotlinx.android.synthetic.main.dialog_change_photo.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -118,4 +121,29 @@ fun BaseFragment<*>.showNoConnectionDialog(
     snackbar.show()
 
     return snackbar
+}
+
+fun Fragment.showChangePhotoDialog(takePhotoClick: (() -> Unit), rollCameraClick: (() -> Unit)) {
+
+    val dialogView =
+        LayoutInflater.from(requireActivity()).inflate(R.layout.dialog_change_photo, null, false)
+    val dialog = BottomSheetDialog(requireContext(), R.style.TransparentBottomSheetDialog)
+    dialog.setContentView(dialogView)
+    dialog.setCancelable(false)
+
+    dialogView.tvTakePhoto.setOnClickListener {
+        takePhotoClick.invoke()
+        dialog.dismiss()
+    }
+
+    dialog.tvCameraRoll.setOnClickListener {
+        rollCameraClick.invoke()
+        dialog.dismiss()
+    }
+
+    dialog.tvCancel.setOnClickListener {
+        dialog.dismiss()
+    }
+
+    dialog.show()
 }

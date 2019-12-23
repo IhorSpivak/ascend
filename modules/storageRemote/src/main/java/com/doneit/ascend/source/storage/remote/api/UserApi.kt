@@ -3,6 +3,7 @@ package com.doneit.ascend.source.storage.remote.api
 import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
+import com.doneit.ascend.source.storage.remote.data.response.ProfileResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.*
@@ -24,6 +25,9 @@ interface UserApi {
     @DELETE("users/profile")
     fun deleteAccount(): Deferred<Response<OKResponse>>
 
+    @GET("users/profile")
+    fun getProfileAsync(): Deferred<Response<ProfileResponse>>
+
     @POST("users/validation")
     fun signUpValidation(@Body request: SignUpRequest): Deferred<Response<OKResponse>>
 
@@ -37,5 +41,5 @@ interface UserApi {
     fun resetPassword(@Body request: ResetPasswordRequest): Deferred<Response<OKResponse>>
 
     @POST("users/{id}/report")
-    fun report(@Query("content") report: String, @Path("id")id: Long): Deferred<Response<OKResponse>>
+    fun report(@Query("content") report: String, @Path("id") id: Long): Deferred<Response<OKResponse>>
 }

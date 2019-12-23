@@ -36,6 +36,14 @@ class MainRouter(
         appRouter.goToLogin()
     }
 
+    override fun navigateToTerms() {
+
+    }
+
+    override fun navigateToPrivacyPolicy() {
+
+    }
+
     override fun navigateToHome() {
         activity.supportFragmentManager.replace(containerId, HomeFragment())
     }
