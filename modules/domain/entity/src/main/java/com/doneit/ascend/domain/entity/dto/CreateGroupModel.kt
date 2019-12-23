@@ -1,9 +1,11 @@
 package com.doneit.ascend.domain.entity.dto
 
+import java.util.*
+
 data class CreateGroupModel(
     val name: String,
     val description: String,
-    val startTime: String,
+    val startTime: Date,
     val groupType: String,
     val price: String,
     val imagePath: String,

@@ -74,7 +74,7 @@ class NotificationDataSource(
 
         return remote.getAllNotifications(request).toResponseEntity(
             {
-                items//it?.notifications?.map { notificationIt -> notificationIt.toEntity() }
+                it?.notifications?.map { notificationIt -> notificationIt.toEntity() }
             },
             {
                 it?.errors

@@ -37,7 +37,6 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             CreateGroupViewModel(
                 instance(),
                 instance(),
-                instance(),
                 instance()
             )
         }

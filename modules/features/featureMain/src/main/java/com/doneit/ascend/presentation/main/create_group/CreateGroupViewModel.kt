@@ -19,14 +19,14 @@ import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
+import java.util.*
 
 @CreateFactory
 @ViewModelDiModule
 class CreateGroupViewModel(
     private val groupUseCase: GroupUseCase,
     private val router: CreateGroupContract.Router,
-    private val calendarUtil: CalendarPickerUtil,
-    private val datePickerUtil: DatePickerUtil
+    private val calendarUtil: CalendarPickerUtil
 ) : BaseViewModelImpl(),
     CreateGroupContract.ViewModel,
     CalendarPickerContract.ViewModel,
@@ -308,11 +308,13 @@ class CreateGroupViewModel(
     }
 
     private fun changeStartDate() {
-        createGroupModel.startDate.observableField.set(
-            "${createGroupModel.day} ${datePickerUtil.getStringValue(
-                createGroupModel.month.toNumeric()
-            )} ${createGroupModel.year}"
-        )
+        val calendar = Calendar.getInstance()
+        calendar.time = Date(0)
+        calendar.set(Calendar.YEAR, createGroupModel.year)
+        calendar.set(Calendar.MONTH, createGroupModel.month.ordinal)
+        calendar.set(Calendar.DAY_OF_MONTH, createGroupModel.day)
+
+        createGroupModel.startDate.observableField.set(START_TIME_FORMATTER.format(calendar.time))
     }
 
     override fun getMonthList(): List<MonthEntity> {
@@ -378,5 +380,9 @@ class CreateGroupViewModel(
 
     override fun getYearPosition(): Int {
         return createGroupModel.yearPosition
+    }
+
+    companion object {
+        val START_TIME_FORMATTER = "dd MMMM yyyy".toDefaultFormatter()
     }
 }

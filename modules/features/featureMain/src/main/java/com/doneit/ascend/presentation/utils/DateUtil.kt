@@ -6,7 +6,7 @@ import java.util.*
 fun Date.toDayMonthYear(): String {
     var res = ""
     try {
-        val resFormatter = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+        val resFormatter = "dd MMM yyyy".toDefaultFormatter()
         res = resFormatter.format(this)
     } catch (e: Exception){
         e.printStackTrace()
@@ -17,11 +17,15 @@ fun Date.toDayMonthYear(): String {
 fun Date.toNotificationDate(): String {
     var res = ""
     try {
-        val formatter = SimpleDateFormat("MM.dd.YY hh:mm aa", Locale.getDefault())
+        val formatter = "MM.dd.YY hh:mm aa".toDefaultFormatter()
         res = formatter.format(this)
     } catch (e: Exception) {
         e.printStackTrace()
     }
 
     return res
+}
+
+fun String.toDefaultFormatter(): SimpleDateFormat {
+    return SimpleDateFormat(this, Locale.getDefault())
 }

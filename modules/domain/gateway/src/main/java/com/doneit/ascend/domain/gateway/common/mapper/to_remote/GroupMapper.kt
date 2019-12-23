@@ -9,7 +9,7 @@ fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
     return CreateGroupRequest(
         name,
         description,
-        startTime,
+        startTime.toRemoteString(),
         groupType,
         price,
         participants,
