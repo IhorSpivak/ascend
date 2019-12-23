@@ -6,6 +6,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -15,7 +16,14 @@ class ProfileViewModel(
     private val router: ProfileContract.Router
 ) : BaseViewModelImpl(), ProfileContract.ViewModel {
 
-    override fun signOut() {
+    override val user = userUseCase.getUserLive()
+    override val showPhotoDialog = SingleLiveManager(Unit)
+
+    override fun onEditPhotoClick() {
+        showPhotoDialog.call()
+    }
+
+    override fun onLogoutClick() {
         viewModelScope.launch {
             val requestEntity = userUseCase.signOut()
             if (requestEntity.isSuccessful) {
@@ -24,6 +32,18 @@ class ProfileViewModel(
                 showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
             }
         }
+    }
+
+    override fun onTermsClick() {
+        router.navigateToTerms()
+    }
+
+    override fun onPolicyClick() {
+        router.navigateToPrivacyPolicy()
+    }
+
+    override fun onSeeMyGroupsClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun deleteAccount() {

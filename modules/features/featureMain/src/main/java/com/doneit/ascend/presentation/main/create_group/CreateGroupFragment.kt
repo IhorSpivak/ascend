@@ -110,7 +110,6 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri)
 
-
                     val chooser =
                         Intent.createChooser(galleryIntent, "Select an App to choose an Image")
                     chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))

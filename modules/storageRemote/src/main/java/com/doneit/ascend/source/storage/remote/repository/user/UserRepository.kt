@@ -4,6 +4,7 @@ import com.doneit.ascend.source.storage.remote.api.UserApi
 import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
+import com.doneit.ascend.source.storage.remote.data.response.ProfileResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
@@ -53,5 +54,9 @@ internal class UserRepository(
 
     override suspend fun report(content: String, id: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({api.report(content,id)}, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun getProfile(): RemoteResponse<ProfileResponse, ErrorsListResponse> {
+        return execute({ api.getProfileAsync() }, ErrorsListResponse::class.java)
     }
 }

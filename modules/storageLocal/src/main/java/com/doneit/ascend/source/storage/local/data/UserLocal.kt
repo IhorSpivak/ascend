@@ -10,10 +10,17 @@ data class UserLocal(
     val name: String? = "",
     val email: String? = "",
     val phone: String? = "",
+    val location: String? = "",
     val createdAt: String? = "",
     val updatedAt: String? = "",
+    val meetingStarted: Boolean?,
+    val newGroups: Boolean?,
+    val inviteToMeeting: Boolean?,
+    val displayName: String?,
+    val description: String?,
+    val bio: String?,
     val rating: Float? = -1f,
+    val role: String?,
     val isMasterMind: Boolean,
     val community: String? = ""
-
 )

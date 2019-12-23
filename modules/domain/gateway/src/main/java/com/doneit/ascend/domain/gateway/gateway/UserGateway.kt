@@ -6,12 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.doneit.ascend.domain.entity.AuthEntity
+import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.LogInUserModel
-import com.doneit.ascend.domain.entity.dto.ResetPasswordModel
-import com.doneit.ascend.domain.entity.dto.SignUpModel
-import com.doneit.ascend.domain.entity.dto.SocialLogInModel
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserEntity
@@ -30,6 +28,7 @@ import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository a
 internal class UserGateway(
     errors: NetworkManager,
     private val remote: RemoteRepository,
+    private val mmRemote: com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
     private val local: LocalRepository,
     private val accountManager: AccountManager,
     private val packageName: String
@@ -233,6 +232,44 @@ internal class UserGateway(
                     e.printStackTrace()
                 }
             }
+        }
+    }
+
+    override suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.report(content,id)}.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun getProfile(): ProfileEntity {
+
+        val user = local.getFirstUser()?.toUserEntity()
+
+        return if(user?.role == GroupType.MASTER_MIND.toStringValue()) {
+            executeRemote { mmRemote.getMMProfile(user.id)}.toResponseEntity(
+                {
+                    it?.toProfileEntity()
+                },
+                {
+                    it?.errors
+                }
+            )
+        }
+        else {
+            // get profile request
+            executeRemote { remote.getProfile(user.id)}.toResponseEntity(
+                {
+                    it?.toProfileEntity()
+                },
+                {
+                    it?.errors
+                }
+            )
         }
     }
 

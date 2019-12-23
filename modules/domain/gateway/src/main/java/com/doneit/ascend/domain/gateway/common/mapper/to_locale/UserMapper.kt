@@ -13,6 +13,14 @@ fun UserEntity.toUserLocal(): UserLocal {
         updatedAt = this@toUserLocal.updatedAt,
         isMasterMind = this@toUserLocal.isMasterMind,
         rating = this@toUserLocal.rating,
-        community = this@toUserLocal.community
+        community = this@toUserLocal.community,
+        description = this@toUserLocal.description,
+        displayName = this@toUserLocal.displayName,
+        inviteToMeeting = this@toUserLocal.inviteToMeeting,
+        newGroups = this@toUserLocal.newGroups,
+        meetingStarted = this@toUserLocal.meetingStarted,
+        location = this@toUserLocal.location,
+        role = this@toUserLocal.role,
+        bio = this@toUserLocal.bio
     )
 }

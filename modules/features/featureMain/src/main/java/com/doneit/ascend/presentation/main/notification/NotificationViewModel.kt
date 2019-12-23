@@ -35,7 +35,7 @@ class NotificationViewModel(
     }
 
     override fun onNotificationClick(id: Long) {
-
+        router.navigateToGroupInfo(id)
     }
 
     override fun onDelete(id: Long) {
