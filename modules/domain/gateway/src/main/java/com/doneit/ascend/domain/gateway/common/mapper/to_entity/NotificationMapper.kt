@@ -19,8 +19,8 @@ fun NotificationResponse.toEntity(): NotificationEntity {
         notificationType,
         groupId,
         groupName,
-        createdAt,
-        updatedAt,
+        createdAt?.toDate(),
+        updatedAt?.toDate(),
         owner.toEntity()
     )
 }

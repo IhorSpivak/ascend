@@ -14,6 +14,14 @@ fun Date.toDayMonthYear(): String {
     return res
 }
 
-fun String.toDate(): Date? {
-    return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).parse(this)
+fun Date.toNotificationDate(): String {
+    var res = ""
+    try {
+        val formatter = SimpleDateFormat("MM.dd.YY hh:mm aa", Locale.getDefault())
+        res = formatter.format(this)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return res
 }

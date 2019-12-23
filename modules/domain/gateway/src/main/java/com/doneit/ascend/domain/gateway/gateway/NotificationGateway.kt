@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.NotificationOwnerEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.NotificationListModel
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toDate
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.data_source.NotificationDataSource
 import com.doneit.ascend.domain.use_case.gateway.INotificationGateway
@@ -24,8 +25,8 @@ internal class NotificationGateway(
             "invite_to_a_meeting",
             16,
             "Group",
-            "2019-12-05T15:32:20.053Z",
-            "2019-12-05T15:32:20.053Z",
+            "2019-12-05T15:32:20.053Z".toDate(),
+            "2019-12-05T15:32:20.053Z".toDate(),
             NotificationOwnerEntity(
                 1,
                 "Gregory House",
@@ -37,8 +38,8 @@ internal class NotificationGateway(
             "new_groups",
             17,
             "Group",
-            "2019-12-05T15:32:20.053Z",
-            "2019-12-05T15:32:20.053Z",
+            "2019-12-05T15:32:20.053Z".toDate(),
+            "2019-12-05T15:32:20.053Z".toDate(),
             NotificationOwnerEntity(
                 1,
                 "Gregory House",
@@ -50,8 +51,8 @@ internal class NotificationGateway(
             "meeting_started",
             18,
             "Group",
-            "2019-12-05T15:32:20.053Z",
-            "2019-12-05T15:32:20.053Z",
+            "2019-12-05T15:32:20.053Z".toDate(),
+            "2019-12-05T15:32:20.053Z".toDate(),
             NotificationOwnerEntity(
                 1,
                 "Gregory House",

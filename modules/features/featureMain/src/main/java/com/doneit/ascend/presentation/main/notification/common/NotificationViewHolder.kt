@@ -9,9 +9,7 @@ import com.doneit.ascend.domain.entity.dto.parseToNotificationType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateNotificationItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
-import com.doneit.ascend.presentation.utils.toDate
-import java.text.SimpleDateFormat
-import java.util.*
+import com.doneit.ascend.presentation.utils.toNotificationDate
 
 class NotificationViewHolder(
     private val binding: TemplateNotificationItemBinding
@@ -21,9 +19,8 @@ class NotificationViewHolder(
         binding.item = item
 
         try {
-            val formatter = SimpleDateFormat("dd.MM.YY hh:mm aa", Locale.getDefault())
 
-            binding.date = formatter.format(item.createdAt!!.toDate())
+            binding.date = item.createdAt!!.toNotificationDate()
 
             when (item.notificationType.parseToNotificationType()) {
                 NotificationType.INVITE_TO_A_MEETING -> {
