@@ -71,7 +71,6 @@ class LogInViewModel(
 
             if (requestEntity.isSuccessful) {
                 requestEntity.successModel?.let {
-                    userUseCase.insert(it.userEntity, it.token)
 
                     if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
                         requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty() &&
@@ -175,7 +174,6 @@ class LogInViewModel(
 
                 if (requestEntity.successModel != null) {
                     requestEntity.successModel?.let {
-                        userUseCase.insert(it.userEntity, it.token)
 
                         if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
                             requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty() &&

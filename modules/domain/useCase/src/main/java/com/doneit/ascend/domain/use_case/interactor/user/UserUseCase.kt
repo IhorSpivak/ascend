@@ -27,8 +27,6 @@ interface UserUseCase {
 
     suspend fun resetPassword(resetModel: ResetPasswordModel) : ResponseEntity<Unit, List<String>>
 
-    suspend fun insert(user: UserEntity, token: String)
-
     suspend fun update(user: UserEntity)
 
     suspend fun hasSignedInUser(): Boolean

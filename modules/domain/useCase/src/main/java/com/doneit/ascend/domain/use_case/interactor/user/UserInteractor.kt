@@ -48,10 +48,6 @@ internal class UserInteractor(
         return userGateway.resetPassword(resetModel)
     }
 
-    override suspend fun insert(user: UserEntity, token: String) {
-        userGateway.insert(user, token)
-    }
-
     override suspend fun update(user: UserEntity) {
         userGateway.update(user)
     }

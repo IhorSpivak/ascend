@@ -40,7 +40,7 @@ internal class UserGateway(
     }
 
     override suspend fun signIn(logInModel: LogInUserModel): ResponseEntity<AuthEntity, List<String>> {
-        return executeRemote { remote.signIn(logInModel.toLoginRequest()) }.toResponseEntity(
+         val res = executeRemote { remote.signIn(logInModel.toLoginRequest()) }.toResponseEntity(
             {
                 it?.toEntity()
             },
@@ -48,6 +48,47 @@ internal class UserGateway(
                 it?.errors
             }
         )
+
+        if(res.isSuccessful) {
+            updateUserLocal(res.successModel!!)
+        }
+
+        return res
+    }
+
+    override suspend fun socialSignIn(socialLoginModel: SocialLogInModel): ResponseEntity<AuthEntity, List<String>> {
+        val res = executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest()) }.toResponseEntity(
+            {
+
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+
+        if(res.isSuccessful) {
+            updateUserLocal(res.successModel!!)
+        }
+
+        return res
+    }
+
+    override suspend fun signUp(signUpModel: SignUpModel): ResponseEntity<AuthEntity, List<String>> {
+        val res = executeRemote { remote.signUp(signUpModel.toSignUpRequest()) }.toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+
+        if(res.isSuccessful) {
+            updateUserLocal(res.successModel!!)
+        }
+
+        return res
     }
 
     override suspend fun signOut(): ResponseEntity<Unit, List<String>> {
@@ -61,34 +102,10 @@ internal class UserGateway(
         )
 
         if(result.isSuccessful) {
-            //local.remove()
             removeAccounts()
         }
 
         return result
-    }
-
-    override suspend fun socialSignIn(socialLoginModel: SocialLogInModel): ResponseEntity<AuthEntity, List<String>> {
-        return executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest()) }.toResponseEntity(
-            {
-
-                it?.toEntity()
-            },
-            {
-                it?.errors
-            }
-        )
-    }
-
-    override suspend fun signUp(signUpModel: SignUpModel): ResponseEntity<AuthEntity, List<String>> {
-        return executeRemote { remote.signUp(signUpModel.toSignUpRequest()) }.toResponseEntity(
-            {
-                it?.toEntity()
-            },
-            {
-                it?.errors
-            }
-        )
     }
 
     override suspend fun deleteAccount(): ResponseEntity<Unit, List<String>> {
@@ -102,7 +119,6 @@ internal class UserGateway(
         )
 
         if(result.isSuccessful) {
-            //local.remove()
             removeAccounts()
         }
 
@@ -153,19 +169,6 @@ internal class UserGateway(
         )
     }
 
-    //todo do it on login responses
-    override suspend fun insert(user: UserEntity, token: String) {
-        local.insert(user.toUserLocal())
-
-        // save token
-        val account = Account(user.name, packageName)
-
-        removeAccounts()
-
-        accountManager.addAccountExplicitly(account, ARG_AM_PASSWORD, null)
-        accountManager.setAuthToken(account, "Bearer", token)
-    }
-
     override suspend fun update(user: UserEntity) {
         local.update(user.toUserLocal())
     }
@@ -190,6 +193,31 @@ internal class UserGateway(
                 && (local.getFirstUser() != null)
     }
 
+    override suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.report(content,id)}.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    private suspend fun updateUserLocal(authEntity: AuthEntity) {
+        local.remove()//only single user at local storage allowed
+
+        local.insert(authEntity.userEntity.toUserLocal())
+
+        // save token
+        val account = Account(authEntity.userEntity.name, packageName)
+
+        removeAccounts()
+
+        accountManager.addAccountExplicitly(account, ARG_AM_PASSWORD, null)
+        accountManager.setAuthToken(account, "Bearer", authEntity.token)
+    }
+
     private fun removeAccounts() {
         val accounts = accountManager.getAccountsByType(packageName)
 
@@ -206,17 +234,6 @@ internal class UserGateway(
                 }
             }
         }
-    }
-
-    override suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>> {
-        return executeRemote { remote.report(content,id)}.toResponseEntity(
-            {
-                Unit
-            },
-            {
-                it?.errors
-            }
-        )
     }
 
     companion object {

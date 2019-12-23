@@ -157,7 +157,6 @@ class SignUpViewModel(
             if (requestEntity.isSuccessful) {
 
                 requestEntity.successModel?.let {
-                    userUseCase.insert(it.userEntity, it.token)
 
                     if (it.userEntity.isMasterMind.not()) {
 
