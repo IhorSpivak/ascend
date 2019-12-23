@@ -142,11 +142,11 @@
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="20dp"
                         android:layout_marginBottom="24dp"
+                        android:background="@drawable/bg_btn_default_enabled"
                         android:enabled="@{model.enableFollow}"
                         android:onClick="@{() -> model.onFollowClick()}"
                         android:text="@string/btn_follow"
                         android:visibility="@{model.followed? View.GONE: View.VISIBLE}"
-                        android:background="@drawable/bg_btn_default_enabled"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -168,7 +168,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvShortDescription"/>
+                        app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -189,7 +189,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clGroups"
@@ -238,6 +237,7 @@
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="20dp"
                     android:text="@{model.profile.bio}"
+                    android:visibility="@{model.profile.bio.empty ? View.GONE : View.VISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clGroups"
@@ -249,9 +249,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="@string/set_rating"
+                    android:text="@{model.myRating == null ? @string/set_rating : String.format(@string/you_rating_is, model.myRating)}"
                     android:textColor="@color/light_gray_8f"
-                    android:visibility="@{model.rated ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvContent" />
@@ -262,9 +261,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:numStars="5"
+                    android:rating="@{model.myRating == null ? 0 : model.myRating}"
                     android:stepSize="1"
                     android:theme="@style/RatingBarTheme"
-                    android:visibility="@{model.rated ? View.VISIBLE : View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvRate" />

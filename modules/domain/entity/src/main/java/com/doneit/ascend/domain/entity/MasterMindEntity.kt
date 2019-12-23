@@ -12,5 +12,6 @@ class MasterMindEntity(
     val followed: Boolean,
     val rated: Boolean,
     val image: ImageEntity?,
-    val allowRating: Boolean?
+    val allowRating: Boolean?,
+    val myRating: Int?
 ): SearchEntity(id)

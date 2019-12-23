@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.main.master_mind_profile
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.MasterMindEntity
-import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
@@ -15,6 +14,7 @@ interface MMProfileContract {
         val enableUnfollow: LiveData<Boolean>
         val followed: LiveData<Boolean>
         val rated: LiveData<Boolean>
+        val myRating: LiveData<Int?>
         val sendReportStatus: SingleLiveManager<Boolean>
 
         fun onFollowClick()

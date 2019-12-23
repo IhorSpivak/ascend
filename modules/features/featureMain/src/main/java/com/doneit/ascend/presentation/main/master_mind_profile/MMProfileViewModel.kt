@@ -22,6 +22,7 @@ class MMProfileViewModel(
     override val enableUnfollow = MutableLiveData<Boolean>(true)
     override val followed = MutableLiveData<Boolean>()
     override val rated = MutableLiveData<Boolean>(true)
+    override val myRating = MutableLiveData<Int?>()
 
     override val sendReportStatus = SingleLiveManager<Boolean>()
 
@@ -43,6 +44,7 @@ class MMProfileViewModel(
                         rated.postValue(!it.rated)
                     }
 
+                    myRating.postValue(it.myRating)
                     profile.postValue(it)
                 }
             }
@@ -97,6 +99,7 @@ class MMProfileViewModel(
             val response = masterMindUseCase.setRating(userId, rating)
 
             if (response.isSuccessful) {
+                myRating.postValue(rating)
                 rated.postValue(false)
             }
         }

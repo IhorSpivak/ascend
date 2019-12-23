@@ -16,5 +16,6 @@ interface NotificationContract {
 
     interface Router {
         fun closeActivity()
+        fun navigateToGroupInfo(id: Long)
     }
 }
