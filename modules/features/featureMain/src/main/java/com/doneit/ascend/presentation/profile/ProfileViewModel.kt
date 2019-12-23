@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.profile
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -16,8 +18,18 @@ class ProfileViewModel(
     private val router: ProfileContract.Router
 ) : BaseViewModelImpl(), ProfileContract.ViewModel {
 
-    override val user = userUseCase.getUserLive()
+    override val user = MutableLiveData<ProfileEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
+
+    init {
+        viewModelScope.launch {
+            val result = userUseCase.getProfile()
+
+            if(result.isSuccessful) {
+                user.postValue(result.successModel!!)
+            }
+        }
+    }
 
     override fun onEditPhotoClick() {
         showPhotoDialog.call()
@@ -43,7 +55,7 @@ class ProfileViewModel(
     }
 
     override fun onSeeMyGroupsClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //todo
     }
 
     override fun deleteAccount() {

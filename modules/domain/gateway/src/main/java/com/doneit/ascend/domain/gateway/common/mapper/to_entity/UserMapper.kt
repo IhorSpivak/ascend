@@ -1,9 +1,11 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.AuthEntity
+import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.source.storage.local.data.UserLocal
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
+import com.doneit.ascend.source.storage.remote.data.response.ProfileResponse
 import com.doneit.ascend.source.storage.remote.data.response.UserResponse
 
 fun AuthResponse.toEntity(): AuthEntity {
@@ -19,6 +21,30 @@ private fun String.isMasterMind(): Boolean {
 
 fun UserResponse.toEntity(): UserEntity {
     return UserEntity(
+        id,
+        name,
+        email,
+        phone,
+        location,
+        createdAt,
+        updatedAt,
+        meetingStarted,
+        newGroups,
+        inviteToMeeting,
+        unansweredQuestions,
+        image?.toEntity(),
+        displayName,
+        description,
+        bio,
+        rating,
+        role,
+        role?.isMasterMind()?:false,
+        community
+    )
+}
+
+fun UserResponse.toProfileEntity(): ProfileEntity {
+    return ProfileEntity(
         id,
         name,
         email,

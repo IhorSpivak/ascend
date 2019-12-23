@@ -35,6 +35,7 @@ interface UserUseCase {
 
     suspend fun getUser() : UserEntity?
 
-
     suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>>
+
+    suspend fun getProfile(): ResponseEntity<ProfileEntity, List<String>>
 }

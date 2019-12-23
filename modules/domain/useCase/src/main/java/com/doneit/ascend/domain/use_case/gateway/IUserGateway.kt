@@ -37,5 +37,5 @@ interface IUserGateway {
 
     suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>>
 
-    suspend fun getProfile() : ProfileEntity
+    suspend fun getProfile() : ResponseEntity<ProfileEntity, List<String>>
 }

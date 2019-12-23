@@ -67,4 +67,8 @@ internal class UserInteractor(
     override suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>> {
         return userGateway.report(content,id)
     }
+
+    override suspend fun getProfile(): ResponseEntity<ProfileEntity, List<String>> {
+        return userGateway.getProfile()
+    }
 }

@@ -194,7 +194,6 @@
                     <include
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/age}"
-                        app:fieldValue="@{model.user.name}"
                         app:iconRes="@{@drawable/ic_age}" />
 
                     <include

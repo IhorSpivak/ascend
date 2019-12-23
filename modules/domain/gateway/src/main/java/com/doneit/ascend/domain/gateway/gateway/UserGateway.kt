@@ -12,6 +12,7 @@ import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toProfileEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toUserLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toLoginRequest
@@ -21,6 +22,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toSocialLoginReq
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
+import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.vrgsoft.networkmanager.NetworkManager
 import com.doneit.ascend.source.storage.local.repository.user.IUserRepository as LocalRepository
 import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository as RemoteRepository
@@ -28,7 +30,7 @@ import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository a
 internal class UserGateway(
     errors: NetworkManager,
     private val remote: RemoteRepository,
-    private val mmRemote: com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
+    private val mmRemote: IMasterMindRepository,
     private val local: LocalRepository,
     private val accountManager: AccountManager,
     private val packageName: String
@@ -235,22 +237,11 @@ internal class UserGateway(
         }
     }
 
-    override suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>> {
-        return executeRemote { remote.report(content,id)}.toResponseEntity(
-            {
-                Unit
-            },
-            {
-                it?.errors
-            }
-        )
-    }
-
-    override suspend fun getProfile(): ProfileEntity {
+    override suspend fun getProfile(): ResponseEntity<ProfileEntity, List<String>> {
 
         val user = local.getFirstUser()?.toUserEntity()
 
-        return if(user?.role == GroupType.MASTER_MIND.toStringValue()) {
+        return if(user?.isMasterMind == true) {
             executeRemote { mmRemote.getMMProfile(user.id)}.toResponseEntity(
                 {
                     it?.toProfileEntity()
@@ -261,10 +252,10 @@ internal class UserGateway(
             )
         }
         else {
-            // get profile request
-            executeRemote { remote.getProfile(user.id)}.toResponseEntity(
+            // todo replace by user profile request
+            executeRemote { remote.getProfile() }.toResponseEntity(
                 {
-                    it?.toProfileEntity()
+                    it?.currrentUser?.toProfileEntity()
                 },
                 {
                     it?.errors
