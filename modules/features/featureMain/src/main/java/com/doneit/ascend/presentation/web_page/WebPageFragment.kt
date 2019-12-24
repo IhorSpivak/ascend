@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentWebPageBinding
-import com.doneit.ascend.presentation.main.models.PresentationMessage
+import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.showDefaultError
 import com.doneit.ascend.presentation.utils.showInfoDialog

@@ -5,6 +5,7 @@ import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.ProfileResponse
 import kotlinx.coroutines.Deferred
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -27,6 +28,10 @@ interface UserApi {
 
     @GET("users/profile")
     fun getProfileAsync(): Deferred<Response<ProfileResponse>>
+
+    @PUT("users/profile")
+    @Multipart
+    fun updateProfileAsync(@Part part: List<MultipartBody.Part>): Deferred<Response<ProfileResponse>>
 
     @POST("users/validation")
     fun signUpValidation(@Body request: SignUpRequest): Deferred<Response<OKResponse>>

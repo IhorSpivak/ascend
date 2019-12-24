@@ -6,7 +6,7 @@ import com.doneit.ascend.presentation.login.databinding.FragmentForgotPasswordBi
 import com.doneit.ascend.presentation.login.utils.getNotNull
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
-import com.doneit.ascend.presentation.main.models.PresentationMessage
+import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.showDefaultError
 import kotlinx.android.synthetic.main.group_phone.*

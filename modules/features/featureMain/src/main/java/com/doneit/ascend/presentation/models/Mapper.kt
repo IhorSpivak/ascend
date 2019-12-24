@@ -1,7 +1,9 @@
-package com.doneit.ascend.presentation.main.models
+package com.doneit.ascend.presentation.models
 
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.domain.entity.CalendarDayEntity
+import com.doneit.ascend.domain.entity.ProfileEntity
+import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.getNotNull
 import java.util.*
@@ -25,6 +27,22 @@ fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
         participants.get(),
         scheduleDays.toDays(),
         Integer.parseInt(numberOfMeetings.observableField.getNotNull())
+    )
+}
+
+fun ProfileEntity.toDTO(): UpdateProfileModel {
+    return UpdateProfileModel(
+        name,
+        displayName,
+        location,
+        meetingStarted,
+        newGroups,
+        inviteToMeeting,
+        -1,
+        bio,
+        description,
+        false,
+        null
     )
 }
 

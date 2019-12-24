@@ -9,7 +9,7 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
-import com.doneit.ascend.presentation.main.models.GroupListWithUserPaged
+import com.doneit.ascend.presentation.models.GroupListWithUserPaged
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.GlobalScope

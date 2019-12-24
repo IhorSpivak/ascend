@@ -5,7 +5,7 @@ import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentNewPasswordBinding
 import com.doneit.ascend.presentation.login.new_password.common.NewPasswordArgs
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
-import com.doneit.ascend.presentation.main.models.PresentationMessage
+import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.showDefaultError
 import com.doneit.ascend.presentation.utils.showInfoDialog

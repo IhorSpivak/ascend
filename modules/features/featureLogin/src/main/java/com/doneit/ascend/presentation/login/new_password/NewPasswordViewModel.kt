@@ -12,7 +12,7 @@ import com.doneit.ascend.presentation.login.utils.getNotNull
 import com.doneit.ascend.presentation.login.utils.isValidCodeFromSms
 import com.doneit.ascend.presentation.login.utils.isValidPassword
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.models.PresentationMessage
+import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.Messages
 import com.vrgsoft.annotations.CreateFactory

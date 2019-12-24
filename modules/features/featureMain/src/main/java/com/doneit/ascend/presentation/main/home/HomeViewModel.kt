@@ -14,7 +14,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import com.doneit.ascend.presentation.main.home.group.GroupsContract
 import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs
-import com.doneit.ascend.presentation.main.models.GroupListWithUser
+import com.doneit.ascend.presentation.models.GroupListWithUser
 import kotlinx.coroutines.launch
 
 class HomeViewModel(

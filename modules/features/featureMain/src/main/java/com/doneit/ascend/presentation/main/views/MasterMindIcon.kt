@@ -72,13 +72,6 @@ class MasterMindIcon @JvmOverloads constructor(
             .into(ivIcon)
     }
 
-    fun setPath(path: String?) {
-        ivIcon.setImageURI(null)//in order to force image update
-        path?.let {
-            ivIcon.setImageURI(Uri.parse(it))
-        }
-    }
-
     fun setRadius(radius: Float) {
         cvImage.radius = radius
     }

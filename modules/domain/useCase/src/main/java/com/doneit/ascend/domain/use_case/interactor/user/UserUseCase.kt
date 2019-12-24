@@ -3,10 +3,7 @@ package com.doneit.ascend.domain.use_case.interactor.user
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.LogInUserModel
-import com.doneit.ascend.domain.entity.dto.ResetPasswordModel
-import com.doneit.ascend.domain.entity.dto.SignUpModel
-import com.doneit.ascend.domain.entity.dto.SocialLogInModel
+import com.doneit.ascend.domain.entity.dto.*
 
 interface UserUseCase {
     suspend fun signIn(logInModel: LogInUserModel): ResponseEntity<AuthEntity, List<String>>
@@ -38,4 +35,6 @@ interface UserUseCase {
     suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>>
 
     suspend fun getProfile(): ResponseEntity<ProfileEntity, List<String>>
+
+    suspend fun updateProfile(request: UpdateProfileModel): ResponseEntity<ProfileEntity, List<String>>
 }

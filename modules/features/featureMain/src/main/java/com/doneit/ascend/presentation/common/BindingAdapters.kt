@@ -19,8 +19,8 @@ import com.doneit.ascend.presentation.main.group_list.common.GroupListAdapter
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
 import com.doneit.ascend.presentation.main.master_mind.list.common.MasterMindAdapter
-import com.doneit.ascend.presentation.main.models.GroupListWithUser
-import com.doneit.ascend.presentation.main.models.GroupListWithUserPaged
+import com.doneit.ascend.presentation.models.GroupListWithUser
+import com.doneit.ascend.presentation.models.GroupListWithUserPaged
 import com.doneit.ascend.presentation.main.search.common.SearchAdapter
 import com.doneit.ascend.presentation.utils.DatePickerUtil
 import java.text.SimpleDateFormat

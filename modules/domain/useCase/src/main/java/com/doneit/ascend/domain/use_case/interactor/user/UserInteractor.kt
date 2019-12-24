@@ -3,10 +3,7 @@ package com.doneit.ascend.domain.use_case.interactor.user
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.LogInUserModel
-import com.doneit.ascend.domain.entity.dto.ResetPasswordModel
-import com.doneit.ascend.domain.entity.dto.SignUpModel
-import com.doneit.ascend.domain.entity.dto.SocialLogInModel
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 
 internal class UserInteractor(
@@ -70,5 +67,9 @@ internal class UserInteractor(
 
     override suspend fun getProfile(): ResponseEntity<ProfileEntity, List<String>> {
         return userGateway.getProfile()
+    }
+
+    override suspend fun updateProfile(request: UpdateProfileModel): ResponseEntity<ProfileEntity, List<String>> {
+        return userGateway.updateProfile(request)
     }
 }

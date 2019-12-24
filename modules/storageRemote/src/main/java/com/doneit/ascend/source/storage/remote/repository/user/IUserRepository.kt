@@ -6,6 +6,7 @@ import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.ProfileResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
+import java.io.File
 
 interface IUserRepository {
 
@@ -30,4 +31,6 @@ interface IUserRepository {
     suspend fun report(content: String, id: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun getProfile(): RemoteResponse<ProfileResponse, ErrorsListResponse>
+
+    suspend fun updateProfile(file: File?, request: UpdateProfileRequest, updateImage: Boolean): RemoteResponse<ProfileResponse, ErrorsListResponse>
 }

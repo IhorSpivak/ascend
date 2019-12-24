@@ -15,15 +15,13 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toProfileEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toUserLocal
-import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toLoginRequest
-import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toResetPasswordRequest
-import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toSignUpRequest
-import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toSocialLoginRequest
+import com.doneit.ascend.domain.gateway.common.mapper.to_remote.*
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.vrgsoft.networkmanager.NetworkManager
+import java.io.File
 import com.doneit.ascend.source.storage.local.repository.user.IUserRepository as LocalRepository
 import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository as RemoteRepository
 
@@ -238,9 +236,6 @@ internal class UserGateway(
     }
 
     override suspend fun getProfile(): ResponseEntity<ProfileEntity, List<String>> {
-
-        val user = local.getFirstUser()?.toUserEntity()
-
         return executeRemote { remote.getProfile() }.toResponseEntity(
             {
                 it?.currrentUser?.toProfileEntity()
@@ -249,26 +244,19 @@ internal class UserGateway(
                 it?.errors
             }
         )
-//        return if(user?.isMasterMind == true) {
-//            executeRemote { mmRemote.getMMProfile(user.id)}.toResponseEntity(
-//                {
-//                    it?.toProfileEntity()
-//                },
-//                {
-//                    it?.errors
-//                }
-//            )
-//        }
-//        else {
-//            executeRemote { remote.getProfile() }.toResponseEntity(
-//                {
-//                    it?.currrentUser?.toProfileEntity()
-//                },
-//                {
-//                    it?.errors
-//                }
-//            )
-//        }
+    }
+
+    override suspend fun updateProfile(groupModel: UpdateProfileModel): ResponseEntity<ProfileEntity, List<String>> {
+        val file = if(groupModel.imagePath == null) null else File(groupModel.imagePath!!)
+
+        return executeRemote { remote.updateProfile(file, groupModel.toRequest(), groupModel.shouldUpdateIcon) }.toResponseEntity(
+            {
+                it?.currrentUser?.toProfileEntity()
+            },
+            {
+                it?.errors
+            }
+        )
     }
 
     companion object {

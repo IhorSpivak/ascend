@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.models
+package com.doneit.ascend.presentation.models
 
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField

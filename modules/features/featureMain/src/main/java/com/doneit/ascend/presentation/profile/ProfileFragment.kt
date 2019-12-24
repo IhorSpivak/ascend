@@ -7,14 +7,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import com.androidisland.ezpermission.EzPermission
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileBinding
-import com.doneit.ascend.presentation.utils.copyCompressed
-import com.doneit.ascend.presentation.utils.createCameraPhotoUri
-import com.doneit.ascend.presentation.utils.getFileExtension
-import com.doneit.ascend.presentation.utils.showChangePhotoDialog
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.coroutines.Dispatchers
+import com.doneit.ascend.presentation.models.PresentationMessage
+import com.doneit.ascend.presentation.utils.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.generic.instance
@@ -62,7 +59,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                             )
                         }
 
-                        if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        if (granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             val galleryIntent = Intent(Intent.ACTION_PICK)
                             galleryIntent.type = "image/*"
 
@@ -72,6 +69,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                             )
                         }
                     }
+            },{
+                viewModel.updateProfileIcon(null)
             })
         }
     }
@@ -102,9 +101,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         GlobalScope.launch {
             val compressed = context!!.copyCompressed(source, destinationPath)
 
-            launch(Dispatchers.Main) {
-                ruIcon.setPath(compressed)
-            }
+            viewModel.updateProfileIcon(compressed)
         }
     }
 

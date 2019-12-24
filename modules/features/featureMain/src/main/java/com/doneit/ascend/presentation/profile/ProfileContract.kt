@@ -20,6 +20,7 @@ interface ProfileContract {
         fun onSeeMyGroupsClick()
 
         fun deleteAccount()
+        fun updateProfileIcon(path: String?)
     }
 
     interface Router {

@@ -9,10 +9,10 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.calendar_picker.CalendarPickerContract
 import com.doneit.ascend.presentation.main.date_picker.DatePickerContract
-import com.doneit.ascend.presentation.main.models.PresentationCreateGroupModel
-import com.doneit.ascend.presentation.main.models.ValidatableField
-import com.doneit.ascend.presentation.main.models.ValidationResult
-import com.doneit.ascend.presentation.main.models.toEntity
+import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
+import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.models.ValidationResult
+import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
