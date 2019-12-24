@@ -96,7 +96,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun handleImageURI(source: Uri) {
         val destinationPath =
-            context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME + source.path!!.getFileExtension()
+            context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME
 
         GlobalScope.launch {
             val compressed = context!!.copyCompressed(source, destinationPath)
@@ -108,6 +108,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     companion object {
         private const val GALLERY_REQUEST_CODE = 42
         private const val CAMERA_REQUEST_CODE = 41
-        private const val TEMP_IMAGE_NAME = "profile_image_temp"
+        private const val TEMP_IMAGE_NAME = "profile_image_temp.jpg"
     }
 }

@@ -139,7 +139,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
 
     private fun handleImageURI(sourcePath: Uri) {
         val destinationPath =
-            context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME + sourcePath.path!!.getFileExtension()
+            context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME
 
         GlobalScope.launch {
             val compressed = context!!.copyCompressed(sourcePath, destinationPath)
@@ -152,6 +152,6 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
 
     companion object {
         private const val GALLERY_REQUEST_CODE = 42
-        private const val TEMP_IMAGE_NAME = "group_image_temp"
+        private const val TEMP_IMAGE_NAME = "group_image_temp.jpg"
     }
 }
