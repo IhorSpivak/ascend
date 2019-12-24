@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.login.web_page.common
+package com.doneit.ascend.presentation.web_page.common
 
 import com.vrgsoft.core.presentation.fragment.argumented.BaseArguments
 import kotlinx.android.parcel.Parcelize

@@ -167,4 +167,15 @@
     <string name="take_a_photo">Take A Photo</string>
     <string name="select_from_gallery">Select From Gallery</string>
     <string name="delete_photo">Delete Photo</string>
+    <string name="tap_to_set_age">Tap to set age</string>
+    <string name="tap_to_choose_location">Tap to choose location</string>
+    <string name="no_photo">No\nPhoto</string>
+    <string name="unknown_location">Unknown location</string>
+    <string name="camera_denied">Please, change camera access  permissions in your device settings to use the app fully.</string>
+    <string name="gallery_denied">Please, change your photos access  permissions in your device settings to use the app fully.</string>
+
+    <!--Dialog messages-->
+    <string name="title_password_sent">Password Sent</string>
+    <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>
+
 </resources>

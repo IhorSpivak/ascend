@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.profile
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.ProfileEntity
+import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -25,7 +26,7 @@ class ProfileViewModel(
         viewModelScope.launch {
             val result = userUseCase.getProfile()
 
-            if(result.isSuccessful) {
+            if (result.isSuccessful) {
                 user.postValue(result.successModel!!)
             }
         }
@@ -55,7 +56,8 @@ class ProfileViewModel(
     }
 
     override fun onSeeMyGroupsClick() {
-        //todo
+        errorMessage.call()
+        router.navigateToGroupList(GroupType.DAILY, true, true)
     }
 
     override fun deleteAccount() {

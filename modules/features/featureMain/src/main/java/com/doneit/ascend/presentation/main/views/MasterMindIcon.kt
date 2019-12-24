@@ -2,8 +2,11 @@ package com.doneit.ascend.presentation.main.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingMethod
 import androidx.databinding.BindingMethods
 import com.bumptech.glide.Glide
@@ -42,13 +45,23 @@ class MasterMindIcon @JvmOverloads constructor(
     }
 
     fun setName(name: String?) {
-        if(name.isNullOrBlank().not()) {
+        if (name.isNullOrBlank().not()) {
             val splited = name!!.split(' ')
             var res = name[0].toString()
-            if(splited.size > 1) {
+            if (splited.size > 1) {
                 res += splited[1][0]
             }
             tvPlaceholder.text = res
+        }
+    }
+
+    fun setLongText(text: String?) {
+        if (text.isNullOrBlank().not()) {
+            tvLongPlaceholder.text = text
+//            tvPlaceholder.text = text
+//            tvPlaceholder.setTextColor(ContextCompat.getColor(context, android.R.color.white))
+//            TextViewCompat.setAutoSizeTextTypeWithDefaults(tvPlaceholder, TextViewCompat.AUTO_SIZE_TEXT_TYPE_NONE)
+//            tvPlaceholder.setTextSize(TypedValue.COMPLEX_UNIT_PX, 18F)
         }
     }
 
@@ -58,7 +71,7 @@ class MasterMindIcon @JvmOverloads constructor(
             .into(ivIcon)
     }
 
-    fun setRadius(radius: Float){
+    fun setRadius(radius: Float) {
         cvImage.radius = radius
     }
 }

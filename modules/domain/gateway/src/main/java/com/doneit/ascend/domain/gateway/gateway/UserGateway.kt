@@ -241,27 +241,34 @@ internal class UserGateway(
 
         val user = local.getFirstUser()?.toUserEntity()
 
-        return if(user?.isMasterMind == true) {
-            executeRemote { mmRemote.getMMProfile(user.id)}.toResponseEntity(
-                {
-                    it?.toProfileEntity()
-                },
-                {
-                    it?.errors
-                }
-            )
-        }
-        else {
-            // todo replace by user profile request
-            executeRemote { remote.getProfile() }.toResponseEntity(
-                {
-                    it?.currrentUser?.toProfileEntity()
-                },
-                {
-                    it?.errors
-                }
-            )
-        }
+        return executeRemote { remote.getProfile() }.toResponseEntity(
+            {
+                it?.currrentUser?.toProfileEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+//        return if(user?.isMasterMind == true) {
+//            executeRemote { mmRemote.getMMProfile(user.id)}.toResponseEntity(
+//                {
+//                    it?.toProfileEntity()
+//                },
+//                {
+//                    it?.errors
+//                }
+//            )
+//        }
+//        else {
+//            executeRemote { remote.getProfile() }.toResponseEntity(
+//                {
+//                    it?.currrentUser?.toProfileEntity()
+//                },
+//                {
+//                    it?.errors
+//                }
+//            )
+//        }
     }
 
     companion object {

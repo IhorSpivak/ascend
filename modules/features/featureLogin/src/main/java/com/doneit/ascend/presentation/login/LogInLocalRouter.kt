@@ -17,9 +17,9 @@ import com.doneit.ascend.presentation.login.sign_up.SignUpContract
 import com.doneit.ascend.presentation.login.sign_up.SignUpFragment
 import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneFragment
 import com.doneit.ascend.presentation.login.utils.LoginHelper
-import com.doneit.ascend.presentation.login.web_page.WebPageContract
-import com.doneit.ascend.presentation.login.web_page.WebPageFragment
-import com.doneit.ascend.presentation.login.web_page.common.WebPageArgs
+import com.doneit.ascend.presentation.web_page.WebPageContract
+import com.doneit.ascend.presentation.web_page.WebPageFragment
+import com.doneit.ascend.presentation.web_page.common.WebPageArgs
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.utils.Constants.RC_SIGN_IN

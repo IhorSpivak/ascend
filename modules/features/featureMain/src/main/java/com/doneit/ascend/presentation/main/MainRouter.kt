@@ -1,7 +1,11 @@
 package com.doneit.ascend.presentation.main
 
 import android.content.Intent
+import android.os.Bundle
+import androidx.fragment.app.Fragment
 import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.presentation.web_page.WebPageFragment
+import com.doneit.ascend.presentation.web_page.common.WebPageArgs
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.extensions.replace
@@ -16,6 +20,8 @@ import com.doneit.ascend.presentation.main.notification.NotificationActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.doneit.ascend.presentation.profile.ProfileContract
 import com.doneit.ascend.presentation.profile.ProfileFragment
+import com.doneit.ascend.presentation.web_page.WebPageContract
+import com.vrgsoft.core.presentation.fragment.argumented.ArgumentedFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class MainRouter(
@@ -24,7 +30,8 @@ class MainRouter(
 ) : FragmentRouter(activity.supportFragmentManager),
     BottomNavigationChangeListener,
     ProfileContract.Router,
-    HomeContract.Router {
+    HomeContract.Router,
+    WebPageContract.Router {
 
     override val containerId = activity.getContainerId()
 
@@ -37,11 +44,25 @@ class MainRouter(
     }
 
     override fun navigateToTerms() {
+        val args = WebPageArgs("Terms & Conditions", "terms_and_conditions")
 
+        val fragment = WebPageFragment()
+        (fragment as Fragment).arguments = Bundle().apply {
+            putParcelable(ArgumentedFragment.KEY_ARGS, args)
+        }
+
+        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
     }
 
     override fun navigateToPrivacyPolicy() {
+        val args = WebPageArgs("Privacy Policy", "privacy_policy")
 
+        val fragment = WebPageFragment()
+        (fragment as Fragment).arguments = Bundle().apply {
+            putParcelable(ArgumentedFragment.KEY_ARGS, args)
+        }
+
+        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
     }
 
     override fun navigateToHome() {
@@ -107,5 +128,9 @@ class MainRouter(
     override fun navigateToNotifications() {
         val intent = Intent(activity, NotificationActivity::class.java)
         activity.startActivity(intent)
+    }
+
+    override fun goBack() {
+        activity.supportFragmentManager.popBackStack()
     }
 }

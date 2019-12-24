@@ -63,9 +63,12 @@
                     android:layout_height="100dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="24dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> model.onEditPhotoClick()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:name="@{model.user.name}"
+                    app:longText="@{@string/no_photo}"
                     app:radius="@{@dimen/profile_holder_icon_radius}"
                     app:url="@{model.user.image.url}" />
 
@@ -109,7 +112,7 @@
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="@{model.user.location}"
+                    android:text="@{model.user.location == null || model.user.location.length == 0 ? @string/unknown_location : model.user.location}"
                     android:textColor="@color/light_gray_8f"
                     app:layout_constraintEnd_toEndOf="@id/tvFullName"
                     app:layout_constraintStart_toStartOf="@id/tvFullName"
@@ -171,18 +174,21 @@
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/full_name}"
                         app:fieldValue="@{model.user.name}"
+                        app:fieldValueIfEmpty="@{@string/empty}"
                         app:iconRes="@{@drawable/ic_user}" />
 
                     <include
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/email}"
                         app:fieldValue="@{model.user.email}"
+                        app:fieldValueIfEmpty="@{@string/empty}"
                         app:iconRes="@{@drawable/ic_email}" />
 
                     <include
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/phone_number}"
                         app:fieldValue="@{model.user.phone}"
+                        app:fieldValueIfEmpty="@{@string/empty}"
                         app:iconRes="@{@drawable/ic_phone}" />
 
                     <include
@@ -194,12 +200,14 @@
                     <include
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/age}"
+                        app:fieldValueIfEmpty="@{@string/tap_to_set_age}"
                         app:iconRes="@{@drawable/ic_age}" />
 
                     <include
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/location}"
                         app:fieldValue="@{model.user.location}"
+                        app:fieldValueIfEmpty="@{@string/tap_to_choose_location}"
                         app:iconRes="@{@drawable/ic_location}" />
 
                 </LinearLayout>
@@ -237,7 +245,7 @@
                     <include
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/community}"
-                        app:fieldValue="@{model.user.location}"
+                        app:fieldValue="@{model.user.community}"
                         app:iconRes="@{@drawable/ic_community}" />
 
                     <include
