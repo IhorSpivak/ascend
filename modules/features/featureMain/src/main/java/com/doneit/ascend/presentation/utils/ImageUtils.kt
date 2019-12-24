@@ -8,14 +8,17 @@ import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 private const val JPG = "jpg"
 
-suspend fun copyCompressed(sourcePath: String, destinationPath: String): String{
-    val bitmap = BitmapFactory.decodeFile(sourcePath).rotateImageIfRequired(sourcePath)
+suspend fun Context.copyCompressed(source: Uri, destinationPath: String): String {
+    val input = contentResolver.openInputStream(source)
+    val bitmap = BitmapFactory.decodeStream(input)//.rotateImageIfRequired(source.path!!)
+
     val image = File(destinationPath)
     try{
         if(image.exists().not()) {
@@ -23,14 +26,14 @@ suspend fun copyCompressed(sourcePath: String, destinationPath: String): String{
         }
 
         FileOutputStream(image).use {out ->
-            if(sourcePath.contains(JPG)) {
+            if(source.path!!.contains(JPG)) {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, out)
             } else {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, out)
             }
         }
 
-    } catch (e: Exception){ }
+    } catch (e: IOException){ }
 
     return image.path
 }
@@ -68,7 +71,7 @@ fun Context.createCameraPhotoUri(name: String): Uri {
         imageFile.createNewFile()
     }
 
-    return Uri.fromFile(imageFile)
+    return FileProvider.getUriForFile(this, "com.doneit.ascend.fileprovider", imageFile)
 }
 
 fun Activity.uriToFilePath(uri: Uri): String {
