@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.views
 
 import android.content.Context
+import android.net.Uri
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -69,6 +70,13 @@ class MasterMindIcon @JvmOverloads constructor(
         Glide.with(ivIcon)
             .load(url)
             .into(ivIcon)
+    }
+
+    fun setPath(path: String?) {
+        ivIcon.setImageURI(null)//in order to force image update
+        path?.let {
+            ivIcon.setImageURI(Uri.parse(it))
+        }
     }
 
     fun setRadius(radius: Float) {

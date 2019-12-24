@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.create_group
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
@@ -128,21 +129,20 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
                     if(data?.data != null) {
                         val selected = data.data
 
-                        val path = activity!!.uriToFilePath(selected!!)
-                        handleImageURI(path)
+                        handleImageURI(selected!!)
                     } else {
-                        handleImageURI(cameraPhotoUri.path!!)
+                        handleImageURI(cameraPhotoUri)
                     }
                 }
             }
     }
 
-    private fun handleImageURI(sourcePath: String) {
+    private fun handleImageURI(sourcePath: Uri) {
         val destinationPath =
-            context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME + sourcePath.getFileExtension()
+            context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME + sourcePath.path!!.getFileExtension()
 
         GlobalScope.launch {
-            val compressed = copyCompressed(sourcePath, destinationPath)
+            val compressed = context!!.copyCompressed(sourcePath, destinationPath)
 
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(compressed)
