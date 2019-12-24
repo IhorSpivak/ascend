@@ -18,8 +18,10 @@ class MMProfileViewModel(
 ) : BaseViewModelImpl(), MMProfileContract.ViewModel {
 
     override val profile = MutableLiveData<MasterMindEntity>()
-    override val enableFollow = MutableLiveData<Boolean>(true)
-    override val enableUnfollow = MutableLiveData<Boolean>(true)
+    override val showRatingBar = MutableLiveData<Boolean>(true)
+    override val showActionButtons = SingleLiveManager<Boolean>()
+    override val enableFollow = MutableLiveData<Boolean>()
+    override val enableUnfollow = MutableLiveData<Boolean>()
     override val followed = MutableLiveData<Boolean>()
     override val rated = MutableLiveData<Boolean>(true)
     override val myRating = MutableLiveData<Int?>()
@@ -35,13 +37,23 @@ class MMProfileViewModel(
             val response = masterMindUseCase.getProfile(id)
 
             if (response.isSuccessful) {
-                response.successModel?.let {
-                    followed.postValue(it.followed)
 
-                    if (it.allowRating == false) {
-                        rated.postValue(false)
+                val currUser = userUseCase.getUser()
+
+                response.successModel?.let {
+
+                    if (currUser?.id == response.successModel?.id) {
+                        // hide buttons and rating bar
+                        showRatingBar.postValue(false)
+                        showActionButtons.call(false)
                     } else {
-                        rated.postValue(!it.rated)
+                        followed.postValue(it.followed)
+
+                        if (it.allowRating == false) {
+                            rated.postValue(false)
+                        } else {
+                            rated.postValue(!it.rated)
+                        }
                     }
 
                     myRating.postValue(it.myRating)

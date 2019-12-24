@@ -123,13 +123,21 @@ fun BaseFragment<*>.showNoConnectionDialog(
     return snackbar
 }
 
-fun Fragment.showChangePhotoDialog(takePhotoClick: (() -> Unit), rollCameraClick: (() -> Unit), deleteClick: () -> Unit) {
-
+fun Fragment.showChangePhotoDialog(
+    takePhotoClick: (() -> Unit),
+    rollCameraClick: (() -> Unit),
+    deleteClick: () -> Unit,
+    showDeleteButton: Boolean
+) {
     val dialogView =
         LayoutInflater.from(requireActivity()).inflate(R.layout.dialog_change_photo, null, false)
     val dialog = BottomSheetDialog(requireContext(), R.style.TransparentBottomSheetDialog)
     dialog.setContentView(dialogView)
     dialog.setCancelable(false)
+
+    if (showDeleteButton.not()) {
+        dialog.tvDeletePhoto.visibility = View.GONE
+    }
 
     dialogView.tvTakePhoto.setOnClickListener {
         takePhotoClick.invoke()

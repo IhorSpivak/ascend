@@ -29,7 +29,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         viewModel.showPhotoDialog.observe(this) {
             showChangePhotoDialog({
-
                 EzPermission.with(context!!)
                     .permissions(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -71,7 +70,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     }
             },{
                 viewModel.updateProfileIcon(null)
-            })
+            }, viewModel.showDeleteButton.value ?: false)
         }
     }
 

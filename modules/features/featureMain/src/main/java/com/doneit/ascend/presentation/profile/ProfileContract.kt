@@ -12,12 +12,14 @@ interface ProfileContract {
 
         val user: LiveData<ProfileEntity?>
         val showPhotoDialog: SingleLiveManager<Unit>
+        val showDeleteButton: LiveData<Boolean>
 
         fun onEditPhotoClick()
         fun onLogoutClick()
         fun onTermsClick()
         fun onPolicyClick()
         fun onSeeMyGroupsClick()
+        fun onNotificationClick()
 
         fun deleteAccount()
         fun updateProfileIcon(path: String?)
@@ -28,5 +30,6 @@ interface ProfileContract {
         fun navigateToTerms()
         fun navigateToPrivacyPolicy()
         fun navigateToGroupList(groupType: GroupType?, isMyGroups: Boolean?, isAllGroups: Boolean)
+        fun navigateToNotifications()
     }
 }

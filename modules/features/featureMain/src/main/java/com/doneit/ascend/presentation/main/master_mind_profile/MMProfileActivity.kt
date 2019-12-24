@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.master_mind_profile
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
@@ -60,6 +61,11 @@ class MMProfileActivity : BaseActivity() {
             } else {
                 Toast.makeText(this, "Send Error", Toast.LENGTH_LONG).show()
             }
+        }
+
+        viewModel.showActionButtons.observe(this) {
+            btnFollow.visibility = View.GONE
+            btnUnFollow.visibility = View.GONE
         }
 
         btnInto.setOnClickListener {

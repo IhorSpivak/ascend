@@ -18,13 +18,10 @@ class NotificationsAdapter(
     }
 
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
-        holder.bind(getItem(position)!!){
+        holder.bind(getItem(position)!!, {
             onDeleteListener.invoke(it)
             notifyItemRemoved(position)
-        }
-        holder.itemView.setOnClickListener {
-            onItemClick.invoke(getItem(position)?.id!!)
-        }
+        }, onItemClick)
     }
 
     override fun getItemId(position: Int): Long {

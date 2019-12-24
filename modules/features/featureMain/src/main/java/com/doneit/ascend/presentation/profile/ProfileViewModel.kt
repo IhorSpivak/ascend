@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.profile
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
@@ -24,6 +23,7 @@ class ProfileViewModel(
 
     override val user = MutableLiveData<ProfileEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
+    override val showDeleteButton = MutableLiveData<Boolean>()
 
     private lateinit var updateProfileModel: UpdateProfileModel
 
@@ -32,6 +32,8 @@ class ProfileViewModel(
             val result = userUseCase.getProfile()
 
             if (result.isSuccessful) {
+                showDeleteButton.postValue(result.successModel!!.image?.url.isNullOrEmpty().not())
+
                 user.postValue(result.successModel!!)
                 updateProfileModel = result.successModel!!.toDTO()
             }
@@ -66,6 +68,10 @@ class ProfileViewModel(
         router.navigateToGroupList(GroupType.DAILY, true, true)
     }
 
+    override fun onNotificationClick() {
+        router.navigateToNotifications()
+    }
+
     override fun deleteAccount() {
         viewModelScope.launch {
             val requestEntity = userUseCase.deleteAccount()
@@ -79,6 +85,7 @@ class ProfileViewModel(
 
     override fun updateProfileIcon(path: String?) {//null means remove image
         updateProfileModel.shouldUpdateIcon = true
+        showDeleteButton.postValue(true)
         updateProfileModel.imagePath = path
         updateProfile()
     }

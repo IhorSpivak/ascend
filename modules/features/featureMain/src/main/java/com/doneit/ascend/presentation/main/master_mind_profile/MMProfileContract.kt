@@ -10,6 +10,8 @@ interface MMProfileContract {
     interface ViewModel: BaseViewModel {
         val profile : LiveData<MasterMindEntity>
 
+        val showRatingBar: LiveData<Boolean>
+        val showActionButtons: SingleLiveManager<Boolean>
         val enableFollow: LiveData<Boolean>
         val enableUnfollow: LiveData<Boolean>
         val followed: LiveData<Boolean>
