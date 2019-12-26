@@ -59,14 +59,15 @@ class MasterMindIcon @JvmOverloads constructor(
     fun setLongText(text: String?) {
         if (text.isNullOrBlank().not()) {
             tvLongPlaceholder.text = text
-//            tvPlaceholder.text = text
-//            tvPlaceholder.setTextColor(ContextCompat.getColor(context, android.R.color.white))
-//            TextViewCompat.setAutoSizeTextTypeWithDefaults(tvPlaceholder, TextViewCompat.AUTO_SIZE_TEXT_TYPE_NONE)
-//            tvPlaceholder.setTextSize(TypedValue.COMPLEX_UNIT_PX, 18F)
         }
     }
 
     fun setUrl(url: String?) {
+
+        ivIcon.setImageURI(null)
+        ivIcon.setImageBitmap(null)
+        ivIcon.setImageDrawable(null)
+
         Glide.with(ivIcon)
             .load(url)
             .into(ivIcon)

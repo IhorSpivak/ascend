@@ -1,11 +1,11 @@
 package com.doneit.ascend.presentation.main
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.doneit.ascend.domain.entity.dto.GroupType
-import com.doneit.ascend.presentation.web_page.WebPageFragment
-import com.doneit.ascend.presentation.web_page.common.WebPageArgs
+import com.doneit.ascend.presentation.crop.CropActivity
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.extensions.replace
@@ -21,6 +21,8 @@ import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.doneit.ascend.presentation.profile.ProfileContract
 import com.doneit.ascend.presentation.profile.ProfileFragment
 import com.doneit.ascend.presentation.web_page.WebPageContract
+import com.doneit.ascend.presentation.web_page.WebPageFragment
+import com.doneit.ascend.presentation.web_page.common.WebPageArgs
 import com.vrgsoft.core.presentation.fragment.argumented.ArgumentedFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
@@ -32,7 +34,7 @@ class MainRouter(
     ProfileContract.Router,
     HomeContract.Router,
     WebPageContract.Router,
-    com.doneit.ascend.presentation.main.master_mind.profile.ProfileContract.Router{
+    com.doneit.ascend.presentation.main.master_mind.profile.ProfileContract.Router {
 
     override val containerId = activity.getContainerId()
 
@@ -83,7 +85,10 @@ class MainRouter(
     }
 
     override fun navigateToMMProfile() {
-        activity.supportFragmentManager.replaceWithBackStack(containerId, com.doneit.ascend.presentation.main.master_mind.profile.ProfileFragment())
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerId,
+            com.doneit.ascend.presentation.main.master_mind.profile.ProfileFragment()
+        )
     }
 
     fun navigateToCreateGroup() {
@@ -133,6 +138,50 @@ class MainRouter(
     override fun navigateToNotifications() {
         val intent = Intent(activity, NotificationActivity::class.java)
         activity.startActivity(intent)
+    }
+
+    override fun navigateToAvatarUCropActivity(
+        sourceUri: Uri,
+        destinationUri: Uri,
+        fragmentToReceiveResult: Fragment
+    ) {
+        val bundle = Bundle()
+        bundle.putParcelable(CropActivity.ARG_SOURCE, sourceUri)
+        bundle.putParcelable(CropActivity.ARG_DESTINATION, destinationUri)
+
+        val cropIntent = Intent(activity, CropActivity::class.java)
+        cropIntent.putExtras(bundle)
+
+        activity.startActivity(cropIntent)
+
+//        val options = UCrop.Options()
+//
+////        options.setActiveWidgetColor(ContextCompat.getColor(activity, R.color.background_dimmed))
+//        options.setCropFrameColor(ContextCompat.getColor(activity, R.color.background_dimmed))
+////        options.setRootViewBackgroundColor(ContextCompat.getColor(activity,R.color.background_dimmed))
+//        options.setDimmedLayerColor(ContextCompat.getColor(activity,R.color.dimmed_black))
+////        options.setToolbarColor(ContextCompat.getColor(activity, R.color.dimmed_black))
+////        options.setStatusBarColor(ContextCompat.getColor(activity, R.color.background_dimmed))
+//
+//        options.setToolbarCancelDrawable(R.drawable.ic_btn_cancel_circle)
+//        options.setToolbarCropDrawable(R.drawable.ic_btn_ok_circle)
+//
+//        options.setShowCropGrid(false)
+//        options.setHideBottomControls(true)
+//        options.setShowCropFrame(false)
+//        options.setToolbarTitle(activity.getString(R.string.move_and_scale))
+//        options.withAspectRatio(1f, 1f)
+//        options.withMaxResultSize(325, 325)
+//        options.setCompressionFormat(Bitmap.CompressFormat.PNG)
+//        options.setCompressionQuality(80)
+//        options.setCircleDimmedLayer(true)
+//
+////        UCrop.of(sourceUri, destinationUri)
+////            .withAspectRatio(1f, 1f)
+////            .withOptions(options)
+////            .start(activity, fragmentToReceiveResult)
+//
+//        activity.supportFragmentManager.replaceWithBackStack(containerId, com.yalantis.ucrop.UCropFragment())
     }
 
     override fun goBack() {

@@ -13,7 +13,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-private const val JPG = "jpg"
+private const val JPG = "JPEG"
 
 suspend fun Context.copyCompressed(source: Uri, destinationPath: String): String {
     val input = contentResolver.openInputStream(source)
@@ -66,12 +66,21 @@ fun Context.createCameraPhotoUri(name: String): Uri {
         directory.mkdirs()
     }
 
-    val imageFile = File.createTempFile(name, ".jpg", directory)
+    val imageFile = File.createTempFile(name, ".JPEG", directory)
     if(imageFile.exists().not()) {
         imageFile.createNewFile()
     }
 
     return FileProvider.getUriForFile(this, "com.doneit.ascend.fileprovider", imageFile)
+}
+
+fun Context.createCropPhotoUri(name: String): Uri {
+    return Uri.fromFile(
+        File(
+            this.cacheDir,
+            name
+        )
+    )
 }
 
 fun Activity.cameraPhotoUri(name: String): Uri {

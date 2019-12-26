@@ -20,4 +20,7 @@
     <color name="webinar_color">#DD4B39</color>
     <color name="support_color">#2E9DC0</color>
     <color name="master_mind_color">#4E519F</color>
+
+    <color name="dimmed_black">#8043425D</color>
+    <color name="background_dimmed">#000</color>
 </resources>

@@ -1,5 +1,7 @@
 package com.doneit.ascend.presentation.main.master_mind.profile
 
+import android.net.Uri
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
@@ -22,6 +24,7 @@ interface ProfileContract {
 
         fun deleteAccount()
         fun updateProfileIcon(path: String?)
+        fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
     }
 
     interface Router {
@@ -30,5 +33,6 @@ interface ProfileContract {
         fun navigateToPrivacyPolicy()
         fun navigateToGroupList(groupType: GroupType?, isMyGroups: Boolean?, isAllGroups: Boolean)
         fun navigateToNotifications()
+        fun navigateToAvatarUCropActivity(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
     }
 }

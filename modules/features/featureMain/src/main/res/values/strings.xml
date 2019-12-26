@@ -173,6 +173,7 @@
     <string name="unknown_location">Unknown location</string>
     <string name="camera_denied">Please, change camera access  permissions in your device settings to use the app fully.</string>
     <string name="gallery_denied">Please, change your photos access  permissions in your device settings to use the app fully.</string>
+    <string name="move_and_scale">Move and Scale</string>
 
     <!--MM Profile-->
     <string name="display_name">Display name</string>

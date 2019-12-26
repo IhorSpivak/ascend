@@ -9,13 +9,10 @@ import android.provider.MediaStore
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindListBinding
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileMasterMindBinding
 import com.doneit.ascend.presentation.models.PresentationMessage
-import com.doneit.ascend.presentation.utils.Messages
-import com.doneit.ascend.presentation.utils.copyCompressed
-import com.doneit.ascend.presentation.utils.createCameraPhotoUri
-import com.doneit.ascend.presentation.utils.showChangePhotoDialog
+import com.doneit.ascend.presentation.utils.*
+import com.yalantis.ucrop.UCrop
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.generic.instance
@@ -26,7 +23,8 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
     override val viewModelModule = ProfileViewModelModule.get(this)
     override val viewModel: ProfileContract.ViewModel by instance()
 
-    private val cameraPhotoUri by lazy {  context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
+    private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
+    private val cropPhotoUri by lazy { context!!.createCropPhotoUri(TEMP_CROP_IMAGE__NAME) }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
@@ -40,7 +38,13 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                         Manifest.permission.CAMERA
                     )
                     .request { granted, _, _ ->
-                        if (granted.containsAll(listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA))) {
+                        if (granted.containsAll(
+                                listOf(
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.CAMERA
+                                )
+                            )
+                        ) {
 
                             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri)
@@ -72,7 +76,7 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                             )
                         }
                     }
-            },{
+            }, {
                 viewModel.updateProfileIcon(null)
             }, viewModel.showDeleteButton.value ?: false)
         }
@@ -84,14 +88,15 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
-                    if (data?.data != null) {
-                        val selected = data.data
-
-                        handleImageURI(selected!!)
-                    }
+                    val galleryPhotoUri = data?.data ?: return
+                    viewModel.onAvatarSelected(galleryPhotoUri, cropPhotoUri, this)
                 }
                 CAMERA_REQUEST_CODE -> {
-                    handleImageURI(cameraPhotoUri)
+                    viewModel.onAvatarSelected(cameraPhotoUri, cropPhotoUri, this)
+                }
+                UCrop.REQUEST_CROP -> {
+                    val uri = UCrop.getOutput(data!!)
+                    handleImageURI(uri!!)
                 }
             }
         }
@@ -103,7 +108,6 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
 
         GlobalScope.launch {
             val compressed = context!!.copyCompressed(source, destinationPath)
-
             viewModel.updateProfileIcon(compressed)
         }
     }
@@ -112,5 +116,6 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         private const val GALLERY_REQUEST_CODE = 42
         private const val CAMERA_REQUEST_CODE = 41
         private const val TEMP_IMAGE_NAME = "profile_image_temp.jpg"
+        private const val TEMP_CROP_IMAGE__NAME = "profile_image_crop_temp.jpeg"
     }
 }
