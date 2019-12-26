@@ -232,3 +232,11 @@ fun setAdapter(
 
     view.adapter = adapter
 }
+
+@BindingAdapter("app:visibilityByData")
+fun setVisibilityByData(
+    view: androidx.appcompat.widget.AppCompatTextView,
+    data: String?
+) {
+    view.visibility = if (data.isNullOrEmpty()) View.GONE else View.VISIBLE
+}

@@ -186,5 +186,7 @@
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>
     <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>
+    <string name="toast_unexpected_error">Unexpected error</string>
+    <string name="toast_cannot_retrieve_cropped_image">Cannot retrieve cropped image</string>
 
 </resources>

@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.crop
 
 import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
+import com.doneit.ascend.presentation.main.extensions.add
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class CropRouter(
@@ -12,6 +12,10 @@ class CropRouter(
     override val containerId = activity.getContainerId()
 
     fun navigateToCrop(fragment: Fragment) {
-        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
+        activity.supportFragmentManager.add(R.id.container, fragment)
+    }
+
+    fun goBack() {
+        activity.finish()
     }
 }

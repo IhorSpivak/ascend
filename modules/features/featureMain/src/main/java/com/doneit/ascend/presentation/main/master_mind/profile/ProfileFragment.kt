@@ -95,8 +95,8 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                     viewModel.onAvatarSelected(cameraPhotoUri, cropPhotoUri, this)
                 }
                 UCrop.REQUEST_CROP -> {
-                    val uri = UCrop.getOutput(data!!)
-                    handleImageURI(uri!!)
+                    val uri = data?.data ?: return
+                    handleImageURI(uri)
                 }
             }
         }

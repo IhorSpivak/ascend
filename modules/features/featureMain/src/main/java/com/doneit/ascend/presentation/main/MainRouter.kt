@@ -25,6 +25,7 @@ import com.doneit.ascend.presentation.web_page.WebPageFragment
 import com.doneit.ascend.presentation.web_page.common.WebPageArgs
 import com.vrgsoft.core.presentation.fragment.argumented.ArgumentedFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
+import com.yalantis.ucrop.UCrop
 
 class MainRouter(
     private val activity: MainActivity,
@@ -95,6 +96,7 @@ class MainRouter(
         activity.startActivity(Intent(activity, CreateGroupActivity::class.java))
     }
 
+    //todo replace arguments by parcelable filter model
     override fun navigateToGroupList(
         groupType: GroupType?,
         isMyGroups: Boolean?,
@@ -143,7 +145,7 @@ class MainRouter(
     override fun navigateToAvatarUCropActivity(
         sourceUri: Uri,
         destinationUri: Uri,
-        fragmentToReceiveResult: Fragment
+        fragmentToReceiveResult: Fragment//todo remove passing fragment
     ) {
         val bundle = Bundle()
         bundle.putParcelable(CropActivity.ARG_SOURCE, sourceUri)
@@ -152,36 +154,7 @@ class MainRouter(
         val cropIntent = Intent(activity, CropActivity::class.java)
         cropIntent.putExtras(bundle)
 
-        activity.startActivity(cropIntent)
-
-//        val options = UCrop.Options()
-//
-////        options.setActiveWidgetColor(ContextCompat.getColor(activity, R.color.background_dimmed))
-//        options.setCropFrameColor(ContextCompat.getColor(activity, R.color.background_dimmed))
-////        options.setRootViewBackgroundColor(ContextCompat.getColor(activity,R.color.background_dimmed))
-//        options.setDimmedLayerColor(ContextCompat.getColor(activity,R.color.dimmed_black))
-////        options.setToolbarColor(ContextCompat.getColor(activity, R.color.dimmed_black))
-////        options.setStatusBarColor(ContextCompat.getColor(activity, R.color.background_dimmed))
-//
-//        options.setToolbarCancelDrawable(R.drawable.ic_btn_cancel_circle)
-//        options.setToolbarCropDrawable(R.drawable.ic_btn_ok_circle)
-//
-//        options.setShowCropGrid(false)
-//        options.setHideBottomControls(true)
-//        options.setShowCropFrame(false)
-//        options.setToolbarTitle(activity.getString(R.string.move_and_scale))
-//        options.withAspectRatio(1f, 1f)
-//        options.withMaxResultSize(325, 325)
-//        options.setCompressionFormat(Bitmap.CompressFormat.PNG)
-//        options.setCompressionQuality(80)
-//        options.setCircleDimmedLayer(true)
-//
-////        UCrop.of(sourceUri, destinationUri)
-////            .withAspectRatio(1f, 1f)
-////            .withOptions(options)
-////            .start(activity, fragmentToReceiveResult)
-//
-//        activity.supportFragmentManager.replaceWithBackStack(containerId, com.yalantis.ucrop.UCropFragment())
+        fragmentToReceiveResult.startActivityForResult(cropIntent, UCrop.REQUEST_CROP)
     }
 
     override fun goBack() {
