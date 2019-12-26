@@ -1,16 +1,13 @@
 package com.doneit.ascend.presentation.main.views
 
 import android.content.Context
-import android.net.Uri
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import android.widget.FrameLayout
-import androidx.core.content.ContextCompat
-import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingMethod
 import androidx.databinding.BindingMethods
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.doneit.ascend.presentation.main.R
 import kotlinx.android.synthetic.main.view_master_mind_icon.view.*
 
@@ -70,6 +67,8 @@ class MasterMindIcon @JvmOverloads constructor(
 
         Glide.with(ivIcon)
             .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
             .into(ivIcon)
     }
 
