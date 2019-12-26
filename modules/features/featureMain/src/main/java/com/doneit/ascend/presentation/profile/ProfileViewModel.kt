@@ -1,5 +1,7 @@
 package com.doneit.ascend.presentation.profile
 
+import android.net.Uri
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.ProfileEntity
@@ -88,6 +90,14 @@ class ProfileViewModel(
         showDeleteButton.postValue(true)
         updateProfileModel.imagePath = path
         updateProfile()
+    }
+
+    override fun onAvatarSelected(
+        sourceUri: Uri,
+        destinationUri: Uri,
+        fragmentToReceiveResult: Fragment
+    ) {
+        router.navigateToAvatarUCropActivity(sourceUri, destinationUri, fragmentToReceiveResult)
     }
 
     private fun updateProfile() {

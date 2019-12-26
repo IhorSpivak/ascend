@@ -116,6 +116,6 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         private const val GALLERY_REQUEST_CODE = 42
         private const val CAMERA_REQUEST_CODE = 41
         private const val TEMP_IMAGE_NAME = "profile_image_temp.jpg"
-        private const val TEMP_CROP_IMAGE__NAME = "profile_image_crop_temp.jpeg"
+        const val TEMP_CROP_IMAGE__NAME = "profile_image_crop_temp.jpeg"
     }
 }

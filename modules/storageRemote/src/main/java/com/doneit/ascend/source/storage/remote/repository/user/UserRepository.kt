@@ -9,6 +9,7 @@ import com.doneit.ascend.source.storage.remote.data.response.common.RemoteRespon
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -71,41 +72,46 @@ internal class UserRepository(
     ): RemoteResponse<ProfileResponse, ErrorsListResponse> {
         return execute({
 
+            val serializer = GsonBuilder().serializeNulls().create()//todo resolve null passing problem
+
             var builder = MultipartBody.Builder()
 
-            var stringPart = MultipartBody.Part.createFormData("full_name", request.fullName)
+            var stringPart = MultipartBody.Part.createFormData("full_name", serializer.toJson(request.fullName))
             builder = builder.addPart(stringPart)
 
-            stringPart = MultipartBody.Part.createFormData("display_name", request.displayName)
+            stringPart = MultipartBody.Part.createFormData("display_name", serializer.toJson(request.displayName))
             builder = builder.addPart(stringPart)
 
-            stringPart = MultipartBody.Part.createFormData("location", request.location)
+            stringPart = MultipartBody.Part.createFormData("location", serializer.toJson(null))
             builder = builder.addPart(stringPart)
 
-            stringPart = MultipartBody.Part.createFormData("meeting_started", request.isMeetingStarted?.toString())
+            stringPart = MultipartBody.Part.createFormData("meeting_started", serializer.toJson(request.isMeetingStarted?.toString()))
             builder = builder.addPart(stringPart)
 
-            stringPart = MultipartBody.Part.createFormData("invite_to_a_meeting", request.hasInviteToMeeting?.toString())
+            stringPart = MultipartBody.Part.createFormData("invite_to_a_meeting", serializer.toJson(request.hasInviteToMeeting?.toString()))
             builder = builder.addPart(stringPart)
 
-            stringPart = MultipartBody.Part.createFormData("age", request.age?.toString())
+            stringPart = MultipartBody.Part.createFormData("age", serializer.toJson(request.age?.toString()))
             builder = builder.addPart(stringPart)
 
-            stringPart = MultipartBody.Part.createFormData("bio", request.bio)
+            stringPart = MultipartBody.Part.createFormData("bio", serializer.toJson(request.bio))
             builder = builder.addPart(stringPart)
 
-            stringPart = MultipartBody.Part.createFormData("description", request.description)
+            stringPart = MultipartBody.Part.createFormData("description", serializer.toJson(request.description))
             builder = builder.addPart(stringPart)
 
             if(updateImage) {
-                file?.let {
-                    val filePart = MultipartBody.Part.createFormData(
+                var filePart = if(file != null) {
+                    MultipartBody.Part.createFormData(
                         "image", file.name, RequestBody.create(
                             MediaType.parse("image/*"), file
                         )
                     )
-                    builder = builder.addPart(filePart)
+
+                } else {
+                    MultipartBody.Part.createFormData("image", serializer.toJson(null))
                 }
+                builder = builder.addPart(filePart)
             }
 
             api.updateProfileAsync(builder.build().parts())

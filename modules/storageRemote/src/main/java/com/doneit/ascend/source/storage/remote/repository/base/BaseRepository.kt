@@ -8,7 +8,7 @@ import kotlinx.coroutines.Deferred
 import retrofit2.Response
 
 abstract class BaseRepository(
-    private val gson: Gson
+    protected val gson: Gson
 ) {
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     suspend fun <T, E> execute(

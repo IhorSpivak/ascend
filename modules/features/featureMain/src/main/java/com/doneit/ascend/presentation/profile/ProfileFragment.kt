@@ -10,8 +10,10 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileBinding
+import com.doneit.ascend.presentation.main.master_mind.profile.ProfileFragment
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.*
+import com.yalantis.ucrop.UCrop
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.generic.instance
@@ -23,6 +25,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override val viewModel: ProfileContract.ViewModel by instance()
 
     private val cameraPhotoUri by lazy {  context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
+    private val cropPhotoUri by lazy { context!!.createCropPhotoUri(ProfileFragment.TEMP_CROP_IMAGE__NAME) }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
@@ -81,13 +84,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
                     if (data?.data != null) {
-                        val selected = data.data
-
-                        handleImageURI(selected!!)
+                        val galleryPhotoUri = data.data!!
+                        viewModel.onAvatarSelected(galleryPhotoUri, cropPhotoUri, this)
                     }
                 }
                 CAMERA_REQUEST_CODE -> {
-                    handleImageURI(cameraPhotoUri)
+                    viewModel.onAvatarSelected(cameraPhotoUri, cropPhotoUri, this)
+                }
+                UCrop.REQUEST_CROP -> {
+                    val uri = data?.data ?: return
+                    handleImageURI(uri)
                 }
             }
         }

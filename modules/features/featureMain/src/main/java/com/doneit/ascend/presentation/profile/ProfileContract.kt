@@ -24,6 +24,7 @@ interface ProfileContract {
 
         fun deleteAccount()
         fun updateProfileIcon(path: String?)
+        fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
     }
 
     interface Router {
