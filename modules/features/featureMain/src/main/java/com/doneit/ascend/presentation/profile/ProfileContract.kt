@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.profile
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.ProfileEntity
-import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager

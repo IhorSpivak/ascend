@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.home
 
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.main.home.common.MastermindAdapter
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import com.doneit.ascend.presentation.utils.extensions.visible
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -61,7 +63,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         viewModel.user.observe(this, Observer {
             setTitle(it?.community)
 
-            if(it != null) {
+            if (it != null) {
                 vpGroups.adapter = TabAdapter.newInstance(this, childFragmentManager, it.community)
             }
         })
@@ -79,6 +81,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
         setTitle(viewModel.user.value?.community)
+
+        disableTab(tlGroups, 1)
+        disableTab(tlGroups, 2)
+    }
+
+    private fun disableTab(tabLayout: TabLayout, index: Int) {
+        (tabLayout.getChildAt(0) as ViewGroup).getChildAt(index).isEnabled = false
+        (tabLayout.getChildAt(0) as ViewGroup).getChildAt(index).alpha = 0.3f
     }
 
     override fun onResume() {
