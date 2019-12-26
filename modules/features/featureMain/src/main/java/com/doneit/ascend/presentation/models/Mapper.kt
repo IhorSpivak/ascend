@@ -32,7 +32,7 @@ fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
 
 fun ProfileEntity.toDTO(): UpdateProfileModel {
     return UpdateProfileModel(
-        name,
+        fullName,
         displayName,
         location,
         meetingStarted,

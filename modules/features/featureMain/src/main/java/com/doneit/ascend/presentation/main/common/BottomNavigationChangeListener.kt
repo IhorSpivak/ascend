@@ -4,5 +4,6 @@ interface BottomNavigationChangeListener {
     fun navigateToHome()
     fun navigateToMyContent()
     fun navigateToAscensionPlan()
-    fun navigateToProfile()
+    fun navigateToRegularUserProfile()
+    fun navigateToMMProfile()
 }

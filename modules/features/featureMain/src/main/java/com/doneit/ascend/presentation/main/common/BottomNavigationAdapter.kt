@@ -1,10 +1,13 @@
 package com.doneit.ascend.presentation.main.common
 
+import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.dto.toStringValue
 import com.doneit.ascend.presentation.main.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class BottomNavigationAdapter(
-    val listener: BottomNavigationChangeListener
+    val listener: BottomNavigationChangeListener,
+    private val userRole: String?
 ) {
     fun attach(navigationView: BottomNavigationView) {
         navigationView.setOnNavigationItemSelectedListener {
@@ -23,7 +26,11 @@ class BottomNavigationAdapter(
                     true
                 }
                 R.id.profile -> {
-                    listener.navigateToProfile()
+                    when(userRole) {
+                        GroupType.MASTER_MIND.toStringValue() -> listener.navigateToMMProfile()
+                        else -> listener.navigateToRegularUserProfile()
+                    }
+
                     true
                 }
                 else -> false

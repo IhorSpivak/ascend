@@ -31,7 +31,8 @@ class MainRouter(
     BottomNavigationChangeListener,
     ProfileContract.Router,
     HomeContract.Router,
-    WebPageContract.Router {
+    WebPageContract.Router,
+    com.doneit.ascend.presentation.main.master_mind.profile.ProfileContract.Router{
 
     override val containerId = activity.getContainerId()
 
@@ -77,8 +78,12 @@ class MainRouter(
         // TODO: navigate to ascension plan screen
     }
 
-    override fun navigateToProfile() {
+    override fun navigateToRegularUserProfile() {
         activity.supportFragmentManager.replaceWithBackStack(containerId, ProfileFragment())
+    }
+
+    override fun navigateToMMProfile() {
+        activity.supportFragmentManager.replaceWithBackStack(containerId, com.doneit.ascend.presentation.main.master_mind.profile.ProfileFragment())
     }
 
     fun navigateToCreateGroup() {

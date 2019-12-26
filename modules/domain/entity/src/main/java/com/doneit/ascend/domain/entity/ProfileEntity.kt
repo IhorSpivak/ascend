@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.entity
 
 class ProfileEntity(
     val id: Long,
-    val name: String?,
+    val fullName: String?,
     val email: String?,
     val phone: String?,
     val location: String?,

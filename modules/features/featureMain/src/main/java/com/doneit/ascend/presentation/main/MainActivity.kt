@@ -51,19 +51,21 @@ class MainActivity : BaseActivity() {
             val user = userUseCase.getUserLive()
 
             user.observe(this@MainActivity, Observer {
-                setCreateGroupState(it?.isMasterMind?:false)
+                setNavigationListener(it?.role)
+                setCreateGroupState(it?.isMasterMind ?: false)
             })
         }
     }
 
-    private fun setNavigationListener() {
-        with(BottomNavigationAdapter(router)) {
+    private fun setNavigationListener(userRole: String? = null) {
+        with(BottomNavigationAdapter(router, userRole)) {
             attach(mainBottomNavigationView)
         }
     }
 
     private fun setCreateGroupState(isEnabled: Boolean) {
         fabCreateGroup.isEnabled = isEnabled
+
     }
 
     companion object {
