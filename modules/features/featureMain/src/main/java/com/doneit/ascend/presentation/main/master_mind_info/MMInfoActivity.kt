@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.master_mind_profile
+package com.doneit.ascend.presentation.main.master_mind_info
 
 import android.os.Bundle
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
@@ -20,29 +21,29 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
-class MMProfileActivity : BaseActivity() {
+class MMInfoActivity : BaseActivity() {
     override fun diModule() = Kodein.Module("GroupInfoActivity") {
-        bind<MMProfileRouter>() with singleton {
-            MMProfileRouter(
-                this@MMProfileActivity
+        bind<MMInfoRouter>() with singleton {
+            MMInfoRouter(
+                this@MMInfoActivity
             )
         }
 
-        bind<MMProfileContract.Router>() with singleton { instance<MMProfileRouter>() }
+        bind<MMInfoContract.Router>() with singleton { instance<MMInfoRouter>() }
 
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
-        bind<ViewModel>(tag = MMProfileViewModel::class.java.simpleName) with provider {
-            MMProfileViewModel(
+        bind<ViewModel>(tag = MMInfoViewModel::class.java.simpleName) with provider {
+            MMInfoViewModel(
                 instance(),
                 instance(),
                 instance()
             )
         }
-        bind<MMProfileContract.ViewModel>() with provider { vm<MMProfileViewModel>(instance()) }
+        bind<MMInfoContract.ViewModel>() with provider { vm<MMInfoViewModel>(instance()) }
     }
 
     fun getContainerId() = R.id.container
-    private val viewModel: MMProfileContract.ViewModel by instance()
+    private val viewModel: MMInfoContract.ViewModel by instance()
     private lateinit var binding: ActivityMasterMindProfileBindingImpl
     private var currentDialog: AlertDialog? = null
 
@@ -52,8 +53,8 @@ class MMProfileActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.model = viewModel
 
-        val id = intent.getLongExtra(MM_ID, -1)
-        viewModel.loadData(id)
+        val model = intent.getParcelableExtra<MasterMindEntity>(MM_ENTITY)
+        viewModel.setModel(model)
 
         viewModel.sendReportStatus.observe(this) {
             if (it == true) {
@@ -97,6 +98,6 @@ class MMProfileActivity : BaseActivity() {
     }
 
     companion object {
-        const val MM_ID = "MM_ID"
+        const val MM_ENTITY = "MM_ENTITY"
     }
 }

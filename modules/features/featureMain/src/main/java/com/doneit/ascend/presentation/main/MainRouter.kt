@@ -3,7 +3,9 @@ package com.doneit.ascend.presentation.main
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.crop.CropActivity
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
@@ -15,7 +17,7 @@ import com.doneit.ascend.presentation.main.group_list.GroupListActivity
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.master_mind.MasterMindActivity
-import com.doneit.ascend.presentation.main.master_mind_profile.MMProfileActivity
+import com.doneit.ascend.presentation.main.master_mind_info.MMInfoActivity
 import com.doneit.ascend.presentation.main.notification.NotificationActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.doneit.ascend.presentation.profile.ProfileContract
@@ -131,10 +133,8 @@ class MainRouter(
         activity.startActivity(intent)
     }
 
-    override fun openProfile(id: Long) {
-        val intent = Intent(activity, MMProfileActivity::class.java)
-        intent.putExtra(MMProfileActivity.MM_ID, id)
-        activity.startActivity(intent)
+    override fun openProfile(model: MasterMindEntity) {
+        activity.openMMInfo(model)
     }
 
     override fun navigateToNotifications() {
@@ -160,4 +160,10 @@ class MainRouter(
     override fun goBack() {
         activity.supportFragmentManager.popBackStack()
     }
+}
+
+fun AppCompatActivity.openMMInfo(model: MasterMindEntity) {
+    val intent = Intent(this, MMInfoActivity::class.java)
+    intent.putExtra(MMInfoActivity.MM_ENTITY, model)
+    this.startActivity(intent)
 }

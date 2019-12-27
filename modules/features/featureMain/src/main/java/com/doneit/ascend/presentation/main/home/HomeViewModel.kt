@@ -115,8 +115,8 @@ class HomeViewModel(
         }
     }
 
-    override fun openProfile(id: Long) {
-        router.openProfile(id)
+    override fun openProfile(model: MasterMindEntity) {
+        router.openProfile(model)
     }
 
     override fun onNotificationClick() {

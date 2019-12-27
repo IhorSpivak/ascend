@@ -1,9 +1,10 @@
 package com.doneit.ascend.presentation.main.search
 
 import android.content.Intent
+import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.presentation.main.group_info.GroupInfoActivity
 import com.doneit.ascend.presentation.main.group_list.GroupListActivity
-import com.doneit.ascend.presentation.main.master_mind_profile.MMProfileActivity
+import com.doneit.ascend.presentation.main.openMMInfo
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class SearchRouter(
@@ -33,9 +34,7 @@ class SearchRouter(
         activity.startActivity(intent)
     }
 
-    override fun navigateToProfile(id: Long) {
-        val intent = Intent(activity, MMProfileActivity::class.java)
-        intent.putExtra(MMProfileActivity.MM_ID, id)
-        activity.startActivity(intent)
+    override fun navigateToProfile(model: MasterMindEntity) {
+        activity.openMMInfo(model)
     }
 }

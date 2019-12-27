@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.domain.entity.dto.SearchModel
 import com.doneit.ascend.domain.entity.dto.SortType
@@ -50,8 +51,8 @@ class SearchViewModel(
         router.navigateToGroupList(id)
     }
 
-    override fun onMMClick(id: Long) {
-        router.navigateToProfile(id)
+    override fun onMMClick(model: MasterMindEntity) {
+        router.navigateToProfile(model)
     }
 
     override fun onGroupClick(id: Long) {

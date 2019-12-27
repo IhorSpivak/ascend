@@ -11,12 +11,12 @@ interface ListContract {
         val masterMinds: LiveData<PagedList<MasterMindEntity>>
 
         fun updateData()
-        fun openProfile(id: Long)
+        fun openProfile(model: MasterMindEntity)
         fun openGroupList(id: Long)
     }
 
     interface Router {
-        fun openProfile(id: Long)
+        fun openProfile(model: MasterMindEntity)
         fun navigateToGroupList(userId: Long)
     }
 }
