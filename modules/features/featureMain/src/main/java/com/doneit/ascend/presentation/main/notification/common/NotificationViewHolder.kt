@@ -24,6 +24,7 @@ class NotificationViewHolder(
         itemView.isClickable = true
 
         itemView.setOnTouchListener { _, motionEvent ->
+            var status = false
 
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                 posX = motionEvent.rawX
@@ -39,12 +40,12 @@ class NotificationViewHolder(
                 if (posX == motionEvent.rawX && posY == motionEvent.rawY) {
                     // click
                     onClickListener.invoke(item.groupId!!)
+                    status = true
                 }
             }
 
-            true
+            status
         }
-
         try {
             binding.date = item.createdAt!!.toNotificationDate()
 
