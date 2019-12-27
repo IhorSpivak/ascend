@@ -1,13 +1,13 @@
-package com.doneit.ascend.presentation.main.master_mind_profile
+package com.doneit.ascend.presentation.main.master_mind_info
 
 import android.content.Intent
 import com.doneit.ascend.presentation.main.group_list.GroupListActivity
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
-class MMProfileRouter (
-    private val activity: MMProfileActivity
+class MMInfoRouter (
+    private val activity: MMInfoActivity
 ): FragmentRouter(activity.supportFragmentManager),
-    MMProfileContract.Router {
+    MMInfoContract.Router {
 
     override val containerId = activity.getContainerId()
 

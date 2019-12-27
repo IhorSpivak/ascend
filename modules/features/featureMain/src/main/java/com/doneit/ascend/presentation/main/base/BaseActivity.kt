@@ -1,15 +1,22 @@
 package com.doneit.ascend.presentation.main.base
 
-import android.os.Build
 import android.annotation.TargetApi
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
+import android.os.Build
+import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.doneit.ascend.presentation.main.R
 import java.util.*
 
 
 abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivity() {
+
+    private lateinit var progressDialog: Dialog
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(updateBaseContextLocale(newBase))
@@ -32,6 +39,29 @@ abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivit
     override fun getResources(): Resources {
         return baseContext.resources
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        initDialog()
+    }
+
+    private fun initDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_progress, null, false)
+        progressDialog = AlertDialog.Builder(this, R.style.ProgressDialogStyle)
+            .setCancelable(false)
+            .setView(dialogView)
+            .create()
+    }
+
+    protected fun showProgress(isDialogShown: Boolean) {
+        if(isDialogShown) {
+            progressDialog.show()
+        } else {
+            progressDialog.dismiss()
+        }
+    }
+
 
     @TargetApi(Build.VERSION_CODES.N)
     private fun updateResourcesLocale(context: Context, locale: Locale): Context {

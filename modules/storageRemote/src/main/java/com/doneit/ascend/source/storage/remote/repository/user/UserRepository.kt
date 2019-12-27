@@ -76,8 +76,11 @@ internal class UserRepository(
 
             var builder = MultipartBody.Builder()
 
-            var stringPart = MultipartBody.Part.createFormData("full_name", serializer.toJson(request.fullName))
-            builder = builder.addPart(stringPart)
+            var stringPart: MultipartBody.Part
+            request.fullName?.let {
+                stringPart = MultipartBody.Part.createFormData("full_name", request.fullName)
+                builder = builder.addPart(stringPart)
+            }
 
             stringPart = MultipartBody.Part.createFormData("display_name", serializer.toJson(request.displayName))
             builder = builder.addPart(stringPart)

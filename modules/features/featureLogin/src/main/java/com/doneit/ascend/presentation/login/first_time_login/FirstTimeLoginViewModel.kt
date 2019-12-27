@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.login.first_time_login
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.AnswerEntity
 import com.doneit.ascend.domain.entity.AnswersEntity
 import com.doneit.ascend.domain.entity.QuestionListEntity
@@ -13,7 +14,6 @@ import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.presentation.utils.UIReturnStep
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -35,7 +35,7 @@ class FirstTimeLoginViewModel(
     override fun completeClick() {
         canComplete.postValue(false)
 
-        GlobalScope.launch {
+        viewModelScope.launch {
             val answers = questionsAnswers.values
 
             val requestEntity =

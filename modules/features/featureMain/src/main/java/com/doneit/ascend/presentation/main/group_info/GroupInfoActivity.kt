@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.presentation.dialog.DeleteDialog
 import com.doneit.ascend.presentation.dialog.QuestionButtonType
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
@@ -89,8 +90,20 @@ class GroupInfoActivity : BaseActivity() {
             }
         })
 
-        val groupId = intent.getLongExtra(GROUP_ID, -1)
-        viewModel.loadData(groupId)
+        viewModel.progressDialog.observe(this) {
+            it?.let {
+                showProgress(it)
+            }
+        }
+
+        val model = intent.getParcelableExtra<GroupEntity>(GROUP_ENTITY)
+        if(model != null) {
+            viewModel.setModel(model)
+        } else {
+            val id = intent.getLongExtra(GROUP_ID, -1)
+            viewModel.loadData(id)
+        }
+
 
         btnDelete.setOnClickListener {
             currentDialog = DeleteDialog.create(
@@ -116,6 +129,7 @@ class GroupInfoActivity : BaseActivity() {
     }
 
     companion object {
+        const val GROUP_ENTITY = "GROUP_ENTITY"
         const val GROUP_ID = "GROUP_ID"
     }
 }

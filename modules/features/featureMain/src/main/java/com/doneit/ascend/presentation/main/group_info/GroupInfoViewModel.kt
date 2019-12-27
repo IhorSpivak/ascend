@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class GroupInfoViewModel(
@@ -22,7 +23,17 @@ class GroupInfoViewModel(
     override val btnStartVisible = MutableLiveData<Boolean>(false)
     override val btnDeleteVisible = MutableLiveData<Boolean>(false)
 
+    override fun setModel(model: GroupEntity) {
+        group.postValue(model)
+
+        viewModelScope.launch {
+            val user = userUseCase.getUser()
+            updateButtonsState(user!!, model)
+        }
+    }
+
     override fun loadData(groupId: Long) {
+        showProgress(true)
         viewModelScope.launch {
             val response = groupUseCase.getGroupDetails(groupId)
 
@@ -31,6 +42,8 @@ class GroupInfoViewModel(
                 val user = userUseCase.getUser()
                 updateButtonsState(user!!, response.successModel!!)
             }
+            delay(1000)
+            showProgress(false)
         }
     }
 

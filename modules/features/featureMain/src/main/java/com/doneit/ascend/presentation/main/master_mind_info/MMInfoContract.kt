@@ -1,11 +1,11 @@
-package com.doneit.ascend.presentation.main.master_mind_profile
+package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
-interface MMProfileContract {
+interface MMInfoContract {
 
     interface ViewModel: BaseViewModel {
         val profile : LiveData<MasterMindEntity>
@@ -25,7 +25,7 @@ interface MMProfileContract {
         fun onSeeGroupsClick()
         fun sendReport(content: String)
 
-        fun loadData(id: Long)
+        fun setModel(model: MasterMindEntity)
         fun report(content: String)
         fun goBack()
 

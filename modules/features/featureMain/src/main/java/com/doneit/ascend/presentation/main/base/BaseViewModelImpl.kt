@@ -9,6 +9,7 @@ abstract class BaseViewModelImpl: ViewModel(), BaseViewModel {
 
     override val errorMessage =  SingleLiveManager<PresentationMessage>()
     override val successMessage =  SingleLiveManager<PresentationMessage>()
+    override val progressDialog = SingleLiveManager<Boolean>()
 
     protected fun showDefaultErrorMessage(message: String) {
         errorMessage.call(
@@ -18,5 +19,9 @@ abstract class BaseViewModelImpl: ViewModel(), BaseViewModel {
                 message
             )
         )
+    }
+
+    protected fun showProgress(isProgressShown: Boolean) {
+        progressDialog.call(isProgressShown)
     }
 }

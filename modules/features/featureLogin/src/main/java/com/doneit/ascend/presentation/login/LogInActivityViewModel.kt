@@ -1,11 +1,11 @@
 package com.doneit.ascend.presentation.login
 
+import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.presentation.utils.UIReturnStep
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class LogInActivityViewModel (
@@ -16,7 +16,7 @@ class LogInActivityViewModel (
 ): BaseViewModelImpl(), LogInActivityContract.ViewModel {
 
     override fun tryToLogin() {
-        GlobalScope.launch {
+        viewModelScope.launch {
             if(userUseCase.hasSignedInUser()) {
                 val step = localStorage.getUIReturnStep()
                 when (step) {

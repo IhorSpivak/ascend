@@ -8,7 +8,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.master_mind_profile.MMProfileContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.master_mind_info.MMInfoContract.ViewModel" />
 
     </data>
 

@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.dto.GroupListModel
 import com.doneit.ascend.domain.entity.dto.GroupType
@@ -103,8 +104,8 @@ class HomeViewModel(
         router.navigateToAllMasterMinds()
     }
 
-    override fun onGroupClick(id: Long) {
-        router.navigateToGroupInfo(id)
+    override fun onGroupClick(model: GroupEntity) {
+        router.navigateToGroupInfo(model)
     }
 
     private suspend fun fetchMasterMinds() {
@@ -115,8 +116,8 @@ class HomeViewModel(
         }
     }
 
-    override fun openProfile(id: Long) {
-        router.openProfile(id)
+    override fun openProfile(model: MasterMindEntity) {
+        router.openProfile(model)
     }
 
     override fun onNotificationClick() {

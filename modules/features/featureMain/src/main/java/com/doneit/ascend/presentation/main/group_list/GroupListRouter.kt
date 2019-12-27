@@ -3,10 +3,12 @@ package com.doneit.ascend.presentation.main.group_list
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.group_info.GroupInfoActivity
 import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
+import com.doneit.ascend.presentation.main.openGroupInfo
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class GroupListRouter(
@@ -54,10 +56,7 @@ class GroupListRouter(
         activity.supportFragmentManager.replace(containerId, fragment)
     }
 
-    override fun navigateToGroupInfo(id: Long) {
-        //todo replace by MainRouter method invocation
-        val intent = Intent(activity, GroupInfoActivity::class.java)
-        intent.putExtra(GroupInfoActivity.GROUP_ID, id)
-        activity.startActivity(intent)
+    override fun navigateToGroupInfo(model: GroupEntity) {
+        activity.openGroupInfo(model)
     }
 }
