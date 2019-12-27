@@ -96,6 +96,15 @@ class ProfileViewModel(
         updateProfile()
     }
 
+    override fun updateDisplayName(newDisplayName: String) {
+        updateProfileModel.displayName = newDisplayName
+        updateProfile()
+    }
+
+    override fun navigateToEditBio() {
+        router.navigateToEditBio(updateProfileModel.bio ?: "")
+    }
+
     override fun onAvatarSelected(
         sourceUri: Uri,
         destinationUri: Uri,

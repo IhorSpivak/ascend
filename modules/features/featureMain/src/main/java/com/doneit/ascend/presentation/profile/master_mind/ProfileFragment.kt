@@ -7,7 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import com.androidisland.ezpermission.EzPermission
-import com.doneit.ascend.presentation.dialog.EditNameDialog
+import com.doneit.ascend.presentation.dialog.EditFieldDialog
+import com.doneit.ascend.presentation.dialog.EditFieldDialogOptions
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileMasterMindBinding
@@ -90,10 +91,28 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         }
 
         fullName.setOnClickListener {
-            EditNameDialog.create(requireContext(), viewModel.user.value?.fullName ?: "") {
+            EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
+                R.string.edit_full_name,
+                R.string.error_full_name,
+                viewModel.user.value?.fullName ?: ""
+            ) {
                 viewModel.updateFullName(it)
-            }.show()
+            }).show()
         }
+
+        displayName.setOnClickListener {
+            EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
+                R.string.edit_display_name,
+                R.string.error_display_name,
+                viewModel.user.value?.displayName ?: ""
+            ) {
+                viewModel.updateDisplayName(it)
+            }).show()
+        }
+
+//        location.setOnClickListener {
+//            viewModel.navigateToEditBio()
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

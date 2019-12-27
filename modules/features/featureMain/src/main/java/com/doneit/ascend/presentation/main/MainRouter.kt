@@ -159,6 +159,10 @@ class MainRouter(
         fragmentToReceiveResult.startActivityForResult(cropIntent, UCrop.REQUEST_CROP)
     }
 
+    override fun navigateToEditBio(value: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun goBack() {
         activity.supportFragmentManager.popBackStack()
     }

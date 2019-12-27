@@ -25,6 +25,8 @@ interface ProfileContract {
         fun deleteAccount()
         fun updateProfileIcon(path: String?)
         fun updateFullName(newFullName: String)
+        fun updateDisplayName(newDisplayName: String)
+        fun navigateToEditBio()
         fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
     }
 
@@ -39,5 +41,7 @@ interface ProfileContract {
             destinationUri: Uri,
             fragmentToReceiveResult: Fragment
         )
+
+        fun navigateToEditBio(value: String)
     }
 }

@@ -175,6 +175,7 @@
     <string name="gallery_denied">Please, change your photos access  permissions in your device settings to use the app fully.</string>
     <string name="move_and_scale">Move and Scale</string>
     <string name="error_full_name">Please, enter your Full Name correctly</string>
+    <string name="error_display_name">Please, enter your Display Name correctly</string>
 
     <!--MM Profile-->
     <string name="display_name">Display name</string>
@@ -193,5 +194,7 @@
     <string name="edit_full_name">Edit Full Name</string>
     <string name="enter_full_name">Enter full name</string>
     <string name="btn_save">Save</string>
+    <string name="edit_display_name">Edit Display Name</string>
+    <string name="edit_bio">Edit BIO</string>
 
 </resources>

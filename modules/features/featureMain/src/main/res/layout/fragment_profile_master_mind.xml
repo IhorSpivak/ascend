@@ -211,6 +211,7 @@
                         app:iconRes="@{@drawable/ic_user}" />
 
                     <include
+                        android:id="@+id/displayName"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/display_name}"
                         app:fieldValue="@{model.user.displayName}"
@@ -225,6 +226,7 @@
                         app:iconRes="@{@drawable/ic_location}" />
 
                     <include
+                        android:id="@+id/location"
                         layout="@layout/template_profile_long_field"
                         app:fieldName="@{@string/bio}"
                         app:fieldValue="@{model.user.bio}"
