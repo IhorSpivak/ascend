@@ -13,8 +13,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.main.views.ConnectionSnackbar
+import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.ConnectionObserver
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.showDefaultError

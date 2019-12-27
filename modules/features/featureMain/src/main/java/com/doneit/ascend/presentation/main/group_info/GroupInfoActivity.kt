@@ -90,6 +90,12 @@ class GroupInfoActivity : BaseActivity() {
             }
         })
 
+        viewModel.progressDialog.observe(this) {
+            it?.let {
+                showProgress(it)
+            }
+        }
+
         val model = intent.getParcelableExtra<GroupEntity>(GROUP_ENTITY)
         if(model != null) {
             viewModel.setModel(model)

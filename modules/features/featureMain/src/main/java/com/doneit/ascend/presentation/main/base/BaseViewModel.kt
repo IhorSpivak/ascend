@@ -7,4 +7,5 @@ import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 interface BaseViewModel : LifecycleObserver {
     val errorMessage: SingleLiveManager<PresentationMessage>
     val successMessage: SingleLiveManager<PresentationMessage>
+    val progressDialog: SingleLiveManager<Boolean>
 }
