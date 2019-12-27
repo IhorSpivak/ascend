@@ -50,7 +50,7 @@
         tools:text="Enter a reason" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/tvReason"
+        android:id="@+id/tvValue"
         style="@style/TextNormal"
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -86,7 +86,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnPositive"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvReason" />
+        app:layout_constraintTop_toBottomOf="@+id/tvValue" />
 
     <Button
         android:id="@+id/btnPositive"
@@ -104,6 +104,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnNegative"
-        app:layout_constraintTop_toBottomOf="@+id/tvReason" />
+        app:layout_constraintTop_toBottomOf="@+id/tvValue" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

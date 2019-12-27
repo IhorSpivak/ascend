@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.master_mind.profile
+package com.doneit.ascend.presentation.profile.master_mind
 
 import android.Manifest
 import android.app.Activity
@@ -7,12 +7,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import com.androidisland.ezpermission.EzPermission
+import com.doneit.ascend.presentation.dialog.EditNameDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileMasterMindBinding
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.*
 import com.yalantis.ucrop.UCrop
+import kotlinx.android.synthetic.main.fragment_profile_master_mind.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.generic.instance
@@ -20,7 +22,10 @@ import java.io.File
 
 class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
 
-    override val viewModelModule = ProfileViewModelModule.get(this)
+    override val viewModelModule =
+        ProfileViewModelModule.get(
+            this
+        )
     override val viewModel: ProfileContract.ViewModel by instance()
 
     private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
@@ -48,7 +53,10 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
 
                             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri)
-                            startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
+                            startActivityForResult(
+                                cameraIntent,
+                                CAMERA_REQUEST_CODE
+                            )
                         }
                     }
             }, {
@@ -79,6 +87,12 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             }, {
                 viewModel.updateProfileIcon(null)
             }, viewModel.showDeleteButton.value ?: false)
+        }
+
+        fullName.setOnClickListener {
+            EditNameDialog.create(requireContext(), viewModel.user.value?.fullName ?: "") {
+                viewModel.updateFullName(it)
+            }.show()
         }
     }
 

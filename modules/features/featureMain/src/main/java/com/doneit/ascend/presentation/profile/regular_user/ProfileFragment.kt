@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile
+package com.doneit.ascend.presentation.profile.regular_user
 
 import android.Manifest
 import android.app.Activity
@@ -7,13 +7,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import com.androidisland.ezpermission.EzPermission
+import com.doneit.ascend.presentation.dialog.EditNameDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileBinding
-import com.doneit.ascend.presentation.main.master_mind.profile.ProfileFragment
 import com.doneit.ascend.presentation.models.PresentationMessage
+import com.doneit.ascend.presentation.profile.master_mind.ProfileFragment.Companion.TEMP_CROP_IMAGE__NAME
 import com.doneit.ascend.presentation.utils.*
 import com.yalantis.ucrop.UCrop
+import kotlinx.android.synthetic.main.fragment_profile_master_mind.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.generic.instance
@@ -21,11 +23,12 @@ import java.io.File
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
-    override val viewModelModule = ProfileViewModelModule.get(this)
+    override val viewModelModule =
+        ProfileViewModelModule.get(this)
     override val viewModel: ProfileContract.ViewModel by instance()
 
-    private val cameraPhotoUri by lazy {  context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
-    private val cropPhotoUri by lazy { context!!.createCropPhotoUri(ProfileFragment.TEMP_CROP_IMAGE__NAME) }
+    private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
+    private val cropPhotoUri by lazy { context!!.createCropPhotoUri(TEMP_CROP_IMAGE__NAME) }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
@@ -39,11 +42,20 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                         Manifest.permission.CAMERA
                     )
                     .request { granted, _, _ ->
-                        if (granted.containsAll(listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA))) {
+                        if (granted.containsAll(
+                                listOf(
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.CAMERA
+                                )
+                            )
+                        ) {
 
                             val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri)
-                            startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
+                            startActivityForResult(
+                                cameraIntent,
+                                CAMERA_REQUEST_CODE
+                            )
                         }
                     }
             }, {
@@ -71,9 +83,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                             )
                         }
                     }
-            },{
+            }, {
                 viewModel.updateProfileIcon(null)
             }, viewModel.showDeleteButton.value ?: false)
+        }
+
+        fullName.setOnClickListener {
+            EditNameDialog.create(requireContext(), viewModel.user.value?.fullName ?: "") {
+                viewModel.updateFullName(it)
+            }.show()
         }
     }
 

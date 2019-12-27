@@ -174,6 +174,7 @@
     <string name="camera_denied">Please, change camera access  permissions in your device settings to use the app fully.</string>
     <string name="gallery_denied">Please, change your photos access  permissions in your device settings to use the app fully.</string>
     <string name="move_and_scale">Move and Scale</string>
+    <string name="error_full_name">Please, enter your Full Name correctly</string>
 
     <!--MM Profile-->
     <string name="display_name">Display name</string>
@@ -188,5 +189,9 @@
     <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>
     <string name="toast_unexpected_error">Unexpected error</string>
     <string name="toast_cannot_retrieve_cropped_image">Cannot retrieve cropped image</string>
+    <string name="edit_name">Edit Name</string>
+    <string name="edit_full_name">Edit Full Name</string>
+    <string name="enter_full_name">Enter full name</string>
+    <string name="btn_save">Save</string>
 
 </resources>

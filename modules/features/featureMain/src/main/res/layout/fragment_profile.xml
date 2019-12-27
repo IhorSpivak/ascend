@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.profile.ProfileContract.ViewModel" />
+            type="com.doneit.ascend.presentation.profile.regular_user.ProfileContract.ViewModel" />
 
     </data>
 
@@ -66,7 +66,6 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/blMain">
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -186,6 +185,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/clGroups">
 
                     <include
+                        android:id="@+id/fullName"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/full_name}"
                         app:fieldValue="@{model.user.fullName}"

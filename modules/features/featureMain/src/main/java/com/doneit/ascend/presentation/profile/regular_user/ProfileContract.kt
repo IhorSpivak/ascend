@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.master_mind.profile
+package com.doneit.ascend.presentation.profile.regular_user
 
 import android.net.Uri
 import androidx.fragment.app.Fragment
@@ -24,6 +24,7 @@ interface ProfileContract {
 
         fun deleteAccount()
         fun updateProfileIcon(path: String?)
+        fun updateFullName(newFullName: String)
         fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
     }
 

@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.doneit.ascend.presentation.main.R
 import kotlinx.android.synthetic.main.dialog_report_abuse.view.*
-import android.view.WindowManager
-
 
 
 class ReportAbuseDialog {
@@ -28,7 +26,7 @@ class ReportAbuseDialog {
                 .create()
 
             mDialogView.btnPositive.setOnClickListener {
-                call.invoke(mDialogView.tvReason.text.toString())
+                call.invoke(mDialogView.tvValue.text.toString())
             }
 
             mDialogView.btnNegative.setOnClickListener {
@@ -40,7 +38,7 @@ class ReportAbuseDialog {
             }
 
             mDialogView.btnPositive.isEnabled = false
-            mDialogView.tvReason.addTextChangedListener(object : TextWatcher {
+            mDialogView.tvValue.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
 
                 }

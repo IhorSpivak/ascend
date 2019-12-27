@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile
+package com.doneit.ascend.presentation.profile.master_mind
 
 import android.net.Uri
 import androidx.fragment.app.Fragment
@@ -24,6 +24,7 @@ interface ProfileContract {
 
         fun deleteAccount()
         fun updateProfileIcon(path: String?)
+        fun updateFullName(newFullName: String)
         fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
     }
 
@@ -33,6 +34,10 @@ interface ProfileContract {
         fun navigateToPrivacyPolicy()
         fun navigateToGroupList(groupType: GroupType?, isMyGroups: Boolean?, isAllGroups: Boolean)
         fun navigateToNotifications()
-        fun navigateToAvatarUCropActivity(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
+        fun navigateToAvatarUCropActivity(
+            sourceUri: Uri,
+            destinationUri: Uri,
+            fragmentToReceiveResult: Fragment
+        )
     }
 }

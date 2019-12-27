@@ -18,8 +18,8 @@ import com.doneit.ascend.presentation.main.master_mind.MasterMindActivity
 import com.doneit.ascend.presentation.main.master_mind_profile.MMProfileActivity
 import com.doneit.ascend.presentation.main.notification.NotificationActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
-import com.doneit.ascend.presentation.profile.ProfileContract
-import com.doneit.ascend.presentation.profile.ProfileFragment
+import com.doneit.ascend.presentation.profile.regular_user.ProfileContract
+import com.doneit.ascend.presentation.profile.regular_user.ProfileFragment
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
 import com.doneit.ascend.presentation.web_page.common.WebPageArgs
@@ -35,7 +35,7 @@ class MainRouter(
     ProfileContract.Router,
     HomeContract.Router,
     WebPageContract.Router,
-    com.doneit.ascend.presentation.main.master_mind.profile.ProfileContract.Router {
+    com.doneit.ascend.presentation.profile.master_mind.ProfileContract.Router {
 
     override val containerId = activity.getContainerId()
 
@@ -82,13 +82,15 @@ class MainRouter(
     }
 
     override fun navigateToRegularUserProfile() {
-        activity.supportFragmentManager.replaceWithBackStack(containerId, ProfileFragment())
+        activity.supportFragmentManager.replaceWithBackStack(containerId,
+            ProfileFragment()
+        )
     }
 
     override fun navigateToMMProfile() {
         activity.supportFragmentManager.replaceWithBackStack(
             containerId,
-            com.doneit.ascend.presentation.main.master_mind.profile.ProfileFragment()
+            com.doneit.ascend.presentation.profile.master_mind.ProfileFragment()
         )
     }
 

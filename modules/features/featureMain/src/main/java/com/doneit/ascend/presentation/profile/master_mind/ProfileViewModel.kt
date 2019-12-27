@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile
+package com.doneit.ascend.presentation.profile.master_mind
 
 import android.net.Uri
 import androidx.fragment.app.Fragment
@@ -35,7 +35,6 @@ class ProfileViewModel(
 
             if (result.isSuccessful) {
                 showDeleteButton.postValue(result.successModel!!.image?.url.isNullOrEmpty().not())
-
                 user.postValue(result.successModel!!)
                 updateProfileModel = result.successModel!!.toDTO()
             }
@@ -92,6 +91,11 @@ class ProfileViewModel(
         updateProfile()
     }
 
+    override fun updateFullName(newFullName: String) {
+        updateProfileModel.fullName = newFullName
+        updateProfile()
+    }
+
     override fun onAvatarSelected(
         sourceUri: Uri,
         destinationUri: Uri,
@@ -104,7 +108,8 @@ class ProfileViewModel(
         viewModelScope.launch {
             val result = userUseCase.updateProfile(updateProfileModel)
 
-            if(result.isSuccessful) {
+            if (result.isSuccessful) {
+                user.postValue(null)
                 user.postValue(result.successModel!!)
                 updateProfileModel = result.successModel!!.toDTO()
             }
