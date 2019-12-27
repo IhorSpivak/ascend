@@ -7,7 +7,7 @@ import com.doneit.ascend.domain.entity.UserEntity
 
 class GroupListAdapter(
     private var user: UserEntity? = null,
-    private val onItemClick: (id: Long) -> Unit
+    private val onItemClick: (model: GroupEntity) -> Unit
 ) : PagedListAdapter<GroupEntity, GroupHorViewHolder>(GroupDiffCallback()) {
 
     init {
@@ -21,7 +21,7 @@ class GroupListAdapter(
     override fun onBindViewHolder(holder: GroupHorViewHolder, position: Int) {
         holder.bind(getItem(position)!!, user)
         holder.itemView.setOnClickListener {
-            onItemClick.invoke(getItem(position)!!.id)
+            onItemClick.invoke(getItem(position)!!)
         }
     }
 

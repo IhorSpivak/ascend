@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.search
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
@@ -14,13 +15,13 @@ interface SearchContract {
         fun goBack()
         fun openGroupList(id: Long)
         fun onMMClick(model: MasterMindEntity)
-        fun onGroupClick(id: Long)
+        fun onGroupClick(model: GroupEntity)
     }
 
     interface Router {
         fun closeActivity()
         fun navigateToGroupList(userId: Long)
-        fun navigateToGroupInfo(id: Long)
-        fun navigateToProfile(model: MasterMindEntity)
+        fun navigateToGroupInfo(model: GroupEntity)
+        fun navigateToMMInfo(model: MasterMindEntity)
     }
 }

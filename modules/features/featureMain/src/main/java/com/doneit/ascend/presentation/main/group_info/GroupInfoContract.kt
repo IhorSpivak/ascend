@@ -14,6 +14,7 @@ interface GroupInfoContract {
 
         fun onBackPressed()
         fun loadData(groupId: Long)
+        fun setModel(model: GroupEntity)
         fun subscribe()
         fun joinToDiscussion()
         fun startGroup()

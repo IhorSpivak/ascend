@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.main.group_list
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.dto.GroupListModel
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.SortType
@@ -12,7 +14,6 @@ import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
 import com.doneit.ascend.presentation.models.GroupListWithUserPaged
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -31,7 +32,7 @@ class GroupListViewModel(
     }
 
     override fun applyArguments(args: GroupListArgs) {
-        GlobalScope.launch {
+        viewModelScope.launch {
 
             if (args.groupType != null) {
                 groupType.postValue(GroupType.values()[args.groupType].toStringValueUI())
@@ -72,7 +73,7 @@ class GroupListViewModel(
         }
     }
 
-    override fun onGroupClick(id: Long) {
-        router.navigateToGroupInfo(id)
+    override fun onGroupClick(model: GroupEntity) {
+        router.navigateToGroupInfo(model)
     }
 }

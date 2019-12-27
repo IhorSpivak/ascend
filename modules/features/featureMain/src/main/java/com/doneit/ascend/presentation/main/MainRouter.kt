@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.crop.CropActivity
@@ -127,10 +128,8 @@ class MainRouter(
         activity.startActivity(Intent(activity, MasterMindActivity::class.java))
     }
 
-    override fun navigateToGroupInfo(id: Long) {
-        val intent = Intent(activity, GroupInfoActivity::class.java)
-        intent.putExtra(GroupInfoActivity.GROUP_ID, id)
-        activity.startActivity(intent)
+    override fun navigateToGroupInfo(model: GroupEntity) {
+        activity.openGroupInfo(model)
     }
 
     override fun openProfile(model: MasterMindEntity) {
@@ -165,5 +164,17 @@ class MainRouter(
 fun AppCompatActivity.openMMInfo(model: MasterMindEntity) {
     val intent = Intent(this, MMInfoActivity::class.java)
     intent.putExtra(MMInfoActivity.MM_ENTITY, model)
+    this.startActivity(intent)
+}
+
+fun AppCompatActivity.openGroupInfo(model: GroupEntity) {
+    val intent = Intent(this, GroupInfoActivity::class.java)
+    intent.putExtra(GroupInfoActivity.GROUP_ENTITY, model)
+    this.startActivity(intent)
+}
+
+fun AppCompatActivity.openGroupInfo(id: Long) {
+    val intent = Intent(this, GroupInfoActivity::class.java)
+    intent.putExtra(GroupInfoActivity.GROUP_ID, id)
     this.startActivity(intent)
 }

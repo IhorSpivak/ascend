@@ -26,13 +26,13 @@ class MasterMindEntity(
         description = parcel.readString(),
         location = parcel.readString(),
         bio = parcel.readString(),
-        groupsCount = parcel.readValue(Int::class.java.classLoader) as Int?,
+        groupsCount = parcel.readInteger(),
         rating = parcel.readFloat(),
-        followed = parcel.readInt() == 1,
-        rated = parcel.readInt() == 1,
+        followed = parcel.readBool()!!,
+        rated = parcel.readBool()!!,
         image = parcel.readParcelable<ImageEntity>(ImageEntity::class.java.classLoader),
-        allowRating = (parcel.readValue(Int::class.java.classLoader) as Int?) == 1,
-        myRating = parcel.readValue(Int::class.java.classLoader) as Int?
+        allowRating = parcel.readBool(),
+        myRating = parcel.readInteger()
     )
 
     override fun writeToParcel(p0: Parcel?, p1: Int) {
@@ -42,19 +42,17 @@ class MasterMindEntity(
         p0?.writeString(description)
         p0?.writeString(location)
         p0?.writeString(bio)
-        p0?.writeValue(groupsCount)
+        p0?.writeInteger(groupsCount)
         p0?.writeFloat(rating)
-        p0?.writeInt(followed.toInt())
-        p0?.writeInt(rated.toInt())
+        p0?.writeBool(followed)
+        p0?.writeBool(rated)
         p0?.writeParcelable(image, p1)
-        p0?.writeValue(allowRating?.toInt())
-        p0?.writeValue(myRating)
+        p0?.writeBool(allowRating)
+        p0?.writeInteger(myRating)
 
     }
 
     override fun describeContents() = 0
-
-    private fun Boolean.toInt() = if (this) 1 else 0
 
     companion object CREATOR : Parcelable.Creator<MasterMindEntity> {
         override fun createFromParcel(parcel: Parcel): MasterMindEntity {

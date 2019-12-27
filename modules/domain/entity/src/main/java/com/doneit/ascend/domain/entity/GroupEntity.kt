@@ -1,5 +1,7 @@
 package com.doneit.ascend.domain.entity
 
+import android.os.Parcel
+import android.os.Parcelable
 import com.doneit.ascend.domain.entity.dto.GroupType
 import java.util.*
 
@@ -22,7 +24,27 @@ class GroupEntity(
     val participantsCount: Int?,
     val invitesCount: Int?,
     val daysOfWeek: List<CalendarDayEntity>?
-) : SearchEntity(id) {
+) : SearchEntity(id), Parcelable {
+
+    private constructor(parcel: Parcel) : this(
+        id = parcel.readLong(),
+        name = parcel.readString(),
+        description = parcel.readString(),
+        startTime = parcel.readDate(),
+        groupType = parcel.readGroupType(),
+        price = parcel.readF(),
+        image = parcel.readParcelable<ImageEntity>(ImageEntity::class.java.classLoader),
+        meetingsCount = parcel.readInteger(),
+        passedCount = parcel.readInt(),
+        createdAt = parcel.readDate(),
+        updatedAt = parcel.readDate(),
+        owner = parcel.readParcelable<OwnerEntity>(OwnerEntity::class.java.classLoader),
+        subscribed = parcel.readBool(),
+        invited = parcel.readBool(),
+        participantsCount = parcel.readInteger(),
+        invitesCount = parcel.readInteger(),
+        daysOfWeek = (parcel.readArrayList(Int::class.java.classLoader) as List<Int>?)?.map { CalendarDayEntity.values()[it] }
+    )
 
     val isStarting: Boolean
         get() {//todo refactor
@@ -94,8 +116,38 @@ class GroupEntity(
         return c
     }
 
-    companion object {
+    override fun writeToParcel(p0: Parcel?, p1: Int) {
+        p0?.writeLong(id)
+        p0?.writeString(name)
+        p0?.writeString(description)
+        p0?.writeDate(startTime)
+        p0?.writeGroupType(groupType)
+        p0?.writeF(price)
+        p0?.writeParcelable(image, p1)
+        p0?.writeInteger(meetingsCount)
+        p0?.writeInt(passedCount)
+        p0?.writeDate(createdAt)
+        p0?.writeDate(updatedAt)
+        p0?.writeParcelable(owner, p1)
+        p0?.writeBool(subscribed)
+        p0?.writeBool(invited)
+        p0?.writeInteger(participantsCount)
+        p0?.writeInteger(invitesCount)
+        p0?.writeList(daysOfWeek?.map { it.ordinal })
+    }
+
+    override fun describeContents() = 0
+
+    companion object CREATOR : Parcelable.Creator<GroupEntity> {
         private const val PROGRESS_DURATION = 1 * 60 * 60 * 1000L //1hour
         private const val UPCOMING_INTERVAL = 10 * 60 * 1000L //10 min
+
+        override fun createFromParcel(parcel: Parcel): GroupEntity {
+            return GroupEntity(parcel)
+        }
+
+        override fun newArray(size: Int): Array<GroupEntity?> {
+            return arrayOfNulls(size)
+        }
     }
 }

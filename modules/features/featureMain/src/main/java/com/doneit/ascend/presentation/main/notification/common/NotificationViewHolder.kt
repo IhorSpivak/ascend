@@ -38,7 +38,7 @@ class NotificationViewHolder(
             if(motionEvent.action == MotionEvent.ACTION_UP) {
                 if (posX == motionEvent.rawX && posY == motionEvent.rawY) {
                     // click
-                    onClickListener.invoke(item.id!!)
+                    onClickListener.invoke(item.groupId!!)
                 }
             }
 

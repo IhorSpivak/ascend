@@ -22,6 +22,15 @@ class GroupInfoViewModel(
     override val btnStartVisible = MutableLiveData<Boolean>(false)
     override val btnDeleteVisible = MutableLiveData<Boolean>(false)
 
+    override fun setModel(model: GroupEntity) {
+        group.postValue(model)
+
+        viewModelScope.launch {
+            val user = userUseCase.getUser()
+            updateButtonsState(user!!, model)
+        }
+    }
+
     override fun loadData(groupId: Long) {
         viewModelScope.launch {
             val response = groupUseCase.getGroupDetails(groupId)
