@@ -72,8 +72,6 @@ internal class UserRepository(
     ): RemoteResponse<ProfileResponse, ErrorsListResponse> {
         return execute({
 
-            val serializer = GsonBuilder().serializeNulls().create()//todo resolve null passing problem
-
             var builder = MultipartBody.Builder()
 
             var stringPart: MultipartBody.Part
@@ -82,26 +80,40 @@ internal class UserRepository(
                 builder = builder.addPart(stringPart)
             }
 
-            stringPart = MultipartBody.Part.createFormData("display_name", serializer.toJson(request.displayName))
-            builder = builder.addPart(stringPart)
+            request.displayName?.let {
+                stringPart = MultipartBody.Part.createFormData("display_name", request.displayName)
+                builder = builder.addPart(stringPart)
+            }
 
-            stringPart = MultipartBody.Part.createFormData("location", serializer.toJson(null))
-            builder = builder.addPart(stringPart)
+            request.location?.let {
+                stringPart = MultipartBody.Part.createFormData("location", request.location)
+                builder = builder.addPart(stringPart)
+            }
 
-            stringPart = MultipartBody.Part.createFormData("meeting_started", serializer.toJson(request.isMeetingStarted?.toString()))
-            builder = builder.addPart(stringPart)
+            request.isMeetingStarted?.let {
+                stringPart = MultipartBody.Part.createFormData("meeting_started", gson.toJson(request.isMeetingStarted))
+                builder = builder.addPart(stringPart)
+            }
 
-            stringPart = MultipartBody.Part.createFormData("invite_to_a_meeting", serializer.toJson(request.hasInviteToMeeting?.toString()))
-            builder = builder.addPart(stringPart)
+            request.hasInviteToMeeting?.let {
+                stringPart = MultipartBody.Part.createFormData("invite_to_a_meeting", gson.toJson(request.hasInviteToMeeting))
+                builder = builder.addPart(stringPart)
+            }
 
-            stringPart = MultipartBody.Part.createFormData("age", serializer.toJson(request.age?.toString()))
-            builder = builder.addPart(stringPart)
+            request.age?.let {
+                stringPart = MultipartBody.Part.createFormData("age", gson.toJson(request.age))
+                builder = builder.addPart(stringPart)
+            }
 
-            stringPart = MultipartBody.Part.createFormData("bio", serializer.toJson(request.bio))
-            builder = builder.addPart(stringPart)
+            request.bio?.let {
+                stringPart = MultipartBody.Part.createFormData("bio", gson.toJson(request.bio))
+                builder = builder.addPart(stringPart)
+            }
 
-            stringPart = MultipartBody.Part.createFormData("description", serializer.toJson(request.description))
-            builder = builder.addPart(stringPart)
+            request.description?.let {
+                stringPart = MultipartBody.Part.createFormData("description", gson.toJson(request.description))
+                builder = builder.addPart(stringPart)
+            }
 
             if(updateImage) {
                 var filePart = if(file != null) {
@@ -112,7 +124,7 @@ internal class UserRepository(
                     )
 
                 } else {
-                    MultipartBody.Part.createFormData("image", serializer.toJson(null))
+                    MultipartBody.Part.createFormData("image", gson.toJson(null))
                 }
                 builder = builder.addPart(filePart)
             }
