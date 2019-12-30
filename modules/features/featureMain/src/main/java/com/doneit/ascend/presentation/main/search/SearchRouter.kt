@@ -1,11 +1,9 @@
 package com.doneit.ascend.presentation.main.search
 
-import android.content.Intent
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
-import com.doneit.ascend.presentation.main.group_info.GroupInfoActivity
-import com.doneit.ascend.presentation.main.group_list.GroupListActivity
 import com.doneit.ascend.presentation.main.openGroupInfo
+import com.doneit.ascend.presentation.main.openGroupList
 import com.doneit.ascend.presentation.main.openMMInfo
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
@@ -21,12 +19,7 @@ class SearchRouter(
     }
 
     override fun navigateToGroupList(userId: Long) {
-        val intent = Intent(activity, GroupListActivity::class.java)
-
-        intent.putExtra(GroupListActivity.ARG_GROUP_TYPE, -1)
-        intent.putExtra(GroupListActivity.ARG_USER_ID, userId)
-
-        activity.startActivity(intent)
+        activity.openGroupList(userId)
     }
 
     override fun navigateToGroupInfo(model: GroupEntity) {

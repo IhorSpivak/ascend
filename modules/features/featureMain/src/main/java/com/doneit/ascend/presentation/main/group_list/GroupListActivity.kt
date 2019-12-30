@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
+import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -27,23 +28,11 @@ class GroupListActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_group)
 
-        val groupType = intent.getIntExtra(ARG_GROUP_TYPE, -1)
-        val isMyGroups = intent.getIntExtra(ARG_IS_MINE, 0)
-        val isAllGroups = intent.getBooleanExtra(ARG_IS_ALL, false)
-        val userId = intent.getLongExtra(ARG_USER_ID, -1)
-
-        if(groupType != -1) {
-            router.navigateToStart(groupType, isMyGroups, isAllGroups)
-        }
-        else {
-            router.navigateToStart(userId)
-        }
+        val args = intent.getParcelableExtra<GroupListArgs>(ARG_GROUP_FILTER)!!
+        router.navigateToStart(args)
     }
 
     companion object {
-        const val ARG_GROUP_TYPE = "arg_group_type"
-        const val ARG_IS_MINE = "arg_is_mine"
-        const val ARG_IS_ALL = "arg_is_all"
-        const val ARG_USER_ID = "arg_user_id"
+        const val ARG_GROUP_FILTER = "GROUP_FILTER"
     }
 }

@@ -67,7 +67,7 @@ class ProfileViewModel(
 
     override fun onSeeMyGroupsClick() {
         errorMessage.call()
-        router.navigateToGroupList(GroupType.DAILY, true, true)
+        router.navigateToGroupList(null, true)
     }
 
     override fun onNotificationClick() {

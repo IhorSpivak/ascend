@@ -34,7 +34,7 @@ interface ProfileContract {
         fun navigateToLogin()
         fun navigateToTerms()
         fun navigateToPrivacyPolicy()
-        fun navigateToGroupList(groupType: GroupType?, isMyGroups: Boolean?, isAllGroups: Boolean)
+        fun navigateToGroupList(groupType: GroupType?, isMyGroups: Boolean?)
         fun navigateToNotifications()
         fun navigateToAvatarUCropActivity(
             sourceUri: Uri,

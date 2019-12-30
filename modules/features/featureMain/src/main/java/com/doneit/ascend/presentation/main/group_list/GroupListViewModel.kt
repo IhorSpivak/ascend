@@ -34,42 +34,27 @@ class GroupListViewModel(
     override fun applyArguments(args: GroupListArgs) {
         viewModelScope.launch {
 
-            if (args.groupType != null) {
-                groupType.postValue(GroupType.values()[args.groupType].toStringValueUI())
-
-                val model = GroupListModel(
-                    perPage = 50,
-                    sortType = SortType.DESC,
-                    groupType = if (args.isAllGroups == true) null else GroupType.values()[args.groupType],
-                    myGroups = args.isMyGroups
-                )
-
-                val result = groupUseCase.getGroupListPaged(model)
-
-                val user = userUseCase.getUser()
-                groups.postValue(
-                    GroupListWithUserPaged(
-                        result,
-                        user!!
-                    )
-                )
-            } else {
-                val model = GroupListModel(
-                    perPage = 50,
-                    sortType = SortType.DESC,
-                    userId = args.userId
-                )
-
-                val result = groupUseCase.getGroupListPaged(model)
-
-                val user = userUseCase.getUser()
-                groups.postValue(
-                    GroupListWithUserPaged(
-                        result,
-                        user!!
-                    )
-                )
+            args.groupType?.let {
+                groupType.postValue(args.groupType.toStringValueUI())
             }
+
+            val model = GroupListModel(
+                perPage = 50,
+                sortType = SortType.DESC,
+                userId = args.userId,
+                groupType = if(args.groupType == GroupType.DAILY) null else args.groupType,//according to requirement to display all created group on first tab,
+                myGroups = args.isMyGroups
+            )
+
+            val result = groupUseCase.getGroupListPaged(model)
+
+            val user = userUseCase.getUser()
+            groups.postValue(
+                GroupListWithUserPaged(
+                    result,
+                    user!!
+                )
+            )
         }
     }
 

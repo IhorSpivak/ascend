@@ -15,6 +15,7 @@ import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.main.group_info.GroupInfoActivity
 import com.doneit.ascend.presentation.main.group_list.GroupListActivity
+import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.master_mind.MasterMindActivity
@@ -85,7 +86,8 @@ class MainRouter(
     }
 
     override fun navigateToRegularUserProfile() {
-        activity.supportFragmentManager.replaceWithBackStack(containerId,
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerId,
             ProfileFragment()
         )
     }
@@ -101,25 +103,8 @@ class MainRouter(
         activity.startActivity(Intent(activity, CreateGroupActivity::class.java))
     }
 
-    //todo replace arguments by parcelable filter model
-    override fun navigateToGroupList(
-        groupType: GroupType?,
-        isMyGroups: Boolean?,
-        isAllGroups: Boolean
-    ) {
-
-        val intent = Intent(activity, GroupListActivity::class.java)
-        intent.putExtra(GroupListActivity.ARG_GROUP_TYPE, groupType?.ordinal ?: 0)
-        intent.putExtra(
-            GroupListActivity.ARG_IS_MINE, when (isMyGroups) {
-                null -> -1
-                false -> 0
-                true -> 1
-            }
-        )
-        intent.putExtra(GroupListActivity.ARG_IS_ALL, isAllGroups)
-
-        activity.startActivity(intent)
+    override fun navigateToGroupList(groupType: GroupType?, isMyGroups: Boolean?) {
+        activity.openGroupList(groupType =  groupType, isMyGroups = isMyGroups)
     }
 
     override fun navigateToSearch() {
@@ -165,22 +150,4 @@ class MainRouter(
     override fun goBack() {
         activity.supportFragmentManager.popBackStack()
     }
-}
-
-fun AppCompatActivity.openMMInfo(model: MasterMindEntity) {
-    val intent = Intent(this, MMInfoActivity::class.java)
-    intent.putExtra(MMInfoActivity.MM_ENTITY, model)
-    this.startActivity(intent)
-}
-
-fun AppCompatActivity.openGroupInfo(model: GroupEntity) {
-    val intent = Intent(this, GroupInfoActivity::class.java)
-    intent.putExtra(GroupInfoActivity.GROUP_ENTITY, model)
-    this.startActivity(intent)
-}
-
-fun AppCompatActivity.openGroupInfo(id: Long) {
-    val intent = Intent(this, GroupInfoActivity::class.java)
-    intent.putExtra(GroupInfoActivity.GROUP_ID, id)
-    this.startActivity(intent)
 }

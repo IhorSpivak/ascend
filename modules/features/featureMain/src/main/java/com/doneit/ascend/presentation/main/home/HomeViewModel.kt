@@ -34,18 +34,16 @@ class HomeViewModel(
     override val groupName = MutableLiveData<String>()
     private var groupType: GroupType? = null
     private var isMyGroups: Boolean? = null
-    private var isAllGroups: Boolean = true
 
     override fun applyArguments(args: GroupsArgs) {
-        groupType = GroupType.values()[args.groupType]
-        groupName.postValue(groupType?.toStringValueUI())
+        groupType = args.groupType
+        groupName.postValue(groupType!!.toStringValueUI())
 
-        isAllGroups = args.isAllGroups
         isMyGroups = args.isMineGroups
     }
 
     override fun navigateToGroupList() {
-        router.navigateToGroupList(groupType, isMyGroups, isAllGroups)
+        router.navigateToGroupList(groupType, isMyGroups)
     }
 
     override fun updateData() {
@@ -75,7 +73,7 @@ class HomeViewModel(
     private suspend fun fetchGroups() {
         val model = GroupListModel(
             sortType = SortType.DESC,
-            groupType = if (isAllGroups) null else groupType,
+            groupType = if(groupType == GroupType.DAILY) null else groupType,//according to requirement to display all created group on first tab
             myGroups = isMyGroups
         )
 

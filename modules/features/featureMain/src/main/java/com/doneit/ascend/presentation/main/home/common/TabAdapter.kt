@@ -32,11 +32,11 @@ class TabAdapter(
     companion object {
         fun newInstance(fragment: Fragment, fragmentManager: FragmentManager, userCommunity: String?): TabAdapter {
 
-            var fragments: ArrayList<Fragment> = arrayListOf(
-                getFragment(GroupType.DAILY, isMineGroups = true, isAllGroups = true),
-                getFragment(GroupType.WEBINARS, isMineGroups = null, isAllGroups = false),
-                getFragment(userCommunity.parseTo(), isMineGroups = null, isAllGroups = false),
-                getFragment(GroupType.MASTER_MIND, isMineGroups = null, isAllGroups = false)
+            val fragments: ArrayList<Fragment> = arrayListOf(
+                getFragment(GroupType.DAILY, isMineGroups = true),
+                getFragment(GroupType.WEBINARS, isMineGroups = null),
+                getFragment(userCommunity.parseTo(), isMineGroups = null),
+                getFragment(GroupType.MASTER_MIND, isMineGroups = null)
             )
 
             val titles: ArrayList<String> = arrayListOf(
@@ -49,8 +49,8 @@ class TabAdapter(
             return TabAdapter(fragmentManager, fragments, titles)
         }
 
-        private fun getFragment(groupType: GroupType, isMineGroups: Boolean?, isAllGroups: Boolean): Fragment {
-            val args = GroupsArgs(groupType.ordinal, isMineGroups, isAllGroups)
+        private fun getFragment(groupType: GroupType?, isMineGroups: Boolean?): Fragment {
+            val args = GroupsArgs(groupType, isMineGroups)
 
             val fragment = GroupsFragment()
             (fragment as Fragment).arguments = Bundle().apply {
