@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.crop
+package com.doneit.ascend.presentation.profile.crop
 
 import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.R

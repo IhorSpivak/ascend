@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
-import com.doneit.ascend.presentation.crop.CropActivity
+import com.doneit.ascend.presentation.profile.crop.CropActivity
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.extensions.replace

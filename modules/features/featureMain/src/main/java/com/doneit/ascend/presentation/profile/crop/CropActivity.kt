@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.crop
+package com.doneit.ascend.presentation.profile.crop
 
 import android.content.Intent
 import android.net.Uri
