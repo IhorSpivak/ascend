@@ -19,7 +19,7 @@ internal class MasterMindInteractor(
     }
 
     override suspend fun getMasterMingListToAdd(fullName: String): PagedList<MasterMindEntity> {
-        return masterMindGateway.getMasterMindsPagedList(MasterMindListModel(fullName = fullName))
+        return masterMindGateway.getMasterMindsPagedList(MasterMindListModel(fullName = fullName, followed = false))
     }
 
     override suspend fun getProfile(id: Long): ResponseEntity<MasterMindEntity, List<String>> {

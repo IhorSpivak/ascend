@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.mm_followed
+package com.doneit.ascend.presentation.profile.mm_followed.mm_add
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,41 +13,43 @@ import kotlinx.coroutines.launch
 
 @CreateFactory
 @ViewModelDiModule
-class MMFollowedViewModel (
-    private val masterMindUseCase: MasterMindUseCase,
-    private val router: MMFollowedContract.Router
-): BaseViewModelImpl(), MMFollowedContract.ViewModel {
+class MMAddViewModel(
+    private val router: MMAddContract.Router,
+    private val masterMindUseCase: MasterMindUseCase
+) : BaseViewModelImpl(), MMAddContract.ViewModel {
 
     override val masterMinds = MutableLiveData<PagedList<MasterMindEntity>>()
+    private var lastRequest = DEFAULT_REQUEST
 
-    override fun fetchList() {
-        updateData()
+    init {
+        submitRequest(lastRequest)
     }
 
-    override fun unfollow(id: Long) {
+    override fun submitRequest(name: String) {
+        lastRequest = name
         viewModelScope.launch {
-            val result = masterMindUseCase.unfollow(id)
+            val result = masterMindUseCase.getMasterMingListToAdd(name)
+            masterMinds.postValue(result)
+        }
+    }
 
-            if(result.isSuccessful) {
-                updateData()
+    override fun follow(id: Long) {
+        viewModelScope.launch {
+            val result = masterMindUseCase.follow(id)
+
+            if (result.isSuccessful) {
+                submitRequest(lastRequest)
             } else {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
         }
     }
 
-    override fun onAddMasterMindClick() {
-        router.navigateToAddMasterMind()
-    }
-
     override fun onBackClick() {
         router.goBack()
     }
 
-    private fun updateData() {
-        viewModelScope.launch {
-            val result = masterMindUseCase.getMasterMindList(true)
-            masterMinds.postValue(result)
-        }
+    companion object {
+        private const val DEFAULT_REQUEST = ""
     }
 }

@@ -1,22 +1,20 @@
-package com.doneit.ascend.presentation.profile.mm_followed
+package com.doneit.ascend.presentation.profile.mm_followed.mm_add
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 
-interface MMFollowedContract {
+interface MMAddContract {
     interface ViewModel: BaseViewModel {
         val masterMinds: LiveData<PagedList<MasterMindEntity>>
 
-        fun fetchList()
-        fun unfollow(id: Long)
-        fun onAddMasterMindClick()
+        fun submitRequest(name: String)
         fun onBackClick()
+        fun follow(id: Long)
     }
 
     interface Router {
-        fun navigateToAddMasterMind()
         fun goBack()
     }
 }

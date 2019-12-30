@@ -37,8 +37,15 @@
             app:layout_constraintStart_toEndOf="@id/icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvUnFollow"
+            app:layout_constraintEnd_toStartOf="@id/end"
             tools:text="MM name"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="tvFollow,tvUnFollow"/>
 
         <TextView
             android:id="@+id/tvUnFollow"
@@ -49,6 +56,21 @@
             android:textSize="14sp"
             android:textColor="@color/light_gray_da"
             android:text="@string/unfollow"
+            android:visibility="@{item.followed}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvFollow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            style="@style/TextNormal"
+            android:textSize="14sp"
+            android:textColor="@color/green_font_color"
+            android:text="@string/follow"
+            android:visibility="@{!item.followed}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

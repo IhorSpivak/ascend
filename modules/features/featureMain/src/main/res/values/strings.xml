@@ -186,8 +186,10 @@
     <string name="payment_portal">Payment Portal</string>
     <string name="tap_to_choose_display_name">Tap to choose</string>
 
+    <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
     <string name="mm_add">Add MasterMind</string>
+    <string name="mm_add_hint">Enter MasterMind Name</string>
 
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>

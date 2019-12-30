@@ -5,7 +5,8 @@ import androidx.paging.PagedListAdapter
 import com.doneit.ascend.domain.entity.MasterMindEntity
 
 class FollowedAdapter(
-    private val unfollow: (Long)->Unit
+    private val follow: (Long)->Unit = {},
+    private val unfollow: (Long)->Unit = {}
 ) : PagedListAdapter<MasterMindEntity, FollowedViewHolder>(FollowedDiffCallback()) {
 
     init {
@@ -22,6 +23,12 @@ class FollowedAdapter(
     }
 
     override fun onBindViewHolder(holder: FollowedViewHolder, position: Int) {
-        holder.bind(getItem(position)!!, unfollow)
+        holder.bind(getItem(position)!!, {
+            follow.invoke(it)
+            notifyDataSetChanged()
+        }, {
+            unfollow.invoke(it)
+            notifyDataSetChanged()
+        })
     }
 }
