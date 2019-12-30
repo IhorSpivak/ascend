@@ -234,6 +234,7 @@
                         app:iconRes="@{@drawable/ic_description}" />
 
                     <include
+                        android:id="@+id/short_description"
                         layout="@layout/template_profile_long_field"
                         app:fieldName="@{@string/short_description}"
                         app:fieldValue="@{model.user.description}"

@@ -123,6 +123,11 @@ class ProfileViewModel(
         updateProfile()
     }
 
+    override fun updateShortDescription(newShortDescription: String) {
+        updateProfileModel.description = newShortDescription
+        updateProfile()
+    }
+
     override fun updateBio(newBio: String) {
         updateProfileModel.bio = newBio
         updateProfile()

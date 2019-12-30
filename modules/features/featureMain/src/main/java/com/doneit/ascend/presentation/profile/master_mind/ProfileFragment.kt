@@ -123,6 +123,7 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
                 R.string.edit_full_name,
                 R.string.error_full_name,
+                R.string.enter_full_name,
                 viewModel.user.value?.fullName ?: ""
             ) {
                 viewModel.updateFullName(it)
@@ -133,6 +134,7 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
                 R.string.edit_display_name,
                 R.string.error_display_name,
+                R.string.hint_enter_display_name,
                 viewModel.user.value?.displayName ?: ""
             ) {
                 viewModel.updateDisplayName(it)
@@ -143,6 +145,17 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             val editBioDialog =
                 EditBioDialogFragment.newInstance(viewModel.user.value?.bio ?: "", editBioViewModel)
             editBioDialog.show(requireFragmentManager(), EditBioDialogFragment.TAG)
+        }
+
+        short_description.setOnClickListener {
+            EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
+                R.string.edit_short_description,
+                R.string.error_short_description,
+                R.string.hint_enter_short_description,
+                viewModel.user.value?.description ?: ""
+            ) {
+                viewModel.updateShortDescription(it)
+            }).show()
         }
     }
 

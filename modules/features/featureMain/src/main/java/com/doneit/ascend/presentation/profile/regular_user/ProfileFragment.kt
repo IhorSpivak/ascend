@@ -102,6 +102,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
                 R.string.edit_full_name,
                 R.string.error_full_name,
+                R.string.hint_enter_full_name,
                 viewModel.user.value?.fullName ?: ""
             ) {
                 viewModel.updateFullName(it)

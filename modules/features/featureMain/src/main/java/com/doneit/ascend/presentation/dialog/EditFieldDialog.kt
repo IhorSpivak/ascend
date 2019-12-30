@@ -35,6 +35,7 @@ class EditFieldDialog {
             }
 
             var lastText = ""
+            mDialogView.tvEditText.hint = context.getString(options.hintRes)
             mDialogView.tvEditText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
 

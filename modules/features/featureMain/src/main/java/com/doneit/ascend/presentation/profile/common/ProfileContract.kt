@@ -26,6 +26,7 @@ interface ProfileContract {
         fun updateProfileIcon(path: String?)
         fun updateFullName(newFullName: String)
         fun updateDisplayName(newDisplayName: String)
+        fun updateShortDescription(newShortDescription: String)
 
         fun navigateToEditBio()
         fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
