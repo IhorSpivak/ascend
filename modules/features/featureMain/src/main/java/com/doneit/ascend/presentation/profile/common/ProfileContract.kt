@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.profile.master_mind.ProfileContract
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface ProfileContract {
@@ -22,14 +23,9 @@ interface ProfileContract {
         fun onSeeMyGroupsClick()
         fun onNotificationClick()
 
-        fun deleteAccount()
+        fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
         fun updateProfileIcon(path: String?)
         fun updateFullName(newFullName: String)
-        fun updateDisplayName(newDisplayName: String)
-        fun updateShortDescription(newShortDescription: String)
-
-        fun navigateToEditBio()
-        fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
     }
 
     interface Router {
@@ -43,7 +39,5 @@ interface ProfileContract {
             destinationUri: Uri,
             fragmentToReceiveResult: Fragment
         )
-
-        fun navigateToEditBio(value: String)
     }
 }

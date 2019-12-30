@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.common.BottomNavigationAdapter
+import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -25,6 +26,14 @@ class MainActivity : BaseActivity() {
         bind<MainRouter>() with provider {
             MainRouter(
                 this@MainActivity,
+                instance()
+            )
+        }
+
+        bind<ProfileViewModel>() with provider {
+            ProfileViewModel(
+                instance(),
+                instance(),
                 instance()
             )
         }

@@ -7,12 +7,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.DialogEditBioBinding
+import com.doneit.ascend.presentation.profile.common.ProfileViewModel
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.bind
+import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 
-class EditBioDialogFragment : DialogFragment() {
+class EditBioDialogFragment : DialogFragment(), KodeinAware {
 
-    private lateinit var initValue: String
-    private lateinit var viewModel: EditBioContract.ViewModel
+    private val _parentKodein: Kodein by closestKodein()
+
+    override val kodein: Kodein = Kodein.lazy {
+        extend(_parentKodein, true)
+        with(parentFragment) {
+            if (this is BaseFragment<*>) {
+                extend(kodein, true)
+            }
+        }
+        import(viewModelModule, true)
+    }
+
+    private val viewModelModule = Kodein.Module(this::class.java.simpleName) {
+        bind<EditBioContract.ViewModel>() with provider { instance<ProfileViewModel>() }
+    }
+    
+    private val viewModel: EditBioContract.ViewModel by instance()
 
     override fun onStart() {
         super.onStart()
@@ -54,14 +77,8 @@ class EditBioDialogFragment : DialogFragment() {
 
         const val TAG = "BioDialogFragment"
 
-        fun newInstance(
-            initValue: String,
-            viewModel: EditBioContract.ViewModel
-        ): EditBioDialogFragment {
-            return EditBioDialogFragment().apply {
-                this.viewModel = viewModel
-                this.initValue = initValue
-            }
+        fun newInstance(): EditBioDialogFragment {
+            return EditBioDialogFragment()
         }
     }
 }
