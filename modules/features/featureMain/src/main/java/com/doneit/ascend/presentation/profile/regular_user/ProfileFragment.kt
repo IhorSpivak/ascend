@@ -20,7 +20,7 @@ import com.doneit.ascend.presentation.profile.master_mind.ProfileFragment.Compan
 import com.doneit.ascend.presentation.profile.master_mind.ProfileFragment.Companion.TEMP_CROP_IMAGE__NAME
 import com.doneit.ascend.presentation.utils.*
 import com.yalantis.ucrop.UCrop
-import kotlinx.android.synthetic.main.fragment_profile_master_mind.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -107,6 +107,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             ) {
                 viewModel.updateFullName(it)
             }).show()
+        }
+
+        mm_followed.setOnClickListener {
+            viewModel.onMMFollowedClick()
         }
     }
 

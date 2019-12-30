@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.common.ResponseEntity
 interface MasterMindUseCase {
     suspend fun getDefaultMasterMindList(): ResponseEntity<List<MasterMindEntity>, List<String>>
     suspend fun getMasterMindList(isFollowed: Boolean?): PagedList<MasterMindEntity>
+    suspend fun getMasterMingListToAdd(fullName: String): PagedList<MasterMindEntity>
     suspend fun getProfile(id: Long): ResponseEntity<MasterMindEntity, List<String>>
     suspend fun follow(userId: Long): ResponseEntity<Unit, List<String>>
     suspend fun unfollow(userId: Long): ResponseEntity<Unit, List<String>>

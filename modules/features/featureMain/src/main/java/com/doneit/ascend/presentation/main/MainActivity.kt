@@ -34,6 +34,7 @@ class MainActivity : BaseActivity() {
     private val userUseCase: UserUseCase by instance()
 
     fun getContainerId() = R.id.container
+    fun getContainerIdFull() = R.id.container_full
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

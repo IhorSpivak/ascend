@@ -145,6 +145,10 @@ class ProfileViewModel(
         router.navigateToAvatarUCropActivity(sourceUri, destinationUri, fragmentToReceiveResult)
     }
 
+    override fun onMMFollowedClick() {
+        router.navigateToMMFollowed()
+    }
+
     private fun updateProfile() {
         viewModelScope.launch {
             val result = userUseCase.updateProfile(updateProfileModel)

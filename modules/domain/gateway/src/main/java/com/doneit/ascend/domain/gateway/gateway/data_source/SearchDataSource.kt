@@ -84,7 +84,7 @@ class SearchDataSource(
         scope.launch {
             try {
 
-                var res: ResponseEntity<List<SearchEntity>, List<String>>?
+                val res: ResponseEntity<List<SearchEntity>, List<String>>?
                 if(params.key <= lastMMPage?:0) {
                     res =
                         remoteMasterMind.getMasterMindsList(requestModel.toMasterMindRequest(params.key)).toResponseEntity(

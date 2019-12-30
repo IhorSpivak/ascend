@@ -22,6 +22,8 @@ import com.doneit.ascend.presentation.main.master_mind_info.MMInfoActivity
 import com.doneit.ascend.presentation.main.notification.NotificationActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.doneit.ascend.presentation.profile.common.ProfileContract
+import com.doneit.ascend.presentation.profile.mm_followed.MMFollowedContract
+import com.doneit.ascend.presentation.profile.mm_followed.MMFollowedFragment
 import com.doneit.ascend.presentation.profile.regular_user.ProfileFragment
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
@@ -37,9 +39,12 @@ class MainRouter(
     BottomNavigationChangeListener,
     ProfileContract.Router,
     HomeContract.Router,
-    WebPageContract.Router {
+    WebPageContract.Router,
+    MMFollowedContract.Router {
 
     override val containerId = activity.getContainerId()
+    private val containerIdFull = activity.getContainerIdFull()
+
 
     fun onBack() {
         activity.supportFragmentManager.popBackStack()
@@ -163,6 +168,14 @@ class MainRouter(
 
     override fun goBack() {
         activity.supportFragmentManager.popBackStack()
+    }
+
+    override fun navigateToMMFollowed() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MMFollowedFragment())
+    }
+
+    override fun navigateToAddMasterMind() {
+        //todo
     }
 }
 

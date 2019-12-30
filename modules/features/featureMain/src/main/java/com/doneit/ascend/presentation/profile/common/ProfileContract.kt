@@ -22,6 +22,8 @@ interface ProfileContract {
         fun onSeeMyGroupsClick()
         fun onNotificationClick()
 
+        fun onMMFollowedClick()
+
         fun deleteAccount()
         fun updateProfileIcon(path: String?)
         fun updateFullName(newFullName: String)
@@ -45,5 +47,6 @@ interface ProfileContract {
         )
 
         fun navigateToEditBio(value: String)
+        fun navigateToMMFollowed()
     }
 }

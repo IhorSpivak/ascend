@@ -30,6 +30,12 @@ class MMInfoViewModel(
     override fun setModel(model: MasterMindEntity) {
         profile.postValue(model)
 
+        if(model.followed) {
+            enableUnfollow.postValue(true)
+        } else {
+            enableFollow.postValue(true)
+        }
+
         viewModelScope.launch {
 
             val currUser = userUseCase.getUser()

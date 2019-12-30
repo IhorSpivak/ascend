@@ -157,6 +157,10 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                 viewModel.updateShortDescription(it)
             }).show()
         }
+
+        mm_followed.setOnClickListener {
+            viewModel.onMMFollowedClick()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
