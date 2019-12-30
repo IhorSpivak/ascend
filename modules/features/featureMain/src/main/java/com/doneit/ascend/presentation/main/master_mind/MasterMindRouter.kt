@@ -3,8 +3,8 @@ package com.doneit.ascend.presentation.main.master_mind
 import android.content.Intent
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.presentation.main.master_mind.list.ListContract
-import com.doneit.ascend.presentation.main.openGroupList
-import com.doneit.ascend.presentation.main.openMMInfo
+import com.doneit.ascend.presentation.openGroupList
+import com.doneit.ascend.presentation.openMMInfo
 import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.vrgsoft.core.presentation.router.FragmentRouter
 

@@ -41,7 +41,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name="com.doneit.ascend.presentation.main.MainActivity"
+            android:name="com.doneit.ascend.presentation.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
 

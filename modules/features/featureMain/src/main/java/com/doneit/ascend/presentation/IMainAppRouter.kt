@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main
+package com.doneit.ascend.presentation
 
 interface IMainAppRouter {
     fun goToLogin()

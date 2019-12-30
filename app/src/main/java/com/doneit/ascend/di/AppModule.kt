@@ -6,7 +6,7 @@ import com.doneit.ascend.domain.gateway.di.GatewayModule
 import com.doneit.ascend.domain.use_case.di.UseCaseModule
 import com.doneit.ascend.presentation.AppRouter
 import com.doneit.ascend.presentation.login.ILogInAppRouter
-import com.doneit.ascend.presentation.main.IMainAppRouter
+import com.doneit.ascend.presentation.IMainAppRouter
 import com.doneit.ascend.presentation.splash.ISplashRouter
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.retrofit.RetrofitModule

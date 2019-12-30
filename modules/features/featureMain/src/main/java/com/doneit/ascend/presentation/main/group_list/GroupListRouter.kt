@@ -6,7 +6,7 @@ import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
-import com.doneit.ascend.presentation.main.openGroupInfo
+import com.doneit.ascend.presentation.openGroupInfo
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class GroupListRouter(

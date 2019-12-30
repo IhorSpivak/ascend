@@ -2,9 +2,9 @@ package com.doneit.ascend.presentation.main.search
 
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
-import com.doneit.ascend.presentation.main.openGroupInfo
-import com.doneit.ascend.presentation.main.openGroupList
-import com.doneit.ascend.presentation.main.openMMInfo
+import com.doneit.ascend.presentation.openGroupInfo
+import com.doneit.ascend.presentation.openGroupList
+import com.doneit.ascend.presentation.openMMInfo
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class SearchRouter(

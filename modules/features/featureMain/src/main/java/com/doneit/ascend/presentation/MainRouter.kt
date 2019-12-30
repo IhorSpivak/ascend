@@ -1,25 +1,21 @@
-package com.doneit.ascend.presentation.main
+package com.doneit.ascend.presentation
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.profile.crop.CropActivity
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
-import com.doneit.ascend.presentation.main.group_info.GroupInfoActivity
-import com.doneit.ascend.presentation.main.group_list.GroupListActivity
-import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.master_mind.MasterMindActivity
-import com.doneit.ascend.presentation.main.master_mind_info.MMInfoActivity
 import com.doneit.ascend.presentation.main.notification.NotificationActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.doneit.ascend.presentation.profile.common.ProfileContract

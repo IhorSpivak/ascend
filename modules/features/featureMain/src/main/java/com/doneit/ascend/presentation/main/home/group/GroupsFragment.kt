@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.main.home.group
 
 import android.os.Bundle
 import android.view.View
-import com.doneit.ascend.presentation.main.MainActivity
+import com.doneit.ascend.presentation.MainActivity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupsBinding
 import com.doneit.ascend.presentation.main.extensions.vmShared

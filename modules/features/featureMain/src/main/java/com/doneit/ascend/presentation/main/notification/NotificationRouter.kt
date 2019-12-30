@@ -1,6 +1,6 @@
 package com.doneit.ascend.presentation.main.notification
 
-import com.doneit.ascend.presentation.main.openGroupInfo
+import com.doneit.ascend.presentation.openGroupInfo
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class NotificationRouter(

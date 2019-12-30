@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main
+package com.doneit.ascend.presentation
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

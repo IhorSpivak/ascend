@@ -1,6 +1,6 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
-import com.doneit.ascend.presentation.main.openGroupList
+import com.doneit.ascend.presentation.openGroupList
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class MMInfoRouter (
