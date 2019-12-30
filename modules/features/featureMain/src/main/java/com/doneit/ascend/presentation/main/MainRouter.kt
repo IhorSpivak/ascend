@@ -21,7 +21,7 @@ import com.doneit.ascend.presentation.main.master_mind.MasterMindActivity
 import com.doneit.ascend.presentation.main.master_mind_info.MMInfoActivity
 import com.doneit.ascend.presentation.main.notification.NotificationActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
-import com.doneit.ascend.presentation.profile.regular_user.ProfileContract
+import com.doneit.ascend.presentation.profile.common.ProfileContract
 import com.doneit.ascend.presentation.profile.regular_user.ProfileFragment
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
@@ -37,8 +37,7 @@ class MainRouter(
     BottomNavigationChangeListener,
     ProfileContract.Router,
     HomeContract.Router,
-    WebPageContract.Router,
-    com.doneit.ascend.presentation.profile.master_mind.ProfileContract.Router {
+    WebPageContract.Router {
 
     override val containerId = activity.getContainerId()
 

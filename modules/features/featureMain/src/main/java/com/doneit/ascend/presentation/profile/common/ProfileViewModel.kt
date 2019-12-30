@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.regular_user
+package com.doneit.ascend.presentation.profile.common
 
 import android.net.Uri
 import androidx.fragment.app.Fragment
@@ -8,24 +8,29 @@ import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toDTO
+import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
-import com.vrgsoft.annotations.CreateFactory
-import com.vrgsoft.annotations.ViewModelDiModule
+import com.doneit.ascend.presentation.utils.isDescriptionValid
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 
-@CreateFactory
-@ViewModelDiModule
 class ProfileViewModel(
     private val userUseCase: UserUseCase,
     private val router: ProfileContract.Router
-) : BaseViewModelImpl(), ProfileContract.ViewModel {
+) : BaseViewModelImpl(),
+    ProfileContract.ViewModel,
+    EditBioContract.ViewModel {
 
     override val user = MutableLiveData<ProfileEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
     override val showDeleteButton = MutableLiveData<Boolean>()
+    override val bioValue = ValidatableField()
+    override val canSaveBio = MutableLiveData<Boolean>()
 
     private lateinit var updateProfileModel: UpdateProfileModel
 
@@ -38,7 +43,23 @@ class ProfileViewModel(
 
                 user.postValue(result.successModel!!)
                 updateProfileModel = result.successModel!!.toDTO()
+                bioValue.observableField.set(result.successModel?.bio)
             }
+        }
+
+        bioValue.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isDescriptionValid().not()) {
+                result.isSussed = false
+                result.errors.add(R.string.error_description)
+            }
+
+            result
+        }
+
+        bioValue.onFieldInvalidate = {
+            canSaveBio.postValue(bioValue.isValid)
         }
     }
 
@@ -97,6 +118,20 @@ class ProfileViewModel(
         updateProfile()
     }
 
+    override fun updateDisplayName(newDisplayName: String) {
+        updateProfileModel.displayName = newDisplayName
+        updateProfile()
+    }
+
+    override fun updateBio(newBio: String) {
+        updateProfileModel.bio = newBio
+        updateProfile()
+    }
+
+    override fun navigateToEditBio() {
+        router.navigateToEditBio(updateProfileModel.bio ?: "")
+    }
+
     override fun onAvatarSelected(
         sourceUri: Uri,
         destinationUri: Uri,
@@ -109,7 +144,8 @@ class ProfileViewModel(
         viewModelScope.launch {
             val result = userUseCase.updateProfile(updateProfileModel)
 
-            if(result.isSuccessful) {
+            if (result.isSuccessful) {
+                user.postValue(null)
                 user.postValue(result.successModel!!)
                 updateProfileModel = result.successModel!!.toDTO()
             }

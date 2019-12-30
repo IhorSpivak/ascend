@@ -5,8 +5,8 @@ import androidx.paging.PagedListAdapter
 import com.doneit.ascend.domain.entity.MasterMindEntity
 
 class MasterMindAdapter(
-    private val onItemClick:(model: MasterMindEntity)->Unit,
-    private val onSeeGroupsClick: (id: Long)->Unit
+    private val onItemClick: (item: MasterMindEntity) -> Unit,
+    private val onSeeGroupsClick: (id: Long) -> Unit
 ) :
     PagedListAdapter<MasterMindEntity, MasterMindViewHolder>(MasterMindDiffCallback()) {
 

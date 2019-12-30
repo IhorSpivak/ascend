@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.master_mind
+package com.doneit.ascend.presentation.profile.common
 
 import android.net.Uri
 import androidx.fragment.app.Fragment
@@ -26,6 +26,7 @@ interface ProfileContract {
         fun updateProfileIcon(path: String?)
         fun updateFullName(newFullName: String)
         fun updateDisplayName(newDisplayName: String)
+
         fun navigateToEditBio()
         fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
     }

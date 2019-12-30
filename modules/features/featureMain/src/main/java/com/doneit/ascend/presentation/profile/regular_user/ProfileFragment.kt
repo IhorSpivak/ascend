@@ -12,20 +12,29 @@ import com.doneit.ascend.presentation.dialog.EditFieldDialogOptions
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileBinding
+import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.models.PresentationMessage
+import com.doneit.ascend.presentation.profile.common.ProfileContract
+import com.doneit.ascend.presentation.profile.common.ProfileViewModel
+import com.doneit.ascend.presentation.profile.master_mind.ProfileFragment.Companion.PROFILE_VM_TAG
 import com.doneit.ascend.presentation.profile.master_mind.ProfileFragment.Companion.TEMP_CROP_IMAGE__NAME
 import com.doneit.ascend.presentation.utils.*
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_profile_master_mind.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import java.io.File
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
-    override val viewModelModule =
-        ProfileViewModelModule.get(this)
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
+        bind<ProfileContract.ViewModel>() with provider { vmShared<ProfileViewModel>(instance(tag = PROFILE_VM_TAG)) }
+    }
+
     override val viewModel: ProfileContract.ViewModel by instance()
 
     private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }

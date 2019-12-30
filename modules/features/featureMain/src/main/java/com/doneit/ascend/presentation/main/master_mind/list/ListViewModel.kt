@@ -37,9 +37,8 @@ class ListViewModel(
         }
     }
 
-
-    override fun openProfile(model: MasterMindEntity) {
-        router.openProfile(model)
+    override fun openProfile(item: MasterMindEntity) {
+        router.openProfile(item)
     }
 
     override fun openGroupList(id: Long) {

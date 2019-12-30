@@ -6,28 +6,57 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.dialog.EditFieldDialog
 import com.doneit.ascend.presentation.dialog.EditFieldDialogOptions
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileMasterMindBinding
+import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.models.PresentationMessage
+import com.doneit.ascend.presentation.profile.common.ProfileContract
+import com.doneit.ascend.presentation.profile.common.ProfileViewModel
+import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
+import com.doneit.ascend.presentation.profile.edit_bio.EditBioDialogFragment
 import com.doneit.ascend.presentation.utils.*
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_profile_master_mind.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.kodein.di.Kodein
+import org.kodein.di.direct
+import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 import java.io.File
 
 class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
 
-    override val viewModelModule =
-        ProfileViewModelModule.get(
-            this
-        )
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
+
+        bind<ViewModelProvider.Factory>(tag = PROFILE_VM_TAG) with singleton {
+            CommonViewModelFactory(
+                kodein.direct
+            )
+        }
+
+        bind<ViewModel>(tag = ProfileViewModel::class.java.simpleName) with provider {
+            ProfileViewModel(
+                instance(),
+                instance()
+            )
+        }
+
+        bind<ProfileContract.ViewModel>() with provider { vmShared<ProfileViewModel>(instance(tag = PROFILE_VM_TAG)) }
+        bind<EditBioContract.ViewModel>() with provider { vmShared<ProfileViewModel>(instance(tag = PROFILE_VM_TAG)) }
+    }
+
     override val viewModel: ProfileContract.ViewModel by instance()
+    private val editBioViewModel: EditBioContract.ViewModel by instance()
 
     private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
     private val cropPhotoUri by lazy { context!!.createCropPhotoUri(TEMP_CROP_IMAGE__NAME) }
@@ -110,9 +139,11 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             }).show()
         }
 
-//        location.setOnClickListener {
-//            viewModel.navigateToEditBio()
-//        }
+        bio.setOnClickListener {
+            val editBioDialog =
+                EditBioDialogFragment.newInstance(viewModel.user.value?.bio ?: "", editBioViewModel)
+            editBioDialog.show(requireFragmentManager(), EditBioDialogFragment.TAG)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -150,5 +181,7 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         private const val CAMERA_REQUEST_CODE = 41
         private const val TEMP_IMAGE_NAME = "profile_image_temp.jpg"
         const val TEMP_CROP_IMAGE__NAME = "profile_image_crop_temp.jpeg"
+
+        const val PROFILE_VM_TAG = ""
     }
 }

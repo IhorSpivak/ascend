@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.profile.master_mind.ProfileContract.ViewModel" />
+            type="com.doneit.ascend.presentation.profile.common.ProfileContract.ViewModel" />
 
     </data>
 
@@ -226,7 +226,7 @@
                         app:iconRes="@{@drawable/ic_location}" />
 
                     <include
-                        android:id="@+id/location"
+                        android:id="@+id/bio"
                         layout="@layout/template_profile_long_field"
                         app:fieldName="@{@string/bio}"
                         app:fieldValue="@{model.user.bio}"
