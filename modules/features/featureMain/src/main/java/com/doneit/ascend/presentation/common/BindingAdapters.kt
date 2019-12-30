@@ -155,6 +155,11 @@ fun setVisibility(view: Button, isShow: Boolean) {
     view.visibility = if (isShow) View.VISIBLE else View.GONE
 }
 
+@BindingAdapter("android:visibility")
+fun View.setVisibility(isShow: Boolean) {
+    visibility = if (isShow) View.VISIBLE else View.GONE
+}
+
 @BindingAdapter("app:setAdapter", "app:setAdapterData", requireAll = false)
 fun setAdapter(
     view: androidx.recyclerview.widget.RecyclerView,

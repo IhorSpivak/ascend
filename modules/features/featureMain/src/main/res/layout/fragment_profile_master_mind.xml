@@ -226,7 +226,7 @@
                         app:iconRes="@{@drawable/ic_location}" />
 
                     <include
-                        android:id="@+id/location"
+                        android:id="@+id/bio"
                         layout="@layout/template_profile_long_field"
                         app:fieldName="@{@string/bio}"
                         app:fieldValue="@{model.user.bio}"
@@ -234,6 +234,7 @@
                         app:iconRes="@{@drawable/ic_description}" />
 
                     <include
+                        android:id="@+id/short_description"
                         layout="@layout/template_profile_long_field"
                         app:fieldName="@{@string/short_description}"
                         app:fieldValue="@{model.user.description}"
@@ -255,6 +256,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/llProfileFields">
 
                     <include
+                        android:id="@+id/mm_followed"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/master_mind_following}"
                         app:fieldValue="@{@string/empty}"

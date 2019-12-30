@@ -106,12 +106,12 @@ internal class UserRepository(
             }
 
             request.bio?.let {
-                stringPart = MultipartBody.Part.createFormData("bio", gson.toJson(request.bio))
+                stringPart = MultipartBody.Part.createFormData("bio", request.bio)
                 builder = builder.addPart(stringPart)
             }
 
             request.description?.let {
-                stringPart = MultipartBody.Part.createFormData("description", gson.toJson(request.description))
+                stringPart = MultipartBody.Part.createFormData("description", request.description)
                 builder = builder.addPart(stringPart)
             }
 

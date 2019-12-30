@@ -5,11 +5,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.search.SearchContract.ViewModel" />
-
-        <variable
-            name="adapter"
-            type="com.doneit.ascend.presentation.main.search.common.SearchAdapter" />
+            type="com.doneit.ascend.presentation.profile.mm_followed.mm_add.MMAddContract.ViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +13,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@android:color/white">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/searchBar"
@@ -45,7 +41,7 @@
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_back"
                         android:tint="@color/light_gray_8f"
-                        android:visibility="visible"
+                        android:onClick="@{(v) -> model.onBackClick()}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,7 +52,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="11dp"
-                        android:text="@string/search_title"
+                        android:text="@string/mm_add"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +93,8 @@
                                 android:layout_marginEnd="8dp"
                                 android:includeFontPadding="false"
                                 android:background="@android:color/transparent"
-                                tools:text="Query" />
+                                android:hint="@string/mm_add_hint"
+                                tools:text="Name" />
                         </LinearLayout>
 
 
@@ -108,16 +105,15 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSearch"
+            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchBar"
-            app:setAdapter="@{adapter}"
-            app:setAdapterData="@{model.groups}" />
+            tools:listitem="@layout/template_master_mind_followed"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

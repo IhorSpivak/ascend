@@ -48,17 +48,30 @@
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <androidx.cardview.widget.CardView
         android:id="@+id/fabCreateGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="@color/selecor_btn_enabled"
-        android:tint="@android:color/white"
-        app:borderWidth="0dp"
-        app:layout_anchor="@id/bottom_app_bar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_gravity="bottom|center_horizontal"
-        app:layout_anchorGravity="bottom|center_horizontal"
-        app:srcCompat="@drawable/ic_camera_plus" />
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/selecor_btn_enabled"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="4dp"
+        app:layout_anchor="@id/bottom_app_bar"
+        app:layout_anchorGravity="bottom|center_horizontal">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:padding="16dp"
+            android:src="@drawable/ic_camera_plus" />
+    </androidx.cardview.widget.CardView>
+
+    <FrameLayout
+        android:id="@+id/container_full"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:outlineProvider="none"
+        android:elevation="4dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

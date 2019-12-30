@@ -176,6 +176,7 @@
     <string name="move_and_scale">Move and Scale</string>
     <string name="error_full_name">Please, enter your Full Name correctly</string>
     <string name="error_display_name">Please, enter your Display Name correctly</string>
+    <string name="error_short_description">Please, enter your short description correctly</string>
 
     <!--MM Profile-->
     <string name="display_name">Display name</string>
@@ -184,6 +185,11 @@
     <string name="profile_rating">Profile Rating</string>
     <string name="payment_portal">Payment Portal</string>
     <string name="tap_to_choose_display_name">Tap to choose</string>
+
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="mm_add">Add MasterMind</string>
+    <string name="mm_add_hint">Enter MasterMind Name</string>
 
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>
@@ -196,5 +202,9 @@
     <string name="btn_save">Save</string>
     <string name="edit_display_name">Edit Display Name</string>
     <string name="edit_bio">Edit BIO</string>
-
+    <string name="mm_followed_title">MasterMind Followed</string>
+    <string name="edit_short_description">Edit Short Description</string>
+    <string name="hint_enter_full_name">Enter full name</string>
+    <string name="hint_enter_display_name">Enter display name</string>
+    <string name="hint_enter_short_description">Enter short description</string>
 </resources>

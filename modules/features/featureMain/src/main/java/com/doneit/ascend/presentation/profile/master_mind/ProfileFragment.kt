@@ -13,20 +13,24 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileMasterMindBinding
 import com.doneit.ascend.presentation.models.PresentationMessage
+import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.*
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_profile_master_mind.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 import java.io.File
 
 class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
 
-    override val viewModelModule =
-        ProfileViewModelModule.get(
-            this
-        )
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
+        bind<ProfileContract.ViewModel>() with provider { instance<ProfileViewModel>() }
+    }
+
     override val viewModel: ProfileContract.ViewModel by instance()
 
     private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
@@ -94,6 +98,7 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
                 R.string.edit_full_name,
                 R.string.error_full_name,
+                R.string.enter_full_name,
                 viewModel.user.value?.fullName ?: ""
             ) {
                 viewModel.updateFullName(it)
@@ -104,15 +109,31 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
                 R.string.edit_display_name,
                 R.string.error_display_name,
+                R.string.hint_enter_display_name,
                 viewModel.user.value?.displayName ?: ""
             ) {
                 viewModel.updateDisplayName(it)
             }).show()
         }
 
-//        location.setOnClickListener {
-//            viewModel.navigateToEditBio()
-//        }
+        bio.setOnClickListener {
+            viewModel.navigateToEditBio()
+        }
+
+        short_description.setOnClickListener {
+            EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
+                R.string.edit_short_description,
+                R.string.error_short_description,
+                R.string.hint_enter_short_description,
+                viewModel.user.value?.description ?: ""
+            ) {
+                viewModel.updateShortDescription(it)
+            }).show()
+        }
+
+        mm_followed.setOnClickListener {
+            viewModel.onMMFollowedClick()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -150,5 +171,7 @@ class ProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         private const val CAMERA_REQUEST_CODE = 41
         private const val TEMP_IMAGE_NAME = "profile_image_temp.jpg"
         const val TEMP_CROP_IMAGE__NAME = "profile_image_crop_temp.jpeg"
+
+        const val PROFILE_VM_TAG = ""
     }
 }

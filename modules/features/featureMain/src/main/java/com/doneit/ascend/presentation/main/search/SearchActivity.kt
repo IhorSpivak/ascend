@@ -10,7 +10,7 @@ import com.doneit.ascend.presentation.common.TopListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
-import com.doneit.ascend.presentation.main.databinding.ActivitySearchBindingImpl
+import com.doneit.ascend.presentation.main.databinding.ActivitySearchBinding
 import com.doneit.ascend.presentation.main.search.common.SearchAdapter
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -40,7 +40,7 @@ class SearchActivity : BaseActivity() {
     }
 
     private val viewModel: SearchContract.ViewModel by instance()
-    private lateinit var binding: ActivitySearchBindingImpl
+    private lateinit var binding: ActivitySearchBinding
 
     private val adapter: SearchAdapter by lazy {
         SearchAdapter (

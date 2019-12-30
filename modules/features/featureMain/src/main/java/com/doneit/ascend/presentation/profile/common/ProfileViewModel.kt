@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.master_mind
+package com.doneit.ascend.presentation.profile.common
 
 import android.net.Uri
 import androidx.fragment.app.Fragment
@@ -8,24 +8,31 @@ import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toDTO
+import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
-import com.vrgsoft.annotations.CreateFactory
-import com.vrgsoft.annotations.ViewModelDiModule
+import com.doneit.ascend.presentation.utils.isDescriptionValid
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 
-@CreateFactory
-@ViewModelDiModule
 class ProfileViewModel(
     private val userUseCase: UserUseCase,
-    private val router: ProfileContract.Router
-) : BaseViewModelImpl(), ProfileContract.ViewModel {
+    private val router: ProfileContract.Router,
+    private val mmRouter: com.doneit.ascend.presentation.profile.master_mind.ProfileContract.Router
+) : BaseViewModelImpl(),
+    com.doneit.ascend.presentation.profile.master_mind.ProfileContract.ViewModel,
+    com.doneit.ascend.presentation.profile.regular_user.ProfileContract.ViewModel,
+    EditBioContract.ViewModel {
 
     override val user = MutableLiveData<ProfileEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
     override val showDeleteButton = MutableLiveData<Boolean>()
+    override val bioValue = ValidatableField()
+    override val canSaveBio = MutableLiveData<Boolean>()
 
     private lateinit var updateProfileModel: UpdateProfileModel
 
@@ -35,9 +42,26 @@ class ProfileViewModel(
 
             if (result.isSuccessful) {
                 showDeleteButton.postValue(result.successModel!!.image?.url.isNullOrEmpty().not())
+
                 user.postValue(result.successModel!!)
                 updateProfileModel = result.successModel!!.toDTO()
+                bioValue.observableField.set(result.successModel?.bio)
             }
+        }
+
+        bioValue.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isDescriptionValid().not()) {
+                result.isSussed = false
+                result.errors.add(R.string.error_description)
+            }
+
+            result
+        }
+
+        bioValue.onFieldInvalidate = {
+            canSaveBio.postValue(bioValue.isValid)
         }
     }
 
@@ -72,17 +96,6 @@ class ProfileViewModel(
         router.navigateToNotifications()
     }
 
-    override fun deleteAccount() {
-        viewModelScope.launch {
-            val requestEntity = userUseCase.deleteAccount()
-            if (requestEntity.isSuccessful) {
-                router.navigateToLogin()
-            } else {
-                showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
-            }
-        }
-    }
-
     override fun updateProfileIcon(path: String?) {//null means remove image
         updateProfileModel.shouldUpdateIcon = true
         showDeleteButton.postValue(true)
@@ -100,8 +113,18 @@ class ProfileViewModel(
         updateProfile()
     }
 
+    override fun updateShortDescription(newShortDescription: String) {
+        updateProfileModel.description = newShortDescription
+        updateProfile()
+    }
+
     override fun navigateToEditBio() {
-        router.navigateToEditBio(updateProfileModel.bio ?: "")
+        mmRouter.navigateToEditBio()
+    }
+
+    override fun updateBio(newBio: String) {
+        updateProfileModel.bio = newBio
+        updateProfile()
     }
 
     override fun onAvatarSelected(
@@ -112,12 +135,15 @@ class ProfileViewModel(
         router.navigateToAvatarUCropActivity(sourceUri, destinationUri, fragmentToReceiveResult)
     }
 
+    override fun onMMFollowedClick() {
+        router.navigateToMMFollowed()
+    }
+
     private fun updateProfile() {
         viewModelScope.launch {
             val result = userUseCase.updateProfile(updateProfileModel)
 
             if (result.isSuccessful) {
-                user.postValue(null)
                 user.postValue(result.successModel!!)
                 updateProfileModel = result.successModel!!.toDTO()
             }

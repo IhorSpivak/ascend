@@ -36,6 +36,7 @@
             android:includeFontPadding="false"
             android:textColor="@color/light_gray_8f"
             app:autoSizeTextType="uniform"
+            android:lines="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guidR"
             app:layout_constraintStart_toEndOf="@id/guidL"
