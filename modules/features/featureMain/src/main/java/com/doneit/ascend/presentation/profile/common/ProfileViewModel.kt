@@ -145,7 +145,6 @@ class ProfileViewModel(
             val result = userUseCase.updateProfile(updateProfileModel)
 
             if (result.isSuccessful) {
-                user.postValue(null)
                 user.postValue(result.successModel!!)
                 updateProfileModel = result.successModel!!.toDTO()
             }

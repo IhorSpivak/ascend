@@ -67,6 +67,7 @@ class EditBioDialogFragment : DialogFragment(), KodeinAware {
             btnSave.setOnClickListener {
                 val newValue = etBio.text
                 viewModel.updateBio(newValue)
+                dismiss()
             }
         }
 

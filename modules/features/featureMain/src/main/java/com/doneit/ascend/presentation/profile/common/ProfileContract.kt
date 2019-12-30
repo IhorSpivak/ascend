@@ -24,11 +24,9 @@ interface ProfileContract {
         fun onNotificationClick()
 
         fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
-        fun onMMFollowedClick()
-
-        fun deleteAccount()
         fun updateProfileIcon(path: String?)
         fun updateFullName(newFullName: String)
+        fun onMMFollowedClick()
     }
 
     interface Router {
@@ -43,7 +41,6 @@ interface ProfileContract {
             fragmentToReceiveResult: Fragment
         )
 
-        fun navigateToEditBio(value: String)
         fun navigateToMMFollowed()
     }
 }

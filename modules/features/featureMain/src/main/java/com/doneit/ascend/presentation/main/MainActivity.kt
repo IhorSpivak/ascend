@@ -30,7 +30,7 @@ class MainActivity : BaseActivity() {
             )
         }
 
-        bind<ProfileViewModel>() with provider {
+        bind<ProfileViewModel>() with singleton {
             ProfileViewModel(
                 instance(),
                 instance(),
