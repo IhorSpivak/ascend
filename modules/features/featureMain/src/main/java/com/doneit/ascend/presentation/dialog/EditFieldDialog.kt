@@ -7,19 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.doneit.ascend.presentation.main.R
-import kotlinx.android.synthetic.main.dialog_edit_full_name.view.*
+import kotlinx.android.synthetic.main.dialog_edit_field.view.*
 
-class EditNameDialog {
+class EditFieldDialog {
 
     companion object {
         fun create(
             context: Context,
-            initValue: String,
-            call: ((String) -> Unit)
+            options: EditFieldDialogOptions
         ): AlertDialog {
 
             val mDialogView =
-                LayoutInflater.from(context).inflate(R.layout.dialog_edit_full_name, null, false)
+                LayoutInflater.from(context).inflate(R.layout.dialog_edit_field, null, false)
 
             val dialog = AlertDialog.Builder(context, R.style.AppThemeAlertDialog)
                 .setCancelable(false)
@@ -27,7 +26,7 @@ class EditNameDialog {
                 .create()
 
             mDialogView.btnPositive.setOnClickListener {
-                call.invoke(mDialogView.tvEditText.text.toString())
+                options.call.invoke(mDialogView.tvEditText.text.toString())
                 dialog.dismiss()
             }
 
@@ -92,9 +91,12 @@ class EditNameDialog {
                 }
             })
 
+            mDialogView.title.setText(options.titleRes)
+            mDialogView.tvEditText.setText(options.initValue)
+            mDialogView.tvError.setText(options.errorRes)
+
             mDialogView.btnPositive.isEnabled = false
-            lastText = initValue
-            mDialogView.tvEditText.setText(initValue)
+            lastText = options.initValue
 
             return dialog
         }
