@@ -22,6 +22,7 @@ import com.doneit.ascend.presentation.main.master_mind_info.MMInfoActivity
 import com.doneit.ascend.presentation.main.notification.NotificationActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.doneit.ascend.presentation.profile.common.ProfileContract
+import com.doneit.ascend.presentation.profile.edit_bio.EditBioDialogFragment
 import com.doneit.ascend.presentation.profile.mm_followed.MMFollowedContract
 import com.doneit.ascend.presentation.profile.mm_followed.MMFollowedFragment
 import com.doneit.ascend.presentation.profile.mm_followed.mm_add.MMAddContract
@@ -40,6 +41,7 @@ class MainRouter(
 ) : FragmentRouter(activity.supportFragmentManager),
     BottomNavigationChangeListener,
     ProfileContract.Router,
+    com.doneit.ascend.presentation.profile.master_mind.ProfileContract.Router,
     HomeContract.Router,
     WebPageContract.Router,
     MMFollowedContract.Router,
@@ -92,7 +94,8 @@ class MainRouter(
     }
 
     override fun navigateToRegularUserProfile() {
-        activity.supportFragmentManager.replaceWithBackStack(containerId,
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerId,
             ProfileFragment()
         )
     }
@@ -165,12 +168,13 @@ class MainRouter(
         fragmentToReceiveResult.startActivityForResult(cropIntent, UCrop.REQUEST_CROP)
     }
 
-    override fun navigateToEditBio(value: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun goBack() {
         activity.supportFragmentManager.popBackStack()
+    }
+
+    override fun navigateToEditBio() {
+        val editBioDialog = EditBioDialogFragment.newInstance()
+        editBioDialog.show(activity.supportFragmentManager, EditBioDialogFragment.TAG)
     }
 
     override fun navigateToMMFollowed() {

@@ -21,9 +21,11 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     private val userUseCase: UserUseCase,
-    private val router: ProfileContract.Router
+    private val router: ProfileContract.Router,
+    private val mmRouter: com.doneit.ascend.presentation.profile.master_mind.ProfileContract.Router
 ) : BaseViewModelImpl(),
-    ProfileContract.ViewModel,
+    com.doneit.ascend.presentation.profile.master_mind.ProfileContract.ViewModel,
+    com.doneit.ascend.presentation.profile.regular_user.ProfileContract.ViewModel,
     EditBioContract.ViewModel {
 
     override val user = MutableLiveData<ProfileEntity>()
@@ -95,17 +97,6 @@ class ProfileViewModel(
         router.navigateToNotifications()
     }
 
-    override fun deleteAccount() {
-        viewModelScope.launch {
-            val requestEntity = userUseCase.deleteAccount()
-            if (requestEntity.isSuccessful) {
-                router.navigateToLogin()
-            } else {
-                showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
-            }
-        }
-    }
-
     override fun updateProfileIcon(path: String?) {//null means remove image
         updateProfileModel.shouldUpdateIcon = true
         showDeleteButton.postValue(true)
@@ -128,13 +119,13 @@ class ProfileViewModel(
         updateProfile()
     }
 
+    override fun navigateToEditBio() {
+        mmRouter.navigateToEditBio()
+    }
+
     override fun updateBio(newBio: String) {
         updateProfileModel.bio = newBio
         updateProfile()
-    }
-
-    override fun navigateToEditBio() {
-        router.navigateToEditBio(updateProfileModel.bio ?: "")
     }
 
     override fun onAvatarSelected(

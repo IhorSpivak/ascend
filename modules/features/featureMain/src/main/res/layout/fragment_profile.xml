@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.profile.common.ProfileContract.ViewModel" />
+            type="com.doneit.ascend.presentation.profile.regular_user.ProfileContract.ViewModel" />
 
     </data>
 
