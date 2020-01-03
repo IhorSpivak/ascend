@@ -5,11 +5,11 @@ import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.ProfileResponse
+import com.doneit.ascend.source.storage.remote.data.response.RatesResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -57,8 +57,11 @@ internal class UserRepository(
         return execute({ api.resetPassword(request) }, ErrorsListResponse::class.java)
     }
 
-    override suspend fun report(content: String, id: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
-        return execute({api.report(content,id)}, ErrorsListResponse::class.java)
+    override suspend fun report(
+        content: String,
+        id: Long
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.report(content, id) }, ErrorsListResponse::class.java)
     }
 
     override suspend fun getProfile(): RemoteResponse<ProfileResponse, ErrorsListResponse> {
@@ -91,12 +94,18 @@ internal class UserRepository(
             }
 
             request.isMeetingStarted?.let {
-                stringPart = MultipartBody.Part.createFormData("meeting_started", gson.toJson(request.isMeetingStarted))
+                stringPart = MultipartBody.Part.createFormData(
+                    "meeting_started",
+                    gson.toJson(request.isMeetingStarted)
+                )
                 builder = builder.addPart(stringPart)
             }
 
             request.hasInviteToMeeting?.let {
-                stringPart = MultipartBody.Part.createFormData("invite_to_a_meeting", gson.toJson(request.hasInviteToMeeting))
+                stringPart = MultipartBody.Part.createFormData(
+                    "invite_to_a_meeting",
+                    gson.toJson(request.hasInviteToMeeting)
+                )
                 builder = builder.addPart(stringPart)
             }
 
@@ -115,8 +124,8 @@ internal class UserRepository(
                 builder = builder.addPart(stringPart)
             }
 
-            if(updateImage) {
-                var filePart = if(file != null) {
+            if (updateImage) {
+                var filePart = if (file != null) {
                     MultipartBody.Part.createFormData(
                         "image", file.name, RequestBody.create(
                             MediaType.parse("image/*"), file
@@ -130,6 +139,22 @@ internal class UserRepository(
             }
 
             api.updateProfileAsync(builder.build().parts())
+        }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun getRates(request: RateRequest): RemoteResponse<RatesResponse, ErrorsListResponse> {
+        return execute({
+            api.getRatingsAsync(
+                request.page,
+                request.perPage,
+                request.sortColumn,
+                request.sortType,
+                request.fullName,
+                request.createdAtFrom,
+                request.createdAtTo,
+                request.updatedAtFrom,
+                request.updatedAtTo
+            )
         }, ErrorsListResponse::class.java)
     }
 }

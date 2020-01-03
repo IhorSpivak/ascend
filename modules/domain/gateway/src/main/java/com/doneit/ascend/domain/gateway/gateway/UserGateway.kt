@@ -5,8 +5,10 @@ import android.accounts.AccountManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AuthEntity
 import com.doneit.ascend.domain.entity.ProfileEntity
+import com.doneit.ascend.domain.entity.RateEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
@@ -17,10 +19,12 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toUserLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.*
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
+import com.doneit.ascend.domain.gateway.gateway.data_source.RateDataSource
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.vrgsoft.networkmanager.NetworkManager
+import kotlinx.coroutines.GlobalScope
 import java.io.File
 import com.doneit.ascend.source.storage.local.repository.user.IUserRepository as LocalRepository
 import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository as RemoteRepository
@@ -257,6 +261,25 @@ internal class UserGateway(
                 it?.errors
             }
         )
+    }
+
+    override suspend fun getRating(ratingsModel: RatingsModel): PagedList<RateEntity> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(ratingsModel.perPage?:10)
+            .build()
+
+        val dataSource = RateDataSource(
+            GlobalScope,
+            remote,
+            ratingsModel
+        )
+        val executor = MainThreadExecutor()
+
+        return PagedList.Builder<Int, RateEntity>(dataSource, config)
+            .setFetchExecutor(executor)
+            .setNotifyExecutor(executor)
+            .build()
     }
 
     companion object {

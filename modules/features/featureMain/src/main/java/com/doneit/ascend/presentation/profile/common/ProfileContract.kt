@@ -7,6 +7,8 @@ import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
+import com.doneit.ascend.presentation.profile.master_mind.MMProfileContract
+import com.doneit.ascend.presentation.profile.regular_user.UserProfileContract
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface ProfileContract {
@@ -29,7 +31,7 @@ interface ProfileContract {
         fun onMMFollowedClick()
     }
 
-    interface Router : EditBioContract.Router {
+    interface Router : EditBioContract.Router, MMProfileContract.Router, UserProfileContract.Router {
         fun navigateToLogin()
         fun navigateToTerms()
         fun navigateToPrivacyPolicy()

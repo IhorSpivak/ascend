@@ -153,4 +153,8 @@ class ProfileViewModel(
             }
         }
     }
+
+    override fun navigateToRatings() {
+        router.navigateToRatings()
+    }
 }

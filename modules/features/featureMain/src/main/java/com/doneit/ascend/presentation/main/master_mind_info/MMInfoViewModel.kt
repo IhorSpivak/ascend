@@ -45,7 +45,7 @@ class MMInfoViewModel(
             val currUser = userUseCase.getUser()
 
             if (currUser?.id == model.id) {
-                // hide buttons and rating bar
+                // hide buttons and rate bar
                 showRatingBar.postValue(false)
                 showActionButtons.call(false)
             } else {

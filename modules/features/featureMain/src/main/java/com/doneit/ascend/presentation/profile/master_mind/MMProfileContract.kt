@@ -6,9 +6,11 @@ interface MMProfileContract {
         fun updateShortDescription(newShortDescription: String)
 
         fun navigateToEditBio()
+        fun navigateToRatings()
     }
 
     interface Router {
         fun navigateToEditBio()
+        fun navigateToRatings()
     }
 }

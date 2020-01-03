@@ -1,5 +1,7 @@
 package com.doneit.ascend.source.storage.remote.data.request
 
+import com.doneit.ascend.source.storage.remote.data.request.base.BasePagedModel
+
 //used like dto
 class MasterMindListRequest(
     page: Int?,

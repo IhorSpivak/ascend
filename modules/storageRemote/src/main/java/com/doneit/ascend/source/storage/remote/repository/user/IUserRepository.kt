@@ -4,6 +4,7 @@ import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.ProfileResponse
+import com.doneit.ascend.source.storage.remote.data.response.RatesResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import java.io.File
@@ -33,4 +34,6 @@ interface IUserRepository {
     suspend fun getProfile(): RemoteResponse<ProfileResponse, ErrorsListResponse>
 
     suspend fun updateProfile(file: File?, request: UpdateProfileRequest, updateImage: Boolean): RemoteResponse<ProfileResponse, ErrorsListResponse>
+
+    suspend fun getRates(request: RateRequest): RemoteResponse<RatesResponse, ErrorsListResponse>
 }

@@ -51,3 +51,17 @@ fun UpdateProfileModel.toRequest(): UpdateProfileRequest {
         description
     )
 }
+
+fun RatingsModel.toRequest(currPage: Int): RateRequest {
+    return RateRequest(
+        currPage,
+        perPage,
+        sortColumn,
+        sortType?.toString(),
+        fullName,
+        createdAtFrom?.toRemoteString(),
+        createdAtTo?.toRemoteString(),
+        updatedAtFrom?.toRemoteString(),
+        updatedAtTo?.toRemoteString()
+    )
+}

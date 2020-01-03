@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.use_case.gateway
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
@@ -37,4 +38,6 @@ interface IUserGateway {
     suspend fun getProfile() : ResponseEntity<ProfileEntity, List<String>>
 
     suspend fun updateProfile(groupModel: UpdateProfileModel): ResponseEntity<ProfileEntity, List<String>>
+
+    suspend fun getRating(ratingsModel: RatingsModel): PagedList<RateEntity>
 }

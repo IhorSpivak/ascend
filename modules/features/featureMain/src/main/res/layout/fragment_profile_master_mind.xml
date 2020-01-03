@@ -263,6 +263,7 @@
                         app:iconRes="@{@drawable/ic_following}" />
 
                     <include
+                        android:id="@+id/rating"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/profile_rating}"
                         app:fieldValue="@{model.user.rating.toString()}"

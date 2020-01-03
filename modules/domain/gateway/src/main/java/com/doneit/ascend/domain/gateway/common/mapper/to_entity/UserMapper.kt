@@ -2,10 +2,12 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.AuthEntity
 import com.doneit.ascend.domain.entity.ProfileEntity
+import com.doneit.ascend.domain.entity.RateEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.source.storage.local.data.UserLocal
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
-import com.doneit.ascend.source.storage.remote.data.response.ProfileResponse
+import com.doneit.ascend.source.storage.remote.data.response.RateResponse
+import com.doneit.ascend.source.storage.remote.data.response.RatesResponse
 import com.doneit.ascend.source.storage.remote.data.response.UserResponse
 
 fun AuthResponse.toEntity(): AuthEntity {
@@ -88,5 +90,16 @@ fun UserLocal.toUserEntity(): UserEntity {
         community = this@toUserEntity.community,
         unansweredQuestions = listOf(),
         image = null
+    )
+}
+
+fun RateResponse.toEntity(): RateEntity {
+    return RateEntity(
+        value,
+        userId,
+        fullName,
+        image.toEntity(),
+        createdAt.toDate()!!,
+        updatedAt.toDate()
     )
 }

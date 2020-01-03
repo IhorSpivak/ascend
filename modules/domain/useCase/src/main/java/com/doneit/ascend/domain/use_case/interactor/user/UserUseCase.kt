@@ -1,7 +1,11 @@
 package com.doneit.ascend.domain.use_case.interactor.user
 
 import androidx.lifecycle.LiveData
-import com.doneit.ascend.domain.entity.*
+import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.AuthEntity
+import com.doneit.ascend.domain.entity.ProfileEntity
+import com.doneit.ascend.domain.entity.RateEntity
+import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 
@@ -37,4 +41,6 @@ interface UserUseCase {
     suspend fun getProfile(): ResponseEntity<ProfileEntity, List<String>>
 
     suspend fun updateProfile(request: UpdateProfileModel): ResponseEntity<ProfileEntity, List<String>>
+
+    suspend fun getRates(model: RatingsModel): PagedList<RateEntity>
 }

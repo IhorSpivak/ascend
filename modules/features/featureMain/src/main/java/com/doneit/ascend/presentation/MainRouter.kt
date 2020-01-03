@@ -36,6 +36,8 @@ import com.doneit.ascend.presentation.profile.mm_following.MMFollowingContract
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingFragment
 import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddContract
 import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddFragment
+import com.doneit.ascend.presentation.profile.rating.ProfileRatingsContract
+import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
@@ -61,7 +63,8 @@ class MainRouter(
     MasterMindContract.Router,
     ListContract.Router,
     MMInfoContract.Router,
-    SearchContract.Router {
+    SearchContract.Router,
+    ProfileRatingsContract.Router {
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -183,5 +186,9 @@ class MainRouter(
 
     override fun navigateToAddMasterMind() {
         activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MMAddFragment())
+    }
+
+    override fun navigateToRatings() {
+        activity.supportFragmentManager.replaceWithBackStack(containerId, ProfileRatingsFragment())
     }
 }

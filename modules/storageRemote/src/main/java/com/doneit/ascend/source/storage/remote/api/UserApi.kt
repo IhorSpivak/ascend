@@ -4,6 +4,7 @@ import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.ProfileResponse
+import com.doneit.ascend.source.storage.remote.data.response.RatesResponse
 import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -47,4 +48,16 @@ interface UserApi {
 
     @POST("users/{id}/report")
     fun report(@Query("content") report: String, @Path("id") id: Long): Deferred<Response<OKResponse>>
+
+    @GET("ratings")
+    fun getRatingsAsync(@Query("page") page: Int?,
+                        @Query("per_page") perPage: Int?,
+                        @Query("sort_column") sortColumn: String?,
+                        @Query("sort_type") sortType: String?,
+                        @Query("full_name") fullName: String?,
+                        @Query("created_at_from") createdAtFrom: String?,
+                        @Query("created_at_to") createdAtTo: String?,
+                        @Query("updated_at_from") updatedAtFrom: String?,
+                        @Query("updated_at_to") updatedAtTo: String?
+    ): Deferred<Response<RatesResponse>>
 }

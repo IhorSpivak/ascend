@@ -190,6 +190,7 @@
     <string name="unfollow">Unfollow</string>
     <string name="mm_add">Add MasterMind</string>
     <string name="mm_add_hint">Enter MasterMind Name</string>
+    <string name="profile_ratings_title">Profile Rating</string>
 
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>

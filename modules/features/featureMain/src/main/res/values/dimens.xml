@@ -21,4 +21,5 @@
     <dimen name="group_holder_icon_radius">8dp</dimen>
     <dimen name="mm_profile_radius">80dp</dimen>
     <dimen name="mm_followed_radius">12dp</dimen>
+    <dimen name="mm_rating_radius">16dp</dimen>
 </resources>

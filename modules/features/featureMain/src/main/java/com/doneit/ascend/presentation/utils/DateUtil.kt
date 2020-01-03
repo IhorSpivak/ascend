@@ -4,21 +4,21 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun Date.toDayMonthYear(): String {
-    var res = ""
-    try {
-        val resFormatter = "dd MMM yyyy".toDefaultFormatter()
-        res = resFormatter.format(this)
-    } catch (e: Exception){
-        e.printStackTrace()
-    }
-    return res
+    return "dd MMM yyyy".toDefaultFormatter().getFormatted(this)
 }
 
 fun Date.toNotificationDate(): String {
+    return "MM.dd.YY hh:mm aa".toDefaultFormatter().getFormatted(this)
+}
+
+fun Date.toRateDate(): String {
+    return "MMM dd, yyyy".toDefaultFormatter().getFormatted(this)
+}
+
+private fun SimpleDateFormat.getFormatted(date: Date): String {
     var res = ""
     try {
-        val formatter = "MM.dd.YY hh:mm aa".toDefaultFormatter()
-        res = formatter.format(this)
+        res = this.format(date)
     } catch (e: Exception) {
         e.printStackTrace()
     }
