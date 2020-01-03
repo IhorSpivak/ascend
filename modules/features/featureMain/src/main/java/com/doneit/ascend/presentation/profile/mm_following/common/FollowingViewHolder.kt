@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.mm_followed.common
+package com.doneit.ascend.presentation.profile.mm_following.common
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateMasterMindFollowedBinding
 
-class FollowedViewHolder(
+class FollowingViewHolder(
     private val binding: TemplateMasterMindFollowedBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(item: MasterMindEntity, followClick:(Long)->Unit, unfollowClick: (id: Long)->Unit) {
@@ -26,7 +26,7 @@ class FollowedViewHolder(
     }
 
     companion object {
-        fun create(parent: ViewGroup): FollowedViewHolder {
+        fun create(parent: ViewGroup): FollowingViewHolder {
             val binding: TemplateMasterMindFollowedBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.template_master_mind_followed,
@@ -34,7 +34,7 @@ class FollowedViewHolder(
                 false
             )
 
-            return FollowedViewHolder(binding)
+            return FollowingViewHolder(binding)
         }
     }
 }

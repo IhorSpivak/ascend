@@ -1,11 +1,11 @@
-package com.doneit.ascend.presentation.profile.mm_followed
+package com.doneit.ascend.presentation.profile.mm_following
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 
-interface MMFollowedContract {
+interface MMFollowingContract {
     interface ViewModel: BaseViewModel {
         val masterMinds: LiveData<PagedList<MasterMindEntity>>
 

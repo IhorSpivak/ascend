@@ -202,7 +202,7 @@
     <string name="btn_save">Save</string>
     <string name="edit_display_name">Edit Display Name</string>
     <string name="edit_bio">Edit BIO</string>
-    <string name="mm_followed_title">MasterMind Followed</string>
+    <string name="mm_followed_title">MasterMind Following</string>
     <string name="edit_short_description">Edit Short Description</string>
     <string name="hint_enter_full_name">Enter full name</string>
     <string name="hint_enter_display_name">Enter display name</string>

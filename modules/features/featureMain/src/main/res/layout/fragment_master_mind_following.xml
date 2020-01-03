@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.profile.mm_followed.MMFollowedContract.ViewModel" />
+            type="com.doneit.ascend.presentation.profile.mm_following.MMFollowingContract.ViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

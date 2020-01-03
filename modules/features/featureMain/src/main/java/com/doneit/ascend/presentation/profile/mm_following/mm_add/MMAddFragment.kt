@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.mm_followed.mm_add
+package com.doneit.ascend.presentation.profile.mm_following.mm_add
 
 import android.os.Bundle
 import android.text.Editable
@@ -8,7 +8,7 @@ import com.doneit.ascend.presentation.common.TopListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMasterMindBinding
-import com.doneit.ascend.presentation.profile.mm_followed.common.FollowedAdapter
+import com.doneit.ascend.presentation.profile.mm_following.common.FollowingAdapter
 import org.kodein.di.generic.instance
 
 class MMAddFragment : BaseFragment<FragmentAddMasterMindBinding>() {
@@ -16,8 +16,8 @@ class MMAddFragment : BaseFragment<FragmentAddMasterMindBinding>() {
     override val viewModelModule = MMAddViewModelModule.get(this)
     override val viewModel: MMAddContract.ViewModel by instance()
 
-    private val adapter: FollowedAdapter by lazy {
-        FollowedAdapter(follow = {
+    private val adapter: FollowingAdapter by lazy {
+        FollowingAdapter(follow = {
             viewModel.follow(it)
         })
     }

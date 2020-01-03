@@ -1,10 +1,10 @@
-package com.doneit.ascend.presentation.profile.mm_followed.common
+package com.doneit.ascend.presentation.profile.mm_following.common
 
 import androidx.recyclerview.widget.DiffUtil
 import com.doneit.ascend.domain.entity.MasterMindEntity
 
 
-class FollowedDiffCallback : DiffUtil.ItemCallback<MasterMindEntity>() {
+class FollowingDiffCallback : DiffUtil.ItemCallback<MasterMindEntity>() {
     override fun areItemsTheSame(oldItem: MasterMindEntity, newItem: MasterMindEntity): Boolean {
         return oldItem.id == newItem.id
     }

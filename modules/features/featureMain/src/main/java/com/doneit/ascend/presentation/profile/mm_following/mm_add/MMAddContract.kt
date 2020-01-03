@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.mm_followed.mm_add
+package com.doneit.ascend.presentation.profile.mm_following.mm_add
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList

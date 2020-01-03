@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.mm_followed
+package com.doneit.ascend.presentation.profile.mm_following
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -13,10 +13,10 @@ import kotlinx.coroutines.launch
 
 @CreateFactory
 @ViewModelDiModule
-class MMFollowedViewModel (
+class MMFollowingViewModel (
     private val masterMindUseCase: MasterMindUseCase,
-    private val router: MMFollowedContract.Router
-): BaseViewModelImpl(), MMFollowedContract.ViewModel {
+    private val router: MMFollowingContract.Router
+): BaseViewModelImpl(), MMFollowingContract.ViewModel {
 
     override val masterMinds = MutableLiveData<PagedList<MasterMindEntity>>()
 

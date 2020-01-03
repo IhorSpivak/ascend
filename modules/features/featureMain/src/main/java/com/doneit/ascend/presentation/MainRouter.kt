@@ -20,10 +20,10 @@ import com.doneit.ascend.presentation.main.notification.NotificationActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.doneit.ascend.presentation.profile.common.ProfileContract
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioDialogFragment
-import com.doneit.ascend.presentation.profile.mm_followed.MMFollowedContract
-import com.doneit.ascend.presentation.profile.mm_followed.MMFollowedFragment
-import com.doneit.ascend.presentation.profile.mm_followed.mm_add.MMAddContract
-import com.doneit.ascend.presentation.profile.mm_followed.mm_add.MMAddFragment
+import com.doneit.ascend.presentation.profile.mm_following.MMFollowingContract
+import com.doneit.ascend.presentation.profile.mm_following.MMFollowingFragment
+import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddContract
+import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
@@ -41,7 +41,7 @@ class MainRouter(
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router,
     HomeContract.Router,
     WebPageContract.Router,
-    MMFollowedContract.Router,
+    MMFollowingContract.Router,
     MMAddContract.Router {
 
     override val containerId = activity.getContainerId()
@@ -158,7 +158,7 @@ class MainRouter(
     }
 
     override fun navigateToMMFollowed() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MMFollowedFragment())
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MMFollowingFragment())
     }
 
     override fun navigateToAddMasterMind() {
