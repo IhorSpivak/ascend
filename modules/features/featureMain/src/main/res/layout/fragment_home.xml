@@ -7,15 +7,6 @@
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.home.HomeContract.ViewModel" />
-
-        <variable
-            name="adapter"
-            type="com.doneit.ascend.presentation.main.home.common.TabAdapter" />
-
-        <variable
-            name="mastermindAdapter"
-            type="com.doneit.ascend.presentation.main.home.common.MastermindAdapter" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,9 +64,9 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="15dp"
                         android:background="@android:color/transparent"
+                        android:onClick="@{() -> model.onSearchClick()}"
                         android:src="@drawable/ic_search"
                         android:visibility="visible"
-                        android:onClick="@{() -> model.onSearchClick()}"
                         app:layout_constraintEnd_toStartOf="@+id/btbNotification"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,10 +79,10 @@
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="15dp"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/ic_notifications"
                         android:clickable="true"
                         android:focusable="true"
                         android:onClick="@{() -> model.onNotificationClick()}"
+                        android:src="@drawable/ic_notifications"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -182,44 +173,44 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="20dp"
-                        android:text="@string/all_masterm"
                         android:clickable="true"
                         android:focusable="true"
                         android:onClick="@{() -> model.onAllMasterMindsClick()}"
+                        android:text="@string/all_masterm"
                         app:layout_constraintBottom_toBottomOf="@+id/following"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/following" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/add_master_mind"
+                    <LinearLayout
+                        android:id="@+id/mmPlaceholder"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="16dp"
-                        android:src="@drawable/ic_stroke_plus"
+                        android:orientation="vertical"
+                        android:onClick="@{(v) -> model.onAllMasterMindsClick()}"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/following" />
+                        app:layout_constraintTop_toBottomOf="@id/following">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/followerName"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center_horizontal|top"
-                        android:text="@string/add_master_mind"
-                        android:textColor="#B1B1BF"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="@id/add_master_mind"
-                        app:layout_constraintStart_toStartOf="@+id/add_master_mind"
-                        app:layout_constraintTop_toBottomOf="@id/add_master_mind" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/add_master_mind"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_stroke_plus" />
 
-                    <androidx.constraintlayout.widget.Group
-                        android:id="@+id/masterMindPlaceholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:constraint_referenced_ids="add_master_mind,followerName" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/followerName"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_horizontal|top"
+                            android:text="@string/add_master_mind"
+                            android:textColor="#B1B1BF"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvMasterminds"
@@ -232,8 +223,7 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/following"
-                        app:setAdapter="@{mastermindAdapter}" />
+                        app:layout_constraintTop_toBottomOf="@+id/following" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>

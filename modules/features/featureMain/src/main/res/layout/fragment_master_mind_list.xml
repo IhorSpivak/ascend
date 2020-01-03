@@ -7,11 +7,6 @@
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.master_mind.list.ListContract.ViewModel" />
-
-        <variable
-            name="adapter"
-            type="com.doneit.ascend.presentation.main.master_mind.list.common.MasterMindAdapter" />
-
     </data>
 
     <LinearLayout
@@ -35,9 +30,7 @@
                 android:id="@+id/rvMasterMinds"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:setAdapter="@{adapter}"
-                app:setAdapterData="@{model.masterMinds}" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>

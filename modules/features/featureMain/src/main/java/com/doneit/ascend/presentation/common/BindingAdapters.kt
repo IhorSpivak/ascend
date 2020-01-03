@@ -52,11 +52,6 @@ fun setAdapter(
     view.adapter = adapter
 }
 
-@BindingAdapter("app:setAdapter")
-fun setAdapter(view: androidx.viewpager.widget.ViewPager, adapter: TabAdapter) {
-    view.adapter = adapter
-}
-
 @BindingAdapter("app:setImage", "app:placeholder", requireAll = false)
 fun setImage(view: AppCompatImageView, url: String?, placeholder: Drawable?) {
 
@@ -142,14 +137,6 @@ fun setPlaceholderVisibility(
         if (groups.value == null || groups.value?.groups?.isEmpty() == true) View.INVISIBLE else View.VISIBLE
 }
 
-/*@BindingAdapter("app:setImage")
-fun setImage(view: AppCompatImageView, url: String?) {
-
-    Glide.with(view)
-        .load(url)
-        .into(view)
-}*/
-
 @BindingAdapter("app:setVisibility")
 fun setVisibility(view: Button, isShow: Boolean) {
     view.visibility = if (isShow) View.VISIBLE else View.GONE
@@ -217,24 +204,6 @@ fun AppCompatImageView.setImageUri(path: String?) {
 
 @BindingAdapter("app:setAdapter")
 fun setAdapter(view: androidx.viewpager.widget.ViewPager, adapter: com.doneit.ascend.presentation.main.master_mind.common.TabAdapter) {
-    view.adapter = adapter
-}
-
-@BindingAdapter("app:setAdapter", "app:setAdapterData", requireAll = false)
-fun setAdapter(
-    view: androidx.recyclerview.widget.RecyclerView,
-    adapter: MasterMindAdapter,
-    groups: LiveData<PagedList<MasterMindEntity>>
-) {
-
-    if (view.adapter is MasterMindAdapter) {
-        groups.value?.let {
-            (view.adapter as MasterMindAdapter).submitList(it)
-        }
-
-        return
-    }
-
     view.adapter = adapter
 }
 

@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.master_mind.list
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.common.TopListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
@@ -28,15 +29,21 @@ class ListFragment : ArgumentedFragment<FragmentMasterMindListBinding, ListArgs>
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.lifecycleOwner = this
         binding.model = viewModel
-        binding.adapter = adapter
 
         val decorator =
             TopListDecorator(resources.getDimension(R.dimen.mm_list_top_padding).toInt())
         binding.rvMasterMinds.addItemDecoration(decorator)
+        binding.rvMasterMinds.adapter = adapter
+
+        viewModel.masterMinds.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+
         binding.srLayout.setOnRefreshListener {
             binding.srLayout.isRefreshing = false
             viewModel.updateData()
         }
+
     }
 
     override fun onResume() {

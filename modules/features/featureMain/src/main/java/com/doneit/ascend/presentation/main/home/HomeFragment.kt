@@ -58,7 +58,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.lifecycleOwner = this
         binding.model = viewModel
-        binding.mastermindAdapter = mastermindsAdapter
+        rvMasterminds.adapter = mastermindsAdapter
 
         viewModel.user.observe(this, Observer {
             setTitle(it?.community)
@@ -69,7 +69,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         })
 
         viewModel.masterMinds.observe(this, Observer {
-            binding.masterMindPlaceholder.visible(it.isEmpty())
+            binding.mmPlaceholder.visible(it.isEmpty())
             binding.rvMasterminds.visible(it.isNotEmpty())
 
             mastermindsAdapter.updateData(it)
