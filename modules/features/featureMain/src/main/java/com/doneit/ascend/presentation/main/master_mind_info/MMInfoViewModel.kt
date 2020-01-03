@@ -7,9 +7,13 @@ import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCas
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
+import com.vrgsoft.annotations.CreateFactory
+import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 
+@CreateFactory
+@ViewModelDiModule
 class MMInfoViewModel(
     private val router: MMInfoContract.Router,
     private val userUseCase: UserUseCase,
@@ -70,7 +74,7 @@ class MMInfoViewModel(
     }
 
     override fun goBack() {
-        router.closeActivity()
+        router.onBack()
     }
 
     override fun onFollowClick() {
@@ -120,7 +124,7 @@ class MMInfoViewModel(
 
     override fun onSeeGroupsClick() {
         profile.value?.let {
-            router.navigateToGroupList(it.id)
+            router.navigateToGroupList(it.id, null, null)
         }
     }
 

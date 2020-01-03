@@ -41,7 +41,7 @@ class MMFollowingViewModel (
     }
 
     override fun onBackClick() {
-        router.goBack()
+        router.onBack()
     }
 
     private fun updateData() {

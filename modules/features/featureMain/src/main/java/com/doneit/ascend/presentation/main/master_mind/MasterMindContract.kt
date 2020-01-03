@@ -9,7 +9,7 @@ interface MasterMindContract {
     }
 
     interface Router {
-        fun closeActivity()
+        fun onBack()
         fun navigateToSearch()
     }
 }

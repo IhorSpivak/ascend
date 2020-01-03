@@ -15,6 +15,6 @@ interface EditBioContract {
     }
 
     interface Router {
-        fun goBack()
+        fun onBack()
     }
 }

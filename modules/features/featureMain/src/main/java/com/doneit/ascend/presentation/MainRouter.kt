@@ -8,18 +8,29 @@ import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.profile.crop.CropActivity
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.extensions.addWithBackStack
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
+import com.doneit.ascend.presentation.main.group_info.GroupInfoContract
+import com.doneit.ascend.presentation.main.group_info.GroupInfoFragment
+import com.doneit.ascend.presentation.main.group_list.GroupListContract
+import com.doneit.ascend.presentation.main.group_list.GroupListFragment
+import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
-import com.doneit.ascend.presentation.main.master_mind.MasterMindActivity
-import com.doneit.ascend.presentation.main.notification.NotificationActivity
-import com.doneit.ascend.presentation.main.search.SearchActivity
+import com.doneit.ascend.presentation.main.master_mind.MasterMindContract
+import com.doneit.ascend.presentation.main.master_mind.MasterMindFragment
+import com.doneit.ascend.presentation.main.master_mind.list.ListContract
+import com.doneit.ascend.presentation.main.master_mind_info.MMInfoContract
+import com.doneit.ascend.presentation.main.master_mind_info.MMInfoFragment
+import com.doneit.ascend.presentation.main.notification.NotificationContract
+import com.doneit.ascend.presentation.main.notification.NotificationFragment
+import com.doneit.ascend.presentation.main.search.SearchContract
+import com.doneit.ascend.presentation.main.search.SearchFragment
 import com.doneit.ascend.presentation.profile.common.ProfileContract
+import com.doneit.ascend.presentation.profile.crop.CropActivity
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioFragment
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingContract
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingFragment
@@ -41,15 +52,22 @@ class MainRouter(
     ProfileContract.Router,
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router,
     HomeContract.Router,
+    GroupInfoContract.Router,
     WebPageContract.Router,
     MMFollowingContract.Router,
-    MMAddContract.Router {
+    MMAddContract.Router,
+    GroupListContract.Router,
+    NotificationContract.Router,
+    MasterMindContract.Router,
+    ListContract.Router,
+    MMInfoContract.Router,
+    SearchContract.Router {
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
 
 
-    fun onBack() {
+    override fun onBack() {
         activity.supportFragmentManager.popBackStack()
     }
 
@@ -91,6 +109,8 @@ class MainRouter(
         // TODO: navigate to ascension plan screen
     }
 
+
+
     override fun navigateToRegularUserProfile() {
         activity.supportFragmentManager.replaceWithBackStack(
             containerId,
@@ -109,29 +129,33 @@ class MainRouter(
         activity.startActivity(Intent(activity, CreateGroupActivity::class.java))
     }
 
-    override fun navigateToGroupList(groupType: GroupType?, isMyGroups: Boolean?) {
-        activity.openGroupList(groupType =  groupType, isMyGroups = isMyGroups)
+    override fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?) {
+        val args = GroupListArgs(userId, groupType, isMyGroups)
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, GroupListFragment.newInstance(args))
+    }
+
+    override fun navigateToMMInfo(model: MasterMindEntity) {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MMInfoFragment.newInstance(model))
     }
 
     override fun navigateToSearch() {
-        activity.startActivity(Intent(activity, SearchActivity::class.java))
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, SearchFragment())
     }
 
     override fun navigateToAllMasterMinds() {
-        activity.startActivity(Intent(activity, MasterMindActivity::class.java))
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MasterMindFragment())
     }
 
     override fun navigateToGroupInfo(model: GroupEntity) {
-        activity.openGroupInfo(model)
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, GroupInfoFragment.newInstance(model))
     }
 
-    override fun openProfile(model: MasterMindEntity) {
-        activity.openMMInfo(model)
+    override fun navigateToGroupInfo(id: Long) {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, GroupInfoFragment.newInstance(id))
     }
 
     override fun navigateToNotifications() {
-        val intent = Intent(activity, NotificationActivity::class.java)
-        activity.startActivity(intent)
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, NotificationFragment())
     }
 
     override fun navigateToAvatarUCropActivity(
@@ -147,10 +171,6 @@ class MainRouter(
         cropIntent.putExtras(bundle)
 
         fragmentToReceiveResult.startActivityForResult(cropIntent, UCrop.REQUEST_CROP)
-    }
-
-    override fun goBack() {
-        activity.supportFragmentManager.popBackStack()
     }
 
     override fun navigateToEditBio() {

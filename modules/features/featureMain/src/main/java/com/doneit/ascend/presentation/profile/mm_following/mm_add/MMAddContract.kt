@@ -15,6 +15,6 @@ interface MMAddContract {
     }
 
     interface Router {
-        fun goBack()
+        fun onBack()
     }
 }

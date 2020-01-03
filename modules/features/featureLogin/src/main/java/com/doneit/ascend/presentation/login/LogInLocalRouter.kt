@@ -36,12 +36,8 @@ class LogInLocalRouter(
     FirstTimeLoginContract.Router,
     WebPageContract.Router {
 
-    override fun goBack() {
+    override fun onBack() {
         activity.supportFragmentManager.popBackStack()
-    }
-
-    override fun goBackToLogin() {
-        //todo
     }
 
     override fun navigateToLogInFragment() {

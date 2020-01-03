@@ -31,4 +31,14 @@ class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupList
         val decorator = TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
         binding.rvGroups.addItemDecoration(decorator)
     }
+
+    companion object {
+        fun newInstance(args: GroupListArgs): GroupListFragment {
+            val fragment = GroupListFragment()
+            fragment.arguments = Bundle().apply {
+                putParcelable(KEY_ARGS, args)
+            }
+            return fragment
+        }
+    }
 }

@@ -210,7 +210,7 @@ class SignUpViewModel(
             updateCanContinue()
         }
 
-        router.goBack()
+        router.onBack()
     }
 
     override fun onTermsAndConditionsClick() {

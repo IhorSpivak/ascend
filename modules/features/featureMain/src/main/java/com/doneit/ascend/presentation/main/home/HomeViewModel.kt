@@ -43,7 +43,7 @@ class HomeViewModel(
     }
 
     override fun navigateToGroupList() {
-        router.navigateToGroupList(groupType, isMyGroups)
+        router.navigateToGroupList(null, groupType, isMyGroups)
     }
 
     override fun updateData() {
@@ -115,7 +115,7 @@ class HomeViewModel(
     }
 
     override fun openProfile(model: MasterMindEntity) {
-        router.openProfile(model)
+        router.navigateToMMInfo(model)
     }
 
     override fun onNotificationClick() {

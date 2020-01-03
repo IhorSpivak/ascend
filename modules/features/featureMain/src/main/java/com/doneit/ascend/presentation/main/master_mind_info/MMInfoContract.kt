@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.MasterMindEntity
+import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
@@ -28,10 +29,10 @@ interface MMInfoContract {
         fun setModel(model: MasterMindEntity)
         fun report(content: String)
         fun goBack()
-
     }
+
     interface Router {
-        fun closeActivity()
-        fun navigateToGroupList(userId: Long)
+        fun onBack()
+        fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
     }
 }

@@ -14,7 +14,7 @@ interface ForgotPasswordContract {
     }
 
     interface Router {
-        fun goBack()
+        fun onBack()
         fun navigateToNewPassword(phone: String)
     }
 }

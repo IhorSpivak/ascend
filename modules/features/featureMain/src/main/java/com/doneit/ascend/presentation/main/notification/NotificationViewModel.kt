@@ -8,8 +8,12 @@ import com.doneit.ascend.domain.entity.dto.NotificationListModel
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.vrgsoft.annotations.CreateFactory
+import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch
 
+@CreateFactory
+@ViewModelDiModule
 class NotificationViewModel(
     private val router: NotificationContract.Router,
     private val notificationUseCase: NotificationUseCase
@@ -22,7 +26,7 @@ class NotificationViewModel(
     }
 
     override fun goBack() {
-        router.closeActivity()
+        router.onBack()
     }
 
     override fun onNotificationClick(id: Long) {

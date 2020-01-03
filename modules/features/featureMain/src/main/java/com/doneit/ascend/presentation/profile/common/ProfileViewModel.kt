@@ -88,7 +88,7 @@ class ProfileViewModel(
     }
 
     override fun onSeeMyGroupsClick() {
-        router.navigateToGroupList(null, true)
+        router.navigateToGroupList(null, null, true)
     }
 
     override fun onNotificationClick() {
@@ -139,7 +139,7 @@ class ProfileViewModel(
     }
 
     override fun goBack() {
-        router.goBack()
+        router.onBack()
     }
 
     private fun updateProfile() {

@@ -16,8 +16,6 @@ import java.util.*
 
 abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivity() {
 
-    private lateinit var progressDialog: Dialog
-
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(updateBaseContextLocale(newBase))
     }
@@ -39,29 +37,6 @@ abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivit
     override fun getResources(): Resources {
         return baseContext.resources
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        initDialog()
-    }
-
-    private fun initDialog() {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_progress, null, false)
-        progressDialog = AlertDialog.Builder(this, R.style.ProgressDialogStyle)
-            .setCancelable(false)
-            .setView(dialogView)
-            .create()
-    }
-
-    protected fun showProgress(isDialogShown: Boolean) {
-        if(isDialogShown) {
-            progressDialog.show()
-        } else {
-            progressDialog.dismiss()
-        }
-    }
-
 
     @TargetApi(Build.VERSION_CODES.N)
     private fun updateResourcesLocale(context: Context, locale: Locale): Context {

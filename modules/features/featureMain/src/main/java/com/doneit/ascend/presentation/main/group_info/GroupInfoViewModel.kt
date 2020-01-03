@@ -8,9 +8,13 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
+import com.vrgsoft.annotations.CreateFactory
+import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@CreateFactory
+@ViewModelDiModule
 class GroupInfoViewModel(
     private val router: GroupInfoContract.Router,
     private val groupUseCase: GroupUseCase,
@@ -91,7 +95,7 @@ class GroupInfoViewModel(
             val res = groupUseCase.deleteGroup(group.value?.id ?: return@launch)
 
             if(res.isSuccessful) {
-                router.closeActivity()
+                router.onBack()
             }
         }
     }
@@ -101,7 +105,7 @@ class GroupInfoViewModel(
     }
 
     override fun onBackPressed() {
-        router.closeActivity()
+        router.onBack()
     }
 
     override fun report(content: String) {

@@ -17,6 +17,6 @@ interface MMFollowingContract {
 
     interface Router {
         fun navigateToAddMasterMind()
-        fun goBack()
+        fun onBack()
     }
 }

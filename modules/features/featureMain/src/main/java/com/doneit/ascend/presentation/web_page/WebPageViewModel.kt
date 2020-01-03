@@ -36,6 +36,6 @@ class WebPageViewModel(
     }
 
     override fun onBackClick() {
-        router.goBack()
+        router.onBack()
     }
 }

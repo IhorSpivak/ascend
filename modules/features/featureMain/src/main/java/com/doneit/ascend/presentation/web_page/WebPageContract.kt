@@ -14,6 +14,6 @@ interface WebPageContract {
     }
 
     interface Router {
-        fun goBack()
+        fun onBack()
     }
 }

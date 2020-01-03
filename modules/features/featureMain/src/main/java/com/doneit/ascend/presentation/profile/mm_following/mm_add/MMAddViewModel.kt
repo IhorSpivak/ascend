@@ -46,7 +46,7 @@ class MMAddViewModel(
     }
 
     override fun onBackClick() {
-        router.goBack()
+        router.onBack()
     }
 
     companion object {

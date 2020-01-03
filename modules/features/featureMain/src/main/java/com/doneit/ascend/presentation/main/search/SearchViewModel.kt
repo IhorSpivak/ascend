@@ -11,8 +11,12 @@ import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.use_case.interactor.search.SearchUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.Constants
+import com.vrgsoft.annotations.CreateFactory
+import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch
 
+@CreateFactory
+@ViewModelDiModule
 class SearchViewModel(
     private val router: SearchContract.Router,
     private val searchUseCase: SearchUseCase
@@ -49,7 +53,7 @@ class SearchViewModel(
     }
 
     override fun openGroupList(id: Long) {
-        router.navigateToGroupList(id)
+        router.navigateToGroupList(id, null, null)
     }
 
     override fun onMMClick(model: MasterMindEntity) {
@@ -61,6 +65,6 @@ class SearchViewModel(
     }
 
     override fun goBack() {
-        router.closeActivity()
+        router.onBack()
     }
 }

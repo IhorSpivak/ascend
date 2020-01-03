@@ -23,8 +23,7 @@ interface NewPasswordContract {
     }
 
     interface Router {
-        fun goBackToLogin()
-        fun goBack()
+        fun onBack()
         fun goToMain()
     }
 }

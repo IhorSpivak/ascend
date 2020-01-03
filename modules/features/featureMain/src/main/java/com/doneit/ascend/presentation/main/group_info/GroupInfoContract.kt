@@ -23,6 +23,6 @@ interface GroupInfoContract {
     }
 
     interface Router {
-        fun closeActivity()
+        fun onBack()
     }
 }

@@ -22,7 +22,7 @@ interface SignUpContract {
         fun navigateToVerifyPhone()
         fun goToMain()
         fun navigateToFirstTimeLogin(questions: QuestionListEntity)
-        fun goBack()
+        fun onBack()
         fun navigateToTerms()
         fun navigateToPrivacyPolicy()
     }

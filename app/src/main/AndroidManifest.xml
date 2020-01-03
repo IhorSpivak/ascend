@@ -47,37 +47,6 @@
 
         </activity>
 
-        <activity
-            android:name=".presentation.main.search.SearchActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".presentation.main.group_list.GroupListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".presentation.main.master_mind.MasterMindActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".presentation.main.notification.NotificationActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" />
-
-        <activity
-            android:name=".presentation.main.group_info.GroupInfoActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTransparentToolbar"/>
-
-        <activity
-            android:name=".presentation.main.master_mind_info.MMInfoActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

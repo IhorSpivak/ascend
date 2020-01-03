@@ -146,7 +146,7 @@ class NewPasswordViewModel(
 
     override fun onBackClick() {
         newPasswordModel.clear()
-        router.goBack()
+        router.onBack()
     }
 
     private fun showCodeSentMessage() {

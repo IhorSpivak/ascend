@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.base
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -51,6 +52,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     abstract val viewModel: BaseViewModel
 
     private var noConnectionDialog: ConnectionSnackbar? = null
+    private lateinit var progressDialog: Dialog
 
     //endregion
 
@@ -97,6 +99,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
             }
         }
 
+        initDialog()
         viewCreated(savedInstanceState)
     }
 
@@ -121,7 +124,23 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
     //endregion
 
+    protected fun showProgress(isDialogShown: Boolean) {
+        if(isDialogShown) {
+            progressDialog.show()
+        } else {
+            progressDialog.dismiss()
+        }
+    }
+
     //region private methods
+
+    private fun initDialog() {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_progress, null, false)
+        progressDialog = AlertDialog.Builder(context, R.style.ProgressDialogStyle)
+            .setCancelable(false)
+            .setView(dialogView)
+            .create()
+    }
 
     open fun getLayoutRes(): Int {
         var superClassGeneric = this.javaClass.genericSuperclass

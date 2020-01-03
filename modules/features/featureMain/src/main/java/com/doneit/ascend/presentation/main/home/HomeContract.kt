@@ -25,11 +25,11 @@ interface HomeContract {
     }
 
     interface Router {
-        fun navigateToGroupList(groupType: GroupType?, isMyGroups: Boolean?)
+        fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
         fun navigateToSearch()
         fun navigateToAllMasterMinds()
         fun navigateToGroupInfo(model: GroupEntity)
-        fun openProfile(model: MasterMindEntity)
+        fun navigateToMMInfo(model: MasterMindEntity)
         fun navigateToNotifications()
     }
 }

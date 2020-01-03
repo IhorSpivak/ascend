@@ -71,6 +71,6 @@ class ForgotPasswordViewModel(
     }
 
     override fun onBackClick() {
-        router.goBack()
+        router.onBack()
     }
 }
