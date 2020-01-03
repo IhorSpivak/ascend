@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.ProfileEntity
-import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
@@ -22,10 +21,10 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(
     private val userUseCase: UserUseCase,
     private val router: ProfileContract.Router,
-    private val mmRouter: com.doneit.ascend.presentation.profile.master_mind.ProfileContract.Router
+    private val mmRouter: com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router
 ) : BaseViewModelImpl(),
-    com.doneit.ascend.presentation.profile.master_mind.ProfileContract.ViewModel,
-    com.doneit.ascend.presentation.profile.regular_user.ProfileContract.ViewModel,
+    com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.ViewModel,
+    com.doneit.ascend.presentation.profile.regular_user.UserProfileContract.ViewModel,
     EditBioContract.ViewModel {
 
     override val user = MutableLiveData<ProfileEntity>()

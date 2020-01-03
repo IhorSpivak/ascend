@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.profile.regular_user.ProfileContract.ViewModel" />
+            type="com.doneit.ascend.presentation.profile.regular_user.UserProfileContract.ViewModel" />
 
     </data>
 
@@ -126,7 +126,7 @@
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="@{model.user.location == null || model.user.location.length == 0 ? @string/unknown_location : model.user.location}"
+                    android:text="@{model.user.location}"
                     android:textColor="@color/light_gray_8f"
                     app:layout_constraintEnd_toEndOf="@id/tvFullName"
                     app:layout_constraintStart_toStartOf="@id/tvFullName"

@@ -24,7 +24,7 @@ import com.doneit.ascend.presentation.profile.mm_followed.MMFollowedContract
 import com.doneit.ascend.presentation.profile.mm_followed.MMFollowedFragment
 import com.doneit.ascend.presentation.profile.mm_followed.mm_add.MMAddContract
 import com.doneit.ascend.presentation.profile.mm_followed.mm_add.MMAddFragment
-import com.doneit.ascend.presentation.profile.regular_user.ProfileFragment
+import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
 import com.doneit.ascend.presentation.web_page.common.WebPageArgs
@@ -38,7 +38,7 @@ class MainRouter(
 ) : FragmentRouter(activity.supportFragmentManager),
     BottomNavigationChangeListener,
     ProfileContract.Router,
-    com.doneit.ascend.presentation.profile.master_mind.ProfileContract.Router,
+    com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router,
     HomeContract.Router,
     WebPageContract.Router,
     MMFollowedContract.Router,
@@ -93,14 +93,14 @@ class MainRouter(
     override fun navigateToRegularUserProfile() {
         activity.supportFragmentManager.replaceWithBackStack(
             containerId,
-            ProfileFragment()
+            UserProfileFragment()
         )
     }
 
     override fun navigateToMMProfile() {
         activity.supportFragmentManager.replaceWithBackStack(
             containerId,
-            com.doneit.ascend.presentation.profile.master_mind.ProfileFragment()
+            com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment()
         )
     }
 

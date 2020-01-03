@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.regular_user
+package com.doneit.ascend.presentation.profile.master_mind
 
 import android.Manifest
 import android.app.Activity
@@ -11,13 +11,12 @@ import com.doneit.ascend.presentation.dialog.EditFieldDialog
 import com.doneit.ascend.presentation.dialog.EditFieldDialogOptions
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.databinding.FragmentProfileBinding
+import com.doneit.ascend.presentation.main.databinding.FragmentProfileMasterMindBinding
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
-import com.doneit.ascend.presentation.profile.master_mind.ProfileFragment.Companion.TEMP_CROP_IMAGE__NAME
 import com.doneit.ascend.presentation.utils.*
 import com.yalantis.ucrop.UCrop
-import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile_master_mind.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -26,13 +25,13 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.io.File
 
-class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
+class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
-        bind<ProfileContract.ViewModel>() with provider { instance<ProfileViewModel>() }
+        bind<MMProfileContract.ViewModel>() with provider { instance<ProfileViewModel>() }
     }
 
-    override val viewModel: ProfileContract.ViewModel by instance()
+    override val viewModel: MMProfileContract.ViewModel by instance()
 
     private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
     private val cropPhotoUri by lazy { context!!.createCropPhotoUri(TEMP_CROP_IMAGE__NAME) }
@@ -99,10 +98,36 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
                 R.string.edit_full_name,
                 R.string.error_full_name,
-                R.string.hint_enter_full_name,
+                R.string.enter_full_name,
                 viewModel.user.value?.fullName ?: ""
             ) {
                 viewModel.updateFullName(it)
+            }).show()
+        }
+
+        displayName.setOnClickListener {
+            EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
+                R.string.edit_display_name,
+                R.string.error_display_name,
+                R.string.hint_enter_display_name,
+                viewModel.user.value?.displayName ?: ""
+            ) {
+                viewModel.updateDisplayName(it)
+            }).show()
+        }
+
+        bio.setOnClickListener {
+            viewModel.navigateToEditBio()
+        }
+
+        short_description.setOnClickListener {
+            EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
+                R.string.edit_short_description,
+                R.string.error_short_description,
+                R.string.hint_enter_short_description,
+                viewModel.user.value?.description ?: ""
+            ) {
+                viewModel.updateShortDescription(it)
             }).show()
         }
 
@@ -117,10 +142,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
-                    if (data?.data != null) {
-                        val galleryPhotoUri = data.data!!
-                        viewModel.onAvatarSelected(galleryPhotoUri, cropPhotoUri, this)
-                    }
+                    val galleryPhotoUri = data?.data ?: return
+                    viewModel.onAvatarSelected(galleryPhotoUri, cropPhotoUri, this)
                 }
                 CAMERA_REQUEST_CODE -> {
                     viewModel.onAvatarSelected(cameraPhotoUri, cropPhotoUri, this)
@@ -139,7 +162,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         GlobalScope.launch {
             val compressed = context!!.copyCompressed(source, destinationPath)
-
             viewModel.updateProfileIcon(compressed)
         }
     }
@@ -148,5 +170,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         private const val GALLERY_REQUEST_CODE = 42
         private const val CAMERA_REQUEST_CODE = 41
         private const val TEMP_IMAGE_NAME = "profile_image_temp.jpg"
+        const val TEMP_CROP_IMAGE__NAME = "profile_image_crop_temp.jpeg"
+
+        const val PROFILE_VM_TAG = ""
     }
 }
