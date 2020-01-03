@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface ProfileContract {
@@ -28,7 +29,7 @@ interface ProfileContract {
         fun onMMFollowedClick()
     }
 
-    interface Router {
+    interface Router : EditBioContract.Router {
         fun navigateToLogin()
         fun navigateToTerms()
         fun navigateToPrivacyPolicy()

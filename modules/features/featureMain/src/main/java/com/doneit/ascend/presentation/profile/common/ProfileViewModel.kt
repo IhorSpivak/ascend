@@ -138,6 +138,10 @@ class ProfileViewModel(
         router.navigateToMMFollowed()
     }
 
+    override fun goBack() {
+        router.goBack()
+    }
+
     private fun updateProfile() {
         viewModelScope.launch {
             val result = userUseCase.updateProfile(updateProfileModel)

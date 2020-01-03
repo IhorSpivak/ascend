@@ -11,6 +11,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.profile.crop.CropActivity
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
+import com.doneit.ascend.presentation.main.extensions.addWithBackStack
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.main.home.HomeContract
@@ -19,7 +20,7 @@ import com.doneit.ascend.presentation.main.master_mind.MasterMindActivity
 import com.doneit.ascend.presentation.main.notification.NotificationActivity
 import com.doneit.ascend.presentation.main.search.SearchActivity
 import com.doneit.ascend.presentation.profile.common.ProfileContract
-import com.doneit.ascend.presentation.profile.edit_bio.EditBioDialogFragment
+import com.doneit.ascend.presentation.profile.edit_bio.EditBioFragment
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingContract
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingFragment
 import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddContract
@@ -153,8 +154,7 @@ class MainRouter(
     }
 
     override fun navigateToEditBio() {
-        val editBioDialog = EditBioDialogFragment.newInstance()
-        editBioDialog.show(activity.supportFragmentManager, EditBioDialogFragment.TAG)
+        activity.supportFragmentManager.addWithBackStack(containerIdFull, EditBioFragment())
     }
 
     override fun navigateToMMFollowed() {

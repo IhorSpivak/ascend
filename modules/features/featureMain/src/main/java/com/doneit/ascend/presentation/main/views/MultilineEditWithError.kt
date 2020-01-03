@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.utils.extensions.focusRequest
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 
 @InverseBindingMethods(
@@ -89,6 +90,7 @@ class MultilineEditWithError @JvmOverloads constructor(
         set(value) {
             if (value != multilineEditText.text.toString()) {
                 multilineEditText.setText(value)
+                multilineEditText.setSelection(value.length)
             }
         }
 
@@ -156,6 +158,10 @@ class MultilineEditWithError @JvmOverloads constructor(
         multilineEditText.filters = arrayOf<InputFilter>(
             InputFilter.LengthFilter(length)
         )
+    }
+
+    fun focusRequest() {
+        multilineEditText.focusRequest()
     }
 
     override fun getBaseline(): Int {
