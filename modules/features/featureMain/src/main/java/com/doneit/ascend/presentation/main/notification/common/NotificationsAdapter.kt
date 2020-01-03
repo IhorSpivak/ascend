@@ -20,7 +20,7 @@ class NotificationsAdapter(
     override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
         holder.bind(getItem(position)!!, {
             onDeleteListener.invoke(it)
-            notifyItemRemoved(position)
+            //notifyItemRemoved(position)
         }, onItemClick)
     }
 

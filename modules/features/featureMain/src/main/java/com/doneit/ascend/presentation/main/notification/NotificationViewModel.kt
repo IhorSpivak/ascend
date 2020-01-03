@@ -18,16 +18,7 @@ class NotificationViewModel(
     override val notifications = MutableLiveData<PagedList<NotificationEntity>>()
 
     init {
-        viewModelScope.launch {
-            val notificationsList = notificationUseCase.getNotificationList(
-                NotificationListModel(
-                    perPage = 10,
-                    sortColumn = "created_at",
-                    sortType = SortType.DESC
-                )
-            )
-            notifications.postValue(notificationsList)
-        }
+        updateNotifications()
     }
 
     override fun goBack() {
@@ -43,8 +34,21 @@ class NotificationViewModel(
             val response = notificationUseCase.delete(id)
 
             if (response.isSuccessful) {
-
+                updateNotifications()
             }
+        }
+    }
+
+    private fun updateNotifications() {
+        viewModelScope.launch {
+            val notificationsList = notificationUseCase.getNotificationList(
+                NotificationListModel(
+                    perPage = 10,
+                    sortColumn = "created_at",
+                    sortType = SortType.DESC
+                )
+            )
+            notifications.postValue(notificationsList)
         }
     }
 }

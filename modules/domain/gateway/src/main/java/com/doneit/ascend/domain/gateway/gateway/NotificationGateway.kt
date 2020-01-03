@@ -19,6 +19,7 @@ internal class NotificationGateway(
     private val remote: INotificationRepository
 ) : BaseGateway(errors), INotificationGateway {
 
+    //todo remove mock data
     private val items = mutableListOf(
         NotificationEntity(
             1,
