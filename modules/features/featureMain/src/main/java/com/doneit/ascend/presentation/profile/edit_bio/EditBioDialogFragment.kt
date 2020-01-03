@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.DialogEditBioBinding
+import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -32,7 +33,7 @@ class EditBioDialogFragment : DialogFragment(), KodeinAware {
     }
 
     private val viewModelModule = Kodein.Module(this::class.java.simpleName) {
-        bind<EditBioContract.ViewModel>() with provider { instance<ProfileViewModel>() }
+        bind<EditBioContract.ViewModel>() with provider { vmShared<ProfileViewModel>(instance()) }
     }
     
     private val viewModel: EditBioContract.ViewModel by instance()

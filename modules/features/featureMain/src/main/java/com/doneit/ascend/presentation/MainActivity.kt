@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
@@ -31,7 +32,7 @@ class MainActivity : BaseActivity() {
             )
         }
 
-        bind<ProfileViewModel>() with singleton {
+        bind<ViewModel>(ProfileViewModel::class.java.simpleName) with provider {
             ProfileViewModel(
                 instance(),
                 instance(),

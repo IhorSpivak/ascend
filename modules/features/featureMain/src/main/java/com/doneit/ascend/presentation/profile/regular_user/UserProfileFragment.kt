@@ -12,6 +12,7 @@ import com.doneit.ascend.presentation.dialog.EditFieldDialogOptions
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileUserBinding
+import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment.Companion.TEMP_CROP_IMAGE__NAME
@@ -29,7 +30,7 @@ import java.io.File
 class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
-        bind<UserProfileContract.ViewModel>() with provider { instance<ProfileViewModel>() }
+        bind<UserProfileContract.ViewModel>() with provider { vmShared<ProfileViewModel>(instance()) }
     }
 
     override val viewModel: UserProfileContract.ViewModel by instance()

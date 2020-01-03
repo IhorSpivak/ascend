@@ -26,15 +26,24 @@ class EditFieldDialog {
                 .create()
 
             mDialogView.btnPositive.setOnClickListener {
-                options.call.invoke(mDialogView.tvEditText.text.toString())
-                dialog.dismiss()
+                val currentText = mDialogView.tvEditText.text.toString()
+
+                val r = Regex("[a-zA-Z ]{4,}")
+
+                if (currentText.matches(r).not()) {
+                    mDialogView.tvError.visibility = View.VISIBLE
+                } else {
+                    mDialogView.tvError.visibility = View.GONE
+                    options.call.invoke(mDialogView.tvEditText.text.toString())
+                    dialog.dismiss()
+                }
             }
 
             mDialogView.btnNegative.setOnClickListener {
                 dialog.dismiss()
             }
 
-            var lastText = ""
+            var lastText = options.initValue
             mDialogView.tvEditText.hint = context.getString(options.hintRes)
             mDialogView.tvEditText.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
@@ -48,16 +57,6 @@ class EditFieldDialog {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
                     val currentText = s.toString()
-
-                    val r = Regex("[a-zA-Z ]{4,}")
-
-                    if (currentText.matches(r).not()) {
-                        mDialogView.btnPositive.isEnabled = false
-                        mDialogView.tvError.visibility = View.VISIBLE
-                    } else {
-                        mDialogView.btnPositive.isEnabled = true
-                        mDialogView.tvError.visibility = View.GONE
-                    }
 
                     if (currentText != lastText) {
 
@@ -95,9 +94,6 @@ class EditFieldDialog {
             mDialogView.title.setText(options.titleRes)
             mDialogView.tvEditText.setText(options.initValue)
             mDialogView.tvError.setText(options.errorRes)
-
-            mDialogView.btnPositive.isEnabled = false
-            lastText = options.initValue
 
             return dialog
         }
