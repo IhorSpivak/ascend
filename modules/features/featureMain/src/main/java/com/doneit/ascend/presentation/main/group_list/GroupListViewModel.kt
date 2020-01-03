@@ -38,11 +38,18 @@ class GroupListViewModel(
                 groupType.postValue(args.groupType.toStringValueUI())
             }
 
+            var groupType = args.groupType
+
+            if(groupType == GroupType.DAILY //according to requirement to display all created group on first tab,
+                || groupType == GroupType.MY_GROUPS) {
+                groupType = null
+            }
+
             val model = GroupListModel(
                 perPage = 50,
                 sortType = SortType.DESC,
                 userId = args.userId,
-                groupType = if(args.groupType == GroupType.DAILY) null else args.groupType,//according to requirement to display all created group on first tab,
+                groupType = groupType,
                 myGroups = args.isMyGroups
             )
 

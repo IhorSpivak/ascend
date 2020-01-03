@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.common
 
 import com.doneit.ascend.domain.entity.dto.GroupType
-import com.doneit.ascend.domain.entity.dto.toStringValue
 import com.doneit.ascend.presentation.main.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -27,7 +26,7 @@ class BottomNavigationAdapter(
                 }
                 R.id.profile -> {
                     when(userRole) {
-                        GroupType.MASTER_MIND.toStringValue() -> listener.navigateToMMProfile()
+                        GroupType.MASTER_MIND.toString() -> listener.navigateToMMProfile()
                         else -> listener.navigateToRegularUserProfile()
                     }
 

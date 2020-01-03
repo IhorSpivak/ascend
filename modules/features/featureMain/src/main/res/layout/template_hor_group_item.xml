@@ -104,7 +104,7 @@
                 android:layout_height="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                app:url="@{item.owner.image.url}"
+                app:url="@{item.owner.image.thumbnail.url}"
                 app:name="@{item.owner.fullName}"
                 app:radius="@{@dimen/group_holder_icon_radius}"
                 app:layout_constraintStart_toStartOf="parent"

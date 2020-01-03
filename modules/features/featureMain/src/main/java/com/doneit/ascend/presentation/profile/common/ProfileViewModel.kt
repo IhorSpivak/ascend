@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.ProfileEntity
+import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
@@ -88,7 +89,7 @@ class ProfileViewModel(
     }
 
     override fun onSeeMyGroupsClick() {
-        router.navigateToGroupList(null, null, true)
+        router.navigateToGroupList(null, GroupType.MY_GROUPS, true)
     }
 
     override fun onNotificationClick() {

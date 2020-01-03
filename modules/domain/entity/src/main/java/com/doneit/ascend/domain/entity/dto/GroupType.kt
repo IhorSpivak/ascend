@@ -8,23 +8,11 @@ enum class GroupType {
     SUCCESS,
     SPIRITUAL,
     SUPPORT,
-    DAILY;
+    DAILY,
+    MY_GROUPS;
 
     override fun toString(): String {
         return super.toString().toLowerCase()
-    }
-}
-
-fun GroupType.toStringValue(): String {
-    return when (this) {
-        GroupType.MASTER_MIND -> "master_mind"
-        GroupType.WEBINARS -> "webinar"
-        GroupType.RECOVERY -> "recovery"
-        GroupType.FAMILY -> "family"
-        GroupType.SUCCESS -> "success"
-        GroupType.SPIRITUAL -> "spiritual"
-        GroupType.SUPPORT -> "support"
-        GroupType.DAILY -> "daily"
     }
 }
 
@@ -39,10 +27,11 @@ fun String?.parseTo(): GroupType {
         "spiritual" -> GroupType.SPIRITUAL
         "support" -> GroupType.SUPPORT
         "daily" -> GroupType.DAILY
-        else -> GroupType.MASTER_MIND
+        else -> GroupType.MY_GROUPS
     }
 }
 
+//todo refactor
 fun GroupType.toStringValueUI(): String {
     return when (this) {
         GroupType.MASTER_MIND -> "Master Mind"
@@ -53,5 +42,6 @@ fun GroupType.toStringValueUI(): String {
         GroupType.SPIRITUAL -> "Spiritual"
         GroupType.SUPPORT -> "Support"
         GroupType.DAILY -> "My Daily"
+        GroupType.MY_GROUPS -> "My"
     }
 }
