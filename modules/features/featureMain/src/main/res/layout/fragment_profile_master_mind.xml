@@ -195,7 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -248,7 +248,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -275,7 +275,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="20dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -304,37 +304,50 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/llBox4"
+                <include
+                    android:id="@+id/notSettings"
+                    layout="@layout/template_profile_field"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_height="42dp"
                     android:layout_marginTop="16dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:orientation="vertical"
+                    app:fieldName="@{@string/notification_settings}"
+                    app:fieldValue="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_alarm}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/llBox3">
+                    app:layout_constraintTop_toBottomOf="@+id/llBox3"/>
 
-                    <include
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/notification_settings}"
-                        app:fieldValue="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_alarm}" />
+                <include
+                    android:id="@+id/paymentPortal"
+                    layout="@layout/template_profile_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:fieldName="@{@string/payment_portal}"
+                    app:fieldValue="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_payment}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/notSettings"/>
 
-                    <include
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/payment_portal}"
-                        app:fieldValue="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_payment}" />
-
-                    <include
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/contact_support}"
-                        app:fieldValue="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_contact_support}" />
-
-                </LinearLayout>
+                <include
+                    android:id="@+id/contactSupport"
+                    layout="@layout/template_profile_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:fieldName="@{@string/contact_support}"
+                    app:fieldValue="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_contact_support}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/paymentPortal"/>
 
                 <Button
                     android:id="@+id/btnLogout"
@@ -348,7 +361,7 @@
                     android:textColor="@color/green_font_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/llBox4" />
+                    app:layout_constraintTop_toBottomOf="@id/contactSupport" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTerms"
