@@ -2,7 +2,10 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.dto.GroupType
-import com.doneit.ascend.source.storage.remote.data.response.*
+import com.doneit.ascend.source.storage.remote.data.response.GroupResponse
+import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
+import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
+import com.doneit.ascend.source.storage.remote.data.response.ThumbnailResponse
 
 fun ThumbnailResponse.toEntity(): ThumbnailEntity {
     return ThumbnailEntity(
@@ -34,7 +37,7 @@ fun GroupResponse.toEntity(): GroupEntity {
         description,
         startTime?.toDate(),
         groupType?.toGroupType(),
-        price,
+        price / 100,
         image?.toEntity(),
         meetingsCount,
         0,//todo map from server

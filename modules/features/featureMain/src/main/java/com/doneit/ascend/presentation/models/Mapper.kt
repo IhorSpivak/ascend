@@ -22,7 +22,7 @@ fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
         description.observableField.getNotNull(),
         calendar.time,
         groupType,
-        price.observableField.getNotNull(),
+        price.observableField.getNotNull().toInt(),
         image.observableField.getNotNull(),
         participants.get(),
         scheduleDays.toDays(),

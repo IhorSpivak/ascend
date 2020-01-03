@@ -51,7 +51,7 @@ internal class GroupRepository(
             )
             builder = builder.addPart(stringPart)
 
-            stringPart = MultipartBody.Part.createFormData("price", request.price)
+            stringPart = MultipartBody.Part.createFormData("price", request.price.toString())
             builder = builder.addPart(stringPart)
 
 

@@ -7,7 +7,7 @@ data class CreateGroupRequest(
     @SerializedName("description") val description: String,
     @SerializedName("start_time") val startTime: String,
     @SerializedName("group_type") val groupType: String,
-    @SerializedName("price") val price: String,
+    @SerializedName("price") val price: Int,
     @SerializedName("participants") val participants: List<String>?,
     @SerializedName("wdays") val days: List<Int>?,
     @SerializedName("meetings_count") val meetingsCount: Int
