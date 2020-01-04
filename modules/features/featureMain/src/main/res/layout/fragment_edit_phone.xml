@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <com.doneit.ascend.presentation.main.views.EditWithError
+        <com.doneit.ascend.presentation.views.EditWithError
             android:id="@+id/currentPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

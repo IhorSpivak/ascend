@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.views.phone_code
+package com.doneit.ascend.presentation.views.phone_code
 
 import android.content.Context
 import android.telephony.TelephonyManager
@@ -14,7 +14,7 @@ import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.views.phone_code.common.CountriesAdapter
+import com.doneit.ascend.presentation.views.phone_code.common.CountriesAdapter
 import com.doneit.ascend.presentation.utils.fetchCountryListWithReflection
 import com.doneit.ascend.presentation.utils.toNumericCode
 import com.rilixtech.widget.countrycodepicker.Country

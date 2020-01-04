@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="18dp">
 
-        <com.doneit.ascend.presentation.main.views.MasterMindIcon
+        <com.doneit.ascend.presentation.views.MasterMindIcon
             android:id="@+id/mmIcon"
             android:layout_width="80dp"
             android:layout_height="80dp"

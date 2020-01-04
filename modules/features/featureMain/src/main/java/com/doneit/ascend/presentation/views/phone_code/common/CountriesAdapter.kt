@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.views.phone_code.common
+package com.doneit.ascend.presentation.views.phone_code.common
 
 import android.view.LayoutInflater
 import android.view.View

@@ -14,7 +14,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp">
 
-        <com.doneit.ascend.presentation.main.views.MasterMindIcon
+        <com.doneit.ascend.presentation.views.MasterMindIcon
             android:id="@+id/icon"
             android:layout_width="32dp"
             android:layout_height="32dp"

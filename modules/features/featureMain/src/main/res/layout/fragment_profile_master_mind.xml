@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.doneit.ascend.presentation.main.views.MasterMindIcon
+                <com.doneit.ascend.presentation.views.MasterMindIcon
                     android:id="@+id/ruIcon"
                     android:layout_width="100dp"
                     android:layout_height="100dp"

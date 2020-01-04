@@ -97,7 +97,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true">
 
-                <com.doneit.ascend.presentation.main.views.EditWithError
+                <com.doneit.ascend.presentation.views.EditWithError
                     android:id="@+id/userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                     app:src="@{@drawable/ic_header}"
                     app:text="@={model.createGroupModel.name.observableField}" />
 
-                <com.doneit.ascend.presentation.main.views.EditWithError
+                <com.doneit.ascend.presentation.views.EditWithError
                     android:id="@+id/chooseSchedule"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                     app:src="@{@drawable/ic_calendar}"
                     app:text="@{model.createGroupModel.scheduleTime.observableField}" />
 
-                <com.doneit.ascend.presentation.main.views.EditWithError
+                <com.doneit.ascend.presentation.views.EditWithError
                     android:id="@+id/numberOfMeetings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                     app:src="@{@drawable/ic_hand}"
                     app:text="@={model.createGroupModel.numberOfMeetings.observableField}" />
 
-                <com.doneit.ascend.presentation.main.views.EditWithError
+                <com.doneit.ascend.presentation.views.EditWithError
                     android:id="@+id/startDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
                     app:src="@{@drawable/ic_favorite_date}"
                     app:text="@{model.createGroupModel.startDate.observableField}" />
 
-                <com.doneit.ascend.presentation.main.views.EditWithError
+                <com.doneit.ascend.presentation.views.EditWithError
                     android:id="@+id/price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -187,7 +187,7 @@
                     app:src="@{@drawable/ic_price}"
                     app:text="@={model.createGroupModel.price.observableField}" />
 
-                <com.doneit.ascend.presentation.main.views.MultilineEditWithError
+                <com.doneit.ascend.presentation.views.MultilineEditWithError
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -325,7 +325,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rvParticipants">
 
-                    <com.doneit.ascend.presentation.main.views.EditWithError
+                    <com.doneit.ascend.presentation.views.EditWithError
                         android:id="@+id/email"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

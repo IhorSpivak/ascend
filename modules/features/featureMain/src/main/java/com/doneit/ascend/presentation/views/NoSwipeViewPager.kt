@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.views
+package com.doneit.ascend.presentation.views
 
 import android.content.Context
 import android.util.AttributeSet

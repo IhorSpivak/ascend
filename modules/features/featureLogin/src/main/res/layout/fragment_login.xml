@@ -62,7 +62,7 @@
                 bind:error="@{model.loginModel.phone.observableError}"
                 bind:text="@={model.loginModel.phone.observableField}" />
 
-            <com.doneit.ascend.presentation.main.views.EditWithError
+            <com.doneit.ascend.presentation.views.EditWithError
                 android:id="@+id/password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

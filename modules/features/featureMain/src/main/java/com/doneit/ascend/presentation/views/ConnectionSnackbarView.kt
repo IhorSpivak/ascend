@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.views
+package com.doneit.ascend.presentation.views
 
 import android.view.LayoutInflater
 import android.view.View

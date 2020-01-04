@@ -82,7 +82,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.doneit.ascend.presentation.main.views.MasterMindIcon
+                    <com.doneit.ascend.presentation.views.MasterMindIcon
                         android:id="@+id/icon"
                         android:layout_width="40dp"
                         android:layout_height="40dp"

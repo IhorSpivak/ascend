@@ -25,7 +25,7 @@
         android:orientation="vertical"
         android:padding="8dp">
 
-        <com.doneit.ascend.presentation.main.views.MasterMindIcon
+        <com.doneit.ascend.presentation.views.MasterMindIcon
             android:id="@+id/followerImage"
             android:layout_width="80dp"
             android:layout_height="80dp"

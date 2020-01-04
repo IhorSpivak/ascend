@@ -44,7 +44,7 @@
             android:src="@{icon}"
             android:visibility="@{icon != null? View.VISIBLE : View.GONE }" />
 
-        <com.doneit.ascend.presentation.main.views.EditWithError
+        <com.doneit.ascend.presentation.views.EditWithError
             android:id="@+id/editWithError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

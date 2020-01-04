@@ -110,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="15dp">
 
-                    <com.doneit.ascend.presentation.main.views.NoSwipeViewPager
+                    <com.doneit.ascend.presentation.views.NoSwipeViewPager
                         android:id="@+id/vpGroups"
                         android:layout_width="match_parent"
                         android:layout_height="410dp"
@@ -152,7 +152,7 @@
                                 android:layout_height="wrap_content" />
 
                         </com.google.android.material.tabs.TabLayout>
-                    </com.doneit.ascend.presentation.main.views.NoSwipeViewPager>
+                    </com.doneit.ascend.presentation.views.NoSwipeViewPager>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/following"

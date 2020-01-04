@@ -9,7 +9,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.DialogErrorBinding
 import com.doneit.ascend.presentation.main.databinding.DialogInfoBinding
-import com.doneit.ascend.presentation.main.views.ConnectionSnackbar
+import com.doneit.ascend.presentation.views.ConnectionSnackbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_change_photo.*
 import kotlinx.android.synthetic.main.dialog_change_photo.view.*

@@ -106,7 +106,7 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.doneit.ascend.presentation.main.views.NoSwipeViewPager
+        <com.doneit.ascend.presentation.views.NoSwipeViewPager
             android:id="@+id/vpMasterMinds"
             android:layout_width="0dp"
             android:layout_height="0dp"
