@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.login.views.phone_code
+package com.doneit.ascend.presentation.main.views.phone_code
 
 import android.content.Context
 import android.telephony.TelephonyManager
@@ -10,14 +10,40 @@ import android.view.ViewTreeObserver
 import android.widget.AdapterView
 import android.widget.FrameLayout
 import androidx.core.view.GestureDetectorCompat
+import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.doneit.ascend.presentation.login.R
-import com.doneit.ascend.presentation.login.utils.fetchCountryListWithReflection
-import com.doneit.ascend.presentation.login.views.phone_code.common.CountriesAdapter
+import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.views.phone_code.common.CountriesAdapter
+import com.doneit.ascend.presentation.utils.fetchCountryListWithReflection
+import com.doneit.ascend.presentation.utils.toNumericCode
+import com.rilixtech.widget.countrycodepicker.Country
 import kotlinx.android.synthetic.main.view_phone_code.view.*
 import kotlin.math.max
+@InverseBindingMethods(
+    value = [
+        InverseBindingMethod(
+            type = PhoneCodeView::class,
+            attribute = "code",
+            method = "getCode"
+        )
+    ]
+)
+@BindingMethods(
+    value = [
+        BindingMethod(
+            type = PhoneCodeView::class,
+            attribute = "code",
+            method = "setCode"
+        ),
+        BindingMethod(
+            type = PhoneCodeView::class,
+            attribute = "codeAttrChanged",
+            method = "setListener"
 
+        )
+    ]
+)
 class PhoneCodeView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr), GestureDetector.OnGestureListener {
@@ -32,7 +58,24 @@ class PhoneCodeView @JvmOverloads constructor(
         View.inflate(context, R.layout.view_phone_code, this)
     }
 
-    fun getSelectedCode(): LiveData<String> {
+    var code: String
+        get() {
+            val code = (picker.selectedItem as Country).phoneCode
+            return String.format(CODE_FORMAT, code)
+        }
+        set(value) {
+            if(code != value) {
+                selectByPhoneCode(value.toNumericCode())
+            }
+        }
+
+    private var listener: InverseBindingListener? = null
+
+    fun setListener(listener: InverseBindingListener) {
+        this.listener = listener
+    }
+
+    fun getSelectedCode(): LiveData<String> {//todo remove
         return selectedCode
     }
 
@@ -62,6 +105,7 @@ class PhoneCodeView @JvmOverloads constructor(
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val phoneCode = countriesAdapter.countries[p2].phoneCode
 
+                listener?.onChange()
                 selectedCode.postValue(String.format(CODE_FORMAT, phoneCode))
             }
 
@@ -75,18 +119,24 @@ class PhoneCodeView @JvmOverloads constructor(
             false
         }
 
-        selectByPhoneCode(defaultCountyCode)
+        selectByCountyIsoCode(defaultCountyCode)
     }
 
     private fun fetchCurrentCountryCode() {
         val telephonyManager =
             context!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val regionCode = telephonyManager.networkCountryIso
-        selectByPhoneCode(regionCode)
+        selectByCountyIsoCode(regionCode)
+    }
+
+    private fun selectByCountyIsoCode(code: String) {
+        var position = countriesAdapter.getPositionByIso(code)
+        position = max(position, 0)
+        picker.setSelection(position)
     }
 
     private fun selectByPhoneCode(code: String) {
-        var position = countriesAdapter.getPositionByIso(code)
+        var position = countriesAdapter.getPositionByCode(code)
         position = max(position, 0)
         picker.setSelection(position)
     }

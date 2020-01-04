@@ -29,9 +29,11 @@ import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
+import com.doneit.ascend.presentation.profile.edit_phone.EditPhoneFragment
 import com.doneit.ascend.presentation.profile.common.ProfileContract
 import com.doneit.ascend.presentation.profile.crop.CropActivity
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioFragment
+import com.doneit.ascend.presentation.profile.edit_phone.EditPhoneContract
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingContract
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingFragment
 import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddContract
@@ -64,7 +66,8 @@ class MainRouter(
     ListContract.Router,
     MMInfoContract.Router,
     SearchContract.Router,
-    ProfileRatingsContract.Router {
+    ProfileRatingsContract.Router,
+    EditPhoneContract.Router {
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -189,6 +192,14 @@ class MainRouter(
     }
 
     override fun navigateToRatings() {
-        activity.supportFragmentManager.replaceWithBackStack(containerId, ProfileRatingsFragment())
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, ProfileRatingsFragment())
+    }
+
+    override fun navigateToChangePhone() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, EditPhoneFragment())
+    }
+
+    override fun navigateToVerifyPhone() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -9,7 +9,6 @@ import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.showDefaultError
 import com.doneit.ascend.presentation.utils.showInfoDialog
-import kotlinx.android.synthetic.main.toolbar.*
 import org.kodein.di.generic.instance
 
 class NewPasswordFragment : ArgumentedFragment<FragmentNewPasswordBinding, NewPasswordArgs>() {
@@ -22,7 +21,7 @@ class NewPasswordFragment : ArgumentedFragment<FragmentNewPasswordBinding, NewPa
         binding.executePendingBindings()
         viewModel.removeErrors()
 
-        imBack.setOnClickListener {
+        binding.toolbar.imBack.setOnClickListener {
             viewModel.onBackClick()
         }
     }

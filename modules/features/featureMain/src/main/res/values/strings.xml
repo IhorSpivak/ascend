@@ -192,6 +192,14 @@
     <string name="mm_add_hint">Enter MasterMind Name</string>
     <string name="profile_ratings_title">Profile Rating</string>
 
+    <!--Edit Phone-->
+    <string name="edit_phone_title">Edit Phone Number</string>
+    <string name="edit_phone_continue">Continue</string>
+    <string name="phone_format">+%s</string>
+    <string name="error_phone">The number is invalid. Please check it once again</string><!--the same string is in logIn module-->
+    <string name="password_hint">Current Password</string>
+
+
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>
     <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>

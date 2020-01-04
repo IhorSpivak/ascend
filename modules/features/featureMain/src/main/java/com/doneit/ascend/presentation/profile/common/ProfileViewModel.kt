@@ -118,7 +118,7 @@ class ProfileViewModel(
         updateProfile()
     }
 
-    override fun navigateToEditBio() {
+    override fun onEditBioClick() {
         mmRouter.navigateToEditBio()
     }
 
@@ -154,7 +154,11 @@ class ProfileViewModel(
         }
     }
 
-    override fun navigateToRatings() {
+    override fun onRatingsClick() {
         router.navigateToRatings()
+    }
+
+    override fun onChangePhoneClick() {
+        router.navigateToChangePhone()
     }
 }

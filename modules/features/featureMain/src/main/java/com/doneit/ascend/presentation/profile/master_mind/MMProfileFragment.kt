@@ -67,7 +67,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         }
 
         bio.setOnClickListener {
-            viewModel.navigateToEditBio()
+            viewModel.onEditBioClick()
         }
 
         short_description.setOnClickListener {
@@ -86,7 +86,11 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         }
 
         rating.setOnClickListener {
-            viewModel.navigateToRatings()
+            viewModel.onRatingsClick()
+        }
+
+        changePhone.setOnClickListener {
+            viewModel.onChangePhoneClick()
         }
     }
 

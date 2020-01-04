@@ -27,8 +27,6 @@
 
     <string name="sign_up_continue">Continue</string>
 
-    <string name="phone_format">+%s</string>
-
     <string name="verify_phone_header">Verify Phone Number</string>
     <string name="verify_phone_title">Enter 4 digits from SMS</string>
     <string name="verify">Verify</string>

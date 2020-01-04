@@ -29,6 +29,7 @@ interface ProfileContract {
         fun updateProfileIcon(path: String?)
         fun updateFullName(newFullName: String)
         fun onMMFollowedClick()
+        fun onChangePhoneClick()
     }
 
     interface Router : EditBioContract.Router, MMProfileContract.Router, UserProfileContract.Router {
@@ -44,5 +45,6 @@ interface ProfileContract {
         )
 
         fun navigateToMMFollowed()
+        fun navigateToChangePhone()
     }
 }

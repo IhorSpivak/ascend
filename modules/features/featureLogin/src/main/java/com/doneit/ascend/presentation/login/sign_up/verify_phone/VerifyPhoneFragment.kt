@@ -15,7 +15,6 @@ import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.showInfoDialog
 import kotlinx.android.synthetic.main.fragment_verify_phone.*
-import kotlinx.android.synthetic.main.toolbar.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -41,7 +40,7 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
-        imBack.setOnClickListener {
+        binding.toolbar.imBack.setOnClickListener {
             viewModel.onBackClick(false)
         }
 

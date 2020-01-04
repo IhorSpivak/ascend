@@ -8,10 +8,10 @@ import com.doneit.ascend.presentation.login.models.PresentationPhoneModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.models.toEntity
 import com.doneit.ascend.presentation.login.utils.getNotNull
-import com.doneit.ascend.presentation.login.utils.isPhoneValid
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
+import com.doneit.ascend.presentation.utils.isPhoneValid
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.Dispatchers

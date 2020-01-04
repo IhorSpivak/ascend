@@ -1,6 +1,7 @@
-package com.doneit.ascend.presentation.login.utils
+package com.doneit.ascend.presentation.utils
 
 import android.content.Context
+import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.rilixtech.widget.countrycodepicker.Country
 
@@ -30,7 +31,37 @@ fun isPhoneValid(code: String, number: String): Boolean {
     }
 }
 
-private fun String.toNumericCode(): String {
+fun String.getCountyCode(): String {
+    var res = ""
+
+    val phoneUtil = PhoneNumberUtil.getInstance()
+    try {
+        // phone must begin with '+'
+        val numberProto = phoneUtil.parse(this, null)
+        res = numberProto.countryCode.toString()
+    } catch (e: NumberParseException) {
+        e.printStackTrace()
+    }
+
+    return res
+}
+
+fun String.getPhoneBody(): String {
+    var res = ""
+
+    val phoneUtil = PhoneNumberUtil.getInstance()
+    try {
+        // phone must begin with '+'
+        val numberProto = phoneUtil.parse(this, null)
+        res = numberProto.nationalNumber.toString()
+    } catch (e: NumberParseException) {
+        e.printStackTrace()
+    }
+
+    return res
+}
+
+fun String.toNumericCode(): String {
     return if(startsWith('+')) {
         substring(1)
     } else {

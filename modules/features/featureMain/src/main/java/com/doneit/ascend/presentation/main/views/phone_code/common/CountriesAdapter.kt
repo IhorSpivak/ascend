@@ -1,10 +1,10 @@
-package com.doneit.ascend.presentation.login.views.phone_code.common
+package com.doneit.ascend.presentation.main.views.phone_code.common
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.doneit.ascend.presentation.login.R
+import com.doneit.ascend.presentation.main.R
 import com.rilixtech.widget.countrycodepicker.Country
 import kotlinx.android.synthetic.main.view_spinner_title.view.*
 
@@ -50,5 +50,9 @@ class CountriesAdapter(
 
     fun getPositionByIso(iso: String): Int {
         return countries.indexOfFirst { it.iso == iso }
+    }
+
+    fun getPositionByCode(code: String): Int {
+        return countries.indexOfFirst { it.phoneCode == code }
     }
 }

@@ -33,6 +33,15 @@ fun TextView.setAdapter(source: String?) {
     }
 }
 
+@BindingAdapter("app:error")
+fun TextView.setText(text: LiveData<Int?>?) {
+    if(text != null && text.value != null){
+        this.text = resources.getString(text.value!!)
+    } else {
+        this.text = ""
+    }
+}
+
 @BindingAdapter("app:setAdapter", "app:setAdapterData", requireAll = false)
 fun setAdapter(
     view: androidx.recyclerview.widget.RecyclerView,

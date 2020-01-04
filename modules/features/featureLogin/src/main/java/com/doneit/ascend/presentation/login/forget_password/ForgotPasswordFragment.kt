@@ -9,8 +9,6 @@ import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.showDefaultError
-import kotlinx.android.synthetic.main.group_phone.*
-import kotlinx.android.synthetic.main.toolbar.*
 import org.kodein.di.generic.instance
 
 class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
@@ -22,17 +20,17 @@ class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
         binding.lifecycleOwner = this
         binding.model = viewModel
 
-        imBack.setOnClickListener {
+        binding.toolbar.imBack.setOnClickListener {
             viewModel.onBackClick()
         }
 
-        phoneCode.getSelectedCode().observe(this, Observer { code ->
+        binding.phoneLayout.phoneCode.getSelectedCode().observe(this, Observer { code ->
             if (code != viewModel.phoneModel.phoneCode.getNotNull()) {
                 viewModel.phoneModel.phoneCode.set(code)
             }
         })
 
-        phoneCode.touchListener = {
+        binding.phoneLayout.phoneCode.touchListener = {
             hideKeyboard()
         }
     }

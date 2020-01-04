@@ -5,8 +5,8 @@ interface MMProfileContract {
         fun updateDisplayName(newDisplayName: String)
         fun updateShortDescription(newShortDescription: String)
 
-        fun navigateToEditBio()
-        fun navigateToRatings()
+        fun onEditBioClick()
+        fun onRatingsClick()
     }
 
     interface Router {

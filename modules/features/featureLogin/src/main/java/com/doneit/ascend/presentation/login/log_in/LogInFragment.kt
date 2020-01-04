@@ -31,7 +31,6 @@ import com.twitter.sdk.android.core.TwitterException
 import com.twitter.sdk.android.core.TwitterSession
 import com.twitter.sdk.android.core.identity.TwitterAuthClient
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.group_phone.*
 import okhttp3.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -52,11 +51,11 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
 
         initSignUpSpannable()
 
-        phoneCode.getSelectedCode().observe(this, Observer { code ->
+        binding.phoneLayout.phoneCode.getSelectedCode().observe(this, Observer { code ->
             viewModel.loginModel.phoneCode.set(code)
         })
 
-        phoneCode.touchListener = {
+        binding.phoneLayout.phoneCode.touchListener = {
             hideKeyboard()
         }
 

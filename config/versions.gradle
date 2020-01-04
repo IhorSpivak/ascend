@@ -328,8 +328,6 @@ ext {
             [configuration: "implementation", dependency: core.networkmanager],
 
             [configuration: "implementation", dependency: other.permissions],
-            [configuration: "implementation", dependency: other.phone],
-            [configuration: "implementation", dependency: other.phoneCodes],
 
             [configuration: "compileOnly", dependency: core.annotations],
             [configuration: "api", dependency: core.processor],
@@ -377,6 +375,8 @@ ext {
             [configuration: "implementation", dependency: retrofit.coroutines],
 
             [configuration: "implementation", dependency: ucrop.core],
+            [configuration: "implementation", dependency: other.phone],
+            [configuration: "implementation", dependency: other.phoneCodes],
     ]
 
     entityModule = [

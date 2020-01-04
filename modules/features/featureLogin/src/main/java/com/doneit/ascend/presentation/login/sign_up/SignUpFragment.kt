@@ -23,8 +23,6 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
 import kotlinx.android.synthetic.main.fragment_sign_up.*
-import kotlinx.android.synthetic.main.group_phone.*
-import kotlinx.android.synthetic.main.toolbar.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -54,19 +52,19 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         binding.executePendingBindings()
         viewModel.removeErrors()
 
-        imBack.setOnClickListener {
+        binding.toolbar.imBack.setOnClickListener {
             viewModel.onBackClick()
         }
 
         initSignInSpannable()
 
-        phoneCode.getSelectedCode().observe(this, Observer { code ->
+        binding.phoneLayout.phoneCode.getSelectedCode().observe(this, Observer { code ->
             if (code != viewModel.registrationModel.phoneCode.getNotNull()) {
                 viewModel.registrationModel.phoneCode.set(code)
             }
         })
 
-        phoneCode.touchListener = {
+        binding.phoneLayout.phoneCode.touchListener = {
             hideKeyboard()
         }
     }

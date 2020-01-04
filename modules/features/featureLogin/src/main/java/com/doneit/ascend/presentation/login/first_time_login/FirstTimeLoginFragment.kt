@@ -15,7 +15,6 @@ import com.doneit.ascend.presentation.login.first_time_login.common.GridRadioGro
 import com.doneit.ascend.presentation.login.first_time_login.common.QuestionsAdapter
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import kotlinx.android.synthetic.main.fragment_first_time_login.*
-import kotlinx.android.synthetic.main.toolbar.view.*
 import org.kodein.di.generic.instance
 
 class FirstTimeLoginFragment :
@@ -34,7 +33,7 @@ class FirstTimeLoginFragment :
         binding.lifecycleOwner = this
         binding.executePendingBindings()
 
-        toolbar.imBack.visibility = View.INVISIBLE
+        binding.toolbar.imBack.visibility = View.INVISIBLE
 
         viewModel.questions.observe(this, Observer {
 

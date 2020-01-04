@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.login.views.phone_code
+package com.doneit.ascend.presentation.main.views.phone_code
 
 import android.content.Context
 import android.util.AttributeSet

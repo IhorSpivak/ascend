@@ -42,58 +42,7 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
         binding.model = viewModel
 
         viewModel.showPhotoDialog.observe(this) {
-            showChangePhotoDialog({
-                EzPermission.with(context!!)
-                    .permissions(
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CAMERA
-                    )
-                    .request { granted, _, _ ->
-                        if (granted.containsAll(
-                                listOf(
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                    Manifest.permission.CAMERA
-                                )
-                            )
-                        ) {
-
-                            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri)
-                            startActivityForResult(
-                                cameraIntent,
-                                CAMERA_REQUEST_CODE
-                            )
-                        }
-                    }
-            }, {
-                EzPermission.with(context!!)
-                    .permissions(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ).request { granted, denied, _ ->
-
-                        if (denied.isEmpty().not()) {
-                            viewModel.errorMessage.call(
-                                PresentationMessage(
-                                    Messages.DEFAULT_ERROR.getId(),
-                                    content = getString(R.string.gallery_denied)
-                                )
-                            )
-                        }
-
-                        if (granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                            val galleryIntent = Intent(Intent.ACTION_PICK)
-                            galleryIntent.type = "image/*"
-
-                            startActivityForResult(
-                                galleryIntent,
-                                GALLERY_REQUEST_CODE
-                            )
-                        }
-                    }
-            }, {
-                viewModel.updateProfileIcon(null)
-            }, viewModel.showDeleteButton.value ?: false)
+            showPhotoDialog()
         }
 
         fullName.setOnClickListener {
@@ -110,6 +59,65 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
         mm_followed.setOnClickListener {
             viewModel.onMMFollowedClick()
         }
+
+        changePhone.setOnClickListener {
+            viewModel.onChangePhoneClick()
+        }
+    }
+
+    private fun showPhotoDialog() {
+        showChangePhotoDialog({
+            EzPermission.with(context!!)
+                .permissions(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
+                )
+                .request { granted, _, _ ->
+                    if (granted.containsAll(
+                            listOf(
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.CAMERA
+                            )
+                        )
+                    ) {
+
+                        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri)
+                        startActivityForResult(
+                            cameraIntent,
+                            CAMERA_REQUEST_CODE
+                        )
+                    }
+                }
+        }, {
+            EzPermission.with(context!!)
+                .permissions(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).request { granted, denied, _ ->
+
+                    if (denied.isEmpty().not()) {
+                        viewModel.errorMessage.call(
+                            PresentationMessage(
+                                Messages.DEFAULT_ERROR.getId(),
+                                content = getString(R.string.gallery_denied)
+                            )
+                        )
+                    }
+
+                    if (granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        val galleryIntent = Intent(Intent.ACTION_PICK)
+                        galleryIntent.type = "image/*"
+
+                        startActivityForResult(
+                            galleryIntent,
+                            GALLERY_REQUEST_CODE
+                        )
+                    }
+                }
+        }, {
+            viewModel.updateProfileIcon(null)
+        }, viewModel.showDeleteButton.value ?: false)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

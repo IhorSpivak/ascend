@@ -57,7 +57,7 @@ dependencies {
 
     implementation project(':modules:domain:entity')
     implementation project(':modules:domain:useCase')
-    implementation project(':modules:features:featureMain')
+    api project(':modules:features:featureMain')
 
     implementation 'androidx.core:core-ktx:1.1.0'//todo move to versions or remove
     implementation 'com.facebook.android:facebook-login:5.11.2'

@@ -284,6 +284,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/llSecondBox">
 
                     <include
+                        android:id="@+id/changePhone"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/phone_number}"
                         app:fieldValue="@{model.user.phone}"
