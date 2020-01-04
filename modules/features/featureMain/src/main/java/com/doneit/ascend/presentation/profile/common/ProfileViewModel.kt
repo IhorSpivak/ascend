@@ -16,8 +16,10 @@ import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toDTO
 import com.doneit.ascend.presentation.models.toProfile
+import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
+import com.doneit.ascend.presentation.utils.getLocation
 import com.doneit.ascend.presentation.utils.isDescriptionValid
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
@@ -29,7 +31,8 @@ class ProfileViewModel(
 ) : BaseViewModelImpl(),
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.ViewModel,
     com.doneit.ascend.presentation.profile.regular_user.UserProfileContract.ViewModel,
-    EditBioContract.ViewModel {
+    EditBioContract.ViewModel,
+    ChangeLocationContract.ViewModel {
 
     override val user = MutableLiveData<ProfileEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
@@ -149,6 +152,11 @@ class ProfileViewModel(
         router.navigateToMMFollowed()
     }
 
+    override fun updateLocation(city: String, country: String) {
+        updateProfileModel.location = getLocation(city, country)
+        updateProfile()
+    }
+
     override fun goBack() {
         router.onBack()
     }
@@ -170,6 +178,10 @@ class ProfileViewModel(
 
     override fun onChangePhoneClick() {
         router.navigateToChangePhone()
+    }
+
+    override fun onLocationClick() {
+        router.navigateToChangeLocation()
     }
 
     override fun onCleared() {

@@ -92,6 +92,10 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         changePhone.setOnClickListener {
             viewModel.onChangePhoneClick()
         }
+
+        location.setOnClickListener {
+            viewModel.onLocationClick()
+        }
     }
 
     private fun showPhotoDialog() {

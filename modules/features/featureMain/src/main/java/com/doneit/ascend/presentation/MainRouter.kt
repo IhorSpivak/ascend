@@ -30,6 +30,7 @@ import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
+import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
 import com.doneit.ascend.presentation.profile.common.ProfileContract
 import com.doneit.ascend.presentation.profile.crop.CropActivity
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioFragment
@@ -203,5 +204,9 @@ class MainRouter(
 
     override fun navigateToVerifyPhone() {
         activity.supportFragmentManager.addWithBackStack(containerIdFull, VerifyChangePhoneFragment())
+    }
+
+    override fun navigateToChangeLocation() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, ChangeLocationFragment())
     }
 }

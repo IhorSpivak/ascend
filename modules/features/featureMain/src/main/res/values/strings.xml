@@ -6,6 +6,7 @@
     <string name="password_sent">Password Sent</string>
     <string name="please_chec">Please, check your SMS box and follow the instructions to complete the reset password.</string>
     <string name="connecting">Connecting&#8230;</string>
+    <string name="code">Code</string>
 
     <!--Dialog messages-->
     <string name="title_error">Error</string>
@@ -203,7 +204,10 @@
     <string name="verify">Verify</string>
     <string name="no_code">Haven\'t received the code yet?</string>
     <string name="resend">Resend Code</string>
-
+    
+    <!--Change location-->
+    <string name="change_location_title">Select Your Location</string>
+    <string name="save">Save</string>
 
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>

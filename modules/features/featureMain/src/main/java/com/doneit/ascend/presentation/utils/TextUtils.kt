@@ -58,3 +58,7 @@ fun String.isValidStrartDate(): Boolean {
 
     return res
 }
+
+fun getLocation(city: String, country: String) : String {
+    return "$city, $country"
+}
