@@ -57,7 +57,7 @@
             app:layout_constraintTop_toBottomOf="@id/phoneLayout"/>
 
         <Button
-            android:id="@+id/btnReset"
+            android:id="@+id/btnContinue"
             style="@style/AppTheme.Button"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"

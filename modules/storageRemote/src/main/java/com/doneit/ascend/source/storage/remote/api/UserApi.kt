@@ -60,4 +60,7 @@ interface UserApi {
                         @Query("updated_at_from") updatedAtFrom: String?,
                         @Query("updated_at_to") updatedAtTo: String?
     ): Deferred<Response<RatesResponse>>
+
+    @POST("users/change_phone_number")
+    fun changePhone(@Body request: ChangePhoneRequest): Deferred<Response<OKResponse>>
 }

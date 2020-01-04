@@ -198,6 +198,11 @@
     <string name="phone_format">+%s</string>
     <string name="error_phone">The number is invalid. Please check it once again</string><!--the same string is in logIn module-->
     <string name="password_hint">Current Password</string>
+    <string name="verify_phone_title">Verify Phone Number</string>
+    <string name="verify_header">Enter the 4-digit code\n sent to you at %s</string>
+    <string name="verify">Verify</string>
+    <string name="no_code">Haven\'t received the code yet?</string>
+    <string name="resend">Resend Code</string>
 
 
     <!--Dialog messages-->

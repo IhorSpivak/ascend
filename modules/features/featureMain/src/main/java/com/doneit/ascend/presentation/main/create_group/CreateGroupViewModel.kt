@@ -47,7 +47,7 @@ class CreateGroupViewModel(
             val result = ValidationResult()
 
             if (s.isValidGroupName().not()) {
-                result.isSussed = false
+                result.isSucceed = false
                 result.errors.add(R.string.error_group_name)
             }
 
@@ -58,7 +58,7 @@ class CreateGroupViewModel(
             val result = ValidationResult()
 
             if (s.isValid4Number().not()) {
-                result.isSussed = false
+                result.isSucceed = false
                 result.errors.add(R.string.error_number_of_meetings)
             }
 
@@ -69,7 +69,7 @@ class CreateGroupViewModel(
             val result = ValidationResult()
 
             if (s.isValidStrartDate().not()) {
-                result.isSussed = false
+                result.isSucceed = false
                 result.errors.add(R.string.error_start_date)
             }
 
@@ -80,7 +80,7 @@ class CreateGroupViewModel(
             val result = ValidationResult()
 
             if (s.isValid4Number().not()) {
-                result.isSussed = false
+                result.isSucceed = false
                 result.errors.add(R.string.error_price)
             }
 
@@ -91,7 +91,7 @@ class CreateGroupViewModel(
             val result = ValidationResult()
 
             if (s.isDescriptionValid().not()) {
-                result.isSussed = false
+                result.isSucceed = false
                 result.errors.add(R.string.error_description)
             }
 
@@ -102,7 +102,7 @@ class CreateGroupViewModel(
             val result = ValidationResult()
 
             if (s.isValidEmail().not()) {
-                result.isSussed = false
+                result.isSucceed = false
                 result.errors.add(R.string.error_email)
             }
 
@@ -113,7 +113,7 @@ class CreateGroupViewModel(
             val result = ValidationResult()
 
             if (s.isEmpty()) {
-                result.isSussed = false
+                result.isSucceed = false
             }
 
             result

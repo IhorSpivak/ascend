@@ -3,6 +3,8 @@ package com.doneit.ascend.presentation.models
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.ProfileEntity
+import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.dto.ChangePhoneModel
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.getNotNull
@@ -46,6 +48,30 @@ fun ProfileEntity.toDTO(): UpdateProfileModel {
     )
 }
 
+fun UserEntity.toProfile(): ProfileEntity {
+    return ProfileEntity(
+        id,
+        name,
+        email,
+        phone,
+        location,
+        createdAt,
+        updatedAt,
+        meetingStarted,
+        newGroups,
+        inviteToMeeting,
+        unansweredQuestions,
+        image,
+        displayName,
+        description,
+        bio,
+        rating,
+        role,
+        isMasterMind,
+        community
+    )
+}
+
 fun List<CalendarDayEntity>.toDays(): List<Int> {
     return this.map {
         it.ordinal
@@ -54,4 +80,12 @@ fun List<CalendarDayEntity>.toDays(): List<Int> {
 
 fun String.toAM_PM(): Int {
     return if(this == "AM") Calendar.AM else Calendar.PM
+}
+
+fun EditPhoneModel.toEntity(): ChangePhoneModel {
+    return ChangePhoneModel(
+        password.observableField.getNotNull(),
+        getPhone(),
+        code.observableField.getNotNull()
+    )
 }

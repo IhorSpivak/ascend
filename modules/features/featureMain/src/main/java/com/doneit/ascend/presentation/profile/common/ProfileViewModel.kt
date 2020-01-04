@@ -3,8 +3,10 @@ package com.doneit.ascend.presentation.profile.common
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.ProfileEntity
+import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -13,6 +15,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toDTO
+import com.doneit.ascend.presentation.models.toProfile
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.isDescriptionValid
@@ -35,6 +38,8 @@ class ProfileViewModel(
     override val canSaveBio = MutableLiveData<Boolean>()
 
     private lateinit var updateProfileModel: UpdateProfileModel
+    private val userLocal = userUseCase.getUserLive()
+    private lateinit var userObserver: Observer<UserEntity?>
 
     init {
         viewModelScope.launch {
@@ -53,7 +58,7 @@ class ProfileViewModel(
             val result = ValidationResult()
 
             if (s.isDescriptionValid().not()) {
-                result.isSussed = false
+                result.isSucceed = false
                 result.errors.add(R.string.error_description)
             }
 
@@ -63,6 +68,11 @@ class ProfileViewModel(
         bioValue.onFieldInvalidate = {
             canSaveBio.postValue(bioValue.isValid)
         }
+
+        userObserver = Observer {
+            user.postValue(it!!.toProfile())
+        }
+        userLocal.observeForever(userObserver)
     }
 
     override fun onEditPhotoClick() {
@@ -160,5 +170,10 @@ class ProfileViewModel(
 
     override fun onChangePhoneClick() {
         router.navigateToChangePhone()
+    }
+
+    override fun onCleared() {
+        userLocal.removeObserver(userObserver)
+        super.onCleared()
     }
 }

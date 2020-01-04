@@ -10,7 +10,6 @@ import android.util.Patterns
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
 import com.doneit.ascend.presentation.login.R
-import com.doneit.ascend.presentation.login.views.SmsCodeView
 
 
 fun Context.applyLinkStyle(source: SpannableString, start: Int, end: Int) {
@@ -40,10 +39,6 @@ fun String.isValidEmail(): Boolean {
 fun String.isValidName(): Boolean {
     val r = Regex("[a-zA-Z ]{4,}")
     return this.matches(r)
-}
-
-fun String.isValidConfirmationCode(): Boolean {
-    return length == SmsCodeView.NUMBERS_COUNT
 }
 
 fun String.isValidCodeFromSms(): Boolean {

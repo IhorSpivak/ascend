@@ -29,7 +29,7 @@ class ValidatableField {
                 if (validator != null && sender != null) {
                     val validation = validator!!.invoke(observableField.getNotNull())
                     val oldCorrect = isCorrect
-                    isCorrect = validation.isSussed
+                    isCorrect = validation.isSucceed
                     if (oldCorrect != isCorrect) {
                         onFieldInvalidate?.invoke()
                     }
@@ -42,6 +42,10 @@ class ValidatableField {
                 }
             }
         })
+    }
+
+    fun invalidate() {
+        onFieldInvalidate?.invoke()
     }
 
     private fun removeError() {

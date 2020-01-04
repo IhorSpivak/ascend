@@ -36,4 +36,6 @@ interface IUserRepository {
     suspend fun updateProfile(file: File?, request: UpdateProfileRequest, updateImage: Boolean): RemoteResponse<ProfileResponse, ErrorsListResponse>
 
     suspend fun getRates(request: RateRequest): RemoteResponse<RatesResponse, ErrorsListResponse>
+
+    suspend fun changePhone(request: ChangePhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 }

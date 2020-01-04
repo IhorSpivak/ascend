@@ -58,7 +58,7 @@ internal class UserInteractor(
     }
 
     override suspend fun getUser(): UserEntity? {
-        return userGateway.geUser()
+        return userGateway.getUser()
     }
 
     override suspend fun hasSignedInUser(): Boolean {
@@ -79,5 +79,9 @@ internal class UserInteractor(
 
     override suspend fun getRates(model: RatingsModel): PagedList<RateEntity> {
         return userGateway.getRating(model)
+    }
+
+    override suspend fun changePhone(dto: ChangePhoneModel): ResponseEntity<Unit, List<String>> {
+        return userGateway.changePhone(dto)
     }
 }

@@ -43,4 +43,6 @@ interface UserUseCase {
     suspend fun updateProfile(request: UpdateProfileModel): ResponseEntity<ProfileEntity, List<String>>
 
     suspend fun getRates(model: RatingsModel): PagedList<RateEntity>
+
+    suspend fun changePhone(dto: ChangePhoneModel): ResponseEntity<Unit, List<String>>
 }

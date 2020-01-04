@@ -2,12 +2,17 @@ package com.doneit.ascend.presentation.utils
 
 import android.util.Patterns
 import androidx.databinding.ObservableField
+import com.doneit.ascend.presentation.views.SmsCodeView
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 fun ObservableField<String?>.getNotNull(): String {
     return get() ?: ""
+}
+
+fun String.isValidConfirmationCode(): Boolean {
+    return length == SmsCodeView.NUMBERS_COUNT
 }
 
 fun String.isValidGroupName(): Boolean {

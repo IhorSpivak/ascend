@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.local.repository.user
 
+import androidx.lifecycle.LiveData
 import com.doneit.ascend.source.storage.local.data.UserLocal
 import com.doneit.ascend.source.storage.local.repository.LocalDatabase
 
@@ -17,6 +18,10 @@ internal class UserRepository(
 
     override suspend fun getFirstUser(): UserLocal? {
         return database.userDao().getFirstUser()
+    }
+
+    override fun getFirstUserLive(): LiveData<UserLocal?> {
+        return database.userDao().getFirstUserLive()
     }
 
     override suspend fun remove() {

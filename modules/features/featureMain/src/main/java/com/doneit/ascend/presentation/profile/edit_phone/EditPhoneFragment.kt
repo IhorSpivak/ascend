@@ -8,7 +8,6 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.FragmentEditPhoneBinding
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
-import kotlinx.android.synthetic.main.group_phone.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -33,10 +32,12 @@ class EditPhoneFragment : BaseFragment<FragmentEditPhoneBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
-        viewModel.init()
-
-        phoneCode.touchListener = {
+        binding.phoneLayout.phoneCode.touchListener = {
             hideKeyboard()
         }
+
+        view?.postDelayed({
+            viewModel.init() //in order to wait for phoneCode layout initialization
+        }, 100)
     }
 }

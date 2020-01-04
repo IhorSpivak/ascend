@@ -39,6 +39,7 @@ fun String.getCountyCode(): String {
         // phone must begin with '+'
         val numberProto = phoneUtil.parse(this, null)
         res = numberProto.countryCode.toString()
+        res = "+$res"
     } catch (e: NumberParseException) {
         e.printStackTrace()
     }

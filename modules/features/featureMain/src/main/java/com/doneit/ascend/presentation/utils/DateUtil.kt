@@ -15,6 +15,10 @@ fun Date.toRateDate(): String {
     return "MMM dd, yyyy".toDefaultFormatter().getFormatted(this)
 }
 
+fun Date.toTimerFormat(): String {
+    return "mm:ss".toDefaultFormatter().getFormatted(this)
+}
+
 private fun SimpleDateFormat.getFormatted(date: Date): String {
     var res = ""
     try {

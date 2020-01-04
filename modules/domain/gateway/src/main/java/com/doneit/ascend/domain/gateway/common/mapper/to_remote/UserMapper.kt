@@ -65,3 +65,11 @@ fun RatingsModel.toRequest(currPage: Int): RateRequest {
         updatedAtTo?.toRemoteString()
     )
 }
+
+fun ChangePhoneModel.toRequest(): ChangePhoneRequest {
+    return ChangePhoneRequest(
+        password,
+        phoneNumber,
+        code
+    )
+}

@@ -56,6 +56,8 @@ dependencies {
 
     implementation project(':modules:domain:useCase')
 
+    implementation 'androidx.core:core-ktx:1.1.0'//todo move to versions or remove
+
     implementation 'com.androidisland.ezpermission:ezpermission:0.1.4'
 
     //Wheel DatePicker

@@ -13,6 +13,7 @@ import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
 import com.doneit.ascend.presentation.main.extensions.addWithBackStack
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
+import com.doneit.ascend.presentation.main.extensions.replaceWithoutBackStack
 import com.doneit.ascend.presentation.main.group_info.GroupInfoContract
 import com.doneit.ascend.presentation.main.group_info.GroupInfoFragment
 import com.doneit.ascend.presentation.main.group_list.GroupListContract
@@ -29,11 +30,12 @@ import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
-import com.doneit.ascend.presentation.profile.edit_phone.EditPhoneFragment
 import com.doneit.ascend.presentation.profile.common.ProfileContract
 import com.doneit.ascend.presentation.profile.crop.CropActivity
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioFragment
 import com.doneit.ascend.presentation.profile.edit_phone.EditPhoneContract
+import com.doneit.ascend.presentation.profile.edit_phone.EditPhoneFragment
+import com.doneit.ascend.presentation.profile.edit_phone.verify_phone.VerifyChangePhoneFragment
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingContract
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingFragment
 import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddContract
@@ -196,10 +198,10 @@ class MainRouter(
     }
 
     override fun navigateToChangePhone() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, EditPhoneFragment())
+        activity.supportFragmentManager.replaceWithoutBackStack(containerIdFull, EditPhoneFragment())
     }
 
     override fun navigateToVerifyPhone() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        activity.supportFragmentManager.addWithBackStack(containerIdFull, VerifyChangePhoneFragment())
     }
 }

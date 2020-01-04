@@ -7,14 +7,17 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneContract.ViewModel" />
+            type="com.doneit.ascend.presentation.profile.edit_phone.verify_phone.VerifyChangePhoneContract.ViewModel" />
 
         <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/white">
 
         <include
             android:id="@+id/toolbar"
@@ -23,6 +26,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:elevation="8dp"
+            bind:backClick="@{(v) -> model.onBackClick()}"
             bind:title="@{@string/verify_phone_title}" />
 
         <TextView
@@ -31,7 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="@string/verify_phone_header"
+            android:gravity="center"
+            android:text="@{@string/verify_header(model.dataModel.phone)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -46,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title"
-            app:text="@={model.registrationModel.code.observableField}" />
+            app:text="@={model.dataModel.code.observableField}" />
 
         <Button
             android:id="@+id/btnVerify"
@@ -56,7 +61,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
-            android:enabled="@{model.canContinue}"
+            android:enabled="@{model.canVerify}"
             android:onClick="@{v -> model.onVerifyClick()}"
             android:text="@string/verify"
             app:layout_constraintTop_toBottomOf="@id/smsCode" />
@@ -82,7 +87,7 @@
             android:onClick="@{v -> model.sendCode(true)}"
             android:text="@string/resend"
             android:textColor="@color/green_font_color"
-            android:visibility="@{model.canShowTimer ? View.GONE : View.VISIBLE}"
+            android:visibility="@{model.canResendCode ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvNoCode" />
@@ -94,7 +99,7 @@
             android:layout_marginTop="8dp"
             android:text="@{model.timerValue}"
             android:textColor="@color/green_font_color"
-            android:visibility="@{model.canShowTimer ? View.VISIBLE : View.GONE}"
+            android:visibility="@{model.canResendCode ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resend" />

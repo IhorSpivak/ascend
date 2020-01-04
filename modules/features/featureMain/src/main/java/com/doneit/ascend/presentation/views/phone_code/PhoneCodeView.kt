@@ -53,23 +53,23 @@ class PhoneCodeView @JvmOverloads constructor(
     private val selectedCode = MutableLiveData<String>()
     private lateinit var countriesAdapter: CountriesAdapter
     private lateinit var mDetector: GestureDetectorCompat
+    private var listener: InverseBindingListener? = null
 
     init {
         View.inflate(context, R.layout.view_phone_code, this)
     }
 
-    var code: String
+    var code: String?
         get() {
             val code = (picker.selectedItem as Country).phoneCode
             return String.format(CODE_FORMAT, code)
         }
         set(value) {
-            if(code != value) {
+            if(code != value && value != null) {
                 selectByPhoneCode(value.toNumericCode())
             }
         }
 
-    private var listener: InverseBindingListener? = null
 
     fun setListener(listener: InverseBindingListener) {
         this.listener = listener

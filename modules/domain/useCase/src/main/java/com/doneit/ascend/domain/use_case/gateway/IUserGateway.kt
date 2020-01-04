@@ -31,7 +31,7 @@ interface IUserGateway {
 
     fun getUserLive(): LiveData<UserEntity?>
 
-    suspend fun geUser(): UserEntity?
+    suspend fun getUser(): UserEntity?
 
     suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>>
 
@@ -40,4 +40,6 @@ interface IUserGateway {
     suspend fun updateProfile(groupModel: UpdateProfileModel): ResponseEntity<ProfileEntity, List<String>>
 
     suspend fun getRating(ratingsModel: RatingsModel): PagedList<RateEntity>
+
+    suspend fun changePhone(dto: ChangePhoneModel): ResponseEntity<Unit, List<String>>
 }

@@ -7,4 +7,8 @@ data class EditPhoneModel(
     val phoneNumber: ValidatableField = ValidatableField(),
     val password: ValidatableField = ValidatableField(),
     val code: ValidatableField = ValidatableField()
-)
+) {
+    fun getPhone(): String {
+        return phoneCode.get() + phoneNumber.observableField.get()
+    }
+}

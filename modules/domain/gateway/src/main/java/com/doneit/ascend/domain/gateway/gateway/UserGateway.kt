@@ -3,8 +3,7 @@ package com.doneit.ascend.domain.gateway.gateway
 import android.accounts.Account
 import android.accounts.AccountManager
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AuthEntity
 import com.doneit.ascend.domain.entity.ProfileEntity
@@ -177,17 +176,10 @@ internal class UserGateway(
     }
 
     override fun getUserLive(): LiveData<UserEntity?> {
-        return liveData {
-            val userLive = MutableLiveData<UserEntity>()
-            emitSource(userLive)
-
-            val user = local.getFirstUser()
-
-            userLive.postValue(user?.toUserEntity())
-        }
+        return local.getFirstUserLive().map { it?.toUserEntity() }
     }
 
-    override suspend fun geUser(): UserEntity? {
+    override suspend fun getUser(): UserEntity? {
         return local.getFirstUser()?.toUserEntity()
     }
     
@@ -205,38 +197,6 @@ internal class UserGateway(
                 it?.errors
             }
         )
-    }
-
-    private suspend fun updateUserLocal(authEntity: AuthEntity) {
-        local.remove()//only single user at local storage allowed
-
-        local.insert(authEntity.userEntity.toUserLocal())
-
-        // save token
-        val account = Account(authEntity.userEntity.name, packageName)
-
-        removeAccounts()
-
-        accountManager.addAccountExplicitly(account, ARG_AM_PASSWORD, null)
-        accountManager.setAuthToken(account, "Bearer", authEntity.token)
-    }
-
-    private fun removeAccounts() {
-        val accounts = accountManager.getAccountsByType(packageName)
-
-        if (accounts.isNotEmpty()) {
-            for (accountItem in accounts) {
-                try {
-                    if (android.os.Build.VERSION.SDK_INT >= 22) {
-                        accountManager.removeAccountExplicitly(accountItem)
-                    } else {
-                        accountManager.removeAccount(accountItem, null, null)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
     }
 
     override suspend fun getProfile(): ResponseEntity<ProfileEntity, List<String>> {
@@ -280,6 +240,60 @@ internal class UserGateway(
             .setFetchExecutor(executor)
             .setNotifyExecutor(executor)
             .build()
+    }
+
+    override suspend fun changePhone(dto: ChangePhoneModel): ResponseEntity<Unit, List<String>> {
+        val res = executeRemote { remote.changePhone(dto.toRequest()) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+
+        if(res.isSuccessful) {
+            val user = getUser()
+            val newUser = user!!.copy(phone = dto.phoneNumber)
+            updateUserLocal(newUser)
+        }
+
+        return  res
+    }
+
+    private suspend fun updateUserLocal(authEntity: AuthEntity) {
+        updateUserLocal(authEntity.userEntity)
+
+        // save token
+        val account = Account(authEntity.userEntity.name, packageName)
+
+        removeAccounts()
+
+        accountManager.addAccountExplicitly(account, ARG_AM_PASSWORD, null)
+        accountManager.setAuthToken(account, "Bearer", authEntity.token)
+    }
+
+    private suspend fun updateUserLocal(userEntity: UserEntity) {
+        local.remove()//only single user at local storage allowed
+        local.insert(userEntity.toUserLocal())
+    }
+
+    private fun removeAccounts() {
+        val accounts = accountManager.getAccountsByType(packageName)
+
+        if (accounts.isNotEmpty()) {
+            for (accountItem in accounts) {
+                try {
+                    if (android.os.Build.VERSION.SDK_INT >= 22) {
+                        accountManager.removeAccountExplicitly(accountItem)
+                    } else {
+                        accountManager.removeAccount(accountItem, null, null)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.login.views
+package com.doneit.ascend.presentation.views
 
 import android.content.Context
 import android.text.TextUtils
@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.*
-import com.doneit.ascend.presentation.login.R
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.extensions.showKeyboard
 import kotlinx.android.synthetic.main.view_sms_code.view.*
 
