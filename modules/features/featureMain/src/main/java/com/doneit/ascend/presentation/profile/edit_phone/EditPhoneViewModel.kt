@@ -59,12 +59,14 @@ class EditPhoneViewModel(
     }
 
     override fun init() {
-        viewModelScope.launch {
-            val user = userUseCase.getUser()
-            val code = user!!.phone!!.getCountyCode()
-            val phone = user.phone!!.getPhoneBody()
-            dataModel.phoneCode.set(code)
-            dataModel.phoneNumber.observableField.set(phone)
+        if(dataModel.phoneCode.getNotNull().isBlank() || dataModel.phoneNumber.observableField.getNotNull().isBlank()) {
+            viewModelScope.launch {
+                val user = userUseCase.getUser()
+                val code = user!!.phone!!.getCountyCode()
+                val phone = user.phone!!.getPhoneBody()
+                dataModel.phoneCode.set(code)
+                dataModel.phoneNumber.observableField.set(phone)
+            }
         }
     }
 
