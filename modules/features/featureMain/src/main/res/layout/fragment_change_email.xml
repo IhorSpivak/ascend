@@ -55,6 +55,7 @@
             android:layout_marginEnd="20dp"
             app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
             app:text="@={model.dataModel.password.observableField}"
+            app:error="@{model.dataModel.password.observableError}"
             app:hint="@{@string/current_password}"
             app:src="@{@drawable/ic_password}"
             app:saveState="@{false}"

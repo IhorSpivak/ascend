@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.isValidEmail
+import com.doneit.ascend.presentation.utils.isValidPassword
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch
@@ -36,10 +37,12 @@ class EditEmailViewModel(
 
         dataModel.password.validator = { s ->
             val result = ValidationResult()
-            if (s.isBlank()) {
+
+            if (s.isValidPassword().not()) {
                 result.isSucceed = false
-                result.errors.add(R.string.error_email)
+                result.errors.add(R.string.error_password)
             }
+
             result
         }
 
