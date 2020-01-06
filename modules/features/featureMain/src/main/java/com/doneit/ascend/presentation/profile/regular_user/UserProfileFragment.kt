@@ -67,6 +67,10 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
         location.setOnClickListener {
             viewModel.onLocationClick()
         }
+
+        changePassword.setOnClickListener {
+            viewModel.onChangePasswordClick()
+        }
     }
 
     private fun showPhotoDialog() {

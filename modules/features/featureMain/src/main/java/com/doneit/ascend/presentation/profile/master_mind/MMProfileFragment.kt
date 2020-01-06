@@ -96,6 +96,10 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         location.setOnClickListener {
             viewModel.onLocationClick()
         }
+
+        changePassword.setOnClickListener {
+            viewModel.onChangePasswordClick()
+        }
     }
 
     private fun showPhotoDialog() {

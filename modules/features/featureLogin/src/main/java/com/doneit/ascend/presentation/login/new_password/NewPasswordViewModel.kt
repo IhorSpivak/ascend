@@ -8,13 +8,9 @@ import com.doneit.ascend.presentation.login.models.PresentationNewPasswordModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.models.toEntity
 import com.doneit.ascend.presentation.login.new_password.common.NewPasswordArgs
-import com.doneit.ascend.presentation.login.utils.getNotNull
-import com.doneit.ascend.presentation.login.utils.isValidCodeFromSms
-import com.doneit.ascend.presentation.login.utils.isValidPassword
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationMessage
-import com.doneit.ascend.presentation.utils.Constants
-import com.doneit.ascend.presentation.utils.Messages
+import com.doneit.ascend.presentation.utils.*
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +60,7 @@ class NewPasswordViewModel(
         newPasswordModel.passwordConfirmation.validator = { s ->
             val result = ValidationResult()
 
-            if (s != newPasswordModel.password.observableField.getNotNull()) {
+            if (s != newPasswordModel.password.observableField.getNotNullString()) {
                 result.isSussed = false
                 result.errors.add(R.string.error_password_confirm)
             }

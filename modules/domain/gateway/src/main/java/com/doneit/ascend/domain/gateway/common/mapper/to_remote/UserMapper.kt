@@ -38,6 +38,14 @@ fun ResetPasswordModel.toResetPasswordRequest(): ResetPasswordRequest {
     )
 }
 
+fun ChangePasswordModel.toRequest(): ChangePasswordRequest {
+    return ChangePasswordRequest(
+        currentPassword,
+        password,
+        passwordConfirmation
+    )
+}
+
 fun UpdateProfileModel.toRequest(): UpdateProfileRequest {
     return UpdateProfileRequest(
         fullName,

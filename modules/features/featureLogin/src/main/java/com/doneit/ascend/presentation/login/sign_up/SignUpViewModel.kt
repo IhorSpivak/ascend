@@ -10,8 +10,6 @@ import com.doneit.ascend.presentation.login.models.PresentationSignUpModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.models.toEntity
 import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneContract
-import com.doneit.ascend.presentation.login.utils.*
-import com.doneit.ascend.presentation.login.utils.isValidEmail
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -61,8 +59,8 @@ class SignUpViewModel(
         registrationModel.phone.validator = { s ->
             val result = ValidationResult()
             if (isPhoneValid(
-                    registrationModel.phoneCode.getNotNull(),
-                    registrationModel.phone.observableField.getNotNull()
+                    registrationModel.phoneCode.getNotNullString(),
+                    registrationModel.phone.observableField.getNotNullString()
                 ).not()
             ) {
                 result.isSussed = false
@@ -85,7 +83,7 @@ class SignUpViewModel(
         registrationModel.passwordConfirmation.validator = { s ->
             val result = ValidationResult()
 
-            if (s != registrationModel.password.observableField.getNotNull()) {
+            if (s != registrationModel.password.observableField.getNotNullString()) {
                 result.isSussed = false
                 result.errors.add(R.string.error_password_confirm)
             }

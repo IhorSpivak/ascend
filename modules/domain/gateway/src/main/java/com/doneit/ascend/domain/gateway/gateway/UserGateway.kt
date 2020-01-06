@@ -171,6 +171,17 @@ internal class UserGateway(
         )
     }
 
+    override suspend fun changePassword(model: ChangePasswordModel): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.changePassword(model.toRequest()) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override suspend fun update(user: UserEntity) {
         local.update(user.toUserLocal())
     }

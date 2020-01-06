@@ -53,6 +53,10 @@ internal class UserRepository(
         return execute({ api.forgotPassword(request) }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun changePassword(request: ChangePasswordRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.changePasswordAsync(request) }, ErrorsListResponse::class.java)
+    }
+
     override suspend fun resetPassword(request: ResetPasswordRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.resetPassword(request) }, ErrorsListResponse::class.java)
     }

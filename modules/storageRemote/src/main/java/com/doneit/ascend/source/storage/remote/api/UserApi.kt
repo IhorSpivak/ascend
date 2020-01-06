@@ -46,6 +46,9 @@ interface UserApi {
     @POST("users/reset_password")
     fun resetPassword(@Body request: ResetPasswordRequest): Deferred<Response<OKResponse>>
 
+    @POST("users/change_password")
+    fun changePasswordAsync(@Body request: ChangePasswordRequest): Deferred<Response<OKResponse>>
+
     @POST("users/{id}/report")
     fun report(@Query("content") report: String, @Path("id") id: Long): Deferred<Response<OKResponse>>
 

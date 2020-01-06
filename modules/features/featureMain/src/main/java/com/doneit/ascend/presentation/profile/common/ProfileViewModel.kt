@@ -184,6 +184,10 @@ class ProfileViewModel(
         router.navigateToChangeLocation(updateProfileModel.location)
     }
 
+    override fun onChangePasswordClick() {
+        router.navigateToChangePassword()
+    }
+
     override fun onCleared() {
         userLocal.removeObserver(userObserver)
         super.onCleared()

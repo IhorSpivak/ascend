@@ -293,12 +293,14 @@
                         app:iconRes="@{@drawable/ic_phone}" />
 
                     <include
+                        android:id="@+id/changePassword"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/password}"
                         app:fieldValue="@{@string/tap_to_change}"
                         app:iconRes="@{@drawable/ic_password}" />
 
                     <include
+                        android:id="@+id/changeEmail"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/email}"
                         app:fieldValue="@{model.user.email}"

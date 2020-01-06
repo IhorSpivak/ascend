@@ -7,10 +7,10 @@ import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationPhoneModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.models.toEntity
-import com.doneit.ascend.presentation.login.utils.getNotNull
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
+import com.doneit.ascend.presentation.utils.getNotNullString
 import com.doneit.ascend.presentation.utils.isPhoneValid
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -31,8 +31,8 @@ class ForgotPasswordViewModel(
         phoneModel.phone.validator = { s ->
             val result = ValidationResult()
             if (isPhoneValid(
-                    phoneModel.phoneCode.getNotNull(),
-                    phoneModel.phone.observableField.getNotNull()
+                    phoneModel.phoneCode.getNotNullString(),
+                    phoneModel.phone.observableField.getNotNullString()
                 ).not()
             ) {
                 result.isSussed = false

@@ -4,6 +4,7 @@ import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.dto.ChangePasswordModel
 import com.doneit.ascend.domain.entity.dto.ChangePhoneModel
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
@@ -87,5 +88,13 @@ fun EditPhoneModel.toEntity(): ChangePhoneModel {
         password.observableField.getNotNull(),
         getPhone(),
         code.observableField.getNotNull()
+    )
+}
+
+fun PresentationChangePasswordModel.toEntity(): ChangePasswordModel {
+    return ChangePasswordModel(
+        currentPassword.observableField.getNotNull(),
+        newPassword.observableField.getNotNull(),
+        confirmPassword.observableField.getNotNull()
     )
 }

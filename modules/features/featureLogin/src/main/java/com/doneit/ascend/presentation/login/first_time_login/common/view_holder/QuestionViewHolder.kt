@@ -9,8 +9,8 @@ import com.doneit.ascend.presentation.login.databinding.TemplateQuestionItemBind
 import com.doneit.ascend.presentation.login.first_time_login.common.QuestionStateListener
 import com.doneit.ascend.presentation.login.models.PresentationAnswerModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
-import com.doneit.ascend.presentation.login.utils.isValidAnswer
 import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
+import com.doneit.ascend.presentation.utils.isValidAnswer
 
 class QuestionViewHolder(
     private val binding: TemplateQuestionItemBinding,

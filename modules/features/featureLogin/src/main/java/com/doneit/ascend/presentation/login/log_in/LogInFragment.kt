@@ -13,10 +13,10 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentLoginBinding
 import com.doneit.ascend.presentation.login.utils.LoginHelper
-import com.doneit.ascend.presentation.login.utils.applyLinkStyle
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.applyLinkStyle
 import com.facebook.AccessToken
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException

@@ -208,6 +208,7 @@
                         app:iconRes="@{@drawable/ic_phone}" />
 
                     <include
+                        android:id="@+id/changePassword"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/password}"
                         app:fieldValue="@{@string/tap_to_change}"

@@ -8,6 +8,10 @@
     <string name="connecting">Connecting&#8230;</string>
     <string name="code">Code</string>
 
+    <!--Error messages-->
+    <string name="error_password">The password should contain at least 1 number, 1 latin letter, from 6 till 48 symbols.</string>
+    <string name="error_password_confirm">Passwords don\’t match</string>
+
     <!--Dialog messages-->
     <string name="title_error">Error</string>
 
@@ -210,6 +214,13 @@
     <string name="save">Save</string>
     <string name="select_country">Select Country</string>
     <string name="select_city">Select City</string>
+
+    <!--Change password-->
+    <string name="change_password">Change Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="save_password">Save New Password</string>
 
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>

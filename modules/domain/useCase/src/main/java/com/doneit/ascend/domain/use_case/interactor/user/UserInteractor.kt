@@ -49,6 +49,10 @@ internal class UserInteractor(
         return userGateway.resetPassword(resetModel)
     }
 
+    override suspend fun changePassword(model: ChangePasswordModel): ResponseEntity<Unit, List<String>> {
+        return userGateway.changePassword(model)
+    }
+
     override suspend fun update(user: UserEntity) {
         userGateway.update(user)
     }

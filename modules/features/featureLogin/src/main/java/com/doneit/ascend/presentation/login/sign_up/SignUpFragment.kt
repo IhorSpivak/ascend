@@ -16,12 +16,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.login.LogInActivity
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentSignUpBinding
-import com.doneit.ascend.presentation.login.utils.applyLinkStyle
-import com.doneit.ascend.presentation.login.utils.getNotNull
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.applyLinkStyle
+import com.doneit.ascend.presentation.utils.getNotNullString
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -59,7 +59,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         initSignInSpannable()
 
         binding.phoneLayout.phoneCode.getSelectedCode().observe(this, Observer { code ->
-            if (code != viewModel.registrationModel.phoneCode.getNotNull()) {
+            if (code != viewModel.registrationModel.phoneCode.getNotNullString()) {
                 viewModel.registrationModel.phoneCode.set(code)
             }
         })

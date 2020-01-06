@@ -4,7 +4,7 @@ import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.doneit.ascend.presentation.login.utils.getNotNull
+import com.doneit.ascend.presentation.utils.getNotNullString
 
 class ValidatableField {
     val observableField = ObservableField<String>("")
@@ -27,7 +27,7 @@ class ValidatableField {
             Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 if (validator != null && sender != null) {
-                    val validation = validator!!.invoke(observableField.getNotNull())
+                    val validation = validator!!.invoke(observableField.getNotNullString())
                     val oldCorrect = isCorrect
                     isCorrect = validation.isSussed
                     if (oldCorrect != isCorrect) {

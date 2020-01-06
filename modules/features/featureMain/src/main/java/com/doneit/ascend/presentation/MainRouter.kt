@@ -30,7 +30,10 @@ import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
+import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
+import com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract
+import com.doneit.ascend.presentation.profile.change_password.ChangePasswordFragment
 import com.doneit.ascend.presentation.profile.common.ProfileContract
 import com.doneit.ascend.presentation.profile.crop.CropActivity
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioFragment
@@ -70,7 +73,9 @@ class MainRouter(
     MMInfoContract.Router,
     SearchContract.Router,
     ProfileRatingsContract.Router,
-    EditPhoneContract.Router {
+    EditPhoneContract.Router,
+    ChangeLocationContract.Router,
+    ChangePasswordContract.Router {
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -209,5 +214,9 @@ class MainRouter(
     override fun navigateToChangeLocation(currentLocation: String?) {
         val instance = ChangeLocationFragment.newInstance(currentLocation)
         activity.supportFragmentManager.replaceWithBackStack(containerIdFull, instance)
+    }
+
+    override fun navigateToChangePassword() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, ChangePasswordFragment())
     }
 }

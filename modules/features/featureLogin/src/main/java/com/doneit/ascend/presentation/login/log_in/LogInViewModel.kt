@@ -11,10 +11,10 @@ import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationLoginModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.utils.LoginUtils
-import com.doneit.ascend.presentation.login.utils.getNotNull
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.LocalStorage
 import com.doneit.ascend.presentation.utils.UIReturnStep
+import com.doneit.ascend.presentation.utils.getNotNullString
 import com.doneit.ascend.presentation.utils.isPhoneValid
 import com.facebook.AccessToken
 import com.vrgsoft.annotations.CreateFactory
@@ -44,8 +44,8 @@ class LogInViewModel(
         loginModel.phone.validator = { _ ->
             val result = ValidationResult()
             if (isPhoneValid(
-                    loginModel.phoneCode.getNotNull(),
-                    loginModel.phone.observableField.getNotNull()
+                    loginModel.phoneCode.getNotNullString(),
+                    loginModel.phone.observableField.getNotNullString()
                 ).not()
             ) {
                 result.isSussed = false
