@@ -75,6 +75,10 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
         editEmail.setOnClickListener {
             viewModel.onEditEmailClick()
         }
+
+        notSettings.setOnClickListener {
+            viewModel.onNotificationSettingsClick()
+        }
     }
 
     private fun showPhotoDialog() {

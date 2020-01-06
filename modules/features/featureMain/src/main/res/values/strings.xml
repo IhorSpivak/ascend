@@ -228,7 +228,12 @@
     <string name="save_email">Save New Email</string>
     <string name="edit_email_hint">We will send you a letter with a verification link.\n The address won\'t be change until verification\n will completed</string>
 
-
+    <!--Notification settings-->
+    <string name="notification_settings_title">Notification Settings</string>
+    <string name="meeting_started">Meeting Started</string>
+    <string name="new_groups">New Groups</string>
+    <string name="invite_meetings">Invite to a meeting</string>
+    
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>
     <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>

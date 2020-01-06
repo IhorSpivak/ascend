@@ -46,6 +46,8 @@ import com.doneit.ascend.presentation.profile.mm_following.MMFollowingContract
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingFragment
 import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddContract
 import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddFragment
+import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsContract
+import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsFragment
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsContract
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
@@ -78,7 +80,8 @@ class MainRouter(
     EditPhoneContract.Router,
     ChangeLocationContract.Router,
     ChangePasswordContract.Router,
-    EditEmailContract.Router {
+    EditEmailContract.Router,
+    NotificationSettingsContract.Router {
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -225,5 +228,9 @@ class MainRouter(
 
     override fun navigateToEditEmail() {
         activity.supportFragmentManager.replaceWithBackStack(containerIdFull, EditEmailFragment())
+    }
+
+    override fun navigateToNotificationSettings() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, NotificationSettingsFragment())
     }
 }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsContract.ViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/white">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:backClick="@{(v) -> model.onBackClick()}"
+            bind:title="@{@string/notification_settings_title}" />
+
+        <include
+            android:id="@+id/meetingStarted"
+            layout="@layout/template_notification_setting"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="32dp"
+            bind:title="@{@string/meeting_started}"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/newGroups"
+            layout="@layout/template_notification_setting"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="16dp"
+            bind:title="@{@string/new_groups}"
+            app:layout_constraintTop_toBottomOf="@id/meetingStarted"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/inviteMeetings"
+            layout="@layout/template_notification_setting"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="16dp"
+            bind:title="@{@string/invite_meetings}"
+            app:layout_constraintTop_toBottomOf="@id/newGroups"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

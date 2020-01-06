@@ -244,6 +244,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/llProfileFields">
 
                     <include
+                        android:id="@+id/notSettings"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/notification_settings}"
                         app:fieldValue="@{@string/empty}"

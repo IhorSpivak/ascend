@@ -104,6 +104,10 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         editEmail.setOnClickListener {
             viewModel.onEditEmailClick()
         }
+
+        notSettings.setOnClickListener {
+            viewModel.onNotificationSettingsClick()
+        }
     }
 
     private fun showPhotoDialog() {

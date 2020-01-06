@@ -192,6 +192,10 @@ class ProfileViewModel(
         router.navigateToEditEmail()
     }
 
+    override fun onNotificationSettingsClick() {
+        router.navigateToNotificationSettings()
+    }
+
     override fun onCleared() {
         userLocal.removeObserver(userObserver)
         super.onCleared()
