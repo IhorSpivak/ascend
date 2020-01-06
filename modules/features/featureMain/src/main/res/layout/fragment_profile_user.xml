@@ -193,6 +193,7 @@
                         app:iconRes="@{@drawable/ic_user}" />
 
                     <include
+                        android:id="@+id/editEmail"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/email}"
                         app:fieldValue="@{model.user.email}"

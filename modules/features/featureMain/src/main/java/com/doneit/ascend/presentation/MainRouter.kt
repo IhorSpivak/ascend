@@ -37,6 +37,8 @@ import com.doneit.ascend.presentation.profile.change_password.ChangePasswordFrag
 import com.doneit.ascend.presentation.profile.common.ProfileContract
 import com.doneit.ascend.presentation.profile.crop.CropActivity
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioFragment
+import com.doneit.ascend.presentation.profile.edit_email.EditEmailContract
+import com.doneit.ascend.presentation.profile.edit_email.EditEmailFragment
 import com.doneit.ascend.presentation.profile.edit_phone.EditPhoneContract
 import com.doneit.ascend.presentation.profile.edit_phone.EditPhoneFragment
 import com.doneit.ascend.presentation.profile.edit_phone.verify_phone.VerifyChangePhoneFragment
@@ -75,7 +77,8 @@ class MainRouter(
     ProfileRatingsContract.Router,
     EditPhoneContract.Router,
     ChangeLocationContract.Router,
-    ChangePasswordContract.Router {
+    ChangePasswordContract.Router,
+    EditEmailContract.Router {
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -218,5 +221,9 @@ class MainRouter(
 
     override fun navigateToChangePassword() {
         activity.supportFragmentManager.replaceWithBackStack(containerIdFull, ChangePasswordFragment())
+    }
+
+    override fun navigateToEditEmail() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, EditEmailFragment())
     }
 }

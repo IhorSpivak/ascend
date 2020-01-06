@@ -2,13 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/tools">
+
     <data>
-        <import type="android.text.InputType"/>
+
+        <import type="android.text.InputType" />
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract.ViewModel" />
+            type="com.doneit.ascend.presentation.profile.edit_email.EditEmailContract.ViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,72 +25,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            bind:title="@{@string/change_password}"
+            app:layout_constraintTop_toTopOf="parent"
             bind:backClick="@{(v) -> model.onBackClick()}"
-            app:layout_constraintTop_toTopOf="parent"/>
+            bind:title="@{@string/edit_email_title}" />
+
+        <com.doneit.ascend.presentation.views.EditWithError
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            app:inputType="@{InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS}"
+            app:text="@={model.dataModel.email.observableField}"
+            app:error="@{model.dataModel.email.observableError}"
+            app:hint="@{@string/new_email_hint}"
+            app:src="@{@drawable/ic_email}"
+            app:saveState="@{false}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <com.doneit.ascend.presentation.views.EditWithError
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="52dp"
-            app:text="@={model.dataModel.currentPassword.observableField}"
-            app:error="@{model.dataModel.currentPassword.observableError}"
             app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
-            app:src="@{@drawable/ic_password}"
+            app:text="@={model.dataModel.password.observableField}"
             app:hint="@{@string/current_password}"
+            app:src="@{@drawable/ic_password}"
             app:saveState="@{false}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+            app:layout_constraintTop_toBottomOf="@id/email"/>
 
-
-        <com.doneit.ascend.presentation.views.EditWithError
-            android:id="@+id/newPassword"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvHint"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="24dp"
-            app:text="@={model.dataModel.newPassword.observableField}"
-            app:error="@{model.dataModel.newPassword.observableError}"
-            app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
-            app:hint="@{@string/new_password}"
-            app:saveState="@{false}"
+            android:gravity="center"
+            android:text="@string/edit_email_hint"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/password"/>
-
-        <com.doneit.ascend.presentation.views.EditWithError
-            android:id="@+id/newPasswordConfirm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="24dp"
-            app:text="@={model.dataModel.confirmPassword.observableField}"
-            app:error="@{model.dataModel.confirmPassword.observableError}"
-            app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
-            app:hint="@{@string/confirm_new_password}"
-            app:saveState="@{false}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/newPassword"/>
+            app:layout_constraintTop_toBottomOf="@id/password" />
 
         <Button
             android:id="@+id/btnSave"
             style="@style/AppTheme.Button"
-            android:layout_marginTop="40dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="20dp"
             android:enabled="@{model.canSave}"
             android:onClick="@{v -> model.onSaveClick()}"
-            android:text="@string/save_password"
+            android:text="@string/save_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/newPasswordConfirm" />
+            app:layout_constraintTop_toBottomOf="@id/tvHint" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

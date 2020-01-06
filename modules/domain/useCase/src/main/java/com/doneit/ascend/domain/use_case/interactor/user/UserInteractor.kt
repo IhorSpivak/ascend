@@ -88,4 +88,8 @@ internal class UserInteractor(
     override suspend fun changePhone(dto: ChangePhoneModel): ResponseEntity<Unit, List<String>> {
         return userGateway.changePhone(dto)
     }
+
+    override suspend fun changeEmail(model: ChangeEmailModel): ResponseEntity<Unit, List<String>> {
+        return userGateway.changeEmail(model)
+    }
 }

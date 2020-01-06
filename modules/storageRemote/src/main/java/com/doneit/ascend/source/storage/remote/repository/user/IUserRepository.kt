@@ -40,4 +40,6 @@ interface IUserRepository {
     suspend fun getRates(request: RateRequest): RemoteResponse<RatesResponse, ErrorsListResponse>
 
     suspend fun changePhone(request: ChangePhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse>
+
+    suspend fun changeEmail(request: ChangeEmailRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 }

@@ -188,6 +188,10 @@ class ProfileViewModel(
         router.navigateToChangePassword()
     }
 
+    override fun onEditEmailClick() {
+        router.navigateToEditEmail()
+    }
+
     override fun onCleared() {
         userLocal.removeObserver(userObserver)
         super.onCleared()

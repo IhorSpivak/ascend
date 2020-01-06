@@ -32,6 +32,7 @@ interface ProfileContract {
         fun onChangePhoneClick()
         fun onLocationClick()
         fun onChangePasswordClick()
+        fun onEditEmailClick()
     }
 
     interface Router : EditBioContract.Router, MMProfileContract.Router, UserProfileContract.Router {
@@ -50,5 +51,6 @@ interface ProfileContract {
         fun navigateToChangePhone()
         fun navigateToChangeLocation(currentLocation: String?)
         fun navigateToChangePassword()
+        fun navigateToEditEmail()
     }
 }

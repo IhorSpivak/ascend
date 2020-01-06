@@ -1,12 +1,9 @@
 package com.doneit.ascend.presentation.models
 
-import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.UserEntity
-import com.doneit.ascend.domain.entity.dto.ChangePasswordModel
-import com.doneit.ascend.domain.entity.dto.ChangePhoneModel
-import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.getNotNull
 import java.util.*
@@ -96,5 +93,12 @@ fun PresentationChangePasswordModel.toEntity(): ChangePasswordModel {
         currentPassword.observableField.getNotNull(),
         newPassword.observableField.getNotNull(),
         confirmPassword.observableField.getNotNull()
+    )
+}
+
+fun EditEmailModel.toEntity(): ChangeEmailModel {
+    return ChangeEmailModel(
+        email.observableField.getNotNull(),
+        password.observableField.getNotNull()
     )
 }

@@ -81,3 +81,10 @@ fun ChangePhoneModel.toRequest(): ChangePhoneRequest {
         code
     )
 }
+
+fun ChangeEmailModel.toRequest(): ChangeEmailRequest {
+    return ChangeEmailRequest(
+        email,
+        password
+    )
+}

@@ -253,8 +253,8 @@ internal class UserGateway(
             .build()
     }
 
-    override suspend fun changePhone(dto: ChangePhoneModel): ResponseEntity<Unit, List<String>> {
-        val res = executeRemote { remote.changePhone(dto.toRequest()) }.toResponseEntity(
+    override suspend fun changePhone(model: ChangePhoneModel): ResponseEntity<Unit, List<String>> {
+        val res = executeRemote { remote.changePhone(model.toRequest()) }.toResponseEntity(
             {
                 Unit
             },
@@ -265,7 +265,26 @@ internal class UserGateway(
 
         if(res.isSuccessful) {
             val user = getUser()
-            val newUser = user!!.copy(phone = dto.phoneNumber)
+            val newUser = user!!.copy(phone = model.phoneNumber)
+            updateUserLocal(newUser)
+        }
+
+        return  res
+    }
+
+    override suspend fun changeEmail(model: ChangeEmailModel): ResponseEntity<Unit, List<String>> {
+        val res = executeRemote { remote.changeEmail(model.toRequest()) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+
+        if(res.isSuccessful) {
+            val user = getUser()
+            val newUser = user!!.copy(email = model.email)
             updateUserLocal(newUser)
         }
 

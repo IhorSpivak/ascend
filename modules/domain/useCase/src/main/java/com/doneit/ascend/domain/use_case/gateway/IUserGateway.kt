@@ -43,5 +43,7 @@ interface IUserGateway {
 
     suspend fun getRating(ratingsModel: RatingsModel): PagedList<RateEntity>
 
-    suspend fun changePhone(dto: ChangePhoneModel): ResponseEntity<Unit, List<String>>
+    suspend fun changePhone(model: ChangePhoneModel): ResponseEntity<Unit, List<String>>
+
+    suspend fun changeEmail(model: ChangeEmailModel): ResponseEntity<Unit, List<String>>
 }

@@ -165,4 +165,8 @@ internal class UserRepository(
     override suspend fun changePhone(request: ChangePhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.changePhone(request) }, ErrorsListResponse::class.java)
     }
+
+    override suspend fun changeEmail(request: ChangeEmailRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.changeEmail(request) }, ErrorsListResponse::class.java)
+    }
 }

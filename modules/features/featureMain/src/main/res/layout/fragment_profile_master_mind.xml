@@ -300,7 +300,7 @@
                         app:iconRes="@{@drawable/ic_password}" />
 
                     <include
-                        android:id="@+id/changeEmail"
+                        android:id="@+id/editEmail"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/email}"
                         app:fieldValue="@{model.user.email}"

@@ -71,6 +71,10 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
         changePassword.setOnClickListener {
             viewModel.onChangePasswordClick()
         }
+
+        editEmail.setOnClickListener {
+            viewModel.onEditEmailClick()
+        }
     }
 
     private fun showPhotoDialog() {

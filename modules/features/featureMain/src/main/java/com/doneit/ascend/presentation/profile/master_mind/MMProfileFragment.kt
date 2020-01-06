@@ -100,6 +100,10 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         changePassword.setOnClickListener {
             viewModel.onChangePasswordClick()
         }
+
+        editEmail.setOnClickListener {
+            viewModel.onEditEmailClick()
+        }
     }
 
     private fun showPhotoDialog() {

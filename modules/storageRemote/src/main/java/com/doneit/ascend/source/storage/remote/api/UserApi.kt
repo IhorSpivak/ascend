@@ -66,4 +66,7 @@ interface UserApi {
 
     @POST("users/change_phone_number")
     fun changePhone(@Body request: ChangePhoneRequest): Deferred<Response<OKResponse>>
+
+    @POST("users/change_email")
+    fun changeEmail(@Body request: ChangeEmailRequest): Deferred<Response<OKResponse>>
 }
