@@ -206,7 +206,8 @@ class MainRouter(
         activity.supportFragmentManager.addWithBackStack(containerIdFull, VerifyChangePhoneFragment())
     }
 
-    override fun navigateToChangeLocation() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, ChangeLocationFragment())
+    override fun navigateToChangeLocation(currentLocation: String?) {
+        val instance = ChangeLocationFragment.newInstance(currentLocation)
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, instance)
     }
 }

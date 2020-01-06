@@ -181,7 +181,7 @@ class ProfileViewModel(
     }
 
     override fun onLocationClick() {
-        router.navigateToChangeLocation()
+        router.navigateToChangeLocation(updateProfileModel.location)
     }
 
     override fun onCleared() {

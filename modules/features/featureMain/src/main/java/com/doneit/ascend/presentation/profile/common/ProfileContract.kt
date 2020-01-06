@@ -47,6 +47,6 @@ interface ProfileContract {
 
         fun navigateToMMFollowed()
         fun navigateToChangePhone()
-        fun navigateToChangeLocation()
+        fun navigateToChangeLocation(currentLocation: String?)
     }
 }

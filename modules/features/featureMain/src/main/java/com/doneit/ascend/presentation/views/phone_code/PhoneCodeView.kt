@@ -14,9 +14,9 @@ import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.views.phone_code.common.CountriesAdapter
 import com.doneit.ascend.presentation.utils.fetchCountryListWithReflection
 import com.doneit.ascend.presentation.utils.toNumericCode
+import com.doneit.ascend.presentation.views.phone_code.common.CountriesAdapter
 import com.rilixtech.widget.countrycodepicker.Country
 import kotlinx.android.synthetic.main.view_phone_code.view.*
 import kotlin.math.max
@@ -119,7 +119,7 @@ class PhoneCodeView @JvmOverloads constructor(
             false
         }
 
-        selectByCountyIsoCode(defaultCountyCode)
+        selectByPhoneCode(defaultCountyCode)
     }
 
     private fun fetchCurrentCountryCode() {

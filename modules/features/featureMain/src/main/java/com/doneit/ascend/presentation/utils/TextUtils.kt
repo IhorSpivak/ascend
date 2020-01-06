@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.utils
 
 import android.util.Patterns
 import androidx.databinding.ObservableField
+import com.doneit.ascend.presentation.models.LocationModel
 import com.doneit.ascend.presentation.views.SmsCodeView
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -61,4 +62,19 @@ fun String.isValidStrartDate(): Boolean {
 
 fun getLocation(city: String, country: String) : String {
     return "$city, $country"
+}
+
+fun String.toLocationModel(): LocationModel {
+    val location = LocationModel()
+    val data = this.split(',')
+
+    if(data.isNotEmpty()) {
+       location.city = data[0]
+    }
+
+    if(data.size > 1) {
+        location.county = data[1].trim()
+    }
+
+    return location
 }

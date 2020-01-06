@@ -130,6 +130,17 @@
         <item name="colorControlHighlight">@color/light_gray_e9f0</item>
     </style>
 
+    <style name="EditTextAppearance" parent="Widget.AppCompat.EditText">
+        <item name="hintTextAppearance">@style/HintStyle</item>
+        <item name="android:textColor">@color/default_font_color</item>
+        <item name="android:textColorHint">@color/light_gray_b1bf</item>
+
+        <item name="colorControlNormal">@color/light_gray_e9f0</item>
+        <item name="colorControlActivated">@color/light_gray_b1bf</item>
+        <item name="colorControlHighlight">@color/light_gray_e9f0</item>
+        <item name="android:backgroundTint">@color/light_gray_e9f0</item>
+    </style>
+
     <style name="AppThemeAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@android:color/black</item>
     </style>

@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.views.phone_code.common
+package com.doneit.ascend.presentation.profile.change_location.common
 
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +22,8 @@ class CountriesAdapter(
             .inflate(R.layout.view_spinner_title, parent, false)
 
         view?.let {
-            it.title.text = view.resources.getString(R.string.phone_format, countries[position].phoneCode)
+            it.title.hint = view.resources.getString(R.string.select_country)
+            it.title.text = countries[position].name
         }
         return view
     }
@@ -32,27 +33,19 @@ class CountriesAdapter(
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = convertView ?: LayoutInflater
             .from(parent?.context)
-            .inflate(R.layout.list_item_country_code, parent, false)
+            .inflate(R.layout.list_item_country, parent, false)
 
         view?.let {
             if (it.tag != null) {
-                (it.tag as CountryHolder).bind(countries[position])
+                (it.tag as CountryHolder).bind(countries[position].name)
             } else {
                 val holder = CountryHolder(view)
-                holder.bind(countries[position])
+                holder.bind(countries[position].name)
                 it.tag = holder
             }
             return it
         }
 
         return view
-    }
-
-    fun getPositionByIso(iso: String): Int {
-        return countries.indexOfFirst { it.iso == iso }
-    }
-
-    fun getPositionByCode(code: String): Int {
-        return countries.indexOfFirst { it.phoneCode == code }
     }
 }

@@ -208,6 +208,8 @@
     <!--Change location-->
     <string name="change_location_title">Select Your Location</string>
     <string name="save">Save</string>
+    <string name="select_country">Select Country</string>
+    <string name="select_city">Select City</string>
 
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>
