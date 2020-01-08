@@ -8,8 +8,8 @@ import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateHorGroupItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
-import java.text.SimpleDateFormat
-import java.util.*
+import com.doneit.ascend.presentation.utils.ButtonType
+import com.doneit.ascend.presentation.utils.getButonType
 
 class GroupHorViewHolder(
     private val binding: TemplateHorGroupItemBinding
@@ -18,30 +18,19 @@ class GroupHorViewHolder(
     fun bind(item: GroupEntity, user: UserEntity?) {
         binding.item = item
 
-        try {
-            val currentDate = Calendar.getInstance().time
-
-            if (item.startTime?.before(currentDate) == true && user != null) {
-                // show
-
-                if (user.isMasterMind) {
-                    binding.showJoinButton = false
-                    binding.showStartButton = true
-                } else {
-                    binding.showJoinButton = true
-                    binding.showStartButton = false
-                }
-
-            } else {
-                // hide
+        when(getButonType(user!!, item)) {
+            ButtonType.START_GROUP -> {
+                binding.showStartButton = true
+                binding.showJoinButton = false
+            }
+            ButtonType.JOIN_TO_DISCUSSION -> {
+                binding.showStartButton = false
+                binding.showJoinButton = true
+            }
+            else -> {
                 binding.showJoinButton = false
                 binding.showStartButton = false
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-
-            binding.showJoinButton = false
-            binding.showStartButton = false
         }
 
         binding.executePendingBindings()

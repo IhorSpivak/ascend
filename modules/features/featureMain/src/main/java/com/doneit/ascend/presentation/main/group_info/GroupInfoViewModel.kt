@@ -13,7 +13,9 @@ import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCardModel
 import com.doneit.ascend.presentation.models.toPresentation
+import com.doneit.ascend.presentation.utils.ButtonType
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
+import com.doneit.ascend.presentation.utils.getButonType
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch
@@ -61,23 +63,11 @@ class GroupInfoViewModel(
         //todo refactor
         val states = mutableListOf(false, false, false, false)
 
-        if (details.subscribed != true) {
-            states[0] = true
-        }
-
-        if (details.inProgress) {
-            states.toFalse()
-            states[1] = true
-        }
-
-        if (user.isMasterMind) {
-            if (details.isStarting) {
-                states.toFalse()
-                states[2] = true
-            } else if (details.participantsCount == 0) {
-                states.toFalse()
-                states[3] = true
-            }
+        when(getButonType(user, details)) {
+            ButtonType.SUBSCRIBE -> states[0] = true
+            ButtonType.JOIN_TO_DISCUSSION -> states[1] = true
+            ButtonType.START_GROUP -> states[2] = true
+            ButtonType.DELETE_GROUP -> states[3] = true
         }
 
         btnSubscribeVisible.postValue(states[0])
