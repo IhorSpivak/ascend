@@ -31,11 +31,20 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:setImage="@{item.image.url}"
                 app:placeholder="@{@drawable/group_item_placeholder}"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:src="@drawable/bg_shadow"
+                app:layout_constraintStart_toStartOf="@id/image"
+                app:layout_constraintEnd_toEndOf="@id/image"
+                app:layout_constraintBottom_toBottomOf="@id/image"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvName"
