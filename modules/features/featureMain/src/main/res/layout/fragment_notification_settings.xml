@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             app:layout_constraintTop_toTopOf="parent"
-            bind:backClick="@{(v) -> model.onBackClick()}"
+            bind:backClick="@{(v) -> model.goBack()}"
             bind:title="@{@string/notification_settings_title}" />
 
         <include
@@ -36,6 +36,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="32dp"
             bind:title="@{@string/meeting_started}"
+            bind:isChecked="@{model.user.meetingStarted}"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -49,6 +50,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="16dp"
             bind:title="@{@string/new_groups}"
+            bind:isChecked="@{model.user.newGroups}"
             app:layout_constraintTop_toBottomOf="@id/meetingStarted"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -62,6 +64,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="16dp"
             bind:title="@{@string/invite_meetings}"
+            bind:isChecked="@{model.user.inviteToMeeting}"
             app:layout_constraintTop_toBottomOf="@id/newGroups"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

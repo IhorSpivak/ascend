@@ -105,6 +105,14 @@ internal class UserRepository(
                 builder = builder.addPart(stringPart)
             }
 
+            request.hasNewGroups?.let {
+                stringPart = MultipartBody.Part.createFormData(
+                    "new_groups",
+                    gson.toJson(request.hasNewGroups)
+                )
+                builder = builder.addPart(stringPart)
+            }
+
             request.hasInviteToMeeting?.let {
                 stringPart = MultipartBody.Part.createFormData(
                     "invite_to_a_meeting",

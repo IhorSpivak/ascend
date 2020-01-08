@@ -18,6 +18,8 @@ import com.doneit.ascend.presentation.models.toDTO
 import com.doneit.ascend.presentation.models.toProfile
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
+import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsContract
+import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsItem
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.getLocation
 import com.doneit.ascend.presentation.utils.isDescriptionValid
@@ -32,7 +34,8 @@ class ProfileViewModel(
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.ViewModel,
     com.doneit.ascend.presentation.profile.regular_user.UserProfileContract.ViewModel,
     EditBioContract.ViewModel,
-    ChangeLocationContract.ViewModel {
+    ChangeLocationContract.ViewModel,
+    NotificationSettingsContract.ViewModel {
 
     override val user = MutableLiveData<ProfileEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
@@ -157,19 +160,17 @@ class ProfileViewModel(
         updateProfile()
     }
 
-    override fun goBack() {
-        router.onBack()
+    override fun onChanged(type: NotificationSettingsItem, value: Boolean) {
+        when(type) {
+            NotificationSettingsItem.MEETING_STARTED -> updateProfileModel.isMeetingStarted = value
+            NotificationSettingsItem.NEW_GROUPS -> updateProfileModel.hasNewGroups = value
+            NotificationSettingsItem.INVITE_TO_MEETING -> updateProfileModel.hasInviteToMeeting = value
+        }
+        updateProfile()
     }
 
-    private fun updateProfile() {
-        viewModelScope.launch {
-            val result = userUseCase.updateProfile(updateProfileModel)
-
-            if (result.isSuccessful) {
-                user.postValue(result.successModel!!)
-                updateProfileModel = result.successModel!!.toDTO()
-            }
-        }
+    override fun goBack() {
+        router.onBack()
     }
 
     override fun onRatingsClick() {
@@ -199,5 +200,18 @@ class ProfileViewModel(
     override fun onCleared() {
         userLocal.removeObserver(userObserver)
         super.onCleared()
+    }
+
+    private fun updateProfile() {
+        viewModelScope.launch {
+            val result = userUseCase.updateProfile(updateProfileModel)
+
+            if (result.isSuccessful) {
+                user.postValue(result.successModel!!)
+                updateProfileModel = result.successModel!!.toDTO()
+            } else {
+                showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+            }
+        }
     }
 }

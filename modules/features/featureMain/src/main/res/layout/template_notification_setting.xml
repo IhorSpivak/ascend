@@ -8,6 +8,10 @@
         <variable
             name="title"
             type="String" />
+
+        <variable
+            name="isChecked"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,6 +42,7 @@
             android:button="@drawable/switch_button"
             android:track="@drawable/switch_track"
             android:theme="@style/SwitchTheme"
+            android:checked="@{isChecked}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
