@@ -2,6 +2,8 @@ package com.doneit.ascend.domain.use_case.di
 
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerInteractor
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
+import com.doneit.ascend.domain.use_case.interactor.cards.CardsInteractor
+import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupInteractor
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindInteractor
@@ -67,6 +69,12 @@ object UseCaseModule {
 
         bind<NotificationUseCase>() with provider {
             NotificationInteractor(
+                instance()
+            )
+        }
+
+        bind<CardsUseCase>() with provider {
+            CardsInteractor(
                 instance()
             )
         }

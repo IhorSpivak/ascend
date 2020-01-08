@@ -5,6 +5,7 @@ import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.domain.entity.dto.GroupListModel
+import com.doneit.ascend.domain.entity.dto.SubscribeGroupModel
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toCreateGroupRequest
@@ -86,6 +87,17 @@ internal class GroupGateway(
 
     override suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
         return executeRemote { remote.deleteGroup(groupId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun subscribe(model: SubscribeGroupModel): ResponseEntity<Unit, List<String>> {
+        return remote.subscribe(model.groupId, model.toRequest()).toResponseEntity(
             {
                 Unit
             },

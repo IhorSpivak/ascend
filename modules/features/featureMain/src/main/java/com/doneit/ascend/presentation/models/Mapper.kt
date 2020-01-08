@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.models
 
 import com.doneit.ascend.domain.entity.CalendarDayEntity
+import com.doneit.ascend.domain.entity.CardEntity
 import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.*
@@ -100,5 +101,20 @@ fun EditEmailModel.toEntity(): ChangeEmailModel {
     return ChangeEmailModel(
         email.observableField.getNotNull(),
         password.observableField.getNotNull()
+    )
+}
+
+fun CardEntity.toPresentation(): PresentationCardModel {
+    return PresentationCardModel(
+        id,
+        name,
+        brand,
+        country,
+        expMonth,
+        expYear,
+        last4,
+        createdAt,
+        updatedAt,
+        isDefault
     )
 }

@@ -5,6 +5,7 @@ import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.domain.entity.dto.GroupListModel
+import com.doneit.ascend.domain.entity.dto.SubscribeGroupModel
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
 
 internal class GroupInteractor(
@@ -29,5 +30,9 @@ internal class GroupInteractor(
 
     override suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
         return groupGateway.deleteGroup(groupId)
+    }
+
+    override suspend fun subscribe(model: SubscribeGroupModel): ResponseEntity<Unit, List<String>> {
+        return groupGateway.subscribe(model)
     }
 }

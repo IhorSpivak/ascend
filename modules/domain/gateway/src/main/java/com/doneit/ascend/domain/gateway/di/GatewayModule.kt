@@ -74,5 +74,12 @@ object GatewayModule {
                 instance()
             )
         }
+
+        bind<ICardsGateway>() with provider {
+            CardsGateway(
+                instance(),
+                instance()
+            )
+        }
     }
 }

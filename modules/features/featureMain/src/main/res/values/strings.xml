@@ -250,4 +250,8 @@
     <string name="hint_enter_full_name">Enter full name</string>
     <string name="hint_enter_display_name">Enter display name</string>
     <string name="hint_enter_short_description">Enter short description</string>
+
+    <!--Select payment-->
+    <string name="select_payment_title">Select Payment Method</string>
+    <string name="add_payment_method">Add Payment Method</string>
 </resources>

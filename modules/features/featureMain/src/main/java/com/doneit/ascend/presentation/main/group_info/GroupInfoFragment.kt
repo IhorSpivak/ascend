@@ -7,9 +7,12 @@ import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.presentation.dialog.DeleteDialog
 import com.doneit.ascend.presentation.dialog.QuestionButtonType
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
+import com.doneit.ascend.presentation.dialog.SelectPaymentDialog
+import com.doneit.ascend.presentation.dialog.common.CardsAdapter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
+import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBindingImpl
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.toDayMonthYear
 import kotlinx.android.synthetic.main.fragment_group_info.*
@@ -24,6 +27,9 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
     override val viewModel: GroupInfoContract.ViewModel by instance()
 
     private var currentDialog: AlertDialog? = null
+    private val cardsAdapter = CardsAdapter {
+        //todo
+    }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.lifecycleOwner = this
@@ -59,6 +65,10 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             }
         }
 
+        viewModel.cards.observe(viewLifecycleOwner, Observer {
+            cardsAdapter.setData(it)
+        })
+
         val model = arguments!!.getParcelable<GroupEntity>(GROUP_ENTITY)
         if (model != null) {
             viewModel.setModel(model)
@@ -88,6 +98,12 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 viewModel.report(it)
             }
             currentDialog?.show()
+        }
+
+        binding.btnSubscribe.setOnClickListener {
+            SelectPaymentDialog.create(context!!,  cardsAdapter) {
+                viewModel.subscribe(it)
+            }.show()
         }
     }
 

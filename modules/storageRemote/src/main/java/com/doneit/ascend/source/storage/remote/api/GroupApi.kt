@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.remote.api
 
+import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
 import com.doneit.ascend.source.storage.remote.data.response.GroupListResponse
 import com.doneit.ascend.source.storage.remote.data.response.GroupResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
@@ -30,4 +31,7 @@ interface GroupApi {
 
     @DELETE("groups/{id}")
     fun deleteGroupAsync(@Path("id") id: Long) : Deferred<Response<OKResponse>>
+
+    @POST("groups/{groupId}/buy")
+    fun subscribeAsync(@Field("groupId") groupId: Long, @Body request: SubscribeGroupRequest): Deferred<Response<OKResponse>>
 }

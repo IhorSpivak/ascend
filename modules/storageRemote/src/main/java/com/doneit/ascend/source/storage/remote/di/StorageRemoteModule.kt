@@ -3,6 +3,8 @@ package com.doneit.ascend.source.storage.remote.di
 import com.doneit.ascend.source.storage.remote.api.*
 import com.doneit.ascend.source.storage.remote.repository.answer.AnswerRepository
 import com.doneit.ascend.source.storage.remote.repository.answer.IAnswerRepository
+import com.doneit.ascend.source.storage.remote.repository.cards.CardsRepository
+import com.doneit.ascend.source.storage.remote.repository.cards.ICardsRepository
 import com.doneit.ascend.source.storage.remote.repository.group.GroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
@@ -33,6 +35,7 @@ object StorageRemoteModule {
         bind<GroupApi>() with provider { instance<Retrofit>().create(GroupApi::class.java) }
         bind<MasterMindApi>() with provider { instance<Retrofit>().create(MasterMindApi::class.java) }
         bind<NotificationApi>() with provider { instance<Retrofit>().create(NotificationApi::class.java) }
+        bind<CardsApi>() with provider { instance<Retrofit>().create(CardsApi::class.java) }
 
         bind<IUserRepository>() with provider {
             UserRepository(
@@ -77,6 +80,13 @@ object StorageRemoteModule {
 
         bind<INotificationRepository>() with provider {
             NotificationRepository(
+                instance(),
+                instance()
+            )
+        }
+
+        bind<ICardsRepository>() with provider {
+            CardsRepository(
                 instance(),
                 instance()
             )
