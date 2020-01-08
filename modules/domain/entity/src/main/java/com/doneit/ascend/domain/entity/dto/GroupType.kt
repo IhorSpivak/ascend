@@ -34,7 +34,7 @@ fun String?.parseTo(): GroupType {
 //todo refactor
 fun GroupType.toStringValueUI(): String {
     return when (this) {
-        GroupType.MASTER_MIND -> "Master Mind"
+        GroupType.MASTER_MIND -> "MasterMind"
         GroupType.WEBINARS -> "Webinars"
         GroupType.RECOVERY -> "Recovery"
         GroupType.FAMILY -> "Family"
