@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.text.InputType"/>
+        <import type="android.view.View" />
+
+        <import type="com.doneit.ascend.presentation.profile.payments.add_payment.AddPaymentState" />
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.profile.payments.add_payment.AddPaymentContract.ViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/mainToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/searchToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentInsetStart="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@android:color/transparent"
+                        android:onClick="@{(v) -> model.onBackClick()}"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/light_gray_8f"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTitle"
+                        style="@style/Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="11dp"
+                        android:text="@string/add_payment_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="32dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="24dp"
+                        app:cardBackgroundColor="@color/colorAccent"
+                        app:cardCornerRadius="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="335:183"
+                        app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/tvNumber"
+                                style="@style/TextNormal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:background="@drawable/bg_list_item"
+                                android:gravity="left"
+                                android:includeFontPadding="false"
+                                android:letterSpacing="0.08"
+                                android:paddingStart="11dp"
+                                android:paddingTop="6dp"
+                                android:paddingEnd="17dp"
+                                android:paddingBottom="6dp"
+                                android:text="@{model.dataModel.cardNumber.observableField}"
+                                android:hint="@string/card_number_hint"
+                                android:textColor="@android:color/white"
+                                android:textColorHint="@android:color/white"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.437" />
+
+                            <ImageView
+                                android:id="@+id/ivCardAssociation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="20dp"
+                                app:layout_constraintEnd_toEndOf="@id/tvNumber"
+                                app:layout_constraintBottom_toTopOf="@id/tvNumber"/>
+
+                            <TextView
+                                android:id="@+id/tvHolderHint"
+                                style="@style/TextNormal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:text="@string/card_name_hint"
+                                android:textAllCaps="true"
+                                android:textColor="@color/light_gray_8f"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toTopOf="@id/tvHolderName"
+                                app:layout_constraintStart_toStartOf="@id/tvHolderName" />
+
+                            <TextView
+                                android:id="@+id/tvHolderName"
+                                style="@style/TextNormal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginBottom="20dp"
+                                android:alpha="0.5"
+                                android:text="@{model.dataModel.name.observableField}"
+                                android:hint="@string/card_name_placeholder"
+                                android:textColorHint="@color/light_gray_f4f7"
+                                android:textColor="@color/light_gray_f4f7"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvExpirationHint"
+                                style="@style/TextNormal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:text="@string/card_expiration_hint"
+                                android:textAllCaps="true"
+                                android:textColor="@color/light_gray_8f"
+                                android:textSize="10sp"
+                                app:layout_constraintBottom_toTopOf="@id/tvExpirationDate"
+                                app:layout_constraintEnd_toEndOf="@id/tvExpirationDate" />
+
+                            <TextView
+                                android:id="@+id/tvExpirationDate"
+                                style="@style/TextNormal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="24dp"
+                                android:layout_marginBottom="20dp"
+                                android:alpha="0.5"
+                                android:text="@{model.dataModel.expiration.observableField}"
+                                android:hint="@string/card_expiration_placeholder"
+                                android:textColor="@color/light_gray_f4f7"
+                                android:textColorHint="@color/light_gray_f4f7"
+                                android:textSize="14sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <include
+            android:id="@+id/number"
+            layout="@layout/template_card_field"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            bind:visibility="@{model.state == AddPaymentState.NUMBER}"
+            bind:text="@={model.dataModel.cardNumber.observableField}"
+            bind:title="@{@string/card_number_placeholder}"
+            bind:hint="@{@string/card_number_hint}"
+            bind:maxLength="@{22}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainToolBar"/>
+
+        <include
+            android:id="@+id/name"
+            layout="@layout/template_card_field"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            bind:visibility="@{model.state == AddPaymentState.NAME}"
+            bind:text="@={model.dataModel.name.observableField}"
+            bind:title="@{@string/card_name_hint}"
+            bind:hint="@{@string/card_name_placeholder}"
+            bind:maxLength="@{48}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainToolBar"/>
+
+        <include
+            android:id="@+id/cvv"
+            layout="@layout/template_card_field"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            bind:visibility="@{model.state == AddPaymentState.CVV}"
+            bind:text="@={model.dataModel.cvv.observableField}"
+            bind:title="@{@string/card_cvv_placeholder}"
+            bind:hint="@{@string/card_cvv_placeholder}"
+            bind:inputType="@{InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER}"
+            bind:maxLength="@{3}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainToolBar"/>
+
+        <include
+            android:id="@+id/expiration"
+            layout="@layout/template_card_field"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            bind:visibility="@{model.state == AddPaymentState.EXPIRATION}"
+            bind:text="@={model.dataModel.expiration.observableField}"
+            bind:title="@{@string/card_expiration_hint}"
+            bind:hint="@{@string/card_expiration_placeholder}"
+            bind:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT}"
+            bind:maxLength="@{5}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainToolBar"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/inputBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="number,name,cvv,expiration" />
+
+        <Button
+            android:id="@+id/back"
+            style="@style/ButtonTextStyle"
+            android:layout_width="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/bg_list_item"
+            android:onClick="@{(v) -> model.onBackStateClick()}"
+            android:text="@string/btn_back"
+            android:textColor="@color/light_gray_b1bf"
+            android:visibility="@{model.state != AddPaymentState.NUMBER? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintEnd_toStartOf="@id/btnNext"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inputBottom" />
+
+        <Button
+            android:id="@+id/btnNext"
+            style="@style/AppTheme.Button"
+            android:layout_width="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:onClick="@{(v) -> model.onForwardStateClick()}"
+            android:text="@string/btn_next"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/back"
+            app:layout_constraintTop_toBottomOf="@id/inputBottom" />
+
+        <Button
+            android:id="@+id/btnDone"
+            style="@style/AppTheme.Button"
+            android:layout_width="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:onClick="@{(v) -> model.onDoneClick()}"
+            android:text="@string/btn_done"
+            android:textColor="@android:color/white"
+            android:visibility="@{model.state == AddPaymentState.EXPIRATION}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/back"
+            app:layout_constraintTop_toBottomOf="@id/inputBottom" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

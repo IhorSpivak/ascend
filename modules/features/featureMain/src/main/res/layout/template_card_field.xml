@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.text.InputType"/>
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="hint"
+            type="String" />
+
+        <variable
+            name="text"
+            type="String" />
+
+        <variable
+            name="inputType"
+            type="Integer" />
+
+        <variable
+            name="visibility"
+            type="Boolean" />
+
+        <variable
+            name="maxLength"
+            type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="@{visibility}">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextNormal"
+            android:textSize="10sp"
+            android:textColor="@color/light_gray_b1bf"
+            android:text="@{title}"
+            tools:text="title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <EditText
+            android:id="@+id/edit"
+            style="@style/TextNormal"
+            android:theme="@style/EditTextAppearance"
+            app:hintTextAppearance="@style/HintStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@{hint}"
+            android:text="@={text}"
+            android:inputType="@{inputType}"
+            android:maxLength="@{maxLength}"
+            tools:text="content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -75,7 +75,7 @@
                 android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/selecor_btn_enabled"
-                android:text="@string/btn_save"
+                android:text="@string/btn_send"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>

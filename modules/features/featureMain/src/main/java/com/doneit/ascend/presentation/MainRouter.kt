@@ -50,6 +50,8 @@ import com.doneit.ascend.presentation.profile.notification_settings.Notification
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsFragment
 import com.doneit.ascend.presentation.profile.payments.PaymentsContract
 import com.doneit.ascend.presentation.profile.payments.PaymentsFragment
+import com.doneit.ascend.presentation.profile.payments.add_payment.AddPaymentContract
+import com.doneit.ascend.presentation.profile.payments.add_payment.AddPaymentFragment
 import com.doneit.ascend.presentation.profile.payments.payment_methods.PaymentMethodsContract
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsContract
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
@@ -86,7 +88,8 @@ class MainRouter(
     EditEmailContract.Router,
     NotificationSettingsContract.Router,
     PaymentsContract.Router,
-    PaymentMethodsContract.Router {
+    PaymentMethodsContract.Router,
+    AddPaymentContract.Router {
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -135,7 +138,6 @@ class MainRouter(
     }
 
 
-
     override fun navigateToRegularUserProfile() {
         activity.supportFragmentManager.replaceWithBackStack(
             containerId,
@@ -156,11 +158,17 @@ class MainRouter(
 
     override fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?) {
         val args = GroupListArgs(userId, groupType, isMyGroups)
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, GroupListFragment.newInstance(args))
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            GroupListFragment.newInstance(args)
+        )
     }
 
     override fun navigateToMMInfo(model: MasterMindEntity) {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MMInfoFragment.newInstance(model))
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            MMInfoFragment.newInstance(model)
+        )
     }
 
     override fun navigateToSearch() {
@@ -172,15 +180,24 @@ class MainRouter(
     }
 
     override fun navigateToGroupInfo(model: GroupEntity) {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, GroupInfoFragment.newInstance(model))
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            GroupInfoFragment.newInstance(model)
+        )
     }
 
     override fun navigateToGroupInfo(id: Long) {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, GroupInfoFragment.newInstance(id))
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            GroupInfoFragment.newInstance(id)
+        )
     }
 
     override fun navigateToNotifications() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, NotificationFragment())
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            NotificationFragment()
+        )
     }
 
     override fun navigateToAvatarUCropActivity(
@@ -211,15 +228,24 @@ class MainRouter(
     }
 
     override fun navigateToRatings() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, ProfileRatingsFragment())
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            ProfileRatingsFragment()
+        )
     }
 
     override fun navigateToChangePhone() {
-        activity.supportFragmentManager.replaceWithoutBackStack(containerIdFull, EditPhoneFragment())
+        activity.supportFragmentManager.replaceWithoutBackStack(
+            containerIdFull,
+            EditPhoneFragment()
+        )
     }
 
     override fun navigateToVerifyPhone() {
-        activity.supportFragmentManager.addWithBackStack(containerIdFull, VerifyChangePhoneFragment())
+        activity.supportFragmentManager.addWithBackStack(
+            containerIdFull,
+            VerifyChangePhoneFragment()
+        )
     }
 
     override fun navigateToChangeLocation(currentLocation: String?) {
@@ -228,7 +254,10 @@ class MainRouter(
     }
 
     override fun navigateToChangePassword() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, ChangePasswordFragment())
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            ChangePasswordFragment()
+        )
     }
 
     override fun navigateToEditEmail() {
@@ -236,7 +265,10 @@ class MainRouter(
     }
 
     override fun navigateToNotificationSettings() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, NotificationSettingsFragment())
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            NotificationSettingsFragment()
+        )
     }
 
     override fun navigateToPayments() {
@@ -244,6 +276,6 @@ class MainRouter(
     }
 
     override fun navigateToAddPaymentMethod() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, AddPaymentFragment())
     }
 }

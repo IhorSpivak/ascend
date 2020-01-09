@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Ascend</string>
     <string name="main_title">Ascend</string>
     <string name="profile_title">Profile</string>
@@ -261,4 +261,16 @@
     <string name="in_app_purchases">In-APP Purchases</string>
     <string name="label_delete">Delete</string>
     <string name="expired">Expired</string>
+    
+    <!--Add payment-->
+    <string name="add_payment_title">Add Payment Method</string>
+    <string name="card_number_placeholder">Card Number</string>
+    <string name="card_number_hint" tools:override="true">XXXX  XXXX  XXXX  XXXX</string>
+    <string name="card_name_hint">Cardholder Name</string>
+    <string name="card_name_placeholder">Name Surname</string>
+    <string name="card_cvv_placeholder">CVV Code</string>
+    <string name="card_expiration_hint">Valid Thru</string>
+    <string name="card_expiration_placeholder">MM / YY</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_next">Next</string>
 </resources>

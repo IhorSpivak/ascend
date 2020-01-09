@@ -18,7 +18,7 @@ class CardViewHolder(
 
         when(item.brand) {
             CardType.VISA -> binding.ivCardType.setImageResource(R.drawable.ic_visa)
-            else -> binding.ivCardType.setImageResource(R.drawable.ic_master_card)
+            else -> binding.ivCardType.setImageResource(R.drawable.ic_master_card_local)
         }
 
         binding.chbSelection.setOnCheckedChangeListener { compoundButton, b ->
