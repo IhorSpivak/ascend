@@ -265,7 +265,7 @@
     <!--Add payment-->
     <string name="add_payment_title">Add Payment Method</string>
     <string name="card_number_placeholder">Card Number</string>
-    <string name="card_number_hint" tools:override="true">XXXX  XXXX  XXXX  XXXX</string>
+    <string name="card_number_hint_local">XXXX  XXXX  XXXX  XXXX</string>
     <string name="card_name_hint">Cardholder Name</string>
     <string name="card_name_placeholder">Name Surname</string>
     <string name="card_cvv_placeholder">CVV Code</string>

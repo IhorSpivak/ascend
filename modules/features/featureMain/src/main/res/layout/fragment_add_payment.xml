@@ -4,7 +4,9 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.text.InputType"/>
+
+        <import type="android.text.InputType" />
+
         <import type="android.view.View" />
 
         <import type="com.doneit.ascend.presentation.profile.payments.add_payment.AddPaymentState" />
@@ -82,7 +84,7 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/tvNumber"
+                                android:id="@+id/space"
                                 style="@style/TextNormal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="35dp"
@@ -94,13 +96,36 @@
                                 android:paddingTop="6dp"
                                 android:paddingEnd="17dp"
                                 android:paddingBottom="6dp"
-                                android:text="@{model.dataModel.cardNumber.observableField}"
-                                android:hint="@string/card_number_hint"
+                                android:text="XXXX  XXXX  XXXX  XXXX"
                                 android:textColor="@android:color/white"
                                 android:textColorHint="@android:color/white"
+                                android:visibility="invisible"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_bias="0.437" />
+
+                            <TextView
+                                android:id="@+id/tvNumber"
+                                style="@style/TextNormal"
+                                android:layout_width="0dp"
+                                android:layout_height="35dp"
+                                android:background="@drawable/bg_list_item"
+                                android:gravity="left"
+                                android:hint="@string/card_number_hint_local"
+                                android:includeFontPadding="false"
+                                android:letterSpacing="0.08"
+                                android:paddingStart="11dp"
+                                android:paddingTop="6dp"
+                                android:paddingEnd="17dp"
+                                android:paddingBottom="6dp"
+                                android:textColor="@android:color/white"
+                                android:textColorHint="@android:color/white"
+                                app:cardNumber="@{model.dataModel.cardNumber.observableField}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@id/space"
+                                app:layout_constraintStart_toStartOf="@id/space"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintVertical_bias="0.437" />
 
@@ -109,8 +134,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="20dp"
-                                app:layout_constraintEnd_toEndOf="@id/tvNumber"
-                                app:layout_constraintBottom_toTopOf="@id/tvNumber"/>
+                                app:layout_constraintBottom_toTopOf="@id/tvNumber"
+                                app:layout_constraintEnd_toEndOf="@id/tvNumber" />
 
                             <TextView
                                 android:id="@+id/tvHolderHint"
@@ -133,10 +158,10 @@
                                 android:layout_marginStart="24dp"
                                 android:layout_marginBottom="20dp"
                                 android:alpha="0.5"
-                                android:text="@{model.dataModel.name.observableField}"
                                 android:hint="@string/card_name_placeholder"
-                                android:textColorHint="@color/light_gray_f4f7"
+                                android:text="@{model.dataModel.name.observableField}"
                                 android:textColor="@color/light_gray_f4f7"
+                                android:textColorHint="@color/light_gray_f4f7"
                                 android:textSize="14sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent" />
@@ -162,8 +187,8 @@
                                 android:layout_marginEnd="24dp"
                                 android:layout_marginBottom="20dp"
                                 android:alpha="0.5"
-                                android:text="@{model.dataModel.expiration.observableField}"
                                 android:hint="@string/card_expiration_placeholder"
+                                android:text="@{model.dataModel.expiration.observableField}"
                                 android:textColor="@color/light_gray_f4f7"
                                 android:textColorHint="@color/light_gray_f4f7"
                                 android:textSize="14sp"
@@ -182,72 +207,72 @@
         <include
             android:id="@+id/number"
             layout="@layout/template_card_field"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="24dp"
-            bind:visibility="@{model.state == AddPaymentState.NUMBER}"
-            bind:text="@={model.dataModel.cardNumber.observableField}"
-            bind:title="@{@string/card_number_placeholder}"
-            bind:hint="@{@string/card_number_hint}"
-            bind:maxLength="@{22}"
+            android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mainToolBar"/>
+            app:layout_constraintTop_toBottomOf="@id/mainToolBar"
+            bind:hint="@{@string/card_number_hint_local}"
+            bind:maxLength="@{22}"
+            bind:text="@={model.dataModel.cardNumber.observableField}"
+            bind:title="@{@string/card_number_placeholder}"
+            bind:visibility="@{model.state == AddPaymentState.NUMBER}" />
 
         <include
             android:id="@+id/name"
             layout="@layout/template_card_field"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="24dp"
-            bind:visibility="@{model.state == AddPaymentState.NAME}"
-            bind:text="@={model.dataModel.name.observableField}"
-            bind:title="@{@string/card_name_hint}"
-            bind:hint="@{@string/card_name_placeholder}"
-            bind:maxLength="@{48}"
+            android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mainToolBar"/>
+            app:layout_constraintTop_toBottomOf="@id/mainToolBar"
+            bind:hint="@{@string/card_name_placeholder}"
+            bind:maxLength="@{48}"
+            bind:text="@={model.dataModel.name.observableField}"
+            bind:title="@{@string/card_name_hint}"
+            bind:visibility="@{model.state == AddPaymentState.NAME}" />
 
         <include
             android:id="@+id/cvv"
             layout="@layout/template_card_field"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="24dp"
-            bind:visibility="@{model.state == AddPaymentState.CVV}"
-            bind:text="@={model.dataModel.cvv.observableField}"
-            bind:title="@{@string/card_cvv_placeholder}"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainToolBar"
             bind:hint="@{@string/card_cvv_placeholder}"
             bind:inputType="@{InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER}"
             bind:maxLength="@{3}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mainToolBar"/>
+            bind:text="@={model.dataModel.cvv.observableField}"
+            bind:title="@{@string/card_cvv_placeholder}"
+            bind:visibility="@{model.state == AddPaymentState.CVV}" />
 
         <include
             android:id="@+id/expiration"
             layout="@layout/template_card_field"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="24dp"
-            bind:visibility="@{model.state == AddPaymentState.EXPIRATION}"
-            bind:text="@={model.dataModel.expiration.observableField}"
-            bind:title="@{@string/card_expiration_hint}"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mainToolBar"
             bind:hint="@{@string/card_expiration_placeholder}"
             bind:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT}"
             bind:maxLength="@{5}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mainToolBar"/>
+            bind:text="@={model.dataModel.expiration.observableField}"
+            bind:title="@{@string/card_expiration_hint}"
+            bind:visibility="@{model.state == AddPaymentState.EXPIRATION}" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/inputBottom"
@@ -261,8 +286,8 @@
             style="@style/ButtonTextStyle"
             android:layout_width="0dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="4dp"
             android:layout_marginTop="40dp"
+            android:layout_marginEnd="4dp"
             android:background="@drawable/bg_list_item"
             android:onClick="@{(v) -> model.onBackStateClick()}"
             android:text="@string/btn_back"
@@ -277,8 +302,8 @@
             style="@style/AppTheme.Button"
             android:layout_width="0dp"
             android:layout_marginStart="4dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
             android:onClick="@{(v) -> model.onForwardStateClick()}"
             android:text="@string/btn_next"
             android:textColor="@android:color/white"
@@ -291,8 +316,8 @@
             style="@style/AppTheme.Button"
             android:layout_width="0dp"
             android:layout_marginStart="4dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
             android:onClick="@{(v) -> model.onDoneClick()}"
             android:text="@string/btn_done"
             android:textColor="@android:color/white"

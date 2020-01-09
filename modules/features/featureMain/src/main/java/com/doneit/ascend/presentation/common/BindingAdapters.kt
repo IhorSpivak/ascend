@@ -11,18 +11,14 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
-import com.doneit.ascend.domain.entity.MasterMindEntity
-import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.group_list.common.GroupListAdapter
-import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
-import com.doneit.ascend.presentation.main.master_mind.list.common.MasterMindAdapter
 import com.doneit.ascend.presentation.models.GroupListWithUser
 import com.doneit.ascend.presentation.models.GroupListWithUserPaged
 import com.doneit.ascend.presentation.main.search.common.SearchAdapter
-import com.doneit.ascend.presentation.utils.DatePickerUtil
+import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,6 +26,19 @@ import java.util.*
 fun TextView.setAdapter(source: String?) {
     if(source != null) {
         text = HtmlCompat.fromHtml(source, HtmlCompat.FROM_HTML_MODE_LEGACY)
+    }
+}
+
+@BindingAdapter("app:cardNumber")
+fun TextView.setCardNumber(source: String?) {
+    if(source != null) {
+        val result = StringBuilder("XXXX  XXXX  XXXX  XXXX")
+
+        source.forEachIndexed { index, c ->
+            result.replace(index, index+1, c.toString())
+        }
+
+        text = result.toString()
     }
 }
 
