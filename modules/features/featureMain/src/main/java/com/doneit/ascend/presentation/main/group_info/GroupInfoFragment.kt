@@ -28,7 +28,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
 
     private var currentDialog: AlertDialog? = null
     private val cardsAdapter = CardsAdapter {
-        //todo
+        viewModel.onAddPaymentClick()
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {

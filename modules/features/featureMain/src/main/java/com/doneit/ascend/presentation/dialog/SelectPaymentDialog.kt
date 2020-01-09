@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
-import com.doneit.ascend.presentation.common.DividerItemDecorator
+import com.doneit.ascend.presentation.common.FullDividerItemDecorator
 import com.doneit.ascend.presentation.dialog.common.CardsAdapter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.models.PresentationCardModel
@@ -25,12 +25,7 @@ class SelectPaymentDialog {
                 .setView(mDialogView)
                 .create()
 
-            val decorator = DividerItemDecorator(
-                ContextCompat.getDrawable(
-                    mDialogView.context,
-                    R.drawable.recycler_item_decorator
-                )!!
-            )
+            val decorator = FullDividerItemDecorator(mDialogView.context)
             mDialogView.rvCards.adapter = adapter
             mDialogView.rvCards.addItemDecoration(decorator)
             mDialogView.ivClose.setOnClickListener {

@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.dialog.common
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.doneit.ascend.presentation.common.CardViewHolder
 import com.doneit.ascend.presentation.models.PresentationCardModel
 
 class CardsAdapter(
@@ -37,7 +38,7 @@ class CardsAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position < items.size) {
-            (holder as CardViewHolder).bind(items[position]) {
+            (holder as CardViewHolder).bind(items[position], {
                 val lastSelectedIndex = items.indexOfFirst { it.isSelected }
                 if (lastSelectedIndex != -1) {
                     items[lastSelectedIndex].isSelected = false
@@ -48,7 +49,7 @@ class CardsAdapter(
                 notifyItemChanged(position)
 
                 checkSelection()
-            }
+            })
         } else {
             holder.itemView.setOnClickListener {
                 onAddCardClick.invoke()
@@ -61,6 +62,7 @@ class CardsAdapter(
         items.addAll(newItems)
 
         checkSelection()
+        notifyDataSetChanged()
     }
 
     fun getSelectedItem(): PresentationCardModel? {

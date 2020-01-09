@@ -34,6 +34,7 @@ interface ProfileContract {
         fun onChangePasswordClick()
         fun onEditEmailClick()
         fun onNotificationSettingsClick()
+        fun onPaymentsClick()
     }
 
     interface Router : EditBioContract.Router, MMProfileContract.Router, UserProfileContract.Router {
@@ -54,5 +55,6 @@ interface ProfileContract {
         fun navigateToChangePassword()
         fun navigateToEditEmail()
         fun navigateToNotificationSettings()
+        fun navigateToPayments()
     }
 }

@@ -116,6 +116,10 @@ class GroupInfoViewModel(
         //todo
     }
 
+    override fun onAddPaymentClick() {
+        router.navigateToAddPaymentMethod()
+    }
+
     override fun onBackPressed() {
         router.onBack()
     }

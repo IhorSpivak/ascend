@@ -79,6 +79,10 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
         notSettings.setOnClickListener {
             viewModel.onNotificationSettingsClick()
         }
+
+        paymentPortal.setOnClickListener {
+            viewModel.onPaymentsClick()
+        }
     }
 
     private fun showPhotoDialog() {

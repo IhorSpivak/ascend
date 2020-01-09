@@ -254,4 +254,11 @@
     <!--Select payment-->
     <string name="select_payment_title">Select Payment Method</string>
     <string name="add_payment_method">Add Payment Method</string>
+
+    <!--Payments-->
+    <string name="payments_title">Payments</string>
+    <string name="payments_methods">Payments Methods</string>
+    <string name="in_app_purchases">In-APP Purchases</string>
+    <string name="label_delete">Delete</string>
+    <string name="expired">Expired</string>
 </resources>

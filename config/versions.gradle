@@ -58,7 +58,8 @@ ext {
             expandableLayout: "com.github.florent37:expansionpanel:1.2.2",
             permissions     : "com.androidisland.ezpermission:ezpermission:0.1.4",
             phone           : "com.googlecode.libphonenumber:libphonenumber:8.10.14",
-            phoneCodes      : "com.github.joielechong:countrycodepicker:2.4.1"
+            phoneCodes      : "com.github.joielechong:countrycodepicker:2.4.1",
+            stripe          : "com.stripe:stripe-android:12.8.2"
     ]
 
     def kodein = [
@@ -377,6 +378,7 @@ ext {
             [configuration: "implementation", dependency: ucrop.core],
             [configuration: "implementation", dependency: other.phone],
             [configuration: "implementation", dependency: other.phoneCodes],
+            [configuration: "implementation", dependency: other.stripe],
     ]
 
     entityModule = [

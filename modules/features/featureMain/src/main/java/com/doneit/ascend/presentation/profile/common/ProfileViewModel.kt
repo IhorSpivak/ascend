@@ -197,6 +197,10 @@ class ProfileViewModel(
         router.navigateToNotificationSettings()
     }
 
+    override fun onPaymentsClick() {
+        router.navigateToPayments()
+    }
+
     override fun onCleared() {
         userLocal.removeObserver(userObserver)
         super.onCleared()

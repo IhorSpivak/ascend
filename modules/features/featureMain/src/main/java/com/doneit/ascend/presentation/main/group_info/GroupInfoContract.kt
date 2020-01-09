@@ -22,9 +22,11 @@ interface GroupInfoContract {
         fun startGroup()
         fun deleteGroup()
         fun report(content: String)
+        fun onAddPaymentClick()
     }
 
     interface Router {
         fun onBack()
+        fun navigateToAddPaymentMethod()
     }
 }

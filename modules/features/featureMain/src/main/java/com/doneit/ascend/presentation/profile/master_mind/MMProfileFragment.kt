@@ -108,6 +108,10 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         notSettings.setOnClickListener {
             viewModel.onNotificationSettingsClick()
         }
+
+        paymentPortal.setOnClickListener {
+            viewModel.onPaymentsClick()
+        }
     }
 
     private fun showPhotoDialog() {

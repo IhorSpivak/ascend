@@ -251,6 +251,7 @@
                         app:iconRes="@{@drawable/ic_alarm}" />
 
                     <include
+                        android:id="@+id/paymentPortal"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/payments}"
                         app:fieldValue="@{@string/empty}"

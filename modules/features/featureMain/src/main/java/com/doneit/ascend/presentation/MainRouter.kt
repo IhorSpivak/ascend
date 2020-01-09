@@ -48,6 +48,9 @@ import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddContract
 import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddFragment
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsContract
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsFragment
+import com.doneit.ascend.presentation.profile.payments.PaymentsContract
+import com.doneit.ascend.presentation.profile.payments.PaymentsFragment
+import com.doneit.ascend.presentation.profile.payments.payment_methods.PaymentMethodsContract
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsContract
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
@@ -81,7 +84,9 @@ class MainRouter(
     ChangeLocationContract.Router,
     ChangePasswordContract.Router,
     EditEmailContract.Router,
-    NotificationSettingsContract.Router {
+    NotificationSettingsContract.Router,
+    PaymentsContract.Router,
+    PaymentMethodsContract.Router {
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -232,5 +237,13 @@ class MainRouter(
 
     override fun navigateToNotificationSettings() {
         activity.supportFragmentManager.replaceWithBackStack(containerIdFull, NotificationSettingsFragment())
+    }
+
+    override fun navigateToPayments() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, PaymentsFragment())
+    }
+
+    override fun navigateToAddPaymentMethod() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
