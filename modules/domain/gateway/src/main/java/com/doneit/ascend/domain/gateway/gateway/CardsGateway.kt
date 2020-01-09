@@ -27,4 +27,15 @@ class CardsGateway (
             }
         )
     }
+
+    override suspend fun deleteCard(id: Long): ResponseEntity<Unit, List<String>> {
+        return remote.deleteCard(id).toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
 }

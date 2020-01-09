@@ -5,4 +5,6 @@ import com.doneit.ascend.domain.entity.common.ResponseEntity
 
 interface ICardsGateway {
     suspend fun getAllCards(): ResponseEntity<List<CardEntity>, List<String>>
+
+    suspend fun deleteCard(id: Long): ResponseEntity<Unit, List<String>>
 }
