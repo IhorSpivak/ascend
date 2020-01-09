@@ -41,6 +41,7 @@ class SelectPaymentDialog {
             }
             mDialogView.btnPositive.setOnClickListener {
                 onItemSelected.invoke(adapter.getSelectedItem()!!)
+                dialog.dismiss()
             }
             adapter.hasSelectionListener = {
                 mDialogView.btnPositive.isEnabled = it
