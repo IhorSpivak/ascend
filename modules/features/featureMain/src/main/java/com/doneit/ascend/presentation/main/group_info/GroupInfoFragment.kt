@@ -86,8 +86,8 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 R.string.btn_delete,
                 R.string.btn_negative
             ) {
+                currentDialog?.dismiss()
                 when (it) {
-                    QuestionButtonType.NEGATIVE -> currentDialog?.dismiss()
                     QuestionButtonType.POSITIVE -> viewModel.deleteGroup()
                 }
             }

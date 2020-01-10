@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:hint="@{hint}"
             android:text="@={text}"
-            android:inputType="@{inputType}"
+            android:inputType="@{inputType > 0 ? inputType : InputType.TYPE_CLASS_TEXT}"
             android:maxLength="@{maxLength}"
             tools:text="content"
             app:layout_constraintEnd_toEndOf="parent"

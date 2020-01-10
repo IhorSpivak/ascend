@@ -162,6 +162,7 @@ ext {
             [configuration: "androidTestImplementation", dependency: espresso.core],
 
             [configuration: "implementation", dependency: ucrop.core],
+            [configuration: "implementation", dependency: other.stripe],
     ]
 
     remoteModule = [

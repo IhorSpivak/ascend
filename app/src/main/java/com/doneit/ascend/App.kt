@@ -2,7 +2,9 @@ package com.doneit.ascend
 
 import android.app.Application
 import android.util.Log
+import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.retrofit.common.RetrofitConfig
+import com.stripe.android.PaymentConfiguration
 import com.twitter.sdk.android.core.DefaultLogger
 import com.twitter.sdk.android.core.Twitter
 import com.twitter.sdk.android.core.TwitterAuthConfig
@@ -42,6 +44,8 @@ class App : Application(), KodeinAware {
 
             enableLogging()
         }
+
+        PaymentConfiguration.init(applicationContext, Constants.STRIPE_PUBLISH_KEY)
 
         kodeinTrigger.trigger()
     }
