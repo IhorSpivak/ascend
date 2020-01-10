@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.profile.common
 import android.net.Uri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import com.doneit.ascend.domain.entity.ProfileEntity
+import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
@@ -14,7 +14,7 @@ import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 interface ProfileContract {
     interface ViewModel : BaseViewModel {
 
-        val user: LiveData<ProfileEntity?>
+        val user: LiveData<UserEntity?>
         val showPhotoDialog: SingleLiveManager<Unit>
         val showDeleteButton: LiveData<Boolean>
 

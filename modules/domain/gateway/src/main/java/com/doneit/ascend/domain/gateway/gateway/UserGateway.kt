@@ -6,14 +6,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AuthEntity
-import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.RateEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
-import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toProfileEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toUserLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.*
@@ -210,28 +208,40 @@ internal class UserGateway(
         )
     }
 
-    override suspend fun getProfile(): ResponseEntity<ProfileEntity, List<String>> {
-        return executeRemote { remote.getProfile() }.toResponseEntity(
+    override suspend fun getProfile(): ResponseEntity<UserEntity, List<String>> {
+        val res = executeRemote { remote.getProfile() }.toResponseEntity(
             {
-                it?.currrentUser?.toProfileEntity()
+                it?.currrentUser?.toEntity()
             },
             {
                 it?.errors
             }
         )
+
+        if(res.isSuccessful) {
+            updateUserLocal(res.successModel!!)
+        }
+
+        return res
     }
 
-    override suspend fun updateProfile(groupModel: UpdateProfileModel): ResponseEntity<ProfileEntity, List<String>> {
+    override suspend fun updateProfile(groupModel: UpdateProfileModel): ResponseEntity<UserEntity, List<String>> {
         val file = if(groupModel.imagePath == null) null else File(groupModel.imagePath!!)
 
-        return executeRemote { remote.updateProfile(file, groupModel.toRequest(), groupModel.shouldUpdateIcon) }.toResponseEntity(
+        val res = executeRemote { remote.updateProfile(file, groupModel.toRequest(), groupModel.shouldUpdateIcon) }.toResponseEntity(
             {
-                it?.currrentUser?.toProfileEntity()
+                it?.currrentUser?.toEntity()
             },
             {
                 it?.errors
             }
         )
+
+        if(res.isSuccessful) {
+            updateUserLocal(res.successModel!!)
+        }
+
+        return res
     }
 
     override suspend fun getRating(ratingsModel: RatingsModel): PagedList<RateEntity> {
@@ -295,7 +305,7 @@ internal class UserGateway(
         updateUserLocal(authEntity.userEntity)
 
         // save token
-        val account = Account(authEntity.userEntity.name, packageName)
+        val account = Account(authEntity.userEntity.fullName, packageName)
 
         removeAccounts()
 

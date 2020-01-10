@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.models
 
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.CardEntity
-import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
@@ -31,7 +30,7 @@ fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
     )
 }
 
-fun ProfileEntity.toDTO(): UpdateProfileModel {
+fun UserEntity.toDTO(): UpdateProfileModel {
     return UpdateProfileModel(
         fullName,
         displayName,
@@ -44,30 +43,6 @@ fun ProfileEntity.toDTO(): UpdateProfileModel {
         description,
         false,
         null
-    )
-}
-
-fun UserEntity.toProfile(): ProfileEntity {
-    return ProfileEntity(
-        id,
-        name,
-        email,
-        phone,
-        location,
-        createdAt,
-        updatedAt,
-        meetingStarted,
-        newGroups,
-        inviteToMeeting,
-        unansweredQuestions,
-        image,
-        displayName,
-        description,
-        bio,
-        rating,
-        role,
-        isMasterMind,
-        community
     )
 }
 

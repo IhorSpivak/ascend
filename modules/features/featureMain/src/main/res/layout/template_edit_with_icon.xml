@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.InputType" />
+        <import type="com.doneit.ascend.presentation.main.R"/>
+
+        <variable
+            name="text"
+            type="String" />
+
+        <variable
+            name="error"
+            type="Integer" />
+
+        <variable
+            name="hint"
+            type="String" />
+
+        <variable
+            name="src"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="inputType"
+            type="Integer" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@{src}"
+            android:visibility="@{src != null}"
+            app:layout_constraintBottom_toBottomOf="@id/textLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textLayout" />
+
+        <EditText
+            android:id="@+id/textLayout"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/light_gray_e9f0"
+            android:hint="@{hint}"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:singleLine="true"
+            android:text="@={text}"
+            android:textColorHint="@color/default_font_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvError"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:text="@{error != 0 ? error : R.string.empty}"
+            android:textColor="@color/error_color"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/textLayout"
+            app:layout_constraintTop_toBottomOf="@id/textLayout"
+            tools:text="Error" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

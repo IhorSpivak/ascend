@@ -26,10 +26,10 @@ class CalendarPickerUtil(
 
         const val DEFAULT_TIME_TYPE = "AM"
 
-        fun getHours(hours: Int): List<String> {
+        fun getHours(): List<String> {
             val list = mutableListOf<String>()
 
-            for (n in 0 until hours) {
+            for (n in 1 until 12) {
                 if (n < 10) {
                     list.add("0$n")
                 } else {

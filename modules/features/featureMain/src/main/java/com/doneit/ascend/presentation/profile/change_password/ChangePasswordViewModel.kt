@@ -26,6 +26,17 @@ class ChangePasswordViewModel (
     override val canSave = MutableLiveData<Boolean>(false)
 
     init {
+        dataModel.currentPassword.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isValidPassword().not()) {
+                result.isSucceed = false
+                result.errors.add(R.string.error_password)
+            }
+
+            result
+        }
+
         dataModel.newPassword.validator = { s ->
             val result = ValidationResult()
 
@@ -49,6 +60,7 @@ class ChangePasswordViewModel (
         }
 
         val invalidationListener = { updateSaveState() }
+        dataModel.currentPassword.onFieldInvalidate = invalidationListener
         dataModel.newPassword.onFieldInvalidate = invalidationListener
         dataModel.confirmPassword.onFieldInvalidate = invalidationListener
     }

@@ -26,7 +26,7 @@ class SearchViewModel(
         viewModelScope.launch {
             val model = SearchModel(
                 perPage = Constants.PER_PAGE_COMMON,
-                sortColumn = "name",
+                sortColumn = "fullName",
                 sortType = SortType.ASC,
                 query = ""
             )
@@ -42,7 +42,7 @@ class SearchViewModel(
         viewModelScope.launch {
             val model = SearchModel(
                 perPage = Constants.PER_PAGE_COMMON,
-                sortColumn = "name",
+                sortColumn = "fullName",
                 sortType = SortType.ASC,
                 query = query
             )

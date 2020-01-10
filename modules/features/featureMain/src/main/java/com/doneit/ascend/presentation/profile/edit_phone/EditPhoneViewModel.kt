@@ -65,7 +65,6 @@ class EditPhoneViewModel(
                 val code = user!!.phone!!.getCountyCode()
                 val phone = user.phone!!.getPhoneBody()
                 dataModel.phoneCode.set(code)
-                dataModel.phoneNumber.observableField.set(phone)
             }
         }
     }

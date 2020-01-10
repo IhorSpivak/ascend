@@ -14,7 +14,9 @@ import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.utils.extensions.waitForLayout
 import com.doneit.ascend.presentation.utils.fetchCountryListWithReflection
+import com.doneit.ascend.presentation.utils.getCurrentCountyISO
 import com.doneit.ascend.presentation.utils.toNumericCode
 import com.doneit.ascend.presentation.views.phone_code.common.CountriesAdapter
 import com.rilixtech.widget.countrycodepicker.Country
@@ -123,16 +125,16 @@ class PhoneCodeView @JvmOverloads constructor(
     }
 
     private fun fetchCurrentCountryCode() {
-        val telephonyManager =
-            context!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        val regionCode = telephonyManager.networkCountryIso
+        val regionCode = context.getCurrentCountyISO()
         selectByCountyIsoCode(regionCode)
     }
 
     private fun selectByCountyIsoCode(code: String) {
         var position = countriesAdapter.getPositionByIso(code)
         position = max(position, 0)
-        picker.setSelection(position)
+        waitForLayout {
+            picker.setSelection(position)
+        }
     }
 
     private fun selectByPhoneCode(code: String) {

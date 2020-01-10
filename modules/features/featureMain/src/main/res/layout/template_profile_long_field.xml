@@ -71,6 +71,7 @@
                 tools:text="Full Name" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -81,6 +82,8 @@
                 android:singleLine="true"
                 android:text="@{fieldValue == null || fieldValue.length == 0 ? fieldValueIfEmpty : fieldValue}"
                 android:visibility="@{fieldValue == null || fieldValue.length == 0 ? View.VISIBLE : View.GONE}"
+                android:textColor="@color/light_gray_8f"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/ivEditField"
                 app:layout_constraintTop_toTopOf="parent"
@@ -111,11 +114,14 @@
             android:visibility="@{fieldValue == null || fieldValue.length == 0 ? View.GONE : View.VISIBLE}">
 
             <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:text="@{fieldValue == null || fieldValue.length == 0 ? fieldValueIfEmpty : fieldValue}"
+                android:textColor="@color/light_gray_8f"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/ivEditField"
                 app:layout_constraintTop_toTopOf="parent"

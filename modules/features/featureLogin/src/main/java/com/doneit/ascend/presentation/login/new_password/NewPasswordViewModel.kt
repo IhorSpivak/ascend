@@ -7,6 +7,7 @@ import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationNewPasswordModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.models.toEntity
+import com.doneit.ascend.presentation.login.models.toLogInModel
 import com.doneit.ascend.presentation.login.new_password.common.NewPasswordArgs
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationMessage
@@ -92,8 +93,12 @@ class NewPasswordViewModel(
             canSave.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                launch(Dispatchers.Main) {
+                val loginResult = userUseCase.signIn(newPasswordModel.toLogInModel())
+
+                if(loginResult.isSuccessful) {
                     router.goToMain()
+                } else {
+                    router.navigateToLogInFragment()
                 }
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {

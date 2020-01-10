@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="kotlin.text.StringsKt" />
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.ViewModel" />
@@ -131,6 +133,7 @@
                     android:singleLine="true"
                     android:text="@{model.user.location}"
                     android:textColor="@color/light_gray_8f"
+                    android:visibility="@{model.user.location != null &amp;&amp; model.user.location.length > 0 }"
                     app:layout_constraintBottom_toTopOf="@+id/rbRating"
                     app:layout_constraintEnd_toEndOf="@id/tvFullName"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -314,45 +317,45 @@
                     layout="@layout/template_profile_field"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
-                    android:layout_marginTop="16dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="20dp"
                     app:fieldName="@{@string/notification_settings}"
                     app:fieldValue="@{@string/empty}"
                     app:iconRes="@{@drawable/ic_alarm}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/llBox3"/>
+                    app:layout_constraintTop_toBottomOf="@+id/llBox3" />
 
                 <include
                     android:id="@+id/paymentPortal"
                     layout="@layout/template_profile_field"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
-                    android:layout_marginTop="16dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="20dp"
                     app:fieldName="@{@string/payment_portal}"
                     app:fieldValue="@{@string/empty}"
                     app:iconRes="@{@drawable/ic_payment}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/notSettings"/>
+                    app:layout_constraintTop_toBottomOf="@+id/notSettings" />
 
                 <include
                     android:id="@+id/contactSupport"
                     layout="@layout/template_profile_field"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
-                    android:layout_marginTop="16dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="20dp"
                     app:fieldName="@{@string/contact_support}"
                     app:fieldValue="@{@string/empty}"
                     app:iconRes="@{@drawable/ic_contact_support}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/paymentPortal"/>
+                    app:layout_constraintTop_toBottomOf="@+id/paymentPortal" />
 
                 <Button
                     android:id="@+id/btnLogout"

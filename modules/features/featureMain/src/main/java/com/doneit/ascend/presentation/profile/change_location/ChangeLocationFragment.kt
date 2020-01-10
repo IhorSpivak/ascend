@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import androidx.core.view.GestureDetectorCompat
+import androidx.core.widget.doOnTextChanged
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentChangeLocationBinding
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
@@ -13,6 +14,7 @@ import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.models.LocationModel
 import com.doneit.ascend.presentation.profile.change_location.common.CountriesAdapter
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
+import com.doneit.ascend.presentation.utils.insert
 import com.doneit.ascend.presentation.utils.fetchCountryListWithReflection
 import com.doneit.ascend.presentation.utils.getCurrentCountyISO
 import com.doneit.ascend.presentation.utils.toLocationModel
@@ -32,7 +34,7 @@ class ChangeLocationFragment :
     }
 
     override val viewModel: ChangeLocationContract.ViewModel by instance()
-    private val adapter by lazy { CountriesAdapter(fetchCountryListWithReflection(context!!)) }
+    private val adapter by lazy { CountriesAdapter(fetchCountryListWithReflection(context!!).insert(0, Country("","",""))) }
     private val mDetector by lazy { GestureDetectorCompat(context, this) }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -48,6 +50,9 @@ class ChangeLocationFragment :
         }
 
         initSpinner()
+        binding.etCity.doOnTextChanged { text, start, count, after ->
+            invalidateSaveStatus()
+        }
 
         binding.btnSave.setOnClickListener {
             val city = etCity.text.toString()
@@ -102,7 +107,7 @@ class ChangeLocationFragment :
     private fun invalidateSaveStatus() {
         var isEnabled = false
 
-        if (countyPicker.selectedItemPosition != AdapterView.INVALID_POSITION
+        if (countyPicker.selectedItemPosition > 0 //considering first junk item
             && etCity.text.isNotBlank()) {
             isEnabled = true
         }

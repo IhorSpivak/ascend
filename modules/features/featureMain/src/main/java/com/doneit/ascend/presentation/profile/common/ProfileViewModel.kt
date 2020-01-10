@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
@@ -15,7 +14,6 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toDTO
-import com.doneit.ascend.presentation.models.toProfile
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsContract
@@ -37,7 +35,7 @@ class ProfileViewModel(
     ChangeLocationContract.ViewModel,
     NotificationSettingsContract.ViewModel {
 
-    override val user = MutableLiveData<ProfileEntity>()
+    override val user = MutableLiveData<UserEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
     override val showDeleteButton = MutableLiveData<Boolean>()
     override val bioValue = ValidatableField()
@@ -45,7 +43,7 @@ class ProfileViewModel(
 
     private lateinit var updateProfileModel: UpdateProfileModel
     private val userLocal = userUseCase.getUserLive()
-    private lateinit var userObserver: Observer<UserEntity?>
+    private val userObserver: Observer<UserEntity?>
 
     init {
         viewModelScope.launch {
@@ -53,9 +51,6 @@ class ProfileViewModel(
 
             if (result.isSuccessful) {
                 showDeleteButton.postValue(result.successModel!!.image?.url.isNullOrEmpty().not())
-
-                user.postValue(result.successModel!!)
-                updateProfileModel = result.successModel!!.toDTO()
                 bioValue.observableField.set(result.successModel?.bio)
             }
         }
@@ -76,7 +71,10 @@ class ProfileViewModel(
         }
 
         userObserver = Observer {
-            user.postValue(it!!.toProfile())
+            it?.let {
+                updateProfileModel = it.toDTO()
+                user.postValue(it)
+            }
         }
         userLocal.observeForever(userObserver)
     }
@@ -210,10 +208,7 @@ class ProfileViewModel(
         viewModelScope.launch {
             val result = userUseCase.updateProfile(updateProfileModel)
 
-            if (result.isSuccessful) {
-                user.postValue(result.successModel!!)
-                updateProfileModel = result.successModel!!.toDTO()
-            } else {
+            if (result.isSuccessful.not()) {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
         }

@@ -1,13 +1,11 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.AuthEntity
-import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.RateEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.source.storage.local.data.UserLocal
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.RateResponse
-import com.doneit.ascend.source.storage.remote.data.response.RatesResponse
 import com.doneit.ascend.source.storage.remote.data.response.UserResponse
 
 fun AuthResponse.toEntity(): AuthEntity {
@@ -45,34 +43,10 @@ fun UserResponse.toEntity(): UserEntity {
     )
 }
 
-fun UserResponse.toProfileEntity(): ProfileEntity {
-    return ProfileEntity(
-        id,
-        name,
-        email,
-        phone,
-        location,
-        createdAt,
-        updatedAt,
-        meetingStarted,
-        newGroups,
-        inviteToMeeting,
-        unansweredQuestions,
-        image?.toEntity(),
-        displayName,
-        description,
-        bio,
-        rating,
-        role,
-        role?.isMasterMind()?:false,
-        community
-    )
-}
-
 fun UserLocal.toUserEntity(): UserEntity {
     return UserEntity(
         id = id,
-        name = this@toUserEntity.name,
+        fullName = this@toUserEntity.name,
         email = this@toUserEntity.email,
         phone = this@toUserEntity.phone,
         location = this@toUserEntity.location,

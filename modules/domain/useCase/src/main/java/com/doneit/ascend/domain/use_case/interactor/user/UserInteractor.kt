@@ -3,7 +3,6 @@ package com.doneit.ascend.domain.use_case.interactor.user
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AuthEntity
-import com.doneit.ascend.domain.entity.ProfileEntity
 import com.doneit.ascend.domain.entity.RateEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
@@ -73,11 +72,11 @@ internal class UserInteractor(
         return userGateway.report(content,id)
     }
 
-    override suspend fun getProfile(): ResponseEntity<ProfileEntity, List<String>> {
+    override suspend fun getProfile(): ResponseEntity<UserEntity, List<String>> {
         return userGateway.getProfile()
     }
 
-    override suspend fun updateProfile(request: UpdateProfileModel): ResponseEntity<ProfileEntity, List<String>> {
+    override suspend fun updateProfile(request: UpdateProfileModel): ResponseEntity<UserEntity, List<String>> {
         return userGateway.updateProfile(request)
     }
 

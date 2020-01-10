@@ -46,11 +46,17 @@
         <TextView
             android:id="@+id/tvLongPlaceholder"
             style="@style/TextNormal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.5"
+            app:autoSizeTextType="uniform"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="24sp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="D" />
 
         <androidx.appcompat.widget.AppCompatImageView

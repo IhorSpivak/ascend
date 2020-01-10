@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.view_master_mind_icon.view.*
     value = [
         BindingMethod(
             type = MasterMindIcon::class,
-            attribute = "name",
+            attribute = "fullName",
             method = "setName"
 
         ),

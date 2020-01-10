@@ -13,14 +13,16 @@ fun Context.getCurrentCountyISO(): String {
     try {
         val tm = this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val simCountry = tm.simCountryIso
-        if (simCountry != null && simCountry.length === 2) { // SIM country code is available
+        if (simCountry != null && simCountry.length == 2) { // SIM country code is available
             res = simCountry
-        } else if (tm.phoneType !== TelephonyManager.PHONE_TYPE_CDMA) { // device is not 3G (would be unreliable)
+        } else {
             val networkCountry = tm.networkCountryIso
-            res = networkCountry
+            if (networkCountry != null) {
+                res = networkCountry
+            }
         }
     } catch (e: Exception) {
-        val locale = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        val locale = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             resources.configuration.getSystemLocale()
         } else {
             resources.configuration.getSystemLocaleLegacy()

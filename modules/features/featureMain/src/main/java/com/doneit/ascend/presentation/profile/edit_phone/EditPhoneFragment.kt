@@ -8,6 +8,7 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.FragmentEditPhoneBinding
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.waitForLayout
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -36,8 +37,8 @@ class EditPhoneFragment : BaseFragment<FragmentEditPhoneBinding>() {
             hideKeyboard()
         }
 
-        view?.postDelayed({
+        binding.root.waitForLayout {
             viewModel.init() //in order to wait for phoneCode layout initialization
-        }, 100)
+        }
     }
 }

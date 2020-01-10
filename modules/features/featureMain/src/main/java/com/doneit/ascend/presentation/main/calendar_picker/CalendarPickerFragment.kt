@@ -39,8 +39,7 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         binding.model = viewModel
         binding.executePendingBindings()
 
-        hoursPicker.data =
-            CalendarPickerUtil.getHours(CalendarPickerUtil.getHours(DEFAULT_TIME_TYPE))
+        hoursPicker.data = CalendarPickerUtil.getHours()
         minutesPicker.data = CalendarPickerUtil.getMinutes()
         timeTypePicker.data = CalendarPickerUtil.getTimeType()
 
@@ -57,9 +56,6 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         timeTypePicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setTimeType(data as String)
             viewModel.setTimeTypePosition(position)
-
-            hoursPicker.data =
-                CalendarPickerUtil.getHours(CalendarPickerUtil.getHours(data))
         }
 
         val checkedListener = CompoundButton.OnCheckedChangeListener { button, isChecked ->
@@ -85,10 +81,6 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         timeTypePicker.postDelayed(
             {
                 timeTypePicker.selectedItemPosition = viewModel.getTimeTypePosition()
-
-
-                hoursPicker.data =
-                    CalendarPickerUtil.getHours(CalendarPickerUtil.getHours(viewModel.getTimeType()))
 
                 hoursPicker.postDelayed({
                     hoursPicker.selectedItemPosition = viewModel.getHoursPosition()

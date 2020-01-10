@@ -25,5 +25,6 @@ interface NewPasswordContract {
     interface Router {
         fun onBack()
         fun goToMain()
+        fun navigateToLogInFragment()
     }
 }

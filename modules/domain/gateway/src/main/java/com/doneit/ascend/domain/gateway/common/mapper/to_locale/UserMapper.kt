@@ -6,7 +6,7 @@ import com.doneit.ascend.source.storage.local.data.UserLocal
 fun UserEntity.toUserLocal(): UserLocal {
     return UserLocal(
         id = id,
-        name = this@toUserLocal.name,
+        name = this@toUserLocal.fullName,
         email = this@toUserLocal.email,
         phone = this@toUserLocal.phone,
         createdAt = this@toUserLocal.createdAt,
