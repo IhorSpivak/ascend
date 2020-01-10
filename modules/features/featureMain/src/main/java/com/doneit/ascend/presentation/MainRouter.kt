@@ -50,8 +50,8 @@ import com.doneit.ascend.presentation.profile.notification_settings.Notification
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsFragment
 import com.doneit.ascend.presentation.profile.payments.PaymentsContract
 import com.doneit.ascend.presentation.profile.payments.PaymentsFragment
-import com.doneit.ascend.presentation.profile.payments.add_payment.AddPaymentContract
-import com.doneit.ascend.presentation.profile.payments.add_payment.AddPaymentFragment
+import com.doneit.ascend.presentation.profile.payments.payment_methods.add_payment.AddPaymentContract
+import com.doneit.ascend.presentation.profile.payments.payment_methods.add_payment.AddPaymentFragment
 import com.doneit.ascend.presentation.profile.payments.payment_methods.PaymentMethodsContract
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsContract
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment

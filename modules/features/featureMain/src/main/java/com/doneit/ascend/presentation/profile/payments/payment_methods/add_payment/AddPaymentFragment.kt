@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.payments.add_payment
+package com.doneit.ascend.presentation.profile.payments.payment_methods.add_payment
 
 import android.os.Bundle
 import android.text.Editable

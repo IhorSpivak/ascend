@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.profile.payments.add_payment
+package com.doneit.ascend.presentation.profile.payments.payment_methods.add_payment
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.base.BaseViewModel

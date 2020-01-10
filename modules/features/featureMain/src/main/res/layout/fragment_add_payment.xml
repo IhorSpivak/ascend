@@ -9,11 +9,11 @@
 
         <import type="android.view.View" />
 
-        <import type="com.doneit.ascend.presentation.profile.payments.add_payment.AddPaymentState" />
+        <import type="com.doneit.ascend.presentation.profile.payments.payment_methods.add_payment.AddPaymentState" />
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.profile.payments.add_payment.AddPaymentContract.ViewModel" />
+            type="com.doneit.ascend.presentation.profile.payments.payment_methods.add_payment.AddPaymentContract.ViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
