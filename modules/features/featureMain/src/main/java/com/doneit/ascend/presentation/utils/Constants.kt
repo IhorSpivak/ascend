@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.utils
 
 object Constants {
-    const val STRIPE_PUBLISH_KEY = "pk_live_nNCN6FgjDBRl6Go0aWieSuIs00JA9WmEq0"
     const val TIME_AUTO_CLOSE_DIALOG: Long = 3_000
     const val TIME_CHECK_NETWORK: Long = 5_000
     const val RESEND_CODE_INTERVAL = 60 * 1_000L

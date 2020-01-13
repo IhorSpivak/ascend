@@ -26,4 +26,9 @@ class PaymentMethodsFragment : BaseFragment<FragmentPaymentMethodsBinding>() {
             cardsAdapter.setData(it)
         })
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateCards()
+    }
 }

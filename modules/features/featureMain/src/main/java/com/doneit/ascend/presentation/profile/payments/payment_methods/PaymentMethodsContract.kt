@@ -8,6 +8,7 @@ interface PaymentMethodsContract {
     interface ViewModel : BaseViewModel {
         val payments: LiveData<List<PresentationCardModel>>
 
+        fun updateCards()
         fun onAddPaymentMethodClick()
         fun deletePaymentMethod(id: Long)
     }

@@ -20,10 +20,16 @@ class PaymentMethodsViewModel(
     override val payments = MediatorLiveData<List<PresentationCardModel>>()
     private var lastSource: LiveData<List<PresentationCardModel>>? = null
 
-    init {
-        updateCards()
-    }
+    override fun updateCards() {
+        if(lastSource != null) {
+            payments.removeSource(lastSource!!)
+        }
 
+        lastSource = cardsUseCase.getAllCards().map { list -> list.map { it.toPresentation() } }
+        payments.addSource(lastSource!!){
+            payments.postValue(it)
+        }
+    }
 
     override fun onAddPaymentMethodClick() {
         router.navigateToAddPaymentMethod()
@@ -38,17 +44,6 @@ class PaymentMethodsViewModel(
             } else {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
-        }
-    }
-
-    private fun updateCards() {
-        if(lastSource != null) {
-            payments.removeSource(lastSource!!)
-        }
-
-        lastSource = cardsUseCase.getAllCards().map { list -> list.map { it.toPresentation() } }
-        payments.addSource(lastSource!!){
-            payments.postValue(it)
         }
     }
 }

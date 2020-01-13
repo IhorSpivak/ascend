@@ -8,6 +8,7 @@ interface AddPaymentContract {
     interface ViewModel: BaseViewModel {
         val dataModel: PresentationCreateCardModel
         val state: LiveData<AddPaymentState>
+        val canGoForward: LiveData<Boolean>
 
         fun onBackClick()
         fun onBackStateClick()

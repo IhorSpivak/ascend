@@ -9,10 +9,19 @@ import com.doneit.ascend.presentation.main.databinding.FragmentAddPaymentBinding
 import com.doneit.ascend.presentation.utils.CardAssociation
 import com.doneit.ascend.presentation.utils.getCardNumberType
 import com.redmadrobot.inputmask.MaskedTextChangedListener
+import com.stripe.android.PaymentConfiguration
+import com.stripe.android.Stripe
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 
 class AddPaymentFragment : BaseFragment<FragmentAddPaymentBinding>() {
 
+    override val kodeinModule = Kodein.Module(this::class.java.simpleName) {
+        bind<Stripe>() with singleton { Stripe(activity!!.applicationContext, PaymentConfiguration.getInstance(activity!!.applicationContext).publishableKey) }
+    }
     override val viewModelModule = AddPaymentViewModelModule.get(this)
     override val viewModel: AddPaymentContract.ViewModel by instance()
 

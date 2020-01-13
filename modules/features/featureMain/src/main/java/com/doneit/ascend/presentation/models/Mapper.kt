@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.getNotNull
+import com.stripe.android.model.Card
 import java.util.*
 
 fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
@@ -92,4 +93,13 @@ fun CardEntity.toPresentation(): PresentationCardModel {
         updatedAt,
         isDefault
     )
+}
+
+fun PresentationCreateCardModel.toStripeCard(): Card {
+    val number = cardNumber.observableField.getNotNull()
+    val exp = expiration.observableField.getNotNull().split('/')
+    val cvv = cvv.observableField.getNotNull()
+
+    return Card.Builder(number, exp[0].toInt(), exp[1].toInt(), cvv).build()
+
 }
