@@ -14,5 +14,6 @@ interface GroupsContract {
         fun updateGroups()
         fun navigateToGroupList()
         fun onGroupClick(model: GroupEntity)
+        fun onStartChatClick(groupId: Long)
     }
 }

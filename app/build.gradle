@@ -26,7 +26,6 @@ android {
             versionNameSuffix "-dev"
 
             resValue "string", "base_url", "https://ascend-backend.herokuapp.com/api/v1/"
-            buildConfigField 'String', 'STRIPE_KEY', "\"pk_test_bWIeTCRqJewkDArnkei72wHr00lqB0NIEq\""
         }
 
         prod {
@@ -34,7 +33,6 @@ android {
             versionNameSuffix "-prod"
 
             resValue "string", "base_url", "https://ascend-backend.herokuapp.com/api/v1/"
-            buildConfigField 'String', 'STRIPE_KEY', "\"pk_live_nNCN6FgjDBRl6Go0aWieSuIs00JA9WmEq0\""
         }
     }
 

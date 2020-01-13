@@ -16,7 +16,7 @@ import org.kodein.di.generic.provider
 
 class GroupsFragment : ArgumentedFragment<FragmentGroupsBinding, GroupsArgs>() {
 
-    override val viewModelModule = Kodein.Module(this::class.java.simpleName){
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         //di should contains corresponding ViewModel from HomeFragment' module for now
         bind<GroupsContract.ViewModel>() with provider { vmShared<HomeViewModel>(instance(tag = MainActivity.HOME_VM_TAG)) }
     }
@@ -24,9 +24,13 @@ class GroupsFragment : ArgumentedFragment<FragmentGroupsBinding, GroupsArgs>() {
     override val viewModel: GroupsContract.ViewModel by instance()
 
     private val adapter: GroupAdapter by lazy {
-        GroupAdapter(mutableListOf()) {
-            viewModel.onGroupClick(it)
-        }
+        GroupAdapter(mutableListOf(), null,
+            {
+                viewModel.onGroupClick(it)
+            },
+            {
+                viewModel.onStartChatClick(it)
+            })
     }
 
     private lateinit var groupsArg: GroupsArgs

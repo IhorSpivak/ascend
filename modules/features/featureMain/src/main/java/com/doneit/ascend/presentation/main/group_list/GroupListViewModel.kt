@@ -40,8 +40,9 @@ class GroupListViewModel(
 
             var groupType = args.groupType
 
-            if(groupType == GroupType.DAILY //according to requirement to display all created group on first tab,
-                || groupType == GroupType.MY_GROUPS) {
+            if (groupType == GroupType.DAILY //according to requirement to display all created group on first tab,
+                || groupType == GroupType.MY_GROUPS
+            ) {
                 groupType = null
             }
 
@@ -67,5 +68,9 @@ class GroupListViewModel(
 
     override fun onGroupClick(model: GroupEntity) {
         router.navigateToGroupInfo(model)
+    }
+
+    override fun onStartChatClick(groupId: Long) {
+        router.navigateToVideoChat(groupId)
     }
 }

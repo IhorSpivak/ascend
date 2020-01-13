@@ -4,6 +4,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
+import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
 import com.doneit.ascend.domain.entity.dto.GroupListModel
 import com.doneit.ascend.domain.entity.dto.SubscribeGroupModel
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
@@ -58,7 +59,7 @@ internal class GroupGateway(
 
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
-            .setPageSize(groupListModel.perPage?:10)
+            .setPageSize(groupListModel.perPage ?: 10)
             .build()
 
         val dataSource = GroupDataSource(
@@ -100,6 +101,17 @@ internal class GroupGateway(
         return remote.subscribe(model.groupId, model.toRequest()).toResponseEntity(
             {
                 Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsModel, List<String>> {
+        return remote.getCredentials(groupId).toResponseEntity(
+            {
+                it?.toEntity()
             },
             {
                 it?.errors

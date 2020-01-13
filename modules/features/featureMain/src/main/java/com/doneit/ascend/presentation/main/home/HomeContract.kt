@@ -31,5 +31,6 @@ interface HomeContract {
         fun navigateToGroupInfo(model: GroupEntity)
         fun navigateToMMInfo(model: MasterMindEntity)
         fun navigateToNotifications()
+        fun navigateToVideoChat(groupId: Long)
     }
 }

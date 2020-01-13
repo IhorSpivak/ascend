@@ -11,7 +11,8 @@ import com.doneit.ascend.presentation.main.master_mind.list.common.MasterMindVie
 class SearchAdapter(
     private val onSeeGroupsClick: (id: Long)->Unit,
     private val onMMClick: (model: MasterMindEntity)->Unit,
-    private val onGroupClick: (model: GroupEntity)->Unit
+    private val onGroupClick: (model: GroupEntity)->Unit,
+    private val onButtonClick: (Long) -> Unit
 ) : PagedListAdapter<SearchEntity, SearchViewHolder>(SearchDiffCallback()) {
 
     init {
@@ -40,7 +41,7 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         when(val model = getItem(position)) {
             is GroupEntity -> {
-                (holder as GroupHorViewHolder).bind(model, null)
+                (holder as GroupHorViewHolder).bind(model, null, onButtonClick)
                 holder.itemView.setOnClickListener {
                     onGroupClick.invoke(model)
                 }

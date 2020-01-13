@@ -20,6 +20,8 @@ fun getButonType(user: UserEntity, group: GroupEntity): ButtonType {
             res = ButtonType.START_GROUP
         } else if (group.participantsCount == 0) {
             res = ButtonType.DELETE_GROUP
+        } else {
+            res = ButtonType.NONE
         }
     }
 

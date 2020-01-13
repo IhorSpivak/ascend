@@ -25,6 +25,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             },
             {
                 viewModel.onGroupClick(it)
+            },
+            {
+                viewModel.onStartChatClick(it)
             }
         )
     }

@@ -1,11 +1,9 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.*
+import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
 import com.doneit.ascend.domain.entity.dto.GroupType
-import com.doneit.ascend.source.storage.remote.data.response.GroupResponse
-import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
-import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
-import com.doneit.ascend.source.storage.remote.data.response.ThumbnailResponse
+import com.doneit.ascend.source.storage.remote.data.response.*
 
 fun ThumbnailResponse.toEntity(): ThumbnailEntity {
     return ThumbnailEntity(
@@ -54,6 +52,13 @@ fun GroupResponse.toEntity(): GroupEntity {
 
 fun String.toGroupType(): GroupType? {
     return GroupType.valueOf(this.toUpperCase())
+}
+
+fun GroupCredentialsResponse.toEntity(): GroupCredentialsModel {
+    return GroupCredentialsModel(
+        name,
+        token
+    )
 }
 
 private fun Int.toCalendarDay(): CalendarDayEntity {

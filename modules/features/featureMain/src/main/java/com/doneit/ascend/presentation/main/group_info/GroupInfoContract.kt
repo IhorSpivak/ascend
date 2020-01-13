@@ -11,6 +11,7 @@ interface GroupInfoContract {
         val btnJoinVisible: LiveData<Boolean>
         val btnStartVisible: LiveData<Boolean>
         val btnDeleteVisible: LiveData<Boolean>
+        val btnJoinedVisible: LiveData<Boolean>
         val group: LiveData<GroupEntity>
         val cards: LiveData<List<PresentationCardModel>>
 
@@ -28,5 +29,6 @@ interface GroupInfoContract {
     interface Router {
         fun onBack()
         fun navigateToAddPaymentMethod()
+        fun navigateToVideoChat(groupId: Long)
     }
 }

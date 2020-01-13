@@ -35,6 +35,7 @@ class GroupInfoViewModel(
     override val btnJoinVisible = MutableLiveData<Boolean>(false)
     override val btnStartVisible = MutableLiveData<Boolean>(false)
     override val btnDeleteVisible = MutableLiveData<Boolean>(false)
+    override val btnJoinedVisible = MutableLiveData<Boolean>(false)
 
     override fun setModel(model: GroupEntity) {
         group.postValue(model)
@@ -61,28 +62,25 @@ class GroupInfoViewModel(
 
     private fun updateButtonsState(user: UserEntity, details: GroupEntity) {
         //todo refactor
-        val states = mutableListOf(false, false, false, false)
+        val states = mutableListOf(false, false, false, false, false)
 
         when(getButonType(user, details)) {
             ButtonType.SUBSCRIBE -> states[0] = true
             ButtonType.JOIN_TO_DISCUSSION -> states[1] = true
             ButtonType.START_GROUP -> states[2] = true
             ButtonType.DELETE_GROUP -> states[3] = true
+            ButtonType.JOINED -> states[4] = true
         }
 
         btnSubscribeVisible.postValue(states[0])
         btnJoinVisible.postValue(states[1])
         btnStartVisible.postValue(states[2])
         btnDeleteVisible.postValue(states[3])
-    }
-
-    private fun MutableList<Boolean>.toFalse() {
-        for (i in 0 until this.size) {
-            this[i] = false
-        }
+        btnJoinedVisible.postValue(states[4])
     }
 
     override fun joinToDiscussion() {
+        router.navigateToVideoChat(group.value!!.id)
     }
 
     override fun subscribe(card: PresentationCardModel) {
@@ -113,7 +111,7 @@ class GroupInfoViewModel(
     }
 
     override fun startGroup() {
-        //todo
+        router.navigateToVideoChat(group.value!!.id)
     }
 
     override fun onAddPaymentClick() {

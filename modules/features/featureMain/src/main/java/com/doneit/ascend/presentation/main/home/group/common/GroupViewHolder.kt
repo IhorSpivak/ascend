@@ -15,17 +15,23 @@ class GroupViewHolder(
     private val binding: TemplateGroupItemBinding
 ) : LifecycleViewHolder(binding.root) {
 
-    fun bind(item: GroupEntity, user: UserEntity?) {
+    fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (Long) -> Unit) {
         binding.item = item
 
         when(getButonType(user!!, item)) {
             ButtonType.START_GROUP -> {
                 binding.showStartButton = true
+                binding.btnStartGroup.setOnClickListener {
+                    onButtonClick.invoke(item.id)
+                }
                 binding.showJoinButton = false
             }
             ButtonType.JOIN_TO_DISCUSSION -> {
                 binding.showStartButton = false
                 binding.showJoinButton = true
+                binding.btnJoinToDisc.setOnClickListener {
+                    onButtonClick.invoke(item.id)
+                }
             }
             else -> {
                 binding.showJoinButton = false

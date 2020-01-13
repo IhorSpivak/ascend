@@ -11,4 +11,7 @@ object Constants {
 
     const val COMPRESSION_QUALITY = 80
     const val PER_PAGE_COMMON = 60
+
+    const val STRIPE_KEY_LIVE = "pk_live_nNCN6FgjDBRl6Go0aWieSuIs00JA9WmEq0"
+    const val STRIPE_KEY_TEST = "pk_test_bWIeTCRqJewkDArnkei72wHr00lqB0NIEq"
 }

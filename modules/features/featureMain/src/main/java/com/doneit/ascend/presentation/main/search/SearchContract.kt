@@ -17,6 +17,7 @@ interface SearchContract {
         fun openGroupList(id: Long)
         fun onMMClick(model: MasterMindEntity)
         fun onGroupClick(model: GroupEntity)
+        fun onStartChatClick(groupId: Long)
     }
 
     interface Router {
@@ -24,5 +25,6 @@ interface SearchContract {
         fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
         fun navigateToGroupInfo(model: GroupEntity)
         fun navigateToMMInfo(model: MasterMindEntity)
+        fun navigateToVideoChat(groupId: Long)
     }
 }

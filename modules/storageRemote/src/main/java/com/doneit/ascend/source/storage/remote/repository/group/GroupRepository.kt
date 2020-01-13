@@ -4,6 +4,7 @@ import com.doneit.ascend.source.storage.remote.api.GroupApi
 import com.doneit.ascend.source.storage.remote.data.request.CreateGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.GroupListRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
+import com.doneit.ascend.source.storage.remote.data.response.GroupCredentialsResponse
 import com.doneit.ascend.source.storage.remote.data.response.GroupListResponse
 import com.doneit.ascend.source.storage.remote.data.response.GroupResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
@@ -100,6 +101,10 @@ internal class GroupRepository(
         request: SubscribeGroupRequest
     ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.subscribeAsync(groupId, request) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun getCredentials(groupId: Long): RemoteResponse<GroupCredentialsResponse, ErrorsListResponse> {
+        return execute({ api.getCredentials(groupId) }, ErrorsListResponse::class.java)
     }
 }
 

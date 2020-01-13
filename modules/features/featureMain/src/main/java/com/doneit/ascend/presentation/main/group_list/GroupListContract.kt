@@ -12,11 +12,13 @@ interface GroupListContract {
         val groupType: LiveData<String>
 
         fun backClick()
+        fun onStartChatClick(groupId: Long)
         fun onGroupClick(model: GroupEntity)
     }
 
     interface Router {
         fun onBack()
         fun navigateToGroupInfo(model: GroupEntity)
+        fun navigateToVideoChat(groupId: Long)
     }
 }

@@ -106,6 +106,10 @@ class HomeViewModel(
         router.navigateToGroupInfo(model)
     }
 
+    override fun onStartChatClick(groupId: Long) {
+        router.navigateToVideoChat(groupId)
+    }
+
     private suspend fun fetchMasterMinds() {
         val responseEntity = masterMindUseCase.getDefaultMasterMindList()
 

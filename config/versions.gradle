@@ -59,7 +59,8 @@ ext {
             permissions     : "com.androidisland.ezpermission:ezpermission:0.1.4",
             phone           : "com.googlecode.libphonenumber:libphonenumber:8.10.14",
             phoneCodes      : "com.github.joielechong:countrycodepicker:2.4.1",
-            stripe          : "com.stripe:stripe-android:12.8.2"
+            stripe          : "com.stripe:stripe-android:12.8.2",
+            twilio          : "com.twilio:video-android:5.1.0"
     ]
 
     def kodein = [
@@ -200,103 +201,7 @@ ext {
             [configuration: "implementation", dependency: kodein.framework],
     ]
 
-    collectionView = [
-            [configuration: "implementation", dependency: base.kotlinJDK],
-            [configuration: "implementation", dependency: base.constraintlayout],
-            [configuration: "implementation", dependency: base.lifecycle],
-            [configuration: "implementation", dependency: base.material],
-            [configuration: "implementation", dependency: base.coroutinesCore],
-            [configuration: "implementation", dependency: base.coroutinesAndroid],
-
-            [configuration: "api", dependency: paging.core],
-    ]
-
-    bookView = [
-            [configuration: "implementation", dependency: base.kotlinJDK],
-            [configuration: "implementation", dependency: base.constraintlayout],
-            [configuration: "implementation", dependency: base.lifecycle],
-            [configuration: "implementation", dependency: base.material],
-            [configuration: "implementation", dependency: base.coroutinesCore],
-            [configuration: "implementation", dependency: base.coroutinesAndroid],
-    ]
-
     featureSplash = [
-            [configuration: "implementation", dependency: base.kotlinJDK],
-            [configuration: "implementation", dependency: base.constraintlayout],
-            [configuration: "implementation", dependency: base.lifecycle],
-            [configuration: "implementation", dependency: base.material],
-            [configuration: "implementation", dependency: base.coroutinesCore],
-            [configuration: "implementation", dependency: base.coroutinesAndroid],
-            [configuration: "implementation", dependency: base.media],
-
-            [configuration: "implementation", dependency: kodein.generic],
-            [configuration: "implementation", dependency: kodein.framework],
-
-            [configuration: "implementation", dependency: core.presentation],
-    ]
-
-    featureContent = [
-            [configuration: "implementation", dependency: base.kotlinJDK],
-            [configuration: "implementation", dependency: base.constraintlayout],
-            [configuration: "implementation", dependency: base.lifecycle],
-            [configuration: "implementation", dependency: base.material],
-            [configuration: "implementation", dependency: base.media],
-            [configuration: "implementation", dependency: base.coroutinesCore],
-            [configuration: "implementation", dependency: base.coroutinesAndroid],
-            [configuration: "implementation", dependency: base.coroutinesAndroidX],
-            [configuration: "implementation", dependency: base.kotlinReflect],
-            [configuration: "implementation", dependency: base.maps],
-            [configuration: "implementation", dependency: nav.appcompat],
-
-            [configuration: "implementation", dependency: kodein.generic],
-            [configuration: "implementation", dependency: kodein.framework],
-
-            [configuration: "implementation", dependency: glide.glide],
-            [configuration: "kapt", dependency: glide.compiler],
-            [configuration: "implementation", dependency: glide.transformations],
-
-            [configuration: "implementation", dependency: core.presentation],
-            [configuration: "implementation", dependency: core.networkmanager],
-
-            [configuration: "implementation", dependency: other.expandableLayout],
-
-            [configuration: "compileOnly", dependency: core.annotations],
-            [configuration: "api", dependency: core.processor],
-            [configuration: "annotationProcessor", dependency: core.presentation],
-
-            [configuration: "testImplementation", dependency: tests.core],
-            [configuration: "testImplementation", dependency: tests.coreTesting],
-            [configuration: "testImplementation", dependency: tests.coroutines],
-            [configuration: "testImplementation", dependency: tests.junit],
-            [configuration: "androidTestImplementation", dependency: tests.jUnitRule],
-            [configuration: "androidTestImplementation", dependency: tests.jUnitRunner],
-            [configuration: "testImplementation", dependency: tests.mokito],
-            [configuration: "androidTestImplementation", dependency: espresso.core],
-    ]
-
-    featureQuestions = [
-            [configuration: "implementation", dependency: base.kotlinJDK],
-            [configuration: "implementation", dependency: base.constraintlayout],
-            [configuration: "implementation", dependency: base.lifecycle],
-            [configuration: "implementation", dependency: base.material],
-            [configuration: "implementation", dependency: base.media],
-            [configuration: "implementation", dependency: base.coroutinesCore],
-            [configuration: "implementation", dependency: base.coroutinesAndroid],
-            [configuration: "implementation", dependency: base.coroutinesAndroidX],
-            [configuration: "implementation", dependency: base.kotlinReflect],
-
-            [configuration: "implementation", dependency: kodein.generic],
-            [configuration: "implementation", dependency: kodein.framework],
-
-            [configuration: "implementation", dependency: core.presentation],
-            [configuration: "implementation", dependency: core.networkmanager],
-
-            [configuration: "compileOnly", dependency: core.annotations],
-            [configuration: "api", dependency: core.processor],
-            [configuration: "annotationProcessor", dependency: core.presentation],
-    ]
-
-    featureWeb = [
             [configuration: "implementation", dependency: base.kotlinJDK],
             [configuration: "implementation", dependency: base.constraintlayout],
             [configuration: "implementation", dependency: base.lifecycle],
@@ -380,6 +285,7 @@ ext {
             [configuration: "implementation", dependency: other.phone],
             [configuration: "implementation", dependency: other.phoneCodes],
             [configuration: "implementation", dependency: other.stripe],
+            [configuration: "implementation", dependency: other.twilio],
     ]
 
     entityModule = [
@@ -420,53 +326,6 @@ ext {
             [configuration: "api", dependency: paging.core],
 
             [configuration: "implementation", dependency: core.networkmanager],
-
-            [configuration: "implementation", dependency: kodein.generic],
-            [configuration: "implementation", dependency: kodein.framework],
-    ]
-
-    playerModule = [
-            [configuration: "implementation", dependency: base.kotlinJDK],
-            [configuration: "implementation", dependency: base.lifecycle],
-            [configuration: "api", dependency: base.media],
-            [configuration: "implementation", dependency: base.coroutinesCore],
-            [configuration: "implementation", dependency: base.coroutinesAndroid],
-
-            [configuration: "implementation", dependency: kodein.generic],
-            [configuration: "implementation", dependency: kodein.framework],
-
-            [configuration: "implementation", dependency: glide.glide],
-            [configuration: "kapt", dependency: glide.compiler],
-
-            [configuration: "implementation", dependency: exoPlayer.exoplayer, options: {
-                exclude group: 'com.android.support'
-            }],
-            [configuration: "implementation", dependency: exoPlayer.exoplayerUI, options: {
-                exclude group: 'com.android.support'
-            }],
-            [configuration: "implementation", dependency: exoPlayer.mediasession, options: {
-                exclude group: 'com.android.support'
-            }]
-    ]
-
-    pushModule = [
-            [configuration: "implementation", dependency: base.kotlinJDK],
-            [configuration: "implementation", dependency: base.lifecycle],
-            [configuration: "implementation", dependency: base.coroutinesCore],
-            [configuration: "implementation", dependency: base.coroutinesAndroid],
-            [configuration: "implementation", dependency: base.works],
-
-            [configuration: "implementation", dependency: kodein.generic],
-            [configuration: "implementation", dependency: kodein.framework],
-    ]
-
-    analyticsModule = [
-            [configuration: "implementation", dependency: base.kotlinJDK],
-            [configuration: "implementation", dependency: base.lifecycle],
-            [configuration: "implementation", dependency: base.coroutinesCore],
-            [configuration: "implementation", dependency: base.coroutinesAndroid],
-
-            [configuration: "implementation", dependency: other.analytics],
 
             [configuration: "implementation", dependency: kodein.generic],
             [configuration: "implementation", dependency: kodein.framework],

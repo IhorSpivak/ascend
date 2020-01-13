@@ -5,5 +5,6 @@ enum class ButtonType {
     JOINED,
     JOIN_TO_DISCUSSION,
     START_GROUP,
-    DELETE_GROUP
+    DELETE_GROUP,
+    NONE
 }

@@ -156,7 +156,7 @@
                         android:enabled="false"
                         android:text="@string/joined"
                         android:textColor="@color/light_gray_8f"
-                        android:visibility="visible"
+                        app:setVisibility="@{model.btnJoinedVisible}"
                         app:layout_constraintTop_toBottomOf="@id/brMaster" />
 
                     <Button
@@ -203,6 +203,13 @@
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
                         app:setVisibility="@{model.btnDeleteVisible}" />
 
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/buttonsBarrier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="btnJoined,btnDelete,btnJoinToDisc,btnStart,btnSubscribe"/>
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/icCalendar"
                         android:layout_width="wrap_content"
@@ -210,7 +217,7 @@
                         android:layout_marginTop="24dp"
                         android:src="@drawable/ic_calendar"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/btnJoined" />
+                        app:layout_constraintTop_toBottomOf="@id/buttonsBarrier" />
 
                     <TextView
                         android:id="@+id/tvStartDate"

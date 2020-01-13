@@ -30,6 +30,8 @@ import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
+import com.doneit.ascend.presentation.main.video_chat.VideoChatContract
+import com.doneit.ascend.presentation.main.video_chat.VideoChatFragment
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
 import com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract
@@ -89,7 +91,8 @@ class MainRouter(
     NotificationSettingsContract.Router,
     PaymentsContract.Router,
     PaymentMethodsContract.Router,
-    AddPaymentContract.Router {
+    AddPaymentContract.Router,
+    VideoChatContract.Router {
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -277,5 +280,9 @@ class MainRouter(
 
     override fun navigateToAddPaymentMethod() {
         activity.supportFragmentManager.replaceWithBackStack(containerIdFull, AddPaymentFragment())
+    }
+
+    override fun navigateToVideoChat(groupId: Long) {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, VideoChatFragment.newInstance(groupId))
     }
 }

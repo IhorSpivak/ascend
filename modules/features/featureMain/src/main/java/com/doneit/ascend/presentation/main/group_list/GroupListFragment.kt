@@ -18,9 +18,14 @@ class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupList
     override val viewModel: GroupListContract.ViewModel by instance()
 
     private val adapter: GroupListAdapter by lazy {
-        GroupListAdapter{
-            viewModel.onGroupClick(it)
-        }
+        GroupListAdapter(null,
+            {
+                viewModel.onGroupClick(it)
+            },
+            {
+                viewModel.onStartChatClick(it)
+            }
+        )
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -28,7 +33,8 @@ class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupList
         binding.model = viewModel
         binding.adapter = adapter
 
-        val decorator = TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
+        val decorator =
+            TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
         binding.rvGroups.addItemDecoration(decorator)
     }
 

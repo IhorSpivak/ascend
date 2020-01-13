@@ -64,6 +64,10 @@ class SearchViewModel(
         router.navigateToGroupInfo(model)
     }
 
+    override fun onStartChatClick(groupId: Long) {
+        router.navigateToVideoChat(groupId)
+    }
+
     override fun goBack() {
         router.onBack()
     }
