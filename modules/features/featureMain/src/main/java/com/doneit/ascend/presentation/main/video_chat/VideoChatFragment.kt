@@ -98,6 +98,13 @@ class VideoChatFragment : BaseFragment<FragmentVideoChatBinding>() {
                     }
                 }
             }
+
+            override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
+                if (remoteParticipant.remoteVideoTracks.isNotEmpty()) {
+                    remoteParticipant.setListener(getParticipantsListener())
+                    return
+                }
+            }
         }
     }
 
@@ -108,7 +115,6 @@ class VideoChatFragment : BaseFragment<FragmentVideoChatBinding>() {
                 remoteVideoTrackPublication: RemoteVideoTrackPublication,
                 remoteVideoTrack: RemoteVideoTrack
             ) {
-                videoView.mirror = false
                 remoteVideoTrack.addRenderer(videoView)
             }
         }
