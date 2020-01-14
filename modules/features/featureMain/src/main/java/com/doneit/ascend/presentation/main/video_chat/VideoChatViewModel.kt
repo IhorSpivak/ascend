@@ -61,6 +61,10 @@ class VideoChatViewModel(
 
     }
 
+    override fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus) {
+        router.navigateToPermissionsRequiredDialog(resultCode)
+    }
+
     override fun onBackClick() {
         router.onBack()
     }
@@ -85,6 +89,7 @@ class VideoChatViewModel(
             }
             VideoChatState.PROGRESS -> {
                 initProgressTimer(groupModel)
+                router.navigateToChatInProgress()
             }
             VideoChatState.FINISHED -> {
                 downTimer?.cancel()

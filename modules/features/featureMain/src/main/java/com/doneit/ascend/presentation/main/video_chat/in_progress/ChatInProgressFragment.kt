@@ -7,6 +7,7 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
 import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.main.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.main.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.main.video_chat.listeners.RemoteParticipantsListener
 import com.doneit.ascend.presentation.main.video_chat.listeners.RoomListener
@@ -76,7 +77,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
                     room = Video.connect(context!!, connectOptions, RoomListener())
                 } else {
-                    //todo what should I do here?
+                    viewModel.onPermissionsRequired(VideoChatActivity.ResultStatus.POPUP_REQUIRED)
                 }
             }
     }

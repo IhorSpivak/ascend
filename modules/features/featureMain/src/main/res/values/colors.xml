@@ -17,6 +17,10 @@
     <color name="light_gray_e9f0">#E9E9F0</color>
     <color name="light_gray_8f">#7E7D8F</color>
     <color name="light_gray_da">#DADADA</color>
+    <color name="light_gray_f8">#f8f8f8</color>
+    <color name="dark_gray">#3F3F3F</color>
+    <color name="text_blue">#007AFF</color>
+
 
     <color name="webinar_color">#DD4B39</color>
     <color name="support_color">#2E9DC0</color>

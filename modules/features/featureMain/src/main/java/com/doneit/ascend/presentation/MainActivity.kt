@@ -1,14 +1,17 @@
 package com.doneit.ascend.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.presentation.dialog.PermissionsRequiredDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.common.BottomNavigationAdapter
+import com.doneit.ascend.presentation.main.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
@@ -78,6 +81,22 @@ class MainActivity : BaseActivity() {
     private fun setCreateGroupState(isEnabled: Boolean) {
         fabCreateGroup.isEnabled = isEnabled
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode) {
+            VideoChatActivity.RESULT_CODE -> {
+                val result = data!!.extras!!.get(VideoChatActivity.RESULT_TAG) as VideoChatActivity.ResultStatus
+                when(result) {
+                    VideoChatActivity.ResultStatus.POPUP_REQUIRED -> {
+                        PermissionsRequiredDialog.create(this).show()
+                    }
+                }
+            }
+            else -> {
+                super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
     }
 
     companion object {

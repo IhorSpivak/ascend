@@ -277,4 +277,9 @@
 
     <!--Video Chat-->
     <string name="waiting_for_start">Waiting for a group start</string>
+    
+    <!--Permission required dialog-->
+    <string name="permission_required_title">Video call is unavailable</string>
+    <string name="permission_required_content">The camera could not be turned on, please check your device\'s privacy settings or make an audio call instead</string>
+    <string name="permissions_required_settings">Settings</string>
 </resources>

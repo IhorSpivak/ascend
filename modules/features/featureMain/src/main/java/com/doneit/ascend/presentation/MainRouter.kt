@@ -283,7 +283,7 @@ class MainRouter(
             )
         }
 
-        activity.startActivity(intent)
+        activity.startActivityForResult(intent, VideoChatActivity.RESULT_CODE)
     }
 
     private fun replaceFullWithMainUpdate(fragment: Fragment) {

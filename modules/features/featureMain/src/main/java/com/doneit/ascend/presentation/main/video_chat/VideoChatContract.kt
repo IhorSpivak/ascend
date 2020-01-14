@@ -18,5 +18,6 @@ interface VideoChatContract {
         fun navigateToPreview()
         fun navigateToChatInProgress()
         fun navigateToChatFinishScreen()
+        fun navigateToPermissionsRequiredDialog(resultCode: VideoChatActivity.ResultStatus)
     }
 }

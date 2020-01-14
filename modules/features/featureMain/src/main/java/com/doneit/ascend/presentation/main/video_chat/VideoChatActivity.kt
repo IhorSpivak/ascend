@@ -54,8 +54,19 @@ class VideoChatActivity : BaseActivity() {
         viewModel.init(groupId)
     }
 
+    override fun onBackPressed() {
+        viewModel.onBackClick()
+    }
+
+    enum class ResultStatus {
+        OK,
+        POPUP_REQUIRED
+    }
 
     companion object {
         const val GROUP_ID_ARG = "GROUP_ID"
+
+        const val RESULT_CODE = 42
+        const val RESULT_TAG = "VIDEO_CHAT_RESULT"
     }
 }
