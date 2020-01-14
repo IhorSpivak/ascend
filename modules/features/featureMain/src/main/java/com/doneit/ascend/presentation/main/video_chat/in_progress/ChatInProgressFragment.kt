@@ -25,6 +25,10 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
     override val viewModel: ChatInProgressContract.ViewModel by instance()
 
+    private var localVideoTrack: LocalVideoTrack? = null
+    private var localAudioTrack: LocalAudioTrack? = null
+    private var room: Room? = null
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
@@ -38,10 +42,6 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             }
         })
     }
-
-    private var localVideoTrack: LocalVideoTrack? = null
-    private var localAudioTrack: LocalAudioTrack? = null
-    private var room: Room? = null
 
     private fun startLocalVideo(model: StartVideoModel) {
         EzPermission.with(context!!)

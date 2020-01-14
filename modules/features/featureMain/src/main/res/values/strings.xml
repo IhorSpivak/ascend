@@ -273,4 +273,7 @@
     <string name="card_expiration_placeholder">MM / YY</string>
     <string name="btn_back">Back</string>
     <string name="btn_next">Next</string>
+
+    <!--Video Chat-->
+    <string name="waiting_for_start">Waiting for a group start</string>
 </resources>

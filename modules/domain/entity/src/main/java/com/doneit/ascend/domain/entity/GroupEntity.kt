@@ -109,6 +109,12 @@ class GroupEntity(
             return res
         }
 
+    val timeInProgress: Long
+        get() {
+            val currentDate = Date()
+           return currentDate.time - startTime!!.time
+        }
+
     private fun Calendar.plus(interval: Long): Calendar {
         val c = Calendar.getInstance()
         c.time = Date(this.time.time + interval)
@@ -139,7 +145,7 @@ class GroupEntity(
     override fun describeContents() = 0
 
     companion object CREATOR : Parcelable.Creator<GroupEntity> {
-        private const val PROGRESS_DURATION = 1 * 60 * 60 * 1000L //1hour
+        const val PROGRESS_DURATION = 1 * 60 * 60 * 1000L //1hour
         private const val UPCOMING_INTERVAL = 10 * 60 * 1000L //10 min
 
         override fun createFromParcel(parcel: Parcel): GroupEntity {

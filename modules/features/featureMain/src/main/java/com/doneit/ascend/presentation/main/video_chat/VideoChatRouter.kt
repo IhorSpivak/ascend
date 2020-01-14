@@ -1,7 +1,9 @@
 package com.doneit.ascend.presentation.main.video_chat
 
+import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.main.video_chat.in_progress.ChatInProgressFragment
+import com.doneit.ascend.presentation.main.video_chat.preview.ChatPreviewFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class VideoChatRouter(
@@ -23,7 +25,15 @@ class VideoChatRouter(
         activity.finish()
     }*/
 
+    override fun navigateToPreview() {
+        activity.supportFragmentManager.replace(containerId, ChatPreviewFragment())
+    }
+
     override fun navigateToChatInProgress() {
         activity.supportFragmentManager.replaceWithBackStack(containerId, ChatInProgressFragment())
+    }
+
+    override fun navigateToChatFinishScreen() {
+        //todo
     }
 }

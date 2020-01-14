@@ -29,7 +29,7 @@ class CalendarPickerUtil(
         fun getHours(): List<String> {
             val list = mutableListOf<String>()
 
-            for (n in 1 until 12) {
+            for (n in 1..12) {
                 if (n < 10) {
                     list.add("0$n")
                 } else {

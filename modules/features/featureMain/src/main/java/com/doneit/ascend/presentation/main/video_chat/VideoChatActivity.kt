@@ -47,6 +47,7 @@ class VideoChatActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video_chat)
+        binding.lifecycleOwner = this
         binding.model = viewModel
 
         val groupId = intent.getLongExtra(GROUP_ID_ARG, -1)
