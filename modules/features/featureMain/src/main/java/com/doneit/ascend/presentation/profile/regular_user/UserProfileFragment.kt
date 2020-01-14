@@ -41,6 +41,7 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
+        viewModel.fetchData()
         viewModel.showPhotoDialog.observe(this) {
             showPhotoDialog()
         }
@@ -81,7 +82,9 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
         }
 
         paymentPortal.setOnClickListener {
-            viewModel.onPaymentsClick()
+            viewModel.user.value?.let {
+                viewModel.onPaymentsClick(it.isMasterMind)
+            }
         }
     }
 

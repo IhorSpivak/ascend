@@ -8,32 +8,34 @@ import com.doneit.ascend.presentation.profile.payments.payment_methods.PaymentMe
 
 class PaymentsTabAdapter(
     fragmentManager: FragmentManager,
-    private val titles: ArrayList<String> = arrayListOf()
+    private val items: ArrayList<TabAdapterItem> = arrayListOf()
 ) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-    private val paymentsFragment = PaymentMethodsFragment()
-    private val purchases = PaymentMethodsFragment()
 
     override fun getItem(position: Int): Fragment {
-        return when(position) {
-            0 -> paymentsFragment
-            else -> purchases
-        }
+        return items[position].fragment
     }
 
-    override fun getCount() = 2
+    override fun getCount() = items.size
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return titles[position]
+        return items[position].title
     }
 
     companion object {
-        fun newInstance(fragment: Fragment): PaymentsTabAdapter {
-            val titles: ArrayList<String> = arrayListOf(
-                fragment.getString(R.string.payments_methods),
-                fragment.getString(R.string.in_app_purchases)
+        fun newInstance(fragment: Fragment, isMasterMind: Boolean): PaymentsTabAdapter {
+            val items: ArrayList<TabAdapterItem> = arrayListOf(
+                TabAdapterItem(fragment.getString(R.string.earnings), PaymentMethodsFragment()),
+                TabAdapterItem(fragment.getString(R.string.payments_methods), PaymentMethodsFragment()),
+                TabAdapterItem(fragment.getString(R.string.in_app_purchases), PaymentMethodsFragment())
             )
 
-            return PaymentsTabAdapter(fragment.childFragmentManager, titles = titles)
+            if(isMasterMind) {
+                items.removeAt(2)
+            } else {
+                items.removeAt(0)
+            }
+
+            return PaymentsTabAdapter(fragment.childFragmentManager, items = items)
         }
 
     }

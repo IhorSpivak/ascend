@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/spinner_item_background">
+    android:background="@drawable/spinner_item_background">
 
     <TextView
         android:id="@+id/tvCode"

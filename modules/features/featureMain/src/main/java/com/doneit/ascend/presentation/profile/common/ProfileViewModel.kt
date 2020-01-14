@@ -46,14 +46,6 @@ class ProfileViewModel(
     private val userObserver: Observer<UserEntity?>
 
     init {
-        viewModelScope.launch {
-            val result = userUseCase.getProfile()
-
-            if (result.isSuccessful) {
-                showDeleteButton.postValue(result.successModel!!.image?.url.isNullOrEmpty().not())
-                bioValue.observableField.set(result.successModel?.bio)
-            }
-        }
 
         bioValue.validator = { s ->
             val result = ValidationResult()
@@ -77,6 +69,17 @@ class ProfileViewModel(
             }
         }
         userLocal.observeForever(userObserver)
+    }
+
+    override fun fetchData() {
+        viewModelScope.launch {
+            val result = userUseCase.getProfile()
+
+            if (result.isSuccessful) {
+                showDeleteButton.postValue(result.successModel!!.image?.url.isNullOrEmpty().not())
+                bioValue.observableField.set(result.successModel?.bio)
+            }
+        }
     }
 
     override fun onEditPhotoClick() {
@@ -195,8 +198,8 @@ class ProfileViewModel(
         router.navigateToNotificationSettings()
     }
 
-    override fun onPaymentsClick() {
-        router.navigateToPayments()
+    override fun onPaymentsClick(isMasterMind: Boolean) {
+        router.navigateToPayments(isMasterMind)
     }
 
     override fun onCleared() {

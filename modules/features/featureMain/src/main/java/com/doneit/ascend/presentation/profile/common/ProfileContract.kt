@@ -18,6 +18,7 @@ interface ProfileContract {
         val showPhotoDialog: SingleLiveManager<Unit>
         val showDeleteButton: LiveData<Boolean>
 
+        fun fetchData()
         fun onEditPhotoClick()
         fun onLogoutClick()
         fun onTermsClick()
@@ -34,7 +35,7 @@ interface ProfileContract {
         fun onChangePasswordClick()
         fun onEditEmailClick()
         fun onNotificationSettingsClick()
-        fun onPaymentsClick()
+        fun onPaymentsClick(isMasterMind: Boolean)
     }
 
     interface Router : EditBioContract.Router, MMProfileContract.Router, UserProfileContract.Router {
@@ -55,6 +56,6 @@ interface ProfileContract {
         fun navigateToChangePassword()
         fun navigateToEditEmail()
         fun navigateToNotificationSettings()
-        fun navigateToPayments()
+        fun navigateToPayments(isMasterMind: Boolean)
     }
 }

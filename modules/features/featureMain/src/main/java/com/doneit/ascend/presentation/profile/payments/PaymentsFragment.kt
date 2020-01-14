@@ -14,7 +14,22 @@ class PaymentsFragment : BaseFragment<FragmentPaymentsBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
+        val isMasterMind = arguments!!.getBoolean(IS_MASTER_MIND)
+        binding.isMasterMind = isMasterMind
+
         binding.tlPayments.setupWithViewPager(binding.vpPayments)
-        binding.vpPayments.adapter = PaymentsTabAdapter.newInstance(this)
+        binding.vpPayments.adapter = PaymentsTabAdapter.newInstance(this, isMasterMind)
+    }
+
+    companion object {
+        private const val IS_MASTER_MIND = "IS_MASTER_MIND"
+
+        fun newInstance(isMasterMind: Boolean): PaymentsFragment {
+            val fragment = PaymentsFragment()
+            fragment.arguments = Bundle().apply {
+                putBoolean(IS_MASTER_MIND, isMasterMind)
+            }
+            return fragment
+        }
     }
 }

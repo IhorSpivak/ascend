@@ -166,10 +166,7 @@ class MainRouter(
     }
 
     override fun navigateToMMInfo(model: MasterMindEntity) {
-        activity.supportFragmentManager.replaceWithBackStack(
-            containerIdFull,
-            MMInfoFragment.newInstance(model)
-        )
+        replaceFullWithMainUpdate(MMInfoFragment.newInstance(model))
     }
 
     override fun navigateToSearch() {
@@ -181,10 +178,7 @@ class MainRouter(
     }
 
     override fun navigateToGroupInfo(model: GroupEntity) {
-        activity.supportFragmentManager.replaceWithBackStack(
-            containerIdFull,
-            GroupInfoFragment.newInstance(model)
-        )
+        replaceFullWithMainUpdate(GroupInfoFragment.newInstance(model))
     }
 
     override fun navigateToGroupInfo(id: Long) {
@@ -272,8 +266,8 @@ class MainRouter(
         )
     }
 
-    override fun navigateToPayments() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, PaymentsFragment())
+    override fun navigateToPayments(isMasterMind: Boolean) {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, PaymentsFragment.newInstance(isMasterMind))
     }
 
     override fun navigateToAddPaymentMethod() {
@@ -290,5 +284,13 @@ class MainRouter(
         }
 
         activity.startActivity(intent)
+    }
+
+    private fun replaceFullWithMainUpdate(fragment: Fragment) {
+        activity.supportFragmentManager.beginTransaction()
+            .replace(containerId, Fragment())//in order to force fragment's view recreation
+            .replace(containerIdFull, fragment, fragment::class.java.simpleName)
+            .addToBackStack(fragment::class.java.simpleName)
+            .commit()
     }
 }
