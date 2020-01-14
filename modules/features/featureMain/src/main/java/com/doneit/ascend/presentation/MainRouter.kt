@@ -30,8 +30,7 @@ import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
-import com.doneit.ascend.presentation.main.video_chat.VideoChatContract
-import com.doneit.ascend.presentation.main.video_chat.VideoChatFragment
+import com.doneit.ascend.presentation.main.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
 import com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract
@@ -52,9 +51,9 @@ import com.doneit.ascend.presentation.profile.notification_settings.Notification
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsFragment
 import com.doneit.ascend.presentation.profile.payments.PaymentsContract
 import com.doneit.ascend.presentation.profile.payments.PaymentsFragment
+import com.doneit.ascend.presentation.profile.payments.payment_methods.PaymentMethodsContract
 import com.doneit.ascend.presentation.profile.payments.payment_methods.add_payment.AddPaymentContract
 import com.doneit.ascend.presentation.profile.payments.payment_methods.add_payment.AddPaymentFragment
-import com.doneit.ascend.presentation.profile.payments.payment_methods.PaymentMethodsContract
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsContract
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
@@ -91,8 +90,7 @@ class MainRouter(
     NotificationSettingsContract.Router,
     PaymentsContract.Router,
     PaymentMethodsContract.Router,
-    AddPaymentContract.Router,
-    VideoChatContract.Router {
+    AddPaymentContract.Router {
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -283,6 +281,14 @@ class MainRouter(
     }
 
     override fun navigateToVideoChat(groupId: Long) {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, VideoChatFragment.newInstance(groupId))
+        val intent = Intent(activity, VideoChatActivity::class.java).apply {
+            putExtras(
+                Bundle().apply {
+                    putLong(VideoChatActivity.GROUP_ID_ARG, groupId)
+                }
+            )
+        }
+
+        activity.startActivity(intent)
     }
 }

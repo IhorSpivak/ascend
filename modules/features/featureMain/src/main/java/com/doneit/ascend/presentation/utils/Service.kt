@@ -4,13 +4,11 @@ import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.UserEntity
 
 fun getButonType(user: UserEntity, group: GroupEntity): ButtonType {
-    val states = mutableListOf(false, false, false, false)
-
     var res = ButtonType.SUBSCRIBE
 
     if (group.subscribed == true) {
         res = ButtonType.JOINED
-        if (group.inProgress) {
+        if (group.inProgress || group.isStarting) {
             res = ButtonType.JOIN_TO_DISCUSSION
         }
     }

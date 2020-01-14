@@ -20,20 +20,17 @@ suspend fun Context.copyCompressed(source: Uri, destinationPath: String): String
     val bitmap = BitmapFactory.decodeStream(input)//.rotateImageIfRequired(source.path!!)
 
     val image = File(destinationPath)
-    try{
-        if(image.exists().not()) {
+    try {
+        if (image.exists().not()) {
             image.createNewFile()
         }
 
-        FileOutputStream(image).use {out ->
-            if(source.path!!.contains(JPG)) {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, out)
-            } else {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, out)
-            }
+        FileOutputStream(image).use { out ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, out)
         }
 
-    } catch (e: IOException){ }
+    } catch (e: IOException) {
+    }
 
     return image.path
 }
@@ -67,7 +64,7 @@ fun Context.createCameraPhotoUri(name: String): Uri {
     }
 
     val imageFile = File.createTempFile(name, ".JPEG", directory)
-    if(imageFile.exists().not()) {
+    if (imageFile.exists().not()) {
         imageFile.createNewFile()
     }
 
@@ -90,7 +87,7 @@ fun Activity.cameraPhotoUri(name: String): Uri {
     }
 
     val imageFile = File.createTempFile(name, ".jpg", directory)
-    if(imageFile.exists().not()) {
+    if (imageFile.exists().not()) {
         imageFile.createNewFile()
     }
 
@@ -99,7 +96,7 @@ fun Activity.cameraPhotoUri(name: String): Uri {
 
 fun Activity.uriToFilePath(uri: Uri): String {
     val filePathColumn = MediaStore.Images.Media.DATA
-    val c = contentResolver.query(uri , arrayOf(filePathColumn), null, null, null)
+    val c = contentResolver.query(uri, arrayOf(filePathColumn), null, null, null)
         ?: return ""
     c.moveToFirst()
     val index = c.getColumnIndex(filePathColumn)

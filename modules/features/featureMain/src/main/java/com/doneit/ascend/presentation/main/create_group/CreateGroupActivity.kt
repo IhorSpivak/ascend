@@ -15,19 +15,19 @@ import org.kodein.di.generic.singleton
 class CreateGroupActivity : BaseActivity() {
 
     override fun diModule() = Kodein.Module("CreateGroupActivity") {
-        bind<CreateGroupRouter>() with singleton {
+        bind<CreateGroupRouter>() with provider {
             CreateGroupRouter(
                 this@CreateGroupActivity
             )
         }
 
-        bind<CreateGroupContract.Router>() with singleton {
+        bind<CreateGroupContract.Router>() with provider {
             CreateGroupRouter(
                 this@CreateGroupActivity
             )
         }
 
-        bind<SelectGroupTypeContract.Router>() with singleton {
+        bind<SelectGroupTypeContract.Router>() with provider {
             CreateGroupRouter(
                 this@CreateGroupActivity
             )

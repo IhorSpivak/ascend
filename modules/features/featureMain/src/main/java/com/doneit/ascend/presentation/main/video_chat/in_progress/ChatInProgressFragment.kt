@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.video_chat
+package com.doneit.ascend.presentation.main.video_chat.in_progress
 
 import android.Manifest
 import android.os.Bundle
@@ -6,27 +6,29 @@ import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
+import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.main.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.main.video_chat.listeners.RemoteParticipantsListener
 import com.doneit.ascend.presentation.main.video_chat.listeners.RoomListener
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.twilio.video.*
-import com.twilio.video.CameraCapturer
 import kotlinx.android.synthetic.main.fragment_video_chat.*
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 
+class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
-class VideoChatFragment : BaseFragment<FragmentVideoChatBinding>() {
-
-    override val viewModelModule = VideoChatViewModelModule.get(this)
-    override val viewModel: VideoChatContract.ViewModel by instance()
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
+        bind<ChatInProgressContract.ViewModel>() with provider { vmShared<VideoChatViewModel>(instance()) }
+    }
+    override val viewModel: ChatInProgressContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
-        val groupId = arguments!!.getLong(GROUP_ID_ARG)
-        viewModel.init(groupId)
-
-        viewModel.credentials.observe(viewLifecycleOwner, Observer {
+        viewModel.credentials.observe(this, Observer {
             it?.let {
                 if (it.isMasterMind) {
                     startLocalVideo(it)
@@ -74,7 +76,7 @@ class VideoChatFragment : BaseFragment<FragmentVideoChatBinding>() {
 
                     room = Video.connect(context!!, connectOptions, RoomListener())
                 } else {
-                    viewModel.onBackClick()
+                    //todo what should I do here?
                 }
             }
     }
@@ -127,18 +129,4 @@ class VideoChatFragment : BaseFragment<FragmentVideoChatBinding>() {
         super.onDestroyView()
     }
 
-    companion object {
-
-        private const val GROUP_ID_ARG = "GROUP_ID"
-
-        fun newInstance(groupId: Long): VideoChatFragment {
-            val fragment = VideoChatFragment()
-
-            fragment.arguments = Bundle().apply {
-                putLong(GROUP_ID_ARG, groupId)
-            }
-
-            return fragment
-        }
-    }
 }

@@ -5,19 +5,17 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.video_chat.in_progress.ChatInProgressContract
 import com.doneit.ascend.presentation.models.StartVideoModel
-import com.vrgsoft.annotations.CreateFactory
-import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch
 
-
-@CreateFactory
-@ViewModelDiModule
 class VideoChatViewModel(
     private val router: VideoChatContract.Router,
     private val userUseCase: UserUseCase,
     private val groupUseCase: GroupUseCase
-) : BaseViewModelImpl(), VideoChatContract.ViewModel {
+) : BaseViewModelImpl(),
+    VideoChatContract.ViewModel,
+    ChatInProgressContract.ViewModel {
 
     override val credentials = MutableLiveData<StartVideoModel>()
 
@@ -34,6 +32,8 @@ class VideoChatViewModel(
                 )
             )
         }
+
+        router.navigateToChatInProgress()
     }
 
     override fun onBackClick() {
