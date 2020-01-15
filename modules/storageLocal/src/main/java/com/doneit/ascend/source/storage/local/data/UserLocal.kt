@@ -22,5 +22,7 @@ data class UserLocal(
     val rating: Float? = -1f,
     val role: String?,
     val isMasterMind: Boolean,
-    val community: String? = ""
+    val community: String? = "",
+    val imageURL: String? = "",//todo move to another table
+    val thumbURL: String? = ""
 )

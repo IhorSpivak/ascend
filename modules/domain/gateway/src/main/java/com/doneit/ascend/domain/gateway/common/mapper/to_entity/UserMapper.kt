@@ -1,8 +1,6 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
-import com.doneit.ascend.domain.entity.AuthEntity
-import com.doneit.ascend.domain.entity.RateEntity
-import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.source.storage.local.data.UserLocal
 import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.RateResponse
@@ -63,7 +61,12 @@ fun UserLocal.toUserEntity(): UserEntity {
         isMasterMind = this@toUserEntity.isMasterMind,
         community = this@toUserEntity.community,
         unansweredQuestions = listOf(),
-        image = null
+        image = ImageEntity(
+            if(imageURL?.isBlank() == true) null else imageURL,
+            ThumbnailEntity(
+                if(thumbURL?.isBlank() == true) null else thumbURL
+            )
+        )
     )
 }
 

@@ -21,6 +21,8 @@ fun UserEntity.toUserLocal(): UserLocal {
         meetingStarted = this@toUserLocal.meetingStarted,
         location = this@toUserLocal.location,
         role = this@toUserLocal.role,
-        bio = this@toUserLocal.bio
+        bio = this@toUserLocal.bio,
+        imageURL = image?.url,
+        thumbURL = image?.thumbnail?.url
     )
 }
