@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.profile.payments.earnings.EarningsFragment
 import com.doneit.ascend.presentation.profile.payments.payment_methods.PaymentMethodsFragment
 
 class PaymentsTabAdapter(
@@ -24,7 +25,7 @@ class PaymentsTabAdapter(
     companion object {
         fun newInstance(fragment: Fragment, isMasterMind: Boolean): PaymentsTabAdapter {
             val items: ArrayList<TabAdapterItem> = arrayListOf(
-                TabAdapterItem(fragment.getString(R.string.earnings), PaymentMethodsFragment()),
+                TabAdapterItem(fragment.getString(R.string.earnings), EarningsFragment()),
                 TabAdapterItem(fragment.getString(R.string.payments_methods), PaymentMethodsFragment()),
                 TabAdapterItem(fragment.getString(R.string.in_app_purchases), PaymentMethodsFragment())
             )

@@ -51,6 +51,7 @@ import com.doneit.ascend.presentation.profile.notification_settings.Notification
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsFragment
 import com.doneit.ascend.presentation.profile.payments.PaymentsContract
 import com.doneit.ascend.presentation.profile.payments.PaymentsFragment
+import com.doneit.ascend.presentation.profile.payments.earnings.EarningsContract
 import com.doneit.ascend.presentation.profile.payments.payment_methods.PaymentMethodsContract
 import com.doneit.ascend.presentation.profile.payments.payment_methods.add_payment.AddPaymentContract
 import com.doneit.ascend.presentation.profile.payments.payment_methods.add_payment.AddPaymentFragment
@@ -89,6 +90,7 @@ class MainRouter(
     EditEmailContract.Router,
     NotificationSettingsContract.Router,
     PaymentsContract.Router,
+    EarningsContract.Router,
     PaymentMethodsContract.Router,
     AddPaymentContract.Router {
 

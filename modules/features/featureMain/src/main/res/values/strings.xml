@@ -262,6 +262,11 @@
     <string name="in_app_purchases">In-APP Purchases</string>
     <string name="label_delete">Delete</string>
     <string name="expired">Expired</string>
+
+    <!--Earned-->
+    <string name="total_earned">Total Earned: <b>%.2f</b> USD</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="balance">Balance: <b>%.2f</b> USD</string>
     
     <!--Add payment-->
     <string name="add_payment_title">Add Payment Method</string>
@@ -282,4 +287,6 @@
     <string name="permission_required_title">Video call is unavailable</string>
     <string name="permission_required_content">The camera could not be turned on, please check your device\'s privacy settings or make an audio call instead</string>
     <string name="permissions_required_settings">Settings</string>
+
+
 </resources>
