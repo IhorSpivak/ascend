@@ -15,24 +15,56 @@ import java.io.IOException
 
 private const val JPG = "JPEG"
 
-suspend fun Context.copyCompressed(source: Uri, destinationPath: String): String {
-    val input = contentResolver.openInputStream(source)
-    val bitmap = BitmapFactory.decodeStream(input)//.rotateImageIfRequired(source.path!!)
-
+suspend fun Activity.copyCompressed(source: Uri, destinationPath: String): String {
+    var input = contentResolver.openInputStream(source)
+    var bitmap = BitmapFactory.decodeStream(input)
     val image = File(destinationPath)
+
     try {
         if (image.exists().not()) {
             image.createNewFile()
         }
 
+        //need to copy entire file due to android 10 external storage policy
         FileOutputStream(image).use { out ->
+            val buf = ByteArray(1024)
+            var len: Int
+            len = input!!.read(buf)
+            while (len > 0) {
+                out.write(buf, 0, len)
+                len = input.read(buf)
+            }
+        }
+        //todo any better way to get path?
+        val sourcePath = externalCacheDir!!.path + '/' + source.path!!.substring(source.path!!.lastIndexOf('/') + 1, source.path!!.length)
+        /*todo uncomment this correct flow
+           if(File(sourcePath).exists()) {
+            copyEXIF(sourcePath, destinationPath)
+        }*/
+
+        FileOutputStream(image).use { out ->
+            if(File(sourcePath).exists()){//todo comment this due to correct flow
+                bitmap = bitmap.rotateImageIfRequired(sourcePath)
+            }
             bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, out)
         }
 
     } catch (e: IOException) {
+        e.printStackTrace()
     }
 
     return image.path
+}
+
+private fun copyEXIF(sourcePath: String, destinationPath: String) {
+    val oldExif = ExifInterface(sourcePath)
+    val exifOrientation = oldExif.getAttribute(ExifInterface.TAG_ORIENTATION)
+
+    if (exifOrientation != null) {
+        val newExif = ExifInterface(destinationPath)
+        newExif.setAttribute(ExifInterface.TAG_ORIENTATION, exifOrientation)
+        newExif.saveAttributes()
+    }
 }
 
 private fun Bitmap.rotateImageIfRequired(selectedImage: String): Bitmap {

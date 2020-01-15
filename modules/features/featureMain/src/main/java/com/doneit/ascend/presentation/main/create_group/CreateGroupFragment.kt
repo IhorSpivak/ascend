@@ -48,7 +48,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         }
     }
 
-    private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
+    private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME_CASHE) }
     override val viewModel: CreateGroupContract.ViewModel by instance()
 
     private val adapter: ParticipantAdapter by lazy {
@@ -142,7 +142,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME
 
         GlobalScope.launch {
-            val compressed = context!!.copyCompressed(sourcePath, destinationPath)
+            val compressed = activity!!.copyCompressed(sourcePath, destinationPath)
 
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(compressed)
@@ -152,6 +152,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
 
     companion object {
         private const val GALLERY_REQUEST_CODE = 42
-        private const val TEMP_IMAGE_NAME = "group_image_temp.jpg"
+        private const val TEMP_IMAGE_NAME = "group_image_temp.JPEG"
+        private const val TEMP_IMAGE_NAME_CASHE = "group_image_temp"
     }
 }

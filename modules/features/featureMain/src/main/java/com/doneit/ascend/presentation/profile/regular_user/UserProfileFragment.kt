@@ -170,7 +170,7 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
             context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME
 
         GlobalScope.launch {
-            val compressed = context!!.copyCompressed(source, destinationPath)
+            val compressed = activity!!.copyCompressed(source, destinationPath)
 
             viewModel.updateProfileIcon(compressed)
         }
