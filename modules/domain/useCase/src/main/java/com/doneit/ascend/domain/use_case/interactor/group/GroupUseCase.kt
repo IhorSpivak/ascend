@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.use_case.interactor.group
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
@@ -22,4 +23,10 @@ interface GroupUseCase {
     suspend fun subscribe(model: SubscribeGroupModel): ResponseEntity<Unit, List<String>>
 
     suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsModel, List<String>>
+
+    val messagesStream: LiveData<String?>
+
+    fun connectToChannel(groupId: Long)
+
+    fun disconnect()
 }

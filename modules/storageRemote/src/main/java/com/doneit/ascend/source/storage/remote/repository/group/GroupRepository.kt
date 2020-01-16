@@ -12,7 +12,7 @@ import com.doneit.ascend.source.storage.remote.data.response.common.RemoteRespon
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
@@ -64,12 +64,12 @@ internal class GroupRepository(
 
             val filePart = MultipartBody.Part.createFormData(
                 "image", file.name, RequestBody.create(
-                    MediaType.parse("image/*"), file
+                    "image/*".toMediaTypeOrNull(), file
                 )
             )
             builder = builder.addPart(filePart)
 
-            api.createGroupAsync(builder.build().parts())
+            api.createGroupAsync(builder.build().parts)
         }, ErrorsListResponse::class.java)
     }
 

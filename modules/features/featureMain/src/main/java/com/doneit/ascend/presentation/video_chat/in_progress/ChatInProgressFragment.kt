@@ -131,6 +131,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     override fun onDestroyView() {
+        viewModel.forceDisconnect()
         room?.disconnect()
         localAudioTrack?.release()
         localVideoTrack?.release()

@@ -40,4 +40,14 @@ internal class GroupInteractor(
     override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsModel, List<String>> {
         return groupGateway.getCredentials(groupId)
     }
+
+    override val messagesStream = groupGateway.messagesStream
+
+    override fun connectToChannel(groupId: Long) {
+        groupGateway.connectToChannel(groupId)
+    }
+
+    override fun disconnect() {
+        groupGateway.disconnect()
+    }
 }

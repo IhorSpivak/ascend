@@ -8,6 +8,7 @@ interface VideoChatContract {
     interface ViewModel : BaseViewModel {
         val groupInfo: LiveData<GroupEntity>
         val timer: LiveData<String>
+        val messages: LiveData<String?>
 
         fun init(groupId: Long)
         fun onBackClick()

@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.use_case.gateway
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.domain.entity.GroupEntity
@@ -22,4 +23,10 @@ interface IGroupGateway {
     suspend fun subscribe(model: SubscribeGroupModel): ResponseEntity<Unit, List<String>>
 
     suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsModel, List<String>>
+
+    val messagesStream: LiveData<String?>
+
+    fun connectToChannel(groupId: Long)
+
+    fun disconnect()
 }

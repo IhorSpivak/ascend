@@ -7,7 +7,5 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 interface ChatPreviewContract {
     interface ViewModel: BaseViewModel {
         val groupInfo: LiveData<GroupEntity>
-
-        fun startGroup()
     }
 }

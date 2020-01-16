@@ -1,7 +1,9 @@
 package com.doneit.ascend.presentation.video_chat
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.main.R
@@ -55,6 +57,12 @@ class VideoChatActivity : BaseActivity() {
 
         val groupId = intent.getLongExtra(GROUP_ID_ARG, -1)
         viewModel.init(groupId)
+
+        viewModel.messages.observe(this, Observer {
+            it?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     override fun onBackPressed() {

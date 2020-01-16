@@ -4,8 +4,6 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.GroupEntity
-import com.doneit.ascend.domain.entity.OwnerEntity
-import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -28,11 +26,14 @@ class VideoChatViewModel(
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val timer = MutableLiveData<String>()
+    override val messages = groupUseCase.messagesStream
 
+    private var groupId: Long = -1
     private var downTimer: CountDownTimer? = null
     private lateinit var chatState: VideoChatState
 
     override fun init(groupId: Long) {
+        this.groupId = groupId
         viewModelScope.launch {
             launch {
                 val user = userUseCase.getUser()
@@ -62,12 +63,12 @@ class VideoChatViewModel(
         router.navigateToPreview()
     }
 
-    override fun startGroup() {
-
-    }
-
     override fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus) {
         router.navigateToPermissionsRequiredDialog(resultCode)
+    }
+
+    override fun forceDisconnect() {
+        groupUseCase.disconnect()
     }
 
     override fun onBackClick() {
@@ -94,10 +95,12 @@ class VideoChatViewModel(
             }
             VideoChatState.PROGRESS -> {
                 initProgressTimer(groupModel)
+                groupUseCase.connectToChannel(groupId)
                 router.navigateToChatInProgress()
             }
             VideoChatState.FINISHED -> {
                 downTimer?.cancel()
+                groupUseCase.disconnect()
                 router.navigateToChatFinishScreen()
             }
         }

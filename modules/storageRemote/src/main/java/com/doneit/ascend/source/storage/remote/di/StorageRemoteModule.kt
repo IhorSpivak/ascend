@@ -7,6 +7,8 @@ import com.doneit.ascend.source.storage.remote.repository.cards.CardsRepository
 import com.doneit.ascend.source.storage.remote.repository.cards.ICardsRepository
 import com.doneit.ascend.source.storage.remote.repository.group.GroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
+import com.doneit.ascend.source.storage.remote.repository.group.socket.GroupSocketRepository
+import com.doneit.ascend.source.storage.remote.repository.group.socket.IGroupSocketRepository
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.doneit.ascend.source.storage.remote.repository.master_minds.MasterMindRepository
 import com.doneit.ascend.source.storage.remote.repository.notification.INotificationRepository
@@ -90,6 +92,10 @@ object StorageRemoteModule {
                 instance(),
                 instance()
             )
+        }
+
+        bind<IGroupSocketRepository>() with singleton {
+            GroupSocketRepository()
         }
     }
 }

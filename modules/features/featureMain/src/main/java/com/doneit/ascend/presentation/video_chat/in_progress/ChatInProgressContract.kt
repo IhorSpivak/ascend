@@ -12,5 +12,6 @@ interface ChatInProgressContract {
         val groupInfo: LiveData<GroupEntity>
 
         fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus)
+        fun forceDisconnect()
     }
 }

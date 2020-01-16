@@ -11,6 +11,7 @@ import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListRe
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
@@ -140,7 +141,7 @@ internal class UserRepository(
                 var filePart = if (file != null) {
                     MultipartBody.Part.createFormData(
                         "image", file.name, RequestBody.create(
-                            MediaType.parse("image/*"), file
+                            "image/*".toMediaTypeOrNull(), file
                         )
                     )
 
@@ -150,7 +151,7 @@ internal class UserRepository(
                 builder = builder.addPart(filePart)
             }
 
-            api.updateProfileAsync(builder.build().parts())
+            api.updateProfileAsync(builder.build().parts)
         }, ErrorsListResponse::class.java)
     }
 
