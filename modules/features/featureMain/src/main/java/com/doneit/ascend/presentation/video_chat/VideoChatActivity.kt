@@ -8,6 +8,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityVideoChatBinding
+import com.doneit.ascend.presentation.video_chat.common.ChatParticipantsAdapter
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -43,12 +44,14 @@ class VideoChatActivity : BaseActivity() {
 
     private val viewModel: VideoChatContract.ViewModel by instance()
     private lateinit var binding: ActivityVideoChatBinding
+    private val participantsAdapter by lazy { ChatParticipantsAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_video_chat)
         binding.lifecycleOwner = this
         binding.model = viewModel
+        binding.rvParticipants.adapter = participantsAdapter
 
         val groupId = intent.getLongExtra(GROUP_ID_ARG, -1)
         viewModel.init(groupId)

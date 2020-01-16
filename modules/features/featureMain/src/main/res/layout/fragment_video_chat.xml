@@ -3,7 +3,7 @@
     <data>
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.video_chat.in_progress.ChatInProgressContract.ViewModel" />
+            type="com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract.ViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
