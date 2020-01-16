@@ -10,6 +10,14 @@ fun View.visible(isVisible: Boolean = true) {
     visibility = if(isVisible) View.VISIBLE else View.INVISIBLE
 }
 
+fun View.hide() {
+    visibility = View.GONE
+}
+
+fun View.show() {
+    visibility = View.VISIBLE
+}
+
 fun EditText.focusRequest() {
     val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)

@@ -9,6 +9,7 @@ import androidx.databinding.BindingMethods
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.utils.extensions.waitForLayout
 import kotlinx.android.synthetic.main.view_master_mind_icon.view.*
 
 
@@ -40,6 +41,10 @@ class MasterMindIcon @JvmOverloads constructor(
 
     init {
         View.inflate(context, R.layout.view_master_mind_icon, this)
+
+        waitForLayout {
+            cvImage.radius = height / 2.0f
+        }
     }
 
     fun setName(name: String?) {

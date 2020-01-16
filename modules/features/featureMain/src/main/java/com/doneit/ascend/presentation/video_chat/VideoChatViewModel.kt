@@ -4,13 +4,15 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.OwnerEntity
+import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
-import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.toTimerFormat
+import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
+import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -32,25 +34,28 @@ class VideoChatViewModel(
 
     override fun init(groupId: Long) {
         viewModelScope.launch {
-            val user = userUseCase.getUser()
-            val creds = groupUseCase.getCredentials(groupId)
+            launch {
+                val user = userUseCase.getUser()
+                val creds = groupUseCase.getCredentials(groupId)
 
-            credentials.postValue(
-                StartVideoModel(
-                    user!!.isMasterMind,
-                    creds.successModel!!.name,
-                    creds.successModel!!.token
+                credentials.postValue(
+                    StartVideoModel(
+                        user!!.isMasterMind,
+                        creds.successModel!!.name,
+                        creds.successModel!!.token
+                    )
                 )
-            )
-        }
+            }
 
-        viewModelScope.launch {
-            val result = groupUseCase.getGroupDetails(groupId)
+           launch {
+                val result = groupUseCase.getGroupDetails(groupId)
 
-            if(result.isSuccessful) {
-                //result.successModel!!.startTime!!.time = Date().time + 15*1000
-                groupInfo.postValue(result.successModel!!)
-                setInitialState(result.successModel!!)
+                if(result.isSuccessful) {
+                    //result.successModel!!.startTime!!.time = Date().time + 15*1000
+                    val groupEntity = result.successModel!!
+                    groupInfo.postValue(groupEntity)
+                    setInitialState(groupEntity)
+                }
             }
         }
 

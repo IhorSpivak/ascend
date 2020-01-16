@@ -12,6 +12,7 @@ import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.video_chat.listeners.RemoteParticipantsListener
 import com.doneit.ascend.presentation.video_chat.listeners.RoomListener
 import com.doneit.ascend.presentation.models.StartVideoModel
+import com.doneit.ascend.presentation.utils.extensions.hide
 import com.twilio.video.*
 import kotlinx.android.synthetic.main.fragment_video_chat.*
 import org.kodein.di.Kodein
@@ -45,6 +46,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     private fun startLocalVideo(model: StartVideoModel) {
+        binding.placeholder.hide()
         EzPermission.with(context!!)
             .permissions(
                 Manifest.permission.RECORD_AUDIO,
@@ -95,20 +97,25 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         return object : RoomListener() {
             override fun onConnected(room: Room) {
                 room.remoteParticipants.forEach {
-                    if (it.remoteVideoTracks.isNotEmpty()) {
-                        it.setListener(getParticipantsListener())
+                    if(checkForVideoStream(it)) {
                         return
                     }
                 }
             }
 
             override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
-                if (remoteParticipant.remoteVideoTracks.isNotEmpty()) {
-                    remoteParticipant.setListener(getParticipantsListener())
-                    return
-                }
+                checkForVideoStream(remoteParticipant)
             }
         }
+    }
+
+    private fun checkForVideoStream(participant: RemoteParticipant): Boolean {
+        if (participant.remoteVideoTracks.isNotEmpty()) {
+            participant.setListener(getParticipantsListener())
+            binding.placeholder.hide()
+            return true
+        }
+        return false
     }
 
     private fun getParticipantsListener(): RemoteParticipantsListener {
