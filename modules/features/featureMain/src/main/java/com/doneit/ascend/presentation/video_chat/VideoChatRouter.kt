@@ -1,9 +1,9 @@
-package com.doneit.ascend.presentation.main.video_chat
+package com.doneit.ascend.presentation.video_chat
 
 import android.content.Intent
 import com.doneit.ascend.presentation.main.extensions.replace
-import com.doneit.ascend.presentation.main.video_chat.in_progress.ChatInProgressFragment
-import com.doneit.ascend.presentation.main.video_chat.preview.ChatPreviewFragment
+import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressFragment
+import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class VideoChatRouter(

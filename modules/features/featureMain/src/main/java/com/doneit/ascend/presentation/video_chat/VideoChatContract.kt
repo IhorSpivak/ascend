@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.video_chat
+package com.doneit.ascend.presentation.video_chat
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.GroupEntity

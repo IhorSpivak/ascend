@@ -30,7 +30,7 @@ import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
-import com.doneit.ascend.presentation.main.video_chat.VideoChatActivity
+import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
 import com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract

@@ -1,10 +1,10 @@
-package com.doneit.ascend.presentation.main.video_chat.preview
+package com.doneit.ascend.presentation.video_chat.preview
 
 import android.os.Bundle
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentChatPreviewBinding
 import com.doneit.ascend.presentation.main.extensions.vmShared
-import com.doneit.ascend.presentation.main.video_chat.VideoChatViewModel
+import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance

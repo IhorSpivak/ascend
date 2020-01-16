@@ -11,7 +11,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.common.BottomNavigationAdapter
-import com.doneit.ascend.presentation.main.video_chat.VideoChatActivity
+import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers

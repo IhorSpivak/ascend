@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.video_chat.in_progress
+package com.doneit.ascend.presentation.video_chat.in_progress
 
 import android.Manifest
 import android.os.Bundle
@@ -7,10 +7,10 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
 import com.doneit.ascend.presentation.main.extensions.vmShared
-import com.doneit.ascend.presentation.main.video_chat.VideoChatActivity
-import com.doneit.ascend.presentation.main.video_chat.VideoChatViewModel
-import com.doneit.ascend.presentation.main.video_chat.listeners.RemoteParticipantsListener
-import com.doneit.ascend.presentation.main.video_chat.listeners.RoomListener
+import com.doneit.ascend.presentation.video_chat.VideoChatActivity
+import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
+import com.doneit.ascend.presentation.video_chat.listeners.RemoteParticipantsListener
+import com.doneit.ascend.presentation.video_chat.listeners.RoomListener
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.twilio.video.*
 import kotlinx.android.synthetic.main.fragment_video_chat.*

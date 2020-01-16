@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.video_chat
+package com.doneit.ascend.presentation.video_chat
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil

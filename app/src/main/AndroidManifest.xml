@@ -79,7 +79,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".presentation.main.video_chat.VideoChatActivity"
+            android:name="com.doneit.ascend.presentation.video_chat.VideoChatActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 

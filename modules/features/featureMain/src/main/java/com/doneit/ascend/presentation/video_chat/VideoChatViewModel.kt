@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.video_chat
+package com.doneit.ascend.presentation.video_chat
 
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
@@ -7,8 +7,8 @@ import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.video_chat.in_progress.ChatInProgressContract
-import com.doneit.ascend.presentation.main.video_chat.preview.ChatPreviewContract
+import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
+import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.toTimerFormat
 import kotlinx.coroutines.launch
