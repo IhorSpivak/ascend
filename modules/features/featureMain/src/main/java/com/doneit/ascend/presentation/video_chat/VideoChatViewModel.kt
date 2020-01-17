@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -64,29 +65,42 @@ class VideoChatViewModel(
     override fun init(groupId: Long) {
         this.groupId = groupId
         viewModelScope.launch {
-            launch {
-                currentUser = userUseCase.getUser()
-                val creds = groupUseCase.getCredentials(groupId)
 
-                credentials.postValue(
-                    StartVideoModel(
-                        currentUser!!.isMasterMind,
-                        creds.successModel!!.name,
-                        creds.successModel!!.token,
-                        CameraCapturer.CameraSource.FRONT_CAMERA
-                    )
-                )
-            }
-
-            launch {
+            var groupEntity: GroupEntity? = null
+            var creds: GroupCredentialsModel? = null
+            val groupJob = launch {
                 val result = groupUseCase.getGroupDetails(groupId)
 
                 if (result.isSuccessful) {
-                    //result.successModel!!.startTime!!.time = Date().time + 15*1000
-                    val groupEntity = result.successModel!!
+                    groupEntity = result.successModel!!
                     groupInfo.postValue(groupEntity)
-                    setInitialState(groupEntity)
+                    setInitialState(groupEntity!!)
                 }
+            }
+
+            val userJob = launch {
+                currentUser = userUseCase.getUser()
+                val res = groupUseCase.getCredentials(groupId)
+
+                if(res.isSuccessful) {
+                    creds = res.successModel!!
+                }
+            }
+
+            groupJob.join()
+            userJob.join()
+
+            if(groupEntity != null && creds != null) {
+                val isTranslator = currentUser!!.isMasterMind && groupEntity!!.owner!!.id == currentUser!!.id
+
+                credentials.postValue(
+                    StartVideoModel(
+                        isTranslator,
+                        creds!!.name,
+                        creds!!.token,
+                        CameraCapturer.CameraSource.FRONT_CAMERA
+                    )
+                )
             }
         }
 

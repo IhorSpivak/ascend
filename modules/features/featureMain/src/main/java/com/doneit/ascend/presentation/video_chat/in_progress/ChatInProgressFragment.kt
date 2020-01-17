@@ -43,7 +43,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
         viewModel.credentials.observe(this, Observer {
             it?.let {
-                if (it.isMasterMind) {
+                if (it.isTranslator) {
                     startLocalVideo(it)
                 } else {
                     startRemoteVideo(it)
