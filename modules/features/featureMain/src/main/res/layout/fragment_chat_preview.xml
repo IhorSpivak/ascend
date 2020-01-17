@@ -9,6 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:onClick="@{(v) -> model.onOpenOptions()}"
         tools:background="@color/gray_accent_color">
 
         <androidx.appcompat.widget.AppCompatImageView

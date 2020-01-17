@@ -35,6 +35,8 @@ class VideoChatViewModel(
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val participants = MutableLiveData<List<SocketEventEntity>>(listOf())
     override val timer = MutableLiveData<String>()
+    override val isVideoEnabled = MutableLiveData<Boolean>(true)
+    override val isAudioEnabled = MutableLiveData<Boolean>(true)
     override val messages = groupUseCase.messagesStream//todo remove in future
 
     private var groupId: Long = -1
@@ -43,7 +45,7 @@ class VideoChatViewModel(
     private lateinit var chatState: VideoChatState
 
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
-        when(socketEvent.event) {
+        when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
                 val newList = participants.value!!.toMutableList()
                 newList.add(socketEvent)
@@ -73,10 +75,10 @@ class VideoChatViewModel(
                 )
             }
 
-           launch {
+            launch {
                 val result = groupUseCase.getGroupDetails(groupId)
 
-                if(result.isSuccessful) {
+                if (result.isSuccessful) {
                     //result.successModel!!.startTime!!.time = Date().time + 15*1000
                     val groupEntity = result.successModel!!
                     groupInfo.postValue(groupEntity)
@@ -98,10 +100,11 @@ class VideoChatViewModel(
     }
 
     override fun onOpenOptions() {
-        if(currentUser != null && groupInfo.value != null){
-            val isMasterMind = currentUser!!.isMasterMind && groupInfo.value?.owner?.id == currentUser?.id
+        if (currentUser != null && groupInfo.value != null) {
+            val isMasterMind =
+                currentUser!!.isMasterMind && groupInfo.value?.owner?.id == currentUser?.id
 
-            if(isMasterMind) {
+            if (isMasterMind) {
                 router.navigateToMMChatOptions()
             } else {
                 router.navigateUserChatOptions()
@@ -111,6 +114,18 @@ class VideoChatViewModel(
 
     override fun onLeaveGroupClick() {
         router.finishActivity()
+    }
+
+    override fun changeVideoEnabledState() {
+        isVideoEnabled.value?.let {
+            isVideoEnabled.postValue(!it)
+        }
+    }
+
+    override fun changeAudioEnabledState() {
+        isAudioEnabled.value?.let {
+            isAudioEnabled.postValue(!it)
+        }
     }
 
     override fun onBackClick() {
@@ -124,9 +139,9 @@ class VideoChatViewModel(
 
     private fun setInitialState(group: GroupEntity) {
         val currentDate = Date()
-        if(currentDate.time < group.startTime!!.time) {
+        if (currentDate.time < group.startTime!!.time) {
             changeState(VideoChatState.PREVIEW, group)
-        } else if(group.inProgress) {
+        } else if (group.inProgress) {
             changeState(VideoChatState.PROGRESS, group)
         } else {
             changeState(VideoChatState.FINISHED, group)
@@ -136,7 +151,7 @@ class VideoChatViewModel(
     private fun changeState(newState: VideoChatState, group: GroupEntity? = null) {
         chatState = newState
         val groupModel = group ?: groupInfo.value!!
-        when(chatState) {
+        when (chatState) {
             VideoChatState.PREVIEW -> {
                 initDownTimer(groupModel)
             }
@@ -155,8 +170,8 @@ class VideoChatViewModel(
     private fun initDownTimer(group: GroupEntity) {
         val currentDate = Date()
         downTimer?.cancel()
-        if(currentDate.time < group.startTime!!.time) {
-            downTimer = object: CountDownTimer(group.startTime!!.time - currentDate.time, 1000) {
+        if (currentDate.time < group.startTime!!.time) {
+            downTimer = object : CountDownTimer(group.startTime!!.time - currentDate.time, 1000) {
                 override fun onFinish() {
                     changeState(VideoChatState.PROGRESS)
                 }
@@ -171,15 +186,16 @@ class VideoChatViewModel(
     private fun initProgressTimer(group: GroupEntity) {
         downTimer?.cancel()
 
-        downTimer = object: CountDownTimer(GroupEntity.PROGRESS_DURATION + group.startTime!!.time, 1000) {
-            override fun onFinish() {
-                changeState(VideoChatState.FINISHED)
-            }
+        downTimer =
+            object : CountDownTimer(GroupEntity.PROGRESS_DURATION + group.startTime!!.time, 1000) {
+                override fun onFinish() {
+                    changeState(VideoChatState.FINISHED)
+                }
 
-            override fun onTick(p0: Long) {
-                timer.postValue(Date(group.timeInProgress).toTimerFormat())
-            }
-        }.start()
+                override fun onTick(p0: Long) {
+                    timer.postValue(Date(group.timeInProgress).toTimerFormat())
+                }
+            }.start()
     }
 
     private fun clearChatResources() {

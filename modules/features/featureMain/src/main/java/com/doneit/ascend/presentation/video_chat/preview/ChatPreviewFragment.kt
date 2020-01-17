@@ -12,7 +12,7 @@ import org.kodein.di.generic.provider
 
 class ChatPreviewFragment : BaseFragment<FragmentChatPreviewBinding>() {
 
-    override val viewModelModule =  Kodein.Module(this::class.java.simpleName) {
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<ChatPreviewContract.ViewModel>() with provider { vmShared<VideoChatViewModel>(instance()) }
     }
     override val viewModel: ChatPreviewContract.ViewModel by instance()

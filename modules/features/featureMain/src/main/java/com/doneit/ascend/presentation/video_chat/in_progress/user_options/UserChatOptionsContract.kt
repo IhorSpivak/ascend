@@ -7,7 +7,9 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 interface UserChatOptionsContract {
     interface ViewModel : BaseViewModel {
         val groupInfo: LiveData<GroupEntity>
+        val isVideoEnabled: LiveData<Boolean>
 
+        fun changeVideoEnabledState()
         fun onLeaveGroupClick()
         fun onBackClick()
     }

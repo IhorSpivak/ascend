@@ -22,6 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:setImage="@{model.groupInfo.image.url}"/>
+
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="0dp"

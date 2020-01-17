@@ -7,12 +7,13 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
 import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.models.StartVideoModel
+import com.doneit.ascend.presentation.utils.extensions.hide
+import com.doneit.ascend.presentation.utils.extensions.show
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.video_chat.listeners.RemoteParticipantsListener
 import com.doneit.ascend.presentation.video_chat.listeners.RoomListener
-import com.doneit.ascend.presentation.models.StartVideoModel
-import com.doneit.ascend.presentation.utils.extensions.hide
 import com.twilio.video.*
 import kotlinx.android.synthetic.main.fragment_video_chat.*
 import org.kodein.di.Kodein
@@ -23,8 +24,13 @@ import org.kodein.di.generic.provider
 class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
-        bind<ChatInProgressContract.ViewModel>() with provider { vmShared<VideoChatViewModel>(instance()) }
+        bind<ChatInProgressContract.ViewModel>() with provider {
+            vmShared<VideoChatViewModel>(
+                instance()
+            )
+        }
     }
+
     override val viewModel: ChatInProgressContract.ViewModel by instance()
 
     private var localVideoTrack: LocalVideoTrack? = null
@@ -42,6 +48,14 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                     startRemoteVideo(it)
                 }
             }
+        })
+
+        viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
+            localVideoTrack?.enable(it)
+        })
+
+        viewModel.isAudioEnabled.observe(viewLifecycleOwner, Observer {
+            localAudioTrack?.enable(it)
         })
     }
 
@@ -97,7 +111,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         return object : RoomListener() {
             override fun onConnected(room: Room) {
                 room.remoteParticipants.forEach {
-                    if(checkForVideoStream(it)) {
+                    if (checkForVideoStream(it)) {
                         return
                     }
                 }
@@ -112,7 +126,6 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     private fun checkForVideoStream(participant: RemoteParticipant): Boolean {
         if (participant.remoteVideoTracks.isNotEmpty()) {
             participant.setListener(getParticipantsListener())
-            binding.placeholder.hide()
             return true
         }
         return false
@@ -120,14 +133,42 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     private fun getParticipantsListener(): RemoteParticipantsListener {
         return object : RemoteParticipantsListener() {
+
             override fun onVideoTrackSubscribed(
                 remoteParticipant: RemoteParticipant,
                 remoteVideoTrackPublication: RemoteVideoTrackPublication,
                 remoteVideoTrack: RemoteVideoTrack
             ) {
-                remoteVideoTrack.addRenderer(videoView)
+                remoteVideoTrackPublication.remoteVideoTrack?.startVideoDisplay()
+            }
+
+            override fun onVideoTrackUnsubscribed(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication,
+                remoteVideoTrack: RemoteVideoTrack
+            ) {
+                binding.placeholder.show()
+            }
+
+            override fun onVideoTrackEnabled(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication
+            ) {
+                binding.placeholder.hide()
+            }
+
+            override fun onVideoTrackDisabled(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication
+            ) {
+                binding.placeholder.show()
             }
         }
+    }
+
+    private fun RemoteVideoTrack.startVideoDisplay() {
+        this.addRenderer(videoView)
+        binding.placeholder.hide()
     }
 
     override fun onDestroyView() {
