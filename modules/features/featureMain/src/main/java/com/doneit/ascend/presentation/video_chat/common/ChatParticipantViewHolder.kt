@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateChatParticipantBinding
 
@@ -12,8 +12,8 @@ class ChatParticipantViewHolder(
     private val binding: TemplateChatParticipantBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(entity: UserEntity) {
-        //todo
+    fun bind(entity: SocketEventEntity) {
+        binding.item = entity
     }
 
     companion object {

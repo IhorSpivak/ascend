@@ -63,6 +63,10 @@ class VideoChatActivity : BaseActivity() {
                 Toast.makeText(this, it.event.toString(), Toast.LENGTH_SHORT).show()
             }
         })
+
+        viewModel.participants.observe(this, Observer {
+            participantsAdapter.submitList(it)
+        })
     }
 
     override fun onBackPressed() {

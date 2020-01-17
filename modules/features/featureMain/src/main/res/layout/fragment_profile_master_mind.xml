@@ -85,7 +85,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:longText="@{@string/no_photo}"
-                    app:radius="@{@dimen/profile_holder_icon_radius}"
                     app:url="@{model.user.image.url}" />
 
                 <androidx.appcompat.widget.AppCompatImageView

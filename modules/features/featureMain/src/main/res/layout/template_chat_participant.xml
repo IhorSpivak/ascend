@@ -2,7 +2,9 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-
+        <variable
+            name="item"
+            type="com.doneit.ascend.domain.entity.SocketEventEntity" />
     </data>
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="64dp"
@@ -14,11 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivIcon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                app:setImage="@{item.image.thumbnail.url}"
                 tools:src="@drawable/ic_add"/>
 
             <ImageView

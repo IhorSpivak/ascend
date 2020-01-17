@@ -18,7 +18,6 @@
             android:id="@+id/icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:radius="@{@dimen/mm_rating_radius}"
             app:name="@{item.fullName}"
             app:url="@{item.image.url}"
             android:layout_marginStart="16dp"

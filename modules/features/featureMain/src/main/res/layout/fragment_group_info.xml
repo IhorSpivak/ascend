@@ -86,7 +86,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/title"
                         app:name="@{model.group.owner.fullName}"
-                        app:radius="@{@dimen/info_holder_radius}"
                         app:url="@{model.group.owner.image.url}" />
 
                     <TextView

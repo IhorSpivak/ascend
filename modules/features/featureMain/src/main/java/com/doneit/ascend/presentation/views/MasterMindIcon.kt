@@ -26,12 +26,6 @@ import kotlinx.android.synthetic.main.view_master_mind_icon.view.*
             attribute = "url",
             method = "setUrl"
 
-        ),
-        BindingMethod(
-            type = MasterMindIcon::class,
-            attribute = "radius",
-            method = "setRadius"
-
         )
     ]
 )
@@ -75,9 +69,5 @@ class MasterMindIcon @JvmOverloads constructor(
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
             .into(ivIcon)
-    }
-
-    fun setRadius(radius: Float) {
-        cvImage.radius = radius
     }
 }

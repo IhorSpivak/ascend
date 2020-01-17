@@ -56,7 +56,6 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:name="@{model.profile.fullName}"
-                                app:radius="@{@dimen/mm_profile_radius}"
                                 app:url="@{model.profile.image.url}" />
 
                             <androidx.appcompat.widget.AppCompatTextView

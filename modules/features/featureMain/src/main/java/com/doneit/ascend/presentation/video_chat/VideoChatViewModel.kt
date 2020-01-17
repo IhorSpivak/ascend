@@ -2,8 +2,10 @@ package com.doneit.ascend.presentation.video_chat
 
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -12,7 +14,6 @@ import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.toTimerFormat
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
-import androidx.lifecycle.Observer
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -27,14 +28,26 @@ class VideoChatViewModel(
 
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
+    override val participants = MutableLiveData<List<SocketEventEntity>>(listOf())
     override val timer = MutableLiveData<String>()
     override val messages = groupUseCase.messagesStream
 
     private var groupId: Long = -1
     private var downTimer: CountDownTimer? = null
     private lateinit var chatState: VideoChatState
-    private val messagesObserver = Observer<SocketEventEntity> {
-
+    private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
+        when(socketEvent.event) {
+            SocketEvent.PARTICIPANT_CONNECTED -> {
+                val newList = participants.value!!.toMutableList()
+                newList.add(socketEvent)
+                participants.postValue(newList)
+            }
+            SocketEvent.PARTICIPANT_DISCONNECTED -> {
+                val newList = participants.value!!.toMutableList()
+                newList.removeAll { it.userId == socketEvent.userId }
+                participants.postValue(newList)
+            }
+        }
     }
 
     override fun init(groupId: Long) {

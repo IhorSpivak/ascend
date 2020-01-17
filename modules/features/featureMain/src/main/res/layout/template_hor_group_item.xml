@@ -106,7 +106,6 @@
                 android:layout_marginTop="8dp"
                 app:url="@{item.owner.image.thumbnail.url}"
                 app:name="@{item.owner.fullName}"
-                app:radius="@{@dimen/group_holder_icon_radius}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvGroupName"/>
 

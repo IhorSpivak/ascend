@@ -24,7 +24,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:name="@{item.fullName}"
-            app:radius="@{@dimen/holder_icon_radius}"
             app:url="@{item.image.url}" />
 
         <LinearLayout

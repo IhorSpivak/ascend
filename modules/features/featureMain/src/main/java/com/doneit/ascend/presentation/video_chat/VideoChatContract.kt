@@ -10,6 +10,7 @@ interface VideoChatContract {
         val groupInfo: LiveData<GroupEntity>
         val timer: LiveData<String>
         val messages: LiveData<SocketEventEntity>
+        val participants: LiveData<List<SocketEventEntity>>
 
         fun init(groupId: Long)
         fun onBackClick()
