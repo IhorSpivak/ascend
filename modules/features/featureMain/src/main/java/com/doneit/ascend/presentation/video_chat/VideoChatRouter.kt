@@ -1,8 +1,11 @@
 package com.doneit.ascend.presentation.video_chat
 
 import android.content.Intent
+import com.doneit.ascend.presentation.main.extensions.add
 import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressFragment
+import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsFragment
+import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsFragment
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
@@ -12,6 +15,7 @@ class VideoChatRouter(
     VideoChatContract.Router {
 
     override val containerId = activity.getContainerId()
+    private val fullContainerId = activity.getFullContainerId()
 
     override fun onBack() {
         if (activity.supportFragmentManager.backStackEntryCount == 0) {
@@ -35,6 +39,18 @@ class VideoChatRouter(
 
     override fun navigateToPermissionsRequiredDialog(resultCode: VideoChatActivity.ResultStatus) {
         finishWithResult(resultCode)
+    }
+
+    override fun finishActivity() {
+        finishWithResult(VideoChatActivity.ResultStatus.OK)
+    }
+
+    override fun navigateUserChatOptions() {
+        activity.supportFragmentManager.add(fullContainerId, UserChatOptionsFragment())
+    }
+
+    override fun navigateToMMChatOptions() {
+        activity.supportFragmentManager.add(fullContainerId, MMChatOptionsFragment())
     }
 
     private fun finishWithResult(resultCode: VideoChatActivity.ResultStatus) {

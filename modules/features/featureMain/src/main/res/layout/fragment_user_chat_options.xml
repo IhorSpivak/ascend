@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsContract.ViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_black_semitransparent"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{(v) -> model.onBackClick()}">
+
+        <TextView
+            android:id="@+id/tvTitleGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            style="@style/TextNormal.White"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="@{model.groupInfo.name}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Fighting for recovery"/>
+
+        <TextView
+            android:id="@+id/tvTitleOwner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/TextNormal"
+            android:textSize="12sp"
+            android:textColor="@color/light_gray_da"
+            android:text="@{model.groupInfo.owner.fullName}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleGroup"
+            tools:text="by Bessie Howard"/>
+
+        <ImageView
+            android:id="@+id/ivRiseHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="40dp"
+            android:src="@drawable/ic_hand"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivClip"
+            app:layout_constraintBottom_toTopOf="@id/btnLeave"/>
+
+        <ImageView
+            android:id="@+id/ivClip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_clip"
+            app:layout_constraintStart_toEndOf="@id/ivRiseHand"
+            app:layout_constraintEnd_toStartOf="@id/ivNotes"
+            app:layout_constraintTop_toTopOf="@id/ivRiseHand"
+            app:layout_constraintBottom_toBottomOf="@id/ivRiseHand"/>
+
+        <ImageView
+            android:id="@+id/ivNotes"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_notes"
+            android:tint="@android:color/white"
+            app:layout_constraintStart_toEndOf="@id/ivClip"
+            app:layout_constraintEnd_toStartOf="@id/ivCheckList"
+            app:layout_constraintTop_toTopOf="@id/ivRiseHand"
+            app:layout_constraintBottom_toBottomOf="@id/ivRiseHand"/>
+
+        <ImageView
+            android:id="@+id/ivCheckList"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_check_list"
+            android:tint="@android:color/white"
+            app:layout_constraintStart_toEndOf="@id/ivNotes"
+            app:layout_constraintEnd_toStartOf="@id/ivReport"
+            app:layout_constraintTop_toTopOf="@id/ivRiseHand"
+            app:layout_constraintBottom_toBottomOf="@id/ivRiseHand"/>
+
+        <ImageView
+            android:id="@+id/ivReport"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="24dp"
+            android:src="@drawable/ic_info"
+            android:tint="@android:color/white"
+            app:layout_constraintStart_toEndOf="@id/ivCheckList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivRiseHand"
+            app:layout_constraintBottom_toBottomOf="@id/ivRiseHand"/>
+
+        <Button
+            android:id="@+id/btnLeave"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/red_webinar_color"
+            android:text="@string/leave_group"
+            style="@style/TextNormal.White"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:onClick="@{(v) -> model.onLeaveGroupClick()}"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

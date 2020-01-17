@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsContract.ViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_black_semitransparent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back"
+            android:onClick="@{(v) -> model.onBackClick()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvTitleGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            style="@style/TextNormal.White"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="@{model.groupInfo.name}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Fighting for recovery"/>
+
+        <TextView
+            android:id="@+id/tvTitleOwner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            style="@style/TextNormal"
+            android:textSize="12sp"
+            android:textColor="@color/light_gray_da"
+            android:text="@{model.groupInfo.owner.fullName}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleGroup"
+            tools:text="by Bessie Howard"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ivRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_loop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivShareScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
+            android:layout_marginBottom="40dp"
+            android:src="@drawable/ic_share_screen"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivClip"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivClip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_clip"
+            app:layout_constraintStart_toEndOf="@id/ivShareScreen"
+            app:layout_constraintEnd_toStartOf="@id/ivRec"
+            app:layout_constraintTop_toTopOf="@id/ivShareScreen"
+            app:layout_constraintBottom_toBottomOf="@id/ivShareScreen"/>
+
+        <ImageView
+            android:id="@+id/ivRec"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="96dp"
+            android:src="@drawable/ic_record"
+            app:layout_constraintStart_toEndOf="@id/ivClip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivShareScreen"
+            app:layout_constraintBottom_toBottomOf="@id/ivShareScreen"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/bottomGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="ivShareScreen,ivClip,ivRec"/>
+
+        <ImageView
+            android:id="@+id/ivCamera"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="80dp"
+            android:src="@drawable/ic_videocam"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivHandset"
+            app:layout_constraintTop_toTopOf="@id/ivHandset"
+            app:layout_constraintBottom_toBottomOf="@id/ivHandset"/>
+
+        <ImageView
+            android:id="@+id/ivHandset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
+            android:src="@drawable/ic_finish_call"
+            app:layout_constraintStart_toEndOf="@id/ivCamera"
+            app:layout_constraintEnd_toStartOf="@id/ivMicro"
+            app:layout_constraintBottom_toTopOf="@id/bottomGroup"/>
+
+        <ImageView
+            android:id="@+id/ivMicro"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="80dp"
+            android:src="@drawable/ic_micro"
+            app:layout_constraintStart_toEndOf="@id/ivHandset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivHandset"
+            app:layout_constraintBottom_toBottomOf="@id/ivHandset"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

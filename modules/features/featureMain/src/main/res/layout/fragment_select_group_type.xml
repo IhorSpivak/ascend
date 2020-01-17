@@ -88,7 +88,7 @@
                     app:iconRes="@{@drawable/ic_webinar_type}"
                     app:listener="@{model}"
                     app:title="@{@string/webinar_group_title}"
-                    app:titleColor="@{@color/webinar_color}"
+                    app:titleColor="@{@color/red_webinar_color}"
                     app:type="@{GroupType.WEBINARS}" />
 
                 <include

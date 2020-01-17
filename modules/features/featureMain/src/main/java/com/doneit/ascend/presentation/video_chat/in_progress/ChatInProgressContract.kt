@@ -13,5 +13,6 @@ interface ChatInProgressContract {
 
         fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus)
         fun forceDisconnect()
+        fun onOpenOptions()
     }
 }

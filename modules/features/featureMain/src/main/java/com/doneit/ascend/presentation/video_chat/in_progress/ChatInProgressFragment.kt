@@ -137,5 +137,4 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         localVideoTrack?.release()
         super.onDestroyView()
     }
-
 }

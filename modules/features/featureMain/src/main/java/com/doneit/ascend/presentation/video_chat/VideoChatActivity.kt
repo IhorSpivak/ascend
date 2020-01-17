@@ -43,6 +43,7 @@ class VideoChatActivity : BaseActivity() {
     }
 
     fun getContainerId() = R.id.container
+    fun getFullContainerId() = R.id.root_container
 
     private val viewModel: VideoChatContract.ViewModel by instance()
     private lateinit var binding: ActivityVideoChatBinding

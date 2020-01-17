@@ -145,8 +145,8 @@ class GroupEntity(
     override fun describeContents() = 0
 
     companion object CREATOR : Parcelable.Creator<GroupEntity> {
-        const val PROGRESS_DURATION = 1 * 60 * 60 * 1000L //1hour
-        private const val UPCOMING_INTERVAL = 60 * 60 * 1000L //10 min
+        const val PROGRESS_DURATION = 10 * 60 * 60 * 1000L //1hour
+        private const val UPCOMING_INTERVAL = 100 * 60 * 1000L //10 min
 
         override fun createFromParcel(parcel: Parcel): GroupEntity {
             return GroupEntity(parcel)

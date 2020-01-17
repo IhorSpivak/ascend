@@ -18,9 +18,12 @@ interface VideoChatContract {
 
     interface Router {
         fun onBack()
+        fun finishActivity()
         fun navigateToPreview()
         fun navigateToChatInProgress()
         fun navigateToChatFinishScreen()
+        fun navigateUserChatOptions()
+        fun navigateToMMChatOptions()
         fun navigateToPermissionsRequiredDialog(resultCode: VideoChatActivity.ResultStatus)
     }
 }

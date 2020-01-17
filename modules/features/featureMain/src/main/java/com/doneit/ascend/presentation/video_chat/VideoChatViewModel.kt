@@ -7,12 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
+import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.toTimerFormat
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
+import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsContract
+import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsContract
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
 import kotlinx.coroutines.launch
 import java.util.*
@@ -24,17 +27,21 @@ class VideoChatViewModel(
 ) : BaseViewModelImpl(),
     VideoChatContract.ViewModel,
     ChatInProgressContract.ViewModel,
-    ChatPreviewContract.ViewModel {
+    ChatPreviewContract.ViewModel,
+    UserChatOptionsContract.ViewModel,
+    MMChatOptionsContract.ViewModel {
 
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val participants = MutableLiveData<List<SocketEventEntity>>(listOf())
     override val timer = MutableLiveData<String>()
-    override val messages = groupUseCase.messagesStream
+    override val messages = groupUseCase.messagesStream//todo remove in future
 
     private var groupId: Long = -1
     private var downTimer: CountDownTimer? = null
+    private var currentUser: UserEntity? = null
     private lateinit var chatState: VideoChatState
+
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
         when(socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
@@ -54,12 +61,12 @@ class VideoChatViewModel(
         this.groupId = groupId
         viewModelScope.launch {
             launch {
-                val user = userUseCase.getUser()
+                currentUser = userUseCase.getUser()
                 val creds = groupUseCase.getCredentials(groupId)
 
                 credentials.postValue(
                     StartVideoModel(
-                        user!!.isMasterMind,
+                        currentUser!!.isMasterMind,
                         creds.successModel!!.name,
                         creds.successModel!!.token
                     )
@@ -87,8 +94,23 @@ class VideoChatViewModel(
     }
 
     override fun forceDisconnect() {
-        groupUseCase.disconnect()
-        messages.removeObserver(messagesObserver)
+        clearChatResources()
+    }
+
+    override fun onOpenOptions() {
+        if(currentUser != null && groupInfo.value != null){
+            val isMasterMind = currentUser!!.isMasterMind && groupInfo.value?.owner?.id == currentUser?.id
+
+            if(isMasterMind) {
+                router.navigateToMMChatOptions()
+            } else {
+                router.navigateUserChatOptions()
+            }
+        }
+    }
+
+    override fun onLeaveGroupClick() {
+        router.finishActivity()
     }
 
     override fun onBackClick() {
@@ -124,8 +146,7 @@ class VideoChatViewModel(
                 router.navigateToChatInProgress()
             }
             VideoChatState.FINISHED -> {
-                downTimer?.cancel()
-                groupUseCase.disconnect()
+                clearChatResources()
                 router.navigateToChatFinishScreen()
             }
         }
@@ -159,5 +180,11 @@ class VideoChatViewModel(
                 timer.postValue(Date(group.timeInProgress).toTimerFormat())
             }
         }.start()
+    }
+
+    private fun clearChatResources() {
+        groupUseCase.disconnect()
+        downTimer?.cancel()
+        messages.removeObserver(messagesObserver)
     }
 }
