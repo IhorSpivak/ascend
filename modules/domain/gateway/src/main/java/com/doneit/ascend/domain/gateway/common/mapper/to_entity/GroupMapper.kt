@@ -61,7 +61,7 @@ fun GroupCredentialsResponse.toEntity(): GroupCredentialsModel {
     )
 }
 
-fun SocketEventResponse.toEntity(): SocketEventEntity {
+fun SocketEventMessage.toEntity(): SocketEventEntity {
     return SocketEventEntity(
         SocketEvent.fromRemoteString(event),
         userId,

@@ -2,6 +2,7 @@ package com.doneit.ascend.source.storage.remote.repository.group.socket
 
 import android.util.Log
 import com.doneit.ascend.source.storage.remote.data.request.GroupSocketCookies
+import com.doneit.ascend.source.storage.remote.data.response.SocketEventMessage
 import com.doneit.ascend.source.storage.remote.data.response.SocketEventResponse
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -13,7 +14,7 @@ class GroupSocketRepository(
     private val gson: Gson
 ) : IGroupSocketRepository {
 
-    override val messagesStream = SingleLiveEvent<SocketEventResponse>()
+    override val messagesStream = SingleLiveEvent<SocketEventMessage>()
 
     private var socket: WebSocket? = null
 
@@ -73,8 +74,8 @@ class GroupSocketRepository(
         try {
             Log.d("SocketMessage", message)
             val result = gson.fromJson(message, SocketEventResponse::class.java)
-            if(result.event != null) { //todo replace by Gson deserializer with exception on missing fields
-                messagesStream.postValue(result)
+            if(result.message?.event != null) { //todo replace by Gson deserializer with exception on missing fields
+                messagesStream.postValue(result.message)
             }
         } catch (exception: JsonSyntaxException) {
             exception.printStackTrace()
