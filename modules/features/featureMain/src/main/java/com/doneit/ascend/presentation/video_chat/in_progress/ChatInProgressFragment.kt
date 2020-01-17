@@ -21,6 +21,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
+
 class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
@@ -57,6 +58,10 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         viewModel.isAudioEnabled.observe(viewLifecycleOwner, Observer {
             localAudioTrack?.enable(it)
         })
+
+        viewModel.isRecordEnabled.observe(viewLifecycleOwner, Observer {
+            //todo
+        })
     }
 
     private fun startLocalVideo(model: StartVideoModel) {
@@ -77,7 +82,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
                     val cameraCapturer = CameraCapturer(
                         context!!,
-                        CameraCapturer.CameraSource.FRONT_CAMERA
+                        model.camera
                     )
 
                     localAudioTrack = LocalAudioTrack.create(context!!, true)
@@ -172,10 +177,10 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     override fun onDestroyView() {
-        viewModel.forceDisconnect()
         room?.disconnect()
         localAudioTrack?.release()
         localVideoTrack?.release()
+        viewModel.forceDisconnect()
         super.onDestroyView()
     }
 }

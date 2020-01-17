@@ -9,7 +9,6 @@ interface UserChatOptionsContract {
         val groupInfo: LiveData<GroupEntity>
         val isVideoEnabled: LiveData<Boolean>
 
-        fun changeVideoEnabledState()
         fun onLeaveGroupClick()
         fun onBackClick()
     }

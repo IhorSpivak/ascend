@@ -1,11 +1,13 @@
 package com.doneit.ascend.domain.entity
 
-import java.lang.IllegalArgumentException
-
 enum class SocketEvent {
     PARTICIPANT_CONNECTED,
     PARTICIPANT_DISCONNECTED,
-    ROOM_ENDED;
+    TRACK_ADDED,
+    RECORDING_STARTED,
+    RECORDING_COMPLETED,
+    ROOM_ENDED,
+    UNEXPECTED;
 
     companion object {
         fun fromRemoteString(representation: String): SocketEvent {
@@ -13,7 +15,10 @@ enum class SocketEvent {
                 "ParticipantConnected" -> PARTICIPANT_CONNECTED
                 "ParticipantDisconnected" -> PARTICIPANT_DISCONNECTED
                 "RoomEnded" -> ROOM_ENDED
-                else -> throw IllegalArgumentException()
+                "TrackAdded" -> TRACK_ADDED
+                "RecordingStarted" -> RECORDING_STARTED
+                "RecordingCompleted" -> RECORDING_COMPLETED
+                else -> UNEXPECTED
             }
         }
     }

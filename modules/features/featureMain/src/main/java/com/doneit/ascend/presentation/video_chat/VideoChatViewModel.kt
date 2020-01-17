@@ -17,6 +17,7 @@ import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContr
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsContract
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsContract
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
+import com.twilio.video.CameraCapturer
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -37,6 +38,7 @@ class VideoChatViewModel(
     override val timer = MutableLiveData<String>()
     override val isVideoEnabled = MutableLiveData<Boolean>(true)
     override val isAudioEnabled = MutableLiveData<Boolean>(true)
+    override val isRecordEnabled = MutableLiveData<Boolean>(true)
     override val messages = groupUseCase.messagesStream//todo remove in future
 
     private var groupId: Long = -1
@@ -70,7 +72,8 @@ class VideoChatViewModel(
                     StartVideoModel(
                         currentUser!!.isMasterMind,
                         creds.successModel!!.name,
-                        creds.successModel!!.token
+                        creds.successModel!!.token,
+                        CameraCapturer.CameraSource.FRONT_CAMERA
                     )
                 )
             }
@@ -99,6 +102,16 @@ class VideoChatViewModel(
         clearChatResources()
     }
 
+    override fun finishCall() {
+        clearChatResources()
+        //todo send finish message to socket
+        router.finishActivity()
+    }
+
+    override fun onLeaveGroupClick() {
+        router.finishActivity()
+    }
+
     override fun onOpenOptions() {
         if (currentUser != null && groupInfo.value != null) {
             val isMasterMind =
@@ -112,20 +125,16 @@ class VideoChatViewModel(
         }
     }
 
-    override fun onLeaveGroupClick() {
-        router.finishActivity()
+    override fun switchVideoEnabledState() {
+        isVideoEnabled.switch()
     }
 
-    override fun changeVideoEnabledState() {
-        isVideoEnabled.value?.let {
-            isVideoEnabled.postValue(!it)
-        }
+    override fun switchAudioEnabledState() {
+        isAudioEnabled.switch()
     }
 
-    override fun changeAudioEnabledState() {
-        isAudioEnabled.value?.let {
-            isAudioEnabled.postValue(!it)
-        }
+    override fun switchRecordState() {
+        isRecordEnabled.switch()
     }
 
     override fun onBackClick() {
@@ -135,6 +144,12 @@ class VideoChatViewModel(
     override fun onCleared() {
         messages.removeObserver(messagesObserver)
         super.onCleared()
+    }
+
+    private fun MutableLiveData<Boolean>.switch() {
+        value?.let {
+            postValue(!it)
+        }
     }
 
     private fun setInitialState(group: GroupEntity) {

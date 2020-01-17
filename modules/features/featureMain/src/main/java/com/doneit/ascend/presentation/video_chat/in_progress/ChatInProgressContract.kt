@@ -12,15 +12,10 @@ interface ChatInProgressContract {
         val groupInfo: LiveData<GroupEntity>
         val isVideoEnabled: LiveData<Boolean>
         val isAudioEnabled: LiveData<Boolean>
+        val isRecordEnabled: LiveData<Boolean>
 
         fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus)
         fun forceDisconnect()
         fun onOpenOptions()
-    }
-
-    interface ViewModelLocal : BaseViewModel {
-        val isVideoEnabled: LiveData<Boolean>
-
-        fun changeVideoEnabledState()
     }
 }

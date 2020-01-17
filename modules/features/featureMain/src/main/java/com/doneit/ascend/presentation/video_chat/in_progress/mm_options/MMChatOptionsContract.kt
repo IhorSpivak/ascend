@@ -10,9 +10,12 @@ interface MMChatOptionsContract {
         val groupInfo: LiveData<GroupEntity>
         val isVideoEnabled: LiveData<Boolean>
         val isAudioEnabled: LiveData<Boolean>
+        val isRecordEnabled: LiveData<Boolean>
 
-        fun changeVideoEnabledState()
-        fun changeAudioEnabledState()
+        fun switchVideoEnabledState()
+        fun switchAudioEnabledState()
+        fun switchRecordState()
+        fun finishCall()
         fun onBackClick()
     }
 }
