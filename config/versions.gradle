@@ -182,6 +182,7 @@ ext {
             [configuration: "implementation", dependency: kodein.framework],
 
             [configuration: "api", dependency: core.remote],
+            [configuration: "implementation", dependency: core.networkmanager],
     ]
 
     localModule = [

@@ -60,7 +60,7 @@ class VideoChatActivity : BaseActivity() {
 
         viewModel.messages.observe(this, Observer {
             it?.let {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.event.toString(), Toast.LENGTH_SHORT).show()
             }
         })
     }

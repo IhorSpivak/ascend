@@ -61,6 +61,15 @@ fun GroupCredentialsResponse.toEntity(): GroupCredentialsModel {
     )
 }
 
+fun SocketEventResponse.toEntity(): SocketEventEntity {
+    return SocketEventEntity(
+        SocketEvent.fromRemoteString(event),
+        userId,
+        fullName,
+        image.toEntity()
+    )
+}
+
 private fun Int.toCalendarDay(): CalendarDayEntity {
     return CalendarDayEntity.values()[this]
 }

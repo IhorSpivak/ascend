@@ -4,6 +4,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -11,6 +12,7 @@ import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.toTimerFormat
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -31,6 +33,9 @@ class VideoChatViewModel(
     private var groupId: Long = -1
     private var downTimer: CountDownTimer? = null
     private lateinit var chatState: VideoChatState
+    private val messagesObserver = Observer<SocketEventEntity> {
+
+    }
 
     override fun init(groupId: Long) {
         this.groupId = groupId
@@ -60,6 +65,7 @@ class VideoChatViewModel(
             }
         }
 
+        messages.observeForever(messagesObserver)
         router.navigateToPreview()
     }
 
@@ -69,10 +75,16 @@ class VideoChatViewModel(
 
     override fun forceDisconnect() {
         groupUseCase.disconnect()
+        messages.removeObserver(messagesObserver)
     }
 
     override fun onBackClick() {
         router.onBack()
+    }
+
+    override fun onCleared() {
+        messages.removeObserver(messagesObserver)
+        super.onCleared()
     }
 
     private fun setInitialState(group: GroupEntity) {

@@ -3,6 +3,7 @@ package com.doneit.ascend.domain.use_case.interactor.group
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
@@ -24,7 +25,7 @@ interface GroupUseCase {
 
     suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsModel, List<String>>
 
-    val messagesStream: LiveData<String?>
+    val messagesStream: LiveData<SocketEventEntity>
 
     fun connectToChannel(groupId: Long)
 

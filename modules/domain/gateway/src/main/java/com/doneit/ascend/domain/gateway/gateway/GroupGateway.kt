@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.gateway.gateway
 
 import android.accounts.AccountManager
+import androidx.lifecycle.map
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
@@ -19,13 +20,8 @@ import com.doneit.ascend.source.storage.remote.data.request.GroupSocketCookies
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.socket.IGroupSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
-import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.Response
-import okhttp3.WebSocket
-import okhttp3.WebSocketListener
-import okio.ByteString
 import java.io.File
 
 internal class GroupGateway(
@@ -40,7 +36,7 @@ internal class GroupGateway(
         return ""//todo, not required for now
     }
 
-    override val messagesStream = SingleLiveEvent<String?>()
+    override val messagesStream = remoteSocket.messagesStream.map { it.toEntity() }
 
     override suspend fun createGroup(groupModel: CreateGroupModel): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
@@ -142,45 +138,13 @@ internal class GroupGateway(
                 val account = accounts[0]
                 val token = accountManager.blockingGetAuthToken(account, "Bearer", false)
                 val cookies = GroupSocketCookies(token, groupId)
-                remoteSocket.connect(getWebSocketAdapter(), cookies)
+
+                remoteSocket.connect(cookies)
             }
         }
     }
 
     override fun disconnect() {
         remoteSocket.disconnect()
-    }
-
-
-    private fun getWebSocketAdapter(): WebSocketListener {
-        return object: WebSocketListener() {
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
-            }
-
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosing(webSocket, code, reason)
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                super.onFailure(webSocket, t, response)
-            }
-
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                messagesStream.postValue(text)
-            }
-
-            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                messagesStream.postValue(bytes.toString())
-            }
-
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-                remoteSocket.sendMessage(SUBSCRIBE_GROUP_CHANNEL_COMMAND)
-            }
-        }
-    }
-
-    companion object {
-        private const val SUBSCRIBE_GROUP_CHANNEL_COMMAND = "{\"command\": \"subscribe\",\"identifier\":\"{\"channel\":\"GroupChannel\"}\"}"
     }
 }

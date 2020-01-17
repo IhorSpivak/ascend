@@ -1,10 +1,13 @@
 package com.doneit.ascend.source.storage.remote.repository.group.socket
 
+import androidx.lifecycle.LiveData
 import com.doneit.ascend.source.storage.remote.data.request.GroupSocketCookies
-import okhttp3.WebSocketListener
+import com.doneit.ascend.source.storage.remote.data.response.SocketEventResponse
 
 interface IGroupSocketRepository {
-    fun connect(listener: WebSocketListener, cookies: GroupSocketCookies)
+    val messagesStream: LiveData<SocketEventResponse>
+
+    fun connect(cookies: GroupSocketCookies)
 
     fun sendMessage(message: String)
 

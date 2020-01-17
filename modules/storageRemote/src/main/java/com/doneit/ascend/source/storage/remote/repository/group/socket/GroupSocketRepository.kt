@@ -1,17 +1,23 @@
 package com.doneit.ascend.source.storage.remote.repository.group.socket
 
+import android.util.Log
 import com.doneit.ascend.source.storage.remote.data.request.GroupSocketCookies
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.WebSocket
-import okhttp3.WebSocketListener
+import com.doneit.ascend.source.storage.remote.data.response.SocketEventResponse
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 
-class GroupSocketRepository : IGroupSocketRepository {
+class GroupSocketRepository(
+    private val gson: Gson
+) : IGroupSocketRepository {
+
+    override val messagesStream = SingleLiveEvent<SocketEventResponse>()
 
     private var socket: WebSocket? = null
 
-    override fun connect(listener: WebSocketListener, cookies: GroupSocketCookies) {
+    override fun connect(cookies: GroupSocketCookies) {
         val builder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -20,11 +26,14 @@ class GroupSocketRepository : IGroupSocketRepository {
 
         val request =
             Request.Builder().url(URL)
-                .addHeader(COOKIE_KEY,cookies.toString())//required for authorization
-                .addHeader("Origin","")//Server accepts any origin, but presence of this header is required!!!
+                .addHeader(COOKIE_KEY, cookies.toString())//required for authorization
+                .addHeader(
+                    "Origin",
+                    ""
+                )//Server accepts any origin, but presence of this header is required!!!
                 .build()
 
-        socket = client.newWebSocket(request, listener)
+        socket = client.newWebSocket(request, getWebSocketListener())
         client.dispatcher.executorService.shutdown()
     }
 
@@ -33,10 +42,48 @@ class GroupSocketRepository : IGroupSocketRepository {
     }
 
     override fun disconnect() {
-        socket?.close(1000,"")
+        socket?.close(1000, "")
+    }
+
+    private fun getWebSocketListener(): WebSocketListener {
+        return object : WebSocketListener() {
+            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+                super.onClosed(webSocket, code, reason)
+            }
+
+            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
+                super.onClosing(webSocket, code, reason)
+            }
+
+            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+                super.onFailure(webSocket, t, response)
+            }
+
+            override fun onMessage(webSocket: WebSocket, text: String) {
+                proceedMessage(text)
+            }
+
+            override fun onOpen(webSocket: WebSocket, response: Response) {
+                socket?.send(SUBSCRIBE_GROUP_CHANNEL_COMMAND)
+            }
+        }
+    }
+
+    private fun proceedMessage(message: String) {
+        try {
+            Log.d("SocketMessage", message)
+            val result = gson.fromJson(message, SocketEventResponse::class.java)
+            if(result.event != null) { //todo replace by Gson deserializer with exception on missing fields
+                messagesStream.postValue(result)
+            }
+        } catch (exception: JsonSyntaxException) {
+            exception.printStackTrace()
+        }
     }
 
     companion object {
+        private const val SUBSCRIBE_GROUP_CHANNEL_COMMAND =
+            "{\"identifier\":\"{\"channel\":\"GroupChannel\"}\",\"command\": \"subscribe\"}"
         private const val URL = "wss://ascend-backend.herokuapp.com/cable"
         private const val COOKIE_KEY = "Cookie"
     }

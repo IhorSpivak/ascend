@@ -95,7 +95,9 @@ object StorageRemoteModule {
         }
 
         bind<IGroupSocketRepository>() with singleton {
-            GroupSocketRepository()
+            GroupSocketRepository(
+                instance()
+            )
         }
     }
 }
