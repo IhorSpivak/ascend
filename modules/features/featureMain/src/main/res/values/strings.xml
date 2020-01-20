@@ -288,7 +288,9 @@
     <string name="ending_in_title">Ending in:</string>
     <string name="group_ended">Group ended</string>
     <string name="mm_disconnected">%s\n is disconnected</string>
-    
+    <string name="remove_from_group">Remove from Group</string>
+    <string name="report">Report</string>
+    <string name="allow_say">Allow to say</string>
     <!--Permission required dialog-->
     <string name="permission_required_title">Video call is unavailable</string>
     <string name="permission_required_content">The camera could not be turned on, please check your device\'s privacy settings or make an audio call instead</string>

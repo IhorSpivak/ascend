@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.doneit.ascend.domain.entity.SocketEventEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/light_gray_8f">
+
+        <com.doneit.ascend.presentation.views.MasterMindIcon
+            android:id="@+id/ivIcon"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="64dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:name="@{item.fullName}"/>
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/TextNormal.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivIcon"
+            tools:text="Francisco Edwards" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:fillViewport="true"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvName">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="174dp"
+                    android:alpha="0.8"
+                    android:background="@color/light_gray_f8"
+                    app:cardCornerRadius="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvAllow"
+                            style="@style/TextSFBlue"
+                            android:layout_width="match_parent"
+                            android:layout_height="58dp"
+                            android:gravity="center"
+                            android:text="@string/allow_say"
+                            android:textSize="20sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/dark_gray" />
+
+                        <TextView
+                            android:id="@+id/tvRemove"
+                            style="@style/TextSFBlue"
+                            android:layout_width="match_parent"
+                            android:layout_height="58dp"
+                            android:gravity="center"
+                            android:text="@string/remove_from_group"
+                            android:textSize="20sp"
+                            android:textColor="@color/cancel_color"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/dark_gray" />
+
+                        <TextView
+                            android:id="@+id/tvReport"
+                            style="@style/TextSFBlue"
+                            android:layout_width="match_parent"
+                            android:layout_height="58dp"
+                            android:gravity="center"
+                            android:text="@string/report"
+                            android:textSize="20sp"
+                            android:textColor="@color/cancel_color"/>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvCancel"
+                    style="@style/TextSFBlue"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/bg_round_white"
+                    android:gravity="center"
+                    android:text="@string/btn_cancel"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

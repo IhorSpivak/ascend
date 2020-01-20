@@ -3,9 +3,14 @@ package com.doneit.ascend.presentation.video_chat.common
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.doneit.ascend.domain.entity.ImageEntity
+import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
+import com.doneit.ascend.domain.entity.ThumbnailEntity
 
-class ChatParticipantsAdapter : RecyclerView.Adapter<ChatParticipantViewHolder>() {
+class ChatParticipantsAdapter(
+    private val onItemClick: (SocketEventEntity) -> Unit
+) : RecyclerView.Adapter<ChatParticipantViewHolder>() {
 
     private val items = mutableListOf<SocketEventEntity>()
 
@@ -17,6 +22,9 @@ class ChatParticipantsAdapter : RecyclerView.Adapter<ChatParticipantViewHolder>(
 
     override fun onBindViewHolder(holder: ChatParticipantViewHolder, position: Int) {
         holder.bind(items[position])
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke(items[position])
+        }
     }
 
     fun submitList(newItems: List<SocketEventEntity>) {

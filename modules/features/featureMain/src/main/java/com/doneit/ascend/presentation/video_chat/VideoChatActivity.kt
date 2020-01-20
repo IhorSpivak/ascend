@@ -6,6 +6,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.domain.entity.ImageEntity
+import com.doneit.ascend.domain.entity.SocketEvent
+import com.doneit.ascend.domain.entity.SocketEventEntity
+import com.doneit.ascend.domain.entity.ThumbnailEntity
+import com.doneit.ascend.presentation.dialog.ChatParticipantActions
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
@@ -49,7 +54,9 @@ class VideoChatActivity : BaseActivity() {
 
     private val viewModel: VideoChatContract.ViewModel by instance()
     private lateinit var binding: ActivityVideoChatBinding
-    private val participantsAdapter by lazy { ChatParticipantsAdapter() }
+    private val participantsAdapter by lazy { ChatParticipantsAdapter{
+        showUserActions(it)
+    } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +64,10 @@ class VideoChatActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.model = viewModel
         binding.rvParticipants.adapter = participantsAdapter
+        binding.rootContainer.postDelayed({
+            participantsAdapter.submitList(listOf(SocketEventEntity(SocketEvent.RECORDING_COMPLETED, 2, "abs", ImageEntity("", ThumbnailEntity(null)))))
+        },1000)
+
 
         val groupId = intent.getLongExtra(GROUP_ID_ARG, -1)
         viewModel.init(groupId)
@@ -78,6 +89,13 @@ class VideoChatActivity : BaseActivity() {
 
     override fun onBackPressed() {
         viewModel.onBackClick()
+    }
+
+    private fun showUserActions(user: SocketEventEntity){
+        ChatParticipantActions.create(
+            this,
+            user
+        ).show()
     }
 
     enum class ResultStatus {
