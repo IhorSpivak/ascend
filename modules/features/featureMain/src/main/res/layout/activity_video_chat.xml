@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.video_chat.VideoChatContract.ViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/root_container"
         android:layout_width="match_parent"
@@ -16,7 +18,7 @@
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvParticipants"
@@ -26,7 +28,7 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/template_chat_participant"/>
+            tools:listitem="@layout/template_chat_participant" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/connectionLostView"
@@ -38,61 +40,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:setImage="@{model.groupInfo.image.url}"/>
+                app:setImage="@{model.groupInfo.image.url}" />
 
             <TextView
                 android:id="@+id/tvTitle"
+                style="@style/TextNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="54dp"
-                android:layout_marginEnd="54dp"
                 android:layout_marginTop="160dp"
+                android:layout_marginEnd="54dp"
                 android:gravity="center"
-                style="@style/TextNormal"
+                android:text="@{model.groupInfo.name}"
                 android:textColor="@android:color/white"
                 android:textSize="32sp"
                 android:textStyle="bold"
-                android:text="@{model.groupInfo.name}"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Fighting For Recovery"/>
+                tools:text="Fighting For Recovery" />
 
             <TextView
                 android:id="@+id/tvConnectionLost"
+                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                style="@style/TextNormal"
-                android:textSize="16sp"
-                android:textColor="@color/error_color"
                 android:text="@string/connection_lost"
-                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                android:textColor="@color/error_color"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
             <TextView
                 android:id="@+id/tvConnection"
+                style="@style/TextNormal.White"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                style="@style/TextNormal.White"
-                android:textSize="12sp"
                 android:text="@string/connection"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvConnectionLost"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvConnectionLost" />
 
             <ImageView
                 android:id="@+id/ivHandset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/ic_finish_call"
                 android:onClick="@{(v) -> model.finishCall()}"
-                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/ic_finish_call"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvConnection"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvConnection" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -100,36 +102,73 @@
             android:id="@+id/counter"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/bg_shadow_rounded"
             android:orientation="vertical"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                style="@style/Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                style="@style/Title"
+                android:text="@{model.groupInfo.owner.fullName}"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                tools:text="Bessie Howard"
-                android:text="@{model.groupInfo.owner.fullName}"/>
+                tools:text="Bessie Howard" />
 
             <TextView
+                style="@style/TextNormal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                style="@style/TextNormal"
-                android:textColor="@android:color/white"
+                android:text="@{model.timerLabel}"
+                android:textColor="@{model.isFinishing()? @color/error_color : @android:color/white, default = @android:color/white}"
                 android:textSize="16sp"
-                tools:text="-00:25"
-                android:text="@{model.timer}"/>
+                tools:text="-00:25" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/finishingCounter"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="102dp"
+            android:background="@drawable/bg_red_rounded"
+            android:orientation="vertical"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:visibility="@{model.isFinishing()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                style="@style/Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/ending_in_title"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                style="@style/TextNormal.White"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@{model.finishingLabel}"
+                android:textSize="14sp"
+                tools:text="5 minutes" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

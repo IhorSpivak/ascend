@@ -8,9 +8,11 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 interface VideoChatContract {
     interface ViewModel : BaseViewModel {
         val groupInfo: LiveData<GroupEntity>
-        val timer: LiveData<String>
+        val timerLabel: LiveData<String>
         val messages: LiveData<SocketEventEntity>
         val participants: LiveData<List<SocketEventEntity>>
+        val isFinishing: LiveData<Boolean>
+        val finishingLabel: LiveData<String>
 
         fun init(groupId: Long)
         fun finishCall()

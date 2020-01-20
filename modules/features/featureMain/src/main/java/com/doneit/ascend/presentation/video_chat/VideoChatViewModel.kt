@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.StartVideoModel
+import com.doneit.ascend.presentation.utils.toMinutesFormat
 import com.doneit.ascend.presentation.utils.toTimerFormat
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsContract
@@ -21,6 +22,7 @@ import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
 import com.twilio.video.CameraCapturer
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.concurrent.timerTask
 
 class VideoChatViewModel(
     private val router: VideoChatContract.Router,
@@ -36,14 +38,17 @@ class VideoChatViewModel(
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val participants = MutableLiveData<List<SocketEventEntity>>(listOf())
-    override val timer = MutableLiveData<String>()
+    override val timerLabel = MutableLiveData<String>()
     override val isVideoEnabled = MutableLiveData<Boolean>(true)
     override val isAudioEnabled = MutableLiveData<Boolean>(true)
     override val isRecordEnabled = MutableLiveData<Boolean>(true)
     override val messages = groupUseCase.messagesStream//todo remove in future
+    override val isFinishing = MutableLiveData<Boolean>(false)
+    override val finishingLabel = MutableLiveData<String>()
 
     private var groupId: Long = -1
     private var downTimer: CountDownTimer? = null
+    private var timer = Timer()
     private var currentUser: UserEntity? = null
     private lateinit var chatState: VideoChatState
 
@@ -73,6 +78,7 @@ class VideoChatViewModel(
 
                 if (result.isSuccessful) {
                     groupEntity = result.successModel!!
+                    groupEntity!!.startTime!!.time += 15 * 60 * 1000
                     groupInfo.postValue(groupEntity)
                     setInitialState(groupEntity!!)
                 }
@@ -82,7 +88,7 @@ class VideoChatViewModel(
                 currentUser = userUseCase.getUser()
                 val res = groupUseCase.getCredentials(groupId)
 
-                if(res.isSuccessful) {
+                if (res.isSuccessful) {
                     creds = res.successModel!!
                 }
             }
@@ -90,8 +96,9 @@ class VideoChatViewModel(
             groupJob.join()
             userJob.join()
 
-            if(groupEntity != null && creds != null) {
-                val isTranslator = currentUser!!.isMasterMind && groupEntity!!.owner!!.id == currentUser!!.id
+            if (groupEntity != null && creds != null) {
+                val isTranslator =
+                    currentUser!!.isMasterMind && groupEntity!!.owner!!.id == currentUser!!.id
 
                 credentials.postValue(
                     StartVideoModel(
@@ -206,7 +213,7 @@ class VideoChatViewModel(
                 }
 
                 override fun onTick(p0: Long) {
-                    timer.postValue("-" + Date(p0).toTimerFormat())
+                    timerLabel.postValue("-" + Date(p0).toTimerFormat())
                 }
             }.start()
         }
@@ -214,22 +221,41 @@ class VideoChatViewModel(
 
     private fun initProgressTimer(group: GroupEntity) {
         downTimer?.cancel()
+        isFinishing.postValue(false)
 
         downTimer =
-            object : CountDownTimer(GroupEntity.PROGRESS_DURATION + group.startTime!!.time, 1000) {
+            object : CountDownTimer(
+                GroupEntity.PROGRESS_DURATION + group.startTime!!.time,
+                MAIN_TIMER_PERIOD
+            ) {
                 override fun onFinish() {
                     changeState(VideoChatState.FINISHED)
                 }
 
                 override fun onTick(p0: Long) {
-                    timer.postValue(Date(group.timeInProgress).toTimerFormat())
+                    timerLabel.postValue(Date(group.timeInProgress).toTimerFormat())
                 }
             }.start()
+
+        val finishingDate = Date(GroupEntity.FINISHING_INTERVAL + group.startTime!!.time)
+        timer.schedule(timerTask {
+            isFinishing.postValue(true)
+        }, finishingDate)
+
+        timer.schedule(timerTask {
+            finishingLabel.postValue(Date(group.timeToFinish).toMinutesFormat())
+        }, finishingDate, FINISHING_TIMER_PERIOD)
     }
 
     private fun clearChatResources() {
         groupUseCase.disconnect()
         downTimer?.cancel()
+        timer.cancel()
         messages.removeObserver(messagesObserver)
+    }
+
+    companion object {
+        private const val MAIN_TIMER_PERIOD = 1000L
+        private const val FINISHING_TIMER_PERIOD = 1 * 60 * 1000L //every minute
     }
 }

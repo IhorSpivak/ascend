@@ -19,6 +19,10 @@ fun Date.toTimerFormat(): String {
     return "mm:ss".toDefaultFormatter().getFormatted(this)
 }
 
+fun Date.toMinutesFormat(): String {
+    return "mm' minutes'".toDefaultFormatter().getFormatted(this)
+}
+
 private fun SimpleDateFormat.getFormatted(date: Date): String {
     var res = ""
     try {

@@ -49,7 +49,7 @@ class GroupEntity(
     val isStarting: Boolean
         get() {//todo refactor
             var res = false
-            if(startTime != null && daysOfWeek != null) {
+            if (startTime != null && daysOfWeek != null) {
                 if (passedCount < meetingsCount ?: 0) {
                     val startDate = Calendar.getInstance()
                     startDate.time = startTime
@@ -66,8 +66,9 @@ class GroupEntity(
                         currentDate.set(Calendar.MONTH, 0)
                         currentDate.set(Calendar.DAY_OF_MONTH, 0)
 
-                        if (currentDate.after(startDate.plus(-1* UPCOMING_INTERVAL))
-                            and currentDate.before(startDate.plus(UPCOMING_INTERVAL))) {
+                        if (currentDate.after(startDate.plus(-1 * UPCOMING_INTERVAL))
+                            and currentDate.before(startDate.plus(UPCOMING_INTERVAL))
+                        ) {
                             res = true
                         }
                     }
@@ -79,18 +80,18 @@ class GroupEntity(
 
     val inProgress: Boolean
         get() {//todo refactor
-            var res  = false
+            var res = false
 
-            if(startTime != null && daysOfWeek != null) {
+            if (startTime != null && daysOfWeek != null) {
 
-                if(passedCount < meetingsCount?:0) {
+                if (passedCount < meetingsCount ?: 0) {
                     val startDate = Calendar.getInstance()
                     startDate.time = startTime
                     val currentDate = Calendar.getInstance()
 
                     val dayIndex = currentDate.get(Calendar.DAY_OF_WEEK) - 1
                     val day = CalendarDayEntity.values()[dayIndex]
-                    if(daysOfWeek.contains(day)) {
+                    if (daysOfWeek.contains(day)) {
                         startDate.set(Calendar.YEAR, 0)
                         startDate.set(Calendar.MONTH, 0)
                         startDate.set(Calendar.DAY_OF_MONTH, 0)
@@ -99,7 +100,12 @@ class GroupEntity(
                         currentDate.set(Calendar.MONTH, 0)
                         currentDate.set(Calendar.DAY_OF_MONTH, 0)
 
-                        if(currentDate.after(startDate) and currentDate.before(startDate.plus(PROGRESS_DURATION))) {
+                        if (currentDate.after(startDate) and currentDate.before(
+                                startDate.plus(
+                                    PROGRESS_DURATION
+                                )
+                            )
+                        ) {
                             res = true
                         }
                     }
@@ -112,7 +118,14 @@ class GroupEntity(
     val timeInProgress: Long
         get() {
             val currentDate = Date()
-           return currentDate.time - startTime!!.time
+            return currentDate.time - startTime!!.time
+        }
+
+    val timeToFinish: Long
+        get() {
+            val currentDate = Date()
+            val time = startTime!!.time + PROGRESS_DURATION - currentDate.time
+            return if(time > 0) time else 0
         }
 
     private fun Calendar.plus(interval: Long): Calendar {
@@ -145,8 +158,9 @@ class GroupEntity(
     override fun describeContents() = 0
 
     companion object CREATOR : Parcelable.Creator<GroupEntity> {
-        const val PROGRESS_DURATION = 10 * 60 * 60 * 1000L //1hour
-        private const val UPCOMING_INTERVAL = 100 * 60 * 1000L //10 min
+        const val PROGRESS_DURATION = 1 * 60 * 60 * 1000L //1hour
+        const val FINISHING_INTERVAL = PROGRESS_DURATION - 5 * 60 * 1000L //5 minutes before finish
+        private const val UPCOMING_INTERVAL = 10 * 60 * 1000L //10 min
 
         override fun createFromParcel(parcel: Parcel): GroupEntity {
             return GroupEntity(parcel)
