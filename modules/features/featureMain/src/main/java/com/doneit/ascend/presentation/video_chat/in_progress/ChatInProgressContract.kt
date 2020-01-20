@@ -17,5 +17,7 @@ interface ChatInProgressContract {
         fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus)
         fun forceDisconnect()
         fun onOpenOptions()
+        fun onVideoStreamSubscribed(id: String)
+        fun isSubscribedTo(id: String): Boolean
     }
 }

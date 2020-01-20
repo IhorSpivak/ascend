@@ -53,6 +53,7 @@ class VideoChatViewModel(
     private var timer = Timer()
     private var currentUser: UserEntity? = null
     private lateinit var chatState: VideoChatState
+    private var videoStreamOwnerId: String? = null
 
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
         when (socketEvent.event) {
@@ -161,6 +162,14 @@ class VideoChatViewModel(
 
     override fun onOkClick() {
         router.finishActivity()
+    }
+
+    override fun onVideoStreamSubscribed(id: String) {
+        videoStreamOwnerId = id
+    }
+
+    override fun isSubscribedTo(id: String): Boolean {
+        return videoStreamOwnerId == id
     }
 
     override fun onBackClick() {

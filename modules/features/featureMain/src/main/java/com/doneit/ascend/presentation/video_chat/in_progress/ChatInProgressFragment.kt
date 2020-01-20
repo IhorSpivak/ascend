@@ -40,6 +40,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
+        binding.isMMConnected = true
 
         viewModel.credentials.observe(this, Observer {
             it?.let {
@@ -117,19 +118,34 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             override fun onConnected(room: Room) {
                 room.remoteParticipants.forEach {
                     if (checkForVideoStream(it)) {
+                        binding.isMMConnected = true
                         return
                     }
                 }
             }
 
             override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
-                checkForVideoStream(remoteParticipant)
+                if(checkForVideoStream(remoteParticipant)) {
+                    binding.isMMConnected = true
+                }
+            }
+
+
+            override fun onParticipantDisconnected(
+                room: Room,
+                remoteParticipant: RemoteParticipant
+            ) {
+                if(viewModel.isSubscribedTo(remoteParticipant.identity)){
+                    binding.isMMConnected = false
+                    placeholder.show()
+                }
             }
         }
     }
 
     private fun checkForVideoStream(participant: RemoteParticipant): Boolean {
         if (participant.remoteVideoTracks.isNotEmpty()) {
+            viewModel.onVideoStreamSubscribed(participant.identity)
             participant.setListener(getParticipantsListener())
             return true
         }
