@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.video_chat
 import android.content.Intent
 import com.doneit.ascend.presentation.main.extensions.add
 import com.doneit.ascend.presentation.main.extensions.replace
+import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsFragment
@@ -34,7 +35,7 @@ class VideoChatRouter(
     }
 
     override fun navigateToChatFinishScreen() {
-        //todo
+        activity.supportFragmentManager.replace(containerId, ChatFinishedFragment())
     }
 
     override fun navigateToPermissionsRequiredDialog(resultCode: VideoChatActivity.ResultStatus) {

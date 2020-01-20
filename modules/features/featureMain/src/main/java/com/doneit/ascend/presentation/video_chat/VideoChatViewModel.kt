@@ -15,6 +15,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.toMinutesFormat
 import com.doneit.ascend.presentation.utils.toTimerFormat
+import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedContract
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsContract
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsContract
@@ -30,8 +31,9 @@ class VideoChatViewModel(
     private val groupUseCase: GroupUseCase
 ) : BaseViewModelImpl(),
     VideoChatContract.ViewModel,
-    ChatInProgressContract.ViewModel,
     ChatPreviewContract.ViewModel,
+    ChatInProgressContract.ViewModel,
+    ChatFinishedContract.ViewModel,
     UserChatOptionsContract.ViewModel,
     MMChatOptionsContract.ViewModel {
 
@@ -78,7 +80,6 @@ class VideoChatViewModel(
 
                 if (result.isSuccessful) {
                     groupEntity = result.successModel!!
-                    groupEntity!!.startTime!!.time += 15 * 60 * 1000
                     groupInfo.postValue(groupEntity)
                     setInitialState(groupEntity!!)
                 }
@@ -156,6 +157,10 @@ class VideoChatViewModel(
 
     override fun switchRecordState() {
         isRecordEnabled.switch()
+    }
+
+    override fun onOkClick() {
+        router.finishActivity()
     }
 
     override fun onBackClick() {

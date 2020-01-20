@@ -286,6 +286,7 @@
     <string name="connection_lost">Connection lost</string>
     <string name="connection">connection…</string>
     <string name="ending_in_title">Ending in:</string>
+    <string name="group_ended">Group ended</string>
     
     <!--Permission required dialog-->
     <string name="permission_required_title">Video call is unavailable</string>
