@@ -10,16 +10,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.models.PresentationMessage
-import com.doneit.ascend.presentation.utils.ConnectionObserver
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.showDefaultError
-import com.doneit.ascend.presentation.utils.showNoConnectionDialog
-import com.doneit.ascend.presentation.views.ConnectionSnackbar
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.KodeinTrigger
@@ -51,14 +47,9 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
     abstract val viewModel: BaseViewModel
 
-    private var noConnectionDialog: ConnectionSnackbar? = null
     private lateinit var progressDialog: Dialog
 
     //endregion
-
-    private val connectionObserver: ConnectionObserver by lazy {
-        ConnectionObserver(this@BaseFragment.context!!)
-    }
 
     protected var binding: B by AutoClearedValue()
     private var initialized = false
@@ -101,19 +92,6 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
         initDialog()
         viewCreated(savedInstanceState)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        connectionObserver.networkStateChanged.observe(this, Observer {
-            if (it) {
-                noConnectionDialog?.dismiss()
-            } else {
-                noConnectionDialog =
-                    this.showNoConnectionDialog(getString(R.string.connecting))
-            }
-        })
     }
 
     //endregion

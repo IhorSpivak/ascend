@@ -1,20 +1,43 @@
 package com.doneit.ascend.presentation.main.base
 
 import android.annotation.TargetApi
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
-import android.os.Bundle
-import android.view.LayoutInflater
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.utils.ConnectionObserver
+import com.doneit.ascend.presentation.utils.showNoConnectionDialog
+import com.doneit.ascend.presentation.views.ConnectionSnackbar
 import java.util.*
 
 
 abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivity() {
+
+    private var noConnectionDialog: ConnectionSnackbar? = null
+    private val connectionObserver: ConnectionObserver by lazy {
+        ConnectionObserver(this@BaseActivity)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        connectionObserver.networkStateChanged.observe(this, Observer {
+            onNetworkStateChanged(it)
+        })
+    }
+
+    protected open fun onNetworkStateChanged(hasConnection: Boolean){
+        if (hasConnection) {
+            noConnectionDialog?.dismiss()
+        } else {
+            noConnectionDialog =
+                window.decorView.rootView.showNoConnectionDialog(getString(R.string.connecting))
+        }
+    }
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(updateBaseContextLocale(newBase))

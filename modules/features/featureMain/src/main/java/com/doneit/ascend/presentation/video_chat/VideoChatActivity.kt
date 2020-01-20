@@ -10,7 +10,9 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityVideoChatBinding
+import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.common.ChatParticipantsAdapter
+import kotlinx.android.synthetic.main.activity_video_chat.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -61,13 +63,17 @@ class VideoChatActivity : BaseActivity() {
 
         viewModel.messages.observe(this, Observer {
             it?.let {
-                Toast.makeText(this, it.event.toString(), Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, it.event.toString(), Toast.LENGTH_SHORT).show()
             }
         })
 
         viewModel.participants.observe(this, Observer {
             participantsAdapter.submitList(it)
         })
+    }
+
+    override fun onNetworkStateChanged(hasConnection: Boolean) {
+        connectionLostView.visible(hasConnection.not())
     }
 
     override fun onBackPressed() {

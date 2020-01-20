@@ -283,6 +283,8 @@
     <!--Video Chat-->
     <string name="waiting_for_start">Waiting for a group start</string>
     <string name="leave_group">Leave This Group</string>
+    <string name="connection_lost">Connection lost</string>
+    <string name="connection">connection…</string>
     
     <!--Permission required dialog-->
     <string name="permission_required_title">Video call is unavailable</string>

@@ -13,6 +13,7 @@ interface VideoChatContract {
         val participants: LiveData<List<SocketEventEntity>>
 
         fun init(groupId: Long)
+        fun finishCall()
         fun onBackClick()
     }
 

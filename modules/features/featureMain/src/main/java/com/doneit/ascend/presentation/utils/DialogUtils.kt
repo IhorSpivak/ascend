@@ -6,6 +6,7 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.DialogErrorBinding
 import com.doneit.ascend.presentation.main.databinding.DialogInfoBinding
@@ -113,11 +114,11 @@ fun BaseFragment<*>.showInfoDialog(
     return dialog
 }
 
-fun BaseFragment<*>.showNoConnectionDialog(
+fun View.showNoConnectionDialog(
     text: String
 ): ConnectionSnackbar {
 
-    val snackbar = ConnectionSnackbar.make(this.view!!, text)
+    val snackbar = ConnectionSnackbar.make(this, text)
     snackbar.show()
 
     return snackbar
