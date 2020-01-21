@@ -3,6 +3,6 @@ package com.doneit.ascend.presentation.profile.payments.payment_methods.add_paym
 enum class AddPaymentState {
     NUMBER,
     NAME,
-    CVV,
-    EXPIRATION
+    EXPIRATION,
+    CVV
 }

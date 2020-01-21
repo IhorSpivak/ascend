@@ -169,6 +169,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 remoteVideoTrackPublication: RemoteVideoTrackPublication,
                 remoteVideoTrack: RemoteVideoTrack
             ) {
+                //todo how to unsubscribe at appropriate time?
                 if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
                     binding.placeholder.show()
                 }

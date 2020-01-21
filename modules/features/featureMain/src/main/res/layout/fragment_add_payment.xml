@@ -317,7 +317,7 @@
                 android:onClick="@{(v) -> model.onDoneClick()}"
                 android:text="@string/btn_done"
                 android:textColor="@android:color/white"
-                android:visibility="@{model.state == AddPaymentState.EXPIRATION}"
+                android:visibility="@{model.state == AddPaymentState.CVV}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/back"
                 app:layout_constraintTop_toBottomOf="@id/inputBottom" />
