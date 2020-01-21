@@ -13,7 +13,7 @@ fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
     val startTime = CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
     val calendar = Calendar.getInstance()
     calendar.time = startTime
-    calendar.set(Calendar.HOUR, hours.toInt())
+    calendar.set(Calendar.HOUR, hours.toInt() % 12)//to avoid day increment
     calendar.set(Calendar.MINUTE, minutes.toInt())
     calendar.set(Calendar.AM_PM, timeType.toAM_PM())
 
