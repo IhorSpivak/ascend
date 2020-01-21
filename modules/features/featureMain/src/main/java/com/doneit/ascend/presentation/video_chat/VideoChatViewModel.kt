@@ -19,6 +19,7 @@ import com.doneit.ascend.presentation.utils.toTimerFormat
 import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedContract
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsContract
+import com.doneit.ascend.presentation.video_chat.in_progress.user_actions.ChatParticipantActionsContract
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsContract
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
 import com.twilio.video.CameraCapturer
@@ -36,7 +37,8 @@ class VideoChatViewModel(
     ChatInProgressContract.ViewModel,
     ChatFinishedContract.ViewModel,
     UserChatOptionsContract.ViewModel,
-    MMChatOptionsContract.ViewModel {
+    MMChatOptionsContract.ViewModel,
+    ChatParticipantActionsContract.ViewModel {
 
     //region data
     override val credentials = MutableLiveData<StartVideoModel>()
@@ -221,6 +223,10 @@ class VideoChatViewModel(
                 }
             }
         }
+    }
+
+    override fun onParticipantClick(id: Long) {
+        router.navigateToChatParticipantActions(id)
     }
 
     override fun onBackClick() {

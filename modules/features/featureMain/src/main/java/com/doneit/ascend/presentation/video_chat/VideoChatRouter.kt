@@ -6,6 +6,7 @@ import com.doneit.ascend.presentation.main.extensions.replace
 import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsFragment
+import com.doneit.ascend.presentation.video_chat.in_progress.user_actions.ChatParticipantActionsFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsFragment
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
@@ -52,6 +53,10 @@ class VideoChatRouter(
 
     override fun navigateToMMChatOptions() {
         activity.supportFragmentManager.add(fullContainerId, MMChatOptionsFragment())
+    }
+
+    override fun navigateToChatParticipantActions(userId: Long) {
+        activity.supportFragmentManager.add(fullContainerId, ChatParticipantActionsFragment.newInstance(userId))
     }
 
     private fun finishWithResult(resultCode: VideoChatActivity.ResultStatus) {

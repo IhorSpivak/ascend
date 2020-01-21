@@ -9,7 +9,7 @@ import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.ThumbnailEntity
 
 class ChatParticipantsAdapter(
-    private val onItemClick: (SocketEventEntity) -> Unit
+    private val onItemClick: (Long) -> Unit
 ) : RecyclerView.Adapter<ChatParticipantViewHolder>() {
 
     private val items = mutableListOf<SocketEventEntity>()
@@ -23,7 +23,7 @@ class ChatParticipantsAdapter(
     override fun onBindViewHolder(holder: ChatParticipantViewHolder, position: Int) {
         holder.bind(items[position])
         holder.itemView.setOnClickListener {
-            onItemClick.invoke(items[position])
+            onItemClick.invoke(items[position].userId)
         }
     }
 
