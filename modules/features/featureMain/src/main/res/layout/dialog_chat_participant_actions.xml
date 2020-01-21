@@ -15,7 +15,7 @@
         tools:background="@color/light_gray_8f">
 
         <com.doneit.ascend.presentation.views.MasterMindIcon
-            android:id="@+id/ivIcon"
+            android:id="@+id/ivUserIcon"
             android:layout_width="240dp"
             android:layout_height="240dp"
             android:layout_marginStart="64dp"
@@ -24,7 +24,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:name="@{item.fullName}"/>
+            app:name="@{item.fullName}"
+            app:url="@{item.image.url}" />
 
         <TextView
             android:id="@+id/tvName"
@@ -34,7 +35,7 @@
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivIcon"
+            app:layout_constraintTop_toBottomOf="@id/ivUserIcon"
             tools:text="Francisco Edwards" />
 
         <androidx.core.widget.NestedScrollView

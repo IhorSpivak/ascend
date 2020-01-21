@@ -1,15 +1,16 @@
 package com.doneit.ascend.presentation.dialog
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.view.Gravity
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.DialogChatParticipantActionsBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class ChatParticipantActions {
     companion object {
@@ -25,9 +26,13 @@ class ChatParticipantActions {
             )
             binding.item = user
 
-            val dialog = BottomSheetDialog(context, R.style.AppThemeAlertDialog)
-            dialog.setContentView(binding.root)
+            val dialog = AlertDialog.Builder(context, R.style.AppThemeAlertDialog)
+                .setView(binding.root)
+                .setCancelable(false)
+                .create()
+
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window?.attributes?.gravity = Gravity.BOTTOM
 
            binding.tvCancel.setOnClickListener {
                dialog.dismiss()
