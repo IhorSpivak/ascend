@@ -66,7 +66,7 @@ internal class UserRepository(
         content: String,
         id: Long
     ): RemoteResponse<OKResponse, ErrorsListResponse> {
-        return execute({ api.report(content, id) }, ErrorsListResponse::class.java)
+        return execute({ api.report(id, content) }, ErrorsListResponse::class.java)
     }
 
     override suspend fun getProfile(): RemoteResponse<ProfileResponse, ErrorsListResponse> {
