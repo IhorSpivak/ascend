@@ -17,6 +17,7 @@ interface VideoChatContract {
         fun finishCall()
         fun onBackClick()
         fun report(content: String, participantId: Long)
+        fun onNetworkStateChanged(hasConnection: Boolean)
     }
 
     interface Router {

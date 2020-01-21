@@ -76,6 +76,7 @@ class VideoChatActivity : BaseActivity() {
     }
 
     override fun onNetworkStateChanged(hasConnection: Boolean) {
+        viewModel.onNetworkStateChanged(hasConnection)
         connectionLostView.visible(hasConnection.not())
     }
 
