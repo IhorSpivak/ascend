@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.StartVideoModel
+import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.toMinutesFormat
 import com.doneit.ascend.presentation.utils.toTimerFormat
 import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedContract
@@ -195,6 +196,21 @@ class VideoChatViewModel(
 
     override fun onStartGroupClick() {
         changeState(VideoChatState.PROGRESS)
+    }
+
+    override fun reportGroupOwner(content: String) {
+        groupInfo.value?.let {
+            report(content, it.owner!!.id)
+        }
+    }
+
+    override fun report(content: String, participantId: Long) {
+        viewModelScope.launch {
+            val res = userUseCase.report(content, participantId)
+            if (res.isSuccessful.not()) {
+                showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
+            }
+        }
     }
 
     override fun onBackClick() {

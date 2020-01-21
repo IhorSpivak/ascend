@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.video_chat.in_progress
 
 import android.Manifest
 import android.os.Bundle
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -168,7 +169,9 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 remoteVideoTrackPublication: RemoteVideoTrackPublication,
                 remoteVideoTrack: RemoteVideoTrack
             ) {
-                binding.placeholder.show()
+                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
+                    binding.placeholder.show()
+                }
             }
 
             override fun onVideoTrackEnabled(
@@ -193,9 +196,9 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     override fun onDestroyView() {
-        room?.disconnect()
         localAudioTrack?.release()
         localVideoTrack?.release()
+        room?.disconnect()
         viewModel.forceDisconnect()
         super.onDestroyView()
     }

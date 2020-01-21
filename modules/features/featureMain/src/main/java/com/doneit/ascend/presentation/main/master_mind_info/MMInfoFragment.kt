@@ -41,6 +41,7 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
 
         btnInto.setOnClickListener {
             currentDialog = ReportAbuseDialog.create(context!!) {
+                currentDialog?.dismiss()
                 viewModel.report(it)
             }
             currentDialog?.show()

@@ -96,6 +96,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         ic_abuse.setOnClickListener {
             currentDialog = ReportAbuseDialog.create(context!!) {
                 viewModel.report(it)
+                currentDialog?.dismiss()
             }
             currentDialog?.show()
         }

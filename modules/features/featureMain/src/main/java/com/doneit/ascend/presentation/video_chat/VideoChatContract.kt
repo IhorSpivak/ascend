@@ -16,6 +16,7 @@ interface VideoChatContract {
         fun init(groupId: Long)
         fun finishCall()
         fun onBackClick()
+        fun report(content: String, participantId: Long)
     }
 
     interface Router {

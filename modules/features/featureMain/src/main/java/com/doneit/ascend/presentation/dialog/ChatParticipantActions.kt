@@ -16,7 +16,8 @@ class ChatParticipantActions {
     companion object {
         fun create(
             context: Context,
-            user: SocketEventEntity
+            user: SocketEventEntity,
+            reportAbuse: (Long) -> Unit
         ): Dialog {
             val binding: DialogChatParticipantActionsBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(context),
@@ -34,9 +35,12 @@ class ChatParticipantActions {
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.window?.attributes?.gravity = Gravity.BOTTOM
 
-           binding.tvCancel.setOnClickListener {
-               dialog.dismiss()
-           }
+            binding.tvCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+            binding.tvReport.setOnClickListener {
+                reportAbuse.invoke(user.userId)
+            }
 
             return dialog
         }

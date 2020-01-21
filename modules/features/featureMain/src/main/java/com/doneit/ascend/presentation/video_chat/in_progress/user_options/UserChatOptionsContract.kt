@@ -11,5 +11,6 @@ interface UserChatOptionsContract {
 
         fun onLeaveGroupClick()
         fun onBackClick()
+        fun reportGroupOwner(content: String)
     }
 }

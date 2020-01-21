@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.video_chat
 
+import android.app.Dialog
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -11,6 +12,7 @@ import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.ThumbnailEntity
 import com.doneit.ascend.presentation.dialog.ChatParticipantActions
+import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
@@ -84,8 +86,17 @@ class VideoChatActivity : BaseActivity() {
     private fun showUserActions(user: SocketEventEntity){
         ChatParticipantActions.create(
             this,
-            user
+            user, { showReportAbuseDialog(it) }
         ).show()
+    }
+
+    private fun showReportAbuseDialog(participantId: Long) {
+        var dialog: Dialog? = null
+        dialog = ReportAbuseDialog.create(this) {
+            viewModel.report(it, participantId)
+            dialog?.dismiss()
+        }
+        dialog.show()
     }
 
     enum class ResultStatus {

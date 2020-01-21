@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.video_chat.in_progress.user_options
 
+import android.app.Dialog
 import android.os.Bundle
+import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentUserChatOptionsBinding
 import com.doneit.ascend.presentation.main.extensions.vmShared
@@ -23,5 +25,18 @@ class UserChatOptionsFragment : BaseFragment<FragmentUserChatOptionsBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
+
+        binding.ivReport.setOnClickListener {
+            showReportAbuseDialog()
+        }
+    }
+
+    private fun showReportAbuseDialog() {
+        var dialog: Dialog? = null
+        dialog = ReportAbuseDialog.create(context!!) {
+            viewModel.reportGroupOwner(it)
+            dialog?.dismiss()
+        }
+        dialog.show()
     }
 }
