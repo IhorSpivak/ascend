@@ -37,23 +37,34 @@ class VideoChatViewModel(
     UserChatOptionsContract.ViewModel,
     MMChatOptionsContract.ViewModel {
 
+    //region data
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val participants = MutableLiveData<List<SocketEventEntity>>(listOf())
+    //endregion
+
+    //region ui properties
     override val timerLabel = MutableLiveData<String>()
+    override val isStartButtonEnabled = MutableLiveData<Boolean>(false)
+    override val finishingLabel = MutableLiveData<String>()
+    //endregion
+
+    //region chat parameters
     override val isVideoEnabled = MutableLiveData<Boolean>(true)
     override val isAudioEnabled = MutableLiveData<Boolean>(true)
     override val isRecordEnabled = MutableLiveData<Boolean>(true)
-    override val messages = groupUseCase.messagesStream//todo remove in future
     override val isFinishing = MutableLiveData<Boolean>(false)
-    override val finishingLabel = MutableLiveData<String>()
+    //endregion
 
-    private var groupId: Long = -1
-    private var downTimer: CountDownTimer? = null
-    private var timer = Timer()
+    //region local
+    private val messages = groupUseCase.messagesStream
     private var currentUser: UserEntity? = null
     private lateinit var chatState: VideoChatState
     private var videoStreamOwnerId: String? = null
+    private var groupId: Long = -1
+    private var downTimer: CountDownTimer? = null
+    private var timer = Timer()
+    //endregion
 
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
         when (socketEvent.event) {
@@ -72,6 +83,8 @@ class VideoChatViewModel(
 
     override fun init(groupId: Long) {
         this.groupId = groupId
+        postDefaultValues()
+
         viewModelScope.launch {
 
             var groupEntity: GroupEntity? = null
@@ -115,6 +128,14 @@ class VideoChatViewModel(
 
         messages.observeForever(messagesObserver)
         router.navigateToPreview()
+    }
+
+    private fun postDefaultValues() {
+        isStartButtonEnabled.postValue(false)
+        isVideoEnabled.postValue(true)
+        isAudioEnabled.postValue(true)
+        isRecordEnabled.postValue(true)
+        isFinishing.postValue(false)
     }
 
     override fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus) {
@@ -172,6 +193,10 @@ class VideoChatViewModel(
         return videoStreamOwnerId == id
     }
 
+    override fun onStartGroupClick() {
+        changeState(VideoChatState.PROGRESS)
+    }
+
     override fun onBackClick() {
         router.onBack()
     }
@@ -223,7 +248,7 @@ class VideoChatViewModel(
         if (currentDate.time < group.startTime!!.time) {
             downTimer = object : CountDownTimer(group.startTime!!.time - currentDate.time, 1000) {
                 override fun onFinish() {
-                    changeState(VideoChatState.PROGRESS)
+                    isStartButtonEnabled.postValue(true)
                 }
 
                 override fun onTick(p0: Long) {

@@ -9,7 +9,6 @@ interface VideoChatContract {
     interface ViewModel : BaseViewModel {
         val groupInfo: LiveData<GroupEntity>
         val timerLabel: LiveData<String>
-        val messages: LiveData<SocketEventEntity>
         val participants: LiveData<List<SocketEventEntity>>
         val isFinishing: LiveData<Boolean>
         val finishingLabel: LiveData<String>

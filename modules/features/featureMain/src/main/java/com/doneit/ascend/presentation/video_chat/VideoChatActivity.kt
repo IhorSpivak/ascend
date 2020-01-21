@@ -65,15 +65,8 @@ class VideoChatActivity : BaseActivity() {
         binding.model = viewModel
         binding.rvParticipants.adapter = participantsAdapter
 
-
         val groupId = intent.getLongExtra(GROUP_ID_ARG, -1)
         viewModel.init(groupId)
-
-        viewModel.messages.observe(this, Observer {
-            it?.let {
-                //Toast.makeText(this, it.event.toString(), Toast.LENGTH_SHORT).show()
-            }
-        })
 
         viewModel.participants.observe(this, Observer {
             participantsAdapter.submitList(it)

@@ -46,5 +46,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <Button
+            android:id="@+id/btnOk"
+            style="@style/AppTheme.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:onClick="@{v -> model.onStartGroupClick()}"
+            android:enabled="@{model.isStartButtonEnabled}"
+            android:text="@string/start_group"
+            android:textAllCaps="true"
+            app:layout_constraintTop_toBottomOf="@id/subtitle" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
