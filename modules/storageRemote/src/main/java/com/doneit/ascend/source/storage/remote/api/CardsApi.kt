@@ -18,4 +18,7 @@ interface CardsApi {
 
     @DELETE("cards/{id}")
     fun deleteCardAsync(@Path("id") id: Long): Deferred<Response<OKResponse>>
+
+    @POST("cards/{id}/default")
+    fun asDefault(@Path("id") id: Long): Deferred<Response<OKResponse>>
 }

@@ -51,4 +51,15 @@ class CardsGateway (
             }
         )
     }
+
+    override suspend fun asDefault(id: Long): ResponseEntity<Unit, List<String>> {
+        return remote.asDefault(id).toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
 }

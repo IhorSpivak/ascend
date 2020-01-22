@@ -29,4 +29,8 @@ class CardsInteractor(
     override suspend fun deleteCard(id: Long): ResponseEntity<Unit, List<String>> {
         return cardsGateway.deleteCard(id)
     }
+
+    override suspend fun asDefault(id: Long): ResponseEntity<Unit, List<String>> {
+        return cardsGateway.asDefault(id)
+    }
 }

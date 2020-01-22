@@ -13,4 +13,6 @@ interface ICardsRepository {
     suspend fun getAllCards(): RemoteResponse<CardsResponse, ErrorsListResponse>
 
     suspend fun deleteCard(id: Long): RemoteResponse<OKResponse, ErrorsListResponse>
+
+    suspend fun asDefault(id: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 }

@@ -26,4 +26,8 @@ internal class CardsRepository(
     override suspend fun deleteCard(id: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.deleteCardAsync(id) }, ErrorsListResponse::class.java)
     }
+
+    override suspend fun asDefault(id: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.asDefault(id) }, ErrorsListResponse::class.java)
+    }
 }

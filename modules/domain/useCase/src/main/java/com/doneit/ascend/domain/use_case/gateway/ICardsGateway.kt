@@ -10,4 +10,6 @@ interface ICardsGateway {
     suspend fun getAllCards(): ResponseEntity<List<CardEntity>, List<String>>
 
     suspend fun deleteCard(id: Long): ResponseEntity<Unit, List<String>>
+
+    suspend fun asDefault(id: Long): ResponseEntity<Unit, List<String>>
 }
