@@ -40,6 +40,7 @@ class MainActivity : BaseActivity() {
             ProfileViewModel(
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }

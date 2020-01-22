@@ -23,7 +23,7 @@
             android:textSize="24sp"
             tools:text="How did you hear anbout us?" />
 
-        <com.doneit.ascend.presentation.login.first_time_login.common.GridRadioGroup
+        <com.doneit.ascend.presentation.common.GridRadioGroup
             android:id="@+id/rgOptions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

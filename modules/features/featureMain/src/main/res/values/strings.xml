@@ -238,6 +238,9 @@
     <string name="select_birthday">Select your birthday date</string>
     <string name="age_label">Age:</string>
 
+    <!--Change community-->
+    <string name="choose_community">Choose a community</string>
+
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>
     <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>

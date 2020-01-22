@@ -8,12 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentFirstTimeLoginBinding
-import com.doneit.ascend.presentation.login.databinding.TemplateAnswerItemBinding
-import com.doneit.ascend.presentation.login.databinding.TemplateSelectAnswerItemBinding
 import com.doneit.ascend.presentation.login.first_time_login.common.FirstTimeLoginArgs
-import com.doneit.ascend.presentation.login.first_time_login.common.GridRadioGroup
+import com.doneit.ascend.presentation.common.GridRadioGroup
 import com.doneit.ascend.presentation.login.first_time_login.common.QuestionsAdapter
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
+import com.doneit.ascend.presentation.main.databinding.TemplateAnswerItemBinding
+import com.doneit.ascend.presentation.main.databinding.TemplateSelectAnswerItemBinding
 import kotlinx.android.synthetic.main.fragment_first_time_login.*
 import org.kodein.di.generic.instance
 

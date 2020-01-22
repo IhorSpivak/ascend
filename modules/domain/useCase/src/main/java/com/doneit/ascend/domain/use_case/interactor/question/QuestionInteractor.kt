@@ -7,8 +7,8 @@ import com.doneit.ascend.domain.use_case.gateway.IQuestionGateway
 internal class QuestionInteractor(
     private val questionGateway: IQuestionGateway
 ) : QuestionUseCase {
-    override suspend fun getList(sessionToken: String): ResponseEntity<QuestionListEntity, List<String>> {
-        return questionGateway.getList(sessionToken)
+    override suspend fun getList(): ResponseEntity<QuestionListEntity, List<String>> {
+        return questionGateway.getList()
     }
 
     override suspend fun insert(questions: QuestionListEntity) {

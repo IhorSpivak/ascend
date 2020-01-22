@@ -97,6 +97,10 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
         contactSupport.setOnClickListener {
             activity!!.sendEmail(Constants.SUPPORT_EMAIL)
         }
+
+        community.setOnClickListener {
+            viewModel.onCommunityClick()
+        }
     }
 
     private fun showPhotoDialog() {

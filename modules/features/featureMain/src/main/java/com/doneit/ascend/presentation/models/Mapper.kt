@@ -103,3 +103,10 @@ fun PresentationCreateCardModel.toStripeCard(): Card {
     return Card.Builder(number, exp[0].toInt(), exp[1].toInt(), cvv).build()
 
 }
+
+fun String.toPresentationCommunity(isSelected: Boolean): PresentationCommunityModel {
+    return PresentationCommunityModel(
+        this,
+        isSelected
+    )
+}

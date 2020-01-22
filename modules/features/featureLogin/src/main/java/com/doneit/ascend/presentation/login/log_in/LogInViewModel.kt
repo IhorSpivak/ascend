@@ -78,7 +78,7 @@ class LogInViewModel(
                     ) {
                         launch(Dispatchers.Main) {
                             val questionsRequest =
-                                questionUseCase.getList(requestEntity.successModel!!.token)
+                                questionUseCase.getList()
 
                             if (questionsRequest.isSuccessful) {
                                 questionUseCase.insert(questionsRequest.successModel!!)
@@ -181,7 +181,7 @@ class LogInViewModel(
                         ) {
                             launch(Dispatchers.Main) {
                                 val questionsRequest =
-                                    questionUseCase.getList(requestEntity.successModel!!.token)
+                                    questionUseCase.getList()
 
                                 if (questionsRequest.isSuccessful) {
                                     questionUseCase.insert(questionsRequest.successModel!!)

@@ -264,6 +264,7 @@
                         app:iconRes="@{@drawable/ic_security}" />
 
                     <include
+                        android:id="@+id/community"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/community}"
                         app:fieldValue="@{model.user.community}"

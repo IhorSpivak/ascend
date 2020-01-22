@@ -8,17 +8,17 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
+import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.models.ValidatableField
-import com.doneit.ascend.presentation.models.ValidationResult
-import com.doneit.ascend.presentation.models.toDTO
+import com.doneit.ascend.presentation.models.*
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsContract
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsItem
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeContract
+import com.doneit.ascend.presentation.profile.regular_user.community.CommunityContract
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.getLocation
 import com.doneit.ascend.presentation.utils.isDescriptionValid
@@ -26,6 +26,7 @@ import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
+    private val questionUseCase: QuestionUseCase,
     private val userUseCase: UserUseCase,
     private val router: ProfileContract.Router,
     private val mmRouter: com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router
@@ -35,19 +36,35 @@ class ProfileViewModel(
     EditBioContract.ViewModel,
     ChangeLocationContract.ViewModel,
     NotificationSettingsContract.ViewModel,
-    AgeContract.ViewModel {
+    AgeContract.ViewModel,
+    CommunityContract.ViewModel {
 
     override val user = MutableLiveData<UserEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
     override val showDeleteButton = MutableLiveData<Boolean>()
     override val bioValue = ValidatableField()
     override val canSaveBio = MutableLiveData<Boolean>()
+    override val questions = MutableLiveData<List<PresentationCommunityModel>>()
+
 
     private lateinit var updateProfileModel: UpdateProfileModel
     private val userLocal = userUseCase.getUserLive()
     private val userObserver: Observer<UserEntity?>
 
     init {
+
+        viewModelScope.launch {
+            val result = questionUseCase.getList()
+            val userLocal = userUseCase.getUser()
+
+            if (result.isSuccessful) {
+                questions.postValue(result.successModel!!.community!!.answerOptions.map {
+                    it.toPresentationCommunity(it == userLocal?.community)
+                })
+            } else {
+                showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+            }
+        }
 
         bioValue.validator = { s ->
             val result = ValidationResult()
@@ -119,6 +136,10 @@ class ProfileViewModel(
         router.navigateToSetAge()
     }
 
+    override fun onCommunityClick() {
+        router.navigateToSetCommunity()
+    }
+
     override fun updateProfileIcon(path: String?) {//null means remove image
         updateProfileModel.shouldUpdateIcon = true
         showDeleteButton.postValue(true)
@@ -168,10 +189,11 @@ class ProfileViewModel(
     }
 
     override fun onChanged(type: NotificationSettingsItem, value: Boolean) {
-        when(type) {
+        when (type) {
             NotificationSettingsItem.MEETING_STARTED -> updateProfileModel.isMeetingStarted = value
             NotificationSettingsItem.NEW_GROUPS -> updateProfileModel.hasNewGroups = value
-            NotificationSettingsItem.INVITE_TO_MEETING -> updateProfileModel.hasInviteToMeeting = value
+            NotificationSettingsItem.INVITE_TO_MEETING -> updateProfileModel.hasInviteToMeeting =
+                value
         }
         updateProfile()
     }

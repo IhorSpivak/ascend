@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.login.first_time_login.common
+package com.doneit.ascend.presentation.common
 
 import android.content.Context
 import android.util.AttributeSet
