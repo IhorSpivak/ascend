@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.common
+package com.doneit.ascend.presentation.common.cards
 
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +22,9 @@ class CardViewHolder(
         }
 
         binding.chbSelection.setOnCheckedChangeListener { compoundButton, b ->
-            onSelection.invoke()
+            if(b) {
+                onSelection.invoke()
+            }
         }
 
         if(onDeleteClick != null) {

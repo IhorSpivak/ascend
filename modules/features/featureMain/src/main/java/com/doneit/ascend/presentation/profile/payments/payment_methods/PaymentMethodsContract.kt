@@ -11,6 +11,7 @@ interface PaymentMethodsContract {
         fun updateCards()
         fun onAddPaymentMethodClick()
         fun deletePaymentMethod(id: Long)
+        fun setDefaultCard(id: Long)
     }
 
     interface Router {

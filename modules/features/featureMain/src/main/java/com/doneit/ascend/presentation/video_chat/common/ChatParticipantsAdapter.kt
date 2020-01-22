@@ -3,10 +3,7 @@ package com.doneit.ascend.presentation.video_chat.common
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.ImageEntity
-import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
-import com.doneit.ascend.domain.entity.ThumbnailEntity
 
 class ChatParticipantsAdapter(
     private val onItemClick: (Long) -> Unit
@@ -29,7 +26,7 @@ class ChatParticipantsAdapter(
 
     fun submitList(newItems: List<SocketEventEntity>) {
         val diff = DiffUtil.calculateDiff(
-            ChatParticipants(
+            ChatParticipantsDiffCallback(
                 items,
                 newItems
             )

@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.dialog.common
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.presentation.common.CardViewHolder
+import com.doneit.ascend.presentation.common.cards.CardViewHolder
 import com.doneit.ascend.presentation.models.PresentationCardModel
 
 class CardsAdapter(
@@ -16,6 +16,7 @@ class CardsAdapter(
         }
 
     private val items = mutableListOf<PresentationCardModel>()
+    private var lastSelectedIndex = -1
 
     override fun getItemViewType(position: Int): Int {
         return if (position < items.size) {
@@ -39,14 +40,13 @@ class CardsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position < items.size) {
             (holder as CardViewHolder).bind(items[position], {
-                val lastSelectedIndex = items.indexOfFirst { it.isSelected }
                 if (lastSelectedIndex != -1) {
                     items[lastSelectedIndex].isSelected = false
                     notifyItemChanged(lastSelectedIndex)
                 }
 
+                lastSelectedIndex = position
                 items[position].isSelected = true
-                notifyItemChanged(position)
 
                 checkSelection()
             })
@@ -70,7 +70,6 @@ class CardsAdapter(
     }
 
     private fun checkSelection() {
-        val lastSelectedIndex = items.indexOfFirst { it.isSelected }
         hasSelectionListener?.invoke(lastSelectedIndex != -1)
     }
 

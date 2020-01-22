@@ -46,4 +46,16 @@ class PaymentMethodsViewModel(
             }
         }
     }
+
+    override fun setDefaultCard(id: Long) {
+        viewModelScope.launch {
+            val result = cardsUseCase.asDefault(id)
+
+            if(result.isSuccessful) {
+                updateCards()
+            } else {
+                showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+            }
+        }
+    }
 }

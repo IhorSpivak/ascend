@@ -13,9 +13,14 @@ class PaymentMethodsFragment : BaseFragment<FragmentPaymentMethodsBinding>() {
 
     override val viewModelModule = PaymentMethodsViewModelModule.get(this)
     override val viewModel: PaymentMethodsContract.ViewModel by instance()
-    private val cardsAdapter = PaymentMethodsAdapter {
-        viewModel.deletePaymentMethod(it)
-    }
+    private val cardsAdapter = PaymentMethodsAdapter(
+        {
+            viewModel.setDefaultCard(it)
+        },
+        {
+            viewModel.deletePaymentMethod(it)
+        }
+    )
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
@@ -23,7 +28,7 @@ class PaymentMethodsFragment : BaseFragment<FragmentPaymentMethodsBinding>() {
         binding.rvCards.addItemDecoration(DividerItemDecorator(context!!))
 
         viewModel.payments.observe(viewLifecycleOwner, Observer {
-            cardsAdapter.setData(it)
+            cardsAdapter.submitList(it)
         })
     }
 
