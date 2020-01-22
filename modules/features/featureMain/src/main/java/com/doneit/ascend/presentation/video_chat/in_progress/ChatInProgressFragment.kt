@@ -14,8 +14,8 @@ import com.doneit.ascend.presentation.utils.extensions.show
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
-import com.doneit.ascend.presentation.video_chat.listeners.RemoteParticipantsListener
-import com.doneit.ascend.presentation.video_chat.listeners.RoomListener
+import com.doneit.ascend.presentation.video_chat.in_progress.listeners.RemoteParticipantsListener
+import com.doneit.ascend.presentation.video_chat.in_progress.listeners.RoomListener
 import com.twilio.video.*
 import kotlinx.android.synthetic.main.fragment_video_chat.*
 import org.kodein.di.Kodein
@@ -51,6 +51,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 } else {
                     startRemoteVideo(it)
                 }
+                binding.grPlaceholderData.show()//enable mm icon and group name
             }
         })
 
@@ -69,7 +70,6 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     private fun startLocalVideo(model: StartVideoModel) {
-        binding.placeholder.hide()
         EzPermission.with(context!!)
             .permissions(
                 Manifest.permission.RECORD_AUDIO,
@@ -101,6 +101,8 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                             .build()
 
                     room = Video.connect(context!!, connectOptions, RoomListener())
+
+                    binding.placeholder.hide()
                 } else {
                     viewModel.onPermissionsRequired(VideoChatActivity.ResultStatus.POPUP_REQUIRED)
                 }
@@ -113,10 +115,10 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 .roomName(model.name)
                 .build()
 
-        room = Video.connect(context!!, connectOptions, getRoomListener())
+        room = Video.connect(context!!, connectOptions, getUserRoomListener())
     }
 
-    private fun getRoomListener(): RoomListener {
+    private fun getUserRoomListener(): RoomListener {
         return object : RoomListener() {
             override fun onConnected(room: Room) {
                 room.remoteParticipants.forEach {

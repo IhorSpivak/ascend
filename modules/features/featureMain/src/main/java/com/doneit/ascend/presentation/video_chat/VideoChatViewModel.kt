@@ -48,15 +48,15 @@ class VideoChatViewModel(
 
     //region ui properties
     override val timerLabel = MutableLiveData<String>()
-    override val isStartButtonEnabled = MutableLiveData<Boolean>(false)
+    override val isStartButtonEnabled = MutableLiveData<Boolean>()
     override val finishingLabel = MutableLiveData<String>()
     //endregion
 
     //region chat parameters
-    override val isVideoEnabled = MutableLiveData<Boolean>(true)
-    override val isAudioEnabled = MutableLiveData<Boolean>(true)
-    override val isRecordEnabled = MutableLiveData<Boolean>(true)
-    override val isFinishing = MutableLiveData<Boolean>(false)
+    override val isVideoEnabled = MutableLiveData<Boolean>()
+    override val isAudioEnabled = MutableLiveData<Boolean>()
+    override val isRecordEnabled = MutableLiveData<Boolean>()
+    override val isFinishing = MutableLiveData<Boolean>()
     //endregion
 
     //region local
@@ -98,7 +98,6 @@ class VideoChatViewModel(
                 if (result.isSuccessful) {
                     groupEntity = result.successModel!!
                     groupInfo.value = groupEntity
-                    changeState(VideoChatState.PREVIEW_DATA_LOADED)
                 }
             }
 
@@ -127,6 +126,8 @@ class VideoChatViewModel(
                     )
                 )
             }
+
+            changeState(VideoChatState.PREVIEW_DATA_LOADED)
         }
 
         messages.observeForever(messagesObserver)

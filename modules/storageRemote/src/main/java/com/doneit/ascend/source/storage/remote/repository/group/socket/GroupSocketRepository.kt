@@ -61,7 +61,10 @@ class GroupSocketRepository(
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
-                proceedMessage(text)
+                //optimization in order to avoid ping messages processing
+                if(text.contains("ping").not()) {
+                    proceedMessage(text)
+                }
             }
 
             override fun onOpen(webSocket: WebSocket, response: Response) {

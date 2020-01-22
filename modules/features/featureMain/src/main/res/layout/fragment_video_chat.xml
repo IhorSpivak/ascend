@@ -32,6 +32,13 @@
                 android:scaleType="centerCrop"
                 app:setImage="@{model.groupInfo.image.url}"/>
 
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/grPlaceholderData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="tvTitle,mmIcon,tvName"/>
+
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="0dp"
