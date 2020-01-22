@@ -62,9 +62,6 @@ class VideoChatActivity : BaseActivity() {
         binding.lifecycleOwner = this
         binding.model = viewModel
         binding.rvParticipants.adapter = participantsAdapter
-        binding.rootContainer.postDelayed({
-            participantsAdapter.submitList(listOf(SocketEventEntity(SocketEvent.RECORDING_COMPLETED, 2, "abs", ImageEntity("", ThumbnailEntity(null)))))
-        },1000)
 
         val groupId = intent.getLongExtra(GROUP_ID_ARG, -1)
         viewModel.init(groupId)
