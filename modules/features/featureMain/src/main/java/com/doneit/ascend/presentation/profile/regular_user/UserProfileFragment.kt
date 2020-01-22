@@ -90,6 +90,10 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
             }
         }
 
+        age.setOnClickListener {
+            viewModel.onAgeClick()
+        }
+
         contactSupport.setOnClickListener {
             activity!!.sendEmail(Constants.SUPPORT_EMAIL)
         }

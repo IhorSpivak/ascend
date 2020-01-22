@@ -18,6 +18,7 @@ import com.doneit.ascend.presentation.profile.change_location.ChangeLocationCont
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsContract
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsItem
+import com.doneit.ascend.presentation.profile.regular_user.age.AgeContract
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.getLocation
 import com.doneit.ascend.presentation.utils.isDescriptionValid
@@ -33,7 +34,8 @@ class ProfileViewModel(
     com.doneit.ascend.presentation.profile.regular_user.UserProfileContract.ViewModel,
     EditBioContract.ViewModel,
     ChangeLocationContract.ViewModel,
-    NotificationSettingsContract.ViewModel {
+    NotificationSettingsContract.ViewModel,
+    AgeContract.ViewModel {
 
     override val user = MutableLiveData<UserEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
@@ -111,6 +113,10 @@ class ProfileViewModel(
 
     override fun onNotificationClick() {
         router.navigateToNotifications()
+    }
+
+    override fun onAgeClick() {
+        router.navigateToSetAge()
     }
 
     override fun updateProfileIcon(path: String?) {//null means remove image

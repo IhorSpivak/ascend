@@ -58,6 +58,7 @@ import com.doneit.ascend.presentation.profile.payments.payment_methods.add_payme
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsContract
 import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
+import com.doneit.ascend.presentation.profile.regular_user.age.AgeFragment
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
 import com.doneit.ascend.presentation.web_page.common.WebPageArgs
@@ -274,6 +275,10 @@ class MainRouter(
 
     override fun navigateToAddPaymentMethod() {
         activity.supportFragmentManager.replaceWithBackStack(containerIdFull, AddPaymentFragment())
+    }
+
+    override fun navigateToSetAge() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, AgeFragment())
     }
 
     override fun navigateToVideoChat(groupId: Long) {

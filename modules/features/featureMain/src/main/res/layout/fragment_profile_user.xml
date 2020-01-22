@@ -215,6 +215,7 @@
                         app:iconRes="@{@drawable/ic_password}" />
 
                     <include
+                        android:id="@+id/age"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/age}"
                         app:fieldValueIfEmpty="@{@string/tap_to_set_age}"

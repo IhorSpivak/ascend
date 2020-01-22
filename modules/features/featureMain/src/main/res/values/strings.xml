@@ -232,7 +232,12 @@
     <string name="notification_settings_title">Notification Settings</string>
     <string name="new_groups">New Groups</string>
     <string name="invite_groups">Invite to a group</string>
-    
+
+    <!--Set age-->
+    <string name="set_age_title">Set Age</string>
+    <string name="select_birthday">Select your birthday date</string>
+    <string name="age_label">Age:</string>
+
     <!--Dialog messages-->
     <string name="title_password_sent">Password Sent</string>
     <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>

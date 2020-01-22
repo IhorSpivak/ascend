@@ -18,8 +18,11 @@
     <color name="light_gray_8f">#7E7D8F</color>
     <color name="light_gray_da">#DADADA</color>
     <color name="light_gray_f8">#f8f8f8</color>
+    <color name="light_gray_99">#999999</color>
+    <color name="light_gray_cd">#CDCDCD</color>
     <color name="dark_gray">#3F3F3F</color>
     <color name="text_blue">#007AFF</color>
+    <color name="text_dark_blue">#333333</color>
 
 
     <color name="red_webinar_color">#DD4B39</color>
