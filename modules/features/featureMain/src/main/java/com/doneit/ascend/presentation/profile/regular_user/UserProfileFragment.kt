@@ -17,6 +17,7 @@ import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment.Companion.TEMP_CROP_IMAGE__NAME
 import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.extensions.sendEmail
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_profile_user.*
 import kotlinx.coroutines.GlobalScope
@@ -26,6 +27,8 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.io.File
+
+
 
 class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
 
@@ -85,6 +88,10 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
             viewModel.user.value?.let {
                 viewModel.onPaymentsClick(it.isMasterMind)
             }
+        }
+
+        contactSupport.setOnClickListener {
+            activity!!.sendEmail(Constants.SUPPORT_EMAIL)
         }
     }
 

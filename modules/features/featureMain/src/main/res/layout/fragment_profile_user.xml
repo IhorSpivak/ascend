@@ -276,6 +276,7 @@
                         app:iconRes="@{@drawable/ic_following}" />
 
                     <include
+                        android:id="@+id/contactSupport"
                         layout="@layout/template_profile_field"
                         app:fieldName="@{@string/contact_support}"
                         app:fieldValue="@{@string/empty}"

@@ -16,6 +16,7 @@ import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.extensions.sendEmail
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_profile_master_mind.*
 import kotlinx.coroutines.GlobalScope
@@ -114,6 +115,10 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             viewModel.user.value?.let {
                 viewModel.onPaymentsClick(it.isMasterMind)
             }
+        }
+
+        contactSupport.setOnClickListener {
+            activity!!.sendEmail(Constants.SUPPORT_EMAIL)
         }
     }
 

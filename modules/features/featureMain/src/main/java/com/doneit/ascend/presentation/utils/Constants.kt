@@ -14,4 +14,6 @@ object Constants {
 
     const val STRIPE_KEY_LIVE = "pk_live_nNCN6FgjDBRl6Go0aWieSuIs00JA9WmEq0"
     const val STRIPE_KEY_TEST = "pk_test_bWIeTCRqJewkDArnkei72wHr00lqB0NIEq"
+
+    const val SUPPORT_EMAIL = "support@doneit.com"
 }
