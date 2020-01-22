@@ -56,7 +56,7 @@ class AddPaymentFragment : BaseFragment<FragmentAddPaymentBinding>() {
                 when(s.toString().getCardNumberType())
                 {
                     CardAssociation.INVALID -> binding.ivCardAssociation.setImageDrawable(null)
-                    CardAssociation.VISA -> binding.ivCardAssociation.setImageResource(R.drawable.ic_visa)
+                    CardAssociation.VISA -> binding.ivCardAssociation.setImageResource(R.drawable.ic_visa_local)
                     CardAssociation.MASTERCARD -> binding.ivCardAssociation.setImageResource(R.drawable.ic_master_card_local)
                 }
             }

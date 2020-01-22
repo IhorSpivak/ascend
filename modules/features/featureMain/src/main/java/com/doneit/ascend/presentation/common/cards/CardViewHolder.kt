@@ -17,7 +17,7 @@ class CardViewHolder(
         binding.item = item
 
         when(item.brand) {
-            CardType.VISA -> binding.ivCardType.setImageResource(R.drawable.ic_visa)
+            CardType.VISA -> binding.ivCardType.setImageResource(R.drawable.ic_visa_local)
             else -> binding.ivCardType.setImageResource(R.drawable.ic_master_card_local)
         }
 
