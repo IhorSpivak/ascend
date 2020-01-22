@@ -36,6 +36,10 @@ class MMFollowingViewModel (
         }
     }
 
+    override fun openInfo(entity: MasterMindEntity) {
+        router.navigateToMMInfo(entity)
+    }
+
     override fun onAddMasterMindClick() {
         router.navigateToAddMasterMind()
     }

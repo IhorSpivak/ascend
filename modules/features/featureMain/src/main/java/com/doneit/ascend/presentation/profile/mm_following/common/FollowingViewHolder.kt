@@ -11,7 +11,12 @@ import com.doneit.ascend.presentation.main.databinding.TemplateMasterMindFollowe
 class FollowingViewHolder(
     private val binding: TemplateMasterMindFollowedBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: MasterMindEntity, followClick:(Long)->Unit, unfollowClick: (id: Long)->Unit) {
+    fun bind(
+        item: MasterMindEntity,
+        followClick: (Long) -> Unit,
+        unfollowClick: (id: Long) -> Unit,
+        openInfo: (MasterMindEntity) -> Unit
+    ) {
         binding.item = item
 
         binding.tvFollow.setOnClickListener {
@@ -20,6 +25,10 @@ class FollowingViewHolder(
 
         binding.tvUnFollow.setOnClickListener {
             unfollowClick.invoke(item.id)
+        }
+
+        binding.icon.setOnClickListener {
+            openInfo.invoke(item)
         }
 
         binding.executePendingBindings()

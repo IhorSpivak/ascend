@@ -14,12 +14,17 @@ class MMFollowingFragment : BaseFragment<FragmentMasterMindFollowingBinding>() {
     override val viewModelModule = MMFollowingViewModelModule.get(this)
     override val viewModel: MMFollowingContract.ViewModel by instance()
 
-    private val adapter: FollowingAdapter by lazy { FollowingAdapter(unfollow = {
-        viewModel.unfollow(it)
-    })}
+    private val adapter: FollowingAdapter by lazy {
+        FollowingAdapter({
+            viewModel.openInfo(it)
+        }, unfollow = {
+            viewModel.unfollow(it)
+        })
+    }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        val decorator = TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
+        val decorator =
+            TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
 
         binding.model = viewModel
         binding.lifecycleOwner = this

@@ -12,9 +12,11 @@ interface MMAddContract {
         fun submitRequest(name: String)
         fun onBackClick()
         fun follow(id: Long)
+        fun openInfo(entity: MasterMindEntity)
     }
 
     interface Router {
+        fun navigateToMMInfo(model: MasterMindEntity)
         fun onBack()
     }
 }

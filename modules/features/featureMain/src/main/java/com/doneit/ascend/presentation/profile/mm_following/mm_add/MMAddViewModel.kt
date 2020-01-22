@@ -45,6 +45,10 @@ class MMAddViewModel(
         }
     }
 
+    override fun openInfo(entity: MasterMindEntity) {
+        router.navigateToMMInfo(entity)
+    }
+
     override fun onBackClick() {
         router.onBack()
     }

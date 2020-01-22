@@ -17,7 +17,9 @@ class MMAddFragment : BaseFragment<FragmentAddMasterMindBinding>() {
     override val viewModel: MMAddContract.ViewModel by instance()
 
     private val adapter: FollowingAdapter by lazy {
-        FollowingAdapter(follow = {
+        FollowingAdapter({
+            viewModel.openInfo(it)
+        },follow = {
             viewModel.follow(it)
         })
     }

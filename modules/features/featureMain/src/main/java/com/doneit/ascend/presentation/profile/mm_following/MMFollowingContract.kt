@@ -11,11 +11,13 @@ interface MMFollowingContract {
 
         fun fetchList()
         fun unfollow(id: Long)
+        fun openInfo(entity: MasterMindEntity)
         fun onAddMasterMindClick()
         fun onBackClick()
     }
 
     interface Router {
+        fun navigateToMMInfo(model: MasterMindEntity)
         fun navigateToAddMasterMind()
         fun onBack()
     }
