@@ -11,6 +11,7 @@ import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.extensions.hide
 import com.doneit.ascend.presentation.utils.extensions.show
+import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.video_chat.listeners.RemoteParticipantsListener
@@ -55,6 +56,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
         viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
             localVideoTrack?.enable(it)
+            binding.placeholder.visible(it.not())
         })
 
         viewModel.isAudioEnabled.observe(viewLifecycleOwner, Observer {
