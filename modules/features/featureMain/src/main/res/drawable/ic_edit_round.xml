@@ -1,49 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <vector xmlns:aapt="http://schemas.android.com/aapt"
-            android:width="24dp"
-            android:height="24dp"
-            android:viewportWidth="24"
-            android:viewportHeight="24">
+<vector xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
 
-            <group>
-                <clip-path android:pathData="M24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12Z" />
+    <group>
+        <clip-path android:pathData="M24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C18.6274 0 24 5.37258 24 12Z" />
 
-                <group
-                    android:pivotX="12"
-                    android:pivotY="12"
-                    android:rotation="-89.909"
-                    android:scaleX="2.083"
-                    android:scaleY="2.085"
-                    android:translateX="-0.016"
-                    android:translateY="0.979">
+        <group
+            android:pivotX="12"
+            android:pivotY="12"
+            android:rotation="-89.909"
+            android:scaleX="2.083"
+            android:scaleY="2.085"
+            android:translateX="-0.016"
+            android:translateY="0.979">
 
-                    <path android:pathData="M0 0V24H24V0">
+            <path android:pathData="M0 0V24H24V0">
 
-                        <aapt:attr name="android:fillColor">
+                <aapt:attr name="android:fillColor">
 
-                            <gradient
-                                android:endX="18"
-                                android:endY="12"
-                                android:startX="6"
-                                android:startY="12"
-                                android:type="linear">
+                    <gradient
+                        android:endX="18"
+                        android:endY="12"
+                        android:startX="6"
+                        android:startY="12"
+                        android:type="linear">
 
-                                <item
-                                    android:color="#DD4B39"
-                                    android:offset="0" />
+                        <item
+                            android:color="#DD4B39"
+                            android:offset="0" />
 
-                                <item
-                                    android:color="#EB6081"
-                                    android:offset="1" />
+                        <item
+                            android:color="#EB6081"
+                            android:offset="1" />
 
-                            </gradient>
-                        </aapt:attr>
-                    </path>
-                </group>
-            </group>
-        </vector>
-    </item>
-</layer-list>
+                    </gradient>
+                </aapt:attr>
+            </path>
+        </group>
+    </group>
+</vector>
 
