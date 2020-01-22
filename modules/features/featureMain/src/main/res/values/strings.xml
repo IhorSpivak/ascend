@@ -265,8 +265,8 @@
     <!--Payments-->
     <string name="payments_title">Payments</string>
     <string name="earnings">Earnings</string>
-    <string name="payments_methods">Payments Methods</string>
-    <string name="in_app_purchases">In-APP Purchases</string>
+    <string name="payments_methods">Payment Methods</string>
+    <string name="transactions">Transactions</string>
     <string name="label_delete">Delete</string>
     <string name="expired">Expired</string>
 

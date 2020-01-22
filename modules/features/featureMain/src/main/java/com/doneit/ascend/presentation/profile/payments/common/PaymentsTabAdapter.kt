@@ -27,7 +27,7 @@ class PaymentsTabAdapter(
             val items: ArrayList<TabAdapterItem> = arrayListOf(
                 TabAdapterItem(fragment.getString(R.string.earnings), EarningsFragment()),
                 TabAdapterItem(fragment.getString(R.string.payments_methods), PaymentMethodsFragment()),
-                TabAdapterItem(fragment.getString(R.string.in_app_purchases), PaymentMethodsFragment())
+                TabAdapterItem(fragment.getString(R.string.transactions), PaymentMethodsFragment())
             )
 
             if(isMasterMind) {
