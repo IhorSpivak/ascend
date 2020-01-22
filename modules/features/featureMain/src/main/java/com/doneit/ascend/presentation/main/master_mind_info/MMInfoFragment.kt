@@ -19,7 +19,6 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
     private var currentDialog: AlertDialog? = null
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.model = viewModel
 
         //todo replace by ArgumentedFragment

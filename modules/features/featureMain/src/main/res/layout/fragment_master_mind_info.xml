@@ -226,7 +226,7 @@
                         android:layout_marginTop="24dp"
                         android:text="@{model.myRating == null ? @string/set_rating : String.format(@string/you_rating_is, model.myRating)}"
                         android:textColor="@color/light_gray_8f"
-                        android:visibility="@{model.showRatingBar ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{model.showRatingBar}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvContent" />
@@ -240,7 +240,8 @@
                         android:rating="@{model.myRating == null ? 0 : model.myRating}"
                         android:stepSize="1"
                         android:theme="@style/RatingBarTheme"
-                        android:visibility="@{model.showRatingBar ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{model.showRatingBar}"
+                        android:isIndicator="@{model.rated}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvRate" />

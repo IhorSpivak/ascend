@@ -21,11 +21,11 @@ class MMInfoViewModel(
 ) : BaseViewModelImpl(), MMInfoContract.ViewModel {
 
     override val profile = MutableLiveData<MasterMindEntity>()
-    override val showRatingBar = MutableLiveData<Boolean>(true)
     override val showActionButtons = SingleLiveManager<Boolean>()
     override val enableFollow = MutableLiveData<Boolean>()
     override val enableUnfollow = MutableLiveData<Boolean>()
     override val followed = MutableLiveData<Boolean>()
+    override val showRatingBar = MutableLiveData<Boolean>(true)
     override val rated = MutableLiveData<Boolean>(true)
     override val myRating = MutableLiveData<Int?>()
 
@@ -50,12 +50,8 @@ class MMInfoViewModel(
                 showActionButtons.call(false)
             } else {
                 followed.postValue(model.followed)
-
-                if (model.allowRating == false) {
-                    rated.postValue(false)
-                } else {
-                    rated.postValue(!model.rated)
-                }
+                showRatingBar.postValue(model.allowRating)
+                rated.postValue(model.rated)
             }
 
             myRating.postValue(model.myRating)
@@ -116,7 +112,7 @@ class MMInfoViewModel(
 
                 if (response.isSuccessful) {
                     myRating.postValue(rating)
-                    rated.postValue(false)
+                    rated.postValue(true)
                 }
             }
         }
