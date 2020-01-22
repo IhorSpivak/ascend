@@ -66,7 +66,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="174dp"
+                    android:layout_height="wrap_content"
                     android:alpha="0.8"
                     android:background="@color/light_gray_f8"
                     app:cardCornerRadius="14dp">
@@ -83,12 +83,14 @@
                             android:layout_height="58dp"
                             android:gravity="center"
                             android:text="@string/allow_say"
-                            android:textSize="20sp" />
+                            android:textSize="20sp"
+                            android:visibility="@{item.handRisen}"/>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/dark_gray" />
+                            android:background="@color/dark_gray"
+                            android:visibility="@{item.handRisen}"/>
 
                         <TextView
                             android:id="@+id/tvRemove"
