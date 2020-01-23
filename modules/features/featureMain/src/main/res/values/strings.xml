@@ -268,7 +268,7 @@
     <string name="payments_title">Payments</string>
     <string name="earnings">Earnings</string>
     <string name="payments_methods">Payment Methods</string>
-    <string name="transactions">Transactions</string>
+    <string name="transactions">My Transactions</string>
     <string name="label_delete">Delete</string>
     <string name="expired">Expired</string>
 
