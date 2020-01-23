@@ -69,7 +69,7 @@ class GroupInfoViewModel(
             ButtonType.JOIN_TO_DISCUSSION -> states[1] = true
             ButtonType.START_GROUP -> states[2] = true
             ButtonType.DELETE_GROUP -> states[3] = true
-            ButtonType.JOINED -> states[4] = true
+            ButtonType.SUBSCRIBED -> states[4] = true
         }
 
         btnSubscribeVisible.postValue(states[0])

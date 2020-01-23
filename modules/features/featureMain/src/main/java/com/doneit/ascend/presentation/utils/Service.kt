@@ -7,7 +7,7 @@ fun getButonType(user: UserEntity, group: GroupEntity): ButtonType {
     var res = ButtonType.SUBSCRIBE
 
     if (group.subscribed == true) {
-        res = ButtonType.JOINED
+        res = ButtonType.SUBSCRIBED
         if (group.inProgress || group.isStarting) {
             res = ButtonType.JOIN_TO_DISCUSSION
         }
