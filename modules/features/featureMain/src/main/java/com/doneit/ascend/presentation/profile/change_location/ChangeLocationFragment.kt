@@ -58,6 +58,7 @@ class ChangeLocationFragment :
             val city = etCity.text.toString()
             val country = countyPicker.selectedItem as Country
             viewModel.updateLocation(city, country.name)
+            hideKeyboard()
             viewModel.goBack()
         }
 
