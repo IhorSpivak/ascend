@@ -56,7 +56,6 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.model = viewModel
         binding.adapter = adapter
 
