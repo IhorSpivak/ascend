@@ -48,6 +48,10 @@ class ValidatableField {
         onFieldInvalidate?.invoke()
     }
 
+    override fun hashCode(): Int {
+        return observableField.getNotNull().hashCode()
+    }
+
     private fun removeError() {
         errors.postValue(null)
     }
