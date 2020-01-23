@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.profile.payments.earnings.EarningsFragment
+import com.doneit.ascend.presentation.profile.payments.my_transactions.MyTransactionsFragment
 import com.doneit.ascend.presentation.profile.payments.payment_methods.PaymentMethodsFragment
 
 class PaymentsTabAdapter(
@@ -27,7 +28,7 @@ class PaymentsTabAdapter(
             val items: ArrayList<TabAdapterItem> = arrayListOf(
                 TabAdapterItem(fragment.getString(R.string.earnings), EarningsFragment()),
                 TabAdapterItem(fragment.getString(R.string.payments_methods), PaymentMethodsFragment()),
-                TabAdapterItem(fragment.getString(R.string.transactions), PaymentMethodsFragment())
+                TabAdapterItem(fragment.getString(R.string.transactions), MyTransactionsFragment())
             )
 
             if(isMasterMind) {

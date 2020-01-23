@@ -22,7 +22,7 @@ fun PaymentSourceResponse.toEntity(): PaymentSourceEntity {
         sourceId,
         sourceType.toSourceType(),
         name,
-        brand.toCardBrend(),
+        brand?.toCardBrend(),
         last4
     )
 }

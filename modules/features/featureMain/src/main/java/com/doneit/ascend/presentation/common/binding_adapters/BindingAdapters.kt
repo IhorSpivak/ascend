@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.common
+package com.doneit.ascend.presentation.common.binding_adapters
 
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -15,12 +15,9 @@ import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupListAdapter
 import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
+import com.doneit.ascend.presentation.main.search.common.SearchAdapter
 import com.doneit.ascend.presentation.models.GroupListWithUser
 import com.doneit.ascend.presentation.models.GroupListWithUserPaged
-import com.doneit.ascend.presentation.main.search.common.SearchAdapter
-import java.lang.StringBuilder
-import java.text.SimpleDateFormat
-import java.util.*
 
 @BindingAdapter("app:html")
 fun TextView.setAdapter(source: String?) {
@@ -77,29 +74,6 @@ fun setImage(view: AppCompatImageView, url: String?, placeholder: Drawable?) {
         .load(url)
         .placeholder(placeholder)
         .into(view)
-}
-
-@BindingAdapter("app:setDate")
-fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date?) {
-    try {
-        val formatter = SimpleDateFormat("dd MMM", Locale.getDefault())
-        view.text = formatter.format(dateTime)
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-}
-
-@BindingAdapter("app:setTime")
-fun setTime(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date) {
-    try {
-
-        dateTime?.let {
-            val sdf = SimpleDateFormat("hh:mm aa")
-            view.text = sdf.format(it)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
 }
 
 @BindingAdapter("app:setAdapter", "app:setAdapterData", requireAll = false)

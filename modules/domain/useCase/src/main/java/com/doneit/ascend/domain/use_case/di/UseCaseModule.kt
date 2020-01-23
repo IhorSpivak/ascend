@@ -12,6 +12,8 @@ import com.doneit.ascend.domain.use_case.interactor.notification.NotificationInt
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.domain.use_case.interactor.page.PageInteractor
 import com.doneit.ascend.domain.use_case.interactor.page.PageUseCase
+import com.doneit.ascend.domain.use_case.interactor.purchase.PurchaseInteractor
+import com.doneit.ascend.domain.use_case.interactor.purchase.PurchaseUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionInteractor
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.search.SearchInteractor
@@ -75,6 +77,12 @@ object UseCaseModule {
 
         bind<CardsUseCase>() with provider {
             CardsInteractor(
+                instance()
+            )
+        }
+
+        bind<PurchaseUseCase>() with provider {
+            PurchaseInteractor(
                 instance()
             )
         }

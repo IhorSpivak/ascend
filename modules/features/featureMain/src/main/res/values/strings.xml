@@ -290,6 +290,10 @@
     <string name="btn_back">Back</string>
     <string name="btn_next">Next</string>
 
+    <!--Purchases-->
+    <string name="participation_fee">Participation fee</string>
+    <string name="template_participation_fee">$%.2f</string>
+
     <!--Video Chat-->
     <string name="waiting_for_start">Waiting for a group start</string>
     <string name="leave_group">Leave This Group</string>

@@ -9,7 +9,7 @@ fun PurchasesModel.toRequest(page: Int): PurchasesRequest {
         perPage,
         sortColumn,
         sortType?.toString(),
-        createdAtFrom,
-        createdAtTo
+        createdAtFrom?.toRemoteString(),
+        createdAtTo?.toRemoteString()
     )
 }

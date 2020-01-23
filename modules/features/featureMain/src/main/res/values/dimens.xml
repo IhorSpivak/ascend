@@ -16,6 +16,7 @@
     <dimen name="mm_list_top_padding">40dp</dimen>
     <dimen name="groups_list_top_padding">24dp</dimen>
     <dimen name="search_list_top_padding">16dp</dimen>
+    <dimen name="payments_list_top_padding">16dp</dimen>
 
     <dimen name="dialog_margin">16dp</dimen>
 </resources>

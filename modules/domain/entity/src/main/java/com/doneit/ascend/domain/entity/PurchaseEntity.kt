@@ -9,4 +9,8 @@ data class PurchaseEntity(
     val groupName: String,
     val createdAt: Date,
     val paymentSource: PaymentSourceEntity
-)
+) {
+    companion object {
+        const val CREATED_AT_KEY = "created_at"
+    }
+}
