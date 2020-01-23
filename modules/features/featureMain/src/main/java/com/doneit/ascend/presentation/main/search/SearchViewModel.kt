@@ -26,8 +26,10 @@ class SearchViewModel(
         viewModelScope.launch {
             val model = SearchModel(
                 perPage = Constants.PER_PAGE_COMMON,
-                sortColumn = "fullName",
-                sortType = SortType.ASC,
+                mmSortColumn = MasterMindEntity.FULL_NAME_KEY,
+                mmSortType = SortType.ASC,
+                groupSortColumn = GroupEntity.START_TIME_KEY,
+                groupSortType = SortType.ASC,
                 query = ""
             )
 
@@ -42,8 +44,8 @@ class SearchViewModel(
         viewModelScope.launch {
             val model = SearchModel(
                 perPage = Constants.PER_PAGE_COMMON,
-                sortColumn = "fullName",
-                sortType = SortType.ASC,
+                mmSortColumn = "fullName",
+                mmSortType = SortType.ASC,
                 query = query
             )
 

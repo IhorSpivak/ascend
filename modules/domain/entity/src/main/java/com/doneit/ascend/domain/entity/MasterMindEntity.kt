@@ -55,6 +55,8 @@ class MasterMindEntity(
     override fun describeContents() = 0
 
     companion object CREATOR : Parcelable.Creator<MasterMindEntity> {
+        const val FULL_NAME_KEY = "fullName"
+
         override fun createFromParcel(parcel: Parcel): MasterMindEntity {
             return MasterMindEntity(parcel)
         }

@@ -83,7 +83,10 @@ internal class GroupRepository(
                 listRequest.name,
                 listRequest.userId,
                 listRequest.groupType,
-                listRequest.myGroups
+                listRequest.status,
+                listRequest.myGroups,
+                listRequest.startTimeFrom,
+                listRequest.startTimeTo
             )
         }, ErrorsListResponse::class.java)
     }

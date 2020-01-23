@@ -1,11 +1,11 @@
-package com.doneit.ascend.presentation.main.groups.common
+package com.doneit.ascend.presentation.main.groups
 
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.vrgsoft.core.presentation.fragment.argumented.BaseArguments
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class GroupsArgs(
+open class GroupsArg(
     val userId: Long? = null,
     val groupType: GroupType? = null,
     val isMyGroups: Boolean? = null

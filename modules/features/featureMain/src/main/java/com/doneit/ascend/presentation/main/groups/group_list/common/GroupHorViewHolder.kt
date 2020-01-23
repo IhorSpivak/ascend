@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.groups.common
+package com.doneit.ascend.presentation.main.groups.group_list.common
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,28 +18,36 @@ class GroupHorViewHolder(
     fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (Long) -> Unit) {
         binding.item = item
 
-        when(getButonType(user!!, item)) {
-            ButtonType.START_GROUP -> {
-                binding.showStartButton = true
-                binding.btnStart.setOnClickListener {
-                    onButtonClick.invoke(item.id)
+        if(user == null) {
+            hideButtons()
+        } else {
+            when(getButonType(user!!, item)) {
+                ButtonType.START_GROUP -> {
+                    binding.showStartButton = true
+                    binding.btnStart.setOnClickListener {
+                        onButtonClick.invoke(item.id)
+                    }
+                    binding.showJoinButton = false
                 }
-                binding.showJoinButton = false
-            }
-            ButtonType.JOIN_TO_DISCUSSION -> {
-                binding.showStartButton = false
-                binding.showJoinButton = true
-                binding.btnJoin.setOnClickListener {
-                    onButtonClick.invoke(item.id)
+                ButtonType.JOIN_TO_DISCUSSION -> {
+                    binding.showStartButton = false
+                    binding.showJoinButton = true
+                    binding.btnJoin.setOnClickListener {
+                        onButtonClick.invoke(item.id)
+                    }
                 }
-            }
-            else -> {
-                binding.showJoinButton = false
-                binding.showStartButton = false
+                else -> {
+                    hideButtons()
+                }
             }
         }
 
         binding.executePendingBindings()
+    }
+
+    private fun hideButtons() {
+        binding.showJoinButton = false
+        binding.showStartButton = false
     }
 
     companion object {

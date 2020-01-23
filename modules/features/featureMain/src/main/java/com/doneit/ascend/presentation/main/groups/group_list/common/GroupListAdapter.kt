@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.groups.common
+package com.doneit.ascend.presentation.main.groups.group_list.common
 
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter

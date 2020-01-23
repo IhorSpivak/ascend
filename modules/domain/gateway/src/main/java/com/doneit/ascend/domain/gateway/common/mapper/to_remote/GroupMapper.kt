@@ -29,7 +29,10 @@ fun GroupListModel.toRequest(): GroupListRequest {
         name,
         userId,
         groupType?.toString(),
-        myGroups
+        groupStatus.toString(),
+        myGroups,
+        startDateFrom?.toRemoteString(),
+        startDateTo?.toRemoteString()
     )
 }
 
@@ -42,7 +45,10 @@ fun GroupListModel.toRequest(currPage: Int): GroupListRequest {
         name,
         userId,
         groupType?.toString(),
-        myGroups
+        groupStatus.toString(),
+        myGroups,
+        startDateFrom?.toRemoteString(),
+        startDateTo?.toRemoteString()
     )
 }
 

@@ -1,9 +1,11 @@
 package com.doneit.ascend.domain.entity.dto
 
 class SearchModel(
-    page: Int? = null,
-    perPage: Int? = null,
-    sortColumn: String? = null,
-    sortType: SortType? = null,
+    val page: Int? = null,
+    val perPage: Int? = null,
+    val mmSortColumn: String? = null,
+    val mmSortType: SortType? = null,
+    val groupSortColumn: String? = null,
+    val groupSortType: SortType? = null,
     val query: String? = null
-) : BasePagedModel(page, perPage, sortColumn, sortType)
+)

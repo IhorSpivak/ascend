@@ -134,7 +134,7 @@
     <style name="MasterMindTapTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">true</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:fontFamily">@font/red_hat_font</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/colorAccent</item>

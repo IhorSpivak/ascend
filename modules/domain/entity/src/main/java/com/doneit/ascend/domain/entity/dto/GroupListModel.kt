@@ -1,5 +1,7 @@
 package com.doneit.ascend.domain.entity.dto
 
+import java.util.*
+
 class GroupListModel(
     page: Int? = null,
     perPage: Int? = null,
@@ -8,5 +10,8 @@ class GroupListModel(
     val name: String? = null,
     val userId: Long? = null,
     val groupType: GroupType? = null,
-    val myGroups: Boolean? = null
-): BasePagedModel(page, perPage, sortColumn, sortType)
+    val groupStatus: GroupStatus? = null,
+    val myGroups: Boolean? = null,
+    val startDateFrom: Date? = null,
+    val startDateTo: Date? = null
+) : BasePagedModel(page, perPage, sortColumn, sortType)

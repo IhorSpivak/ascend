@@ -1,48 +1,44 @@
 package com.doneit.ascend.presentation.main.groups
 
 import android.os.Bundle
-import com.doneit.ascend.presentation.common.TopListDecorator
+import com.doneit.ascend.domain.entity.dto.toStringValueUI
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
-import com.doneit.ascend.presentation.main.databinding.FragmentGroupListBinding
-import com.doneit.ascend.presentation.main.groups.common.GroupListAdapter
-import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
+import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.databinding.FragmentGroupsBinding
+import com.doneit.ascend.presentation.main.groups.common.GroupsTabAdapter
 import org.kodein.di.generic.instance
 
-class GroupsFragment : ArgumentedFragment<FragmentGroupListBinding, GroupsArgs>() {
+class GroupsFragment : BaseFragment<FragmentGroupsBinding>() {
 
-    override val viewModelModule =
-        GroupListViewModelModule.get(
-            this
-        )
+    override val viewModelModule = GroupsViewModelModule.get(this)
     override val viewModel: GroupsContract.ViewModel by instance()
 
-    private val adapter: GroupListAdapter by lazy {
-        GroupListAdapter(null,
-            {
-                viewModel.onGroupClick(it)
-            },
-            {
-                viewModel.onStartChatClick(it)
-            }
-        )
-    }
-
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.model = viewModel
-        binding.adapter = adapter
 
-        val decorator =
-            TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
-        binding.rvGroups.addItemDecoration(decorator)
+        val arguments = arguments!!.getParcelable<GroupsArg>(GROUP_FILTERS)
+        binding.vpGroups.adapter = GroupsTabAdapter.newInstance(
+            context!!,
+            childFragmentManager,
+            arguments!!
+        )
+        binding.tlGroups.setupWithViewPager(binding.vpGroups)
+
+        if (arguments.groupType != null) {
+            binding.tvTitle.text =
+                getString(R.string.group_list_template, arguments.groupType.toStringValueUI())
+        } else {
+            binding.tvTitle.text = getString(R.string.group_list)
+        }
     }
 
     companion object {
-        fun newInstance(args: GroupsArgs): GroupsFragment {
+        private const val GROUP_FILTERS = "GROUP_FILTERS"
+
+        fun newInstance(args: GroupsArg): GroupsFragment {
             val fragment = GroupsFragment()
             fragment.arguments = Bundle().apply {
-                putParcelable(KEY_ARGS, args)
+                putParcelable(GROUP_FILTERS, args)
             }
             return fragment
         }

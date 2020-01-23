@@ -12,5 +12,8 @@ class GroupListRequest(
     @SerializedName("name") val name: String?,
     @SerializedName("user_id") val userId: Long?,
     @SerializedName("group_type") val groupType: String?,
-    @SerializedName("my_groups") val myGroups: Boolean?
+    @SerializedName("status") val status: String?,
+    @SerializedName("my_groups") val myGroups: Boolean?,
+    @SerializedName("start_time_from") val startTimeFrom: String?,
+    @SerializedName("start_time_to") val startTimeTo: String?
 ): BasePagedModel(page, perPage, sortColumn, sortType)

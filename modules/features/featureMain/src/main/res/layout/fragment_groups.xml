@@ -6,103 +6,97 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.home.group.GroupsContract.ViewModel" />
-
-        <variable
-            name="adapter"
-            type="com.doneit.ascend.presentation.main.home.group.common.GroupAdapter" />
-
+            type="com.doneit.ascend.presentation.main.groups.GroupsContract.ViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/white">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/clGroups"
-            android:layout_width="wrap_content"
-            android:layout_height="320dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:setVisibility="@{model.groups}">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/joinGroupStroke"
-                android:layout_width="240dp"
-                android:layout_height="320dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/ic_dash_stroke"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/join_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="@string/join_group"
-                android:textColor="#B1B1BF"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="@id/joinGroupStroke"
-                app:layout_constraintStart_toStartOf="@id/joinGroupStroke"
-                app:layout_constraintTop_toTopOf="@id/joinGroupStroke" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/explore_fro"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:gravity="center_horizontal"
-                android:text="@string/explore_fro"
-                android:textColor="#B1B1BF"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@id/joinGroupStroke"
-                app:layout_constraintStart_toStartOf="@id/joinGroupStroke"
-                app:layout_constraintTop_toBottomOf="@id/join_group" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvGroups"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:clipChildren="false"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_height="@dimen/tab_toolbar_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:setAdapter="@{adapter}"
-            app:setAdapterData="@{model.groups}"
-            app:setVisibility="@{model.groups}" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/my_daily_gr"
-            style="@style/TextNormalSecond"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{() -> model.navigateToGroupList()}"
-            android:text="@{String.format(@string/group_list_template, model.groupName)}"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/main_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentInsetStart="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btbBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@android:color/transparent"
+                        android:onClick="@{() -> model.backClick()}"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="15dp"
+                        android:src="@drawable/ic_back"
+                        android:tint="#7E7D8F"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTitle"
+                        style="@style/Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="11dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tlGroups"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:tabIndicatorColor="@color/colorAccent"
+                        app:tabMode="fixed"
+                        app:tabSelectedTextColor="@color/colorAccent"
+                        app:tabTextAppearance="@style/MasterMindTapTextAppearance"
+                        app:tabTextColor="@color/colorAccent_inactive">
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.doneit.ascend.presentation.views.NoSwipeViewPager
+            android:id="@+id/vpGroups"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clGroups"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_help"
-            app:layout_constraintBottom_toBottomOf="@+id/my_daily_gr"
-            app:layout_constraintStart_toEndOf="@+id/my_daily_gr"
-            app:layout_constraintTop_toTopOf="@+id/my_daily_gr" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

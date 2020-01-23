@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.view.View
 import com.doneit.ascend.presentation.MainActivity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
-import com.doneit.ascend.presentation.main.databinding.FragmentGroupsBinding
+import com.doneit.ascend.presentation.main.databinding.FragmentHomeGroupsBinding
 import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.main.home.HomeViewModel
 import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
 import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs
-import com.doneit.ascend.presentation.main.home.HomeViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-class GroupsFragment : ArgumentedFragment<FragmentGroupsBinding, GroupsArgs>() {
+class GroupsFragment : ArgumentedFragment<FragmentHomeGroupsBinding, GroupsArgs>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         //di should contains corresponding ViewModel from HomeFragment' module for now

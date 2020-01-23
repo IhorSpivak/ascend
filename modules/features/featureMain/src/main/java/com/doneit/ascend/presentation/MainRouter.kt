@@ -18,7 +18,8 @@ import com.doneit.ascend.presentation.main.group_info.GroupInfoContract
 import com.doneit.ascend.presentation.main.group_info.GroupInfoFragment
 import com.doneit.ascend.presentation.main.groups.GroupsContract
 import com.doneit.ascend.presentation.main.groups.GroupsFragment
-import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
+import com.doneit.ascend.presentation.main.groups.GroupsArg
+import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.master_mind.MasterMindContract
@@ -80,6 +81,7 @@ class MainRouter(
     MMFollowingContract.Router,
     MMAddContract.Router,
     GroupsContract.Router,
+    GroupListContract.Router,
     NotificationContract.Router,
     MasterMindContract.Router,
     ListContract.Router,
@@ -162,7 +164,8 @@ class MainRouter(
     }
 
     override fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?) {
-        val args = GroupsArgs(userId, groupType, isMyGroups)
+        val args =
+            GroupsArg(userId, groupType, isMyGroups)
         activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,
             GroupsFragment.newInstance(args)
@@ -271,7 +274,10 @@ class MainRouter(
     }
 
     override fun navigateToPayments(isMasterMind: Boolean) {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, PaymentsFragment.newInstance(isMasterMind))
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            PaymentsFragment.newInstance(isMasterMind)
+        )
     }
 
     override fun navigateToAddPaymentMethod() {

@@ -108,6 +108,8 @@
 
     <string name="group_list_template">%s Groups List</string>
     <string name="group_list">Groups List</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="past">Past</string>
 
     <!--Search-->
     <string name="search_title">Search</string>
