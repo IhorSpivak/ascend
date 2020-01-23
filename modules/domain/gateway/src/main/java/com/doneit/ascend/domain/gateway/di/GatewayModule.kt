@@ -84,5 +84,12 @@ object GatewayModule {
                 instance()
             )
         }
+
+        bind<IPurchaseGateway>() with provider {
+            PurchasesGateway(
+                instance(),
+                instance()
+            )
+        }
     }
 }

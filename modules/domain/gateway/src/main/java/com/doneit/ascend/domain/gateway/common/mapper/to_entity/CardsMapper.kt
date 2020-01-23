@@ -8,7 +8,7 @@ fun CardResponse.toEntity(): CardEntity {
     return CardEntity(
         id,
         name,
-        brand.toCardType(),
+        brand.toCardBrend(),
         country,
         expMonth,
         expYear,
@@ -19,7 +19,7 @@ fun CardResponse.toEntity(): CardEntity {
     )
 }
 
-fun String.toCardType(): CardType {
+fun String.toCardBrend(): CardType {
     return when(this) {
         "Visa" -> CardType.VISA
         else -> CardType.MASTER_CARD

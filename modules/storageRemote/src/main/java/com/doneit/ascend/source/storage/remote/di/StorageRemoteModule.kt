@@ -15,6 +15,8 @@ import com.doneit.ascend.source.storage.remote.repository.notification.INotifica
 import com.doneit.ascend.source.storage.remote.repository.notification.NotificationRepository
 import com.doneit.ascend.source.storage.remote.repository.page.IPageRepository
 import com.doneit.ascend.source.storage.remote.repository.page.PageRepository
+import com.doneit.ascend.source.storage.remote.repository.purchase.IPurchaseRepository
+import com.doneit.ascend.source.storage.remote.repository.purchase.PurchasesRepository
 import com.doneit.ascend.source.storage.remote.repository.question.IQuestionRepository
 import com.doneit.ascend.source.storage.remote.repository.question.QuestionRepository
 import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository
@@ -38,6 +40,7 @@ object StorageRemoteModule {
         bind<MasterMindApi>() with provider { instance<Retrofit>().create(MasterMindApi::class.java) }
         bind<NotificationApi>() with provider { instance<Retrofit>().create(NotificationApi::class.java) }
         bind<CardsApi>() with provider { instance<Retrofit>().create(CardsApi::class.java) }
+        bind<PurchaseApi>() with provider { instance<Retrofit>().create(PurchaseApi::class.java) }
 
         bind<IUserRepository>() with provider {
             UserRepository(
@@ -96,6 +99,13 @@ object StorageRemoteModule {
 
         bind<IGroupSocketRepository>() with singleton {
             GroupSocketRepository(
+                instance()
+            )
+        }
+
+        bind<IPurchaseRepository>() with singleton {
+            PurchasesRepository(
+                instance(),
                 instance()
             )
         }
