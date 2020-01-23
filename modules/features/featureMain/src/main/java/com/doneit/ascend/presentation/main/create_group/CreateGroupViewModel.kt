@@ -54,17 +54,6 @@ class CreateGroupViewModel(
             result
         }
 
-        createGroupModel.numberOfMeetings.validator = { s ->
-            val result = ValidationResult()
-
-            if (s.isValid4Number().not()) {
-                result.isSucceed = false
-                result.errors.add(R.string.error_number_of_meetings)
-            }
-
-            result
-        }
-
         createGroupModel.startDate.validator = { s ->
             val result = ValidationResult()
 
@@ -79,9 +68,21 @@ class CreateGroupViewModel(
         createGroupModel.price.validator = { s ->
             val result = ValidationResult()
 
-            if (s.isValid4Number().not()) {
+            if (s.isValidPrice().not()) {
+                //will never execute because of edit text mask installed at fragment
                 result.isSucceed = false
                 result.errors.add(R.string.error_price)
+            }
+
+            result
+        }
+
+        createGroupModel.numberOfMeetings.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isValidMeetingsNumber().not()) {
+                result.isSucceed = false
+                result.errors.add(R.string.error_number_of_meetings)
             }
 
             result

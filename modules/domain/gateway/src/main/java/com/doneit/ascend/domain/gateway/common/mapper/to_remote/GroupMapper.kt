@@ -13,11 +13,15 @@ fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
         description,
         startTime.toRemoteString(),
         groupType,
-        price * 100,
+        price.toPrice(),
         participants,
         days,
         meetingsCount
     )
+}
+
+fun Float.toPrice(): Int {
+    return (this * 100).toInt()
 }
 
 fun GroupListModel.toRequest(): GroupListRequest {

@@ -63,8 +63,13 @@ fun String.isValidGroupName(): Boolean {
     return this.matches(r)
 }
 
-fun String.isValid4Number(): Boolean {
+fun String.isValidMeetingsNumber(): Boolean {
     val r = Regex("^\\d{1,4}\$")
+    return this.matches(r)
+}
+
+fun String.isValidPrice(): Boolean {
+    val r = Regex("^\\d{1,4}(\\.\\d{1,4})?\$")
     return this.matches(r)
 }
 

@@ -6,6 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.androidisland.ezpermission.EzPermission
@@ -17,6 +19,7 @@ import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBindin
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
 import com.doneit.ascend.presentation.utils.*
+import com.redmadrobot.inputmask.MaskedTextChangedListener
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -78,6 +81,23 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         binding.icEdit.setOnClickListener {
             pickFromGallery()
         }
+
+        val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
+            TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        }, object: MaskedTextChangedListener.ValueListener {
+            override fun onTextChanged(maskFilled: Boolean, extractedValue: String) {
+            }
+        })
+        binding.price.editText.addTextChangedListener(listener)
+        binding.price.editText.onFocusChangeListener = listener
 
         viewModel.networkErrorMessage.observe(this) {
             it?.let { errorMessageIt ->
@@ -153,5 +173,6 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         private const val GALLERY_REQUEST_CODE = 42
         private const val TEMP_IMAGE_NAME = "group_image_temp.JPEG"
         private const val TEMP_IMAGE_NAME_CASHE = "group_image_temp"
+        private const val PRICE_MASK = "[0999]{.}[09]"
     }
 }
