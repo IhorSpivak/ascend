@@ -59,6 +59,7 @@
     <string name="error_price">The Price can contain from 1 till 4 digits</string>
     <string name="error_email">The email is incorrect. Please, make sure you entered correct data</string>
     <string name="error_number_of_meetings">The Number Of Meetings can contain from 1 till 4 digits</string>
+    <string name="error_number_of_meetings_count">Schedule does not match the number of meetings</string>
     <string name="error_description">The Group Description from 2 till 1000 symbols</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_complete">Complete</string>
