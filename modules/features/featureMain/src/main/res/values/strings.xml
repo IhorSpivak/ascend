@@ -271,6 +271,7 @@
     <string name="transactions">My Transactions</string>
     <string name="label_delete">Delete</string>
     <string name="expired">Expired</string>
+    <string name="card_title">%s - %s</string>
 
     <!--Earned-->
     <string name="total_earned">Total Earned: <b>%.2f</b> USD</string>
