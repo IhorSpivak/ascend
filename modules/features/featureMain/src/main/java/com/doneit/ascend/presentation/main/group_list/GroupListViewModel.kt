@@ -48,7 +48,8 @@ class GroupListViewModel(
 
             val model = GroupListModel(
                 perPage = 50,
-                sortType = SortType.DESC,
+                sortType = SortType.ASC,
+                sortColumn = GroupEntity.START_TIME_KEY,
                 userId = args.userId,
                 groupType = groupType,
                 myGroups = args.isMyGroups

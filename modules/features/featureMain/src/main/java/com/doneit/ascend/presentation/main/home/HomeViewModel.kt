@@ -72,7 +72,8 @@ class HomeViewModel(
 
     private suspend fun fetchGroups() {
         val model = GroupListModel(
-            sortType = SortType.DESC,
+            sortType = SortType.ASC,
+            sortColumn = GroupEntity.START_TIME_KEY,
             groupType = if(groupType == GroupType.DAILY) null else groupType,//according to requirement to display all created group on first tab
             myGroups = isMyGroups
         )
