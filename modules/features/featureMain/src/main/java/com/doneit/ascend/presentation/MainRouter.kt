@@ -16,9 +16,9 @@ import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.main.extensions.replaceWithoutBackStack
 import com.doneit.ascend.presentation.main.group_info.GroupInfoContract
 import com.doneit.ascend.presentation.main.group_info.GroupInfoFragment
-import com.doneit.ascend.presentation.main.group_list.GroupListContract
-import com.doneit.ascend.presentation.main.group_list.GroupListFragment
-import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
+import com.doneit.ascend.presentation.main.groups.GroupsContract
+import com.doneit.ascend.presentation.main.groups.GroupsFragment
+import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.master_mind.MasterMindContract
@@ -79,7 +79,7 @@ class MainRouter(
     WebPageContract.Router,
     MMFollowingContract.Router,
     MMAddContract.Router,
-    GroupListContract.Router,
+    GroupsContract.Router,
     NotificationContract.Router,
     MasterMindContract.Router,
     ListContract.Router,
@@ -162,10 +162,10 @@ class MainRouter(
     }
 
     override fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?) {
-        val args = GroupListArgs(userId, groupType, isMyGroups)
+        val args = GroupsArgs(userId, groupType, isMyGroups)
         activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,
-            GroupListFragment.newInstance(args)
+            GroupsFragment.newInstance(args)
         )
     }
 

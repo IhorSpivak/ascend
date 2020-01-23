@@ -6,11 +6,11 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.group_list.GroupListContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.groups.GroupsContract.ViewModel" />
 
         <variable
             name="adapter"
-            type="com.doneit.ascend.presentation.main.group_list.common.GroupListAdapter" />
+            type="com.doneit.ascend.presentation.main.groups.common.GroupListAdapter" />
 
     </data>
 

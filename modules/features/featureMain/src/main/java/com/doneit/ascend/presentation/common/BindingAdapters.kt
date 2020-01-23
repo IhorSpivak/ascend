@@ -13,7 +13,7 @@ import androidx.paging.PagedList
 import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
-import com.doneit.ascend.presentation.main.group_list.common.GroupListAdapter
+import com.doneit.ascend.presentation.main.groups.common.GroupListAdapter
 import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
 import com.doneit.ascend.presentation.models.GroupListWithUser
 import com.doneit.ascend.presentation.models.GroupListWithUserPaged

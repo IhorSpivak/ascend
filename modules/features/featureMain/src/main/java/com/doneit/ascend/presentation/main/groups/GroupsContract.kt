@@ -1,13 +1,13 @@
-package com.doneit.ascend.presentation.main.group_list
+package com.doneit.ascend.presentation.main.groups
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedViewModel
-import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
+import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
 import com.doneit.ascend.presentation.models.GroupListWithUserPaged
 
-interface GroupListContract {
-    interface ViewModel : ArgumentedViewModel<GroupListArgs> {
+interface GroupsContract {
+    interface ViewModel : ArgumentedViewModel<GroupsArgs> {
         val groups: LiveData<GroupListWithUserPaged>
         val groupType: LiveData<String>
 

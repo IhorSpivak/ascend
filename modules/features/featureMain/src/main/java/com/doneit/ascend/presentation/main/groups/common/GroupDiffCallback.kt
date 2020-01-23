@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.group_list.common
+package com.doneit.ascend.presentation.main.groups.common
 
 import androidx.recyclerview.widget.DiffUtil
 import com.doneit.ascend.domain.entity.GroupEntity

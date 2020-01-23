@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.group_list
+package com.doneit.ascend.presentation.main.groups
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import com.doneit.ascend.domain.entity.dto.toStringValueUI
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
+import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
 import com.doneit.ascend.presentation.models.GroupListWithUserPaged
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -18,11 +18,11 @@ import kotlinx.coroutines.launch
 
 @CreateFactory
 @ViewModelDiModule
-class GroupListViewModel(
+class GroupsViewModel(
     private val groupUseCase: GroupUseCase,
     private val userUseCase: UserUseCase,
-    private val router: GroupListContract.Router
-) : BaseViewModelImpl(), GroupListContract.ViewModel {
+    private val router: GroupsContract.Router
+) : BaseViewModelImpl(), GroupsContract.ViewModel {
 
     override val groups = MutableLiveData<GroupListWithUserPaged>()
     override val groupType = MutableLiveData<String>()
@@ -31,7 +31,7 @@ class GroupListViewModel(
         router.onBack()
     }
 
-    override fun applyArguments(args: GroupListArgs) {
+    override fun applyArguments(args: GroupsArgs) {
         viewModelScope.launch {
 
             args.groupType?.let {

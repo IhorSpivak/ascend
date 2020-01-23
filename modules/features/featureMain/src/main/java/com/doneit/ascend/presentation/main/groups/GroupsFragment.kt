@@ -1,21 +1,21 @@
-package com.doneit.ascend.presentation.main.group_list
+package com.doneit.ascend.presentation.main.groups
 
 import android.os.Bundle
 import com.doneit.ascend.presentation.common.TopListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupListBinding
-import com.doneit.ascend.presentation.main.group_list.common.GroupListAdapter
-import com.doneit.ascend.presentation.main.group_list.common.GroupListArgs
+import com.doneit.ascend.presentation.main.groups.common.GroupListAdapter
+import com.doneit.ascend.presentation.main.groups.common.GroupsArgs
 import org.kodein.di.generic.instance
 
-class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupListArgs>() {
+class GroupsFragment : ArgumentedFragment<FragmentGroupListBinding, GroupsArgs>() {
 
     override val viewModelModule =
         GroupListViewModelModule.get(
             this
         )
-    override val viewModel: GroupListContract.ViewModel by instance()
+    override val viewModel: GroupsContract.ViewModel by instance()
 
     private val adapter: GroupListAdapter by lazy {
         GroupListAdapter(null,
@@ -39,8 +39,8 @@ class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupList
     }
 
     companion object {
-        fun newInstance(args: GroupListArgs): GroupListFragment {
-            val fragment = GroupListFragment()
+        fun newInstance(args: GroupsArgs): GroupsFragment {
+            val fragment = GroupsFragment()
             fragment.arguments = Bundle().apply {
                 putParcelable(KEY_ARGS, args)
             }

@@ -5,7 +5,7 @@ import androidx.paging.PagedListAdapter
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.SearchEntity
-import com.doneit.ascend.presentation.main.group_list.common.GroupHorViewHolder
+import com.doneit.ascend.presentation.main.groups.common.GroupHorViewHolder
 import com.doneit.ascend.presentation.main.master_mind.list.common.MasterMindViewHolder
 
 class SearchAdapter(
