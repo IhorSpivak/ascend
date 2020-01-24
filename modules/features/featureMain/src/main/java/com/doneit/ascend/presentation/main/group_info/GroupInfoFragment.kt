@@ -28,6 +28,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
     private var currentDialog: AlertDialog? = null
     private val cardsAdapter = CardsAdapter {
         viewModel.onAddPaymentClick()
+        currentDialog?.dismiss()
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -101,9 +102,10 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         }
 
         binding.btnSubscribe.setOnClickListener {
-            SelectPaymentDialog.create(context!!,  cardsAdapter) {
+            currentDialog = SelectPaymentDialog.create(context!!,  cardsAdapter) {
                 viewModel.subscribe(it)
-            }.show()
+            }
+            currentDialog?.show()
         }
     }
 

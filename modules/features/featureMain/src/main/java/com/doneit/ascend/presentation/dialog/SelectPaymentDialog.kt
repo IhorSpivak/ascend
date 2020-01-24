@@ -1,9 +1,8 @@
 package com.doneit.ascend.presentation.dialog
 
-import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
 import com.doneit.ascend.presentation.common.FullDividerItemDecorator
 import com.doneit.ascend.presentation.dialog.common.CardsAdapter
 import com.doneit.ascend.presentation.main.R
