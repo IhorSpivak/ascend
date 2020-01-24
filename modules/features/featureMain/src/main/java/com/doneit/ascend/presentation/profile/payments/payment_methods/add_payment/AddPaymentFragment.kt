@@ -3,9 +3,11 @@ package com.doneit.ascend.presentation.profile.payments.payment_methods.add_paym
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAddPaymentBinding
+import com.doneit.ascend.presentation.main.extensions.showKeyboard
 import com.doneit.ascend.presentation.utils.CardAssociation
 import com.doneit.ascend.presentation.utils.getCardNumberType
 import com.redmadrobot.inputmask.MaskedTextChangedListener
@@ -28,6 +30,19 @@ class AddPaymentFragment : BaseFragment<FragmentAddPaymentBinding>() {
         binding.model = viewModel
         setupExpiredDateMask()
         setupCardNumberMask()
+
+        viewModel.state.observe(viewLifecycleOwner, Observer {
+            onStateChanged(it)
+        })
+    }
+
+    private fun onStateChanged(state: AddPaymentState) {
+        when(state){
+            AddPaymentState.NUMBER -> binding.number.edit.showKeyboard()
+            AddPaymentState.NAME -> binding.name.edit.showKeyboard()
+            AddPaymentState.EXPIRATION -> binding.expiration.edit.showKeyboard()
+            AddPaymentState.CVV -> binding.cvv.edit.showKeyboard()
+        }
     }
 
 

@@ -82,8 +82,7 @@ class SmsCodeView @JvmOverloads constructor(
     }
 
     fun requestFirstFocus() {
-        digits[0].requestFocus()
-        showKeyboard(digits[0])
+        digits[0].showKeyboard()
     }
 
     override fun onFinishInflate() {
