@@ -69,14 +69,6 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             cardsAdapter.setData(it)
         })
 
-        val model = arguments!!.getParcelable<GroupEntity>(GROUP_ENTITY)
-        if (model != null) {
-            viewModel.setModel(model)
-        } else {
-            val id = arguments!!.getLong(GROUP_ID, -1)
-            viewModel.loadData(id)
-        }
-
 
         btnDelete.setOnClickListener {
             currentDialog = DeleteDialog.create(
@@ -102,10 +94,21 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         }
 
         binding.btnSubscribe.setOnClickListener {
-            currentDialog = SelectPaymentDialog.create(context!!,  cardsAdapter) {
+            currentDialog = SelectPaymentDialog.create(context!!, cardsAdapter) {
                 viewModel.subscribe(it)
             }
             currentDialog?.show()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val model = arguments!!.getParcelable<GroupEntity>(GROUP_ENTITY)
+        if (model != null) {
+            viewModel.setModel(model)
+        } else {
+            val id = arguments!!.getLong(GROUP_ID, -1)
+            viewModel.loadData(id)
         }
     }
 
