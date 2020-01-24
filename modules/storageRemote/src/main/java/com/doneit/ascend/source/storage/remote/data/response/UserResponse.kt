@@ -8,8 +8,8 @@ data class UserResponse(
     @SerializedName("email") val email: String,
     @SerializedName("phone_number") val phone: String,
     @SerializedName("location") val location: String?,
-    @SerializedName("created_at") val createdAt: String,
-    @SerializedName("updated_at") val updatedAt: String,
+    @SerializedName("created_at") val createdAt: String?,
+    @SerializedName("updated_at") val updatedAt: String?,
     @SerializedName("meeting_started") val meetingStarted: Boolean?,
     @SerializedName("new_groups") val newGroups: Boolean?,
     @SerializedName("invite_to_a_meeting") val inviteToMeeting: Boolean?,
@@ -20,5 +20,7 @@ data class UserResponse(
     @SerializedName("bio") val bio: String?,
     @SerializedName("rating") val rating: Float,
     @SerializedName("role") val role: String?,
-    @SerializedName("community") val community: String?
+    @SerializedName("community") val community: String?,
+    @SerializedName("visited_groups_count") val visitedGroupsCount: Int,
+    @SerializedName("birthday") val birthday: String?
 )

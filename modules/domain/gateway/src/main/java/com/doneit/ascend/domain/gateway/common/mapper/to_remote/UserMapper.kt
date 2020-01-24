@@ -10,7 +10,7 @@ fun LogInUserModel.toLoginRequest(): LogInRequest {
     )
 }
 
-fun SocialLogInModel.toSocialLoginRequest() : SocialLoginRequest {
+fun SocialLogInModel.toSocialLoginRequest(): SocialLoginRequest {
     return SocialLoginRequest(
         socialType,
         accessToken,
@@ -54,9 +54,10 @@ fun UpdateProfileModel.toRequest(): UpdateProfileRequest {
         isMeetingStarted,
         hasNewGroups,
         hasInviteToMeeting,
-        age,
+        birthday?.toRemoteStringShort(),
         bio,
-        description
+        description,
+        removeImage
     )
 }
 

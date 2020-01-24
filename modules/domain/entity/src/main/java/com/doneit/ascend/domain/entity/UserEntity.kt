@@ -1,13 +1,15 @@
 package com.doneit.ascend.domain.entity
 
+import java.util.*
+
 data class UserEntity(
     val id: Long,
     val fullName: String?,
     val email: String?,
     val phone: String?,
     val location: String?,
-    val createdAt: String?,
-    val updatedAt: String?,
+    val createdAt: Date?,
+    val updatedAt: Date?,
     val meetingStarted: Boolean?,
     val newGroups: Boolean?,
     val inviteToMeeting: Boolean?,
@@ -19,5 +21,27 @@ data class UserEntity(
     val rating: Float?,
     val role: String?,
     val isMasterMind: Boolean,
-    val community: String?
-)
+    val community: String?,
+    val visitedGroupCount: Int,
+    val birthday: Date?
+) {
+    val age: Int?
+        get() {
+            var res: Int? = null
+
+            birthday?.let {
+                val currentDate = Calendar.getInstance()
+                val birthday = Calendar.getInstance()
+                birthday.time = this@UserEntity.birthday
+
+                res = currentDate.get(Calendar.YEAR) - birthday.get(Calendar.YEAR)
+                if (currentDate.get(Calendar.MONTH) < birthday.get(Calendar.MONTH)
+                    || currentDate.get(Calendar.DAY_OF_MONTH) < birthday.get(Calendar.DAY_OF_MONTH)
+                ) {
+                    res = res!! - 1
+                }
+            }
+
+            return res
+        }
+}

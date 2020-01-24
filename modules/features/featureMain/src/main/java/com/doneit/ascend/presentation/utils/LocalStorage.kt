@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.utils
 
 import android.content.Context
 
+//todo remove from presentation
 class LocalStorage(
     private val context: Context
 ) {

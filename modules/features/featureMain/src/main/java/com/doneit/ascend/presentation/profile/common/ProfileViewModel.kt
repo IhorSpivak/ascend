@@ -24,6 +24,7 @@ import com.doneit.ascend.presentation.utils.getLocation
 import com.doneit.ascend.presentation.utils.isDescriptionValid
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ProfileViewModel(
     private val questionUseCase: QuestionUseCase,
@@ -41,13 +42,10 @@ class ProfileViewModel(
 
     override val user = MutableLiveData<UserEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
-    override val showDeleteButton = MutableLiveData<Boolean>()
     override val bioValue = ValidatableField()
     override val canSaveBio = MutableLiveData<Boolean>()
     override val questions = MutableLiveData<List<PresentationCommunityModel>>()
 
-
-    private lateinit var updateProfileModel: UpdateProfileModel
     private val userLocal = userUseCase.getUserLive()
     private val userObserver: Observer<UserEntity?>
 
@@ -83,7 +81,6 @@ class ProfileViewModel(
 
         userObserver = Observer {
             it?.let {
-                updateProfileModel = it.toDTO()
                 user.postValue(it)
             }
         }
@@ -95,10 +92,13 @@ class ProfileViewModel(
             val result = userUseCase.getProfile()
 
             if (result.isSuccessful) {
-                showDeleteButton.postValue(result.successModel!!.image?.url.isNullOrEmpty().not())
                 bioValue.observableField.set(result.successModel?.bio)
             }
         }
+    }
+
+    override fun hasIcon(): Boolean {
+        return user.value?.image?.url.isNullOrEmpty().not()
     }
 
     override fun onEditPhotoClick() {
@@ -140,26 +140,24 @@ class ProfileViewModel(
         router.navigateToSetCommunity()
     }
 
-    override fun updateProfileIcon(path: String?) {//null means remove image
-        updateProfileModel.shouldUpdateIcon = true
-        showDeleteButton.postValue(true)
-        updateProfileModel.imagePath = path
-        updateProfile()
+    override fun updateProfileIcon(path: String) {
+        updateProfile(UpdateProfileModel(imagePath = path))
+    }
+
+    override fun removeProfileIcon() {
+        updateProfile(UpdateProfileModel(removeImage = true))
     }
 
     override fun updateFullName(newFullName: String) {
-        updateProfileModel.fullName = newFullName
-        updateProfile()
+        updateProfile(UpdateProfileModel(fullName = newFullName))
     }
 
     override fun updateDisplayName(newDisplayName: String) {
-        updateProfileModel.displayName = newDisplayName
-        updateProfile()
+        updateProfile(UpdateProfileModel(displayName = newDisplayName))
     }
 
     override fun updateShortDescription(newShortDescription: String) {
-        updateProfileModel.description = newShortDescription
-        updateProfile()
+        updateProfile(UpdateProfileModel(description = newShortDescription))
     }
 
     override fun onEditBioClick() {
@@ -167,8 +165,7 @@ class ProfileViewModel(
     }
 
     override fun updateBio(newBio: String) {
-        updateProfileModel.bio = newBio
-        updateProfile()
+        updateProfile(UpdateProfileModel(bio = newBio))
     }
 
     override fun onAvatarSelected(
@@ -184,18 +181,21 @@ class ProfileViewModel(
     }
 
     override fun updateLocation(city: String, country: String) {
-        updateProfileModel.location = getLocation(city, country)
-        updateProfile()
+        val location = getLocation(city, country)
+        updateProfile(UpdateProfileModel(location = location))
+    }
+
+    override fun setBirthday(date: Date) {
+        updateProfile(UpdateProfileModel(birthday = date))
     }
 
     override fun onChanged(type: NotificationSettingsItem, value: Boolean) {
-        when (type) {
-            NotificationSettingsItem.MEETING_STARTED -> updateProfileModel.isMeetingStarted = value
-            NotificationSettingsItem.NEW_GROUPS -> updateProfileModel.hasNewGroups = value
-            NotificationSettingsItem.INVITE_TO_MEETING -> updateProfileModel.hasInviteToMeeting =
-                value
+        val model = when (type) {
+            NotificationSettingsItem.MEETING_STARTED -> UpdateProfileModel(isMeetingStarted = true)
+            NotificationSettingsItem.NEW_GROUPS -> UpdateProfileModel(hasNewGroups = true)
+            NotificationSettingsItem.INVITE_TO_MEETING -> UpdateProfileModel(hasInviteToMeeting = true)
         }
-        updateProfile()
+        updateProfile(model)
     }
 
     override fun goBack() {
@@ -211,7 +211,7 @@ class ProfileViewModel(
     }
 
     override fun onLocationClick() {
-        router.navigateToChangeLocation(updateProfileModel.location)
+        router.navigateToChangeLocation(userLocal.value?.location)
     }
 
     override fun onChangePasswordClick() {
@@ -235,9 +235,9 @@ class ProfileViewModel(
         super.onCleared()
     }
 
-    private fun updateProfile() {
+    private fun updateProfile(model: UpdateProfileModel) {
         viewModelScope.launch {
-            val result = userUseCase.updateProfile(updateProfileModel)
+            val result = userUseCase.updateProfile(model)
 
             if (result.isSuccessful.not()) {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())

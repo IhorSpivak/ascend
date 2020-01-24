@@ -16,7 +16,6 @@ interface ProfileContract {
 
         val user: LiveData<UserEntity?>
         val showPhotoDialog: SingleLiveManager<Unit>
-        val showDeleteButton: LiveData<Boolean>
 
         fun fetchData()
         fun onEditPhotoClick()
@@ -25,9 +24,11 @@ interface ProfileContract {
         fun onPolicyClick()
         fun onSeeMyGroupsClick()
         fun onNotificationClick()
+        fun hasIcon(): Boolean
 
         fun onAvatarSelected(sourceUri: Uri, destinationUri: Uri, fragmentToReceiveResult: Fragment)
-        fun updateProfileIcon(path: String?)
+        fun updateProfileIcon(path: String)
+        fun removeProfileIcon()
         fun updateFullName(newFullName: String)
         fun onMMFollowedClick()
         fun onChangePhoneClick()

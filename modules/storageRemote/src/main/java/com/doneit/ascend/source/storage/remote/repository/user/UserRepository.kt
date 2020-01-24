@@ -10,7 +10,6 @@ import com.doneit.ascend.source.storage.remote.data.response.common.RemoteRespon
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -75,8 +74,7 @@ internal class UserRepository(
 
     override suspend fun updateProfile(
         file: File?,
-        request: UpdateProfileRequest,
-        updateImage: Boolean
+        request: UpdateProfileRequest
     ): RemoteResponse<ProfileResponse, ErrorsListResponse> {
         return execute({
 
@@ -122,8 +120,8 @@ internal class UserRepository(
                 builder = builder.addPart(stringPart)
             }
 
-            request.age?.let {
-                stringPart = MultipartBody.Part.createFormData("age", gson.toJson(request.age))
+            request.birthday?.let {
+                stringPart = MultipartBody.Part.createFormData("birthday", gson.toJson(request.birthday))
                 builder = builder.addPart(stringPart)
             }
 
@@ -137,17 +135,17 @@ internal class UserRepository(
                 builder = builder.addPart(stringPart)
             }
 
-            if (updateImage) {
-                var filePart = if (file != null) {
-                    MultipartBody.Part.createFormData(
-                        "image", file.name, RequestBody.create(
-                            "image/*".toMediaTypeOrNull(), file
-                        )
-                    )
+            request.removeImage?.let {
+                stringPart = MultipartBody.Part.createFormData("remove_image", gson.toJson(request.removeImage))
+                builder = builder.addPart(stringPart)
+            }
 
-                } else {
-                    MultipartBody.Part.createFormData("image", gson.toJson(null))
-                }
+            file?.let {file ->
+                val filePart = MultipartBody.Part.createFormData(
+                "image", file.name, RequestBody.create(
+                "image/*".toMediaTypeOrNull(), file
+                )
+                )
                 builder = builder.addPart(filePart)
             }
 

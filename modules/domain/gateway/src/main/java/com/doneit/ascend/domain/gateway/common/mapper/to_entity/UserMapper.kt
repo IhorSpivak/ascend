@@ -24,8 +24,8 @@ fun UserResponse.toEntity(): UserEntity {
         email,
         phone,
         location,
-        createdAt,
-        updatedAt,
+        createdAt?.toDate(),
+        updatedAt?.toDate(),
         meetingStarted,
         newGroups,
         inviteToMeeting,
@@ -37,7 +37,9 @@ fun UserResponse.toEntity(): UserEntity {
         rating,
         role,
         role?.isMasterMind()?:false,
-        community
+        community,
+        visitedGroupsCount,
+        birthday?.toShortDate()
     )
 }
 
@@ -48,8 +50,8 @@ fun UserLocal.toUserEntity(): UserEntity {
         email = this@toUserEntity.email,
         phone = this@toUserEntity.phone,
         location = this@toUserEntity.location,
-        createdAt = this@toUserEntity.createdAt,
-        updatedAt = this@toUserEntity.updatedAt,
+        createdAt = this@toUserEntity.createdAt?.toDate(),
+        updatedAt = this@toUserEntity.updatedAt?.toDate(),
         meetingStarted = this@toUserEntity.meetingStarted,
         newGroups = this@toUserEntity.newGroups,
         inviteToMeeting = this@toUserEntity.inviteToMeeting,
@@ -66,7 +68,9 @@ fun UserLocal.toUserEntity(): UserEntity {
             ThumbnailEntity(
                 if(thumbURL?.isBlank() == true) null else thumbURL
             )
-        )
+        ),
+        visitedGroupCount = this@toUserEntity.visitedGroupCount,
+        birthday = this@toUserEntity.birthday?.toShortDate()
     )
 }
 

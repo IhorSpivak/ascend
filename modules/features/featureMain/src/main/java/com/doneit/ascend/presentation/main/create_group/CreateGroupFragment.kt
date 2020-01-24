@@ -51,7 +51,8 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         }
     }
 
-    private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME_CASHE) }
+    private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
+    private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
     override val viewModel: CreateGroupContract.ViewModel by instance()
 
     private val adapter: ParticipantAdapter by lazy {
@@ -128,7 +129,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
                     galleryIntent.type = "image/*"
 
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri)
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempPhotoUri)
 
                     val chooser =
                         Intent.createChooser(galleryIntent, "Select an App to choose an Image")
@@ -146,24 +147,21 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
                     if(data?.data != null) {
-                        val selected = data.data
-
-                        handleImageURI(selected!!)
+                        val galleryPhotoUri = context!!.copyFile(data.data!!, tempPhotoUri)
+                        handleImageURI(galleryPhotoUri)
                     } else {
-                        handleImageURI(cameraPhotoUri)
+                        handleImageURI(tempPhotoUri)
                     }
                 }
             }
     }
 
     private fun handleImageURI(sourcePath: Uri) {
-        val destinationPath =
-            context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME
-
         GlobalScope.launch {
-            val compressed = activity!!.copyCompressed(sourcePath, destinationPath)
+            val compressed = activity!!.copyCompressed(sourcePath, compressedPhotoPath)
 
             launch(Dispatchers.Main) {
+                viewModel.createGroupModel.image.observableField.set(null)
                 viewModel.createGroupModel.image.observableField.set(compressed)
             }
         }
@@ -171,8 +169,6 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
 
     companion object {
         private const val GALLERY_REQUEST_CODE = 42
-        private const val TEMP_IMAGE_NAME = "group_image_temp.JPEG"
-        private const val TEMP_IMAGE_NAME_CASHE = "group_image_temp"
         private const val PRICE_MASK = "[0999]{.}[09]"
     }
 }

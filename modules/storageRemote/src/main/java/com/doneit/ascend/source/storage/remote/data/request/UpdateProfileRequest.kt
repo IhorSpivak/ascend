@@ -9,7 +9,8 @@ data class UpdateProfileRequest(
     @SerializedName("meeting_started") val isMeetingStarted: Boolean?,
     @SerializedName("new_groups") val hasNewGroups: Boolean?,
     @SerializedName("invite_to_a_meeting") val hasInviteToMeeting: Boolean?,
-    @SerializedName("age") val age: Int?,
+    @SerializedName("birthday") val birthday: String?,
     @SerializedName("bio") val bio: String?,
-    @SerializedName("description") val description: String?
+    @SerializedName("description") val description: String?,
+    @SerializedName("remove_image") val removeImage: Boolean?
 )

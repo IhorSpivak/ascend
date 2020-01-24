@@ -31,22 +31,6 @@ fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
     )
 }
 
-fun UserEntity.toDTO(): UpdateProfileModel {
-    return UpdateProfileModel(
-        fullName,
-        displayName,
-        location,
-        meetingStarted,
-        newGroups,
-        inviteToMeeting,
-        -1,
-        bio,
-        description,
-        false,
-        null
-    )
-}
-
 fun List<CalendarDayEntity>.toDays(): List<Int> {
     return this.map {
         it.ordinal

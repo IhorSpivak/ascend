@@ -23,6 +23,8 @@ data class UserLocal(
     val role: String?,
     val isMasterMind: Boolean,
     val community: String? = "",
+    val visitedGroupCount: Int = 0,
+    val birthday: String? = "",
     val imageURL: String? = "",//todo move to another table
     val thumbURL: String? = ""
 )

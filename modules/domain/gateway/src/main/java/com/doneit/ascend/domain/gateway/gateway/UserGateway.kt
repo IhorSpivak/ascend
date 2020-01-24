@@ -228,7 +228,7 @@ internal class UserGateway(
     override suspend fun updateProfile(groupModel: UpdateProfileModel): ResponseEntity<UserEntity, List<String>> {
         val file = if(groupModel.imagePath == null) null else File(groupModel.imagePath!!)
 
-        val res = executeRemote { remote.updateProfile(file, groupModel.toRequest(), groupModel.shouldUpdateIcon) }.toResponseEntity(
+        val res = executeRemote { remote.updateProfile(file, groupModel.toRequest()) }.toResponseEntity(
             {
                 it?.currrentUser?.toEntity()
             },
