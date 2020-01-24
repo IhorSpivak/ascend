@@ -161,7 +161,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             val compressed = activity!!.copyCompressed(sourcePath, compressedPhotoPath)
 
             launch(Dispatchers.Main) {
-                viewModel.createGroupModel.image.observableField.set(null)
+                viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
                 viewModel.createGroupModel.image.observableField.set(compressed)
             }
         }

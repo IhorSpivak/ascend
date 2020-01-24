@@ -25,7 +25,6 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import java.io.File
 
 class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
 
@@ -35,8 +34,9 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
 
     override val viewModel: MMProfileContract.ViewModel by instance()
 
-    private val cameraPhotoUri by lazy { context!!.createCameraPhotoUri(TEMP_IMAGE_NAME) }
-    private val cropPhotoUri by lazy { context!!.createCropPhotoUri(TEMP_CROP_IMAGE__NAME) }
+    private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
+    private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
+    private val cropPhotoUri by lazy { context!!.createCropPhotoUri() }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
@@ -123,6 +123,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
     }
 
     private fun showPhotoDialog() {
+
         showChangePhotoDialog({
             EzPermission.with(context!!)
                 .permissions(
@@ -140,7 +141,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                     ) {
 
                         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri)
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempPhotoUri)
                         startActivityForResult(
                             cameraIntent,
                             CAMERA_REQUEST_CODE
@@ -173,8 +174,8 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                     }
                 }
         }, {
-            viewModel.updateProfileIcon(null)
-        }, viewModel.showDeleteButton.value ?: false)
+            viewModel.removeProfileIcon()
+        }, viewModel.hasIcon())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -183,11 +184,13 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
-                    val galleryPhotoUri = data?.data ?: return
-                    viewModel.onAvatarSelected(galleryPhotoUri, cropPhotoUri, this)
+                    data?.let {
+                        val galleryPhotoUri = context!!.copyFile(data.data!!, tempPhotoUri)
+                        viewModel.onAvatarSelected(galleryPhotoUri, cropPhotoUri, this)
+                    }
                 }
                 CAMERA_REQUEST_CODE -> {
-                    viewModel.onAvatarSelected(cameraPhotoUri, cropPhotoUri, this)
+                    viewModel.onAvatarSelected(tempPhotoUri, cropPhotoUri, this)
                 }
                 UCrop.REQUEST_CROP -> {
                     val uri = data?.data ?: return
@@ -198,11 +201,8 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
     }
 
     private fun handleImageURI(source: Uri) {
-        val destinationPath =
-            context!!.externalCacheDir!!.path + File.separatorChar + TEMP_IMAGE_NAME
-
         GlobalScope.launch {
-            val compressed = activity!!.copyCompressed(source, destinationPath)
+            val compressed = activity!!.copyCompressed(source, compressedPhotoPath)
             viewModel.updateProfileIcon(compressed)
         }
     }
@@ -210,9 +210,5 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
     companion object {
         private const val GALLERY_REQUEST_CODE = 42
         private const val CAMERA_REQUEST_CODE = 41
-        private const val TEMP_IMAGE_NAME = "profile_image_temp.jpg"
-        const val TEMP_CROP_IMAGE__NAME = "profile_image_crop_temp.jpeg"
-
-        const val PROFILE_VM_TAG = ""
     }
 }
