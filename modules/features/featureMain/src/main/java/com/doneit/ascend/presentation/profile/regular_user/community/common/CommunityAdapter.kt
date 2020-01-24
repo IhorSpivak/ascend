@@ -5,7 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.presentation.models.PresentationCommunityModel
 
 class CommunityAdapter(
-    private val items: List<PresentationCommunityModel>
+    private val items: List<PresentationCommunityModel>,
+    private val selectionListener: (String) -> Unit
 ) : RecyclerView.Adapter<CommunityViewHolder>() {
 
     private var lastSelectedIndex = -1
@@ -25,6 +26,7 @@ class CommunityAdapter(
 
             lastSelectedIndex = position
             items[position].isSelected = true
+            selectionListener.invoke(items[position].title)
         }
     }
 

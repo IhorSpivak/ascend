@@ -8,7 +8,7 @@ interface EditBioContract {
 
     interface ViewModel: BaseViewModel {
         val bioValue: ValidatableField
-        val canSaveBio: LiveData<Boolean>
+        val canSave: LiveData<Boolean>
 
         fun updateBio(newBio: String)
         fun goBack()

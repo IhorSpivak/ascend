@@ -1,16 +1,18 @@
 package com.doneit.ascend.domain.gateway.gateway
 
-import com.doneit.ascend.domain.entity.AnswersEntity
+import com.doneit.ascend.domain.entity.dto.AnswersModel
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IAnswerGateway
+import com.doneit.ascend.source.storage.local.repository.user.IUserRepository
 import com.doneit.ascend.source.storage.remote.repository.answer.IAnswerRepository
 import com.vrgsoft.networkmanager.NetworkManager
 
 internal class AnswerGateway(
     errors: NetworkManager,
+    private val local: IUserRepository,
     private val remote: IAnswerRepository
 ) : BaseGateway(errors), IAnswerGateway {
 
@@ -19,9 +21,9 @@ internal class AnswerGateway(
     }
 
     override suspend fun createAnswers(
-        answers: AnswersEntity
+        answers: AnswersModel
     ): ResponseEntity<Unit, List<String>> {
-        return executeRemote { remote.createAnswers(answers.toRequest()) }.toResponseEntity(
+        val result = executeRemote { remote.createAnswers(answers.toRequest()) }.toResponseEntity(
             {
                 Unit
             },
@@ -29,5 +31,15 @@ internal class AnswerGateway(
                 it?.errors
             }
         )
+
+        if (result.isSuccessful) {
+            val user = local.getFirstUser()
+            user?.let {
+                local.remove()
+                local.insert(user.copy(community = answers.community))
+            }
+        }
+
+        return result
     }
 }

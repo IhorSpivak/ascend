@@ -14,14 +14,12 @@
         style="@style/TextNormal"
         android:layout_width="match_parent"
         android:layout_height="24dp"
-        android:layout_columnWeight="1"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         android:button="@drawable/custom_checkbox"
         android:clickable="true"
         android:focusable="true"
         android:paddingStart="10dp"
-        android:paddingEnd="0dp"
         android:text="@{title}"
         tools:text="Community"/>
 

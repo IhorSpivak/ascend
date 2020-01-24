@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.login.first_time_login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.AnswerEntity
-import com.doneit.ascend.domain.entity.AnswersEntity
+import com.doneit.ascend.domain.entity.dto.AnswersModel
 import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
@@ -40,7 +40,7 @@ class FirstTimeLoginViewModel(
 
             val requestEntity =
                 answerUseCase.createAnswers(
-                    AnswersEntity(
+                    AnswersModel(
                         community = community.value!!,
                         answers = answers.toList()
                     )
@@ -49,19 +49,9 @@ class FirstTimeLoginViewModel(
             canComplete.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                try {
-                    localStorage.saveUIReturnStep(UIReturnStep.NONE)
-                    questionUseCase.deleteAllQuestions()
-
-                    val user = userUseCase.getUser()
-                    user?.let {
-                        userUseCase.update(it.copy(community = community.value))
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                } finally {
-                    router.goToMain()
-                }
+                localStorage.saveUIReturnStep(UIReturnStep.NONE)
+                questionUseCase.deleteAllQuestions()
+                router.goToMain()
             }
         }
     }

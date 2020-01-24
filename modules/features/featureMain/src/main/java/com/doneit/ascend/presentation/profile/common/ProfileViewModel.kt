@@ -7,8 +7,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.dto.AnswersModel
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
+import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
@@ -33,6 +35,7 @@ import java.util.*
 class ProfileViewModel(
     private val questionUseCase: QuestionUseCase,
     private val userUseCase: UserUseCase,
+    private val answerUseCase: AnswerUseCase,
     private val router: ProfileContract.Router,
     private val mmRouter: com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router
 ) : BaseViewModelImpl(),
@@ -47,9 +50,11 @@ class ProfileViewModel(
     override val user = MutableLiveData<UserEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
     override val bioValue = ValidatableField()
-    override val canSaveBio = MutableLiveData<Boolean>()
     override val birthdaySelected = MutableLiveData<Date?>()
     override val questions = MutableLiveData<List<PresentationCommunityModel>>()
+    override val canSave = MutableLiveData<Boolean>()
+
+    private var selectedCommunity: String? = null
 
     private val userLocal = userUseCase.getUserLive()
     private val userObserver: Observer<UserEntity?>
@@ -81,7 +86,7 @@ class ProfileViewModel(
         }
 
         bioValue.onFieldInvalidate = {
-            canSaveBio.postValue(bioValue.isValid)
+            canSave.postValue(bioValue.isValid)
         }
 
         userObserver = Observer {
@@ -216,6 +221,29 @@ class ProfileViewModel(
             NotificationSettingsItem.INVITE_TO_MEETING -> UpdateProfileModel(hasInviteToMeeting = true)
         }
         updateProfile(model)
+    }
+
+    override fun setSelectedCommunity(community: String) {
+        selectedCommunity = community
+        canSave.postValue(
+            community != userLocal.value?.community
+        )
+    }
+
+    override fun saveCommunity() {
+        selectedCommunity?.let { newCommunity ->
+            canSave.postValue(false)
+            viewModelScope.launch {
+                val result = answerUseCase.createAnswers(AnswersModel(newCommunity, listOf()))
+
+                if (result.isSuccessful) {
+                    router.onBack()
+                } else {
+                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                }
+                canSave.postValue(true)
+            }
+        }
     }
 
     override fun goBack() {

@@ -41,6 +41,7 @@ class MainActivity : BaseActivity() {
                 instance(),
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }

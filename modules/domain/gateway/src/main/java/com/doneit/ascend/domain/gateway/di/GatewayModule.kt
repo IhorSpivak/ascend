@@ -35,6 +35,7 @@ object GatewayModule {
         bind<IAnswerGateway>() with provider {
             AnswerGateway(
                 instance(),
+                instance(),
                 instance()
             )
         }

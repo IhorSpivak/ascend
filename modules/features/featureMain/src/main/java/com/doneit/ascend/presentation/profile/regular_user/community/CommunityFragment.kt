@@ -25,7 +25,9 @@ class CommunityFragment : BaseFragment<FragmentCommunityBinding>() {
         binding.rvCommunityBox.layoutManager = GridLayoutManager(context!!, COLUMNS_COUNT)
 
         viewModel.questions.observe(viewLifecycleOwner, Observer {
-            binding.rvCommunityBox.adapter = CommunityAdapter(it)
+            binding.rvCommunityBox.adapter = CommunityAdapter(it) { community ->
+                viewModel.setSelectedCommunity(community)
+            }
         })
     }
 

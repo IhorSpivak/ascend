@@ -7,7 +7,10 @@ import com.doneit.ascend.presentation.models.PresentationCommunityModel
 interface CommunityContract {
     interface ViewModel : BaseViewModel {
         val questions: LiveData<List<PresentationCommunityModel>>
+        val canSave: LiveData<Boolean>
 
+        fun setSelectedCommunity(community: String)
+        fun saveCommunity()
         fun goBack()
     }
 }
