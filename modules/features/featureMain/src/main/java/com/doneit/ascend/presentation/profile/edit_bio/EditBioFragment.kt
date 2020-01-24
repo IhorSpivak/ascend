@@ -3,8 +3,8 @@ package com.doneit.ascend.presentation.profile.edit_bio
 import android.os.Bundle
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentEditBioBinding
-import com.doneit.ascend.presentation.main.extensions.hideKeyboard
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind

@@ -18,8 +18,8 @@ import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentSignUpBinding
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
-import com.doneit.ascend.presentation.main.extensions.hideKeyboard
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.utils.applyLinkStyle
 import com.doneit.ascend.presentation.utils.getNotNullString
 import kotlinx.android.synthetic.main.fragment_sign_up.*

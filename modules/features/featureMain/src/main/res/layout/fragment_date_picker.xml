@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.date_picker.DatePickerContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerContract.ViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.FragmentEditPhoneBinding
-import com.doneit.ascend.presentation.main.extensions.hideKeyboard
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.utils.extensions.waitForLayout
 import org.kodein.di.Kodein
 import org.kodein.di.direct

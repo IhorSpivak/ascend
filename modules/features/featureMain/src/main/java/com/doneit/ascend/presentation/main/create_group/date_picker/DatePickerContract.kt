@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.date_picker
+package com.doneit.ascend.presentation.main.create_group.date_picker
 
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel

@@ -2,21 +2,23 @@ package com.doneit.ascend.presentation.models
 
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.CardEntity
-import com.doneit.ascend.domain.entity.UserEntity
-import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.dto.ChangeEmailModel
+import com.doneit.ascend.domain.entity.dto.ChangePasswordModel
+import com.doneit.ascend.domain.entity.dto.ChangePhoneModel
+import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
 import java.util.*
 
 fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
-    val startTime = CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
+    val startTime =
+        CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
     val calendar = Calendar.getInstance()
     calendar.time = startTime
     calendar.set(Calendar.HOUR, hours.toInt() % 12)//to avoid day increment
     calendar.set(Calendar.MINUTE, minutes.toInt())
     calendar.set(Calendar.AM_PM, timeType.toAM_PM())
-
 
     return CreateGroupModel(
         name.observableField.getNotNull(),
@@ -38,7 +40,7 @@ fun List<CalendarDayEntity>.toDays(): List<Int> {
 }
 
 fun String.toAM_PM(): Int {
-    return if(this == "AM") Calendar.AM else Calendar.PM
+    return if (this == "AM") Calendar.AM else Calendar.PM
 }
 
 fun EditPhoneModel.toEntity(): ChangePhoneModel {

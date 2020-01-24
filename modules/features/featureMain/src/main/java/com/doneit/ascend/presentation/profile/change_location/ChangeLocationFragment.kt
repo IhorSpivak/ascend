@@ -9,8 +9,8 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.core.widget.doOnTextChanged
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentChangeLocationBinding
-import com.doneit.ascend.presentation.main.extensions.hideKeyboard
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.models.LocationModel
 import com.doneit.ascend.presentation.profile.change_location.common.CountriesAdapter
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel

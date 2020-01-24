@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.profile.crop
 
 import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.extensions.add
+import com.doneit.ascend.presentation.utils.extensions.add
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class CropRouter(

@@ -5,7 +5,7 @@ import android.view.View
 import com.doneit.ascend.presentation.MainActivity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeGroupsBinding
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.main.home.HomeViewModel
 import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
 import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs

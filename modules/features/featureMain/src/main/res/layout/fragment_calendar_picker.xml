@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.calendar_picker.CalendarPickerContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract.ViewModel" />
 
     </data>
 
@@ -43,6 +43,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/daysContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp">

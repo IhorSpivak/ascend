@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAddPaymentBinding
-import com.doneit.ascend.presentation.main.extensions.showKeyboard
+import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import com.doneit.ascend.presentation.utils.CardAssociation
 import com.doneit.ascend.presentation.utils.getCardNumberType
 import com.redmadrobot.inputmask.MaskedTextChangedListener

@@ -20,8 +20,8 @@ import com.doneit.ascend.presentation.login.utils.LoginHelper
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
 import com.doneit.ascend.presentation.web_page.common.WebPageArgs
-import com.doneit.ascend.presentation.main.extensions.replace
-import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
+import com.doneit.ascend.presentation.utils.extensions.replace
+import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.utils.Constants.RC_SIGN_IN
 import com.vrgsoft.core.presentation.fragment.argumented.ArgumentedFragment
 

@@ -7,8 +7,8 @@ import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.calendar_picker.CalendarPickerContract
-import com.doneit.ascend.presentation.main.date_picker.DatePickerContract
+import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
+import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerContract
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.models.ValidationResult
@@ -84,7 +84,7 @@ class CreateGroupViewModel(
             if (s.isValidMeetingsNumber().not()) {
                 result.isSucceed = false
                 result.errors.add(R.string.error_number_of_meetings)
-            } else if(createGroupModel.scheduleDays.size > s.toInt()) {
+            } else if (createGroupModel.scheduleDays.size > s.toInt()) {
                 result.isSucceed = false
                 result.errors.add(R.string.error_number_of_meetings_count)
             }
@@ -181,6 +181,7 @@ class CreateGroupViewModel(
     }
 
     override fun chooseScheduleTouch() {
+        updateCanOk()
         router.navigateToCalendarPiker()
     }
 
@@ -237,18 +238,10 @@ class CreateGroupViewModel(
         if (state) {
             createGroupModel.selectedDays.add(day)
         } else {
-            val item = createGroupModel.selectedDays.find { p -> p == day }
-
-            item?.let {
-                createGroupModel.selectedDays.remove(it)
-            }
+            createGroupModel.selectedDays.removeAll { it == day }
         }
 
-        canOk.postValue(createGroupModel.selectedDays.size != 0)
-    }
-
-    override fun getSelectedDay(): List<CalendarDayEntity> {
-        return createGroupModel.scheduleDays
+        updateCanOk()
     }
 
     override fun applyArguments(args: CreateGroupArgs) {
@@ -265,6 +258,13 @@ class CreateGroupViewModel(
 
         participants.postValue(newParticipantList)
         createGroupModel.participants.set(newParticipantList)
+    }
+
+    private fun updateCanOk() {
+        val confirmBtnState =
+            createGroupModel.selectedDays.size != 0 || createGroupModel.getStartTimeDay() != null
+
+        canOk.postValue(confirmBtnState)
     }
 
     private fun updateCanCreate() {
@@ -295,8 +295,16 @@ class CreateGroupViewModel(
 
         val builder = StringBuilder()
 
-        createGroupModel.selectedDays.sortBy { it.ordinal }
-        for ((index, value) in createGroupModel.selectedDays.iterator().withIndex()) {
+        val days = createGroupModel.selectedDays.map { it }.toMutableList()
+        createGroupModel.getStartTimeDay()?.let {
+            if(days.contains(it).not()) {
+                days.add(it)
+            }
+        }
+        days.sortBy { it.ordinal }
+
+
+        for ((index, value) in days.iterator().withIndex()) {
             if (index != createGroupModel.selectedDays.size - 1) {
                 builder.append("${calendarUtil.getString(value)}, ")
             } else {
@@ -308,8 +316,7 @@ class CreateGroupViewModel(
         createGroupModel.scheduleTime.observableField.set(builder.toString())
 
         createGroupModel.scheduleDays.clear()
-        createGroupModel.scheduleDays.addAll(createGroupModel.selectedDays)
-        createGroupModel.selectedDays.clear()
+        createGroupModel.scheduleDays.addAll(days)
     }
 
     private fun changeStartDate() {
@@ -320,6 +327,7 @@ class CreateGroupViewModel(
         calendar.set(Calendar.DAY_OF_MONTH, createGroupModel.day)
 
         createGroupModel.startDate.observableField.set(START_TIME_FORMATTER.format(calendar.time))
+        changeSchedule()
     }
 
     override fun getMonthList(): List<MonthEntity> {
@@ -327,8 +335,8 @@ class CreateGroupViewModel(
         val commonMonthList = MonthEntity.values()
         val actualMonth = createGroupModel.month.ordinal
 
-        for(i in 0..11){
-            val totalIndex = (i+actualMonth)%commonMonthList.size
+        for (i in 0..11) {
+            val totalIndex = (i + actualMonth) % commonMonthList.size
             monthList.add(commonMonthList[totalIndex])
         }
 

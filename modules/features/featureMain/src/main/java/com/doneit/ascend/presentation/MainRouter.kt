@@ -10,10 +10,10 @@ import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
-import com.doneit.ascend.presentation.main.extensions.addWithBackStack
-import com.doneit.ascend.presentation.main.extensions.replace
-import com.doneit.ascend.presentation.main.extensions.replaceWithBackStack
-import com.doneit.ascend.presentation.main.extensions.replaceWithoutBackStack
+import com.doneit.ascend.presentation.utils.extensions.addWithBackStack
+import com.doneit.ascend.presentation.utils.extensions.replace
+import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
+import com.doneit.ascend.presentation.utils.extensions.replaceWithoutBackStack
 import com.doneit.ascend.presentation.main.group_info.GroupInfoContract
 import com.doneit.ascend.presentation.main.group_info.GroupInfoFragment
 import com.doneit.ascend.presentation.main.groups.GroupsContract

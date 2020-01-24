@@ -12,7 +12,7 @@ import com.doneit.ascend.presentation.dialog.EditFieldDialogOptions
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileUserBinding
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.*

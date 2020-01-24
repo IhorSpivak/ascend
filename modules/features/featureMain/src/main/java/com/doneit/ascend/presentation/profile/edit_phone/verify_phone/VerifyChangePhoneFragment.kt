@@ -6,8 +6,8 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.FragmentChangePhoneVerifyBinding
-import com.doneit.ascend.presentation.main.extensions.hideKeyboard
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.profile.edit_phone.EditPhoneViewModel
 import com.doneit.ascend.presentation.utils.Messages

@@ -1,18 +1,19 @@
-package com.doneit.ascend.presentation.main.calendar_picker
+package com.doneit.ascend.presentation.main.create_group.calendar_picker
 
 import android.os.Bundle
 import android.widget.CompoundButton
+import android.widget.ToggleButton
+import androidx.core.view.children
 import androidx.lifecycle.ViewModelProvider
-import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.main.databinding.FragmentCalendarPickerBinding
-import com.doneit.ascend.presentation.main.extensions.hideKeyboard
-import com.doneit.ascend.presentation.main.extensions.vmShared
-import com.doneit.ascend.domain.entity.CalendarDayEntity
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
-import com.doneit.ascend.presentation.utils.CalendarPickerUtil.Companion.DEFAULT_TIME_TYPE
+import com.doneit.ascend.presentation.utils.extensions.waitForLayout
 import kotlinx.android.synthetic.main.fragment_calendar_picker.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -58,16 +59,22 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
             viewModel.setTimeTypePosition(position)
         }
 
+        val selectedDays = viewModel.createGroupModel.selectedDays
+        selectedDays.forEach {
+            getCorrespondingButton(it)?.isChecked = true
+        }
+
+        viewModel.createGroupModel.getStartTimeDay()?.let {
+            //this day mustn't be unselected
+            val dayView = getCorrespondingButton(it)
+            dayView?.isChecked = true
+            dayView?.isEnabled = false
+        }
+
+
         val checkedListener = CompoundButton.OnCheckedChangeListener { button, isChecked ->
-            when (button.id) {
-                R.id.btn_mo -> viewModel.changeDayState(CalendarDayEntity.MONDAY, isChecked)
-                R.id.btn_tu -> viewModel.changeDayState(CalendarDayEntity.TUESDAY, isChecked)
-                R.id.btn_we -> viewModel.changeDayState(CalendarDayEntity.WEDNESDAY, isChecked)
-                R.id.btn_th -> viewModel.changeDayState(CalendarDayEntity.THURSDAY, isChecked)
-                R.id.btn_fr -> viewModel.changeDayState(CalendarDayEntity.FRIDAY, isChecked)
-                R.id.btn_sa -> viewModel.changeDayState(CalendarDayEntity.SATURDAY, isChecked)
-                R.id.btn_su -> viewModel.changeDayState(CalendarDayEntity.SUNDAY, isChecked)
-            }
+            val index = binding.daysContainer.children.indexOf(button)
+            viewModel.changeDayState(CalendarDayEntity.values()[index], isChecked)
         }
 
         btn_mo.setOnCheckedChangeListener(checkedListener)
@@ -78,40 +85,23 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         btn_sa.setOnCheckedChangeListener(checkedListener)
         btn_su.setOnCheckedChangeListener(checkedListener)
 
-        timeTypePicker.postDelayed(
-            {
-                timeTypePicker.selectedItemPosition = viewModel.getTimeTypePosition()
 
-                hoursPicker.postDelayed({
-                    hoursPicker.selectedItemPosition = viewModel.getHoursPosition()
+        timeTypePicker.postDelayed({
+            timeTypePicker.selectedItemPosition = viewModel.getTimeTypePosition()
 
-                    viewModel.setHours(hoursPicker.data[viewModel.getHoursPosition()] as String)
-                    viewModel.setMinutes(minutesPicker.data[viewModel.getMinutesPosition()] as String)
-                    viewModel.setTimeType(timeTypePicker.data[viewModel.getTimeTypePosition()] as String)
-                }, 100)
-            }, 100
-        )
+            hoursPicker.selectedItemPosition = viewModel.getHoursPosition()
 
-        minutesPicker.postDelayed({
+            viewModel.setHours(hoursPicker.data[viewModel.getHoursPosition()] as String)
+            viewModel.setMinutes(minutesPicker.data[viewModel.getMinutesPosition()] as String)
+            viewModel.setTimeType(timeTypePicker.data[viewModel.getTimeTypePosition()] as String)
+
             minutesPicker.selectedItemPosition = viewModel.getMinutesPosition()
         }, 100)
 
-        btn_mo.postDelayed({
-            val selectedDays = viewModel.getSelectedDay()
-
-            selectedDays.forEach {
-                when (it) {
-                    CalendarDayEntity.SATURDAY -> btn_sa.isChecked = true
-                    CalendarDayEntity.FRIDAY -> btn_fr.isChecked = true
-                    CalendarDayEntity.THURSDAY -> btn_th.isChecked = true
-                    CalendarDayEntity.WEDNESDAY -> btn_we.isChecked = true
-                    CalendarDayEntity.TUESDAY -> btn_tu.isChecked = true
-                    CalendarDayEntity.MONDAY -> btn_mo.isChecked = true
-                    CalendarDayEntity.SUNDAY -> btn_su.isChecked = true
-                }
-            }
-        }, 100)
-
         hideKeyboard()
+    }
+
+    private fun getCorrespondingButton(day: CalendarDayEntity): ToggleButton? {
+        return binding.daysContainer.children.elementAtOrNull(day.ordinal) as ToggleButton?
     }
 }

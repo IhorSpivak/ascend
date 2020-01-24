@@ -16,8 +16,8 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
-import com.doneit.ascend.presentation.main.extensions.hideKeyboard
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.utils.*
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import kotlinx.android.synthetic.main.fragment_create_group.*
@@ -31,7 +31,6 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
-import java.io.File
 
 class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, CreateGroupArgs>() {
 

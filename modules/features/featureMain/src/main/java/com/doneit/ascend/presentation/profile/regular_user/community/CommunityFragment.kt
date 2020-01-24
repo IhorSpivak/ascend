@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCommunityBinding
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.profile.regular_user.community.common.CommunityAdapter
 import org.kodein.di.Kodein

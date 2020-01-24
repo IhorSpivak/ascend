@@ -5,7 +5,7 @@ import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAgeBinding
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.extensions.toCalendar
 import com.doneit.ascend.presentation.utils.extensions.toDayOfMonth

@@ -10,7 +10,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.main.home.common.MastermindAdapter
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import com.doneit.ascend.presentation.utils.extensions.visible

@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.extensions
+package com.doneit.ascend.presentation.utils.extensions
 
 import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment

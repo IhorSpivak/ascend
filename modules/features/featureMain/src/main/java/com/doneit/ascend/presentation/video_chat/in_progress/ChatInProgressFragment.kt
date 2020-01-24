@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
-import com.doneit.ascend.presentation.main.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.extensions.hide
 import com.doneit.ascend.presentation.utils.extensions.show

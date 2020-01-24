@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.*
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.extensions.showKeyboard
+import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import kotlinx.android.synthetic.main.view_sms_code.view.*
 
 @InverseBindingMethods(
