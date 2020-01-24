@@ -14,8 +14,8 @@ import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
-import com.doneit.ascend.presentation.utils.toMinutesFormat
-import com.doneit.ascend.presentation.utils.toTimerFormat
+import com.doneit.ascend.presentation.utils.extensions.toMinutesFormat
+import com.doneit.ascend.presentation.utils.extensions.toTimerFormat
 import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedContract
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsContract

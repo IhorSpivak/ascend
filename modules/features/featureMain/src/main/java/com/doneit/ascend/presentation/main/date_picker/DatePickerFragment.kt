@@ -9,7 +9,6 @@ import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.main.databinding.FragmentDatePickerBinding
 import com.doneit.ascend.presentation.main.extensions.hideKeyboard
 import com.doneit.ascend.presentation.main.extensions.vmShared
-import com.doneit.ascend.presentation.utils.DatePickerUtil
 import kotlinx.android.synthetic.main.fragment_date_picker.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -32,7 +31,6 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
     }
 
     override val viewModel: DatePickerContract.ViewModel by instance()
-    private val datePickerUtil: DatePickerUtil by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel

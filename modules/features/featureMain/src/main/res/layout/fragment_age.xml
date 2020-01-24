@@ -5,6 +5,10 @@
     xmlns:aigestudio="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
+            name="age"
+            type="Integer" />
+
+        <variable
             name="model"
             type="com.doneit.ascend.presentation.profile.regular_user.age.AgeContract.ViewModel" />
     </data>
@@ -66,7 +70,8 @@
                         android:text="@string/save"
                         android:textColor="@color/button_text_color_selector"
                         android:textSize="17sp"
-                        android:enabled="false"
+                        android:enabled="@{age > 0}"
+                        android:onClick="@{(v) -> model.saveBirthday()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -109,6 +114,7 @@
             android:layout_marginStart="16dp"
             android:background="@color/light_gray_e9f0"
             android:textStyle="bold"
+            android:text="@{age.toString(), default ='0'}"
             app:layout_constraintBottom_toBottomOf="@id/tvAgeLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvAgeLabel"

@@ -10,7 +10,7 @@ import com.doneit.ascend.domain.entity.dto.parseToNotificationType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateNotificationItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
-import com.doneit.ascend.presentation.utils.toNotificationDate
+import com.doneit.ascend.presentation.utils.extensions.toNotificationDate
 
 class NotificationViewHolder(
     private val binding: TemplateNotificationItemBinding

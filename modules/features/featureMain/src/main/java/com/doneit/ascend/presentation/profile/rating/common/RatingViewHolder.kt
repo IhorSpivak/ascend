@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.RateEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateRatingBinding
-import com.doneit.ascend.presentation.utils.toRateDate
+import com.doneit.ascend.presentation.utils.extensions.toRateDate
 
 class RatingViewHolder (
     private val binding: TemplateRatingBinding

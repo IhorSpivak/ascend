@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
@@ -12,7 +13,10 @@ import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.models.*
+import com.doneit.ascend.presentation.models.PresentationCommunityModel
+import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.models.ValidationResult
+import com.doneit.ascend.presentation.models.toPresentationCommunity
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsContract
@@ -44,6 +48,7 @@ class ProfileViewModel(
     override val showPhotoDialog = SingleLiveManager(Unit)
     override val bioValue = ValidatableField()
     override val canSaveBio = MutableLiveData<Boolean>()
+    override val birthdaySelected = MutableLiveData<Date?>()
     override val questions = MutableLiveData<List<PresentationCommunityModel>>()
 
     private val userLocal = userUseCase.getUserLive()
@@ -82,6 +87,7 @@ class ProfileViewModel(
         userObserver = Observer {
             it?.let {
                 user.postValue(it)
+                birthdaySelected.postValue(it.birthday)
             }
         }
         userLocal.observeForever(userObserver)
@@ -185,8 +191,22 @@ class ProfileViewModel(
         updateProfile(UpdateProfileModel(location = location))
     }
 
-    override fun setBirthday(date: Date) {
-        updateProfile(UpdateProfileModel(birthday = date))
+    override fun onBirthdaySelected(year: Int, month: MonthEntity, day: Int) {
+        val calendar = Calendar.getInstance()
+        calendar.time.time = 0
+
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month.ordinal)
+        calendar.set(Calendar.DAY_OF_MONTH, day)
+
+        birthdaySelected.postValue(calendar.time)
+    }
+
+    override fun saveBirthday() {
+        birthdaySelected.value?.let {
+            updateProfile(UpdateProfileModel(birthday = it))
+            router.onBack()
+        }
     }
 
     override fun onChanged(type: NotificationSettingsItem, value: Boolean) {

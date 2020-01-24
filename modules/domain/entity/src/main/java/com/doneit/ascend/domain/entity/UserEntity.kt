@@ -27,21 +27,23 @@ data class UserEntity(
 ) {
     val age: Int?
         get() {
-            var res: Int? = null
+            return if (birthday == null) null else getAge(birthday)
+        }
 
-            birthday?.let {
-                val currentDate = Calendar.getInstance()
-                val birthday = Calendar.getInstance()
-                birthday.time = this@UserEntity.birthday
+    companion object {
+        fun getAge(birthDate: Date): Int {
+            val currentDate = Calendar.getInstance()
+            val birthday = Calendar.getInstance()
+            birthday.time = birthDate
 
-                res = currentDate.get(Calendar.YEAR) - birthday.get(Calendar.YEAR)
-                if (currentDate.get(Calendar.MONTH) < birthday.get(Calendar.MONTH)
-                    || currentDate.get(Calendar.DAY_OF_MONTH) < birthday.get(Calendar.DAY_OF_MONTH)
-                ) {
-                    res = res!! - 1
-                }
+            var res = currentDate.get(Calendar.YEAR) - birthday.get(Calendar.YEAR)
+            if (currentDate.get(Calendar.MONTH) < birthday.get(Calendar.MONTH)
+                || currentDate.get(Calendar.DAY_OF_MONTH) < birthday.get(Calendar.DAY_OF_MONTH)
+            ) {
+                res = res!! - 1
             }
 
             return res
         }
+    }
 }

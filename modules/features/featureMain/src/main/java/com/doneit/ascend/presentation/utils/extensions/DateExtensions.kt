@@ -1,7 +1,26 @@
-package com.doneit.ascend.presentation.utils
+package com.doneit.ascend.presentation.utils.extensions
 
 import java.text.SimpleDateFormat
 import java.util.*
+
+fun Date.toYear(): Int {
+    return this.toCalendar().get(Calendar.YEAR)
+}
+
+fun Date.toMonth(): Int {
+    return this.toCalendar().get(Calendar.MONTH)
+}
+
+fun Date.toDayOfMonth(): Int {
+   return this.toCalendar().get(Calendar.DAY_OF_MONTH)
+}
+
+fun Date.toCalendar(): Calendar {
+    val calendar = Calendar.getInstance()
+    calendar.time = this
+
+    return calendar
+}
 
 fun Date.toDayMonthYear(): String {
     return "dd MMM yyyy".toDefaultFormatter().getFormatted(this)

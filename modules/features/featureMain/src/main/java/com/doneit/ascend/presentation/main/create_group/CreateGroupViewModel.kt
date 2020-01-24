@@ -14,6 +14,7 @@ import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule

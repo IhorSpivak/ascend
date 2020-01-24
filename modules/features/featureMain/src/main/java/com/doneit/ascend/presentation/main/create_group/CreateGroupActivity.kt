@@ -5,12 +5,10 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
-import com.doneit.ascend.presentation.utils.DatePickerUtil
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import org.kodein.di.generic.singleton
 
 class CreateGroupActivity : BaseActivity() {
 
@@ -35,12 +33,6 @@ class CreateGroupActivity : BaseActivity() {
 
         bind<CalendarPickerUtil>() with provider {
             CalendarPickerUtil(
-                instance()
-            )
-        }
-
-        bind<DatePickerUtil>() with provider {
-            DatePickerUtil(
                 instance()
             )
         }

@@ -12,9 +12,8 @@ import com.doneit.ascend.presentation.dialog.common.CardsAdapter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
-import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBindingImpl
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
-import com.doneit.ascend.presentation.utils.toDayMonthYear
+import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
 import kotlinx.android.synthetic.main.fragment_group_info.*
 import org.kodein.di.generic.instance
 import java.text.SimpleDateFormat
