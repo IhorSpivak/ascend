@@ -304,15 +304,13 @@ class CreateGroupViewModel(
         days.sortBy { it.ordinal }
 
 
-        for ((index, value) in days.iterator().withIndex()) {
-            if (index != createGroupModel.selectedDays.size - 1) {
-                builder.append("${calendarUtil.getString(value)}, ")
-            } else {
-                builder.append("${calendarUtil.getString(value)} ")
-            }
+        days.forEach {
+            builder.append("${calendarUtil.getString(it)}, ")
         }
+        builder.deleteCharAt(builder.length - 1)//remove space
+        builder.deleteCharAt(builder.length - 1)//remove coma
 
-        builder.append("${createGroupModel.hours}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
+        builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
         createGroupModel.scheduleTime.observableField.set(builder.toString())
 
         createGroupModel.scheduleDays.clear()

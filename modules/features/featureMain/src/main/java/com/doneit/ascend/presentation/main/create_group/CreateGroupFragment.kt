@@ -22,6 +22,7 @@ import com.doneit.ascend.presentation.utils.*
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
+import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -64,7 +65,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
 
         tvTitle.text = getString(R.string.create_group)
 
-        chooseSchedule.editText.setOnClickListener {
+        chooseSchedule.multilineEditText.setOnClickListener {
             mainContainer.requestFocus()
             viewModel.chooseScheduleTouch()
         }

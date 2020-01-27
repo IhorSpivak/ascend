@@ -154,14 +154,16 @@ class MultilineEditWithError @JvmOverloads constructor(
         multilineEditText.isSaveEnabled = isSaveEnabled
     }
 
+    fun setNoFocusable(isEnable: Boolean) {
+        if (isEnable) {
+            multilineEditText.isFocusable = false
+        }
+    }
+
     fun setMaxLength(length: Int) {
         multilineEditText.filters = arrayOf<InputFilter>(
             InputFilter.LengthFilter(length)
         )
-    }
-
-    fun focusRequest() {
-        multilineEditText.focusRequest()
     }
 
     override fun getBaseline(): Int {

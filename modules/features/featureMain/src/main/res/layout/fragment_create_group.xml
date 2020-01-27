@@ -132,7 +132,7 @@
                     app:src="@{@drawable/ic_favorite_date}"
                     app:text="@{model.createGroupModel.startDate.observableField}" />
 
-                <com.doneit.ascend.presentation.views.EditWithError
+                <com.doneit.ascend.presentation.views.MultilineEditWithError
                     android:id="@+id/chooseSchedule"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -200,8 +200,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/price"
-                    app:maxLength="@{1000}"
                     app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
+                    app:maxLength="@{1000}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_description}"
                     app:text="@={model.createGroupModel.description.observableField}" />

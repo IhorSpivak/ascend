@@ -6,6 +6,8 @@ import com.doneit.ascend.presentation.main.databinding.FragmentEditBioBinding
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
+import com.doneit.ascend.presentation.utils.extensions.focusRequest
+import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -36,7 +38,7 @@ class EditBioFragment : BaseFragment<FragmentEditBioBinding>() {
                 hideKeyboard()
                 viewModel.goBack()
             }
-            etBio.focusRequest()
+            etBio. multilineEditText.focusRequest()
         }
     }
 }
