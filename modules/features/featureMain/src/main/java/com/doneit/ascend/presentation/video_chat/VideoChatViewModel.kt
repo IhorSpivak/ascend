@@ -61,8 +61,9 @@ class VideoChatViewModel(
 
     //region local
     private val messages = groupUseCase.messagesStream
-    private var currentUser: UserEntity? = null
     private lateinit var chatState: VideoChatState
+    private lateinit var chatBehaviour: ChatBehaviour
+
     private var videoStreamOwnerId: String? = null
     private var groupId: Long = -1
     private var downTimer: CountDownTimer? = null
@@ -92,6 +93,8 @@ class VideoChatViewModel(
 
             var groupEntity: GroupEntity? = null
             var creds: GroupCredentialsModel? = null
+            var currentUser: UserEntity? = null
+
             val groupJob = launch {
                 val result = groupUseCase.getGroupDetails(groupId)
 
@@ -114,12 +117,16 @@ class VideoChatViewModel(
             userJob.join()
 
             if (groupEntity != null && creds != null) {
-                val isTranslator =
-                    currentUser!!.isMasterMind && groupEntity!!.owner!!.id == currentUser!!.id
+                chatBehaviour =
+                    if(currentUser!!.isMasterMind && groupEntity!!.owner!!.id == currentUser!!.id){
+                        ChatBehaviour.OWNER
+                    } else {
+                        ChatBehaviour.VISITOR
+                    }
 
                 credentials.postValue(
                     StartVideoModel(
-                        isTranslator,
+                        chatBehaviour,
                         creds!!.name,
                         creds!!.token,
                         CameraCapturer.CameraSource.FRONT_CAMERA
@@ -161,11 +168,8 @@ class VideoChatViewModel(
     }
 
     override fun onOpenOptions() {
-        if (currentUser != null && groupInfo.value != null) {
-            val isMasterMind =
-                currentUser!!.isMasterMind && groupInfo.value?.owner?.id == currentUser?.id
-
-            if (isMasterMind) {
+        if (groupInfo.value != null) {
+            if (chatBehaviour == ChatBehaviour.OWNER) {
                 router.navigateToMMChatOptions()
             } else {
                 router.navigateUserChatOptions()
@@ -217,17 +221,16 @@ class VideoChatViewModel(
     }
 
     override fun onNetworkStateChanged(hasConnection: Boolean) {
-        if(hasConnection.not()) {
-            currentUser?.let {
-                if(it.isMasterMind) {
-                    changeState(VideoChatState.MM_CONNECTION_LOST)
-                }
-            }
+        if(hasConnection.not()
+            && chatBehaviour == ChatBehaviour.OWNER) {
+            changeState(VideoChatState.MM_CONNECTION_LOST)
         }
     }
 
     override fun onParticipantClick(id: Long) {
-        router.navigateToChatParticipantActions(id)
+        if(chatBehaviour == ChatBehaviour.OWNER) {
+            router.navigateToChatParticipantActions(id)
+        }
     }
 
     override fun onBackClick() {
@@ -256,7 +259,7 @@ class VideoChatViewModel(
             }
             VideoChatState.PREVIEW_GROUP_STARTED -> {
                 initProgressTimer(groupInfo.value!!)
-                if(currentUser?.isMasterMind == true) {
+                if(chatBehaviour == ChatBehaviour.OWNER) {
                     isStartButtonEnabled.postValue(true)
                 } else {
                     changeState(VideoChatState.PROGRESS)

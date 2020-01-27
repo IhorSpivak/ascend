@@ -12,6 +12,7 @@ import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.extensions.hide
 import com.doneit.ascend.presentation.utils.extensions.show
 import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.video_chat.ChatBehaviour
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.video_chat.in_progress.listeners.RemoteParticipantsListener
@@ -46,7 +47,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
         viewModel.credentials.observe(this, Observer {
             it?.let {
-                if (it.isTranslator) {
+                if (it.behaviour == ChatBehaviour.OWNER) {
                     startLocalVideo(it)
                 } else {
                     startRemoteVideo(it)

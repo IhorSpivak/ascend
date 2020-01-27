@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
+        <import type="com.doneit.ascend.presentation.video_chat.ChatBehaviour" />
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract.ViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,34 +22,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            app:setImage="@{model.groupInfo.image.url}"/>
+            app:setImage="@{model.groupInfo.image.url}" />
 
         <TextView
             android:id="@+id/title"
+            style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="54dp"
-            android:layout_marginEnd="54dp"
             android:layout_marginTop="160dp"
-            style="@style/TextNormal"
-            android:textSize="32sp"
-            android:textColor="@android:color/white"
+            android:layout_marginEnd="54dp"
             android:text="@{model.groupInfo.name}"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@android:color/white"
+            android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/subtitle"
+            style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/waiting_for_start"
-            style="@style/TextNormal"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/title" />
 
         <Button
             android:id="@+id/btnOk"
@@ -54,11 +59,11 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="20dp"
-            android:onClick="@{v -> model.onStartGroupClick()}"
             android:enabled="@{model.isStartButtonEnabled}"
-            android:visibility="@{model.credentials.translator}"
+            android:onClick="@{v -> model.onStartGroupClick()}"
             android:text="@string/start_group"
             android:textAllCaps="true"
+            android:visibility="@{model.credentials.behaviour == ChatBehaviour.OWNER}"
             app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
