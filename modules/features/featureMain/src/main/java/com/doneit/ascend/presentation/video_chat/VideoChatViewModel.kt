@@ -66,6 +66,7 @@ class VideoChatViewModel(
 
     private var videoStreamOwnerId: String? = null
     private var groupId: Long = -1
+    private var currentUserId: Long = -1
     private var downTimer: CountDownTimer? = null
     private var timer: Timer? = null
     //endregion
@@ -73,9 +74,12 @@ class VideoChatViewModel(
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
-                val newList = participants.value!!.toMutableList()
-                newList.add(socketEvent)
-                participants.postValue(newList)
+                if(socketEvent.userId != groupInfo.value?.owner?.id
+                    && socketEvent.userId != currentUserId) {
+                    val newList = participants.value!!.toMutableList()
+                    newList.add(socketEvent)
+                    participants.postValue(newList)
+                }
             }
             SocketEvent.PARTICIPANT_DISCONNECTED -> {
                 val newList = participants.value!!.toMutableList()
@@ -106,6 +110,7 @@ class VideoChatViewModel(
 
             val userJob = launch {
                 currentUser = userUseCase.getUser()
+                currentUserId = currentUser!!.id
                 val res = groupUseCase.getCredentials(groupId)
 
                 if (res.isSuccessful) {
@@ -135,9 +140,9 @@ class VideoChatViewModel(
             }
 
             changeState(VideoChatState.PREVIEW_DATA_LOADED)
+            messages.observeForever(messagesObserver)
         }
 
-        messages.observeForever(messagesObserver)
         changeState(VideoChatState.PREVIEW)
     }
 
