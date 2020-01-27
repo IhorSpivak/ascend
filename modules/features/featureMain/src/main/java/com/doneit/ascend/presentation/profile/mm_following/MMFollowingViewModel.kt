@@ -1,8 +1,8 @@
 package com.doneit.ascend.presentation.profile.mm_following
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -13,24 +13,23 @@ import kotlinx.coroutines.launch
 
 @CreateFactory
 @ViewModelDiModule
-class MMFollowingViewModel (
+class MMFollowingViewModel(
     private val masterMindUseCase: MasterMindUseCase,
     private val router: MMFollowingContract.Router
-): BaseViewModelImpl(), MMFollowingContract.ViewModel {
+) : BaseViewModelImpl(), MMFollowingContract.ViewModel {
 
-    override val masterMinds = MutableLiveData<PagedList<MasterMindEntity>>()
+    private val refetch = MutableLiveData<Unit>()
+    override val masterMinds = refetch.switchMap { masterMindUseCase.getMasterMindList(true) }
 
-    override fun fetchList() {
-        updateData()
+    override fun refetch() {
+        refetch.postValue(Unit)
     }
 
     override fun unfollow(id: Long) {
         viewModelScope.launch {
             val result = masterMindUseCase.unfollow(id)
 
-            if(result.isSuccessful) {
-                updateData()
-            } else {
+            if (result.isSuccessful.not()) {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
         }
@@ -46,12 +45,5 @@ class MMFollowingViewModel (
 
     override fun onBackClick() {
         router.onBack()
-    }
-
-    private fun updateData() {
-        viewModelScope.launch {
-            val result = masterMindUseCase.getMasterMindList(true)
-            masterMinds.postValue(result)
-        }
     }
 }

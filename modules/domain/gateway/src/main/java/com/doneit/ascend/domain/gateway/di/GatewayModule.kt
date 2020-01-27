@@ -60,6 +60,7 @@ object GatewayModule {
         bind<IMasterMindGateway>() with provider {
             MasterMindGateway(
                 instance(),
+                instance(),
                 instance()
             )
         }

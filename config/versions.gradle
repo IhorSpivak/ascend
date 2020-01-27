@@ -83,7 +83,7 @@ ext {
     ]
 
     def paging = [
-            core: "androidx.paging:paging-runtime-ktx:2.1.0"
+            core: "androidx.paging:paging-runtime-ktx:2.1.1"
     ]
 
     def ucrop = [

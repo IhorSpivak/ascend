@@ -38,12 +38,10 @@ class MMFollowingFragment : BaseFragment<FragmentMasterMindFollowingBinding>() {
         viewModel.masterMinds.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
-
-        viewModel.fetchList()
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.fetchList()
+        viewModel.refetch()
     }
 }

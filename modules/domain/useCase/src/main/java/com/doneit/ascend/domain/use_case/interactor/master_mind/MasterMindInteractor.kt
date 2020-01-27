@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.use_case.interactor.master_mind
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
@@ -14,11 +15,11 @@ internal class MasterMindInteractor(
         return masterMindGateway.getMasterMindsList(MasterMindListModel(followed = true))
     }
 
-    override suspend fun getMasterMindList(isFollowed: Boolean?): PagedList<MasterMindEntity> {
+    override fun getMasterMindList(isFollowed: Boolean?): LiveData<PagedList<MasterMindEntity>> {
         return masterMindGateway.getMasterMindsPagedList(MasterMindListModel(followed = isFollowed))
     }
 
-    override suspend fun getMasterMingListToAdd(fullName: String): PagedList<MasterMindEntity> {
+    override fun getMMListByName(fullName: String): LiveData<PagedList<MasterMindEntity>> {
         return masterMindGateway.getMasterMindsPagedList(MasterMindListModel(fullName = fullName, followed = false))
     }
 

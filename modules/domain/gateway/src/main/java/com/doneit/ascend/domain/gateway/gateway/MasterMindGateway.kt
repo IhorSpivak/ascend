@@ -1,21 +1,28 @@
 package com.doneit.ascend.domain.gateway.gateway
 
+import androidx.lifecycle.liveData
+import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.MasterMindListModel
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
-import com.doneit.ascend.domain.gateway.gateway.data_source.MasterMindDataSource
+import com.doneit.ascend.domain.gateway.gateway.boundaries.MMBoundaryCallback
 import com.doneit.ascend.domain.use_case.gateway.IMasterMindGateway
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.vrgsoft.networkmanager.NetworkManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.util.concurrent.Executors
 
 internal class MasterMindGateway(
     errors: NetworkManager,
+    private val local: com.doneit.ascend.source.storage.local.repository.master_minds.IMasterMindRepository,
     private val remote: IMasterMindRepository
 ) : BaseGateway(errors), IMasterMindGateway {
     override fun <T> calculateMessage(error: T): String {
@@ -33,25 +40,33 @@ internal class MasterMindGateway(
         )
     }
 
-    override suspend fun getMasterMindsPagedList(listRequest: MasterMindListModel): PagedList<MasterMindEntity> {
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setPageSize(listRequest.perPage ?: 10)
-            .build()
+    override fun getMasterMindsPagedList(listRequest: MasterMindListModel) =
+        liveData<PagedList<MasterMindEntity>> {
+            local.removeAll()
 
-        val dataSource = MasterMindDataSource(
-            GlobalScope,
-            remote,
-            listRequest
-        )
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPageSize(listRequest.perPage ?: 10)
+                .build()
 
-        val executor = MainThreadExecutor()
+            val factory = local.getMMList(listRequest.toLocal()).map { it.toEntity() }
 
-        return PagedList.Builder<Int, MasterMindEntity>(dataSource, config)
-            .setFetchExecutor(executor)
-            .setNotifyExecutor(executor)
-            .build()
-    }
+            val boundary = MMBoundaryCallback(
+                GlobalScope,
+                local,
+                remote,
+                listRequest
+            )
+
+            emitSource(
+                LivePagedListBuilder<Int, MasterMindEntity>(factory, config)
+                    .setFetchExecutor(Executors.newSingleThreadExecutor())
+                    .setBoundaryCallback(boundary)
+                    .build()
+            )
+
+            boundary.loadInitial()
+        }
 
     override suspend fun getProfile(id: Long): ResponseEntity<MasterMindEntity, List<String>> {
         return executeRemote { remote.getMMProfile(id) }.toResponseEntity(
@@ -65,7 +80,7 @@ internal class MasterMindGateway(
     }
 
     override suspend fun follow(userId: Long): ResponseEntity<Unit, List<String>> {
-        return executeRemote { remote.follow(userId) }.toResponseEntity(
+        val result = executeRemote { remote.follow(userId) }.toResponseEntity(
             {
                 Unit
             },
@@ -73,10 +88,19 @@ internal class MasterMindGateway(
                 it?.errors
             }
         )
+
+        if(result.isSuccessful) {
+            local.getMMById(userId)?.let {
+                val user = it.copy(followed = true)
+                local.update(user)
+            }
+        }
+
+        return result
     }
 
     override suspend fun unfollow(userId: Long): ResponseEntity<Unit, List<String>> {
-        return executeRemote { remote.unfollow(userId) }.toResponseEntity(
+        val res = executeRemote { remote.unfollow(userId) }.toResponseEntity(
             {
                 Unit
             },
@@ -84,6 +108,15 @@ internal class MasterMindGateway(
                 it?.errors
             }
         )
+
+        if(res.isSuccessful) {
+            local.getMMById(userId)?.let {
+                val user = it.copy(followed = false)
+                local.update(user)
+            }
+        }
+
+        return res
     }
 
     override suspend fun setRating(userId: Long, rating: Int): ResponseEntity<Unit, List<String>> {

@@ -4,13 +4,14 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.common.TopListDecorator
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindListBinding
 import com.doneit.ascend.presentation.main.master_mind.list.common.ListArgs
 import com.doneit.ascend.presentation.main.master_mind.list.common.MasterMindAdapter
 import org.kodein.di.generic.instance
 
-class ListFragment : ArgumentedFragment<FragmentMasterMindListBinding, ListArgs>() {
+class ListFragment : BaseFragment<FragmentMasterMindListBinding>() {
 
     override val viewModelModule = ListViewModelModule.get(this)
     override val viewModel: ListContract.ViewModel by instance()
@@ -27,7 +28,6 @@ class ListFragment : ArgumentedFragment<FragmentMasterMindListBinding, ListArgs>
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.model = viewModel
 
         val decorator =
@@ -43,11 +43,11 @@ class ListFragment : ArgumentedFragment<FragmentMasterMindListBinding, ListArgs>
             binding.srLayout.isRefreshing = false
             viewModel.updateData()
         }
-
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateData()
+        val args = arguments!!.getParcelable<ListArgs>(ArgumentedFragment.KEY_ARGS)!!
+        viewModel.applyArguments(args)
     }
 }

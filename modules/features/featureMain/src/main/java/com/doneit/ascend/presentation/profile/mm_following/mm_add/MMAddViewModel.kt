@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.profile.mm_following.mm_add
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
@@ -18,28 +19,22 @@ class MMAddViewModel(
     private val masterMindUseCase: MasterMindUseCase
 ) : BaseViewModelImpl(), MMAddContract.ViewModel {
 
-    override val masterMinds = MutableLiveData<PagedList<MasterMindEntity>>()
-    private var lastRequest = DEFAULT_REQUEST
+    private val mmName = MutableLiveData<String>()
+    override val masterMinds = mmName.switchMap { masterMindUseCase.getMMListByName(it) }
 
     init {
-        submitRequest(lastRequest)
+        submitRequest(DEFAULT_REQUEST)
     }
 
     override fun submitRequest(name: String) {
-        lastRequest = name
-        viewModelScope.launch {
-            val result = masterMindUseCase.getMasterMingListToAdd(name)
-            masterMinds.postValue(result)
-        }
+        mmName.postValue(name)
     }
 
     override fun follow(id: Long) {
         viewModelScope.launch {
             val result = masterMindUseCase.follow(id)
 
-            if (result.isSuccessful) {
-                submitRequest(lastRequest)
-            } else {
+            if (result.isSuccessful.not()) {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
         }
