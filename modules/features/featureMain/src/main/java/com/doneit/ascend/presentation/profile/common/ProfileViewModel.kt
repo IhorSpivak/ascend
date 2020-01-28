@@ -205,6 +205,9 @@ class ProfileViewModel(
         calendar.set(Calendar.DAY_OF_MONTH, day)
 
         birthdaySelected.postValue(calendar.time)
+
+        val age = UserEntity.getAge(calendar.time)
+        canSave.postValue(age > 0)
     }
 
     override fun saveBirthday() {
