@@ -293,7 +293,7 @@ class VideoChatViewModel(
             }
 
             override fun onTick(p0: Long) {
-                timerLabel.postValue("-" + Date(p0).toTimerFormat())
+                timerLabel.postValue(Date(p0).toTimerFormat())
             }
         }.start()
     }
