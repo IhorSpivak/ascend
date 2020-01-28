@@ -7,11 +7,11 @@ import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
-import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.utils.extensions.hide
 import com.doneit.ascend.presentation.utils.extensions.show
 import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.ChatBehaviour
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
@@ -45,17 +45,6 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         binding.model = viewModel
         binding.isMMConnected = true
 
-        viewModel.credentials.observe(this, Observer {
-            it?.let {
-                if (it.behaviour == ChatBehaviour.OWNER) {
-                    startLocalVideo(it)
-                } else {
-                    startRemoteVideo(it)
-                }
-                binding.grPlaceholderData.show()//enable mm icon and group name
-            }
-        })
-
         viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
             localVideoTrack?.enable(it)
             binding.placeholder.visible(it.not())
@@ -67,6 +56,20 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
         viewModel.isRecordEnabled.observe(viewLifecycleOwner, Observer {
             //todo
+        })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.credentials.observe(this, Observer {
+            it?.let {
+                if (it.behaviour == ChatBehaviour.OWNER) {
+                    startLocalVideo(it)
+                } else {
+                    startRemoteVideo(it)
+                }
+                binding.grPlaceholderData.show()//enable mm icon and group name
+            }
         })
     }
 
@@ -131,7 +134,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             }
 
             override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
-                if(checkForVideoStream(remoteParticipant)) {
+                if (checkForVideoStream(remoteParticipant)) {
                     binding.isMMConnected = true
                 }
             }
@@ -141,7 +144,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 room: Room,
                 remoteParticipant: RemoteParticipant
             ) {
-                if(viewModel.isSubscribedTo(remoteParticipant.identity)){
+                if (viewModel.isSubscribedTo(remoteParticipant.identity)) {
                     binding.isMMConnected = false
                     placeholder.show()
                 }
@@ -175,7 +178,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 remoteVideoTrack: RemoteVideoTrack
             ) {
                 //todo how to unsubscribe at appropriate time?
-                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)){
+                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
                     binding.placeholder.show()
                 }
             }
@@ -201,11 +204,11 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         binding.placeholder.hide()
     }
 
-    override fun onDestroyView() {
+    override fun onStop() {
         localAudioTrack?.release()
         localVideoTrack?.release()
         room?.disconnect()
         viewModel.forceDisconnect()
-        super.onDestroyView()
+        super.onStop()
     }
 }
