@@ -148,12 +148,13 @@
                         app:constraint_referenced_ids="tvPrice,rbRating,icon" />
 
                     <Button
-                        android:id="@+id/btnJoined"
+                        android:id="@+id/btnSubscribed"
                         style="@style/AppTheme.Button"
                         android:layout_marginTop="18dp"
                         android:background="@drawable/ic_bg_btn_joined"
                         android:enabled="false"
                         android:text="@string/subscribed"
+                        android:textAllCaps="true"
                         android:textColor="@color/light_gray_8f"
                         app:setVisibility="@{model.btnJoinedVisible}"
                         app:layout_constraintTop_toBottomOf="@id/brMaster" />
@@ -207,7 +208,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="btnJoined,btnDelete,btnJoinToDisc,btnStart,btnSubscribe"/>
+                        app:constraint_referenced_ids="btnSubscribed,btnDelete,btnJoinToDisc,btnStart,btnSubscribe"/>
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/icCalendar"
