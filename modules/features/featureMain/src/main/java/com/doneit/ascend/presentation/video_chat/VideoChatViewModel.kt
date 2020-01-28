@@ -53,6 +53,7 @@ class VideoChatViewModel(
     //endregion
 
     //region chat parameters
+    override val hasActiveSpeaker = MutableLiveData<Boolean>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
     override val isAudioEnabled = MutableLiveData<Boolean>()
     override val isRecordEnabled = MutableLiveData<Boolean>()
@@ -64,7 +65,7 @@ class VideoChatViewModel(
     private lateinit var chatState: VideoChatState
     private lateinit var chatBehaviour: ChatBehaviour
 
-    private var videoStreamOwnerId: String? = null
+    private var activeSpeakerID: String? = null
     private var groupId: Long = -1
     private var currentUserId: Long = -1
     private var downTimer: CountDownTimer? = null
@@ -74,11 +75,14 @@ class VideoChatViewModel(
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
-                if(socketEvent.userId != groupInfo.value?.owner?.id
-                    && socketEvent.userId != currentUserId) {
+                if (socketEvent.userId != groupInfo.value?.owner?.id
+                    && socketEvent.userId != currentUserId
+                ) {
                     val newList = participants.value!!.toMutableList()
-                    newList.add(socketEvent)
-                    participants.postValue(newList)
+                    if(newList.find { it.userId == socketEvent.userId } == null) {
+                        newList.add(socketEvent)
+                        participants.postValue(newList)
+                    }
                 }
             }
             SocketEvent.PARTICIPANT_DISCONNECTED -> {
@@ -123,7 +127,7 @@ class VideoChatViewModel(
 
             if (groupEntity != null && creds != null) {
                 chatBehaviour =
-                    if(currentUser!!.isMasterMind && groupEntity!!.owner!!.id == currentUser!!.id){
+                    if (currentUser!!.isMasterMind && groupEntity!!.owner!!.id == currentUser!!.id) {
                         ChatBehaviour.OWNER
                     } else {
                         ChatBehaviour.VISITOR
@@ -137,16 +141,16 @@ class VideoChatViewModel(
                         CameraCapturer.CameraSource.FRONT_CAMERA
                     )
                 )
+                changeState(VideoChatState.PREVIEW_DATA_LOADED)
+                messages.observeForever(messagesObserver)
             }
-
-            changeState(VideoChatState.PREVIEW_DATA_LOADED)
-            messages.observeForever(messagesObserver)
         }
 
         changeState(VideoChatState.PREVIEW)
     }
 
     private fun postDefaultValues() {
+        hasActiveSpeaker.postValue(true)
         isStartButtonEnabled.postValue(false)
         isVideoEnabled.postValue(true)
         isAudioEnabled.postValue(true)
@@ -198,12 +202,19 @@ class VideoChatViewModel(
         router.finishActivity()
     }
 
-    override fun onVideoStreamSubscribed(id: String) {
-        videoStreamOwnerId = id
+    override fun onSpeakerChanged(id: String) {
+        activeSpeakerID = id
+        hasActiveSpeaker.postValue(true)
     }
 
-    override fun isSubscribedTo(id: String): Boolean {
-        return videoStreamOwnerId == id
+    override fun onUserDisconnected(id: String): Boolean {
+        return if (id == activeSpeakerID) {
+            activeSpeakerID = null
+            hasActiveSpeaker.postValue(false)
+            true
+        } else {
+            false
+        }
     }
 
     override fun onStartGroupClick() {
@@ -226,14 +237,15 @@ class VideoChatViewModel(
     }
 
     override fun onNetworkStateChanged(hasConnection: Boolean) {
-        if(hasConnection.not()
-            && chatBehaviour == ChatBehaviour.OWNER) {
+        if (hasConnection.not()
+            && chatBehaviour == ChatBehaviour.OWNER
+        ) {
             changeState(VideoChatState.MM_CONNECTION_LOST)
         }
     }
 
     override fun onParticipantClick(id: Long) {
-        if(chatBehaviour == ChatBehaviour.OWNER) {
+        if (chatBehaviour == ChatBehaviour.OWNER) {
             router.navigateToChatParticipantActions(id)
         }
     }
@@ -264,7 +276,7 @@ class VideoChatViewModel(
             }
             VideoChatState.PREVIEW_GROUP_STARTED -> {
                 initProgressTimer(groupInfo.value!!)
-                if(chatBehaviour == ChatBehaviour.OWNER) {
+                if (chatBehaviour == ChatBehaviour.OWNER) {
                     isStartButtonEnabled.postValue(true)
                 } else {
                     changeState(VideoChatState.PROGRESS)

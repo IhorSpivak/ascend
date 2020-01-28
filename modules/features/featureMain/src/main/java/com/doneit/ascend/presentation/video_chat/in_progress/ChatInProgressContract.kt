@@ -8,6 +8,7 @@ import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 
 interface ChatInProgressContract {
     interface ViewModel : BaseViewModel {
+        val hasActiveSpeaker: LiveData<Boolean>
         val credentials: LiveData<StartVideoModel>
         val groupInfo: LiveData<GroupEntity>
         val isVideoEnabled: LiveData<Boolean>
@@ -17,7 +18,7 @@ interface ChatInProgressContract {
         fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus)
         fun forceDisconnect()
         fun onOpenOptions()
-        fun onVideoStreamSubscribed(id: String)
-        fun isSubscribedTo(id: String): Boolean
+        fun onSpeakerChanged(id: String)
+        fun onUserDisconnected(id: String): Boolean
     }
 }
