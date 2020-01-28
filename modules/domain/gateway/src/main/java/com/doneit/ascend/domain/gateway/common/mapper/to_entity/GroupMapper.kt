@@ -66,7 +66,7 @@ fun SocketEventMessage.toEntity(): SocketEventEntity {
         SocketEvent.fromRemoteString(event),
         userId,
         fullName,
-        image.toEntity()
+        image?.toEntity()
     )
 }
 
