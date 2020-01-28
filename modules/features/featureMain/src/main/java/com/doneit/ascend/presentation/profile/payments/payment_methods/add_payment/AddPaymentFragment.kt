@@ -9,10 +9,12 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAddPaymentBinding
 import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import com.doneit.ascend.presentation.utils.CardAssociation
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.getCardNumberType
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.Stripe
+import kotlinx.android.synthetic.main.fragment_add_payment.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -34,6 +36,11 @@ class AddPaymentFragment : BaseFragment<FragmentAddPaymentBinding>() {
         viewModel.state.observe(viewLifecycleOwner, Observer {
             onStateChanged(it)
         })
+
+        btnDone.setOnClickListener {
+            viewModel.onDoneClick()
+            hideKeyboard()
+        }
     }
 
     private fun onStateChanged(state: AddPaymentState) {
@@ -87,6 +94,11 @@ class AddPaymentFragment : BaseFragment<FragmentAddPaymentBinding>() {
         })
         binding.number.edit.addTextChangedListener(listener)
         binding.number.edit.onFocusChangeListener = listener
+    }
+
+    override fun onDestroyView() {
+        hideKeyboard()
+        super.onDestroyView()
     }
 
     companion object {

@@ -314,7 +314,6 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginEnd="20dp"
                 android:enabled="@{model.canGoForward}"
-                android:onClick="@{(v) -> model.onDoneClick()}"
                 android:text="@string/btn_done"
                 android:textColor="@android:color/white"
                 android:visibility="@{model.state == AddPaymentState.CVV}"
