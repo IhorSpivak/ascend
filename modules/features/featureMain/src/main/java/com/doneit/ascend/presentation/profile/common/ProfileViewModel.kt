@@ -228,23 +228,25 @@ class ProfileViewModel(
 
     override fun setSelectedCommunity(community: String) {
         selectedCommunity = community
-        canSave.postValue(
-            community != userLocal.value?.community
-        )
+        canSave.postValue(true)
     }
 
     override fun saveCommunity() {
         selectedCommunity?.let { newCommunity ->
-            canSave.postValue(false)
-            viewModelScope.launch {
-                val result = answerUseCase.createAnswers(AnswersModel(newCommunity, listOf()))
+            if (newCommunity == userLocal.value?.community) {
+                router.onBack()
+            } else {
+                canSave.postValue(false)
+                viewModelScope.launch {
+                    val result = answerUseCase.createAnswers(AnswersModel(newCommunity, listOf()))
 
-                if (result.isSuccessful) {
-                    router.onBack()
-                } else {
-                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                    if (result.isSuccessful) {
+                        router.onBack()
+                    } else {
+                        showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                    }
+                    canSave.postValue(true)
                 }
-                canSave.postValue(true)
             }
         }
     }
