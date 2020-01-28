@@ -9,7 +9,7 @@ import com.doneit.ascend.source.storage.remote.data.response.PurchaseResponse
 fun PurchaseResponse.toEntity(): PurchaseEntity {
     return PurchaseEntity(
         id,
-        amount,
+        amount / 100,
         groupId,
         groupName,
         createdAt.toDate()!!,
