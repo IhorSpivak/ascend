@@ -44,6 +44,7 @@ fun GroupResponse.toEntity(): GroupEntity {
         owner?.toEntity(),
         subscribed,
         invited,
+        blocked,
         participantsCount,
         invitesCount,
         daysOfWeek?.map { it.toCalendarDay() }

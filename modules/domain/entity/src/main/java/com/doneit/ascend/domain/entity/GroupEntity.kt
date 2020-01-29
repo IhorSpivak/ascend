@@ -21,6 +21,7 @@ class GroupEntity(
     val owner: OwnerEntity?,
     val subscribed: Boolean?,
     val invited: Boolean?,
+    val blocked: Boolean?,
     val participantsCount: Int?,
     val invitesCount: Int?,
     val daysOfWeek: List<CalendarDayEntity>?
@@ -41,6 +42,7 @@ class GroupEntity(
         owner = parcel.readParcelable<OwnerEntity>(OwnerEntity::class.java.classLoader),
         subscribed = parcel.readBool(),
         invited = parcel.readBool(),
+        blocked = parcel.readBool(),
         participantsCount = parcel.readInteger(),
         invitesCount = parcel.readInteger(),
         daysOfWeek = (parcel.readArrayList(Int::class.java.classLoader) as List<Int>?)?.map { CalendarDayEntity.values()[it] }
@@ -150,6 +152,7 @@ class GroupEntity(
         p0?.writeParcelable(owner, p1)
         p0?.writeBool(subscribed)
         p0?.writeBool(invited)
+        p0?.writeBool(blocked)
         p0?.writeInteger(participantsCount)
         p0?.writeInteger(invitesCount)
         p0?.writeList(daysOfWeek?.map { it.ordinal })

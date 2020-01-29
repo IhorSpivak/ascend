@@ -7,7 +7,10 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
 import com.doneit.ascend.presentation.models.StartVideoModel
-import com.doneit.ascend.presentation.utils.extensions.*
+import com.doneit.ascend.presentation.utils.extensions.hide
+import com.doneit.ascend.presentation.utils.extensions.requestPermissions
+import com.doneit.ascend.presentation.utils.extensions.show
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.video_chat.in_progress.listeners.RemoteParticipantsListener
@@ -126,15 +129,19 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     private fun handleDominantSpeaker(room: Room, remoteParticipant: RemoteParticipant?) {
-        remoteParticipant?.let {
-            room.remoteParticipants.forEach {
-                it.clearRenderer()
-            }
+        localVideoTrack?.removeRenderer(videoView)
+        room.remoteParticipants.forEach {
+            it.clearRenderer()
+        }
 
+        if (remoteParticipant != null) {
             viewModel.onSpeakerChanged(remoteParticipant.identity)
             remoteParticipant.setListener(getParticipantsListener())
             remoteParticipant.startVideoDisplay()
             binding.placeholder.hide()
+        } else {
+            viewModel.onSpeakerChanged(null)
+            localVideoTrack?.addRenderer(videoView)
         }
     }
 
@@ -168,11 +175,11 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         }
     }
 
-    private fun RemoteParticipant.clearRenderer() {
+    private fun Participant.clearRenderer() {
         videoTracks.firstOrNull()?.videoTrack?.removeRenderer(videoView)
     }
 
-    private fun RemoteParticipant.startVideoDisplay() {
+    private fun Participant.startVideoDisplay() {
         videoTracks.firstOrNull()?.videoTrack?.addRenderer(videoView)
     }
 

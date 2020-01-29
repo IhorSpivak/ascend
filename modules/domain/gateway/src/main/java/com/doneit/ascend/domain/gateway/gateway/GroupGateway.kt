@@ -36,7 +36,7 @@ internal class GroupGateway(
         return ""//todo, not required for now
     }
 
-    override val messagesStream = remoteSocket.messagesStream.map { it.toEntity() }
+    override val messagesStream = remoteSocket.messagesStream.map { it.toEntity() }//todo remove deprecation
 
     override suspend fun createGroup(groupModel: CreateGroupModel): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {

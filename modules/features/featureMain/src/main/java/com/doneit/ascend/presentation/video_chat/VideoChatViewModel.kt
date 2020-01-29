@@ -109,7 +109,7 @@ class VideoChatViewModel(
                 }
             }
             SocketEvent.REMOVED_FROM_GROUP -> {
-                if(user.userId == currentUserId) {
+                if (user.userId == currentUserId) {
                     finishCall()
                 }
             }
@@ -245,7 +245,7 @@ class VideoChatViewModel(
         router.finishActivity()
     }
 
-    override fun onSpeakerChanged(id: String) {
+    override fun onSpeakerChanged(id: String?) {
         activeSpeakerID = id
         hasActiveSpeaker.postValue(true)
     }
@@ -394,7 +394,6 @@ class VideoChatViewModel(
         groupUseCase.disconnect()
         downTimer?.cancel()
         timer?.cancel()
-        messages.removeObserver(messagesObserver)
     }
 
     companion object {

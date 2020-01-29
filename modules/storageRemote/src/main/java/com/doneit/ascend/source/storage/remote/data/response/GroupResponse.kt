@@ -16,6 +16,7 @@ data class GroupResponse(
     @SerializedName("owner") val owner: OwnerResponse,
     @SerializedName("subscribed") val subscribed: Boolean,
     @SerializedName("invited") val invited: Boolean,
+    @SerializedName("blocked") val blocked: Boolean,
     @SerializedName("participants_count") val participantsCount: Int,
     @SerializedName("invites_count") val invitesCount: Int,
     @SerializedName("wdays") val daysOfWeek: List<Int>
