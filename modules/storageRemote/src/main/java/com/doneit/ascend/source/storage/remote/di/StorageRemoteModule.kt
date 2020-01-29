@@ -3,6 +3,8 @@ package com.doneit.ascend.source.storage.remote.di
 import com.doneit.ascend.source.storage.remote.api.*
 import com.doneit.ascend.source.storage.remote.repository.answer.AnswerRepository
 import com.doneit.ascend.source.storage.remote.repository.answer.IAnswerRepository
+import com.doneit.ascend.source.storage.remote.repository.attachments.AttachmentRepository
+import com.doneit.ascend.source.storage.remote.repository.attachments.IAttachmentsRepository
 import com.doneit.ascend.source.storage.remote.repository.cards.CardsRepository
 import com.doneit.ascend.source.storage.remote.repository.cards.ICardsRepository
 import com.doneit.ascend.source.storage.remote.repository.group.GroupRepository
@@ -41,6 +43,7 @@ object StorageRemoteModule {
         bind<NotificationApi>() with provider { instance<Retrofit>().create(NotificationApi::class.java) }
         bind<CardsApi>() with provider { instance<Retrofit>().create(CardsApi::class.java) }
         bind<PurchaseApi>() with provider { instance<Retrofit>().create(PurchaseApi::class.java) }
+        bind<AttachmentsApi>() with provider { instance<Retrofit>().create(AttachmentsApi::class.java) }
 
         bind<IUserRepository>() with provider {
             UserRepository(
@@ -105,6 +108,13 @@ object StorageRemoteModule {
 
         bind<IPurchaseRepository>() with singleton {
             PurchasesRepository(
+                instance(),
+                instance()
+            )
+        }
+
+        bind<IAttachmentsRepository>() with provider {
+            AttachmentRepository(
                 instance(),
                 instance()
             )

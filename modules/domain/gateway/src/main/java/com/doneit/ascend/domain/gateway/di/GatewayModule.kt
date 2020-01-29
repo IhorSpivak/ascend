@@ -93,5 +93,12 @@ object GatewayModule {
                 instance()
             )
         }
+
+        bind<IAttachmentGateway>() with provider {
+            AttachmentGateway(
+                instance(),
+                instance()
+            )
+        }
     }
 }

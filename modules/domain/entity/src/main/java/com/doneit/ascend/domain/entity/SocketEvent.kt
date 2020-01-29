@@ -7,6 +7,8 @@ enum class SocketEvent {
     RECORDING_STARTED,
     RECORDING_COMPLETED,
     ROOM_ENDED,
+    RISE_A_HAND,
+    REMOVE_HAND,
     UNEXPECTED;
 
     companion object {
@@ -18,6 +20,8 @@ enum class SocketEvent {
                 "TrackAdded" -> TRACK_ADDED
                 "RecordingStarted" -> RECORDING_STARTED
                 "RecordingCompleted" -> RECORDING_COMPLETED
+                "RiseAHand" -> RISE_A_HAND
+                "RemoveHand" -> REMOVE_HAND
                 else -> UNEXPECTED
             }
         }

@@ -25,5 +25,7 @@ abstract class BaseGateway(override val networkManager: NetworkManager) : IBaseG
         return result
     }
 
-    abstract fun <T> calculateMessage(error: T): String
+    open fun <T> calculateMessage(error: T): String {
+        return ""//todo, not required for now
+    }
 }
