@@ -3,13 +3,13 @@ package com.doneit.ascend.presentation.video_chat.common
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.SocketEventEntity
+import com.doneit.ascend.domain.entity.SocketUserEntity
 
 class ChatParticipantsAdapter(
     private val onItemClick: (Long) -> Unit
 ) : RecyclerView.Adapter<ChatParticipantViewHolder>() {
 
-    private val items = mutableListOf<SocketEventEntity>()
+    private val items = mutableListOf<SocketUserEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatParticipantViewHolder {
         return ChatParticipantViewHolder.create(parent)
@@ -24,7 +24,7 @@ class ChatParticipantsAdapter(
         }
     }
 
-    fun submitList(newItems: List<SocketEventEntity>) {
+    fun submitList(newItems: List<SocketUserEntity>) {
         val diff = DiffUtil.calculateDiff(
             ChatParticipantsDiffCallback(
                 items,

@@ -29,5 +29,11 @@ interface GroupUseCase {
 
     fun connectToChannel(groupId: Long)
 
+    fun riseOwnHand()
+
+    fun lowerOwnHand()
+
+    fun removeChatParticipant(id: Long)
+
     fun disconnect()
 }

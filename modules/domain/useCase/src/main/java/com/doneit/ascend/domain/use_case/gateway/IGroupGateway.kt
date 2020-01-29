@@ -29,5 +29,7 @@ interface IGroupGateway {
 
     fun connectToChannel(groupId: Long)
 
+    fun sendSocketMessage(message: String)
+
     fun disconnect()
 }

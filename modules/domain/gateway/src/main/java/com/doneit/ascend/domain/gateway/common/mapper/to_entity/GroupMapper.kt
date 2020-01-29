@@ -62,11 +62,15 @@ fun GroupCredentialsResponse.toEntity(): GroupCredentialsModel {
 }
 
 fun SocketEventMessage.toEntity(): SocketEventEntity {
+    val event = SocketEvent.fromRemoteString(event!!)
     return SocketEventEntity(
-        SocketEvent.fromRemoteString(event),
-        userId,
-        fullName,
-        image?.toEntity()
+        event,
+        SocketUserEntity(
+            userId,
+            fullName,
+            image?.toEntity(),
+            event == SocketEvent.RISE_A_HAND
+        )
     )
 }
 

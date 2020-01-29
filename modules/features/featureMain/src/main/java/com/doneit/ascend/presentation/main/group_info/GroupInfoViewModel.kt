@@ -38,11 +38,13 @@ class GroupInfoViewModel(
     override val btnJoinedVisible = MutableLiveData<Boolean>(false)
 
     override fun setModel(model: GroupEntity) {
-        group.postValue(model)
+        if(group.value == null) { //in order to prevent set data with old state
+            group.postValue(model)
 
-        viewModelScope.launch {
-            val user = userUseCase.getUser()
-            updateButtonsState(user!!, model)
+            viewModelScope.launch {
+                val user = userUseCase.getUser()
+                updateButtonsState(user!!, model)
+            }
         }
     }
 

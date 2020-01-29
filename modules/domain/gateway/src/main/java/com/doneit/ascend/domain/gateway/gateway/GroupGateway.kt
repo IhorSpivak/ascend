@@ -66,7 +66,6 @@ internal class GroupGateway(
     }
 
     override suspend fun getGroupsListPaged(groupListModel: GroupListModel): PagedList<GroupEntity> {
-
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(groupListModel.perPage ?: 10)
@@ -142,6 +141,10 @@ internal class GroupGateway(
                 remoteSocket.connect(cookies)
             }
         }
+    }
+
+    override fun sendSocketMessage(message: String) {
+        remoteSocket.sendMessage(message)
     }
 
     override fun disconnect() {

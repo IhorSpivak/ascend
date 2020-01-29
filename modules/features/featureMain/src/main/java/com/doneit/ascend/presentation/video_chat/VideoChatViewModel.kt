@@ -4,10 +4,7 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.GroupEntity
-import com.doneit.ascend.domain.entity.SocketEvent
-import com.doneit.ascend.domain.entity.SocketEventEntity
-import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -44,7 +41,7 @@ class VideoChatViewModel(
     //region data
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
-    override val participants = MutableLiveData<List<SocketEventEntity>>(listOf())
+    override val participants = MutableLiveData<List<SocketUserEntity>>(listOf())
     //endregion
 
     //region ui properties
@@ -58,6 +55,7 @@ class VideoChatViewModel(
     override val isVideoEnabled = MutableLiveData<Boolean>()
     override val isAudioEnabled = MutableLiveData<Boolean>()
     override val isRecordEnabled = MutableLiveData<Boolean>()
+    override val isHandRisen = MutableLiveData<Boolean>()
     override val isFinishing = MutableLiveData<Boolean>()
     override val switchCameraEvent = SingleLiveManager(Unit)
     //endregion
@@ -78,23 +76,48 @@ class VideoChatViewModel(
     //endregion
 
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
+        val user = socketEvent.data
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
-                if (socketEvent.userId != groupInfo.value?.owner?.id
-                    && socketEvent.userId != currentUserId
+                if (user.userId != groupInfo.value?.owner?.id
+                    && user.userId != currentUserId
                 ) {
                     val newList = participants.value!!.toMutableList()
-                    if (newList.find { it.userId == socketEvent.userId } == null) {
-                        newList.add(socketEvent)
+                    if (newList.find { it.userId == user.userId } == null) {
+                        newList.add(user)
                         participants.postValue(newList)
                     }
                 }
             }
             SocketEvent.PARTICIPANT_DISCONNECTED -> {
                 val newList = participants.value!!.toMutableList()
-                newList.removeAll { it.userId == socketEvent.userId }
+                newList.removeAll { it.userId == user.userId }
                 participants.postValue(newList)
             }
+            SocketEvent.RISE_A_HAND -> {
+                if (currentUserId == user.userId) {
+                    isHandRisen.postValue(true)
+                } else {
+                    updateParticipant(user)
+                }
+            }
+            SocketEvent.REMOVE_HAND -> {
+                if (currentUserId == user.userId) {
+                    isHandRisen.postValue(false)
+                } else {
+                    updateParticipant(user)
+                }
+            }
+        }
+    }
+
+    private fun updateParticipant(participant: SocketUserEntity) {
+        val newList = participants.value!!.toMutableList()
+        val index = newList.indexOfFirst { it.userId == participant.userId }
+        if (index != -1) {
+            newList.removeAt(index)
+            newList.add(index, participant)
+            participants.postValue(newList)
         }
     }
 
@@ -160,6 +183,7 @@ class VideoChatViewModel(
         isVideoEnabled.postValue(true)
         isAudioEnabled.postValue(true)
         isRecordEnabled.postValue(true)
+        isHandRisen.postValue(false)
         isFinishing.postValue(false)
     }
 
@@ -187,6 +211,13 @@ class VideoChatViewModel(
         }
     }
 
+    override fun switchHand() {
+        isHandRisen.value?.let {
+            if (it) groupUseCase.lowerOwnHand() else groupUseCase.riseOwnHand()
+        }
+
+    }
+
     override fun switchVideoEnabledState() {
         isVideoEnabled.switch()
     }
@@ -200,7 +231,7 @@ class VideoChatViewModel(
     }
 
     override fun switchCamera() {
-        if(hasBothCameras) {
+        if (hasBothCameras) {
             switchCameraEvent.call()
         }
     }
@@ -255,6 +286,10 @@ class VideoChatViewModel(
         if (chatBehaviour == ChatBehaviour.OWNER) {
             router.navigateToChatParticipantActions(id)
         }
+    }
+
+    override fun removeChatParticipant(id: Long) {
+        groupUseCase.removeChatParticipant(id)
     }
 
     override fun onBackClick() {

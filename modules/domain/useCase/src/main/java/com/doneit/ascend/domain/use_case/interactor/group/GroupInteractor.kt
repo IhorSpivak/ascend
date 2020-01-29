@@ -47,7 +47,28 @@ internal class GroupInteractor(
         groupGateway.connectToChannel(groupId)
     }
 
+    override fun riseOwnHand() {
+        groupGateway.sendSocketMessage(RISE_A_HAND_MESSAGE)
+    }
+
+    override fun lowerOwnHand() {
+        groupGateway.sendSocketMessage(LOWER_A_HAND)
+    }
+
+    override fun removeChatParticipant(id: Long) {
+        groupGateway.sendSocketMessage(String.format(REMOVE_PARTICIPANT, id))
+    }
+
     override fun disconnect() {
         groupGateway.disconnect()
+    }
+
+    companion object {
+        private const val RISE_A_HAND_MESSAGE =
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RiseAHand\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+        private const val LOWER_A_HAND =
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveHand\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+        private const val REMOVE_PARTICIPANT =
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveParticipant\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%d\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
     }
 }

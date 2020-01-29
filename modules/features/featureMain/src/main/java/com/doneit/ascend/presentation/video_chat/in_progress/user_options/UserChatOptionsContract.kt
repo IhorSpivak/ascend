@@ -9,10 +9,12 @@ interface UserChatOptionsContract {
         val groupInfo: LiveData<GroupEntity>
         val isVideoEnabled: LiveData<Boolean>
         val isAudioEnabled: LiveData<Boolean>
+        val isHandRisen: LiveData<Boolean>
 
         fun switchVideoEnabledState()
         fun switchAudioEnabledState()
         fun switchCamera()
+        fun switchHand()
         fun reportGroupOwner(content: String)
         fun finishCall()
         fun onBackClick()

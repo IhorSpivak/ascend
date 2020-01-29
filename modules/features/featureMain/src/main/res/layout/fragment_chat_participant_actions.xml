@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.doneit.ascend.domain.entity.SocketEventEntity" />
+            type="com.doneit.ascend.domain.entity.SocketUserEntity" />
 
         <variable
             name="model"
@@ -100,7 +100,8 @@
                             android:gravity="center"
                             android:text="@string/remove_from_group"
                             android:textSize="20sp"
-                            android:textColor="@color/cancel_color"/>
+                            android:textColor="@color/cancel_color"
+                            android:onClick="@{(v) -> model.removeChatParticipant(item.userId)}"/>
 
                         <View
                             android:layout_width="match_parent"
