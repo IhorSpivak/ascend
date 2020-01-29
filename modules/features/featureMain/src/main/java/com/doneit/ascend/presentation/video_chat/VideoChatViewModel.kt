@@ -108,6 +108,11 @@ class VideoChatViewModel(
                     updateParticipant(user)
                 }
             }
+            SocketEvent.REMOVED_FROM_GROUP -> {
+                if(user.userId == currentUserId) {
+                    finishCall()
+                }
+            }
         }
     }
 
@@ -290,6 +295,7 @@ class VideoChatViewModel(
 
     override fun removeChatParticipant(id: Long) {
         groupUseCase.removeChatParticipant(id)
+        router.onBack()
     }
 
     override fun onBackClick() {
@@ -298,6 +304,7 @@ class VideoChatViewModel(
 
     override fun onCleared() {
         messages.removeObserver(messagesObserver)
+        clearChatResources()
         super.onCleared()
     }
 
