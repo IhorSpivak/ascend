@@ -75,6 +75,8 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
                 localAudioTrack = LocalAudioTrack.create(context!!, true)
                 localVideoTrack = LocalVideoTrack.create(context!!, true, cameraCapturer)!!
+                localVideoTrack?.addRenderer(videoView)
+                binding.placeholder.hide()
 
 
                 val connectOptions =
@@ -86,6 +88,10 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                         .build()
 
                 room = Video.connect(context!!, connectOptions, getUserRoomListener())
+
+                viewModel.switchCameraEvent.observe(viewLifecycleOwner) {
+                    cameraCapturer.switchCamera()
+                }
             },
             onDenied = {
                 viewModel.onPermissionsRequired(VideoChatActivity.ResultStatus.POPUP_REQUIRED)

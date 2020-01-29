@@ -15,6 +15,7 @@ interface MMChatOptionsContract {
         fun switchVideoEnabledState()
         fun switchAudioEnabledState()
         fun switchRecordState()
+        fun switchCamera()
         fun finishCall()
         fun onBackClick()
     }

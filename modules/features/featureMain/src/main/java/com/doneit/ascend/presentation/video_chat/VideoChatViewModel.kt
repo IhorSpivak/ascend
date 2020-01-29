@@ -23,6 +23,7 @@ import com.doneit.ascend.presentation.video_chat.in_progress.user_actions.ChatPa
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsContract
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
 import com.twilio.video.CameraCapturer
+import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -58,6 +59,7 @@ class VideoChatViewModel(
     override val isAudioEnabled = MutableLiveData<Boolean>()
     override val isRecordEnabled = MutableLiveData<Boolean>()
     override val isFinishing = MutableLiveData<Boolean>()
+    override val switchCameraEvent = SingleLiveManager(Unit)
     //endregion
 
     //region local
@@ -70,6 +72,9 @@ class VideoChatViewModel(
     private var currentUserId: Long = -1
     private var downTimer: CountDownTimer? = null
     private var timer: Timer? = null
+    private val hasBothCameras =
+        CameraCapturer.isSourceAvailable(CameraCapturer.CameraSource.FRONT_CAMERA)
+                && CameraCapturer.isSourceAvailable(CameraCapturer.CameraSource.BACK_CAMERA)
     //endregion
 
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
@@ -79,7 +84,7 @@ class VideoChatViewModel(
                     && socketEvent.userId != currentUserId
                 ) {
                     val newList = participants.value!!.toMutableList()
-                    if(newList.find { it.userId == socketEvent.userId } == null) {
+                    if (newList.find { it.userId == socketEvent.userId } == null) {
                         newList.add(socketEvent)
                         participants.postValue(newList)
                     }
@@ -172,10 +177,6 @@ class VideoChatViewModel(
         router.finishActivity()
     }
 
-    override fun onLeaveGroupClick() {
-        router.finishActivity()
-    }
-
     override fun onOpenOptions() {
         if (groupInfo.value != null) {
             if (chatBehaviour == ChatBehaviour.OWNER) {
@@ -196,6 +197,12 @@ class VideoChatViewModel(
 
     override fun switchRecordState() {
         isRecordEnabled.switch()
+    }
+
+    override fun switchCamera() {
+        if(hasBothCameras) {
+            switchCameraEvent.call()
+        }
     }
 
     override fun onOkClick() {

@@ -8,9 +8,13 @@ interface UserChatOptionsContract {
     interface ViewModel : BaseViewModel {
         val groupInfo: LiveData<GroupEntity>
         val isVideoEnabled: LiveData<Boolean>
+        val isAudioEnabled: LiveData<Boolean>
 
-        fun onLeaveGroupClick()
-        fun onBackClick()
+        fun switchVideoEnabledState()
+        fun switchAudioEnabledState()
+        fun switchCamera()
         fun reportGroupOwner(content: String)
+        fun finishCall()
+        fun onBackClick()
     }
 }

@@ -42,6 +42,63 @@
             app:layout_constraintTop_toBottomOf="@id/tvTitleGroup"
             tools:text="by Bessie Howard"/>
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ivSwitchCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_loop"
+            android:onClick="@{(v) -> model.switchCamera()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/bottomGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="ivRiseHand,ivClip,ivNotes,ivCheckList,ivReport"/>
+
+        <ImageView
+            android:id="@+id/ivCamera"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="80dp"
+            android:onClick="@{(v) -> model.switchVideoEnabledState()}"
+            android:src="@{model.isVideoEnabled()? @drawable/ic_videocamera_on : @drawable/ic_videocamera_off, default = @drawable/ic_videocamera_on}"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivHandset"
+            app:layout_constraintTop_toTopOf="@id/ivHandset"
+            app:layout_constraintBottom_toBottomOf="@id/ivHandset"/>
+
+        <ImageView
+            android:id="@+id/ivHandset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
+            android:src="@drawable/ic_finish_call"
+            android:onClick="@{(v) -> model.finishCall()}"
+            app:layout_constraintStart_toEndOf="@id/ivCamera"
+            app:layout_constraintEnd_toStartOf="@id/ivMicro"
+            app:layout_constraintBottom_toTopOf="@id/bottomGroup"/>
+
+        <ImageView
+            android:id="@+id/ivMicro"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="80dp"
+            android:src="@{model.isAudioEnabled()? @drawable/ic_micro_on : @drawable/ic_micro_off, default = @drawable/ic_micro_on}"
+            android:onClick="@{(v) -> model.switchAudioEnabledState()}"
+            app:layout_constraintStart_toEndOf="@id/ivHandset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivHandset"
+            app:layout_constraintBottom_toBottomOf="@id/ivHandset"/>
+
+
         <ImageView
             android:id="@+id/ivRiseHand"
             android:layout_width="wrap_content"
@@ -52,7 +109,7 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ivClip"
-            app:layout_constraintBottom_toTopOf="@id/btnLeave"/>
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ImageView
             android:id="@+id/ivClip"
@@ -97,19 +154,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/ivRiseHand"
             app:layout_constraintBottom_toBottomOf="@id/ivRiseHand"/>
-
-        <Button
-            android:id="@+id/btnLeave"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/red_webinar_color"
-            android:text="@string/leave_group"
-            style="@style/TextNormal.White"
-            android:textStyle="bold"
-            android:textAllCaps="false"
-            android:onClick="@{(v) -> model.onLeaveGroupClick()}"
-            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

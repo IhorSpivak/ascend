@@ -64,6 +64,7 @@
             android:layout_marginTop="12dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_loop"
+            android:onClick="@{(v) -> model.switchCamera()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
