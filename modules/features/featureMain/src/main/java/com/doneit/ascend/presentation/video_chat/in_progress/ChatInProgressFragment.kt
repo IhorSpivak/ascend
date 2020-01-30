@@ -1,6 +1,9 @@
 package com.doneit.ascend.presentation.video_chat.in_progress
 
 import android.Manifest
+import android.content.Context
+import android.content.IntentFilter
+import android.media.AudioManager
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
@@ -35,9 +38,25 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     override val viewModel: ChatInProgressContract.ViewModel by instance()
 
+    //region audio
+    private val audioManager by lazy {
+        activity?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    }
+    private var isSpeakerPhoneEnabled = true
+        set(value) {
+            field = value
+            audioManager.isSpeakerphoneOn = field
+        }
+    private val brHeadphones = HeadphonesBroadcastReceiver {
+        isSpeakerPhoneEnabled = it
+    }
+    //endregion
+
+    //region video chat
     private var localVideoTrack: LocalVideoTrack? = null
     private var localAudioTrack: LocalAudioTrack? = null
     private var room: Room? = null
+    //endregion
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
@@ -54,6 +73,17 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         viewModel.isRecordEnabled.observe(viewLifecycleOwner, Observer {
             //todo
         })
+
+        setupAudio()
+    }
+
+    private fun setupAudio() {
+        requireContext().registerReceiver(
+            brHeadphones,
+            IntentFilter(AudioManager.ACTION_HEADSET_PLUG)
+        )
+        activity?.volumeControlStream = AudioManager.STREAM_VOICE_CALL
+        audioManager.isSpeakerphoneOn = isSpeakerPhoneEnabled
     }
 
     override fun onStart() {
