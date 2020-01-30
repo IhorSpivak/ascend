@@ -10,10 +10,7 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
 import com.doneit.ascend.presentation.models.StartVideoModel
-import com.doneit.ascend.presentation.utils.extensions.hide
-import com.doneit.ascend.presentation.utils.extensions.requestPermissions
-import com.doneit.ascend.presentation.utils.extensions.show
-import com.doneit.ascend.presentation.utils.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.video_chat.in_progress.listeners.RemoteParticipantsListener
@@ -109,7 +106,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 localAudioTrack = LocalAudioTrack.create(context!!, true)
                 localVideoTrack = LocalVideoTrack.create(context!!, true, cameraCapturer)!!
                 localVideoTrack?.addRenderer(videoView)
-                binding.placeholder.hide()
+                binding.placeholder.visible(false)
 
 
                 val connectOptions =
@@ -168,7 +165,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             viewModel.onSpeakerChanged(remoteParticipant.identity)
             remoteParticipant.setListener(getParticipantsListener())
             remoteParticipant.startVideoDisplay()
-            binding.placeholder.hide()
+            binding.placeholder.visible(false)
         } else {
             viewModel.onSpeakerChanged(null)
             localVideoTrack?.addRenderer(videoView)
@@ -193,7 +190,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 remoteParticipant: RemoteParticipant,
                 remoteVideoTrackPublication: RemoteVideoTrackPublication
             ) {
-                binding.placeholder.hide()
+                binding.placeholder.visible(false)
             }
 
             override fun onVideoTrackDisabled(
