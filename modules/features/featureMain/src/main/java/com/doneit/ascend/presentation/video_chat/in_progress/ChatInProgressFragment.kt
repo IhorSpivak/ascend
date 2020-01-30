@@ -50,6 +50,8 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     //endregion
 
     //region video chat
+    private val audioCodec: AudioCodec by lazy { OpusCodec() }
+    private val videoCodec: VideoCodec by lazy { Vp8Codec() }//todo: check H264
     private var localVideoTrack: LocalVideoTrack? = null
     private var localAudioTrack: LocalAudioTrack? = null
     private var room: Room? = null
@@ -108,12 +110,13 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 localVideoTrack?.addRenderer(videoView)
                 binding.placeholder.visible(false)
 
-
                 val connectOptions =
                     ConnectOptions.Builder(model.accessToken)
                         .roomName(model.name)
                         .audioTracks(listOf(localAudioTrack))
+                        .preferAudioCodecs(listOf(audioCodec))
                         .videoTracks(listOf(localVideoTrack))
+                        .preferVideoCodecs(listOf(videoCodec))
                         .enableDominantSpeaker(true)
                         .build()
 
