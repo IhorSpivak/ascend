@@ -13,7 +13,12 @@ class ChatParticipantViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(entity: PresentationChatParticipant) {
-        binding.item = entity
+        binding.name = entity.fullName
+        binding.isHandRisen = entity.isHandRisen
+
+        if(binding.url != entity.image?.thumbnail?.url) {
+            binding.url = entity.image?.thumbnail?.url
+        }
     }
 
     companion object {

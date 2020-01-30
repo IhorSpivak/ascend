@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
-            name="item"
-            type="com.doneit.ascend.presentation.models.PresentationChatParticipant" />
+            name="name"
+            type="String" />
+
+        <variable
+            name="url"
+            type="String" />
+
+        <variable
+            name="isHandRisen"
+            type="Boolean" />
     </data>
+
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -16,13 +26,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivIcon"
+
+            <com.doneit.ascend.presentation.views.MasterMindIcon
+                android:id="@+id/mmIcon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:setImage="@{item.image.thumbnail.url}"
-                tools:src="@drawable/ic_add"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                app:name="@{name}"
+                app:url="@{url}" />
 
             <ImageView
                 android:id="@+id/ivRiseHand"
@@ -30,11 +43,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:layout_marginEnd="18dp"
+                android:layout_marginBottom="8dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_hand"
-                android:visibility="@{item.handRisen}"/>
+                android:visibility="@{isHandRisen}" />
 
         </FrameLayout>
 
