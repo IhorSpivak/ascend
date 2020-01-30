@@ -9,7 +9,8 @@ interface ChatParticipantActionsContract {
         val participants: LiveData<List<PresentationChatParticipant>>
 
         fun report(content: String, participantId: Long)
-        fun removeChatParticipant(id: Long)
+        fun allowToSay(userId: Long)
+        fun removeChatParticipant(userId: Long)
         fun onBackClick()
     }
 }

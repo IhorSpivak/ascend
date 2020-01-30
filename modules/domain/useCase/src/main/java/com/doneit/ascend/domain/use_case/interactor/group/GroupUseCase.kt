@@ -33,7 +33,11 @@ interface GroupUseCase {
 
     fun lowerOwnHand()
 
-    fun removeChatParticipant(id: Long)
+    fun lowerAHand(userId: Long)
+
+    fun allowToSay(userId: Long)
+
+    fun removeChatParticipant(userId: Long)
 
     fun disconnect()
 }

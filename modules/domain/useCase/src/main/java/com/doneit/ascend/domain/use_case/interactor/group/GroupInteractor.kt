@@ -67,11 +67,19 @@ internal class GroupInteractor(
     }
 
     override fun lowerOwnHand() {
-        groupGateway.sendSocketMessage(LOWER_A_HAND)
+        groupGateway.sendSocketMessage(LOWER_OWN_HAND)
     }
 
-    override fun removeChatParticipant(id: Long) {
-        groupGateway.sendSocketMessage(String.format(REMOVE_PARTICIPANT, id))
+    override fun lowerAHand(userId: Long) {
+        groupGateway.sendSocketMessage(String.format(LOWER_A_HAND, userId))
+    }
+
+    override fun allowToSay(userId: Long) {
+        groupGateway.sendSocketMessage(String.format(ALLOW_TO_SAY, userId))
+    }
+
+    override fun removeChatParticipant(userId: Long) {
+        groupGateway.sendSocketMessage(String.format(REMOVE_PARTICIPANT, userId))
     }
 
     override fun disconnect() {
@@ -81,8 +89,12 @@ internal class GroupInteractor(
     companion object {
         private const val RISE_A_HAND_MESSAGE =
             "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RiseAHand\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
-        private const val LOWER_A_HAND =
+        private const val LOWER_OWN_HAND =
             "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveHand\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+        private const val LOWER_A_HAND =
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveHand\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%d\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+        private const val ALLOW_TO_SAY =
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"Speak\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%d\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
         private const val REMOVE_PARTICIPANT =
             "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveParticipant\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%d\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
 

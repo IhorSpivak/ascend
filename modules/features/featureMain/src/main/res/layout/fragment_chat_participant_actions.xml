@@ -84,7 +84,8 @@
                             android:gravity="center"
                             android:text="@string/allow_say"
                             android:textSize="20sp"
-                            android:visibility="@{item.handRisen}"/>
+                            android:visibility="@{item.handRisen}"
+                            android:onClick="@{(v) -> model.allowToSay(item.userId)}"/>
 
                         <View
                             android:layout_width="match_parent"

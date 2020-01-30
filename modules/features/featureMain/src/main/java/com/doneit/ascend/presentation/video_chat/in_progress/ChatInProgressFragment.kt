@@ -15,6 +15,7 @@ import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.video_chat.in_progress.listeners.RemoteParticipantsListener
 import com.doneit.ascend.presentation.video_chat.in_progress.listeners.RoomListener
+import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.twilio.video.*
 import kotlinx.android.synthetic.main.fragment_video_chat.*
 import org.kodein.di.Kodein
@@ -57,6 +58,8 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     private var room: Room? = null
     //endregion
 
+    private var chatStrategy = ChatStrategy.DOMINANT_SPEAKER
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
@@ -71,6 +74,20 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
         viewModel.isRecordEnabled.observe(viewLifecycleOwner, Observer {
             //todo
+        })
+
+        viewModel.focusedUserId.observe(viewLifecycleOwner, Observer { id ->
+            if(id == VideoChatViewModel.UNFOCUSED_USER_ID) {
+                chatStrategy = ChatStrategy.DOMINANT_SPEAKER
+                room?.let {
+                    handleSpeaker(room!!, room!!.dominantSpeaker)
+                }
+            } else {
+                chatStrategy = ChatStrategy.USER_FOCUSED
+                room?.let {
+                    handleSpeaker(room!!, room!!.getParticipantById(id))
+                }
+            }
         })
 
         setupAudio()
@@ -136,16 +153,18 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         return object : RoomListener() {
 
             override fun onConnected(room: Room) {
-                handleDominantSpeaker(room, room.dominantSpeaker)
+                room.displayDominant()
             }
 
             override fun onParticipantDisconnected(
                 room: Room,
                 remoteParticipant: RemoteParticipant
             ) {
-                if (viewModel.onUserDisconnected(remoteParticipant.identity)) {
-                    remoteParticipant.clearRenderer()
-                    placeholder.show()
+                val track = remoteParticipant.videoTracks.firstOrNull()?.videoTrack
+                val renderersCount = track?.renderers?.size?: 0
+                if(renderersCount > 0) {
+                    track?.removeRenderer(videoView)
+                    room.displayDominant()
                 }
             }
 
@@ -153,24 +172,28 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 room: Room,
                 remoteParticipant: RemoteParticipant?
             ) {
-                handleDominantSpeaker(room, remoteParticipant)
+                handleSpeaker(room, remoteParticipant)
             }
         }
     }
 
-    private fun handleDominantSpeaker(room: Room, remoteParticipant: RemoteParticipant?) {
+    private fun Room.displayDominant() {
+        if(chatStrategy == ChatStrategy.DOMINANT_SPEAKER) {
+            handleSpeaker(this, this.dominantSpeaker)
+        }
+    }
+
+    private fun handleSpeaker(room: Room, remoteParticipant: RemoteParticipant?) {
         localVideoTrack?.removeRenderer(videoView)
         room.remoteParticipants.forEach {
             it.clearRenderer()
         }
 
         if (remoteParticipant != null) {
-            viewModel.onSpeakerChanged(remoteParticipant.identity)
             remoteParticipant.setListener(getParticipantsListener())
             remoteParticipant.startVideoDisplay()
             binding.placeholder.visible(false)
         } else {
-            viewModel.onSpeakerChanged(null)
             localVideoTrack?.addRenderer(videoView)
         }
     }
@@ -219,5 +242,14 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         room?.disconnect()
         viewModel.forceDisconnect()
         super.onStop()
+    }
+
+    override fun onDestroyView() {
+        requireContext().unregisterReceiver(brHeadphones)
+        super.onDestroyView()
+    }
+
+    private fun Room.getParticipantById(id: String): RemoteParticipant? {
+        return remoteParticipants.find { it.identity == id }
     }
 }

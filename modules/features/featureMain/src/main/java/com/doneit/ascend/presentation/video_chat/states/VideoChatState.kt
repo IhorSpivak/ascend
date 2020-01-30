@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.video_chat
+package com.doneit.ascend.presentation.video_chat.states
 
 enum class VideoChatState {
     PREVIEW,

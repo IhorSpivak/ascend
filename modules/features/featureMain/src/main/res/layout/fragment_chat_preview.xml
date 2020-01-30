@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="com.doneit.ascend.presentation.video_chat.ChatBehaviour" />
+        <import type="com.doneit.ascend.presentation.video_chat.states.ChatRole" />
 
         <variable
             name="model"
@@ -63,7 +63,7 @@
             android:onClick="@{v -> model.onStartGroupClick()}"
             android:text="@string/start_group"
             android:textAllCaps="true"
-            android:visibility="@{model.credentials.behaviour == ChatBehaviour.OWNER}"
+            android:visibility="@{model.credentials.role == ChatRole.OWNER}"
             app:layout_constraintTop_toBottomOf="@id/subtitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

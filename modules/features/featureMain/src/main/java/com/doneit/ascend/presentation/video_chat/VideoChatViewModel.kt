@@ -21,10 +21,14 @@ import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOp
 import com.doneit.ascend.presentation.video_chat.in_progress.user_actions.ChatParticipantActionsContract
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsContract
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
+import com.doneit.ascend.presentation.video_chat.states.ChatRole
+import com.doneit.ascend.presentation.video_chat.states.VideoChatState
 import com.twilio.video.CameraCapturer
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -55,21 +59,21 @@ class VideoChatViewModel(
     //endregion
 
     //region chat parameters
-    override val hasActiveSpeaker = MutableLiveData<Boolean>()
+    override val isMMConnected = MutableLiveData<Boolean>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
     override val isAudioEnabled = MutableLiveData<Boolean>()
     override val isRecordEnabled = MutableLiveData<Boolean>()
     override val isHandRisen = MutableLiveData<Boolean>()
     override val isFinishing = MutableLiveData<Boolean>()
     override val switchCameraEvent = SingleLiveManager(Unit)
+    override val focusedUserId = SingleLiveEvent<String>()
     //endregion
 
     //region local
     private val messages = groupUseCase.messagesStream
     private lateinit var chatState: VideoChatState
-    private lateinit var chatBehaviour: ChatBehaviour
+    private lateinit var chatRole: ChatRole
 
-    private var activeSpeakerID: String? = null
     private var groupId: Long = -1
     private var currentUserId: Long = -1
     private var downTimer: CountDownTimer? = null
@@ -80,7 +84,14 @@ class VideoChatViewModel(
     //endregion
 
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
-        val user = socketEvent.data.toPresentation()
+        var user = socketEvent.data.toPresentation()
+
+        if (::chatRole.isInitialized) {
+            user = user.copy(
+                isHandRisen = user.isHandRisen && chatRole == ChatRole.OWNER
+            )
+        }
+
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
                 if (user.userId != groupInfo.value?.owner?.id
@@ -115,6 +126,19 @@ class VideoChatViewModel(
             SocketEvent.REMOVED_FROM_GROUP -> {
                 if (user.userId == currentUserId) {
                     finishCall()
+                }
+            }
+            SocketEvent.SPEAK -> {
+                if (currentUserId != user.userId) {
+                    focusedUserId.postValue(user.userId.toString())
+                }
+
+                if(chatRole == ChatRole.OWNER) {
+                    viewModelScope.launch {
+                        delay(SPEECH_FOCUS_TIME)
+                        focusedUserId.postValue(UNFOCUSED_USER_ID)
+                        groupUseCase.lowerAHand(user.userId)
+                    }
                 }
             }
         }
@@ -175,7 +199,7 @@ class VideoChatViewModel(
     }
 
     private fun postDefaultValues() {
-        hasActiveSpeaker.postValue(true)
+        isMMConnected.postValue(true)
         isStartButtonEnabled.postValue(false)
         isVideoEnabled.postValue(true)
         isAudioEnabled.postValue(true)
@@ -190,7 +214,15 @@ class VideoChatViewModel(
 
             if (result.isSuccessful) {
                 val joinedUsers = result.successModel!!.filter { it.id != currentUserId }
-                    .map { it.toPresentation() }
+                    .map {
+                        var newItem = it.toPresentation()
+                        if (::chatRole.isInitialized) {
+                            newItem = newItem.copy(
+                                isHandRisen = newItem.isHandRisen && chatRole == ChatRole.OWNER
+                            )
+                        }
+                        newItem
+                    }
                 participants.postValue(joinedUsers.mergeParticipants(participants.value))
             } else {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
@@ -200,8 +232,8 @@ class VideoChatViewModel(
 
     private fun List<PresentationChatParticipant>.mergeParticipants(oldList: List<PresentationChatParticipant>?): List<PresentationChatParticipant> {
         val list = this.toMutableList()
-        oldList?.forEach {oldItem ->
-            if(oldList.find { it.userId == oldItem.userId } != null) {
+        oldList?.forEach { oldItem ->
+            if (oldList.find { it.userId == oldItem.userId } != null) {
                 list.add(oldItem)
             }
         }
@@ -215,16 +247,16 @@ class VideoChatViewModel(
         currentUser: UserEntity?
     ) {
         if (groupEntity != null && creds != null) {
-            chatBehaviour =
+            chatRole =
                 if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
-                    ChatBehaviour.OWNER
+                    ChatRole.OWNER
                 } else {
-                    ChatBehaviour.VISITOR
+                    ChatRole.VISITOR
                 }
 
             credentials.postValue(
                 StartVideoModel(
-                    chatBehaviour,
+                    chatRole,
                     creds.name,
                     creds.token,
                     CameraCapturer.CameraSource.FRONT_CAMERA
@@ -251,7 +283,7 @@ class VideoChatViewModel(
 
     override fun onOpenOptions() {
         if (groupInfo.value != null) {
-            if (chatBehaviour == ChatBehaviour.OWNER) {
+            if (chatRole == ChatRole.OWNER) {
                 router.navigateToMMChatOptions()
             } else {
                 router.navigateUserChatOptions()
@@ -288,18 +320,15 @@ class VideoChatViewModel(
         router.finishActivity()
     }
 
-    override fun onSpeakerChanged(id: String?) {
-        activeSpeakerID = id
-        hasActiveSpeaker.postValue(true)
+    override fun onUserConnected(id: String) {
+        if (id == groupInfo.value?.owner?.id?.toString()) {
+            isMMConnected.postValue(true)
+        }
     }
 
-    override fun onUserDisconnected(id: String): Boolean {
-        return if (id == activeSpeakerID) {
-            activeSpeakerID = null
-            hasActiveSpeaker.postValue(false)
-            true
-        } else {
-            false
+    override fun onUserDisconnected(id: String) {
+        if (id == groupInfo.value?.owner?.id?.toString()) {
+            isMMConnected.postValue(false)
         }
     }
 
@@ -324,20 +353,25 @@ class VideoChatViewModel(
 
     override fun onNetworkStateChanged(hasConnection: Boolean) {
         if (hasConnection.not()
-            && chatBehaviour == ChatBehaviour.OWNER
+            && chatRole == ChatRole.OWNER
         ) {
             changeState(VideoChatState.MM_CONNECTION_LOST)
         }
     }
 
     override fun onParticipantClick(id: Long) {
-        if (chatBehaviour == ChatBehaviour.OWNER) {
+        if (chatRole == ChatRole.OWNER) {
             router.navigateToChatParticipantActions(id)
         }
     }
 
-    override fun removeChatParticipant(id: Long) {
-        groupUseCase.removeChatParticipant(id)
+    override fun allowToSay(userId: Long) {
+        groupUseCase.allowToSay(userId)
+        router.onBack()
+    }
+
+    override fun removeChatParticipant(userId: Long) {
+        groupUseCase.removeChatParticipant(userId)
         router.onBack()
     }
 
@@ -368,7 +402,7 @@ class VideoChatViewModel(
             }
             VideoChatState.PREVIEW_GROUP_STARTED -> {
                 initProgressTimer(groupInfo.value!!)
-                if (chatBehaviour == ChatBehaviour.OWNER) {
+                if (chatRole == ChatRole.OWNER) {
                     isStartButtonEnabled.postValue(true)
                 } else {
                     changeState(VideoChatState.PROGRESS)
@@ -440,6 +474,8 @@ class VideoChatViewModel(
     }
 
     companion object {
+        const val UNFOCUSED_USER_ID = "-1"
+        private const val SPEECH_FOCUS_TIME = 15 * 1000L
         private const val MAIN_TIMER_PERIOD = 1000L
         private const val FINISHING_TIMER_PERIOD = 1 * 60 * 1000L //every minute
     }
