@@ -1,4 +1,4 @@
-package com.doneit.ascend.source.storage.remote.data.request
+package com.doneit.ascend.source.storage.remote.data.request.group
 
 import com.google.gson.annotations.SerializedName
 

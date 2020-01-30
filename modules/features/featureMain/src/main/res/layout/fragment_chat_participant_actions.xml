@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.doneit.ascend.domain.entity.SocketUserEntity" />
+            type="com.doneit.ascend.presentation.models.PresentationChatParticipant" />
 
         <variable
             name="model"

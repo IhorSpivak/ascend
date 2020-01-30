@@ -2,6 +2,8 @@ package com.doneit.ascend.presentation.models
 
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.CardEntity
+import com.doneit.ascend.domain.entity.ParticipantEntity
+import com.doneit.ascend.domain.entity.SocketUserEntity
 import com.doneit.ascend.domain.entity.dto.ChangeEmailModel
 import com.doneit.ascend.domain.entity.dto.ChangePasswordModel
 import com.doneit.ascend.domain.entity.dto.ChangePhoneModel
@@ -94,5 +96,23 @@ fun String.toPresentationCommunity(isSelected: Boolean): PresentationCommunityMo
     return PresentationCommunityModel(
         this,
         isSelected
+    )
+}
+
+fun SocketUserEntity.toPresentation(): PresentationChatParticipant {
+    return PresentationChatParticipant(
+        userId,
+        fullName,
+        image,
+        isHandRisen
+    )
+}
+
+fun ParticipantEntity.toPresentation(): PresentationChatParticipant {
+    return PresentationChatParticipant(
+        id,
+        fullName,
+        image,
+        isHandRisen
     )
 }

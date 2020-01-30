@@ -1,9 +1,9 @@
 package com.doneit.ascend.source.storage.remote.repository.group.socket
 
 import android.util.Log
-import com.doneit.ascend.source.storage.remote.data.request.GroupSocketCookies
-import com.doneit.ascend.source.storage.remote.data.response.SocketEventMessage
-import com.doneit.ascend.source.storage.remote.data.response.SocketEventResponse
+import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCookies
+import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventMessage
+import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventResponse
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent

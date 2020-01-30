@@ -9,7 +9,9 @@ import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.models.PresentationChatParticipant
 import com.doneit.ascend.presentation.models.StartVideoModel
+import com.doneit.ascend.presentation.models.toPresentation
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.extensions.toMinutesFormat
 import com.doneit.ascend.presentation.utils.extensions.toTimerFormat
@@ -21,6 +23,8 @@ import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserCh
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
 import com.twilio.video.CameraCapturer
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -41,7 +45,7 @@ class VideoChatViewModel(
     //region data
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
-    override val participants = MutableLiveData<List<SocketUserEntity>>(listOf())
+    override val participants = MutableLiveData<List<PresentationChatParticipant>>(listOf())
     //endregion
 
     //region ui properties
@@ -76,7 +80,7 @@ class VideoChatViewModel(
     //endregion
 
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
-        val user = socketEvent.data
+        val user = socketEvent.data.toPresentation()
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
                 if (user.userId != groupInfo.value?.owner?.id
@@ -116,7 +120,7 @@ class VideoChatViewModel(
         }
     }
 
-    private fun updateParticipant(participant: SocketUserEntity) {
+    private fun updateParticipant(participant: PresentationChatParticipant) {
         val newList = participants.value!!.toMutableList()
         val index = newList.indexOfFirst { it.userId == participant.userId }
         if (index != -1) {
@@ -142,41 +146,29 @@ class VideoChatViewModel(
                 if (result.isSuccessful) {
                     groupEntity = result.successModel!!
                     groupInfo.value = groupEntity
+                } else {
+                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
                 }
             }
 
             val userJob = launch {
                 currentUser = userUseCase.getUser()
                 currentUserId = currentUser!!.id
-                val res = groupUseCase.getCredentials(groupId)
+                val result = groupUseCase.getCredentials(groupId)
 
-                if (res.isSuccessful) {
-                    creds = res.successModel!!
+                if (result.isSuccessful) {
+                    creds = result.successModel!!
+                } else {
+                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
                 }
             }
 
             groupJob.join()
             userJob.join()
 
-            if (groupEntity != null && creds != null) {
-                chatBehaviour =
-                    if (currentUser!!.isMasterMind && groupEntity!!.owner!!.id == currentUser!!.id) {
-                        ChatBehaviour.OWNER
-                    } else {
-                        ChatBehaviour.VISITOR
-                    }
+            loadParticipants()
 
-                credentials.postValue(
-                    StartVideoModel(
-                        chatBehaviour,
-                        creds!!.name,
-                        creds!!.token,
-                        CameraCapturer.CameraSource.FRONT_CAMERA
-                    )
-                )
-                changeState(VideoChatState.PREVIEW_DATA_LOADED)
-                messages.observeForever(messagesObserver)
-            }
+            initializeChatState(groupEntity, creds, currentUser)
         }
 
         changeState(VideoChatState.PREVIEW)
@@ -190,6 +182,57 @@ class VideoChatViewModel(
         isRecordEnabled.postValue(true)
         isHandRisen.postValue(false)
         isFinishing.postValue(false)
+    }
+
+    private fun CoroutineScope.loadParticipants(): Job {
+        return launch {
+            val result = groupUseCase.getParticipantList(groupId, isConnected = true)
+
+            if (result.isSuccessful) {
+                val joinedUsers = result.successModel!!.filter { it.id != currentUserId }
+                    .map { it.toPresentation() }
+                participants.postValue(joinedUsers.mergeParticipants(participants.value))
+            } else {
+                showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+            }
+        }
+    }
+
+    private fun List<PresentationChatParticipant>.mergeParticipants(oldList: List<PresentationChatParticipant>?): List<PresentationChatParticipant> {
+        val list = this.toMutableList()
+        oldList?.forEach {oldItem ->
+            if(oldList.find { it.userId == oldItem.userId } != null) {
+                list.add(oldItem)
+            }
+        }
+
+        return list
+    }
+
+    private fun initializeChatState(
+        groupEntity: GroupEntity?,
+        creds: GroupCredentialsModel?,
+        currentUser: UserEntity?
+    ) {
+        if (groupEntity != null && creds != null) {
+            chatBehaviour =
+                if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
+                    ChatBehaviour.OWNER
+                } else {
+                    ChatBehaviour.VISITOR
+                }
+
+            credentials.postValue(
+                StartVideoModel(
+                    chatBehaviour,
+                    creds.name,
+                    creds.token,
+                    CameraCapturer.CameraSource.FRONT_CAMERA
+                )
+            )
+            changeState(VideoChatState.PREVIEW_DATA_LOADED)
+            messages.observeForever(messagesObserver)
+        }
     }
 
     override fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus) {

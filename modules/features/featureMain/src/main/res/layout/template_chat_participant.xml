@@ -4,7 +4,7 @@
     <data>
         <variable
             name="item"
-            type="com.doneit.ascend.domain.entity.SocketUserEntity" />
+            type="com.doneit.ascend.presentation.models.PresentationChatParticipant" />
     </data>
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="64dp"

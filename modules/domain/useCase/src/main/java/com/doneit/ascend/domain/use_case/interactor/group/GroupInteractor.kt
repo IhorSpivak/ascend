@@ -2,11 +2,9 @@ package com.doneit.ascend.domain.use_case.interactor.group
 
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.CreateGroupModel
-import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
-import com.doneit.ascend.domain.entity.dto.GroupListModel
-import com.doneit.ascend.domain.entity.dto.SubscribeGroupModel
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
 
 internal class GroupInteractor(
@@ -41,6 +39,23 @@ internal class GroupInteractor(
         return groupGateway.getCredentials(groupId)
     }
 
+    override suspend fun getParticipantList(
+        groupId: Long,
+        fullName: String?,
+        isConnected: Boolean?
+    ): ResponseEntity<List<ParticipantEntity>, List<String>> {
+        return groupGateway.getParticipantList(
+            ParticipantListModel(
+            1,
+                CHAT_PARTICIPANTS_MAX_COUNT,
+            null,
+            null,
+            fullName,
+            isConnected,
+                groupId
+            ))
+    }
+
     override val messagesStream = groupGateway.messagesStream
 
     override fun connectToChannel(groupId: Long) {
@@ -70,5 +85,7 @@ internal class GroupInteractor(
             "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveHand\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
         private const val REMOVE_PARTICIPANT =
             "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveParticipant\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%d\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+
+        private const val CHAT_PARTICIPANTS_MAX_COUNT = 100
     }
 }

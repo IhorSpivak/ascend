@@ -2,9 +2,11 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.domain.entity.dto.GroupListModel
+import com.doneit.ascend.domain.entity.dto.ParticipantListModel
 import com.doneit.ascend.domain.entity.dto.SubscribeGroupModel
-import com.doneit.ascend.source.storage.remote.data.request.CreateGroupRequest
-import com.doneit.ascend.source.storage.remote.data.request.GroupListRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.CreateGroupRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.GroupListRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.GroupParticipantsRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
 
 fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
@@ -60,5 +62,16 @@ fun SubscribeGroupModel.toRequest(): SubscribeGroupRequest {
     return SubscribeGroupRequest(
         paymentSourceId,
         paymentSourceType.toString()
+    )
+}
+
+fun ParticipantListModel.toRequest(): GroupParticipantsRequest {
+    return GroupParticipantsRequest(
+        page,
+        perPage,
+        sortColumn,
+        sortType?.toString(),
+        fullName,
+        connected
     )
 }

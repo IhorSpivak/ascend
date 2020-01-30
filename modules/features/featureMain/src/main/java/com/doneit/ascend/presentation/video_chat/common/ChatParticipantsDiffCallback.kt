@@ -1,12 +1,11 @@
 package com.doneit.ascend.presentation.video_chat.common
 
 import androidx.recyclerview.widget.DiffUtil
-import com.doneit.ascend.domain.entity.SocketEventEntity
-import com.doneit.ascend.domain.entity.SocketUserEntity
+import com.doneit.ascend.presentation.models.PresentationChatParticipant
 
 class ChatParticipantsDiffCallback(
-    private val oldItems: List<SocketUserEntity>,
-    private val newItems: List<SocketUserEntity>
+    private val oldItems: List<PresentationChatParticipant>,
+    private val newItems: List<PresentationChatParticipant>
 ) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldItems[oldItemPosition].userId == newItems[newItemPosition].userId

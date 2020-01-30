@@ -1,5 +1,7 @@
-package com.doneit.ascend.source.storage.remote.data.response
+package com.doneit.ascend.source.storage.remote.data.response.group
 
+import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
+import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
 import com.google.gson.annotations.SerializedName
 
 data class GroupResponse(

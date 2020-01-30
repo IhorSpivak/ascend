@@ -2,14 +2,14 @@ package com.doneit.ascend.presentation.video_chat
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.GroupEntity
-import com.doneit.ascend.domain.entity.SocketUserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.models.PresentationChatParticipant
 
 interface VideoChatContract {
     interface ViewModel : BaseViewModel {
         val groupInfo: LiveData<GroupEntity>
         val timerLabel: LiveData<String>
-        val participants: LiveData<List<SocketUserEntity>>
+        val participants: LiveData<List<PresentationChatParticipant>>
         val isFinishing: LiveData<Boolean>
         val finishingLabel: LiveData<String>
 

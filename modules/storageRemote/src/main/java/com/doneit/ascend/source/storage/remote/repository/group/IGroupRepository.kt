@@ -1,14 +1,16 @@
 package com.doneit.ascend.source.storage.remote.repository.group
 
-import com.doneit.ascend.source.storage.remote.data.request.CreateGroupRequest
-import com.doneit.ascend.source.storage.remote.data.request.GroupListRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.CreateGroupRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.GroupListRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.GroupParticipantsRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
-import com.doneit.ascend.source.storage.remote.data.response.GroupCredentialsResponse
-import com.doneit.ascend.source.storage.remote.data.response.GroupListResponse
-import com.doneit.ascend.source.storage.remote.data.response.GroupResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.GroupListResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.GroupResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.ParticipantListResponse
 import java.io.File
 
 interface IGroupRepository {
@@ -29,4 +31,6 @@ interface IGroupRepository {
     ): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun getCredentials(groupId: Long): RemoteResponse<GroupCredentialsResponse, ErrorsListResponse>
+
+    suspend fun getParticipants(groupId: Long, request: GroupParticipantsRequest): RemoteResponse<ParticipantListResponse, ErrorsListResponse>
 }

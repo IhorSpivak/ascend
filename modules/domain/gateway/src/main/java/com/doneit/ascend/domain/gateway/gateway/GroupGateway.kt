@@ -4,11 +4,9 @@ import android.accounts.AccountManager
 import androidx.lifecycle.map
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.CreateGroupModel
-import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
-import com.doneit.ascend.domain.entity.dto.GroupListModel
-import com.doneit.ascend.domain.entity.dto.SubscribeGroupModel
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toCreateGroupRequest
@@ -16,7 +14,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.data_source.GroupDataSource
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
-import com.doneit.ascend.source.storage.remote.data.request.GroupSocketCookies
+import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCookies
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.socket.IGroupSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
@@ -36,7 +34,8 @@ internal class GroupGateway(
         return ""//todo, not required for now
     }
 
-    override val messagesStream = remoteSocket.messagesStream.map { it.toEntity() }//todo remove deprecation
+    override val messagesStream =
+        remoteSocket.messagesStream.map { it.toEntity() }//todo remove deprecation
 
     override suspend fun createGroup(groupModel: CreateGroupModel): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
@@ -66,10 +65,7 @@ internal class GroupGateway(
     }
 
     override suspend fun getGroupsListPaged(groupListModel: GroupListModel): PagedList<GroupEntity> {
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setPageSize(groupListModel.perPage ?: 10)
-            .build()
+        val config = getConfigPaged(groupListModel)
 
         val dataSource = GroupDataSource(
             GlobalScope,
@@ -128,6 +124,17 @@ internal class GroupGateway(
         )
     }
 
+    override suspend fun getParticipantList(listModel: ParticipantListModel): ResponseEntity<List<ParticipantEntity>, List<String>> {
+        return remote.getParticipants(listModel.groupId, listModel.toRequest()).toResponseEntity(
+            {
+                it?.participants?.map { it.toEntity() }
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override fun connectToChannel(groupId: Long) {
         //todo should use another scope?
         GlobalScope.launch {
@@ -136,7 +143,11 @@ internal class GroupGateway(
             if (accounts.isNotEmpty()) {
                 val account = accounts[0]
                 val token = accountManager.blockingGetAuthToken(account, "Bearer", false)
-                val cookies = GroupSocketCookies(token, groupId)
+                val cookies =
+                    GroupSocketCookies(
+                        token,
+                        groupId
+                    )
 
                 remoteSocket.connect(cookies)
             }
@@ -149,5 +160,12 @@ internal class GroupGateway(
 
     override fun disconnect() {
         remoteSocket.disconnect()
+    }
+
+    private fun getConfigPaged(model: BasePagedModel): PagedList.Config {
+        return PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(model.perPage ?: 10)
+            .build()
     }
 }
