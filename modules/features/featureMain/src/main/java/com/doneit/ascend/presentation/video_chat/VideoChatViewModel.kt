@@ -137,12 +137,13 @@ class VideoChatViewModel(
                     focusedUserId.postValue(user.userId.toString())
                 }
 
+                viewModelScope.launch {
+                    delay(SPEECH_FOCUS_TIME)
+                    focusedUserId.postValue(UNFOCUSED_USER_ID)
+                }
+
                 if(chatRole == ChatRole.OWNER) {
-                    viewModelScope.launch {
-                        delay(SPEECH_FOCUS_TIME)
-                        focusedUserId.postValue(UNFOCUSED_USER_ID)
-                        groupUseCase.lowerAHand(user.userId)
-                    }
+                    groupUseCase.lowerAHand(user.userId)
                 }
             }
         }
@@ -498,7 +499,7 @@ class VideoChatViewModel(
 
     companion object {
         const val UNFOCUSED_USER_ID = "-1"
-        private const val SPEECH_FOCUS_TIME = 15 * 1000L
+        private const val SPEECH_FOCUS_TIME = 3 * 1000L
         private const val TIMER_PERIOD = 1000L
         private const val FINISHING_TIMER_PERIOD = 1 * 60 * 1000L //every minute
     }
