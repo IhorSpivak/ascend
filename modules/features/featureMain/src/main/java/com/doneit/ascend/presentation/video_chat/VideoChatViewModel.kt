@@ -29,8 +29,6 @@ import com.doneit.ascend.presentation.video_chat.states.VideoChatState
 import com.twilio.video.CameraCapturer
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -195,9 +193,12 @@ class VideoChatViewModel(
             groupJob.join()
             userJob.join()
 
+            initializeChatState(groupEntity, creds, currentUser)
+
             loadParticipants()
 
-            initializeChatState(groupEntity, creds, currentUser)
+            delay(PARTICIPANTS_RESYNC_DELAY)
+            loadParticipants()
         }
 
         changeState(VideoChatState.PREVIEW)
@@ -213,8 +214,8 @@ class VideoChatViewModel(
         isFinishing.postValue(false)
     }
 
-    private fun CoroutineScope.loadParticipants(): Job {
-        return launch {
+    private fun loadParticipants() {
+        viewModelScope.launch {
             val result = groupUseCase.getParticipantList(groupId, isConnected = true)
 
             if (result.isSuccessful) {
@@ -235,15 +236,15 @@ class VideoChatViewModel(
         }
     }
 
-    private fun List<PresentationChatParticipant>.mergeParticipants(oldList: List<PresentationChatParticipant>?): List<PresentationChatParticipant> {
-        val list = this.toMutableList()
-        oldList?.forEach { oldItem ->
-            if (oldList.find { it.userId == oldItem.userId } != null) {
-                list.add(oldItem)
+    private fun List<PresentationChatParticipant>.mergeParticipants(localList: List<PresentationChatParticipant>?): List<PresentationChatParticipant> {
+        val remoteList = this.toMutableList()
+        localList?.forEach { localItem ->
+            if (remoteList.find { it.userId == localItem.userId } == null) {
+                remoteList.add(localItem)
             }
         }
 
-        return list
+        return remoteList
     }
 
     private fun initializeChatState(
@@ -503,5 +504,6 @@ class VideoChatViewModel(
         private const val SPEECH_FOCUS_TIME = 3 * 1000L
         private const val TIMER_PERIOD = 1000L
         private const val FINISHING_TIMER_PERIOD = 1 * 60 * 1000L //every minute
+        private const val PARTICIPANTS_RESYNC_DELAY = 10 * 1000L
     }
 }
