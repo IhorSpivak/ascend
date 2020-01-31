@@ -25,71 +25,71 @@ import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 
 object UseCaseModule {
     fun get() = Kodein.Module("UseCaseModule") {
-        bind<UserUseCase>() with provider {
+        bind<UserUseCase>() with singleton {
             UserInteractor(
                 instance()
             )
         }
 
-        bind<QuestionUseCase>() with provider {
+        bind<QuestionUseCase>() with singleton {
             QuestionInteractor(
                 instance()
             )
         }
 
-        bind<AnswerUseCase>() with provider {
+        bind<AnswerUseCase>() with singleton {
             AnswerInteractor(
                 instance()
             )
         }
 
-        bind<PageUseCase>() with provider {
+        bind<PageUseCase>() with singleton {
             PageInteractor(
                 instance()
             )
         }
 
-        bind<GroupUseCase>() with provider {
+        bind<GroupUseCase>() with singleton {
             GroupInteractor(
                 instance()
             )
         }
 
-        bind<MasterMindUseCase>() with provider {
+        bind<MasterMindUseCase>() with singleton {
             MasterMindInteractor(
                 instance()
             )
         }
 
-        bind<SearchUseCase>() with provider {
+        bind<SearchUseCase>() with singleton {
             SearchInteractor(
                 instance()
             )
         }
 
-        bind<NotificationUseCase>() with provider {
+        bind<NotificationUseCase>() with singleton {
             NotificationInteractor(
                 instance()
             )
         }
 
-        bind<CardsUseCase>() with provider {
+        bind<CardsUseCase>() with singleton {
             CardsInteractor(
                 instance()
             )
         }
 
-        bind<PurchaseUseCase>() with provider {
+        bind<PurchaseUseCase>() with singleton {
             PurchaseInteractor(
                 instance()
             )
         }
 
-        bind<AttachmentUseCase>() with provider {
+        bind<AttachmentUseCase>() with singleton {
             AttachmentInteractor(
                 instance()
             )

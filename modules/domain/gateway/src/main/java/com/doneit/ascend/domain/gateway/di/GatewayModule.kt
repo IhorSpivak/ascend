@@ -6,14 +6,13 @@ import com.vrgsoft.networkmanager.NetworkManager
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
 object GatewayModule {
     fun get() = Kodein.Module("GatewayModule") {
         bind() from singleton { NetworkManager() }
 
-        bind<IUserGateway>() with provider {
+        bind<IUserGateway>() with singleton {
             UserGateway(
                 instance(),
                 instance(),
@@ -24,7 +23,7 @@ object GatewayModule {
             )
         }
 
-        bind<IQuestionGateway>() with provider {
+        bind<IQuestionGateway>() with singleton {
             QuestionGateway(
                 instance(),
                 instance(),
@@ -32,7 +31,7 @@ object GatewayModule {
             )
         }
 
-        bind<IAnswerGateway>() with provider {
+        bind<IAnswerGateway>() with singleton {
             AnswerGateway(
                 instance(),
                 instance(),
@@ -40,14 +39,14 @@ object GatewayModule {
             )
         }
 
-        bind<IPageGateway>() with provider {
+        bind<IPageGateway>() with singleton {
             PageGateway(
                 instance(),
                 instance()
             )
         }
 
-        bind<IGroupGateway>() with provider {
+        bind<IGroupGateway>() with singleton {
             GroupGateway(
                 instance(),
                 instance(),
@@ -57,7 +56,7 @@ object GatewayModule {
             )
         }
 
-        bind<IMasterMindGateway>() with provider {
+        bind<IMasterMindGateway>() with singleton {
             MasterMindGateway(
                 instance(),
                 instance(),
@@ -65,7 +64,7 @@ object GatewayModule {
             )
         }
 
-        bind<ISearchGateway>() with provider {
+        bind<ISearchGateway>() with singleton {
             SearchGateway(
                 instance(),
                 instance(),
@@ -73,28 +72,28 @@ object GatewayModule {
             )
         }
 
-        bind<INotificationGateway>() with provider {
+        bind<INotificationGateway>() with singleton {
             NotificationGateway(
                 instance(),
                 instance()
             )
         }
 
-        bind<ICardsGateway>() with provider {
+        bind<ICardsGateway>() with singleton {
             CardsGateway(
                 instance(),
                 instance()
             )
         }
 
-        bind<IPurchaseGateway>() with provider {
+        bind<IPurchaseGateway>() with singleton {
             PurchasesGateway(
                 instance(),
                 instance()
             )
         }
 
-        bind<IAttachmentGateway>() with provider {
+        bind<IAttachmentGateway>() with singleton {
             AttachmentGateway(
                 instance(),
                 instance()

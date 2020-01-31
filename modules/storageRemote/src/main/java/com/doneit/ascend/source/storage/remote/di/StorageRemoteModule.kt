@@ -27,58 +27,57 @@ import com.google.gson.Gson
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 import retrofit2.Retrofit
 
 object StorageRemoteModule {
     fun get() = Kodein.Module("StorageRemoteModule") {
         bind<Gson>() with singleton { Gson() }
-        bind<UserApi>() with provider { instance<Retrofit>().create(UserApi::class.java) }
-        bind<QuestionApi>() with provider { instance<Retrofit>().create(QuestionApi::class.java) }
-        bind<AnswerApi>() with provider { instance<Retrofit>().create(AnswerApi::class.java) }
-        bind<PageApi>() with provider { instance<Retrofit>().create(PageApi::class.java) }
-        bind<GroupApi>() with provider { instance<Retrofit>().create(GroupApi::class.java) }
-        bind<MasterMindApi>() with provider { instance<Retrofit>().create(MasterMindApi::class.java) }
-        bind<NotificationApi>() with provider { instance<Retrofit>().create(NotificationApi::class.java) }
-        bind<CardsApi>() with provider { instance<Retrofit>().create(CardsApi::class.java) }
-        bind<PurchaseApi>() with provider { instance<Retrofit>().create(PurchaseApi::class.java) }
-        bind<AttachmentsApi>() with provider { instance<Retrofit>().create(AttachmentsApi::class.java) }
+        bind<UserApi>() with singleton { instance<Retrofit>().create(UserApi::class.java) }
+        bind<QuestionApi>() with singleton { instance<Retrofit>().create(QuestionApi::class.java) }
+        bind<AnswerApi>() with singleton { instance<Retrofit>().create(AnswerApi::class.java) }
+        bind<PageApi>() with singleton { instance<Retrofit>().create(PageApi::class.java) }
+        bind<GroupApi>() with singleton { instance<Retrofit>().create(GroupApi::class.java) }
+        bind<MasterMindApi>() with singleton { instance<Retrofit>().create(MasterMindApi::class.java) }
+        bind<NotificationApi>() with singleton { instance<Retrofit>().create(NotificationApi::class.java) }
+        bind<CardsApi>() with singleton { instance<Retrofit>().create(CardsApi::class.java) }
+        bind<PurchaseApi>() with singleton { instance<Retrofit>().create(PurchaseApi::class.java) }
+        bind<AttachmentsApi>() with singleton { instance<Retrofit>().create(AttachmentsApi::class.java) }
 
-        bind<IUserRepository>() with provider {
+        bind<IUserRepository>() with singleton {
             UserRepository(
                 instance(),
                 instance()
             )
         }
-        bind<IQuestionRepository>() with provider {
+        bind<IQuestionRepository>() with singleton {
             QuestionRepository(
                 instance(),
                 instance()
             )
         }
-        bind<IAnswerRepository>() with provider {
+        bind<IAnswerRepository>() with singleton {
             AnswerRepository(
                 instance(),
                 instance()
             )
         }
 
-        bind<IPageRepository>() with provider {
+        bind<IPageRepository>() with singleton {
             PageRepository(
                 instance(),
                 instance()
             )
         }
 
-        bind<IGroupRepository>() with provider {
+        bind<IGroupRepository>() with singleton {
             GroupRepository(
                 instance(),
                 instance()
             )
         }
 
-        bind<IMasterMindRepository>() with provider {
+        bind<IMasterMindRepository>() with singleton {
             MasterMindRepository(
                 instance(),
                 instance()
@@ -86,14 +85,14 @@ object StorageRemoteModule {
             )
         }
 
-        bind<INotificationRepository>() with provider {
+        bind<INotificationRepository>() with singleton {
             NotificationRepository(
                 instance(),
                 instance()
             )
         }
 
-        bind<ICardsRepository>() with provider {
+        bind<ICardsRepository>() with singleton {
             CardsRepository(
                 instance(),
                 instance()
@@ -113,7 +112,7 @@ object StorageRemoteModule {
             )
         }
 
-        bind<IAttachmentsRepository>() with provider {
+        bind<IAttachmentsRepository>() with singleton {
             AttachmentRepository(
                 instance(),
                 instance()

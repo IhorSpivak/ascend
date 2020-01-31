@@ -11,7 +11,6 @@ import com.doneit.ascend.source.storage.local.repository.user.UserRepository
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
 object StorageLocalModule {
@@ -21,8 +20,8 @@ object StorageLocalModule {
                 .build()
         }
 
-        bind<IQuestionRepository>() with provider { QuestionRepository(instance()) }
-        bind<IUserRepository>() with provider { UserRepository(instance()) }
-        bind<IMasterMindRepository>() with provider { MasterMindRepository(instance<LocalDatabase>().masterMindDao()) }
+        bind<IQuestionRepository>() with singleton { QuestionRepository(instance()) }
+        bind<IUserRepository>() with singleton { UserRepository(instance()) }
+        bind<IMasterMindRepository>() with singleton { MasterMindRepository(instance<LocalDatabase>().masterMindDao()) }
     }
 }
