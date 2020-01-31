@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.PresentationChatParticipant
-import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 
 interface VideoChatContract {
     interface ViewModel : BaseViewModel {
@@ -20,8 +19,6 @@ interface VideoChatContract {
         fun report(content: String, participantId: Long)
         fun onNetworkStateChanged(hasConnection: Boolean)
         fun onParticipantClick(id: Long)
-        fun onUserConnected(id: String)
-        fun onUserDisconnected(id: String)
     }
 
     interface Router {

@@ -4,7 +4,10 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.*
+import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.SocketEvent
+import com.doneit.ascend.domain.entity.SocketEventEntity
+import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -76,6 +79,7 @@ class VideoChatViewModel(
 
     private var groupId: Long = -1
     private var currentUserId: Long = -1
+    private var currentSpeakerId: String? = null
     private var downTimer: CountDownTimer? = null
     private var timer: Timer? = null
     private val hasBothCameras =
@@ -199,7 +203,7 @@ class VideoChatViewModel(
     }
 
     private fun postDefaultValues() {
-        isMMConnected.postValue(true)
+        isMMConnected.postValue(false)
         isStartButtonEnabled.postValue(false)
         isVideoEnabled.postValue(true)
         isAudioEnabled.postValue(true)
@@ -263,6 +267,9 @@ class VideoChatViewModel(
                 )
             )
             changeState(VideoChatState.PREVIEW_DATA_LOADED)
+            if(chatRole == ChatRole.OWNER) {
+                isMMConnected.postValue(true)
+            }
             messages.observeForever(messagesObserver)
         }
     }
@@ -330,6 +337,22 @@ class VideoChatViewModel(
         if (id == groupInfo.value?.owner?.id?.toString()) {
             isMMConnected.postValue(false)
         }
+    }
+
+    override fun onSpeakerChanged(id: String?) {
+        currentSpeakerId = id
+    }
+
+    override fun canFetchMMVideo(): Boolean {
+        val isMMConnected = isMMConnected.value ?: false
+        val isMMInfoAvailable = groupInfo.value?.owner != null
+        val isRegular = chatRole == ChatRole.VISITOR
+
+        return isMMConnected && isMMInfoAvailable && isRegular
+    }
+
+    override fun isSpeaker(id: String): Boolean {
+        return id == currentSpeakerId
     }
 
     override fun onStartGroupClick() {
@@ -425,7 +448,7 @@ class VideoChatViewModel(
     private fun initDownTimer(group: GroupEntity) {
         val currentDate = Date()
         downTimer?.cancel()
-        downTimer = object : CountDownTimer(group.startTime!!.time - currentDate.time, 1000) {
+        downTimer = object : CountDownTimer(group.startTime!!.time - currentDate.time, TIMER_PERIOD) {
             override fun onFinish() {
                 changeState(VideoChatState.PREVIEW_GROUP_STARTED)
             }
@@ -443,7 +466,7 @@ class VideoChatViewModel(
         downTimer =
             object : CountDownTimer(
                 GroupEntity.PROGRESS_DURATION + group.startTime!!.time,
-                MAIN_TIMER_PERIOD
+                TIMER_PERIOD
             ) {
                 override fun onFinish() {
                     changeState(VideoChatState.FINISHED)
@@ -476,7 +499,7 @@ class VideoChatViewModel(
     companion object {
         const val UNFOCUSED_USER_ID = "-1"
         private const val SPEECH_FOCUS_TIME = 15 * 1000L
-        private const val MAIN_TIMER_PERIOD = 1000L
+        private const val TIMER_PERIOD = 1000L
         private const val FINISHING_TIMER_PERIOD = 1 * 60 * 1000L //every minute
     }
 }

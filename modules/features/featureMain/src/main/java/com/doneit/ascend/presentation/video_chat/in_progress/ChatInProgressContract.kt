@@ -22,5 +22,10 @@ interface ChatInProgressContract {
         fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus)
         fun forceDisconnect()
         fun onOpenOptions()
+        fun onUserConnected(id: String)
+        fun onUserDisconnected(id: String)
+        fun onSpeakerChanged(id: String?)
+        fun isSpeaker(id: String): Boolean
+        fun canFetchMMVideo(): Boolean
     }
 }

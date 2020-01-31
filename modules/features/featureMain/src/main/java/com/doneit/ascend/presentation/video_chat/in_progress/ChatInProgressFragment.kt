@@ -5,16 +5,18 @@ import android.content.Context
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Bundle
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
 import com.doneit.ascend.presentation.models.StartVideoModel
-import com.doneit.ascend.presentation.utils.extensions.*
+import com.doneit.ascend.presentation.utils.extensions.requestPermissions
+import com.doneit.ascend.presentation.utils.extensions.show
+import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
-import com.doneit.ascend.presentation.video_chat.in_progress.listeners.RemoteParticipantsListener
-import com.doneit.ascend.presentation.video_chat.in_progress.listeners.RoomListener
+import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantsListener
+import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RoomListener
 import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.twilio.video.*
 import kotlinx.android.synthetic.main.fragment_video_chat.*
@@ -52,7 +54,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     //region video chat
     private val audioCodec: AudioCodec by lazy { OpusCodec() }
-    private val videoCodec: VideoCodec by lazy { Vp8Codec() }//todo: check H264
+    private val videoCodec: VideoCodec by lazy { Vp8Codec() }
     private var localVideoTrack: LocalVideoTrack? = null
     private var localAudioTrack: LocalAudioTrack? = null
     private var room: Room? = null
@@ -65,7 +67,6 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
         viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
             localVideoTrack?.enable(it)
-            //binding.placeholder.visible(it.not())
         })
 
         viewModel.isAudioEnabled.observe(viewLifecycleOwner, Observer {
@@ -76,8 +77,12 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             //todo
         })
 
+        viewModel.isMMConnected.observe(viewLifecycleOwner, Observer {
+            binding.placeholder.visible(it.not())
+        })
+
         viewModel.focusedUserId.observe(viewLifecycleOwner, Observer { id ->
-            if(id == VideoChatViewModel.UNFOCUSED_USER_ID) {
+            if (id == VideoChatViewModel.UNFOCUSED_USER_ID) {
                 chatStrategy = ChatStrategy.DOMINANT_SPEAKER
                 room?.let {
                     handleSpeaker(room!!, room!!.dominantSpeaker)
@@ -102,6 +107,10 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         audioManager.isSpeakerphoneOn = isSpeakerPhoneEnabled
     }
 
+    private fun Room.getParticipantById(id: String): RemoteParticipant? {
+        return remoteParticipants.find { it.identity == id }
+    }
+
     override fun onStart() {
         super.onStart()
         viewModel.credentials.observe(this, Observer {
@@ -124,8 +133,6 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
                 localAudioTrack = LocalAudioTrack.create(context!!, true)
                 localVideoTrack = LocalVideoTrack.create(context!!, true, cameraCapturer)!!
-                localVideoTrack?.addRenderer(videoView)
-                binding.placeholder.visible(false)
 
                 val connectOptions =
                     ConnectOptions.Builder(model.accessToken)
@@ -156,14 +163,17 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 room.displayDominant()
             }
 
+            override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
+                viewModel.onUserConnected(remoteParticipant.identity)
+            }
+
             override fun onParticipantDisconnected(
                 room: Room,
                 remoteParticipant: RemoteParticipant
             ) {
-                val track = remoteParticipant.videoTracks.firstOrNull()?.videoTrack
-                val renderersCount = track?.renderers?.size?: 0
-                if(renderersCount > 0) {
-                    track?.removeRenderer(videoView)
+                viewModel.onUserDisconnected(remoteParticipant.identity)
+
+                if (viewModel.isSpeaker(remoteParticipant.identity)) {
                     room.displayDominant()
                 }
             }
@@ -178,53 +188,36 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     private fun Room.displayDominant() {
-        if(chatStrategy == ChatStrategy.DOMINANT_SPEAKER) {
+        if (chatStrategy == ChatStrategy.DOMINANT_SPEAKER) {
             handleSpeaker(this, this.dominantSpeaker)
         }
     }
 
     private fun handleSpeaker(room: Room, remoteParticipant: RemoteParticipant?) {
-        localVideoTrack?.removeRenderer(videoView)
         room.remoteParticipants.forEach {
             it.clearRenderer()
         }
+        viewModel.onSpeakerChanged(remoteParticipant?.identity)
 
         if (remoteParticipant != null) {
-            remoteParticipant.setListener(getParticipantsListener())
             remoteParticipant.startVideoDisplay()
-            binding.placeholder.visible(false)
         } else {
-            localVideoTrack?.addRenderer(videoView)
+            room.displayMM()
         }
     }
 
-    private fun getParticipantsListener(): RemoteParticipantsListener {
-        return object : RemoteParticipantsListener() {
+    private fun Room.displayMM() {
+        if (viewModel.canFetchMMVideo()) {
+            val mmId = viewModel.groupInfo.value!!.owner!!.id.toString()
 
-            override fun onVideoTrackUnsubscribed(
-                remoteParticipant: RemoteParticipant,
-                remoteVideoTrackPublication: RemoteVideoTrackPublication,
-                remoteVideoTrack: RemoteVideoTrack
-            ) {
-                //todo how to unsubscribe at appropriate time?
-                if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                    binding.placeholder.show()
+            remoteParticipants.forEach participants@{
+                if (it.identity == mmId) {
+                    it.startVideoDisplay()
+                    return@participants
                 }
             }
-
-            override fun onVideoTrackEnabled(
-                remoteParticipant: RemoteParticipant,
-                remoteVideoTrackPublication: RemoteVideoTrackPublication
-            ) {
-                binding.placeholder.visible(false)
-            }
-
-            override fun onVideoTrackDisabled(
-                remoteParticipant: RemoteParticipant,
-                remoteVideoTrackPublication: RemoteVideoTrackPublication
-            ) {
-                binding.placeholder.show()
-            }
+        } else {
+            binding.placeholder.visible(true)
         }
     }
 
@@ -232,8 +225,33 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         videoTracks.firstOrNull()?.videoTrack?.removeRenderer(videoView)
     }
 
-    private fun Participant.startVideoDisplay() {
+    private fun RemoteParticipant.startVideoDisplay() {
+        setListener(getParticipantsListener())
         videoTracks.firstOrNull()?.videoTrack?.addRenderer(videoView)
+        binding.placeholder.visible(false)
+    }
+
+    private fun getParticipantsListener(): RemoteParticipantsListener {
+        return object : RemoteParticipantsListener() {
+
+            override fun onVideoTrackEnabled(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication
+            ) {
+                if (viewModel.isSpeaker(remoteParticipant.identity)) {
+                    binding.placeholder.visible(false)
+                }
+            }
+
+            override fun onVideoTrackDisabled(
+                remoteParticipant: RemoteParticipant,
+                remoteVideoTrackPublication: RemoteVideoTrackPublication
+            ) {
+                if (viewModel.isSpeaker(remoteParticipant.identity)) {
+                    binding.placeholder.visible(true)
+                }
+            }
+        }
     }
 
     override fun onStop() {
@@ -247,9 +265,5 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     override fun onDestroyView() {
         requireContext().unregisterReceiver(brHeadphones)
         super.onDestroyView()
-    }
-
-    private fun Room.getParticipantById(id: String): RemoteParticipant? {
-        return remoteParticipants.find { it.identity == id }
     }
 }

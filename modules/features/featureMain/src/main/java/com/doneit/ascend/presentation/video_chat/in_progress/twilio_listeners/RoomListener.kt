@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.video_chat.in_progress.listeners
+package com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners
 
 import com.twilio.video.RemoteParticipant
 import com.twilio.video.Room
