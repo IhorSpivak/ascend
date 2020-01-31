@@ -7,6 +7,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupListBinding
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupListAdapter
+import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
 
 class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupListArgs>() {
@@ -20,7 +21,11 @@ class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupList
                 viewModel.onGroupClick(it)
             },
             {
-                viewModel.onStartChatClick(it)
+                if (it.blocked != true) {
+                    viewModel.onStartChatClick(it.id)
+                } else {
+                    showDefaultError(getString(R.string.error_group_user_removed))
+                }
             }
         )
     }

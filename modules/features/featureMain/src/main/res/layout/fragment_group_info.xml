@@ -172,7 +172,6 @@
                         style="@style/AppTheme.Button"
                         android:layout_marginTop="18dp"
                         android:background="@drawable/button_join_background"
-                        android:onClick="@{(v) -> model.joinToDiscussion()}"
                         android:text="@string/join_to_discussion"
                         android:textAllCaps="true"
                         android:textColor="@color/default_font_color"

@@ -14,6 +14,7 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
+import com.doneit.ascend.presentation.utils.showDefaultError
 import kotlinx.android.synthetic.main.fragment_group_info.*
 import org.kodein.di.generic.instance
 import java.text.SimpleDateFormat
@@ -98,6 +99,14 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 viewModel.subscribe(it)
             }
             currentDialog?.show()
+        }
+
+        binding.btnJoinToDisc.setOnClickListener {
+            if(viewModel.isBlocked) {
+                showDefaultError(getString(R.string.error_group_user_removed))
+            } else {
+                viewModel.joinToDiscussion()
+            }
         }
     }
 

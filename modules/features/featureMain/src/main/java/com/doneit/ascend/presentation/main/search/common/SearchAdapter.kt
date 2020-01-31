@@ -12,7 +12,7 @@ class SearchAdapter(
     private val onSeeGroupsClick: (id: Long)->Unit,
     private val onMMClick: (model: MasterMindEntity)->Unit,
     private val onGroupClick: (model: GroupEntity)->Unit,
-    private val onButtonClick: (Long) -> Unit
+    private val onButtonClick: (GroupEntity) -> Unit
 ) : PagedListAdapter<SearchEntity, SearchViewHolder>(SearchDiffCallback()) {
 
     init {

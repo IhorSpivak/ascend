@@ -37,6 +37,12 @@ class GroupInfoViewModel(
     override val btnDeleteVisible = MutableLiveData<Boolean>(false)
     override val btnJoinedVisible = MutableLiveData<Boolean>(false)
 
+    override val isBlocked: Boolean
+        get() {
+            val isInitialized = group.value != null
+            return isInitialized && group.value?.blocked == true
+        }
+
     override fun setModel(model: GroupEntity) {
         if(group.value == null) { //in order to prevent set data with old state
             group.postValue(model)

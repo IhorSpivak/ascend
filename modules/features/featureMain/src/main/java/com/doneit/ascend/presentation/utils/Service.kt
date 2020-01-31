@@ -25,9 +25,5 @@ fun getButonType(user: UserEntity, group: GroupEntity): ButtonType {
         }
     }
 
-    if(group.blocked == true) {
-        res = ButtonType.NONE
-    }
-
     return res
 }

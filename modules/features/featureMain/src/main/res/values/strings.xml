@@ -124,6 +124,7 @@
     <string name="subscribed">Subscribed</string>
     <string name="delete_group">Delete Group</string>
     <string name="attendees">&lt;b>%d&lt;/b> Attendees</string>
+    <string name="error_group_user_removed">You are removed from group</string>
 
     <!--MasterMind Tab-->
     <string name="tab_all">All</string>

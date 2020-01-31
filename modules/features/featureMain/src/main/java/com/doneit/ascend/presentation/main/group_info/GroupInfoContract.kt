@@ -14,6 +14,7 @@ interface GroupInfoContract {
         val btnJoinedVisible: LiveData<Boolean>
         val group: LiveData<GroupEntity>
         val cards: LiveData<List<PresentationCardModel>>
+        val isBlocked: Boolean
 
         fun onBackPressed()
         fun loadData(groupId: Long)

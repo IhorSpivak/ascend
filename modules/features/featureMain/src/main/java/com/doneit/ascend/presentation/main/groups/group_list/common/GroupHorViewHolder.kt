@@ -15,7 +15,7 @@ class GroupHorViewHolder(
     private val binding: TemplateHorGroupItemBinding
 ) : SearchViewHolder(binding.root) {
 
-    fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (Long) -> Unit) {
+    fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (GroupEntity) -> Unit) {
         binding.item = item
 
         if(user == null) {
@@ -25,7 +25,7 @@ class GroupHorViewHolder(
                 ButtonType.START_GROUP -> {
                     binding.showStartButton = true
                     binding.btnStart.setOnClickListener {
-                        onButtonClick.invoke(item.id)
+                        onButtonClick.invoke(item)
                     }
                     binding.showJoinButton = false
                 }
@@ -33,7 +33,7 @@ class GroupHorViewHolder(
                     binding.showStartButton = false
                     binding.showJoinButton = true
                     binding.btnJoin.setOnClickListener {
-                        onButtonClick.invoke(item.id)
+                        onButtonClick.invoke(item)
                     }
                 }
                 else -> {

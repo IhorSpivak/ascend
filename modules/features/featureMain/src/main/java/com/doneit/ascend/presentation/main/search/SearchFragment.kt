@@ -8,6 +8,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentSearchBinding
 import com.doneit.ascend.presentation.main.search.common.SearchAdapter
+import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
@@ -27,7 +28,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 viewModel.onGroupClick(it)
             },
             {
-                viewModel.onStartChatClick(it)
+                if(it.blocked != true) {
+                    viewModel.onStartChatClick(it.id)
+                } else {
+                    showDefaultError(getString(R.string.error_group_user_removed))
+                }
             }
         )
     }

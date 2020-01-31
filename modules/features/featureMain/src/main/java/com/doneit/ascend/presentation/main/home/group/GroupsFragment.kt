@@ -3,12 +3,16 @@ package com.doneit.ascend.presentation.main.home.group
 import android.os.Bundle
 import android.view.View
 import com.doneit.ascend.presentation.MainActivity
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeGroupsBinding
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.main.home.HomeViewModel
 import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
 import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs
+import com.doneit.ascend.presentation.models.PresentationMessage
+import com.doneit.ascend.presentation.utils.Messages
+import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -29,7 +33,11 @@ class GroupsFragment : ArgumentedFragment<FragmentHomeGroupsBinding, GroupsArgs>
                 viewModel.onGroupClick(it)
             },
             {
-                viewModel.onStartChatClick(it)
+                if (it.blocked != true) {
+                    viewModel.onStartChatClick(it.id)
+                } else {
+                    showDefaultError(getString(R.string.error_group_user_removed))
+                }
             })
     }
 

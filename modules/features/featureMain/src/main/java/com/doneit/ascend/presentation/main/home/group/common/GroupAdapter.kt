@@ -10,7 +10,7 @@ class GroupAdapter(
     private val items: MutableList<GroupEntity>,
     private var user: UserEntity? = null,
     private val onItemClick: (GroupEntity) -> Unit,
-    private val onButtonClick: (Long) -> Unit
+    private val onButtonClick: (GroupEntity) -> Unit
 ) : RecyclerView.Adapter<GroupViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
