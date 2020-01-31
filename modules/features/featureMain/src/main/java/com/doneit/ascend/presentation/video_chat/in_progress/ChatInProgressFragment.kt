@@ -3,7 +3,10 @@ package com.doneit.ascend.presentation.video_chat.in_progress
 import android.Manifest
 import android.content.Context
 import android.content.IntentFilter
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -47,6 +50,8 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             field = value
             audioManager.isSpeakerphoneOn = field
         }
+    private var previousAudioMode = 0
+    private var previousMicrophoneMute = false
     private val brHeadphones = HeadphonesBroadcastReceiver {
         isSpeakerPhoneEnabled = it
     }
@@ -122,6 +127,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 Manifest.permission.CAMERA
             ),
             onGranted = {
+                configureAudio(true)
                 val cameraCapturer = CameraCapturer(
                     context!!,
                     model.camera
@@ -152,11 +158,55 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         )
     }
 
+    private fun configureAudio(enable: Boolean) {
+        with(audioManager) {
+            if (enable) {
+                previousAudioMode = audioManager.mode
+                requestAudioFocus()
+
+                mode = AudioManager.MODE_IN_COMMUNICATION
+                /*
+                 * Always disable microphone mute during a WebRTC call.
+                 */
+                previousMicrophoneMute = isMicrophoneMute
+                isMicrophoneMute = false
+            } else {
+                mode = previousAudioMode
+                abandonAudioFocus(null)
+                isMicrophoneMute = previousMicrophoneMute
+            }
+        }
+    }
+
+    private fun requestAudioFocus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val playbackAttributes = AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build()
+            val focusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
+                .setAudioAttributes(playbackAttributes)
+                .setAcceptsDelayedFocusGain(true)
+                .setOnAudioFocusChangeListener { }
+                .build()
+            audioManager.requestAudioFocus(focusRequest)
+        } else {
+            audioManager.requestAudioFocus(
+                null, AudioManager.STREAM_VOICE_CALL,
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
+            )
+        }
+    }
+
     private fun getUserRoomListener(): RoomListener {
         return object : RoomListener() {
 
             override fun onConnected(room: Room) {
                 room.displayDominant()
+            }
+
+            override fun onConnectFailure(room: Room, twilioException: TwilioException) {
+                configureAudio(false)
             }
 
             override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
@@ -255,6 +305,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         localAudioTrack?.release()
         localVideoTrack?.release()
         room?.disconnect()
+        configureAudio(false)
         viewModel.forceDisconnect()
         super.onStop()
     }
