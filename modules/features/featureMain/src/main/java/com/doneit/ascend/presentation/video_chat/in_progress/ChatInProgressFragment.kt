@@ -77,10 +77,6 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             //todo
         })
 
-        viewModel.isMMConnected.observe(viewLifecycleOwner, Observer {
-            binding.placeholder.visible(it.not())
-        })
-
         viewModel.focusedUserId.observe(viewLifecycleOwner, Observer { id ->
             if (id == VideoChatViewModel.UNFOCUSED_USER_ID) {
                 chatStrategy = ChatStrategy.DOMINANT_SPEAKER
@@ -197,7 +193,6 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         room.remoteParticipants.forEach {
             it.clearRenderer()
         }
-        viewModel.onSpeakerChanged(remoteParticipant?.identity)
 
         if (remoteParticipant != null) {
             remoteParticipant.startVideoDisplay()
@@ -217,6 +212,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 }
             }
         } else {
+            viewModel.onSpeakerChanged(null)
             binding.placeholder.visible(true)
         }
     }
@@ -226,6 +222,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     private fun RemoteParticipant.startVideoDisplay() {
+        viewModel.onSpeakerChanged(identity)
         setListener(getParticipantsListener())
         videoTracks.firstOrNull()?.videoTrack?.addRenderer(videoView)
         binding.placeholder.visible(false)
