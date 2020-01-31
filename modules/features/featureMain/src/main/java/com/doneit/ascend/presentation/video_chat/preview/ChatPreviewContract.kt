@@ -8,7 +8,7 @@ import com.doneit.ascend.presentation.models.StartVideoModel
 interface ChatPreviewContract {
     interface ViewModel: BaseViewModel {
         val groupInfo: LiveData<GroupEntity>
-        val isStartButtonEnabled: LiveData<Boolean>
+        val isStartButtonVisible: LiveData<Boolean>
         val credentials: LiveData<StartVideoModel>
 
         fun onOpenOptions()

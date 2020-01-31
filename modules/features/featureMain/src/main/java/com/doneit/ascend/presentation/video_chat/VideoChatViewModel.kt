@@ -57,7 +57,7 @@ class VideoChatViewModel(
 
     //region ui properties
     override val timerLabel = MutableLiveData<String>()
-    override val isStartButtonEnabled = MutableLiveData<Boolean>()
+    override val isStartButtonVisible = MutableLiveData<Boolean>()
     override val finishingLabel = MutableLiveData<String>()
     //endregion
 
@@ -205,7 +205,7 @@ class VideoChatViewModel(
 
     private fun postDefaultValues() {
         isMMConnected.postValue(false)
-        isStartButtonEnabled.postValue(false)
+        isStartButtonVisible.postValue(false)
         isVideoEnabled.postValue(true)
         isAudioEnabled.postValue(true)
         isRecordEnabled.postValue(true)
@@ -427,7 +427,7 @@ class VideoChatViewModel(
             VideoChatState.PREVIEW_GROUP_STARTED -> {
                 initProgressTimer(groupInfo.value!!)
                 if (chatRole == ChatRole.OWNER) {
-                    isStartButtonEnabled.postValue(true)
+                    isStartButtonVisible.postValue(true)
                 } else {
                     changeState(VideoChatState.PROGRESS)
                 }
