@@ -440,6 +440,7 @@ class VideoChatViewModel(
                 groupUseCase.connectToChannel(groupId)
             }
             VideoChatState.FINISHED -> {
+                isFinishing.postValue(false)
                 router.navigateToChatFinishScreen()
                 clearChatResources()
             }
@@ -466,7 +467,7 @@ class VideoChatViewModel(
 
         downTimer =
             object : CountDownTimer(
-                GroupEntity.PROGRESS_DURATION + group.startTime!!.time,
+                group.timeToFinish,
                 TIMER_PERIOD
             ) {
                 override fun onFinish() {
