@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.AnswersModel
-import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase

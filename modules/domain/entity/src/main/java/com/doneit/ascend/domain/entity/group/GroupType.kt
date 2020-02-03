@@ -1,4 +1,4 @@
-package com.doneit.ascend.domain.entity.dto
+package com.doneit.ascend.domain.entity.group
 
 enum class GroupType {
     MASTER_MIND,

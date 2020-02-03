@@ -8,7 +8,7 @@
             name="model"
             type="com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract.ViewModel" />
 
-        <import type="com.doneit.ascend.domain.entity.dto.GroupType" />
+        <import type="com.doneit.ascend.domain.entity.group.GroupType" />
 
     </data>
 

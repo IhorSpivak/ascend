@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.main.search.common
 
 import androidx.recyclerview.widget.DiffUtil
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 

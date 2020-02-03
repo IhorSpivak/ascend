@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.main.home.group.common
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.LifecycleViewHolder

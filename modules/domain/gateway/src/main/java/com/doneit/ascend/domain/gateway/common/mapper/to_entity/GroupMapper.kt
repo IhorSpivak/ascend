@@ -2,8 +2,12 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
-import com.doneit.ascend.domain.entity.dto.GroupType
-import com.doneit.ascend.source.storage.remote.data.response.*
+import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupStatus
+import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
+import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
+import com.doneit.ascend.source.storage.remote.data.response.ThumbnailResponse
 import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
 import com.doneit.ascend.source.storage.remote.data.response.group.GroupResponse
 import com.doneit.ascend.source.storage.remote.data.response.group.ParticipantResponse
@@ -38,6 +42,7 @@ fun GroupResponse.toEntity(): GroupEntity {
         name,
         description,
         startTime?.toDate(),
+        status?.toGroupStatus(),
         groupType?.toGroupType(),
         price / 100,
         image?.toEntity(),
@@ -53,6 +58,10 @@ fun GroupResponse.toEntity(): GroupEntity {
         invitesCount,
         daysOfWeek?.map { it.toCalendarDay() }
     )
+}
+
+fun String.toGroupStatus(): GroupStatus? {
+    return GroupStatus.valueOf(this.toUpperCase())
 }
 
 fun String.toGroupType(): GroupType? {

@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.MasterMindEntity
-import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 

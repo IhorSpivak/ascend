@@ -2,12 +2,12 @@ package com.doneit.ascend.presentation.main.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.dto.GroupListModel
-import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.dto.SortType
-import com.doneit.ascend.domain.entity.dto.toStringValueUI
+import com.doneit.ascend.domain.entity.group.toStringValueUI
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase

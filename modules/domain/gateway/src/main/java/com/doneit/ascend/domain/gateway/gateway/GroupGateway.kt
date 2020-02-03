@@ -3,7 +3,7 @@ package com.doneit.ascend.domain.gateway.gateway
 import android.accounts.AccountManager
 import androidx.lifecycle.map
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*

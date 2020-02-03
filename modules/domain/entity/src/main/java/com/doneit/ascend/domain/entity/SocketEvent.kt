@@ -11,11 +11,12 @@ enum class SocketEvent {
     REMOVE_HAND,
     REMOVED_FROM_GROUP,
     SPEAK,
+    GROUP_STARTED,
     UNEXPECTED;
 
     companion object {
         fun fromRemoteString(representation: String): SocketEvent {
-            return when(representation) {
+            return when (representation) {
                 "ParticipantConnected" -> PARTICIPANT_CONNECTED
                 "ParticipantDisconnected" -> PARTICIPANT_DISCONNECTED
                 "RoomEnded" -> ROOM_ENDED
@@ -26,6 +27,7 @@ enum class SocketEvent {
                 "RemoveHand" -> REMOVE_HAND
                 "RemoveParticipant" -> REMOVED_FROM_GROUP
                 "Speak" -> SPEAK
+                "StartGroup" -> GROUP_STARTED
                 else -> UNEXPECTED
             }
         }

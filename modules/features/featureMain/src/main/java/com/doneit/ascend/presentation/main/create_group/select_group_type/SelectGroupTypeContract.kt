@@ -1,6 +1,6 @@
 package com.doneit.ascend.presentation.main.create_group.select_group_type
 
-import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 
 interface SelectGroupTypeContract {

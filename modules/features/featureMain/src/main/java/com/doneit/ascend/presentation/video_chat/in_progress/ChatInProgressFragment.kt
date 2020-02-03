@@ -202,6 +202,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         return object : RoomListener() {
 
             override fun onConnected(room: Room) {
+                viewModel.onConnected(room.remoteParticipants.map { it.identity })
                 room.displayDominant()
             }
 

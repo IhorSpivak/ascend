@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.UserEntity
-import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.doneit.ascend.presentation.profile.master_mind.MMProfileContract

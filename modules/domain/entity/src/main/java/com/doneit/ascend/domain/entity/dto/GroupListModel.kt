@@ -1,5 +1,7 @@
 package com.doneit.ascend.domain.entity.dto
 
+import com.doneit.ascend.domain.entity.group.GroupStatus
+import com.doneit.ascend.domain.entity.group.GroupType
 import java.util.*
 
 class GroupListModel(

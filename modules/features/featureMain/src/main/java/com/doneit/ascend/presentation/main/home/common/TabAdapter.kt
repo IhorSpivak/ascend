@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.doneit.ascend.domain.entity.dto.GroupType
-import com.doneit.ascend.domain.entity.dto.parseTo
+import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.group.parseTo
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.home.group.GroupsFragment

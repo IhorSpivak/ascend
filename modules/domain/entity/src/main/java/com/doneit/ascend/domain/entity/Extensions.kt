@@ -1,7 +1,8 @@
 package com.doneit.ascend.domain.entity
 
 import android.os.Parcel
-import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.group.GroupStatus
+import com.doneit.ascend.domain.entity.group.GroupType
 import java.util.*
 
 fun Parcel.writeDate(value: Date?) {
@@ -10,7 +11,7 @@ fun Parcel.writeDate(value: Date?) {
 
 fun Parcel.readDate(): Date? {
     val time = this.readValue(Long::class.java.classLoader) as Long?
-    return if(time == null) null else Date(time)
+    return if (time == null) null else Date(time)
 }
 
 fun Parcel.writeGroupType(value: GroupType?) {
@@ -19,7 +20,16 @@ fun Parcel.writeGroupType(value: GroupType?) {
 
 fun Parcel.readGroupType(): GroupType? {
     val ordinal = this.readValue(Int::class.java.classLoader) as Int?
-    return if(ordinal == null) null else GroupType.values()[ordinal]
+    return if (ordinal == null) null else GroupType.values()[ordinal]
+}
+
+fun Parcel.writeGroupStatus(value: GroupStatus?) {
+    this.writeValue(value?.ordinal)
+}
+
+fun Parcel.readGroupStatus(): GroupStatus? {
+    val ordinal = this.readValue(Int::class.java.classLoader) as Int?
+    return if (ordinal == null) null else GroupStatus.values()[ordinal]
 }
 
 fun Parcel.writeInteger(value: Int?) {

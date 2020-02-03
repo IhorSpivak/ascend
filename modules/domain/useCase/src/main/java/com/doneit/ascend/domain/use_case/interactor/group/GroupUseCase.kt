@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.use_case.interactor.group
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
@@ -28,6 +28,8 @@ interface GroupUseCase {
     val messagesStream: LiveData<SocketEventEntity>
 
     fun connectToChannel(groupId: Long)
+
+    fun startGroup()
 
     fun riseOwnHand()
 
