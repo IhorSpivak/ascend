@@ -152,13 +152,26 @@ class VideoChatViewModel(
             }
             SocketEvent.GROUP_STARTED -> {
                 groupInfo.value?.let {
-                    groupInfo.postValue(
+                    groupUseCase.updateGroupLocal(
                         it.copy(
                             GroupStatus.ACTIVE
                         )
                     )
                 }
+                refetchGroupInfo()
                 changeState(VideoChatState.PROGRESS)
+            }
+        }
+    }
+
+    private fun refetchGroupInfo() {
+        viewModelScope.launch {
+            val res = groupUseCase.getGroupDetails(groupId)
+
+            if (res.isSuccessful) {
+                groupInfo.postValue(res.successModel!!)
+            } else {
+                showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
             }
         }
     }

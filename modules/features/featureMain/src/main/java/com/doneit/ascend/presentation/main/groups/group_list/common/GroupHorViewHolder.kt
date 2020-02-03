@@ -9,7 +9,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateHorGroupItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
 import com.doneit.ascend.presentation.utils.ButtonType
-import com.doneit.ascend.presentation.utils.getButonType
+import com.doneit.ascend.presentation.utils.getButtonType
 
 class GroupHorViewHolder(
     private val binding: TemplateHorGroupItemBinding
@@ -21,7 +21,7 @@ class GroupHorViewHolder(
         if(user == null) {
             hideButtons()
         } else {
-            when(getButonType(user!!, item)) {
+            when(getButtonType(user!!, item)) {
                 ButtonType.START_GROUP -> {
                     binding.showStartButton = true
                     binding.btnStart.setOnClickListener {

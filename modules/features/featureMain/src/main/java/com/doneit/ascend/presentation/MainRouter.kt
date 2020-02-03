@@ -186,10 +186,6 @@ class MainRouter(
         activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MasterMindFragment())
     }
 
-    override fun navigateToGroupInfo(model: GroupEntity) {
-        replaceFullWithMainUpdate(GroupInfoFragment.newInstance(model))
-    }
-
     override fun navigateToGroupInfo(id: Long) {
         activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,

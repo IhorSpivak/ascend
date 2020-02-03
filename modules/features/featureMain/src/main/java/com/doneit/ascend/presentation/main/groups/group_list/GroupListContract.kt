@@ -14,7 +14,7 @@ interface GroupListContract {
     }
 
     interface Router {
-        fun navigateToGroupInfo(model: GroupEntity)
+        fun navigateToGroupInfo(id: Long)
         fun navigateToVideoChat(groupId: Long)
     }
 }

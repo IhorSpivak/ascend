@@ -5,6 +5,8 @@ import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.source.storage.local.data.GroupLocal
+import com.doneit.ascend.source.storage.local.data.OwnerLocal
 import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
 import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
 import com.doneit.ascend.source.storage.remote.data.response.ThumbnailResponse
@@ -102,5 +104,47 @@ fun ParticipantResponse.toEntity(): ParticipantEntity {
         isVisited,
         isBlocked,
         isSpeaker
+    )
+}
+
+fun GroupLocal.toEntity(): GroupEntity {
+    return GroupEntity(
+        id,
+        name,
+        description,
+        startTime?.toDate(),
+        status?.toGroupStatus(),
+        groupType?.toGroupType(),
+        price,
+        image?.toEntity(),
+        meetingsCount,
+        passedCount,
+        createdAt?.toDate(),
+        updatedAt?.toDate(),
+        owner?.toEntity(),
+        subscribed,
+        invited,
+        blocked,
+        participantsCount,
+        invitesCount,
+        daysOfWeek?.map { CalendarDayEntity.values()[it] }
+    )
+}
+
+fun Int.toGroupStatus(): GroupStatus {
+    return GroupStatus.values()[this]
+}
+
+fun Int.toGroupType(): GroupType {
+    return GroupType.values()[this]
+}
+
+fun OwnerLocal.toEntity(): OwnerEntity {
+    return OwnerEntity(
+        id,
+        fullName,
+        image.toEntity(),
+        rating,
+        followed
     )
 }

@@ -104,7 +104,7 @@ class HomeViewModel(
     }
 
     override fun onGroupClick(model: GroupEntity) {
-        router.navigateToGroupInfo(model)
+        router.navigateToGroupInfo(model.id)
     }
 
     override fun onStartChatClick(groupId: Long) {

@@ -15,7 +15,7 @@ import com.doneit.ascend.presentation.models.PresentationCardModel
 import com.doneit.ascend.presentation.models.toPresentation
 import com.doneit.ascend.presentation.utils.ButtonType
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
-import com.doneit.ascend.presentation.utils.getButonType
+import com.doneit.ascend.presentation.utils.getButtonType
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch
@@ -43,17 +43,6 @@ class GroupInfoViewModel(
             return isInitialized && group.value?.blocked == true
         }
 
-    override fun setModel(model: GroupEntity) {
-        if(group.value == null) { //in order to prevent set data with old state
-            group.postValue(model)
-
-            viewModelScope.launch {
-                val user = userUseCase.getUser()
-                updateButtonsState(user!!, model)
-            }
-        }
-    }
-
     override fun loadData(groupId: Long) {
         showProgress(true)
         viewModelScope.launch {
@@ -72,7 +61,7 @@ class GroupInfoViewModel(
         //todo refactor
         val states = mutableListOf(false, false, false, false, false)
 
-        when(getButonType(user, details)) {
+        when(getButtonType(user, details)) {
             ButtonType.SUBSCRIBE -> states[0] = true
             ButtonType.JOIN_TO_DISCUSSION -> states[1] = true
             ButtonType.START_GROUP -> states[2] = true

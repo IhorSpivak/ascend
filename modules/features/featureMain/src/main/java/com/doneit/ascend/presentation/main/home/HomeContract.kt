@@ -28,7 +28,7 @@ interface HomeContract {
         fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
         fun navigateToSearch()
         fun navigateToAllMasterMinds()
-        fun navigateToGroupInfo(model: GroupEntity)
+        fun navigateToGroupInfo(id: Long)
         fun navigateToMMInfo(model: MasterMindEntity)
         fun navigateToNotifications()
         fun navigateToVideoChat(groupId: Long)

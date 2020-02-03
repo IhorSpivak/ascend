@@ -23,7 +23,7 @@ interface SearchContract {
     interface Router {
         fun onBack()
         fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
-        fun navigateToGroupInfo(model: GroupEntity)
+        fun navigateToGroupInfo(id: Long)
         fun navigateToMMInfo(model: MasterMindEntity)
         fun navigateToVideoChat(groupId: Long)
     }

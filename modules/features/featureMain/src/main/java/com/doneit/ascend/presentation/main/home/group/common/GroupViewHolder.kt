@@ -9,7 +9,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
 import com.doneit.ascend.presentation.main.databinding.TemplateGroupItemBinding
 import com.doneit.ascend.presentation.utils.ButtonType
-import com.doneit.ascend.presentation.utils.getButonType
+import com.doneit.ascend.presentation.utils.getButtonType
 
 class GroupViewHolder(
     private val binding: TemplateGroupItemBinding
@@ -18,7 +18,7 @@ class GroupViewHolder(
     fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (GroupEntity) -> Unit) {
         binding.item = item
 
-        when(getButonType(user!!, item)) {
+        when(getButtonType(user!!, item)) {
             ButtonType.START_GROUP -> {
                 binding.showStartButton = true
                 binding.btnStartGroup.setOnClickListener {

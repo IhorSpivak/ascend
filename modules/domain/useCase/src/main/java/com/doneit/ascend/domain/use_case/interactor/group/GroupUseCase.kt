@@ -13,9 +13,11 @@ interface GroupUseCase {
 
     suspend fun getGroupList(model: GroupListModel): ResponseEntity<List<GroupEntity>, List<String>>
 
-    suspend fun getGroupListPaged(model: GroupListModel): PagedList<GroupEntity>
+    fun getGroupListPaged(model: GroupListModel): LiveData<PagedList<GroupEntity>>
 
     suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>>
+
+    fun updateGroupLocal(group: GroupEntity)
 
     suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>>
 
