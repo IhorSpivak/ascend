@@ -13,7 +13,6 @@ fun UserEntity.toUserLocal(): UserLocal {
         phone = this@toUserLocal.phone,
         createdAt = this@toUserLocal.createdAt?.toRemoteString(),
         updatedAt = this@toUserLocal.updatedAt?.toRemoteString(),
-        isMasterMind = this@toUserLocal.isMasterMind,
         rating = this@toUserLocal.rating,
         community = this@toUserLocal.community,
         description = this@toUserLocal.description,

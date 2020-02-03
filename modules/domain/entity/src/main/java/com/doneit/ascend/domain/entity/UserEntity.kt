@@ -20,7 +20,6 @@ data class UserEntity(
     val bio: String?,
     val rating: Float?,
     val role: String?,
-    val isMasterMind: Boolean,
     val community: String?,
     val visitedGroupCount: Int,
     val birthday: Date?
@@ -30,7 +29,14 @@ data class UserEntity(
             return if (birthday == null) null else getAge(birthday)
         }
 
+    val isMasterMind: Boolean
+        get() {
+            return role == MM_ROLE
+        }
+
     companion object {
+        private const val MM_ROLE = "master_mind"
+
         fun getAge(birthDate: Date): Int {
             val currentDate = Calendar.getInstance()
             val birthday = Calendar.getInstance()

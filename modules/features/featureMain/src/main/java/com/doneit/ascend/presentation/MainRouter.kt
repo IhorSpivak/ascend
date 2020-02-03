@@ -74,6 +74,7 @@ class MainRouter(
     private val appRouter: IMainAppRouter
 ) : FragmentRouter(activity.supportFragmentManager),
     BottomNavigationChangeListener,
+    MainContract.Router,
     ProfileContract.Router,
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router,
     HomeContract.Router,
@@ -161,8 +162,12 @@ class MainRouter(
         )
     }
 
-    fun navigateToCreateGroup() {
+    override fun navigateToCreateGroupMM() {
         activity.startActivity(Intent(activity, CreateGroupActivity::class.java))
+    }
+
+    override fun navigateToCreateGroupRegular() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?) {

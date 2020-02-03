@@ -17,7 +17,6 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toCreateGroupReq
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.boundaries.GroupBoundaryCallback
-import com.doneit.ascend.domain.gateway.gateway.data_source.GroupDataSource
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCookies
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
@@ -26,13 +25,12 @@ import com.vrgsoft.networkmanager.NetworkManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.concurrent.Executors
 
 internal class GroupGateway(
     errors: NetworkManager,
-    private val local: com.doneit.ascend.source.storage.local.repository.groups.IGroupRepository,
+    private val groupLocal: com.doneit.ascend.source.storage.local.repository.groups.IGroupRepository,
     private val remote: IGroupRepository,
     private val remoteSocket: IGroupSocketRepository,
     private val accountManager: AccountManager,//todo move logic with account manager to corresponding Repository
@@ -73,8 +71,8 @@ internal class GroupGateway(
         )
 
         if (res.isSuccessful) {
-            local.removeAll()
-            local.insertAll(res.successModel!!.map { it.toLocal() })
+            groupLocal.removeAll()
+            groupLocal.insertAll(res.successModel!!.map { it.toLocal() })
         }
 
         return res
@@ -82,14 +80,14 @@ internal class GroupGateway(
 
     override fun getGroupsListPaged(listRequest: GroupListModel): LiveData<PagedList<GroupEntity>> =
         liveData {
-            local.removeAll()
+            groupLocal.removeAll()
 
             val config = getConfigPaged(listRequest)
-            val factory = local.getGroupList(listRequest.toLocal()).map { it.toEntity() }
+            val factory = groupLocal.getGroupList(listRequest.toLocal()).map { it.toEntity() }
 
             val boundary = GroupBoundaryCallback(
                 GlobalScope,
-                local,
+                groupLocal,
                 remote,
                 listRequest
             )
@@ -105,7 +103,7 @@ internal class GroupGateway(
         }
 
     override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>> {
-        val groupLocal = local.getGroupById(groupId)
+        val groupLocal = groupLocal.getGroupById(groupId)
         if (groupLocal != null) {
 
             return ResponseEntity(
@@ -129,7 +127,7 @@ internal class GroupGateway(
 
     override fun updateGroupLocal(group: GroupEntity) {
         GlobalScope.launch(Dispatchers.IO) {
-            local.update(group.toLocal())
+            groupLocal.update(group.toLocal())
         }
     }
 
@@ -145,7 +143,7 @@ internal class GroupGateway(
     }
 
     override suspend fun subscribe(model: SubscribeGroupModel): ResponseEntity<Unit, List<String>> {
-        return remote.subscribe(model.groupId, model.toRequest()).toResponseEntity(
+        val res = remote.subscribe(model.groupId, model.toRequest()).toResponseEntity(
             {
                 Unit
             },
@@ -153,6 +151,20 @@ internal class GroupGateway(
                 it?.errors
             }
         )
+
+        if (res.isSuccessful) {
+            val group = groupLocal.getGroupById(model.groupId)
+            group?.let {
+
+                groupLocal.update(
+                    it.copy(
+                        subscribed = true
+                    )
+                )
+            }
+        }
+
+        return res
     }
 
     override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsModel, List<String>> {

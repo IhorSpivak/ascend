@@ -21,7 +21,6 @@ data class UserLocal(
     val bio: String?,
     val rating: Float? = -1f,
     val role: String?,
-    val isMasterMind: Boolean,
     val community: String? = "",
     val visitedGroupCount: Int = 0,
     val birthday: String? = "",
