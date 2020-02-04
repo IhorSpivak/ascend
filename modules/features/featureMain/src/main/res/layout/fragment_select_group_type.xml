@@ -8,13 +8,16 @@
             name="model"
             type="com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract.ViewModel" />
 
-        <import type="com.doneit.ascend.domain.entity.group.GroupType" />
+        <import type="com.doneit.ascend.presentation.models.GroupType" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/white">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/blMain"
@@ -89,7 +92,7 @@
                     app:listener="@{model}"
                     app:title="@{@string/webinar_group_title}"
                     app:titleColor="@{@color/red_webinar_color}"
-                    app:type="@{GroupType.WEBINARS}" />
+                    app:type="@{GroupType.WEBINAR}" />
 
                 <include
                     layout="@layout/template_group_type"

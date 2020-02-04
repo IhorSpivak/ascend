@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.widget.doOnTextChanged
+import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentChangeLocationBinding
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
@@ -26,16 +27,28 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
 class ChangeLocationFragment :
-    BaseFragment<FragmentChangeLocationBinding>(),
-    GestureDetector.OnGestureListener {
+    BaseFragment<FragmentChangeLocationBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<ChangeLocationContract.ViewModel>() with provider { vmShared<ProfileViewModel>(instance()) }
     }
 
     override val viewModel: ChangeLocationContract.ViewModel by instance()
-    private val adapter by lazy { CountriesAdapter(fetchCountryListWithReflection(context!!).insert(0, Country("","",""))) }
-    private val mDetector by lazy { GestureDetectorCompat(context, this) }
+    private val adapter by lazy {
+        CountriesAdapter(
+            fetchCountryListWithReflection(context!!).insert(
+                0,
+                Country("", "", "")
+            )
+        )
+    }
+    private val mDetector by lazy {
+        GestureDetectorCompat(context, object : DefaultGestureDetectorListener() {
+            override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+                return true
+            }
+        })
+    }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.lifecycleOwner = this
@@ -109,33 +122,12 @@ class ChangeLocationFragment :
         var isEnabled = false
 
         if (countyPicker.selectedItemPosition > 0 //considering first junk item
-            && etCity.text.isNotBlank()) {
+            && etCity.text.isNotBlank()
+        ) {
             isEnabled = true
         }
 
         btnSave.isEnabled = isEnabled
-    }
-
-    override fun onShowPress(p0: MotionEvent?) {
-    }
-
-    override fun onSingleTapUp(p0: MotionEvent?): Boolean {
-        return true
-    }
-
-    override fun onDown(p0: MotionEvent?): Boolean {
-        return false
-    }
-
-    override fun onFling(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
-        return false
-    }
-
-    override fun onScroll(p0: MotionEvent?, p1: MotionEvent?, p2: Float, p3: Float): Boolean {
-        return false
-    }
-
-    override fun onLongPress(p0: MotionEvent?) {
     }
 
     companion object {

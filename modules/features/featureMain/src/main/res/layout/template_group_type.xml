@@ -22,7 +22,7 @@
 
         <variable
             name="type"
-            type="com.doneit.ascend.domain.entity.group.GroupType" />
+            type="com.doneit.ascend.presentation.models.GroupType" />
 
         <variable
             name="listener"

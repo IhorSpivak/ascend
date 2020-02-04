@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.create_support_group
+package com.doneit.ascend.presentation.main.create_group.master_mind
 
 import android.Manifest
 import android.app.Activity
@@ -6,28 +6,41 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
-import com.doneit.ascend.presentation.main.databinding.FragmentCreateSupportGroupBinding
+import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import kotlinx.android.synthetic.main.fragment_create_support_group.*
+import com.doneit.ascend.presentation.utils.extensions.vmShared
+import com.redmadrobot.inputmask.MaskedTextChangedListener
+import kotlinx.android.synthetic.main.fragment_create_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
 
-class CreateSupGroupFragment : BaseFragment<FragmentCreateSupportGroupBinding>() {
+class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, CreateGroupArgs>() {
 
-    override val viewModelModule = CreateSupGroupViewModelModule.get(this)
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
+        bind<CreateGroupContract.ViewModel>() with provider {
+            vmShared<CreateGroupViewModel>(
+                instance()
+            )
+        }
+    }
 
     private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
-    override val viewModel: CreateSupGroupContract.ViewModel by instance()
+    override val viewModel: CreateGroupContract.ViewModel by instance()
 
     private val adapter: ParticipantAdapter by lazy {
         ParticipantAdapter(mutableListOf(), viewModel)
@@ -37,7 +50,7 @@ class CreateSupGroupFragment : BaseFragment<FragmentCreateSupportGroupBinding>()
         binding.model = viewModel
         binding.adapter = adapter
 
-        tvTitle.text = getString(R.string.create_support_group)
+        tvTitle.text = getString(R.string.create_group)
 
         chooseSchedule.multilineEditText.setOnClickListener {
             mainContainer.requestFocus()
@@ -56,6 +69,23 @@ class CreateSupGroupFragment : BaseFragment<FragmentCreateSupportGroupBinding>()
         binding.icEdit.setOnClickListener {
             pickFromGallery()
         }
+
+        val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
+            TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        }, object: MaskedTextChangedListener.ValueListener {
+            override fun onTextChanged(maskFilled: Boolean, extractedValue: String) {
+            }
+        })
+        binding.price.editText.addTextChangedListener(listener)
+        binding.price.editText.onFocusChangeListener = listener
 
         viewModel.networkErrorMessage.observe(this) {
             it?.let { errorMessageIt ->
@@ -92,7 +122,9 @@ class CreateSupGroupFragment : BaseFragment<FragmentCreateSupportGroupBinding>()
                         Intent.createChooser(galleryIntent, "Select an App to choose an Image")
                     chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
 
-                    startActivityForResult(chooser, GALLERY_REQUEST_CODE)
+                    startActivityForResult(chooser,
+                        GALLERY_REQUEST_CODE
+                    )
                 }
             }
     }

@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.create_group.CreateGroupContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupContract.ViewModel" />
 
         <variable
             name="adapter"
@@ -20,7 +20,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/white">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/blMain"
@@ -251,7 +254,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.VISIBLE : View.GONE}"
-                        app:constraint_referenced_ids="ivUploadFileIcon,tvUploadFile, placeholderDash" />
+                        app:constraint_referenced_ids="ivUploadFileIcon,tvUploadFile,placeholderDash" />
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"

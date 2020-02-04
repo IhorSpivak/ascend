@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.create_group
+package com.doneit.ascend.presentation.main.create_group.create_support_group
 
 import android.Manifest
 import android.app.Activity
@@ -6,64 +6,73 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import android.view.MotionEvent
+import android.view.View
+import android.widget.AdapterView
+import androidx.core.view.GestureDetectorCompat
 import com.androidisland.ezpermission.EzPermission
+import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
-import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupArgs
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupViewModel
+import com.doneit.ascend.presentation.main.databinding.FragmentCreateSupportGroupBinding
+import com.doneit.ascend.presentation.utils.copyCompressed
+import com.doneit.ascend.presentation.utils.copyFile
+import com.doneit.ascend.presentation.utils.createTempPhotoUri
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.vmShared
-import com.doneit.ascend.presentation.utils.*
-import com.redmadrobot.inputmask.MaskedTextChangedListener
-import kotlinx.android.synthetic.main.fragment_create_group.*
+import com.doneit.ascend.presentation.utils.getCompressedImagePath
+import kotlinx.android.synthetic.main.fragment_create_support_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
-import org.kodein.di.direct
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import org.kodein.di.generic.singleton
 
-class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, CreateGroupArgs>() {
+class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBinding, CreateGroupArgs>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
-        bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
-        bind<ViewModel>(tag = CreateGroupViewModel::class.java.simpleName) with provider {
-            CreateGroupViewModel(
-                instance(),
-                instance(),
-                instance()
-            )
-        }
-        bind<CreateGroupContract.ViewModel>() with provider {
+
+        bind<CreateSupGroupContract.ViewModel>() with provider {
             vmShared<CreateGroupViewModel>(
                 instance()
             )
         }
     }
 
+    override val viewModel: CreateSupGroupContract.ViewModel by instance()
+
     private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
-    override val viewModel: CreateGroupContract.ViewModel by instance()
 
     private val adapter: ParticipantAdapter by lazy {
         ParticipantAdapter(mutableListOf(), viewModel)
+    }
+    private val meetingTypesAdapter by lazy {
+        MeetingFormatsAdapter(
+            context!!.resources.getStringArray(
+                R.array.meeting_formats
+            )
+        )
+    }
+    private val mDetector by lazy {
+        GestureDetectorCompat(context, object : DefaultGestureDetectorListener() {
+            override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+                return true
+            }
+        })
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
         binding.adapter = adapter
-
-        tvTitle.text = getString(R.string.create_group)
 
         chooseSchedule.multilineEditText.setOnClickListener {
             mainContainer.requestFocus()
@@ -83,34 +92,36 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
             pickFromGallery()
         }
 
-        val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
-            TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        }, object: MaskedTextChangedListener.ValueListener {
-            override fun onTextChanged(maskFilled: Boolean, extractedValue: String) {
-            }
-        })
-        binding.price.editText.addTextChangedListener(listener)
-        binding.price.editText.onFocusChangeListener = listener
-
-        viewModel.networkErrorMessage.observe(this) {
-            it?.let { errorMessageIt ->
-                this.showErrorDialog("Error", errorMessageIt, "", isAutoClose = true)
-            }
-        }
-
         viewModel.clearReservationSeat.observe(this) {
             it?.let {
                 hideKeyboard()
                 mainContainer.requestFocus()
             }
+        }
+
+        initSpinner()
+    }
+
+    private fun initSpinner() {
+        binding.meetingsPicker.adapter = meetingTypesAdapter
+        binding.meetingsPicker.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    if(p2 > 0) {
+                        val format = binding.meetingsPicker.selectedItem as String
+                        viewModel.createGroupModel.meetingFormat.observableField.set(format)
+                    }
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+            }
+
+        binding.meetingsPicker.setOnTouchListener { view, motionEvent ->
+            if (mDetector.onTouchEvent(motionEvent)) {
+                hideKeyboard()
+            }
+            false
         }
     }
 
@@ -146,7 +157,7 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
         if (resultCode == Activity.RESULT_OK)
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
-                    if(data?.data != null) {
+                    if (data?.data != null) {
                         val galleryPhotoUri = context!!.copyFile(data.data!!, tempPhotoUri)
                         handleImageURI(galleryPhotoUri)
                     } else {
@@ -169,6 +180,5 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
 
     companion object {
         private const val GALLERY_REQUEST_CODE = 42
-        private const val PRICE_MASK = "[0999]{.}[09]"
     }
 }

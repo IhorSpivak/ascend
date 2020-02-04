@@ -8,6 +8,7 @@ import com.doneit.ascend.presentation.dialog.PermissionsRequiredDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupViewModel
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
@@ -56,6 +57,14 @@ class MainActivity : BaseActivity() {
         }
 
         bind<MainContract.ViewModel>() with provider { vm<MainViewModel>(instance()) }
+
+        bind<ViewModel>(tag = CreateGroupViewModel::class.java.simpleName) with provider {
+            CreateGroupViewModel(
+                instance(),
+                instance(),
+                instance()
+            )
+        }
     }
 
     fun getContainerId() = R.id.container

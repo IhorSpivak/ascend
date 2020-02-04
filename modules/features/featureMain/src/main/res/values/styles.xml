@@ -195,8 +195,7 @@
     <style name="SwitchTheme" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@android:color/white</item>
         <item name="android:colorForeground">@color/colorAccent</item>
-\        <item name="colorSwitchThumbNormal">#f1f1f1</item>
-        <!--<item fullName="android:colorControlActivated">@color/white</item>-->
+        <item name="colorSwitchThumbNormal">#f1f1f1</item>
     </style>
 
     <style name="PaymentsTabTextAppearance" parent="TextAppearance.Design.Tab">

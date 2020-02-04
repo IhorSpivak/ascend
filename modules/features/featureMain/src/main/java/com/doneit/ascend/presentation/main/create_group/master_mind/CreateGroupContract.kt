@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.create_group
+package com.doneit.ascend.presentation.main.create_group.master_mind
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedViewModel
@@ -26,7 +26,6 @@ interface CreateGroupContract {
 
     interface Router {
         fun onBack()
-        fun closeActivity()
         fun navigateToCalendarPiker()
         fun navigateToDatePicker()
     }

@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.main.create_group.select_group_type
 
-import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.models.GroupType
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 
@@ -12,10 +12,7 @@ class SelectGroupTypeViewModel(
 ) : BaseViewModelImpl(), SelectGroupTypeContract.ViewModel {
 
     override fun selectGroupType(type: GroupType) {
-        // TODO: remove later
-        if (type == GroupType.MASTER_MIND) {
-            router.navigateToCreateGroup(type.toString())
-        }
+        router.navigateToCreateGroup(type)
     }
 
     override fun backClick() {

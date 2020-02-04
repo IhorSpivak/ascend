@@ -4,18 +4,19 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
-import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
-import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
-import com.doneit.ascend.presentation.main.create_group.CreateGroupFragment
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
-import com.doneit.ascend.presentation.main.create_support_group.CreateSupGroupContract
-import com.doneit.ascend.presentation.main.create_support_group.CreateSupGroupFragment
+import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
+import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupArgs
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupContract
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupFragment
+import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract
+import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeFragment
 import com.doneit.ascend.presentation.main.group_info.GroupInfoContract
 import com.doneit.ascend.presentation.main.group_info.GroupInfoFragment
 import com.doneit.ascend.presentation.main.groups.GroupsContract
@@ -103,14 +104,16 @@ class MainRouter(
     EarningsContract.Router,
     PaymentMethodsContract.Router,
     AddPaymentContract.Router,
-    MyTransactionsContract.Router {
+    MyTransactionsContract.Router,
+    CreateGroupContract.Router,
+    SelectGroupTypeContract.Router {
 
     override fun navigateToCalendarPiker() {
-        activity.supportFragmentManager.add(containerId, CalendarPickerFragment())
+        activity.supportFragmentManager.add(containerIdFull, CalendarPickerFragment())
     }
 
     override fun navigateToDatePicker() {
-        activity.supportFragmentManager.add(containerId, DatePickerFragment())
+        activity.supportFragmentManager.add(containerIdFull, DatePickerFragment())
     }
 
     override val containerId = activity.getContainerId()
@@ -175,12 +178,7 @@ class MainRouter(
     }
 
     override fun navigateToCreateGroupMM() {
-        activity.startActivity(Intent(activity, CreateGroupActivity::class.java))
-    }
-
-    override fun navigateToCreateGroupRegular() {
-        val fragment = CreateSupGroupFragment()
-        activity.supportFragmentManager.add(containerIdFull, fragment)
+        replaceFullWithMainUpdate(SelectGroupTypeFragment())
     }
 
     override fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?) {
@@ -318,6 +316,25 @@ class MainRouter(
         }
 
         activity.startActivityForResult(intent, VideoChatActivity.RESULT_CODE)
+    }
+
+    override fun navigateToCreateGroup(type: com.doneit.ascend.presentation.models.GroupType) {
+        val args = CreateGroupArgs(type)
+
+        val fragment = if (type == com.doneit.ascend.presentation.models.GroupType.SUPPORT) {
+            CreateSupGroupFragment()
+        } else {
+            CreateGroupFragment()
+        }
+
+        fragment.arguments = Bundle().apply {
+            putParcelable(
+                com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,
+                args
+            )
+        }
+
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, fragment)
     }
 
     private fun replaceFullWithMainUpdate(fragment: Fragment) {

@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.models.GroupType
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -24,7 +25,7 @@ class MainViewModel(
             if (it.isMasterMind) {
                 router.navigateToCreateGroupMM()
             } else {
-                router.navigateToCreateGroupRegular()
+                router.navigateToCreateGroup(GroupType.SUPPORT)
             }
         }
     }

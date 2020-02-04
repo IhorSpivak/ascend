@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation
 
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.models.GroupType
 
 interface MainContract {
     interface ViewModel: BaseViewModel {
@@ -13,7 +14,7 @@ interface MainContract {
 
     interface Router {
         fun navigateToCreateGroupMM()
-        fun navigateToCreateGroupRegular()
+        fun navigateToCreateGroup(type: GroupType)
         fun navigateToHome()
         fun navigateToMyContent()
         fun navigateToAscensionPlan()
