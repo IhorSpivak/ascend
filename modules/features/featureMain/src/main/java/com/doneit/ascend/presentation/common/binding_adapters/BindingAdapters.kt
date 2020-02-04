@@ -11,6 +11,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
+import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupListAdapter
@@ -18,6 +19,7 @@ import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
 import com.doneit.ascend.presentation.main.search.common.SearchAdapter
 import com.doneit.ascend.presentation.models.GroupListWithUser
 import com.doneit.ascend.presentation.models.GroupListWithUserPaged
+import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter
 
 @BindingAdapter("app:html")
 fun TextView.setAdapter(source: String?) {
@@ -153,6 +155,24 @@ fun setAdapter(
         }
 
         return
+    }
+
+    view.adapter = adapter
+}
+
+@BindingAdapter("app:setAdapter", "app:setAdapterData", requireAll = false)
+fun setAdapter(
+    view: androidx.recyclerview.widget.RecyclerView,
+    adapter: AttachmentsAdapter,
+    entities: LiveData<PagedList<AttachmentEntity>>?
+) {
+
+    if (view.adapter is SearchAdapter) {
+        entities?.value?.let {
+            (view.adapter as AttachmentsAdapter).submitList(it)
+
+            return
+        }
     }
 
     view.adapter = adapter

@@ -116,6 +116,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
+            android:onClick="@{(v) -> model.attachments(model.groupInfo.id)}"
             android:id="@+id/ivClip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

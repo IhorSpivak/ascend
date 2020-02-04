@@ -27,3 +27,8 @@ fun Activity.sendEmail(recipient: String){
         this.startActivity(Intent.createChooser(emailIntent, "Send email..."))
     }
 }
+
+fun Long.toMb() : String {
+    val res = this.toFloat() / 1024
+    return "$res mb"
+}

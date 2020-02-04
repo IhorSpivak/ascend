@@ -3,6 +3,8 @@ package com.doneit.ascend.presentation.video_chat
 import android.content.Intent
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
+import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsArg
+import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsFragment
 import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsFragment
@@ -57,6 +59,12 @@ class VideoChatRouter(
 
     override fun navigateToChatParticipantActions(userId: Long) {
         activity.supportFragmentManager.add(fullContainerId, ChatParticipantActionsFragment.newInstance(userId))
+    }
+
+    override fun navigateToAttachments(groupId: Long) {
+        activity.supportFragmentManager.add(fullContainerId, AttachmentsFragment.newInstance(
+            AttachmentsArg(groupId)
+        ))
     }
 
     private fun finishWithResult(resultCode: VideoChatActivity.ResultStatus) {

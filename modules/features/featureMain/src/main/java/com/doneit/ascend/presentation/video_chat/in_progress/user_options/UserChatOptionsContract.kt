@@ -18,5 +18,7 @@ interface UserChatOptionsContract {
         fun reportGroupOwner(content: String)
         fun finishCall()
         fun onBackClick()
+
+        fun attachments(groupId: Long)
     }
 }

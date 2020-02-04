@@ -404,6 +404,10 @@ class VideoChatViewModel(
         router.onBack()
     }
 
+    override fun attachments(groupId: Long) {
+        router.navigateToAttachments(groupId)
+    }
+
     override fun onCleared() {
         messages.removeObserver(messagesObserver)
         clearChatResources()
