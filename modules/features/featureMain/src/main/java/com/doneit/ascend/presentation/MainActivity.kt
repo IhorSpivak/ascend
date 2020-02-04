@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
+import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.kodein.di.Kodein
@@ -25,6 +26,12 @@ class MainActivity : BaseActivity() {
         bind<MainRouter>() with provider {
             MainRouter(
                 this@MainActivity,
+                instance()
+            )
+        }
+
+        bind<CalendarPickerUtil>() with provider {
+            CalendarPickerUtil(
                 instance()
             )
         }

@@ -11,5 +11,8 @@ data class CreateGroupModel(
     val imagePath: String,
     val participants: List<String>?,
     val days: List<Int>,
-    val meetingsCount: Int
+    val meetingsCount: Int,
+    val meetingFormat: String,
+    val privacy: Boolean,
+    val tags: String
 )

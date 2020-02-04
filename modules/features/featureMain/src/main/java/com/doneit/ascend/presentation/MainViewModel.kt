@@ -23,6 +23,8 @@ class MainViewModel(
         user?.let {
             if (it.isMasterMind) {
                 router.navigateToCreateGroupMM()
+            } else {
+                router.navigateToCreateGroupRegular()
             }
         }
     }

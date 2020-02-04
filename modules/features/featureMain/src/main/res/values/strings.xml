@@ -38,7 +38,10 @@
 
     <!--Create Group-->
     <string name="create_group">Create Group</string>
+    <string name="create_support_group">Create Support Group</string>
     <string name="group_name">Group Name</string>
+    <string name="meeting_format">Meeting Format</string>
+    <string name="tags">Tags</string>
     <string name="choose_schedule">Choose Schedule</string>
     <string name="number_of_meetings">Number Of Meetings</string>
     <string name="start_date">Start Date</string>

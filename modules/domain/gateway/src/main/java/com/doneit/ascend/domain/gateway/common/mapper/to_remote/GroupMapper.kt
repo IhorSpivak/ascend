@@ -18,7 +18,9 @@ fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
         price.toPrice(),
         participants,
         days,
-        meetingsCount
+        meetingsCount,
+        meetingFormat,
+        privacy
     )
 }
 

@@ -10,10 +10,12 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupActivity
-import com.doneit.ascend.presentation.utils.extensions.addWithBackStack
-import com.doneit.ascend.presentation.utils.extensions.replace
-import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
-import com.doneit.ascend.presentation.utils.extensions.replaceWithoutBackStack
+import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
+import com.doneit.ascend.presentation.main.create_group.CreateGroupFragment
+import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
+import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
+import com.doneit.ascend.presentation.main.create_support_group.CreateSupGroupContract
+import com.doneit.ascend.presentation.main.create_support_group.CreateSupGroupFragment
 import com.doneit.ascend.presentation.main.group_info.GroupInfoContract
 import com.doneit.ascend.presentation.main.group_info.GroupInfoFragment
 import com.doneit.ascend.presentation.main.groups.GroupsContract
@@ -62,6 +64,7 @@ import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeFragment
 import com.doneit.ascend.presentation.profile.regular_user.community.CommunityFragment
+import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
 import com.doneit.ascend.presentation.web_page.common.WebPageArgs
@@ -78,6 +81,7 @@ class MainRouter(
     ProfileContract.Router,
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router,
     HomeContract.Router,
+    CreateSupGroupContract.Router,
     GroupInfoContract.Router,
     WebPageContract.Router,
     MMFollowingContract.Router,
@@ -100,6 +104,14 @@ class MainRouter(
     PaymentMethodsContract.Router,
     AddPaymentContract.Router,
     MyTransactionsContract.Router {
+
+    override fun navigateToCalendarPiker() {
+        activity.supportFragmentManager.add(containerId, CalendarPickerFragment())
+    }
+
+    override fun navigateToDatePicker() {
+        activity.supportFragmentManager.add(containerId, DatePickerFragment())
+    }
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -167,7 +179,8 @@ class MainRouter(
     }
 
     override fun navigateToCreateGroupRegular() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val fragment = CreateSupGroupFragment()
+        activity.supportFragmentManager.add(containerIdFull, fragment)
     }
 
     override fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?) {

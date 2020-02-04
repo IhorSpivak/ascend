@@ -31,7 +31,10 @@ fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
         image.observableField.getNotNull(),
         participants.get(),
         scheduleDays.toDays(),
-        Integer.parseInt(numberOfMeetings.observableField.getNotNull())
+        Integer.parseInt(numberOfMeetings.observableField.getNotNull()),
+        meetingFormat.observableField.getNotNull(),
+        privacy.getNotNull(),
+        tags.observableField.getNotNull()
     )
 }
 
