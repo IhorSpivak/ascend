@@ -1,8 +1,8 @@
-package com.doneit.ascend.domain.entity
+package com.doneit.ascend.domain.entity.group
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.*
 import java.util.*
 
 
@@ -11,6 +11,7 @@ class GroupEntity(
     val name: String?,
     val description: String?,
     val startTime: Date?,
+    val status: GroupStatus?,
     val groupType: GroupType?,
     val price: Float?,
     val image: ImageEntity?,
@@ -32,6 +33,7 @@ class GroupEntity(
         name = parcel.readString(),
         description = parcel.readString(),
         startTime = parcel.readDate(),
+        status = parcel.readGroupStatus(),
         groupType = parcel.readGroupType(),
         price = parcel.readF(),
         image = parcel.readParcelable<ImageEntity>(ImageEntity::class.java.classLoader),
@@ -127,7 +129,7 @@ class GroupEntity(
         get() {
             val currentDate = Date()
             val time = startTime!!.time + PROGRESS_DURATION - currentDate.time
-            return if(time > 0) time else 0
+            return if (time > 0) time else 0
         }
 
     private fun Calendar.plus(interval: Long): Calendar {
@@ -142,6 +144,7 @@ class GroupEntity(
         p0?.writeString(name)
         p0?.writeString(description)
         p0?.writeDate(startTime)
+        p0?.writeGroupStatus(status)
         p0?.writeGroupType(groupType)
         p0?.writeF(price)
         p0?.writeParcelable(image, p1)
@@ -159,6 +162,32 @@ class GroupEntity(
     }
 
     override fun describeContents() = 0
+
+    fun copy(
+        status: GroupStatus?
+    ): GroupEntity {
+        return GroupEntity(
+            id,
+            name,
+            description,
+            startTime,
+            status ?: this.status,
+            groupType,
+            price,
+            image,
+            meetingsCount,
+            passedCount,
+            createdAt,
+            updatedAt,
+            owner,
+            subscribed,
+            invited,
+            blocked,
+            participantsCount,
+            invitesCount,
+            daysOfWeek
+        )
+    }
 
     companion object CREATOR : Parcelable.Creator<GroupEntity> {
 

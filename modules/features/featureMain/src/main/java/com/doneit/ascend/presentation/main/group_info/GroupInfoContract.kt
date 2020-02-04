@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.main.group_info
 
 import androidx.lifecycle.LiveData
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.PresentationCardModel
 
@@ -18,7 +18,6 @@ interface GroupInfoContract {
 
         fun onBackPressed()
         fun loadData(groupId: Long)
-        fun setModel(model: GroupEntity)
         fun subscribe(card: PresentationCardModel)
         fun joinToDiscussion()
         fun startGroup()

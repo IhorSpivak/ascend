@@ -4,11 +4,12 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
+import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -60,6 +61,11 @@ class VideoChatViewModel(
     //endregion
 
     //region chat parameters
+    private var _IsMMConnected: Boolean = false
+        set(value) {
+            field = value
+            isMMConnected.postValue(value)
+        }
     override val isMMConnected = MutableLiveData<Boolean>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
     override val isAudioEnabled = MutableLiveData<Boolean>()
@@ -140,9 +146,32 @@ class VideoChatViewModel(
                     focusedUserId.postValue(UNFOCUSED_USER_ID)
                 }
 
-                if(chatRole == ChatRole.OWNER) {
+                if (chatRole == ChatRole.OWNER) {
                     groupUseCase.lowerAHand(user.userId)
                 }
+            }
+            SocketEvent.GROUP_STARTED -> {
+                groupInfo.value?.let {
+                    groupUseCase.updateGroupLocal(
+                        it.copy(
+                            GroupStatus.ACTIVE
+                        )
+                    )
+                }
+                refetchGroupInfo()
+                changeState(VideoChatState.PROGRESS)
+            }
+        }
+    }
+
+    private fun refetchGroupInfo() {
+        viewModelScope.launch {
+            val res = groupUseCase.getGroupDetails(groupId)
+
+            if (res.isSuccessful) {
+                groupInfo.postValue(res.successModel!!)
+            } else {
+                showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
             }
         }
     }
@@ -205,7 +234,6 @@ class VideoChatViewModel(
     }
 
     private fun postDefaultValues() {
-        isMMConnected.postValue(false)
         isStartButtonVisible.postValue(false)
         isVideoEnabled.postValue(true)
         isAudioEnabled.postValue(true)
@@ -269,8 +297,8 @@ class VideoChatViewModel(
                 )
             )
             changeState(VideoChatState.PREVIEW_DATA_LOADED)
-            if(chatRole == ChatRole.OWNER) {
-                isMMConnected.postValue(true)
+            if (chatRole == ChatRole.OWNER) {
+                _IsMMConnected = true
             }
             messages.observeForever(messagesObserver)
         }
@@ -329,15 +357,21 @@ class VideoChatViewModel(
         router.finishActivity()
     }
 
+    override fun onConnected(presentParticipantIds: List<String>) {
+        presentParticipantIds.forEach {
+            onUserConnected(it)
+        }
+    }
+
     override fun onUserConnected(id: String) {
         if (id == groupInfo.value?.owner?.id?.toString()) {
-            isMMConnected.postValue(true)
+            _IsMMConnected = true
         }
     }
 
     override fun onUserDisconnected(id: String) {
         if (id == groupInfo.value?.owner?.id?.toString()) {
-            isMMConnected.postValue(false)
+            _IsMMConnected = false
         }
     }
 
@@ -346,11 +380,10 @@ class VideoChatViewModel(
     }
 
     override fun canFetchMMVideo(): Boolean {
-        val isMMConnected = isMMConnected.value ?: false
         val isMMInfoAvailable = groupInfo.value?.owner != null
         val isRegular = chatRole == ChatRole.VISITOR
 
-        return isMMConnected && isMMInfoAvailable && isRegular
+        return _IsMMConnected && isMMInfoAvailable && isRegular
     }
 
     override fun isSpeaker(id: String): Boolean {
@@ -358,7 +391,7 @@ class VideoChatViewModel(
     }
 
     override fun onStartGroupClick() {
-        changeState(VideoChatState.PROGRESS)
+        groupUseCase.startGroup()
     }
 
     override fun reportGroupOwner(content: String) {
@@ -424,6 +457,7 @@ class VideoChatViewModel(
         chatState = newState
         when (chatState) {
             VideoChatState.PREVIEW -> {
+                groupUseCase.connectToChannel(groupId)
                 router.navigateToPreview()
             }
             VideoChatState.PREVIEW_DATA_LOADED -> {
@@ -433,7 +467,8 @@ class VideoChatViewModel(
                 initProgressTimer(groupInfo.value!!)
                 if (chatRole == ChatRole.OWNER) {
                     isStartButtonVisible.postValue(true)
-                } else {
+                }
+                if (groupInfo.value?.status == GroupStatus.STARTED) {
                     changeState(VideoChatState.PROGRESS)
                 }
             }
@@ -442,7 +477,6 @@ class VideoChatViewModel(
             }
             VideoChatState.PROGRESS -> {
                 router.navigateToChatInProgress()
-                groupUseCase.connectToChannel(groupId)
             }
             VideoChatState.FINISHED -> {
                 isFinishing.postValue(false)
@@ -455,15 +489,16 @@ class VideoChatViewModel(
     private fun initDownTimer(group: GroupEntity) {
         val currentDate = Date()
         downTimer?.cancel()
-        downTimer = object : CountDownTimer(group.startTime!!.time - currentDate.time, TIMER_PERIOD) {
-            override fun onFinish() {
-                changeState(VideoChatState.PREVIEW_GROUP_STARTED)
-            }
+        downTimer =
+            object : CountDownTimer(group.startTime!!.time - currentDate.time, TIMER_PERIOD) {
+                override fun onFinish() {
+                    changeState(VideoChatState.PREVIEW_GROUP_STARTED)
+                }
 
-            override fun onTick(p0: Long) {
-                timerLabel.postValue(Date(p0).toTimerFormat())
-            }
-        }.start()
+                override fun onTick(p0: Long) {
+                    timerLabel.postValue(Date(p0).toTimerFormat())
+                }
+            }.start()
     }
 
     private fun initProgressTimer(group: GroupEntity) {

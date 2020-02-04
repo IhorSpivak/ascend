@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.views
 
 import android.content.Context
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.InputFilter
@@ -10,6 +12,7 @@ import android.text.method.DigitsKeyListener
 import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.R
@@ -60,6 +63,12 @@ import kotlinx.android.synthetic.main.view_edit_with_error.view.*
             type = EditWithError::class,
             attribute = "inputType",
             method = "setInput"
+
+        ),
+        BindingMethod(
+            type = EditWithError::class,
+            attribute = "tint",
+            method = "setTint"
 
         )
     ]
@@ -180,6 +189,11 @@ class EditWithError @JvmOverloads constructor(
         this.editText.filters = arrayOf<InputFilter>(
             InputFilter.LengthFilter(length)
         )
+    }
+
+    fun setTint(color: Int){
+        icon.setColorFilter(color , PorterDuff.Mode.SRC_IN)
+        requestLayout()
     }
 
     fun setNoFocusable(isEnable: Boolean) {

@@ -1,7 +1,8 @@
 package com.doneit.ascend.domain.use_case.interactor.group
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
@@ -19,12 +20,16 @@ internal class GroupInteractor(
         return groupGateway.getGroupsList(model)
     }
 
-    override suspend fun getGroupListPaged(model: GroupListModel): PagedList<GroupEntity> {
+    override fun getGroupListPaged(model: GroupListModel): LiveData<PagedList<GroupEntity>> {
         return groupGateway.getGroupsListPaged(model)
     }
 
     override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>> {
         return groupGateway.getGroupDetails(groupId)
+    }
+
+    override fun updateGroupLocal(group: GroupEntity) {
+        return groupGateway.updateGroupLocal(group)
     }
 
     override suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
@@ -46,17 +51,22 @@ internal class GroupInteractor(
     ): ResponseEntity<List<ParticipantEntity>, List<String>> {
         return groupGateway.getParticipantList(
             ParticipantListModel(
-            1,
+                1,
                 CHAT_PARTICIPANTS_MAX_COUNT,
-            null,
-            null,
-            fullName,
-            isConnected,
+                null,
+                null,
+                fullName,
+                isConnected,
                 groupId
-            ))
+            )
+        )
     }
 
     override val messagesStream = groupGateway.messagesStream
+
+    override fun startGroup() {
+        groupGateway.sendSocketMessage(START_GROUP)
+    }
 
     override fun connectToChannel(groupId: Long) {
         groupGateway.connectToChannel(groupId)
@@ -97,6 +107,8 @@ internal class GroupInteractor(
             "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"Speak\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%d\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
         private const val REMOVE_PARTICIPANT =
             "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveParticipant\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%d\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+        private const val START_GROUP =
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"StartGroup\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
 
         private const val CHAT_PARTICIPANTS_MAX_COUNT = 100
     }

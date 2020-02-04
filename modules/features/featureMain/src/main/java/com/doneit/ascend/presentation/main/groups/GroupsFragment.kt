@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.main.groups
 
 import android.os.Bundle
-import com.doneit.ascend.domain.entity.dto.toStringValueUI
+import com.doneit.ascend.domain.entity.group.toStringValueUI
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupsBinding

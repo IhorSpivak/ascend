@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.create_group
+package com.doneit.ascend.presentation.main.create_group.master_mind
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -8,11 +8,9 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
+import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerContract
-import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
-import com.doneit.ascend.presentation.models.ValidatableField
-import com.doneit.ascend.presentation.models.ValidationResult
-import com.doneit.ascend.presentation.models.toEntity
+import com.doneit.ascend.presentation.models.*
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -30,6 +28,7 @@ class CreateGroupViewModel(
     private val calendarUtil: CalendarPickerUtil
 ) : BaseViewModelImpl(),
     CreateGroupContract.ViewModel,
+    CreateSupGroupContract.ViewModel,
     CalendarPickerContract.ViewModel,
     DatePickerContract.ViewModel {
 
@@ -66,6 +65,16 @@ class CreateGroupViewModel(
             result
         }
 
+        createGroupModel.meetingFormat.validator = { s ->
+            val result = ValidationResult()
+
+            if (createGroupModel.groupType == GroupType.SUPPORT && s.isBlank()) {
+                result.isSucceed = false
+            }
+
+            result
+        }
+
         createGroupModel.price.validator = { s ->
             val result = ValidationResult()
 
@@ -87,6 +96,16 @@ class CreateGroupViewModel(
             } else if (createGroupModel.scheduleDays.size > s.toInt()) {
                 result.isSucceed = false
                 result.errors.add(R.string.error_number_of_meetings_count)
+            }
+
+            result
+        }
+
+        createGroupModel.tags.validator = { s ->
+            val result = ValidationResult()
+
+            if (createGroupModel.groupType == GroupType.SUPPORT && s.isBlank()) {
+                result.isSucceed = false
             }
 
             result
@@ -126,9 +145,11 @@ class CreateGroupViewModel(
 
         val invalidationListener = { updateCanCreate() }
         createGroupModel.name.onFieldInvalidate = invalidationListener
+        createGroupModel.meetingFormat.onFieldInvalidate = invalidationListener
         createGroupModel.numberOfMeetings.onFieldInvalidate = invalidationListener
         createGroupModel.startDate.onFieldInvalidate = invalidationListener
         createGroupModel.price.onFieldInvalidate = invalidationListener
+        createGroupModel.tags.onFieldInvalidate = invalidationListener
         createGroupModel.description.onFieldInvalidate = invalidationListener
         createGroupModel.image.onFieldInvalidate = invalidationListener
 
@@ -161,12 +182,13 @@ class CreateGroupViewModel(
 
         viewModelScope.launch {
             val requestEntity =
-                groupUseCase.createGroup(createGroupModel.toEntity(createGroupModel.groupType))
+                groupUseCase.createGroup(createGroupModel.toEntity())
 
             canComplete.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                router.closeActivity()
+                router.onBack()
+                router.onBack()
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
                     showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
@@ -271,12 +293,17 @@ class CreateGroupViewModel(
         var isFormValid = true
 
         isFormValid = isFormValid and createGroupModel.name.isValid
+        isFormValid = isFormValid and (createGroupModel.meetingFormat.isValid
+                || createGroupModel.groupType != GroupType.SUPPORT)
         isFormValid = isFormValid and
                 createGroupModel.scheduleTime.observableField.getNotNull().isNotEmpty() and
                 createGroupModel.scheduleDays.isNotEmpty()
         isFormValid = isFormValid and createGroupModel.numberOfMeetings.isValid
         isFormValid = isFormValid and createGroupModel.startDate.isValid
-        isFormValid = isFormValid and createGroupModel.price.isValid
+        isFormValid = isFormValid and (createGroupModel.price.isValid
+                || createGroupModel.groupType == GroupType.SUPPORT)
+        isFormValid = isFormValid and (createGroupModel.tags.isValid
+                || createGroupModel.groupType != GroupType.SUPPORT)
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
 
@@ -297,7 +324,7 @@ class CreateGroupViewModel(
 
         val days = createGroupModel.selectedDays.map { it }.toMutableList()
         createGroupModel.getStartTimeDay()?.let {
-            if(days.contains(it).not()) {
+            if (days.contains(it).not()) {
                 days.add(it)
             }
         }

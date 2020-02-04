@@ -9,6 +9,7 @@ data class GroupResponse(
     @SerializedName("name") val name: String,
     @SerializedName("description") val description: String,
     @SerializedName("start_time") val startTime: String,
+    @SerializedName("status") val status: String,
     @SerializedName("group_type") val groupType: String,
     @SerializedName("price") val price: Float,
     @SerializedName("image") val image: ImageResponse,

@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.main.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.domain.entity.dto.SearchModel
@@ -63,7 +63,7 @@ class SearchViewModel(
     }
 
     override fun onGroupClick(model: GroupEntity) {
-        router.navigateToGroupInfo(model)
+        router.navigateToGroupInfo(model.id)
     }
 
     override fun onStartChatClick(groupId: Long) {

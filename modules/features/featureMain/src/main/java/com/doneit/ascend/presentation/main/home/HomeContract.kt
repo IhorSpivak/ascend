@@ -1,10 +1,10 @@
 package com.doneit.ascend.presentation.main.home
 
 import androidx.lifecycle.LiveData
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.UserEntity
-import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 
@@ -28,7 +28,7 @@ interface HomeContract {
         fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
         fun navigateToSearch()
         fun navigateToAllMasterMinds()
-        fun navigateToGroupInfo(model: GroupEntity)
+        fun navigateToGroupInfo(id: Long)
         fun navigateToMMInfo(model: MasterMindEntity)
         fun navigateToNotifications()
         fun navigateToVideoChat(groupId: Long)

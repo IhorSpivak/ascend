@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.models
 import androidx.databinding.ObservableField
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.MonthEntity
-import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.toCalendar
 import java.util.*
@@ -16,7 +16,10 @@ class PresentationCreateGroupModel(
     var description: ValidatableField = ValidatableField(),
     var image: ValidatableField = ValidatableField(),
     var participants: ObservableField<List<String>> = ObservableField(),
-    var groupType: String = "",
+    var meetingFormat: ValidatableField = ValidatableField(),
+    var tags: ValidatableField = ValidatableField(),
+    var isPublic: ObservableField<Boolean> = ObservableField(true),
+    var groupType: GroupType? = null,
     var hours: String = "00",
     var hoursPosition: Int = 0,
     var minutes: String = "00",
@@ -49,5 +52,15 @@ class PresentationCreateGroupModel(
 
     private fun Int.toOrdinal(): Int {
         return (this + 6) % 7
+    }
+}
+
+enum class GroupType {
+    WEBINAR,
+    SUPPORT,
+    MASTER_MIND;
+
+    override fun toString(): String {
+        return super.toString().toLowerCase()
     }
 }

@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.use_case.interactor.group
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
@@ -13,9 +13,11 @@ interface GroupUseCase {
 
     suspend fun getGroupList(model: GroupListModel): ResponseEntity<List<GroupEntity>, List<String>>
 
-    suspend fun getGroupListPaged(model: GroupListModel): PagedList<GroupEntity>
+    fun getGroupListPaged(model: GroupListModel): LiveData<PagedList<GroupEntity>>
 
     suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>>
+
+    fun updateGroupLocal(group: GroupEntity)
 
     suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>>
 
@@ -28,6 +30,8 @@ interface GroupUseCase {
     val messagesStream: LiveData<SocketEventEntity>
 
     fun connectToChannel(groupId: Long)
+
+    fun startGroup()
 
     fun riseOwnHand()
 

@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.main.group_info
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.dialog.DeleteDialog
 import com.doneit.ascend.presentation.dialog.QuestionButtonType
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
@@ -112,26 +112,12 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
 
     override fun onResume() {
         super.onResume()
-        val model = arguments!!.getParcelable<GroupEntity>(GROUP_ENTITY)
-        if (model != null) {
-            viewModel.setModel(model)
-        } else {
-            val id = arguments!!.getLong(GROUP_ID, -1)
-            viewModel.loadData(id)
-        }
+        val id = arguments!!.getLong(GROUP_ID, -1)
+        viewModel.loadData(id)
     }
 
     companion object {
-        const val GROUP_ENTITY = "GROUP_ENTITY"
         const val GROUP_ID = "GROUP_ID"
-
-        fun newInstance(model: GroupEntity): GroupInfoFragment {
-            val fragment = GroupInfoFragment()
-            fragment.arguments = Bundle().apply {
-                putParcelable(GROUP_ENTITY, model)
-            }
-            return fragment
-        }
 
         fun newInstance(groupId: Long): GroupInfoFragment {
             val fragment = GroupInfoFragment()

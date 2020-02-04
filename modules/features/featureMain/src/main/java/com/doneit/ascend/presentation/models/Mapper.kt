@@ -8,12 +8,13 @@ import com.doneit.ascend.domain.entity.dto.ChangeEmailModel
 import com.doneit.ascend.domain.entity.dto.ChangePasswordModel
 import com.doneit.ascend.domain.entity.dto.ChangePhoneModel
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
-import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
+import java.lang.NumberFormatException
 import java.util.*
 
-fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
+fun PresentationCreateGroupModel.toEntity(): CreateGroupModel {
     val startTime =
         CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
     val calendar = Calendar.getInstance()
@@ -26,13 +27,28 @@ fun PresentationCreateGroupModel.toEntity(groupType: String): CreateGroupModel {
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         calendar.time,
-        groupType,
-        price.observableField.getNotNull().toFloat(),
+        groupType?.toString() ?: "",
+        price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         participants.get(),
         scheduleDays.toDays(),
-        Integer.parseInt(numberOfMeetings.observableField.getNotNull())
+        Integer.parseInt(numberOfMeetings.observableField.getNotNull()),
+        meetingFormat.observableField.get(),
+        isPublic.get(),
+        tags.observableField.get()
     )
+}
+
+fun String.toFloatS(): Float? {
+    var res: Float? = null
+
+    try {
+        res = this.toFloat()
+    } catch (e: NumberFormatException) {
+        e.printStackTrace()
+    }
+
+    return res
 }
 
 fun List<CalendarDayEntity>.toDays(): List<Int> {

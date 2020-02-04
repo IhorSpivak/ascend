@@ -1,7 +1,9 @@
-package com.doneit.ascend.domain.entity.dto
+package com.doneit.ascend.domain.entity.group
 
 enum class GroupStatus {
     UPCOMING,
+    ACTIVE,
+    STARTED,
     ENDED;
 
     override fun toString(): String {

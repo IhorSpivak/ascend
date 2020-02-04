@@ -1,29 +1,36 @@
 package com.doneit.ascend.domain.gateway.gateway
 
 import android.accounts.AccountManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toCreateGroupRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
-import com.doneit.ascend.domain.gateway.gateway.data_source.GroupDataSource
+import com.doneit.ascend.domain.gateway.gateway.boundaries.GroupBoundaryCallback
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCookies
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.socket.IGroupSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.concurrent.Executors
 
 internal class GroupGateway(
     errors: NetworkManager,
+    private val groupLocal: com.doneit.ascend.source.storage.local.repository.groups.IGroupRepository,
     private val remote: IGroupRepository,
     private val remoteSocket: IGroupSocketRepository,
     private val accountManager: AccountManager,//todo move logic with account manager to corresponding Repository
@@ -54,7 +61,7 @@ internal class GroupGateway(
     }
 
     override suspend fun getGroupsList(groupListModel: GroupListModel): ResponseEntity<List<GroupEntity>, List<String>> {
-        return remote.getGroupsList(groupListModel.toRequest()).toResponseEntity(
+        val res = remote.getGroupsList(groupListModel.toRequest()).toResponseEntity(
             {
                 it?.groups?.map { it.toEntity() }
             },
@@ -62,33 +69,66 @@ internal class GroupGateway(
                 it?.errors
             }
         )
+
+        if (res.isSuccessful) {
+            groupLocal.removeAll()
+            groupLocal.insertAll(res.successModel!!.map { it.toLocal() })
+        }
+
+        return res
     }
 
-    override suspend fun getGroupsListPaged(groupListModel: GroupListModel): PagedList<GroupEntity> {
-        val config = getConfigPaged(groupListModel)
+    override fun getGroupsListPaged(listRequest: GroupListModel): LiveData<PagedList<GroupEntity>> =
+        liveData {
+            groupLocal.removeAll()
 
-        val dataSource = GroupDataSource(
-            GlobalScope,
-            remote,
-            groupListModel
-        )
-        val executor = MainThreadExecutor()
+            val config = getConfigPaged(listRequest)
+            val factory = groupLocal.getGroupList(listRequest.toLocal()).map { it.toEntity() }
 
-        return PagedList.Builder<Int, GroupEntity>(dataSource, config)
-            .setFetchExecutor(executor)
-            .setNotifyExecutor(executor)
-            .build()
-    }
+            val boundary = GroupBoundaryCallback(
+                GlobalScope,
+                groupLocal,
+                remote,
+                listRequest
+            )
+
+            emitSource(
+                LivePagedListBuilder<Int, GroupEntity>(factory, config)
+                    .setFetchExecutor(Executors.newSingleThreadExecutor())
+                    .setBoundaryCallback(boundary)
+                    .build()
+            )
+
+            boundary.loadInitial()
+        }
 
     override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>> {
-        return executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
-            {
-                it?.toEntity()
-            },
-            {
-                it?.errors
-            }
-        )
+        val groupLocal = groupLocal.getGroupById(groupId)
+        if (groupLocal != null) {
+
+            return ResponseEntity(
+                true,
+                -1,
+                "",
+                groupLocal.toEntity(),
+                null
+            )
+        } else {
+            return executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
+                {
+                    it?.toEntity()
+                },
+                {
+                    it?.errors
+                }
+            )
+        }
+    }
+
+    override fun updateGroupLocal(group: GroupEntity) {
+        GlobalScope.launch(Dispatchers.IO) {
+            groupLocal.update(group.toLocal())
+        }
     }
 
     override suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
@@ -103,7 +143,7 @@ internal class GroupGateway(
     }
 
     override suspend fun subscribe(model: SubscribeGroupModel): ResponseEntity<Unit, List<String>> {
-        return remote.subscribe(model.groupId, model.toRequest()).toResponseEntity(
+        val res = remote.subscribe(model.groupId, model.toRequest()).toResponseEntity(
             {
                 Unit
             },
@@ -111,6 +151,20 @@ internal class GroupGateway(
                 it?.errors
             }
         )
+
+        if (res.isSuccessful) {
+            val group = groupLocal.getGroupById(model.groupId)
+            group?.let {
+
+                groupLocal.update(
+                    it.copy(
+                        subscribed = true
+                    )
+                )
+            }
+        }
+
+        return res
     }
 
     override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsModel, List<String>> {

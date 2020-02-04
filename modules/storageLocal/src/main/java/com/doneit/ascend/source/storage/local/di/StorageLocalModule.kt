@@ -2,6 +2,8 @@ package com.doneit.ascend.source.storage.local.di
 
 import androidx.room.Room
 import com.doneit.ascend.source.storage.local.repository.LocalDatabase
+import com.doneit.ascend.source.storage.local.repository.groups.GroupRepository
+import com.doneit.ascend.source.storage.local.repository.groups.IGroupRepository
 import com.doneit.ascend.source.storage.local.repository.master_minds.IMasterMindRepository
 import com.doneit.ascend.source.storage.local.repository.master_minds.MasterMindRepository
 import com.doneit.ascend.source.storage.local.repository.question.IQuestionRepository
@@ -23,5 +25,6 @@ object StorageLocalModule {
         bind<IQuestionRepository>() with singleton { QuestionRepository(instance()) }
         bind<IUserRepository>() with singleton { UserRepository(instance()) }
         bind<IMasterMindRepository>() with singleton { MasterMindRepository(instance<LocalDatabase>().masterMindDao()) }
+        bind<IGroupRepository>() with singleton { GroupRepository(instance<LocalDatabase>().groupDao()) }
     }
 }

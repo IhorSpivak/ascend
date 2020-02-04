@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.use_case.gateway
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
@@ -13,9 +13,11 @@ interface IGroupGateway {
 
     suspend fun getGroupsList(groupListModel: GroupListModel): ResponseEntity<List<GroupEntity>, List<String>>
 
-    suspend fun getGroupsListPaged(groupListModel: GroupListModel): PagedList<GroupEntity>
+    fun getGroupsListPaged(listRequest: GroupListModel): LiveData<PagedList<GroupEntity>>
 
     suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>>
+
+    fun updateGroupLocal(group: GroupEntity)
 
     suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>>
 

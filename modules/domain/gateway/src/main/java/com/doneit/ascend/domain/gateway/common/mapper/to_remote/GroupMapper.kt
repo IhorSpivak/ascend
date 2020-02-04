@@ -15,10 +15,12 @@ fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
         description,
         startTime.toRemoteString(),
         groupType,
-        price.toPrice(),
+        price?.toPrice(),
         participants,
         days,
-        meetingsCount
+        meetingsCount,
+        meetingFormat,
+        privacy
     )
 }
 

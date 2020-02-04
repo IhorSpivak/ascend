@@ -21,6 +21,7 @@
     <color name="light_gray_99">#999999</color>
     <color name="light_gray_cd">#CDCDCD</color>
     <color name="light_gray_c7">#BFBEC7</color>
+    <color name="light_gray_e5">#E5E5E5</color>
     <color name="dark_gray">#3F3F3F</color>
     <color name="text_blue">#007AFF</color>
     <color name="text_dark_blue">#333333</color>
@@ -28,6 +29,7 @@
 
     <color name="red_webinar_color">#DD4B39</color>
     <color name="support_color">#2E9DC0</color>
+    <color name="support_light_color">#D5EBF2</color>
     <color name="master_mind_color">#4E519F</color>
 
     <color name="dimmed_black">#8043425D</color>

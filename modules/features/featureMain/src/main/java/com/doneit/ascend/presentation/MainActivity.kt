@@ -2,22 +2,17 @@ package com.doneit.ascend.presentation
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.dialog.PermissionsRequiredDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
-import com.doneit.ascend.presentation.main.common.BottomNavigationAdapter
-import com.doneit.ascend.presentation.video_chat.VideoChatActivity
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupViewModel
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
+import com.doneit.ascend.presentation.utils.CalendarPickerUtil
+import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -36,6 +31,14 @@ class MainActivity : BaseActivity() {
             )
         }
 
+        bind<CalendarPickerUtil>() with provider {
+            CalendarPickerUtil(
+                instance()
+            )
+        }
+
+        bind<MainContract.Router>() with provider { instance<MainRouter>() }
+
         bind<ViewModel>(ProfileViewModel::class.java.simpleName) with provider {
             ProfileViewModel(
                 instance(),
@@ -45,52 +48,74 @@ class MainActivity : BaseActivity() {
                 instance()
             )
         }
-    }
 
-    private val router: MainRouter by instance()
-    private val userUseCase: UserUseCase by instance()
+        bind<ViewModel>(MainViewModel::class.java.simpleName) with provider {
+            MainViewModel(
+                instance(),
+                instance()
+            )
+        }
+
+        bind<MainContract.ViewModel>() with provider { vm<MainViewModel>(instance()) }
+
+        bind<ViewModel>(tag = CreateGroupViewModel::class.java.simpleName) with provider {
+            CreateGroupViewModel(
+                instance(),
+                instance(),
+                instance()
+            )
+        }
+    }
 
     fun getContainerId() = R.id.container
     fun getContainerIdFull() = R.id.container_full
+
+    private val viewModel: MainContract.ViewModel by instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setNavigationListener()
+        viewModel.onHomeClick()
 
         fabCreateGroup.setOnClickListener {
-            router.navigateToCreateGroup()
+            viewModel.onCreateGroupClick()
         }
 
-        router.navigateToHome()
+        setBottomNavigationListeners()
+    }
 
-        GlobalScope.launch(Dispatchers.Main) {
-            val user = userUseCase.getUserLive()
-
-            user.observe(this@MainActivity, Observer {
-                setNavigationListener(it?.role)
-                setCreateGroupState(it?.isMasterMind ?: false)
-            })
+    private fun setBottomNavigationListeners() {
+        mainBottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.home -> {
+                    viewModel.onHomeClick()
+                    true
+                }
+                R.id.my_content -> {
+                    viewModel.navigateToMyContent()
+                    true
+                }
+                R.id.ascension_plan -> {
+                    viewModel.navigateToAscensionPlan()
+                    true
+                }
+                R.id.profile -> {
+                    viewModel.navigateToProfile()
+                    true
+                }
+                else -> false
+            }
         }
     }
 
-    private fun setNavigationListener(userRole: String? = null) {
-        with(BottomNavigationAdapter(router, userRole)) {
-            attach(mainBottomNavigationView)
-        }
-    }
-
-    private fun setCreateGroupState(isEnabled: Boolean) {
-        fabCreateGroup.isEnabled = isEnabled
-
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when(requestCode) {
+        when (requestCode) {
             VideoChatActivity.RESULT_CODE -> {
-                val result = data!!.extras!!.get(VideoChatActivity.RESULT_TAG) as VideoChatActivity.ResultStatus
-                when(result) {
+                val result =
+                    data!!.extras!!.get(VideoChatActivity.RESULT_TAG) as VideoChatActivity.ResultStatus
+                when (result) {
                     VideoChatActivity.ResultStatus.POPUP_REQUIRED -> {
                         PermissionsRequiredDialog.create(this).show()
                     }

@@ -13,10 +13,6 @@ fun AuthResponse.toEntity(): AuthEntity {
     )
 }
 
-private fun String.isMasterMind(): Boolean {
-    return this == "master_mind"
-}
-
 fun UserResponse.toEntity(): UserEntity {
     return UserEntity(
         id,
@@ -36,7 +32,6 @@ fun UserResponse.toEntity(): UserEntity {
         bio,
         rating,
         role,
-        role?.isMasterMind()?:false,
         community,
         visitedGroupsCount,
         birthday?.toShortDate()
@@ -60,7 +55,6 @@ fun UserLocal.toUserEntity(): UserEntity {
         bio = this@toUserEntity.bio,
         rating = this@toUserEntity.rating,
         role = this@toUserEntity.role,
-        isMasterMind = this@toUserEntity.isMasterMind,
         community = this@toUserEntity.community,
         unansweredQuestions = listOf(),
         image = ImageEntity(

@@ -11,7 +11,6 @@ class SelectGroupTypeFragment: BaseFragment<FragmentSelectGroupTypeBinding>() {
     override val viewModel: SelectGroupTypeContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.model = viewModel
     }
 }

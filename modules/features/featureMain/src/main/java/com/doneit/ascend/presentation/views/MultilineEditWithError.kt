@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.views
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.InputFilter
@@ -14,7 +15,11 @@ import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.utils.extensions.focusRequest
+import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
+import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.icon
+import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.textLayout
+import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.tvError
 
 @InverseBindingMethods(
     value = [
@@ -67,6 +72,12 @@ import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
             type = MultilineEditWithError::class,
             attribute = "digits",
             method = "setDigits"
+
+        ),
+        BindingMethod(
+            type = EditWithError::class,
+            attribute = "tint",
+            method = "setTint"
 
         )
     ]
@@ -139,6 +150,11 @@ class MultilineEditWithError @JvmOverloads constructor(
     fun setSrc(src: Drawable?) {
         icon.setImageDrawable(src)
         icon.visibility = if (src == null) View.GONE else View.VISIBLE
+        requestLayout()
+    }
+
+    fun setTint(color: Int){
+        icon.setColorFilter(color , PorterDuff.Mode.SRC_IN)
         requestLayout()
     }
 

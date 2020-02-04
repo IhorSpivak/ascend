@@ -1,6 +1,6 @@
 package com.doneit.ascend.presentation.main.common
 
-import com.doneit.ascend.domain.entity.dto.GroupType
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
