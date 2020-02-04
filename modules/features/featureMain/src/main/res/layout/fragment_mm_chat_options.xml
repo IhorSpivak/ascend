@@ -85,6 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_clip"
+            android:onClick="@{(v) -> model.attachments(model.groupInfo.id)}"
             app:layout_constraintStart_toEndOf="@id/ivShareScreen"
             app:layout_constraintEnd_toStartOf="@id/ivRec"
             app:layout_constraintTop_toTopOf="@id/ivShareScreen"

@@ -9,9 +9,9 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
-import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
+import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupContract
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupFragment
@@ -19,9 +19,9 @@ import com.doneit.ascend.presentation.main.create_group.select_group_type.Select
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeFragment
 import com.doneit.ascend.presentation.main.group_info.GroupInfoContract
 import com.doneit.ascend.presentation.main.group_info.GroupInfoFragment
+import com.doneit.ascend.presentation.main.groups.GroupsArg
 import com.doneit.ascend.presentation.main.groups.GroupsContract
 import com.doneit.ascend.presentation.main.groups.GroupsFragment
-import com.doneit.ascend.presentation.main.groups.GroupsArg
 import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
@@ -34,7 +34,6 @@ import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
-import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
 import com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract
@@ -65,8 +64,8 @@ import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeFragment
 import com.doneit.ascend.presentation.profile.regular_user.community.CommunityFragment
-import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsContract
 import com.doneit.ascend.presentation.utils.extensions.*
+import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
 import com.doneit.ascend.presentation.web_page.common.WebPageArgs

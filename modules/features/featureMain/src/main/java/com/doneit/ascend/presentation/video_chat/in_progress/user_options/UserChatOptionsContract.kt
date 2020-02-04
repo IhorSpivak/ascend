@@ -11,6 +11,7 @@ interface UserChatOptionsContract {
         val isAudioEnabled: LiveData<Boolean>
         val isHandRisen: LiveData<Boolean>
 
+        fun attachments(groupId: Long)
         fun switchVideoEnabledState()
         fun switchAudioEnabledState()
         fun switchCamera()
@@ -18,7 +19,5 @@ interface UserChatOptionsContract {
         fun reportGroupOwner(content: String)
         fun finishCall()
         fun onBackClick()
-
-        fun attachments(groupId: Long)
     }
 }
