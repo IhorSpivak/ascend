@@ -6,8 +6,8 @@ import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemAttachmentFileBinding
+import com.doneit.ascend.presentation.utils.extensions.toAttachmentDate
 import com.doneit.ascend.presentation.utils.extensions.toMb
-import com.doneit.ascend.presentation.utils.extensions.toNotificationDate
 
 class AttachmentFileViewHolder(
     private val binding: ListItemAttachmentFileBinding
@@ -20,7 +20,7 @@ class AttachmentFileViewHolder(
         binding.download.setOnClickListener{
             onDownloadClick.invoke(item)
         }
-        binding.date = item.createdAt.toNotificationDate()
+        binding.date = item.createdAt.toAttachmentDate()
         binding.executePendingBindings()
     }
 

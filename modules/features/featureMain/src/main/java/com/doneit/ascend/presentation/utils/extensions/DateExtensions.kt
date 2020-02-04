@@ -27,7 +27,11 @@ fun Date.toDayMonthYear(): String {
 }
 
 fun Date.toNotificationDate(): String {
-    return "MM.dd.YY hh:mm aa".toDefaultFormatter().getFormatted(this)
+    return "MM.dd.yy hh:mm aa".toDefaultFormatter().getFormatted(this)
+}
+
+fun Date.toAttachmentDate(): String {
+    return "dd.MM.yy hh:mm aa".toDefaultFormatter().getFormatted(this)
 }
 
 fun Date.toRateDate(): String {

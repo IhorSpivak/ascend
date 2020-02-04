@@ -17,5 +17,6 @@ data class AttachmentEntity(
 
 enum class AttachmentType {
     FILE,
-    IMAGE
+    IMAGE,
+    LINK
 }

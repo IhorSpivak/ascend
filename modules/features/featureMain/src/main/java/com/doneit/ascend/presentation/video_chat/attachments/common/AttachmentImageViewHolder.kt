@@ -6,15 +6,15 @@ import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemAttachmentImageBinding
+import com.doneit.ascend.presentation.utils.extensions.toAttachmentDate
 import com.doneit.ascend.presentation.utils.extensions.toMb
-import com.doneit.ascend.presentation.utils.extensions.toNotificationDate
 
 class AttachmentImageViewHolder(
     private val binding: ListItemAttachmentImageBinding
 ) : AttachmentViewHolder(binding.root) {
     fun bind(item: AttachmentEntity, onDownloadClick: (AttachmentEntity) -> Unit){
         binding.item = item
-        binding.date = item.createdAt.toNotificationDate()
+        binding.date = item.createdAt.toAttachmentDate()
         binding.download.setOnClickListener{
             onDownloadClick.invoke(item)
         }

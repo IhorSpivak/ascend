@@ -14,6 +14,10 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -33,19 +37,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:text="@{item.fileName}"
-                tools:text="tettete"
-                style="@style/TextNormal"
-                android:textSize="16sp"
                 android:id="@+id/title"
+                style="@style/TextNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/download"
+                android:text="@{item.fileName}"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/copy"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/download"
-                app:layout_constraintTop_toTopOf="@+id/download" />
+                app:layout_constraintStart_toEndOf="@+id/copy"
+                app:layout_constraintTop_toTopOf="@+id/copy"
+                tools:text="tettete" />
 
             <TextView
                 android:text="@{item.link}"
@@ -60,7 +64,7 @@
                 android:textColor="@color/light_gray_8f"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/download"
+                app:layout_constraintStart_toEndOf="@+id/copy"
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 tools:text="https://en.wikipedia.org/wiki/Keep_Calm_and_Carry_On" />
 

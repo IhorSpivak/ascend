@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemAttachmentLinkBinding
-import com.doneit.ascend.presentation.utils.extensions.toNotificationDate
+import com.doneit.ascend.presentation.utils.extensions.toAttachmentDate
 
 class AttachmentLinkViewHolder(
     private val binding: ListItemAttachmentLinkBinding
@@ -16,7 +16,7 @@ class AttachmentLinkViewHolder(
         binding.copy.setOnClickListener{
             onCopyClick.invoke(item)
         }
-        binding.date = item.createdAt.toNotificationDate()
+        binding.date = item.createdAt.toAttachmentDate()
         binding.executePendingBindings()
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsArg
+import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsContract
 import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsFragment
 import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressFragment
@@ -16,6 +17,7 @@ import com.vrgsoft.core.presentation.router.FragmentRouter
 class VideoChatRouter(
     private val activity: VideoChatActivity
 ) : FragmentRouter(activity.supportFragmentManager),
+    AttachmentsContract.Router,
     VideoChatContract.Router {
 
     override val containerId = activity.getContainerId()
