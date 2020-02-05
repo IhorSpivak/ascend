@@ -9,7 +9,7 @@ interface MasterMindUseCase {
     suspend fun getDefaultMasterMindList(): ResponseEntity<List<MasterMindEntity>, List<String>>
     fun getMasterMindList(isFollowed: Boolean?): LiveData<PagedList<MasterMindEntity>>
     fun getMMListByName(fullName: String): LiveData<PagedList<MasterMindEntity>>
-    suspend fun getProfile(id: Long): ResponseEntity<MasterMindEntity, List<String>>
+    fun getProfile(id: Long): LiveData<MasterMindEntity>
     suspend fun follow(userId: Long): ResponseEntity<Unit, List<String>>
     suspend fun unfollow(userId: Long): ResponseEntity<Unit, List<String>>
     suspend fun setRating(userId: Long, rating: Int): ResponseEntity<Unit, List<String>>

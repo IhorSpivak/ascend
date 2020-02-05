@@ -26,10 +26,8 @@ class FollowingAdapter(
     override fun onBindViewHolder(holder: FollowingViewHolder, position: Int) {
         holder.bind(getItem(position)!!, {
             follow.invoke(it)
-            notifyDataSetChanged()
         }, {
             unfollow.invoke(it)
-            notifyDataSetChanged()
         }, openInfo)
     }
 }

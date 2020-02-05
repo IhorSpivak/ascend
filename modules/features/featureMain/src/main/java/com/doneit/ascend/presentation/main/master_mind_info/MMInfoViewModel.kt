@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
@@ -20,10 +21,11 @@ class MMInfoViewModel(
     private val masterMindUseCase: MasterMindUseCase
 ) : BaseViewModelImpl(), MMInfoContract.ViewModel {
 
-    override val profile = MutableLiveData<MasterMindEntity>()
+    private val groupId = MutableLiveData<Long>()
+    override val profile = groupId.switchMap { masterMindUseCase.getProfile(it) }
     override val showActionButtons = SingleLiveManager<Boolean>()
-    override val enableFollow = MutableLiveData<Boolean>()
-    override val enableUnfollow = MutableLiveData<Boolean>()
+    override val enableFollow = MutableLiveData<Boolean>(true)
+    override val enableUnfollow = MutableLiveData<Boolean>(true)
     override val followed = MutableLiveData<Boolean>()
     override val showRatingBar = MutableLiveData<Boolean>(true)
     override val rated = MutableLiveData<Boolean>(true)
@@ -32,13 +34,7 @@ class MMInfoViewModel(
     override val sendReportStatus = SingleLiveManager<Boolean>()
 
     override fun setModel(model: MasterMindEntity) {
-        profile.postValue(model)
-
-        if(model.followed) {
-            enableUnfollow.postValue(true)
-        } else {
-            enableFollow.postValue(true)
-        }
+        groupId.postValue(model.id)
 
         viewModelScope.launch {
 
@@ -74,10 +70,10 @@ class MMInfoViewModel(
     }
 
     override fun onFollowClick() {
-        enableFollow.postValue(false)
-
         profile.value?.let {
             viewModelScope.launch {
+                enableFollow.postValue(false)
+
                 val response = masterMindUseCase.follow(it.id)
 
                 if (response.isSuccessful) {
@@ -90,10 +86,10 @@ class MMInfoViewModel(
     }
 
     override fun onUnfollowClick() {
-        enableUnfollow.postValue(false)
-
         profile.value?.let {
             viewModelScope.launch {
+                enableUnfollow.postValue(false)
+
                 val response = masterMindUseCase.unfollow(it.id)
 
                 if (response.isSuccessful) {

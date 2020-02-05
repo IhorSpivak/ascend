@@ -103,18 +103,18 @@ internal class GroupGateway(
         }
 
     override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>> {
-        val groupLocal = groupLocal.getGroupById(groupId)
-        if (groupLocal != null) {
+        val localGroup = groupLocal.getGroupById(groupId)
+        if (localGroup != null) {
 
             return ResponseEntity(
                 true,
                 -1,
                 "",
-                groupLocal.toEntity(),
+                localGroup.toEntity(),
                 null
             )
         } else {
-            return executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
+            val res = executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
                 {
                     it?.toEntity()
                 },
@@ -122,6 +122,14 @@ internal class GroupGateway(
                     it?.errors
                 }
             )
+
+            if(res.isSuccessful) {
+                GlobalScope.launch(Dispatchers.IO) {
+                    groupLocal.insertAll(listOf(res.successModel!!.toLocal()))
+                }
+            }
+
+            return res
         }
     }
 
