@@ -8,7 +8,7 @@ import com.doneit.ascend.domain.entity.dto.ChangeEmailModel
 import com.doneit.ascend.domain.entity.dto.ChangePasswordModel
 import com.doneit.ascend.domain.entity.dto.ChangePhoneModel
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupViewModel
+import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card

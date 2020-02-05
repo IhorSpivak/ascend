@@ -12,7 +12,7 @@ import com.doneit.ascend.presentation.main.create_group.calendar_picker.Calendar
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupArgs
+import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupContract
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupFragment
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract

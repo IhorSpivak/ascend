@@ -16,8 +16,8 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupArgs
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupViewModel
+import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
+import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateSupportGroupBinding
 import com.doneit.ascend.presentation.utils.copyCompressed
 import com.doneit.ascend.presentation.utils.copyFile
@@ -39,7 +39,6 @@ import org.kodein.di.generic.provider
 class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBinding, CreateGroupArgs>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
-
         bind<CreateSupGroupContract.ViewModel>() with provider {
             vmShared<CreateGroupViewModel>(
                 instance()

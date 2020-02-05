@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.create_group.master_mind
+package com.doneit.ascend.presentation.main.create_group
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerContract
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupContract
 import com.doneit.ascend.presentation.models.*
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
@@ -21,8 +22,6 @@ import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 import java.util.*
 
-@CreateFactory
-@ViewModelDiModule
 class CreateGroupViewModel(
     private val groupUseCase: GroupUseCase,
     private val router: CreateGroupContract.Router,

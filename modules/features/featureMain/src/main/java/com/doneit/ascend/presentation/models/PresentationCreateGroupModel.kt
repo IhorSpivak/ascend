@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.models
 import androidx.databinding.ObservableField
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.MonthEntity
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupViewModel
+import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.toCalendar
 import java.util.*
