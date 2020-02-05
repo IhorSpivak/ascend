@@ -23,24 +23,5 @@ class MMChatOptionsFragment : BaseFragment<FragmentMmChatOptionsBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-
-        //todo
-       /* var hasFrontCamera = false
-        var hasBackCamera = false
-        val manager = context!!.getSystemService(Context.CAMERA_SERVICE) as CameraManager?
-        manager?.cameraIdList?.forEach { cameraID ->
-            val chars = manager.getCameraCharacteristics(cameraID)
-            val facing = chars.get(CameraCharacteristics.LENS_FACING)
-            facing?.let {
-                if(facing == CameraCharacteristics.LENS_FACING_FRONT) {
-                    hasFrontCamera = true
-                }
-                if(facing == CameraCharacteristics.LENS_FACING_BACK) {
-                    hasBackCamera = true
-                }
-            }
-        }
-*/
-        //binding.ivRefresh.visible(hasFrontCamera && hasBackCamera)
     }
 }

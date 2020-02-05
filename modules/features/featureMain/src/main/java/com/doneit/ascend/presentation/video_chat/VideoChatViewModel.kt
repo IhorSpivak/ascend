@@ -69,7 +69,6 @@ class VideoChatViewModel(
     override val isMMConnected = MutableLiveData<Boolean>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
     override val isAudioEnabled = MutableLiveData<Boolean>()
-    override val isRecordEnabled = MutableLiveData<Boolean>()
     override val isHandRisen = MutableLiveData<Boolean>()
     override val isFinishing = MutableLiveData<Boolean>()
     override val switchCameraEvent = SingleLiveManager(Unit)
@@ -79,7 +78,7 @@ class VideoChatViewModel(
     //region local
     private val messages = groupUseCase.messagesStream
     private lateinit var chatState: VideoChatState
-    private lateinit var chatRole: ChatRole
+    private var chatRole: ChatRole? = null
 
     private var groupId: Long = -1
     private var currentUserId: Long = -1
@@ -94,7 +93,8 @@ class VideoChatViewModel(
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
         var user = socketEvent.data.toPresentation()
 
-        if (::chatRole.isInitialized) {
+        if (chatRole != null) {
+            //risen hand is displayed only for MasterMind
             user = user.copy(
                 isHandRisen = user.isHandRisen && chatRole == ChatRole.OWNER
             )
@@ -237,7 +237,6 @@ class VideoChatViewModel(
         isStartButtonVisible.postValue(false)
         isVideoEnabled.postValue(true)
         isAudioEnabled.postValue(true)
-        isRecordEnabled.postValue(true)
         isHandRisen.postValue(false)
         isFinishing.postValue(false)
     }
@@ -250,7 +249,7 @@ class VideoChatViewModel(
                 val joinedUsers = result.successModel!!.filter { it.id != currentUserId }
                     .map {
                         var newItem = it.toPresentation()
-                        if (::chatRole.isInitialized) {
+                        if (chatRole != null) {
                             newItem = newItem.copy(
                                 isHandRisen = newItem.isHandRisen && chatRole == ChatRole.OWNER
                             )
@@ -290,7 +289,7 @@ class VideoChatViewModel(
 
             credentials.postValue(
                 StartVideoModel(
-                    chatRole,
+                    chatRole!!,
                     creds.name,
                     creds.token,
                     CameraCapturer.CameraSource.FRONT_CAMERA
@@ -319,7 +318,7 @@ class VideoChatViewModel(
     }
 
     override fun onOpenOptions() {
-        if (groupInfo.value != null) {
+        if (chatRole != null) {
             if (chatRole == ChatRole.OWNER) {
                 router.navigateToMMChatOptions()
             } else {
@@ -341,10 +340,6 @@ class VideoChatViewModel(
 
     override fun switchAudioEnabledState() {
         isAudioEnabled.switch()
-    }
-
-    override fun switchRecordState() {
-        isRecordEnabled.switch()
     }
 
     override fun switchCamera() {

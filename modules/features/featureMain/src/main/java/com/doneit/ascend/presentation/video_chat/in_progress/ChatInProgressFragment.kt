@@ -78,10 +78,6 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             localAudioTrack?.enable(it)
         })
 
-        viewModel.isRecordEnabled.observe(viewLifecycleOwner, Observer {
-            //todo
-        })
-
         viewModel.focusedUserId.observe(viewLifecycleOwner, Observer { id ->
             if (id == VideoChatViewModel.UNFOCUSED_USER_ID) {
                 chatStrategy = ChatStrategy.DOMINANT_SPEAKER

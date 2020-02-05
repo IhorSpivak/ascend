@@ -15,7 +15,6 @@ interface ChatInProgressContract {
         val groupInfo: LiveData<GroupEntity>
         val isVideoEnabled: LiveData<Boolean>
         val isAudioEnabled: LiveData<Boolean>
-        val isRecordEnabled: LiveData<Boolean>
         val switchCameraEvent: SingleLiveManager<Unit>
         val focusedUserId: SingleLiveEvent<String>
 
