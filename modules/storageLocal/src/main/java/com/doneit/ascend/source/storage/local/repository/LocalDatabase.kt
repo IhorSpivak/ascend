@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.doneit.ascend.source.storage.local.data.*
 import com.doneit.ascend.source.storage.local.data.converters.ListIntConverter
+import com.doneit.ascend.source.storage.local.repository.attachments.AttachmentDao
 import com.doneit.ascend.source.storage.local.repository.groups.GroupDao
 import com.doneit.ascend.source.storage.local.repository.master_minds.MasterMindDao
 import com.doneit.ascend.source.storage.local.repository.question.QuestionDao
@@ -20,7 +21,8 @@ import com.doneit.ascend.source.storage.local.repository.user.UserDao
         MasterMindLocal::class,
         ImageLocal::class,
         GroupLocal::class,
-        OwnerLocal::class
+        OwnerLocal::class,
+        AttachmentLocal::class
     ],
     version = 2//todo move down
 )
@@ -31,6 +33,7 @@ internal abstract class LocalDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun masterMindDao(): MasterMindDao
     abstract fun groupDao(): GroupDao
+    abstract fun attachmentDao(): AttachmentDao
 
     companion object {
         const val NAME = "AscendDB"

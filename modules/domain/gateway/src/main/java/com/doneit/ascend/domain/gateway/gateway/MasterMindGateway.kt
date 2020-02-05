@@ -15,9 +15,7 @@ import com.doneit.ascend.domain.gateway.gateway.boundaries.MMBoundaryCallback
 import com.doneit.ascend.domain.use_case.gateway.IMasterMindGateway
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.vrgsoft.networkmanager.NetworkManager
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 
 internal class MasterMindGateway(

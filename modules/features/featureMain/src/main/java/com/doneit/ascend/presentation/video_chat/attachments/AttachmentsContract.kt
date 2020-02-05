@@ -9,8 +9,8 @@ interface AttachmentsContract {
     interface ViewModel : BaseViewModel {
         val attachments: LiveData<PagedList<AttachmentEntity>>
 
-        fun loadData()
         fun backClick()
+        fun onDelete(id: Long)
     }
 
     interface Router {

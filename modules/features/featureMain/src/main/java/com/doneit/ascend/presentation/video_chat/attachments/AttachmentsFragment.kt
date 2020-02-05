@@ -19,14 +19,14 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
 
     private val adapter: AttachmentsAdapter by lazy {
         AttachmentsAdapter({
-            //TODO:
+            //TODO: implement
             Toast.makeText(requireContext(), "download", Toast.LENGTH_LONG).show()
         }, {
-            //TODO:
+            //TODO: refactor
             it.link.copyToClipboard(requireContext())
             Toast.makeText(requireContext(), "copy", Toast.LENGTH_LONG).show()
         },{
-            Toast.makeText(requireContext(), "delete", Toast.LENGTH_LONG).show()
+            viewModel.onDelete(it)
         })
     }
 
@@ -40,11 +40,6 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
         viewModel.attachments.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadData()
     }
 
     companion object {

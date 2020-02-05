@@ -97,6 +97,7 @@ object GatewayModule {
         bind<IAttachmentGateway>() with singleton {
             AttachmentGateway(
                 instance(),
+                instance(),
                 instance()
             )
         }
