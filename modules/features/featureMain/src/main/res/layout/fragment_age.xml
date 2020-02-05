@@ -70,7 +70,6 @@
                         android:text="@string/save"
                         android:textColor="@color/button_text_color_selector"
                         android:textSize="17sp"
-                        android:enabled="@{model.canSave}"
                         android:onClick="@{(v) -> model.saveBirthday()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

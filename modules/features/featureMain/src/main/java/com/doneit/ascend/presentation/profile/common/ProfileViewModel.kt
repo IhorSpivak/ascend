@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.AnswersModel
-import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -25,6 +25,7 @@ import com.doneit.ascend.presentation.profile.notification_settings.Notification
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsItem
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeContract
 import com.doneit.ascend.presentation.profile.regular_user.community.CommunityContract
+import com.doneit.ascend.presentation.utils.extensions.toCalendar
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.getLocation
 import com.doneit.ascend.presentation.utils.isDescriptionValid
@@ -50,11 +51,25 @@ class ProfileViewModel(
     override val user = MutableLiveData<UserEntity>()
     override val showPhotoDialog = SingleLiveManager(Unit)
     override val bioValue = ValidatableField()
-    override val birthdaySelected = MutableLiveData<Date?>()
+    override val birthdaySelected = MutableLiveData<Date>()
     override val questions = MutableLiveData<List<PresentationCommunityModel>>()
     override val canSave = MutableLiveData<Boolean>()
 
     private var selectedCommunity: String? = null
+    private val minBirthday by lazy {
+        val calendar = Date().toCalendar()
+
+        val year = calendar.get(Calendar.YEAR) - DEFAULT_USER_AGE
+        val month = calendar.get(Calendar.MONTH)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+        calendar.time.time = 0
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        calendar.time
+    }
 
     private val userLocal = userUseCase.getUserLive()
     private val userObserver: Observer<UserEntity?>
@@ -92,7 +107,8 @@ class ProfileViewModel(
         userObserver = Observer {
             it?.let {
                 user.postValue(it)
-                birthdaySelected.postValue(it.birthday)
+                val birthday = it.birthday ?: minBirthday
+                birthdaySelected.postValue(birthday)
             }
         }
         userLocal.observeForever(userObserver)
@@ -204,10 +220,11 @@ class ProfileViewModel(
         calendar.set(Calendar.MONTH, month.ordinal)
         calendar.set(Calendar.DAY_OF_MONTH, day)
 
-        birthdaySelected.postValue(calendar.time)
-
-        val age = UserEntity.getAge(calendar.time)
-        canSave.postValue(age > 0)
+        if(calendar.time.after(minBirthday)) {
+            birthdaySelected.postValue(minBirthday)
+        } else {
+            birthdaySelected.postValue(calendar.time)
+        }
     }
 
     override fun saveBirthday() {
@@ -296,5 +313,9 @@ class ProfileViewModel(
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
         }
+    }
+
+    companion object {
+        private const val DEFAULT_USER_AGE = 18
     }
 }
