@@ -8,7 +8,7 @@ import java.util.*
 interface AgeContract {
     interface ViewModel: BaseViewModel {
         val canSave: LiveData<Boolean>
-        val birthdaySelected: LiveData<Date?>
+        val birthdaySelected: LiveData<Date>
 
         fun onBirthdaySelected(year: Int, month: MonthEntity, day: Int)
         fun saveBirthday()

@@ -149,7 +149,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/startDate"
                     app:noFocusable="@{true}"
                     app:saveState="@{false}"
-                    app:src="@{@drawable/ic_calendar}"
+                    app:src="@{@drawable/ic_schedule}"
                     app:text="@{model.createGroupModel.scheduleTime.observableField}" />
 
                 <com.doneit.ascend.presentation.views.EditWithError

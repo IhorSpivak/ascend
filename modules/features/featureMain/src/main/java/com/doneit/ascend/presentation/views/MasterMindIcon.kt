@@ -26,6 +26,12 @@ import kotlinx.android.synthetic.main.view_master_mind_icon.view.*
             attribute = "url",
             method = "setUrl"
 
+        ),
+        BindingMethod(
+            type = MasterMindIcon::class,
+            attribute = "urlCached",
+            method = "setUrlCached"
+
         )
     ]
 )
@@ -68,6 +74,12 @@ class MasterMindIcon @JvmOverloads constructor(
             .load(url)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .skipMemoryCache(true)
+            .into(ivIcon)
+    }
+
+    fun setUrlCached(url: String?) {
+        Glide.with(ivIcon)
+            .load(url)
             .into(ivIcon)
     }
 }

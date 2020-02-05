@@ -22,5 +22,6 @@ data class GroupResponse(
     @SerializedName("blocked") val blocked: Boolean,
     @SerializedName("participants_count") val participantsCount: Int,
     @SerializedName("invites_count") val invitesCount: Int,
-    @SerializedName("wdays") val daysOfWeek: List<Int>
+    @SerializedName("wdays") val daysOfWeek: List<Int>,
+    @SerializedName("note") val note: NoteResponse?
 )

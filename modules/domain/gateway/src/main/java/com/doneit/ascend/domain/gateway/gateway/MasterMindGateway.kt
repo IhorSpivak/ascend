@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.gateway.gateway
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -66,15 +67,27 @@ internal class MasterMindGateway(
             boundary.loadInitial()
         }
 
-    override suspend fun getProfile(id: Long): ResponseEntity<MasterMindEntity, List<String>> {
-        return executeRemote { remote.getMMProfile(id) }.toResponseEntity(
-            {
-                it?.toEntity()
-            },
-            {
-                it?.errors
+    override fun getProfile(id: Long) = liveData {
+        emitSource(MutableLiveData())
+
+        val mmLocal = local.getMMById(id)
+        if (mmLocal != null) {
+            emit(mmLocal.toEntity())
+        } else {
+            val res = executeRemote { remote.getMMProfile(id) }.toResponseEntity(
+                {
+                    it?.toEntity()
+                },
+                {
+                    it?.errors
+                }
+            )
+
+            if (res.isSuccessful) {
+                local.insertAll(listOf(res.successModel!!.toLocal()))
+                emit(res.successModel!!)
             }
-        )
+        }
     }
 
     override suspend fun follow(userId: Long): ResponseEntity<Unit, List<String>> {
@@ -87,7 +100,7 @@ internal class MasterMindGateway(
             }
         )
 
-        if(result.isSuccessful) {
+        if (result.isSuccessful) {
             local.getMMById(userId)?.let {
                 val user = it.copy(followed = true)
                 local.update(user)
@@ -107,7 +120,7 @@ internal class MasterMindGateway(
             }
         )
 
-        if(res.isSuccessful) {
+        if (res.isSuccessful) {
             local.getMMById(userId)?.let {
                 val user = it.copy(followed = false)
                 local.update(user)

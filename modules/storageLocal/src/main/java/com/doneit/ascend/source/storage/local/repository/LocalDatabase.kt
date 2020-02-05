@@ -22,6 +22,7 @@ import com.doneit.ascend.source.storage.local.repository.user.UserDao
         ImageLocal::class,
         GroupLocal::class,
         OwnerLocal::class,
+        NoteLocal::class
         AttachmentLocal::class
     ],
     version = 2//todo move down

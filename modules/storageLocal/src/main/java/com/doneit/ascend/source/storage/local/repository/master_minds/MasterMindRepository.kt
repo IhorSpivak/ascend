@@ -11,6 +11,7 @@ internal class MasterMindRepository(
     override fun getMMList(filter: MMFilter): DataSource.Factory<Int, MasterMindLocal> {
         return when {
             filter.followed == true -> dao.getFollowed()
+            filter.followed == false -> dao.getUnFollowed()
             else -> dao.getAll()
         }
     }

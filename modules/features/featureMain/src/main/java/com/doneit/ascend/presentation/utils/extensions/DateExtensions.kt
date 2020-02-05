@@ -16,7 +16,7 @@ fun Date.toDayOfMonth(): Int {
 }
 
 fun Date.toCalendar(): Calendar {
-    val calendar = Calendar.getInstance()
+    val calendar = getGMTCalendar()
     calendar.time = this
 
     return calendar
@@ -58,5 +58,14 @@ private fun SimpleDateFormat.getFormatted(date: Date): String {
 }
 
 fun String.toDefaultFormatter(): SimpleDateFormat {
-    return SimpleDateFormat(this, Locale.getDefault())
+    val formatter = SimpleDateFormat(this, Locale.getDefault())
+    formatter.timeZone = TimeZone.getTimeZone("GMT")
+    return formatter
+}
+
+fun getGMTCalendar(): Calendar {
+    val calendar = Calendar.getInstance()
+    calendar.timeZone = TimeZone.getTimeZone("GMT")
+
+    return calendar
 }

@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.local.repository.groups
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 import com.doneit.ascend.source.storage.local.data.GroupLocal
@@ -16,6 +17,10 @@ interface GroupDao {
     @Transaction
     @Query("SELECT * FROM groups WHERE id = :id LIMIT 1")
     suspend fun getById(id: Long): GroupLocal?
+
+    @Transaction
+    @Query("SELECT * FROM groups WHERE id = :id  LIMIT 1")
+    fun getByIdLive(id: Long): LiveData<GroupLocal?>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)

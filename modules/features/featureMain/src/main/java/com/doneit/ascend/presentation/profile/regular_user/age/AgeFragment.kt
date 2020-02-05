@@ -5,18 +5,16 @@ import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAgeBinding
-import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
-import com.doneit.ascend.presentation.utils.extensions.toCalendar
 import com.doneit.ascend.presentation.utils.extensions.toDayOfMonth
 import com.doneit.ascend.presentation.utils.extensions.toMonth
 import com.doneit.ascend.presentation.utils.extensions.toYear
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import kotlinx.android.synthetic.main.fragment_age.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import java.util.*
 
 class AgeFragment : BaseFragment<FragmentAgeBinding>() {
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
@@ -24,14 +22,6 @@ class AgeFragment : BaseFragment<FragmentAgeBinding>() {
     }
 
     override val viewModel: AgeContract.ViewModel by instance()
-
-    private val defaultBirthday by lazy {
-        val calendar = Date().toCalendar()
-        val year = calendar.get(Calendar.YEAR)
-        calendar.set(Calendar.YEAR, year - DEFAULT_USER_AGE)
-
-        calendar.time
-    }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
@@ -58,18 +48,18 @@ class AgeFragment : BaseFragment<FragmentAgeBinding>() {
             updateSelection(y = year)
         }
 
-        viewModel.birthdaySelected.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            val birthday = it ?: defaultBirthday
+        viewModel.birthdaySelected.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer { birthday ->
+                val year = birthday.toYear()
+                val month = birthday.toMonth()
+                val day = birthday.toDayOfMonth()
 
-            val year = birthday.toYear()
-            val month = birthday.toMonth()
-            val day = birthday.toDayOfMonth()
-
-            binding.age = UserEntity.getAge(birthday)
-            binding.yearPicker.selectedYear = year
-            binding.monthPicker.setSelectedItemPosition(month, false)
-            binding.dayPicker.selectedDay = day
-        })
+                binding.age = UserEntity.getAge(birthday)
+                binding.yearPicker.selectedYear = year
+                binding.monthPicker.setSelectedItemPosition(month, false)
+                binding.dayPicker.selectedDay = day
+            })
     }
 
     private fun updateSelection(y: Int? = null, m: MonthEntity? = null, d: Int? = null) {
@@ -78,9 +68,5 @@ class AgeFragment : BaseFragment<FragmentAgeBinding>() {
         val day = d ?: dayPicker.selectedDay
 
         viewModel.onBirthdaySelected(year, month, day)
-    }
-
-    companion object {
-        private const val DEFAULT_USER_AGE = 18
     }
 }

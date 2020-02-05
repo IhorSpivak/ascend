@@ -8,7 +8,8 @@ import com.doneit.ascend.domain.entity.dto.ChangeEmailModel
 import com.doneit.ascend.domain.entity.dto.ChangePasswordModel
 import com.doneit.ascend.domain.entity.dto.ChangePhoneModel
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupViewModel
+import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
+import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
 import java.lang.NumberFormatException
@@ -17,7 +18,7 @@ import java.util.*
 fun PresentationCreateGroupModel.toEntity(): CreateGroupModel {
     val startTime =
         CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
-    val calendar = Calendar.getInstance()
+    val calendar = getGMTCalendar()
     calendar.time = startTime
     calendar.set(Calendar.HOUR, hours.toInt() % 12)//to avoid day increment
     calendar.set(Calendar.MINUTE, minutes.toInt())

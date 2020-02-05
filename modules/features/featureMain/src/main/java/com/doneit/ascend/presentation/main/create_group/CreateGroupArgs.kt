@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.create_group.master_mind
+package com.doneit.ascend.presentation.main.create_group
 
 import com.doneit.ascend.presentation.models.GroupType
 import com.vrgsoft.core.presentation.fragment.argumented.BaseArguments

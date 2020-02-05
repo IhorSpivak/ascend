@@ -84,21 +84,10 @@
             android:id="@+id/ivClip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_clip"
-            android:onClick="@{(v) -> model.attachments(model.groupInfo.id)}"
-            app:layout_constraintStart_toEndOf="@id/ivShareScreen"
-            app:layout_constraintEnd_toStartOf="@id/ivRec"
-            app:layout_constraintTop_toTopOf="@id/ivShareScreen"
-            app:layout_constraintBottom_toBottomOf="@id/ivShareScreen"/>
-
-        <ImageView
-            android:id="@+id/ivRec"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
             android:layout_marginEnd="96dp"
-            android:src="@{model.isRecordEnabled()? @drawable/ic_record_on: @drawable/ic_record_off, default = @drawable/ic_record_off}"
-            android:onClick="@{(v) -> model.switchRecordState()}"
-            app:layout_constraintStart_toEndOf="@id/ivClip"
+            android:src="@drawable/ic_clip"
+            android:onClick="@{(v) -> model.onAttachmentsClick()}"
+            app:layout_constraintStart_toEndOf="@id/ivShareScreen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/ivShareScreen"
             app:layout_constraintBottom_toBottomOf="@id/ivShareScreen"/>
@@ -108,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="top"
-            app:constraint_referenced_ids="ivShareScreen,ivClip,ivRec"/>
+            app:constraint_referenced_ids="ivShareScreen,ivClip"/>
 
         <ImageView
             android:id="@+id/ivCamera"

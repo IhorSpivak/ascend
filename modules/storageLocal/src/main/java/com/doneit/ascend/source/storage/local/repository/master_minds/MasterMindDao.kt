@@ -17,6 +17,9 @@ interface MasterMindDao {
     @Query("SELECT * FROM master_minds WHERE followed = 1")
     fun getFollowed(): DataSource.Factory<Int, MasterMindLocal>
 
+    @Query("SELECT * FROM master_minds WHERE followed = 0")
+    fun getUnFollowed(): DataSource.Factory<Int, MasterMindLocal>
+
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(masterMind: List<MasterMindLocal>)

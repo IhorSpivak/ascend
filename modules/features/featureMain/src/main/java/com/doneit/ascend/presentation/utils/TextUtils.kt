@@ -11,9 +11,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.models.LocationModel
+import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
+import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.views.SmsCodeView
 import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 fun Context.applyLinkStyle(source: SpannableString, start: Int, end: Int) {
@@ -90,8 +91,8 @@ fun String.isValidStrartDate(): Boolean {
     var res = false
 
     try {
-        val date = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).parse(this)
-        val today = Calendar.getInstance()
+        val date = "dd MMMM yyyy".toDefaultFormatter().parse(this)
+        val today = getGMTCalendar()
         today.set(Calendar.HOUR_OF_DAY, 0)
         today.set(Calendar.MINUTE, 0)
         today.set(Calendar.SECOND, 0)

@@ -23,7 +23,7 @@ internal class MasterMindInteractor(
         return masterMindGateway.getMasterMindsPagedList(MasterMindListModel(fullName = fullName, followed = false))
     }
 
-    override suspend fun getProfile(id: Long): ResponseEntity<MasterMindEntity, List<String>> {
+    override fun getProfile(id: Long): LiveData<MasterMindEntity> {
         return masterMindGateway.getProfile(id)
     }
 
