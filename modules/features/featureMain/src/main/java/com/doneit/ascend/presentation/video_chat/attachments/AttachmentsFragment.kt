@@ -31,7 +31,6 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.adapter = this.adapter
         binding.model = viewModel
         val decorator = TopListDecorator(resources.getDimension(R.dimen.attachments_list_top_padding).toInt())
