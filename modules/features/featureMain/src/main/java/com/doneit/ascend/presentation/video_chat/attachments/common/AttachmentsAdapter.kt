@@ -6,7 +6,8 @@ import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.AttachmentType
 
 class AttachmentsAdapter(private val onDownloadClick: (model: AttachmentEntity)->Unit,
-                         private val onCopyClick: (model: AttachmentEntity)->Unit ) :
+                         private val onCopyClick: (model: AttachmentEntity)->Unit,
+                         private val onDeleteListener: (id: Long)->Unit) :
     PagedListAdapter<AttachmentEntity, AttachmentViewHolder>(AttachmentDiffCallback()) {
 
     init {
@@ -33,24 +34,14 @@ class AttachmentsAdapter(private val onDownloadClick: (model: AttachmentEntity)-
         val model =  getItem(position)
         when (model?.attachmentType) {
             AttachmentType.FILE -> {
-                (holder as AttachmentFileViewHolder).bind(model, onDownloadClick)
-                holder.itemView.setOnClickListener {
-                    //onGroupClick.invoke(model)
-                }
+                (holder as AttachmentFileViewHolder).bind(model, onDownloadClick, {onDeleteListener.invoke(it)})
             }
             AttachmentType.IMAGE -> {
-                (holder as AttachmentImageViewHolder).bind(model, onDownloadClick)
-                holder.itemView.setOnClickListener {
-                    //onGroupClick.invoke(model)
-                }
+                (holder as AttachmentImageViewHolder).bind(model, onDownloadClick, {onDeleteListener.invoke(it)})
             }
-
             //TODO: is link type is exist??
             else -> {
-                (holder as AttachmentLinkViewHolder).bind(model!!, onCopyClick)
-                holder.itemView.setOnClickListener {
-                    //onGroupClick.invoke(model)
-                }
+                (holder as AttachmentLinkViewHolder).bind(model!!, onCopyClick, {onDeleteListener.invoke(it)})
             }
         }
     }

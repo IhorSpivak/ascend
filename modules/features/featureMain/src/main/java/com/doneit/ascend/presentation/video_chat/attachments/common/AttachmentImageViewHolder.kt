@@ -12,13 +12,16 @@ import com.doneit.ascend.presentation.utils.extensions.toMb
 class AttachmentImageViewHolder(
     private val binding: ListItemAttachmentImageBinding
 ) : AttachmentViewHolder(binding.root) {
-    fun bind(item: AttachmentEntity, onDownloadClick: (AttachmentEntity) -> Unit){
+    fun bind(item: AttachmentEntity, onDownloadClick: (AttachmentEntity) -> Unit, onDeleteListener: (id: Long) -> Unit){
         binding.item = item
         binding.date = item.createdAt.toAttachmentDate()
         binding.download.setOnClickListener{
             onDownloadClick.invoke(item)
         }
         binding.fileSize = item.fileSize.toMb()
+        binding.ibDelete.setOnClickListener {
+            onDeleteListener.invoke(item.id!!)
+        }
         binding.executePendingBindings()
     }
 

@@ -20,11 +20,13 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
     private val adapter: AttachmentsAdapter by lazy {
         AttachmentsAdapter({
             //TODO:
-            Toast.makeText(activity!!, "download", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "download", Toast.LENGTH_LONG).show()
         }, {
             //TODO:
             it.link.copyToClipboard(requireContext())
-            Toast.makeText(activity!!, "copy", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "copy", Toast.LENGTH_LONG).show()
+        },{
+            Toast.makeText(requireContext(), "delete", Toast.LENGTH_LONG).show()
         })
     }
 
