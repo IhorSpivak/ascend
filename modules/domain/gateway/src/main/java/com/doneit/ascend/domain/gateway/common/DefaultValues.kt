@@ -1,9 +1,10 @@
 package com.doneit.ascend.domain.gateway.common
 
-fun Long?.orDefault(): Long {
-    return this ?: -1L
-}
+import java.text.SimpleDateFormat
+import java.util.*
 
-fun Int?.orDefault(): Int {
-    return this ?: 0
+fun String.toDefaultFormatter(): SimpleDateFormat {
+    val formatter = SimpleDateFormat(this, Locale.getDefault())
+    formatter.timeZone = TimeZone.getTimeZone("GMT")
+    return formatter
 }

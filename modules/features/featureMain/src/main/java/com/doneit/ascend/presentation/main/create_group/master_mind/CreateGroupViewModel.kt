@@ -12,6 +12,7 @@ import com.doneit.ascend.presentation.main.create_group.create_support_group.Cre
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerContract
 import com.doneit.ascend.presentation.models.*
 import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
@@ -345,7 +346,7 @@ class CreateGroupViewModel(
     }
 
     private fun changeStartDate() {
-        val calendar = Calendar.getInstance()
+        val calendar = getGMTCalendar()
         calendar.time = Date(0)
         calendar.set(Calendar.YEAR, createGroupModel.year)
         calendar.set(Calendar.MONTH, createGroupModel.month.ordinal)

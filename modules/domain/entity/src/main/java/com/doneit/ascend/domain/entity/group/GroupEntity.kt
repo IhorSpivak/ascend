@@ -50,75 +50,6 @@ class GroupEntity(
         daysOfWeek = (parcel.readArrayList(Int::class.java.classLoader) as List<Int>?)?.map { CalendarDayEntity.values()[it] }
     )
 
-    val isStarting: Boolean
-        get() {//todo refactor
-            var res = false
-            if (startTime != null && daysOfWeek != null) {
-                if (passedCount < meetingsCount ?: 0) {
-                    val startDate = Calendar.getInstance()
-                    startDate.time = startTime
-                    val currentDate = Calendar.getInstance()
-
-                    val dayIndex = currentDate.get(Calendar.DAY_OF_WEEK) - 1
-                    val day = CalendarDayEntity.values()[dayIndex]
-                    if (daysOfWeek.contains(day)) {
-                        startDate.set(Calendar.YEAR, 0)
-                        startDate.set(Calendar.MONTH, 0)
-                        startDate.set(Calendar.DAY_OF_MONTH, 0)
-
-                        currentDate.set(Calendar.YEAR, 0)
-                        currentDate.set(Calendar.MONTH, 0)
-                        currentDate.set(Calendar.DAY_OF_MONTH, 0)
-
-                        if (currentDate.after(startDate.plus(-1 * UPCOMING_INTERVAL))
-                            and currentDate.before(startDate.plus(UPCOMING_INTERVAL))
-                        ) {
-                            res = true
-                        }
-                    }
-                }
-            }
-
-            return res
-        }
-
-    val inProgress: Boolean
-        get() {//todo refactor
-            var res = false
-
-            if (startTime != null && daysOfWeek != null) {
-
-                if (passedCount < meetingsCount ?: 0) {
-                    val startDate = Calendar.getInstance()
-                    startDate.time = startTime
-                    val currentDate = Calendar.getInstance()
-
-                    val dayIndex = currentDate.get(Calendar.DAY_OF_WEEK) - 1
-                    val day = CalendarDayEntity.values()[dayIndex]
-                    if (daysOfWeek.contains(day)) {
-                        startDate.set(Calendar.YEAR, 0)
-                        startDate.set(Calendar.MONTH, 0)
-                        startDate.set(Calendar.DAY_OF_MONTH, 0)
-
-                        currentDate.set(Calendar.YEAR, 0)
-                        currentDate.set(Calendar.MONTH, 0)
-                        currentDate.set(Calendar.DAY_OF_MONTH, 0)
-
-                        if (currentDate.after(startDate) and currentDate.before(
-                                startDate.plus(
-                                    PROGRESS_DURATION
-                                )
-                            )
-                        ) {
-                            res = true
-                        }
-                    }
-                }
-            }
-
-            return res
-        }
-
     val timeInProgress: Long
         get() {
             val currentDate = Date()
@@ -131,13 +62,6 @@ class GroupEntity(
             val time = startTime!!.time + PROGRESS_DURATION - currentDate.time
             return if (time > 0) time else 0
         }
-
-    private fun Calendar.plus(interval: Long): Calendar {
-        val c = Calendar.getInstance()
-        c.time = Date(this.time.time + interval)
-
-        return c
-    }
 
     override fun writeToParcel(p0: Parcel?, p1: Int) {
         p0?.writeLong(id)

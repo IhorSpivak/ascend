@@ -25,6 +25,7 @@ import com.doneit.ascend.presentation.profile.notification_settings.Notification
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsItem
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeContract
 import com.doneit.ascend.presentation.profile.regular_user.community.CommunityContract
+import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
 import com.doneit.ascend.presentation.utils.extensions.toCalendar
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.getLocation
@@ -213,7 +214,7 @@ class ProfileViewModel(
     }
 
     override fun onBirthdaySelected(year: Int, month: MonthEntity, day: Int) {
-        val calendar = Calendar.getInstance()
+        val calendar = getGMTCalendar()
         calendar.time.time = 0
 
         calendar.set(Calendar.YEAR, year)
