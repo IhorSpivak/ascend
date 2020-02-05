@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isPlaceholderDataVisible"
+            type="Boolean" />
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract.ViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.twilio.video.VideoView
             android:id="@+id/videoView"
-            app:mirror="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="@{(v) -> model.onOpenOptions()}"/>
+            android:onClick="@{(v) -> model.onOpenOptions()}"
+            app:mirror="true" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/placeholder"
@@ -26,73 +35,73 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:setImage="@{model.groupInfo.image.url}"/>
+                app:setImage="@{model.groupInfo.image.url}" />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/grPlaceholderData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
-                app:constraint_referenced_ids="tvTitle,mmIcon,tvName"/>
+                android:visibility="@{isPlaceholderDataVisible? View.VISIBLE:View.INVISIBLE}"
+                app:constraint_referenced_ids="tvTitle,mmIcon,tvName" />
 
             <TextView
                 android:id="@+id/tvTitle"
+                style="@style/TextNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="54dp"
-                android:layout_marginEnd="54dp"
                 android:layout_marginTop="160dp"
+                android:layout_marginEnd="54dp"
                 android:gravity="center"
-                style="@style/TextNormal"
+                android:text="@{model.groupInfo.name}"
                 android:textColor="@android:color/white"
                 android:textSize="32sp"
                 android:textStyle="bold"
-                android:text="@{model.groupInfo.name}"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Fighting For Recovery"/>
+                tools:text="Fighting For Recovery" />
 
             <com.doneit.ascend.presentation.views.MasterMindIcon
                 android:id="@+id/mmIcon"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_marginTop="32dp"
-                app:name="@{model.groupInfo.owner.fullName}"
-                app:url="@{model.groupInfo.owner.image.url}"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                app:name="@{model.groupInfo.owner.fullName}"
+                app:url="@{model.groupInfo.owner.image.url}" />
 
             <TextView
                 android:id="@+id/tvName"
+                style="@style/TextNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
                 android:layout_marginStart="54dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="54dp"
                 android:gravity="center"
-                style="@style/TextNormal"
-                android:textStyle="bold"
-                android:textColor="@{model.isMMConnected? @android:color/white : @color/error_color, default = @android:color/white}"
                 android:text="@{model.isMMConnected? model.groupInfo.owner.fullName : @string/mm_disconnected(model.groupInfo.owner.fullName)}"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@{model.isMMConnected? @android:color/white : @color/error_color, default = @android:color/white}"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/mmIcon"
-                tools:text="Emma Wilson"/>
+                tools:text="Emma Wilson" />
 
             <TextView
                 android:id="@+id/tvConnection"
+                style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextNormal"
+                android:text="@string/connecting"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
-                android:text="@string/connecting"
-                android:visibility="@{!model.isMMConnected}"
-                app:layout_constraintTop_toBottomOf="@id/tvName"
+                android:visibility="@{!model.isMMConnected &amp;&amp; isPlaceholderDataVisible}"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

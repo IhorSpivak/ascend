@@ -12,10 +12,7 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
 import com.doneit.ascend.presentation.models.StartVideoModel
-import com.doneit.ascend.presentation.utils.extensions.requestPermissions
-import com.doneit.ascend.presentation.utils.extensions.show
-import com.doneit.ascend.presentation.utils.extensions.visible
-import com.doneit.ascend.presentation.utils.extensions.vmShared
+import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantsListener
@@ -69,6 +66,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
+        binding.isPlaceholderDataVisible = false
 
         viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
             localVideoTrack?.enable(it)
@@ -112,7 +110,6 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         super.onStart()
         viewModel.credentials.observe(this, Observer {
             startVideo(it)
-            binding.grPlaceholderData.show()//enable mm icon and group name
         })
     }
 
@@ -200,6 +197,9 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             override fun onConnected(room: Room) {
                 viewModel.onConnected(room.remoteParticipants.map { it.identity })
                 room.displayDominant()
+                if(room.remoteParticipants.size > 0) {
+                    binding.grPlaceholderData.show()//enable mm icon and group name
+                }
             }
 
             override fun onConnectFailure(room: Room, twilioException: TwilioException) {
@@ -208,6 +208,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
             override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
                 viewModel.onUserConnected(remoteParticipant.identity)
+                binding.grPlaceholderData.show()//enable mm icon and group name
             }
 
             override fun onParticipantDisconnected(
