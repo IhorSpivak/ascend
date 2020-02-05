@@ -20,7 +20,8 @@ import com.doneit.ascend.source.storage.local.repository.user.UserDao
         MasterMindLocal::class,
         ImageLocal::class,
         GroupLocal::class,
-        OwnerLocal::class
+        OwnerLocal::class,
+        NoteLocal::class
     ],
     version = 2//todo move down
 )
