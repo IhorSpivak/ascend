@@ -322,6 +322,7 @@
     <string name="report">Report</string>
     <string name="allow_say">Allow to say</string>
     <string name="attachments">Attachments</string>
+    <string name="notes">Notes</string>
 
 
     <!--Permission required dialog-->

@@ -11,6 +11,8 @@ import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressFragm
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.user_actions.ChatParticipantActionsFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsFragment
+import com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes.NotesContract
+import com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes.NotesFragment
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
@@ -18,6 +20,7 @@ class VideoChatRouter(
     private val activity: VideoChatActivity
 ) : FragmentRouter(activity.supportFragmentManager),
     AttachmentsContract.Router,
+    NotesContract.Router,
     VideoChatContract.Router {
 
     override val containerId = activity.getContainerId()
@@ -60,13 +63,22 @@ class VideoChatRouter(
     }
 
     override fun navigateToChatParticipantActions(userId: Long) {
-        activity.supportFragmentManager.add(fullContainerId, ChatParticipantActionsFragment.newInstance(userId))
+        activity.supportFragmentManager.add(
+            fullContainerId,
+            ChatParticipantActionsFragment.newInstance(userId)
+        )
     }
 
     override fun navigateToAttachments(groupId: Long) {
-        activity.supportFragmentManager.add(fullContainerId, AttachmentsFragment.newInstance(
-            AttachmentsArg(groupId)
-        ))
+        activity.supportFragmentManager.add(
+            fullContainerId, AttachmentsFragment.newInstance(
+                AttachmentsArg(groupId)
+            )
+        )
+    }
+
+    override fun navigateToNotes(groupId: Long) {
+        activity.supportFragmentManager.add(fullContainerId, NotesFragment.newInstance(groupId))
     }
 
     private fun finishWithResult(resultCode: VideoChatActivity.ResultStatus) {

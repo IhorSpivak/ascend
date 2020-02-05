@@ -6,10 +6,10 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -122,6 +122,23 @@ internal class GroupGateway(
                     it?.errors
                 }
             )
+        }
+    }
+
+    override fun getGroupDetailsLive(groupId: Long) = liveData<GroupEntity?> {
+        emitSource(groupLocal.getGroupByIdLive(groupId).map { it?.toEntity() })
+
+        val result = executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+
+        if(result.isSuccessful) {
+            groupLocal.insertAll(listOf(result.successModel!!.toLocal()))
         }
     }
 

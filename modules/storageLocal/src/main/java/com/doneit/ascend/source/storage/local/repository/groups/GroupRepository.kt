@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.local.repository.groups
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.doneit.ascend.source.storage.local.data.GroupLocal
@@ -19,6 +20,10 @@ internal class GroupRepository(
 
     override suspend fun getGroupById(id: Long): GroupLocal? {
         return dao.getById(id)
+    }
+
+    override fun getGroupByIdLive(id: Long): LiveData<GroupLocal?> {
+        return dao.getByIdLive(id)
     }
 
     override suspend fun insertAll(groups: List<GroupLocal>) {
