@@ -24,10 +24,9 @@ class MMFollowingFragment : BaseFragment<FragmentMasterMindFollowingBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         val decorator =
-            TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
+            TopListDecorator(resources.getDimension(R.dimen.search_list_top_padding).toInt())
 
         binding.model = viewModel
-        binding.lifecycleOwner = this
         binding.content.adapter = adapter
         binding.content.addItemDecoration(decorator)
 
