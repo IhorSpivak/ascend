@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes.NotesContract.ViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/white">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            bind:backClick="@{(v) -> model.onBackClick()}"
+            bind:title="@{@string/notes}" />
+
+        <EditText
+            android:id="@+id/text"
+            style="@style/TextNormal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@null"
+            android:inputType="textMultiLine"
+            android:minLines="1"
+            android:singleLine="false"
+            android:gravity="top"
+            android:text="@{model.groupInfo.note.content}" />
+    </LinearLayout>
+</layout>

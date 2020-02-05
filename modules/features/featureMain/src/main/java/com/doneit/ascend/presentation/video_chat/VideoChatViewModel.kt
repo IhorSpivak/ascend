@@ -4,11 +4,11 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -432,8 +432,12 @@ class VideoChatViewModel(
         router.onBack()
     }
 
-    override fun attachments(groupId: Long) {
+    override fun onAttachmentsClick() {
         router.navigateToAttachments(groupId)
+    }
+
+    override fun onNotesClick() {
+        router.navigateToNotes(groupId)
     }
 
     override fun onCleared() {

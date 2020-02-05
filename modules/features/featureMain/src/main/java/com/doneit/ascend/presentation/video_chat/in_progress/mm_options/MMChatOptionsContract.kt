@@ -11,7 +11,7 @@ interface MMChatOptionsContract {
         val isVideoEnabled: LiveData<Boolean>
         val isAudioEnabled: LiveData<Boolean>
 
-        fun attachments(groupId: Long)
+        fun onAttachmentsClick()
         fun switchVideoEnabledState()
         fun switchAudioEnabledState()
         fun switchCamera()

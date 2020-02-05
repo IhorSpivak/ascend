@@ -11,7 +11,8 @@ interface UserChatOptionsContract {
         val isAudioEnabled: LiveData<Boolean>
         val isHandRisen: LiveData<Boolean>
 
-        fun attachments(groupId: Long)
+        fun onNotesClick()
+        fun onAttachmentsClick()
         fun switchVideoEnabledState()
         fun switchAudioEnabledState()
         fun switchCamera()

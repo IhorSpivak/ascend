@@ -5,15 +5,14 @@ import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.group.NoteEntity
 import com.doneit.ascend.source.storage.local.data.GroupLocal
+import com.doneit.ascend.source.storage.local.data.NoteLocal
 import com.doneit.ascend.source.storage.local.data.OwnerLocal
 import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
 import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
 import com.doneit.ascend.source.storage.remote.data.response.ThumbnailResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.ParticipantResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventMessage
+import com.doneit.ascend.source.storage.remote.data.response.group.*
 
 fun ThumbnailResponse.toEntity(): ThumbnailEntity {
     return ThumbnailEntity(
@@ -58,7 +57,15 @@ fun GroupResponse.toEntity(): GroupEntity {
         blocked,
         participantsCount,
         invitesCount,
-        daysOfWeek?.map { it.toCalendarDay() }
+        daysOfWeek?.map { it.toCalendarDay() },
+        note?.toEntity()
+    )
+}
+
+fun NoteResponse.toEntity(): NoteEntity {
+    return NoteEntity(
+        content,
+        updatedAt.toDate()!!
     )
 }
 
@@ -127,7 +134,15 @@ fun GroupLocal.toEntity(): GroupEntity {
         blocked,
         participantsCount,
         invitesCount,
-        daysOfWeek?.map { CalendarDayEntity.values()[it] }
+        daysOfWeek?.map { CalendarDayEntity.values()[it] },
+        note?.toLocale()
+    )
+}
+
+fun NoteLocal.toLocale(): NoteEntity {
+    return NoteEntity(
+        content,
+        updatedAt.toDate()!!
     )
 }
 

@@ -28,6 +28,10 @@ internal class GroupInteractor(
         return groupGateway.getGroupDetails(groupId)
     }
 
+    override fun getGroupDetailsLive(groupId: Long): LiveData<GroupEntity?> {
+        return groupGateway.getGroupDetailsLive(groupId)
+    }
+
     override fun updateGroupLocal(group: GroupEntity) {
         return groupGateway.updateGroupLocal(group)
     }

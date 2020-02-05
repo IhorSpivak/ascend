@@ -17,6 +17,8 @@ interface IGroupGateway {
 
     suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>>
 
+    fun getGroupDetailsLive(groupId: Long): LiveData<GroupEntity?>
+
     fun updateGroupLocal(group: GroupEntity)
 
     suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>>
