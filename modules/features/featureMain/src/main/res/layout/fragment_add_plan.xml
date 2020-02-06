@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.video_chat.add_mm_plan.AddPlanContract.ViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:backClick="@{(v) -> model.backClick()}"
+            bind:title="@{@string/add_goal_title}" />
+
+        <Button
+            android:id="@+id/add_spiritual_plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/button_pink"
+            android:fontFamily="@font/red_hat_text_bold"
+            android:onClick="@{(v) -> model.addSpiritualPlanClick()}"
+            android:padding="16dp"
+            android:text="@string/add_spiritual_plan"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <Button
+            android:id="@+id/add_goal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/button_blue"
+            android:fontFamily="@font/red_hat_text_bold"
+            android:onClick="@{(v) -> model.addGoalClick()}"
+            android:padding="16dp"
+            android:text="@string/add_goal"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_spiritual_plan" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

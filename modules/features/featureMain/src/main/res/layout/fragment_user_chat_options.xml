@@ -144,6 +144,7 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_check_list"
             android:tint="@android:color/white"
+            android:onClick="@{(v) -> model.onGoalClick()}"
             app:layout_constraintBottom_toBottomOf="@id/ivRiseHand"
             app:layout_constraintEnd_toStartOf="@id/ivReport"
             app:layout_constraintStart_toEndOf="@id/ivNotes"

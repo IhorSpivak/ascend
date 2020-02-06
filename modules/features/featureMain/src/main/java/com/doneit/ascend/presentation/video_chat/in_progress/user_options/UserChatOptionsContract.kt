@@ -13,6 +13,7 @@ interface UserChatOptionsContract {
 
         fun onNotesClick()
         fun onAttachmentsClick()
+        fun onGoalClick()
         fun switchVideoEnabledState()
         fun switchAudioEnabledState()
         fun switchCamera()

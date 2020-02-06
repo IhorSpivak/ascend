@@ -33,5 +33,6 @@ interface VideoChatContract {
         fun navigateToPermissionsRequiredDialog(resultCode: VideoChatActivity.ResultStatus)
         fun navigateToAttachments(groupId: Long)
         fun navigateToNotes(groupId: Long)
+        fun navigateToGoal(groupId: Long)
     }
 }

@@ -48,6 +48,7 @@ class VideoChatViewModel(
     MMChatOptionsContract.ViewModel,
     ChatParticipantActionsContract.ViewModel {
 
+
     //region data
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
@@ -430,6 +431,10 @@ class VideoChatViewModel(
 
     override fun onBackClick() {
         router.onBack()
+    }
+
+    override fun onGoalClick() {
+        router.navigateToGoal(groupId)
     }
 
     override fun onAttachmentsClick() {

@@ -3,6 +3,8 @@ package com.doneit.ascend.presentation.video_chat
 import android.content.Intent
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
+import com.doneit.ascend.presentation.video_chat.add_mm_plan.AddPlanContract
+import com.doneit.ascend.presentation.video_chat.add_mm_plan.AddPlanFragment
 import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsArg
 import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsContract
 import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsFragment
@@ -21,6 +23,7 @@ class VideoChatRouter(
 ) : FragmentRouter(activity.supportFragmentManager),
     AttachmentsContract.Router,
     NotesContract.Router,
+    AddPlanContract.Router,
     VideoChatContract.Router {
 
     override val containerId = activity.getContainerId()
@@ -87,5 +90,9 @@ class VideoChatRouter(
         }
         activity.setResult(VideoChatActivity.RESULT_CODE, resultIntent)
         activity.finish()
+    }
+
+    override fun navigateToGoal(groupId: Long) {
+        activity.supportFragmentManager.add(fullContainerId, AddPlanFragment.newInstance(groupId))
     }
 }
