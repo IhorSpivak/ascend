@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.create_group.date_picker
 
 import android.os.Bundle
 import com.doneit.ascend.domain.entity.MonthEntity
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.main.databinding.FragmentDatePickerBinding
@@ -31,7 +32,7 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
         binding.model = viewModel
         binding.executePendingBindings()
 
-        val cal = Calendar.getInstance()
+        val cal = getDefaultCalendar()
 
         dayPicker.selectedDay = cal.get(Calendar.DAY_OF_MONTH)
 
@@ -63,7 +64,7 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
         }
 
         if (viewModel.getYearPosition() == 0) {
-            yearPicker.selectedYear = Calendar.getInstance().get(Calendar.YEAR)
+            yearPicker.selectedYear = getDefaultCalendar().get(Calendar.YEAR)
             viewModel.setYear(yearPicker.selectedYear)
         } else {
             yearPicker.selectedItemPosition = viewModel.getYearPosition()

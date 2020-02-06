@@ -4,12 +4,16 @@ import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.domain.entity.dto.GroupListModel
 import com.doneit.ascend.domain.entity.dto.ParticipantListModel
 import com.doneit.ascend.domain.entity.dto.SubscribeGroupModel
+import com.doneit.ascend.domain.gateway.common.applyDaysOffset
+import com.doneit.ascend.domain.gateway.common.getDayOffset
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.CreateGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupListRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupParticipantsRequest
 
 fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
+    val dayOffset = startTime.getDayOffset()
+
     return CreateGroupRequest(
         name,
         description,
@@ -17,7 +21,7 @@ fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
         groupType,
         price?.toPrice(),
         participants,
-        days,
+        days.applyDaysOffset(dayOffset),
         meetingsCount,
         meetingFormat,
         privacy

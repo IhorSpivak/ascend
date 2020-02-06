@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.login.new_password
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationNewPasswordModel
@@ -171,14 +172,14 @@ class NewPasswordViewModel(
     private fun startTimer() {
         sendTimer = Timer()
 
-        val calendar = Calendar.getInstance()
+        val calendar = getDefaultCalendar()
         calendar.add(Calendar.MINUTE, 1)
         end = calendar.timeInMillis
 
         canShowTimer.postValue(true)
 
         sendTimer?.schedule(timerTask {
-            val currentTime = Calendar.getInstance().time
+            val currentTime = getDefaultCalendar().time
             val diffInMs = end - currentTime.time
 
             if (diffInMs <= 0) {

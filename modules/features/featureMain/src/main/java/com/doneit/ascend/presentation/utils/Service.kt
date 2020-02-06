@@ -9,16 +9,16 @@ fun getButtonType(user: UserEntity, group: GroupEntity): ButtonType {
 
     if (group.subscribed == true) {
         res = ButtonType.SUBSCRIBED
-        if (group.status == GroupStatus.STARTED || group.status == GroupStatus.ACTIVE) {
+        if (group.isStarting || group.inProgress) {
             res = ButtonType.JOIN_TO_DISCUSSION
         }
     }
 
     if (user.isMasterMind && user.id == group.owner?.id) {
-        res = if (group.status == GroupStatus.STARTED) {
-            ButtonType.JOIN_TO_DISCUSSION
-        } else if (group.status == GroupStatus.ACTIVE) {
+        res = if (group.isStarting && group.status != GroupStatus.STARTED) {
             ButtonType.START_GROUP
+        } else if (group.inProgress) {
+            ButtonType.JOIN_TO_DISCUSSION
         } else if (group.participantsCount == 0) {
             ButtonType.DELETE_GROUP
         } else {

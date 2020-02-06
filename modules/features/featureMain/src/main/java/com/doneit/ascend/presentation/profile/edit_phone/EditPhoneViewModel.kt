@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.profile.edit_phone
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -117,7 +118,7 @@ class EditPhoneViewModel(
     }
 
     private fun startTimer() {
-        val calendar = Calendar.getInstance()
+        val calendar = getDefaultCalendar()
         calendar.add(Calendar.MILLISECOND, Constants.RESEND_CODE_INTERVAL.toInt())
 
         sendTimer.schedule(timerTask {

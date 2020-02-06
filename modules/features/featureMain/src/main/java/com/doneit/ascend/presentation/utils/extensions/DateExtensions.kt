@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.utils.extensions
 
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,7 +17,7 @@ fun Date.toDayOfMonth(): Int {
 }
 
 fun Date.toCalendar(): Calendar {
-    val calendar = getGMTCalendar()
+    val calendar = getDefaultCalendar()
     calendar.time = this
 
     return calendar
@@ -58,14 +59,5 @@ private fun SimpleDateFormat.getFormatted(date: Date): String {
 }
 
 fun String.toDefaultFormatter(): SimpleDateFormat {
-    val formatter = SimpleDateFormat(this, Locale.getDefault())
-    formatter.timeZone = TimeZone.getTimeZone("GMT")
-    return formatter
-}
-
-fun getGMTCalendar(): Calendar {
-    val calendar = Calendar.getInstance()
-    calendar.timeZone = TimeZone.getTimeZone("GMT")
-
-    return calendar
+    return SimpleDateFormat(this, Locale.getDefault())
 }

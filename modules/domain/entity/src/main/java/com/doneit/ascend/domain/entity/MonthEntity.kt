@@ -26,7 +26,7 @@ enum class MonthEntity {
 
     companion object{
         fun getActual(): MonthEntity {
-            val calendar = Calendar.getInstance()
+            val calendar = getDefaultCalendar()
             return values()[calendar.get(Calendar.MONTH)]
         }
     }

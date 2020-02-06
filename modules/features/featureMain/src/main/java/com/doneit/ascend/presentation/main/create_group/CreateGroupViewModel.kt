@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.MonthEntity
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -13,11 +14,8 @@ import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerCo
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupContract
 import com.doneit.ascend.presentation.models.*
 import com.doneit.ascend.presentation.utils.*
-import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
-import com.vrgsoft.annotations.CreateFactory
-import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 import java.util.*
@@ -345,7 +343,7 @@ class CreateGroupViewModel(
     }
 
     private fun changeStartDate() {
-        val calendar = getGMTCalendar()
+        val calendar = getDefaultCalendar()
         calendar.time = Date(0)
         calendar.set(Calendar.YEAR, createGroupModel.year)
         calendar.set(Calendar.MONTH, createGroupModel.month.ordinal)
