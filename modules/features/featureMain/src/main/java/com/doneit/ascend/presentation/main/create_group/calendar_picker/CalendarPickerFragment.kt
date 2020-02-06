@@ -6,11 +6,10 @@ import android.widget.ToggleButton
 import androidx.core.view.children
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
+import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentCalendarPickerBinding
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.doneit.ascend.presentation.utils.extensions.vmShared
 import kotlinx.android.synthetic.main.fragment_calendar_picker.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -21,9 +20,7 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<CalendarPickerContract.ViewModel>() with provider {
-            vmShared<CreateGroupViewModel>(
-                instance()
-            )
+            instance<CreateGroupHostContract.ViewModel>()
         }
     }
 

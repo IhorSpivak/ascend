@@ -4,10 +4,9 @@ import android.os.Bundle
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
+import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentDatePickerBinding
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.doneit.ascend.presentation.utils.extensions.vmShared
 import kotlinx.android.synthetic.main.fragment_date_picker.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -20,9 +19,7 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         //di should contains corresponding ViewModel from SignUpFragments' module for now
         bind<DatePickerContract.ViewModel>() with provider {
-            vmShared<CreateGroupViewModel>(
-                instance()
-            )
+            instance<CreateGroupHostContract.ViewModel>()
         }
     }
 

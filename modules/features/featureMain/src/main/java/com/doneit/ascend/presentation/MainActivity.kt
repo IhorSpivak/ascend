@@ -57,14 +57,6 @@ class MainActivity : BaseActivity() {
         }
 
         bind<MainContract.ViewModel>() with provider { vm<MainViewModel>(instance()) }
-
-        bind<ViewModel>(tag = CreateGroupViewModel::class.java.simpleName) with provider {
-            CreateGroupViewModel(
-                instance(),
-                instance(),
-                instance()
-            )
-        }
     }
 
     fun getContainerId() = R.id.container

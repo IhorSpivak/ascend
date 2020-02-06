@@ -24,10 +24,4 @@ interface CreateGroupContract {
         fun chooseScheduleTouch()
         fun chooseStartDateTouch()
     }
-
-    interface Router {
-        fun onBack()
-        fun navigateToCalendarPiker()
-        fun navigateToDatePicker()
-    }
 }
