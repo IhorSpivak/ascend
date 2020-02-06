@@ -9,9 +9,9 @@ import android.text.style.StyleSpan
 import android.util.Patterns
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.models.LocationModel
-import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.views.SmsCodeView
 import java.text.ParseException
@@ -92,7 +92,7 @@ fun String.isValidStrartDate(): Boolean {
 
     try {
         val date = "dd MMMM yyyy".toDefaultFormatter().parse(this)
-        val today = getGMTCalendar()
+        val today = getDefaultCalendar()
         today.set(Calendar.HOUR_OF_DAY, 0)
         today.set(Calendar.MINUTE, 0)
         today.set(Calendar.SECOND, 0)

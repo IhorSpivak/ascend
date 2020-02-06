@@ -4,33 +4,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.MonthEntity
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
-import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
-import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerContract
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupContract
 import com.doneit.ascend.presentation.models.*
 import com.doneit.ascend.presentation.utils.*
-import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
-import com.vrgsoft.annotations.CreateFactory
-import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 import java.util.*
 
 class CreateGroupViewModel(
     private val groupUseCase: GroupUseCase,
-    private val router: CreateGroupContract.Router,
+    private val router: CreateGroupHostContract.Router,
+    private val localRouter: CreateGroupHostContract.LocalRouter,
     private val calendarUtil: CalendarPickerUtil
 ) : BaseViewModelImpl(),
-    CreateGroupContract.ViewModel,
-    CreateSupGroupContract.ViewModel,
-    CalendarPickerContract.ViewModel,
-    DatePickerContract.ViewModel {
+    CreateGroupHostContract.ViewModel {
 
     override val createGroupModel = PresentationCreateGroupModel()
     override var email: ValidatableField = ValidatableField()
@@ -187,8 +179,8 @@ class CreateGroupViewModel(
             canComplete.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                router.onBack()
-                router.onBack()
+                backClick()
+                backClick()
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
                     showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
@@ -197,23 +189,33 @@ class CreateGroupViewModel(
         }
     }
 
+    override fun handleBaseNavigation(args: CreateGroupArgs) {
+        if (args.groupType == GroupType.SUPPORT) {
+            localRouter.navigateToCreateSubGroup(args)
+        } else {
+            localRouter.navigateToCreateGroup(args)
+        }
+    }
 
     override fun backClick() {
-        router.onBack()
+        //todo remove this solution!!
+        if(localRouter.onBack().not()) {
+            router.onBack()
+        }
     }
 
     override fun chooseScheduleTouch() {
         updateCanOk()
-        router.navigateToCalendarPiker()
+        localRouter.navigateToCalendarPiker()
     }
 
     override fun chooseStartDateTouch() {
-        router.navigateToDatePicker()
+        localRouter.navigateToDatePicker()
     }
 
     override fun okClick() {
         changeSchedule()
-        router.onBack()
+        backClick()
     }
 
     override fun setHours(hours: String) {
@@ -345,7 +347,7 @@ class CreateGroupViewModel(
     }
 
     private fun changeStartDate() {
-        val calendar = getGMTCalendar()
+        val calendar = getDefaultCalendar()
         calendar.time = Date(0)
         calendar.set(Calendar.YEAR, createGroupModel.year)
         calendar.set(Calendar.MONTH, createGroupModel.month.ordinal)
@@ -369,19 +371,19 @@ class CreateGroupViewModel(
     }
 
     override fun cancelClick() {
-        router.onBack()
+        backClick()
 
         canOk.postValue(false)
     }
 
     override fun doneClick() {
         changeStartDate()
-        router.onBack()
+        backClick()
     }
 
     override fun backDateClick() {
-        router.onBack()
-        router.onBack()
+        backClick()
+        backClick()
     }
 
     override fun getMonth(): MonthEntity {

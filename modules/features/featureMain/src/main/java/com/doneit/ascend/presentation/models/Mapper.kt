@@ -1,15 +1,11 @@
 package com.doneit.ascend.presentation.models
 
-import com.doneit.ascend.domain.entity.CalendarDayEntity
-import com.doneit.ascend.domain.entity.CardEntity
-import com.doneit.ascend.domain.entity.ParticipantEntity
-import com.doneit.ascend.domain.entity.SocketUserEntity
+import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.dto.ChangeEmailModel
 import com.doneit.ascend.domain.entity.dto.ChangePasswordModel
 import com.doneit.ascend.domain.entity.dto.ChangePhoneModel
 import com.doneit.ascend.domain.entity.dto.CreateGroupModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
-import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
 import java.lang.NumberFormatException
@@ -18,9 +14,9 @@ import java.util.*
 fun PresentationCreateGroupModel.toEntity(): CreateGroupModel {
     val startTime =
         CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
-    val calendar = getGMTCalendar()
-    calendar.time = startTime
-    calendar.set(Calendar.HOUR, hours.toInt() % 12)//to avoid day increment
+    val calendar = getDefaultCalendar()
+    calendar.time = startTime!!
+    calendar.set(Calendar.HOUR, hours.toInt() )//% 12to avoid day increment
     calendar.set(Calendar.MINUTE, minutes.toInt())
     calendar.set(Calendar.AM_PM, timeType.toAM_PM())
 

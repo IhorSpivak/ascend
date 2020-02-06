@@ -14,16 +14,15 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
+import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
+import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
-import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
-import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateSupportGroupBinding
 import com.doneit.ascend.presentation.utils.copyCompressed
 import com.doneit.ascend.presentation.utils.copyFile
 import com.doneit.ascend.presentation.utils.createTempPhotoUri
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.utils.getCompressedImagePath
 import kotlinx.android.synthetic.main.fragment_create_support_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
@@ -40,9 +39,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<CreateSupGroupContract.ViewModel>() with provider {
-            vmShared<CreateGroupViewModel>(
-                instance()
-            )
+            instance<CreateGroupHostContract.ViewModel>()
         }
     }
 

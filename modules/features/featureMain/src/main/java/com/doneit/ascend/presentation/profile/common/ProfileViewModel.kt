@@ -9,6 +9,7 @@ import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.AnswersModel
 import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
@@ -25,7 +26,6 @@ import com.doneit.ascend.presentation.profile.notification_settings.Notification
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsItem
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeContract
 import com.doneit.ascend.presentation.profile.regular_user.community.CommunityContract
-import com.doneit.ascend.presentation.utils.extensions.getGMTCalendar
 import com.doneit.ascend.presentation.utils.extensions.toCalendar
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.getLocation
@@ -214,7 +214,7 @@ class ProfileViewModel(
     }
 
     override fun onBirthdaySelected(year: Int, month: MonthEntity, day: Int) {
-        val calendar = getGMTCalendar()
+        val calendar = getDefaultCalendar()
         calendar.time.time = 0
 
         calendar.set(Calendar.YEAR, year)

@@ -13,6 +13,8 @@ import com.doneit.ascend.presentation.main.create_group.create_support_group.Cre
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
+import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
+import com.doneit.ascend.presentation.main.create_group.CreateGroupHostFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupContract
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupFragment
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract
@@ -82,7 +84,7 @@ class MainRouter(
     ProfileContract.Router,
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router,
     HomeContract.Router,
-    CreateSupGroupContract.Router,
+    CreateGroupHostContract.Router,
     GroupInfoContract.Router,
     WebPageContract.Router,
     MMFollowingContract.Router,
@@ -105,16 +107,7 @@ class MainRouter(
     PaymentMethodsContract.Router,
     AddPaymentContract.Router,
     MyTransactionsContract.Router,
-    CreateGroupContract.Router,
     SelectGroupTypeContract.Router {
-
-    override fun navigateToCalendarPiker() {
-        activity.supportFragmentManager.add(containerIdFull, CalendarPickerFragment())
-    }
-
-    override fun navigateToDatePicker() {
-        activity.supportFragmentManager.add(containerIdFull, DatePickerFragment())
-    }
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
@@ -321,11 +314,7 @@ class MainRouter(
     override fun navigateToCreateGroup(type: com.doneit.ascend.presentation.models.GroupType) {
         val args = CreateGroupArgs(type)
 
-        val fragment = if (type == com.doneit.ascend.presentation.models.GroupType.SUPPORT) {
-            CreateSupGroupFragment()
-        } else {
-            CreateGroupFragment()
-        }
+        val fragment = CreateGroupHostFragment()
 
         fragment.arguments = Bundle().apply {
             putParcelable(

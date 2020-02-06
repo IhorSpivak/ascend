@@ -38,8 +38,8 @@ data class UserEntity(
         private const val MM_ROLE = "master_mind"
 
         fun getAge(birthDate: Date): Int {
-            val currentDate = Calendar.getInstance()
-            val birthday = Calendar.getInstance()
+            val currentDate = getDefaultCalendar()
+            val birthday = getDefaultCalendar()
             birthday.time = birthDate
 
             var res = currentDate.get(Calendar.YEAR) - birthday.get(Calendar.YEAR)

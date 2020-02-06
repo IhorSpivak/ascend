@@ -6,6 +6,8 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.group.NoteEntity
+import com.doneit.ascend.domain.gateway.common.applyDaysOffset
+import com.doneit.ascend.domain.gateway.common.getDayOffset
 import com.doneit.ascend.source.storage.local.data.GroupLocal
 import com.doneit.ascend.source.storage.local.data.NoteLocal
 import com.doneit.ascend.source.storage.local.data.OwnerLocal
@@ -38,11 +40,14 @@ fun OwnerResponse.toEntity(): OwnerEntity {
 }
 
 fun GroupResponse.toEntity(): GroupEntity {
+    val startT = startTime.toDate()!!
+    val dayOffset = -1 * startT.getDayOffset()
+
     return GroupEntity(
         id,
         name,
         description,
-        startTime?.toDate(),
+        startT,
         status?.toGroupStatus(),
         groupType?.toGroupType(),
         price / 100,
@@ -57,7 +62,7 @@ fun GroupResponse.toEntity(): GroupEntity {
         blocked,
         participantsCount,
         invitesCount,
-        daysOfWeek?.map { it.toCalendarDay() },
+        daysOfWeek.applyDaysOffset(dayOffset).map { it.toCalendarDay() },
         note?.toEntity()
     )
 }
