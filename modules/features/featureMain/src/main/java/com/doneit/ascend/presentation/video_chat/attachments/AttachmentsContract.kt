@@ -13,6 +13,7 @@ interface AttachmentsContract {
 
         fun backClick()
         fun onDelete(id: Long)
+
     }
 
     interface Router {

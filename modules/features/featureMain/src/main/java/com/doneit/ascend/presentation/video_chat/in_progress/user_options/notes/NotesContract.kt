@@ -9,6 +9,7 @@ interface NotesContract {
         val groupInfo: LiveData<GroupEntity?>
 
         fun init(groupId: Long)
+        fun update(newContent: String)
         fun onBackClick()
     }
 

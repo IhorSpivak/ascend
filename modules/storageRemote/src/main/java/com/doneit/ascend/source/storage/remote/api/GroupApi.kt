@@ -1,6 +1,7 @@
 package com.doneit.ascend.source.storage.remote.api
 
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.UpdateNoteRequest
 import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
 import com.doneit.ascend.source.storage.remote.data.response.group.GroupListResponse
 import com.doneit.ascend.source.storage.remote.data.response.group.GroupResponse
@@ -43,9 +44,9 @@ interface GroupApi {
     @POST("groups/{groupId}/credentials")
     fun getCredentialsAsync(@Path("groupId") groupId: Long): Deferred<Response<GroupCredentialsResponse>>
 
-    @GET("groups/{id}/participants")
+    @GET("groups/{groupId}/participants")
     fun getParticipantsAsync(
-        @Path("id") groupId: Long,
+        @Path("groupId") groupId: Long,
         @Query("page") page: Int?,
         @Query("per_page") perPage: Int?,
         @Query("sort_column") sortColumn: String?,
@@ -53,4 +54,7 @@ interface GroupApi {
         @Query("full_name") fullName: String?,
         @Query("connected") boolean: Boolean?
     ): Deferred<Response<ParticipantListResponse>>
+
+    @POST("groups/{groupId}/note")
+    fun updateNote(@Path("groupId") groupId: Long, @Body request: UpdateNoteRequest): Deferred<Response<OKResponse>>
 }

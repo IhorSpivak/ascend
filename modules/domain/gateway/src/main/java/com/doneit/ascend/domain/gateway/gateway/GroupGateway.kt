@@ -123,7 +123,7 @@ internal class GroupGateway(
                 }
             )
 
-            if(res.isSuccessful) {
+            if (res.isSuccessful) {
                 GlobalScope.launch(Dispatchers.IO) {
                     groupLocal.insertAll(listOf(res.successModel!!.toLocal()))
                 }
@@ -145,7 +145,7 @@ internal class GroupGateway(
             }
         )
 
-        if(result.isSuccessful) {
+        if (result.isSuccessful) {
             groupLocal.insertAll(listOf(result.successModel!!.toLocal()))
         }
     }
@@ -158,6 +158,17 @@ internal class GroupGateway(
 
     override suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
         return executeRemote { remote.deleteGroup(groupId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun updateNote(dto: UpdateNoteDTO): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.updateNote(dto.groupId, dto.toRequest()) }.toResponseEntity(
             {
                 Unit
             },
