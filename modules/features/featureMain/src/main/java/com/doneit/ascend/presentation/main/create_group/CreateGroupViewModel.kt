@@ -222,40 +222,12 @@ class CreateGroupViewModel(
         createGroupModel.hours = hours
     }
 
-    override fun getHoursPosition(): Int {
-        return createGroupModel.hoursPosition
-    }
-
-    override fun setHoursPosition(position: Int) {
-        createGroupModel.hoursPosition = position
-    }
-
     override fun setMinutes(minutes: String) {
         createGroupModel.minutes = minutes
     }
 
-    override fun getMinutesPosition(): Int {
-        return createGroupModel.minutesPosition
-    }
-
-    override fun setMinutesPosition(position: Int) {
-        createGroupModel.minutesPosition = position
-    }
-
     override fun setTimeType(timeType: String) {
         createGroupModel.timeType = timeType
-    }
-
-    override fun getTimeType(): String {
-        return createGroupModel.timeType
-    }
-
-    override fun getTimeTypePosition(): Int {
-        return createGroupModel.timeTypePosition
-    }
-
-    override fun setTimeTypePosition(position: Int) {
-        createGroupModel.timeTypePosition = position
     }
 
     override fun changeDayState(day: CalendarDayEntity, state: Boolean) {
@@ -354,7 +326,6 @@ class CreateGroupViewModel(
         calendar.set(Calendar.DAY_OF_MONTH, createGroupModel.day)
 
         createGroupModel.startDate.observableField.set(START_TIME_FORMATTER.format(calendar.time))
-        changeSchedule()
     }
 
     override fun getMonthList(): List<MonthEntity> {
@@ -398,12 +369,8 @@ class CreateGroupViewModel(
         createGroupModel.day = day
     }
 
-    override fun setDayPosition(position: Int) {
-        createGroupModel.dayPosition = position
-    }
-
-    override fun getDayPosition(): Int {
-        return createGroupModel.dayPosition
+    override fun getDay(): Int {
+        return createGroupModel.day
     }
 
     override fun setYear(year: Int) {
@@ -412,14 +379,6 @@ class CreateGroupViewModel(
 
     override fun getYear(): Int {
         return createGroupModel.year
-    }
-
-    override fun setYearPosition(position: Int) {
-        createGroupModel.yearPosition = position
-    }
-
-    override fun getYearPosition(): Int {
-        return createGroupModel.yearPosition
     }
 
     companion object {

@@ -12,11 +12,8 @@ interface DatePickerContract {
         fun setMonth(month: MonthEntity)
         fun getMonth(): MonthEntity
         fun setDay(day: Int)
-        fun setDayPosition(position: Int)
-        fun getDayPosition(): Int
+        fun getDay(): Int
         fun setYear(year: Int)
         fun getYear(): Int
-        fun setYearPosition(position: Int)
-        fun getYearPosition(): Int
     }
 }

@@ -3,6 +3,8 @@ package com.doneit.ascend.presentation.utils
 import android.content.Context
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.utils.Constants.AM
+import com.doneit.ascend.presentation.utils.extensions.toTimeString
 
 class CalendarPickerUtil(
     private val context: Context
@@ -24,17 +26,13 @@ class CalendarPickerUtil(
 
     companion object {
 
-        const val DEFAULT_TIME_TYPE = "AM"
+        const val DEFAULT_TIME_TYPE = AM
 
         fun getHours(): List<String> {
             val list = mutableListOf<String>()
 
             for (n in 1..12) {
-                if (n < 10) {
-                    list.add("0$n")
-                } else {
-                    list.add(n.toString())
-                }
+                list.add(n.toTimeString())
             }
 
             return list
@@ -56,10 +54,6 @@ class CalendarPickerUtil(
 
         fun getTimeType(): List<String> {
             return listOf("AM", "PM")
-        }
-
-        fun getHours(timeType: String): Int {
-            return if (timeType == "PM") 24 else 12
         }
     }
 }
