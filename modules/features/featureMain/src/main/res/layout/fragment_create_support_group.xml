@@ -28,7 +28,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/blMain"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_size"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/toolbar_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -44,13 +45,13 @@
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/btbBack"
+                        android:id="@+id/btnBack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:lineSpacingExtra="0sp"
                         android:onClick="@{() -> model.backClick()}"
-                        android:text="@string/btn_cancel"
+                        android:text="@string/btn_cancel_spaced"
                         android:textColor="#7E7D8F"
                         android:textSize="17sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,19 +61,22 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvTitle"
                         style="@style/Title"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:gravity="center"
                         android:text="@string/create_support_group"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toEndOf="@id/btnBack"
+                        app:layout_constraintEnd_toStartOf="@id/btnComplete"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/btbComplete"
+                        android:id="@+id/btnComplete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="19dp"
+                        android:layout_marginEnd="16dp"
                         android:enabled="@{model.canComplete}"
                         android:lineSpacingExtra="0sp"
                         android:onClick="@{() -> model.completeClick()}"
