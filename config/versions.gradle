@@ -31,6 +31,7 @@ ext {
     rxKotlin_version = "2.3.0"
     rxJava_version = "2.2.6"
     rxAndroid_version = "2.1.1"
+    firebase_version = "20.1.0"
 
     core_version = "0.0.10"
     core_android_version = "0.0.14"
@@ -135,6 +136,11 @@ ext {
             core: "com.android.support.test.espresso:espresso-core:3.0.2"
     ]
 
+    def firebase = [
+            messaging: "com.google.firebase:firebase-messaging:$firebase_version",
+            analitycs: "com.google.firebase:firebase-analytics:17.2.2"
+    ]
+
     app = [
             [configuration: "implementation", dependency: base.kotlinJDK],
             [configuration: "implementation", dependency: nav.appcompat],
@@ -177,6 +183,9 @@ ext {
             [configuration: "implementation", dependency: retrofit.gson],
             [configuration: "implementation", dependency: retrofit.scalars],
             [configuration: "implementation", dependency: retrofit.coroutines],
+
+            [configuration: "api", dependency: firebase.messaging],
+            [configuration: "implementation", dependency: firebase.analitycs],
 
             [configuration: "implementation", dependency: kodein.generic],
             [configuration: "implementation", dependency: kodein.framework],

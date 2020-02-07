@@ -4,5 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class LogInRequest(
     @SerializedName("phone_number") val number: String,
-    @SerializedName("password") val password: String
+    @SerializedName("password") val password: String,
+    @SerializedName("firebase_id") val firebaseId: String?
 )

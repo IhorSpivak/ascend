@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.gateway.gateway
 
 import android.accounts.Account
 import android.accounts.AccountManager
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import androidx.paging.PagedList
@@ -20,8 +21,11 @@ import com.doneit.ascend.domain.gateway.gateway.data_source.RateDataSource
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.iid.FirebaseInstanceId
 import com.vrgsoft.networkmanager.NetworkManager
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import java.io.File
 import com.doneit.ascend.source.storage.local.repository.user.IUserRepository as LocalRepository
 import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository as RemoteRepository
@@ -40,7 +44,7 @@ internal class UserGateway(
     }
 
     override suspend fun signIn(logInModel: LogInUserModel): ResponseEntity<AuthEntity, List<String>> {
-         val res = executeRemote { remote.signIn(logInModel.toLoginRequest()) }.toResponseEntity(
+         val res = executeRemote { remote.signIn(logInModel.toLoginRequest(getToken())) }.toResponseEntity(
             {
                 it?.toEntity()
             },
@@ -57,7 +61,7 @@ internal class UserGateway(
     }
 
     override suspend fun socialSignIn(socialLoginModel: SocialLogInModel): ResponseEntity<AuthEntity, List<String>> {
-        val res = executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest()) }.toResponseEntity(
+        val res = executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest(getToken())) }.toResponseEntity(
             {
 
                 it?.toEntity()
@@ -316,6 +320,18 @@ internal class UserGateway(
     private suspend fun updateUserLocal(userEntity: UserEntity) {
         local.remove()//only single user at local storage allowed
         local.insert(userEntity.toUserLocal())
+    }
+
+    private suspend fun getToken(): String {
+        val result = Channel<String>()
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener { task ->
+                val token = task.result?.token
+                GlobalScope.launch {
+                    result.send(token ?: "")
+                }
+            }
+        return result.receive()
     }
 
     private fun removeAccounts() {
