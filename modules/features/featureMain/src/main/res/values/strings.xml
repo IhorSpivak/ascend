@@ -67,6 +67,7 @@
     <string name="error_number_of_meetings_count">Schedule does not match the number of meetings</string>
     <string name="error_description">The Group Description from 2 till 1000 symbols</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="btn_cancel_spaced">Cancel&#160;&#160;</string>
     <string name="btn_complete">Complete</string>
     <string name="btn_done">Done</string>
 

@@ -4,6 +4,7 @@ import com.doneit.ascend.source.storage.remote.data.request.group.CreateGroupReq
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupListRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupParticipantsRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.UpdateNoteRequest
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
@@ -33,4 +34,6 @@ interface IGroupRepository {
     suspend fun getCredentials(groupId: Long): RemoteResponse<GroupCredentialsResponse, ErrorsListResponse>
 
     suspend fun getParticipants(groupId: Long, request: GroupParticipantsRequest): RemoteResponse<ParticipantListResponse, ErrorsListResponse>
+
+    suspend fun updateNote(groupId: Long, request: UpdateNoteRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 }

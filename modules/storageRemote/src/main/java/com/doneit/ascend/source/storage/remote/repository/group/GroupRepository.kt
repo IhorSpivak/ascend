@@ -1,16 +1,17 @@
 package com.doneit.ascend.source.storage.remote.repository.group
 
 import com.doneit.ascend.source.storage.remote.api.GroupApi
+import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.CreateGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupListRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupParticipantsRequest
-import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupListResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupResponse
+import com.doneit.ascend.source.storage.remote.data.request.group.UpdateNoteRequest
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.GroupListResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.GroupResponse
 import com.doneit.ascend.source.storage.remote.data.response.group.ParticipantListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
@@ -112,7 +113,10 @@ internal class GroupRepository(
         return execute({ api.getCredentialsAsync(groupId) }, ErrorsListResponse::class.java)
     }
 
-    override suspend fun getParticipants(groupId: Long, request: GroupParticipantsRequest): RemoteResponse<ParticipantListResponse, ErrorsListResponse> {
+    override suspend fun getParticipants(
+        groupId: Long,
+        request: GroupParticipantsRequest
+    ): RemoteResponse<ParticipantListResponse, ErrorsListResponse> {
         return execute({
             api.getParticipantsAsync(
                 groupId,
@@ -124,6 +128,13 @@ internal class GroupRepository(
                 request.connected
             )
         }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun updateNote(
+        groupId: Long,
+        request: UpdateNoteRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.updateNote(groupId, request) }, ErrorsListResponse::class.java)
     }
 }
 

@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.dto.UpdateNoteDTO
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -24,6 +24,20 @@ class NotesViewModel(
 
     override fun init(groupId: Long) {
         this.groupId.postValue(groupId)
+    }
+
+    override fun update(newContent: String) {
+        groupId.value?.let {
+            viewModelScope.launch {
+                val result = groupUseCase.updateNote(UpdateNoteDTO(it, newContent))
+
+                if (result.isSuccessful) {
+                    router.onBack()
+                } else {
+                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                }
+            }
+        }
     }
 
     override fun onBackClick() {

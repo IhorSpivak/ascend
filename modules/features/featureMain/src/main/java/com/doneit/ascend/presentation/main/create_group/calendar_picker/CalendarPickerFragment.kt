@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.widget.CompoundButton
 import android.widget.ToggleButton
 import androidx.core.view.children
+import com.aigestudio.wheelpicker.WheelPicker
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentCalendarPickerBinding
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.waitForLayout
 import kotlinx.android.synthetic.main.fragment_calendar_picker.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -36,17 +38,14 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
 
         hoursPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setHours(data as String)
-            viewModel.setHoursPosition(position)
         }
 
         minutesPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setMinutes(data as String)
-            viewModel.setMinutesPosition(position)
         }
 
         timeTypePicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setTimeType(data as String)
-            viewModel.setTimeTypePosition(position)
         }
 
         val selectedDays = viewModel.createGroupModel.selectedDays
@@ -76,22 +75,33 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         btn_su.setOnCheckedChangeListener(checkedListener)
 
 
-        timeTypePicker.postDelayed({
-            timeTypePicker.selectedItemPosition = viewModel.getTimeTypePosition()
+        binding.pickers.waitForLayout {
+            val timeTypeIndex =
+                timeTypePicker.getDataIndex { (it as String) == viewModel.createGroupModel.timeType }
+            val minutesIndex =
+                minutesPicker.getDataIndex { (it as String) == viewModel.createGroupModel.minutes }
+            val hoursIndex =
+                hoursPicker.getDataIndex { (it as String) == viewModel.createGroupModel.hours }
 
-            hoursPicker.selectedItemPosition = viewModel.getHoursPosition()
-
-            viewModel.setHours(hoursPicker.data[viewModel.getHoursPosition()] as String)
-            viewModel.setMinutes(minutesPicker.data[viewModel.getMinutesPosition()] as String)
-            viewModel.setTimeType(timeTypePicker.data[viewModel.getTimeTypePosition()] as String)
-
-            minutesPicker.selectedItemPosition = viewModel.getMinutesPosition()
-        }, 100)
+            timeTypePicker.selectedItemPosition = timeTypeIndex
+            minutesPicker.selectedItemPosition = minutesIndex
+            hoursPicker.selectedItemPosition = hoursIndex
+        }
 
         hideKeyboard()
     }
 
     private fun getCorrespondingButton(day: CalendarDayEntity): ToggleButton? {
         return binding.daysContainer.children.elementAtOrNull(day.ordinal) as ToggleButton?
+    }
+
+    private fun WheelPicker.getDataIndex(predicate: (Any?) -> Boolean): Int {
+        val index = data.indexOfFirst(predicate)
+
+        return if (index >= 0) index else DEFAULT_INDEX
+    }
+
+    companion object {
+        private const val DEFAULT_INDEX = 0
     }
 }

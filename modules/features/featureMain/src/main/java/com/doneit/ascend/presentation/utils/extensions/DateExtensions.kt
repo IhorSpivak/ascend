@@ -1,6 +1,9 @@
 package com.doneit.ascend.presentation.utils.extensions
 
+import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
+import com.doneit.ascend.presentation.utils.Constants.AM
+import com.doneit.ascend.presentation.utils.Constants.PM
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,7 +16,7 @@ fun Date.toMonth(): Int {
 }
 
 fun Date.toDayOfMonth(): Int {
-   return this.toCalendar().get(Calendar.DAY_OF_MONTH)
+    return this.toCalendar().get(Calendar.DAY_OF_MONTH)
 }
 
 fun Date.toCalendar(): Calendar {
@@ -21,6 +24,18 @@ fun Date.toCalendar(): Calendar {
     calendar.time = this
 
     return calendar
+}
+
+fun Int.toTimeString(): String {
+    return if (this < 10) "0$this" else this.toString()
+}
+
+fun Int.toAmPm(): String {
+    return if (this == Calendar.AM) AM else PM
+}
+
+fun Int.toMonthEntity(): MonthEntity {
+    return MonthEntity.values()[this]
 }
 
 fun Date.toDayMonthYear(): String {

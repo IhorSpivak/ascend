@@ -66,6 +66,10 @@ internal class GroupInteractor(
         )
     }
 
+    override suspend fun updateNote(dto: UpdateNoteDTO): ResponseEntity<Unit, List<String>> {
+        return groupGateway.updateNote(dto)
+    }
+
     override val messagesStream = groupGateway.messagesStream
 
     override fun startGroup() {

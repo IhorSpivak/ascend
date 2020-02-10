@@ -29,6 +29,8 @@ interface GroupUseCase {
 
     suspend fun getParticipantList(groupId: Long, fullName: String? = null, isConnected: Boolean? = null): ResponseEntity<List<ParticipantEntity>, List<String>>
 
+    suspend fun updateNote(dto: UpdateNoteDTO): ResponseEntity<Unit, List<String>>
+
     val messagesStream: LiveData<SocketEventEntity>
 
     fun connectToChannel(groupId: Long)

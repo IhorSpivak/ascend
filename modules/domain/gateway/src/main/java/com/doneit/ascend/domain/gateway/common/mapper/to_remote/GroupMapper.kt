@@ -1,15 +1,13 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
-import com.doneit.ascend.domain.entity.dto.CreateGroupModel
-import com.doneit.ascend.domain.entity.dto.GroupListModel
-import com.doneit.ascend.domain.entity.dto.ParticipantListModel
-import com.doneit.ascend.domain.entity.dto.SubscribeGroupModel
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.gateway.common.applyDaysOffset
 import com.doneit.ascend.domain.gateway.common.getDayOffset
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.CreateGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupListRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupParticipantsRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.UpdateNoteRequest
 
 fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
     val dayOffset = startTime.getDayOffset()
@@ -79,5 +77,11 @@ fun ParticipantListModel.toRequest(): GroupParticipantsRequest {
         sortType?.toString(),
         fullName,
         connected
+    )
+}
+
+fun UpdateNoteDTO.toRequest(): UpdateNoteRequest {
+    return UpdateNoteRequest(
+        content
     )
 }

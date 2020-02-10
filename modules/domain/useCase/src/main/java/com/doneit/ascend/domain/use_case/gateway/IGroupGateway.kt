@@ -29,6 +29,8 @@ interface IGroupGateway {
 
     suspend fun getParticipantList(listModel: ParticipantListModel): ResponseEntity<List<ParticipantEntity>, List<String>>
 
+    suspend fun updateNote(dto: UpdateNoteDTO): ResponseEntity<Unit, List<String>>
+
     val messagesStream: LiveData<SocketEventEntity>
 
     fun connectToChannel(groupId: Long)

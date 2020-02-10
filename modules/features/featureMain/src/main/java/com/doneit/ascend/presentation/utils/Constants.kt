@@ -7,7 +7,6 @@ object Constants {
     const val RC_SIGN_IN = 1488
 
     const val END_OF_LINE = "\n"
-    const val TAB_SYMBOL = "\t"
 
     const val COMPRESSION_QUALITY = 80
     const val PER_PAGE_COMMON = 60
@@ -16,4 +15,8 @@ object Constants {
     const val STRIPE_KEY_TEST = "pk_test_bWIeTCRqJewkDArnkei72wHr00lqB0NIEq"
 
     const val SUPPORT_EMAIL = "support@doneit.com"
+
+
+    const val AM = "AM"
+    const val PM = "PM"
 }

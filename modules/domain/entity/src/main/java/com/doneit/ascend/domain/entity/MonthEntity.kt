@@ -23,11 +23,4 @@ enum class MonthEntity {
     fun toNumeric(): Int {
         return ordinal + 1
     }
-
-    companion object{
-        fun getActual(): MonthEntity {
-            val calendar = getDefaultCalendar()
-            return values()[calendar.get(Calendar.MONTH)]
-        }
-    }
 }
