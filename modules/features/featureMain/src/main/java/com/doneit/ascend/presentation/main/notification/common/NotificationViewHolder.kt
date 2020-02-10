@@ -4,9 +4,8 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.doneit.ascend.domain.entity.NotificationEntity
-import com.doneit.ascend.domain.entity.dto.NotificationType
-import com.doneit.ascend.domain.entity.dto.parseToNotificationType
+import com.doneit.ascend.domain.entity.notification.NotificationEntity
+import com.doneit.ascend.domain.entity.notification.NotificationType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateNotificationItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
@@ -16,14 +15,14 @@ class NotificationViewHolder(
     private val binding: TemplateNotificationItemBinding
 ) : SearchViewHolder(binding.root) {
 
-    private var posX: Float = 0F
-    private var posY: Float = 0F
+    /*private var posX: Float = 0F
+    private var posY: Float = 0F*/
 
     fun bind(item: NotificationEntity, onDeleteListener: (id: Long) -> Unit, onClickListener: (id: Long) -> Unit) {
         binding.item = item
         itemView.isClickable = true
 
-        itemView.setOnTouchListener { _, motionEvent ->
+        /*itemView.setOnTouchListener { _, motionEvent ->
             var status = false
 
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
@@ -45,11 +44,11 @@ class NotificationViewHolder(
             }
 
             status
-        }
+        }*/
         try {
             binding.date = item.createdAt!!.toNotificationDate()
 
-            when (item.notificationType.parseToNotificationType()) {
+            when (item.notificationType) {
                 NotificationType.INVITE_TO_A_MEETING -> {
                     binding.owner =
                         "${binding.root.context.getString(R.string.from)} ${item.owner?.fullName}"

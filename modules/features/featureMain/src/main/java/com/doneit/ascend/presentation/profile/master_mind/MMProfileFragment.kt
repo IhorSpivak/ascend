@@ -2,11 +2,13 @@ package com.doneit.ascend.presentation.profile.master_mind
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import com.androidisland.ezpermission.EzPermission
+import com.doneit.ascend.presentation.MainActivityListener
 import com.doneit.ascend.presentation.dialog.EditFieldDialog
 import com.doneit.ascend.presentation.dialog.EditFieldDialogOptions
 import com.doneit.ascend.presentation.main.R
@@ -37,6 +39,13 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
     private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
     private val cropPhotoUri by lazy { context!!.createCropPhotoUri() }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val listener = (context as MainActivityListener)
+        listener.setTitle(getString(R.string.profile_title))
+        listener.setSearchEnabled(false)
+    }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel

@@ -2,17 +2,18 @@ package com.doneit.ascend.presentation
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.dialog.PermissionsRequiredDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
-import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
+import com.doneit.ascend.presentation.main.databinding.ActivityMainBinding
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
+import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -20,7 +21,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), MainActivityListener {
 
     override fun diModule() = Kodein.Module("MainActivity") {
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
@@ -52,6 +53,7 @@ class MainActivity : BaseActivity() {
         bind<ViewModel>(MainViewModel::class.java.simpleName) with provider {
             MainViewModel(
                 instance(),
+                instance(),
                 instance()
             )
         }
@@ -63,14 +65,17 @@ class MainActivity : BaseActivity() {
     fun getContainerIdFull() = R.id.container_full
 
     private val viewModel: MainContract.ViewModel by instance()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.lifecycleOwner = this
+        binding.model = viewModel
 
         viewModel.onHomeClick()
 
-        fabCreateGroup.setOnClickListener {
+        binding.fabCreateGroup.setOnClickListener {
             viewModel.onCreateGroupClick()
         }
 
@@ -78,7 +83,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setBottomNavigationListeners() {
-        mainBottomNavigationView.setOnNavigationItemSelectedListener {
+        binding.mainBottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.home -> {
                     viewModel.onHomeClick()
@@ -101,6 +106,13 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun setTitle(title: String) {
+        binding.tvTitle.text = title
+    }
+
+    override fun setSearchEnabled(isVisible: Boolean) {
+        binding.btnSearch.visible(isVisible)
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {

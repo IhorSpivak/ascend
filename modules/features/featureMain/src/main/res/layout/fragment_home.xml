@@ -9,226 +9,142 @@
             type="com.doneit.ascend.presentation.main.home.HomeContract.ViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/blMain"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/main_toolbar"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <com.doneit.ascend.presentation.views.NoSwipeViewPager
+                    android:id="@+id/vpGroups"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="410dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <!--<androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btbBack"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tlGroups"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="8dp"
-
-                        android:layout_marginBottom="15dp"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_back"
-                        android:tint="#7E7D8F"
-                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
--->
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tabIndicatorColor="@android:color/transparent"
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="@color/colorAccent"
+                        app:tabTextAppearance="@style/TapTextAppearance"
+                        app:tabTextColor="@color/colorAccent_inactive">
+
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/t1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/t2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/t3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:id="@+id/t4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </com.google.android.material.tabs.TabLayout>
+                </com.doneit.ascend.presentation.views.NoSwipeViewPager>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/following"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="32dp"
+                    android:gravity="bottom"
+                    android:text="@string/following"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vpGroups" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/all_masterm"
+                    style="@style/TextNormalSecond"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> model.onAllMasterMindsClick()}"
+                    android:text="@string/all_masterm"
+                    app:layout_constraintBottom_toBottomOf="@+id/following"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/following" />
+
+                <LinearLayout
+                    android:id="@+id/mmPlaceholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:onClick="@{(v) -> model.onAllMasterMindsClick()}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/following">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/add_master_mind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_stroke_plus" />
+
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvTitle"
-                        style="@style/Title"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/followerName"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_horizontal|top"
+                        android:text="@string/add_master_mind"
+                        android:textColor="#B1B1BF"
+                        android:textSize="12sp" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btnSearch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="15dp"
-                        android:background="@android:color/transparent"
-                        android:onClick="@{() -> model.onSearchClick()}"
-                        android:src="@drawable/ic_search"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toStartOf="@+id/btbNotification"
-                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btbNotification"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="15dp"
-                        android:background="@android:color/transparent"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:onClick="@{() -> model.onNotificationClick()}"
-                        android:src="@drawable/ic_notifications"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/srLayout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/blMain">
-
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMasterminds"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="15dp">
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/following" />
 
-                    <com.doneit.ascend.presentation.views.NoSwipeViewPager
-                        android:id="@+id/vpGroups"
-                        android:layout_width="match_parent"
-                        android:layout_height="410dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
-                        <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/tlGroups"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:tabIndicatorColor="@android:color/transparent"
-                            app:tabMode="scrollable"
-                            app:tabSelectedTextColor="@color/colorAccent"
-                            app:tabTextAppearance="@style/TapTextAppearance"
-                            app:tabTextColor="@color/colorAccent_inactive">
-
-                            <com.google.android.material.tabs.TabItem
-                                android:id="@+id/t1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <com.google.android.material.tabs.TabItem
-                                android:id="@+id/t2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <com.google.android.material.tabs.TabItem
-                                android:id="@+id/t3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                            <com.google.android.material.tabs.TabItem
-                                android:id="@+id/t4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-
-                        </com.google.android.material.tabs.TabLayout>
-                    </com.doneit.ascend.presentation.views.NoSwipeViewPager>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/following"
-                        style="@style/TextNormal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="32dp"
-                        android:gravity="bottom"
-                        android:text="@string/following"
-                        android:textSize="24sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/vpGroups" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/all_masterm"
-                        style="@style/TextNormalSecond"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:onClick="@{() -> model.onAllMasterMindsClick()}"
-                        android:text="@string/all_masterm"
-                        app:layout_constraintBottom_toBottomOf="@+id/following"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/following" />
-
-                    <LinearLayout
-                        android:id="@+id/mmPlaceholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="16dp"
-                        android:orientation="vertical"
-                        android:onClick="@{(v) -> model.onAllMasterMindsClick()}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/following">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/add_master_mind"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_stroke_plus" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/followerName"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="10dp"
-                            android:gravity="center_horizontal|top"
-                            android:text="@string/add_master_mind"
-                            android:textColor="#B1B1BF"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvMasterminds"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginBottom="8dp"
-                        android:orientation="horizontal"
-                        android:visibility="gone"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/following" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.core.widget.NestedScrollView>
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

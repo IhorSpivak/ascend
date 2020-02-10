@@ -1,77 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
 
-    <FrameLayout
-        android:id="@+id/container"
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.MainContract.ViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="58dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/blMain" />
+        android:layout_height="match_parent">
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:layout_gravity="bottom"
-        android:padding="0dp"
-        android:theme="@style/Theme.MaterialComponents.Light"
-        app:backgroundTint="@android:color/white"
-        app:contentInsetEnd="0dp"
-        app:contentInsetStart="0dp"
-        app:fabAlignmentMode="center"
-        app:fabCradleMargin="0dp"
-        app:fabCradleRoundedCornerRadius="0dp"
-        app:fabCradleVerticalOffset="0dp"
-        app:hideOnScroll="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/mainBottomNavigationView"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/blMain"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemIconTint="@color/select_item_bottom_bar_selector"
-            app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
-            app:itemTextAppearanceInactive="@style/BottomNavigationView.Inactive"
-            app:itemTextColor="@color/select_item_bottom_bar_selector"
-            app:labelVisibilityMode="labeled"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="@dimen/toolbar_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/main" />
+            app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.bottomappbar.BottomAppBar>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/main_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/fabCreateGroup"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="@color/selecor_btn_enabled"
-        app:cardCornerRadius="28dp"
-        app:cardElevation="4dp"
-        app:layout_anchor="@id/bottom_app_bar"
-        app:layout_anchorGravity="bottom|center_horizontal">
-        <ImageView
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTitle"
+                        style="@style/Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@android:color/transparent"
+                        android:onClick="@{() -> model.onSearchClick()}"
+                        android:src="@drawable/ic_search"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toStartOf="@+id/btbNotification"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btbNotification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{() -> model.onNotificationClick()}"
+                        android:src="@drawable/ic_notifications"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/hasNotification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_unread_indicator"
+                        android:visibility="@{model.hasUnread, default=gone}"
+                        app:layout_constraintEnd_toEndOf="@id/btbNotification"
+                        app:layout_constraintTop_toTopOf="@id/btbNotification"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <FrameLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:padding="16dp"
-            android:src="@drawable/ic_camera_plus" />
-    </androidx.cardview.widget.CardView>
+            android:layout_marginTop="@dimen/toolbar_size"
+            android:layout_marginBottom="58dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/blMain" />
 
-    <FrameLayout
-        android:id="@+id/container_full"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:outlineProvider="none"
-        android:elevation="4dp"/>
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_gravity="bottom"
+            android:padding="0dp"
+            android:theme="@style/Theme.MaterialComponents.Light"
+            app:backgroundTint="@android:color/white"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
+            app:fabAlignmentMode="center"
+            app:fabCradleMargin="0dp"
+            app:fabCradleRoundedCornerRadius="0dp"
+            app:fabCradleVerticalOffset="0dp"
+            app:hideOnScroll="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/mainBottomNavigationView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemIconTint="@color/select_item_bottom_bar_selector"
+                app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+                app:itemTextAppearanceInactive="@style/BottomNavigationView.Inactive"
+                app:itemTextColor="@color/select_item_bottom_bar_selector"
+                app:labelVisibilityMode="labeled"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:menu="@menu/main" />
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/fabCreateGroup"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/selecor_btn_enabled"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="4dp"
+            app:layout_anchor="@id/bottom_app_bar"
+            app:layout_anchorGravity="bottom|center_horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_camera_plus" />
+        </androidx.cardview.widget.CardView>
+
+        <FrameLayout
+            android:id="@+id/container_full"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="4dp"
+            android:outlineProvider="none" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

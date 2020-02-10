@@ -1,13 +1,14 @@
-package com.doneit.ascend.domain.entity
+package com.doneit.ascend.domain.entity.notification
 
 import java.util.*
 
 data class NotificationEntity(
     val id: Long?,
-    val notificationType: String?,
+    val notificationType: NotificationType,
     val groupId: Long?,
     val groupName: String?,
     val createdAt: Date?,
     val updatedAt: Date?,
-    val owner: NotificationOwnerEntity?
+    val owner: NotificationOwnerEntity?,
+    val isRead: Boolean = false
 )

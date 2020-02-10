@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.main.notification.common
 
 import androidx.recyclerview.widget.DiffUtil
-import com.doneit.ascend.domain.entity.NotificationEntity
+import com.doneit.ascend.domain.entity.notification.NotificationEntity
 
 class NotificationDiffCallback : DiffUtil.ItemCallback<NotificationEntity>() {
     override fun areItemsTheSame(oldItem: NotificationEntity, newItem: NotificationEntity): Boolean {

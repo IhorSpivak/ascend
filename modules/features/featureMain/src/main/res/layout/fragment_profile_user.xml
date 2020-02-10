@@ -11,335 +11,284 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/blMain">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/blMain"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/main_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
+            <com.doneit.ascend.presentation.views.MasterMindIcon
+                android:id="@+id/ruIcon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{() -> model.onEditPhotoClick()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:longText="@{@string/no_photo}"
+                app:url="@{model.user.image.url}" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icEdit"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="78dp"
+                android:layout_marginBottom="9dp"
+                android:background="@drawable/ic_edit_round_gray"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="@{() -> model.onEditPhotoClick()}"
+                android:scaleType="center"
+                android:src="@drawable/ic_pen"
+                app:layout_constraintBottom_toBottomOf="@id/ruIcon"
+                app:layout_constraintStart_toStartOf="@+id/ruIcon" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvTitle"
-                        style="@style/Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/profile_title"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvFullName"
+                style="@style/TextNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{model.user.fullName}"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ruIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Julia Etling" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btbNotification"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@android:color/transparent"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:onClick="@{() -> model.onNotificationClick()}"
-                        android:src="@drawable/ic_notifications"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/blMain">
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@{model.user.location}"
+                android:textColor="@color/light_gray_8f"
+                app:layout_constraintEnd_toEndOf="@id/tvFullName"
+                app:layout_constraintStart_toStartOf="@id/tvFullName"
+                app:layout_constraintTop_toBottomOf="@id/tvFullName"
+                tools:text="California, USA" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clGroups"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="72dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/light_gray_f4f7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ruIcon">
 
-                <com.doneit.ascend.presentation.views.MasterMindIcon
-                    android:id="@+id/ruIcon"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                <TextView
+                    android:id="@+id/tvGroups"
+                    style="@style/Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="24dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="@{() -> model.onEditPhotoClick()}"
+                    android:text="@{@string/groups_visited(model.user.visitedGroupCount)}"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:longText="@{@string/no_photo}"
-                    app:url="@{model.user.image.url}" />
+                    tools:text="32 Groups Created" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/icEdit"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="78dp"
-                    android:layout_marginBottom="9dp"
-                    android:background="@drawable/ic_edit_round_gray"
+                <TextView
+                    android:id="@+id/tvSeeGroups"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="@{() -> model.onEditPhotoClick()}"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_pen"
-                    app:layout_constraintBottom_toBottomOf="@id/ruIcon"
-                    app:layout_constraintStart_toStartOf="@+id/ruIcon" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvFullName"
-                    style="@style/TextNormal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="16dp"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:text="@{model.user.fullName}"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/ruIcon"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Julia Etling" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    style="@style/TextNormal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:text="@{model.user.location}"
-                    android:textColor="@color/light_gray_8f"
-                    app:layout_constraintEnd_toEndOf="@id/tvFullName"
-                    app:layout_constraintStart_toStartOf="@id/tvFullName"
-                    app:layout_constraintTop_toBottomOf="@id/tvFullName"
-                    tools:text="California, USA" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clGroups"
-                    android:layout_width="match_parent"
-                    android:layout_height="72dp"
-                    android:layout_marginTop="24dp"
-                    android:background="@color/light_gray_f4f7"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ruIcon">
-
-                    <TextView
-                        android:id="@+id/tvGroups"
-                        style="@style/Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="@{@string/groups_visited(model.user.visitedGroupCount)}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="32 Groups Created" />
-
-                    <TextView
-                        android:id="@+id/tvSeeGroups"
-                        style="@style/TextNormal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:onClick="@{() -> model.onSeeMyGroupsClick()}"
-                        android:text="@string/see_my_groups"
-                        android:textColor="@color/green_font_color"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <LinearLayout
-                    android:id="@+id/llProfileFields"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clGroups">
-
-                    <include
-                        android:id="@+id/fullName"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/full_name}"
-                        app:fieldValue="@{model.user.fullName}"
-                        app:fieldValueIfEmpty="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_user}" />
-
-                    <include
-                        android:id="@+id/editEmail"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/email}"
-                        app:fieldValue="@{model.user.email}"
-                        app:fieldValueIfEmpty="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_email}" />
-
-                    <include
-                        android:id="@+id/changePhone"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/phone_number}"
-                        app:fieldValue="@{model.user.phone}"
-                        app:fieldValueIfEmpty="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_phone}" />
-
-                    <include
-                        android:id="@+id/changePassword"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/password}"
-                        app:fieldValue="@{@string/tap_to_change}"
-                        app:iconRes="@{@drawable/ic_password}" />
-
-                    <include
-                        android:id="@+id/age"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/age}"
-                        app:fieldValue="@{model.user.age.toString()}"
-                        app:fieldValueIfEmpty="@{@string/tap_to_set_age}"
-                        app:iconRes="@{@drawable/ic_age}" />
-
-                    <include
-                        android:id="@+id/location"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/location}"
-                        app:fieldValue="@{model.user.location}"
-                        app:fieldValueIfEmpty="@{@string/tap_to_choose_location}"
-                        app:iconRes="@{@drawable/ic_location}" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/llAdditionalOption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="20dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/llProfileFields">
-
-                    <include
-                        android:id="@+id/notSettings"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/notification_settings}"
-                        app:fieldValue="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_alarm}" />
-
-                    <include
-                        android:id="@+id/paymentPortal"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/payments}"
-                        app:fieldValue="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_payment}" />
-
-                    <include
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/privacy_settings}"
-                        app:fieldValue="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_security}" />
-
-                    <include
-                        android:id="@+id/community"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/community}"
-                        app:fieldValue="@{model.user.community}"
-                        app:iconRes="@{@drawable/ic_community}" />
-
-                    <include
-                        android:id="@+id/mm_followed"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/master_mind_following}"
-                        app:fieldValue="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_following}" />
-
-                    <include
-                        android:id="@+id/contactSupport"
-                        layout="@layout/template_profile_field"
-                        app:fieldName="@{@string/contact_support}"
-                        app:fieldValue="@{@string/empty}"
-                        app:iconRes="@{@drawable/ic_contact_support}" />
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/btnLogout"
-                    style="@style/AppTheme.Button"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/logout_button_selector"
-                    android:onClick="@{() -> model.onLogoutClick()}"
-                    android:text="@string/sign_out"
+                    android:onClick="@{() -> model.onSeeMyGroupsClick()}"
+                    android:text="@string/see_my_groups"
                     android:textColor="@color/green_font_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/llAdditionalOption" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvTerms"
-                    style="@style/TextNormal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="20dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:onClick="@{() -> model.onTermsClick()}"
-                    android:text="@string/terms"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvPrivacy"
-                    style="@style/TextNormal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="17dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="27dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:onClick="@{() -> model.onPolicyClick()}"
-                    android:text="@string/privacy"
-                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTerms" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/llProfileFields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clGroups">
+
+                <include
+                    android:id="@+id/fullName"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/full_name}"
+                    app:fieldValue="@{model.user.fullName}"
+                    app:fieldValueIfEmpty="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_user}" />
+
+                <include
+                    android:id="@+id/editEmail"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/email}"
+                    app:fieldValue="@{model.user.email}"
+                    app:fieldValueIfEmpty="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_email}" />
+
+                <include
+                    android:id="@+id/changePhone"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/phone_number}"
+                    app:fieldValue="@{model.user.phone}"
+                    app:fieldValueIfEmpty="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_phone}" />
+
+                <include
+                    android:id="@+id/changePassword"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/password}"
+                    app:fieldValue="@{@string/tap_to_change}"
+                    app:iconRes="@{@drawable/ic_password}" />
+
+                <include
+                    android:id="@+id/age"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/age}"
+                    app:fieldValue="@{model.user.age.toString()}"
+                    app:fieldValueIfEmpty="@{@string/tap_to_set_age}"
+                    app:iconRes="@{@drawable/ic_age}" />
+
+                <include
+                    android:id="@+id/location"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/location}"
+                    app:fieldValue="@{model.user.location}"
+                    app:fieldValueIfEmpty="@{@string/tap_to_choose_location}"
+                    app:iconRes="@{@drawable/ic_location}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llAdditionalOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llProfileFields">
+
+                <include
+                    android:id="@+id/notSettings"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/notification_settings}"
+                    app:fieldValue="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_alarm}" />
+
+                <include
+                    android:id="@+id/paymentPortal"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/payments}"
+                    app:fieldValue="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_payment}" />
+
+                <include
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/privacy_settings}"
+                    app:fieldValue="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_security}" />
+
+                <include
+                    android:id="@+id/community"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/community}"
+                    app:fieldValue="@{model.user.community}"
+                    app:iconRes="@{@drawable/ic_community}" />
+
+                <include
+                    android:id="@+id/mm_followed"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/master_mind_following}"
+                    app:fieldValue="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_following}" />
+
+                <include
+                    android:id="@+id/contactSupport"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/contact_support}"
+                    app:fieldValue="@{@string/empty}"
+                    app:iconRes="@{@drawable/ic_contact_support}" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnLogout"
+                style="@style/AppTheme.Button"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/logout_button_selector"
+                android:onClick="@{() -> model.onLogoutClick()}"
+                android:text="@string/sign_out"
+                android:textColor="@color/green_font_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llAdditionalOption" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTerms"
+                style="@style/TextNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:onClick="@{() -> model.onTermsClick()}"
+                android:text="@string/terms"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPrivacy"
+                style="@style/TextNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="27dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:onClick="@{() -> model.onPolicyClick()}"
+                android:text="@string/privacy"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTerms" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

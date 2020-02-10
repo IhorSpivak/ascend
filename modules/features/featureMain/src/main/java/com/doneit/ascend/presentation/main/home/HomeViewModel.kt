@@ -95,10 +95,6 @@ class HomeViewModel(
         }
     }
 
-    override fun onSearchClick() {
-        router.navigateToSearch()
-    }
-
     override fun onAllMasterMindsClick() {
         router.navigateToAllMasterMinds()
     }
@@ -121,9 +117,5 @@ class HomeViewModel(
 
     override fun openProfile(model: MasterMindEntity) {
         router.navigateToMMInfo(model)
-    }
-
-    override fun onNotificationClick() {
-        router.navigateToNotifications()
     }
 }

@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.main.notification
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.NotificationEntity
+import com.doneit.ascend.domain.entity.notification.NotificationEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 
 interface NotificationContract {

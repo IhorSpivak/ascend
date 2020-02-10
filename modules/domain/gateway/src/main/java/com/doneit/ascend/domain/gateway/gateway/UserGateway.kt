@@ -2,7 +2,6 @@ package com.doneit.ascend.domain.gateway.gateway
 
 import android.accounts.Account
 import android.accounts.AccountManager
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import androidx.paging.PagedList
@@ -21,11 +20,11 @@ import com.doneit.ascend.domain.gateway.gateway.data_source.RateDataSource
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.vrgsoft.networkmanager.NetworkManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
 import java.io.File
 import com.doneit.ascend.source.storage.local.repository.user.IUserRepository as LocalRepository
 import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository as RemoteRepository

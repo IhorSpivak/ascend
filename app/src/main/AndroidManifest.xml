@@ -105,7 +105,7 @@
         </provider>
 
         <service
-            android:name="com.doneit.ascend.source.storage.remote.AscendFirebaseMessagingService"
+            android:name="com.doneit.ascend.push.AscendFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

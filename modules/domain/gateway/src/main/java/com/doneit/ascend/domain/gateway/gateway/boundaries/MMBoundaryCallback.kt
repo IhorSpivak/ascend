@@ -1,6 +1,5 @@
 package com.doneit.ascend.domain.gateway.gateway.boundaries
 
-import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.dto.MasterMindListModel
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
@@ -12,45 +11,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MMBoundaryCallback(
-    private val scope: CoroutineScope,
+    scope: CoroutineScope,
     private val local: IMasterMindRepository,
     private val remote: com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository,
     private val masterMindListModel: MasterMindListModel
-) : PagedList.BoundaryCallback<MasterMindEntity>() {
+) : BaseBoundary<MasterMindEntity>(scope) {
 
-    private var remoteCount = 0
-    private var loadedCount = 0
-    private var pageIndexToLoad = 0
+    override suspend fun fetchPage() {
+        val response = remote.getMasterMindsList(masterMindListModel.toRequest(pageIndexToLoad))
+        if (response.isSuccessful) {
+            val model = response.successModel!!.users.map { it.toEntity() }
 
-    fun loadInitial() {
-        fetchPage()
-    }
+            val loadedCount = model.size
+            val remoteCount = response.successModel!!.count
 
-    //It isn't used because of unsuitable invoke cases
-    override fun onZeroItemsLoaded() {
-    }
+            receivedItems(loadedCount, remoteCount)
 
-    override fun onItemAtEndLoaded(itemAtEnd: MasterMindEntity) {
-        if (loadedCount < remoteCount) {
-            fetchPage()
-        }
-    }
-
-    override fun onItemAtFrontLoaded(itemAtFront: MasterMindEntity) {
-    }
-
-    private fun fetchPage() {
-        scope.launch(Dispatchers.IO) {
-            val response = remote.getMasterMindsList(masterMindListModel.toRequest(pageIndexToLoad))
-            if (response.isSuccessful) {
-                remoteCount = response.successModel!!.count
-                val model = response.successModel!!.users.map { it.toEntity() }
-
-                pageIndexToLoad += 1
-                loadedCount += model.size
-
-                local.insertAll(model.map { it.toLocal() })
-            }
+            local.insertAll(model.map { it.toLocal() })
         }
     }
 }

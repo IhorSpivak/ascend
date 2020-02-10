@@ -170,6 +170,9 @@ ext {
 
             [configuration: "implementation", dependency: ucrop.core],
             [configuration: "implementation", dependency: other.stripe],
+
+            [configuration: "implementation", dependency: firebase.messaging],
+            [configuration: "implementation", dependency: firebase.analitycs],
     ]
 
     remoteModule = [
@@ -183,9 +186,6 @@ ext {
             [configuration: "implementation", dependency: retrofit.gson],
             [configuration: "implementation", dependency: retrofit.scalars],
             [configuration: "implementation", dependency: retrofit.coroutines],
-
-            [configuration: "api", dependency: firebase.messaging],
-            [configuration: "implementation", dependency: firebase.analitycs],
 
             [configuration: "implementation", dependency: kodein.generic],
             [configuration: "implementation", dependency: kodein.framework],
@@ -324,6 +324,8 @@ ext {
             [configuration: "testImplementation", dependency: tests.jUnitRule],
             [configuration: "testImplementation", dependency: tests.jUnitRunner],
             [configuration: "testImplementation", dependency: tests.mokito],
+
+            [configuration: "implementation", dependency: firebase.messaging],
     ]
 
     useCaseModule = [

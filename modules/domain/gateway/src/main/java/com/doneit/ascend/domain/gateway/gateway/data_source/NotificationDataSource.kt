@@ -1,8 +1,7 @@
 package com.doneit.ascend.domain.gateway.gateway.data_source
 
 import androidx.paging.PageKeyedDataSource
-import com.doneit.ascend.domain.entity.NotificationEntity
-import com.doneit.ascend.domain.entity.NotificationOwnerEntity
+import com.doneit.ascend.domain.entity.notification.NotificationEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.NotificationListModel
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
@@ -11,8 +10,6 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.source.storage.remote.repository.notification.INotificationRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.math.ceil
 
 class NotificationDataSource(
     private val scope: CoroutineScope,

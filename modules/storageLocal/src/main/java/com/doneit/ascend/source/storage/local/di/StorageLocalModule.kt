@@ -8,6 +8,8 @@ import com.doneit.ascend.source.storage.local.repository.groups.GroupRepository
 import com.doneit.ascend.source.storage.local.repository.groups.IGroupRepository
 import com.doneit.ascend.source.storage.local.repository.master_minds.IMasterMindRepository
 import com.doneit.ascend.source.storage.local.repository.master_minds.MasterMindRepository
+import com.doneit.ascend.source.storage.local.repository.notification.INotificationRepository
+import com.doneit.ascend.source.storage.local.repository.notification.NotificationRepository
 import com.doneit.ascend.source.storage.local.repository.question.IQuestionRepository
 import com.doneit.ascend.source.storage.local.repository.question.QuestionRepository
 import com.doneit.ascend.source.storage.local.repository.user.IUserRepository
@@ -29,5 +31,6 @@ object StorageLocalModule {
         bind<IMasterMindRepository>() with singleton { MasterMindRepository(instance<LocalDatabase>().masterMindDao()) }
         bind<IGroupRepository>() with singleton { GroupRepository(instance<LocalDatabase>().groupDao()) }
         bind<IAttachmentRepository>() with singleton {AttachmentRepository(instance<LocalDatabase>().attachmentDao())}
+        bind<INotificationRepository>() with singleton { NotificationRepository(instance<LocalDatabase>().notificationDao()) }
     }
 }

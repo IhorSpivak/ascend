@@ -1,19 +1,21 @@
 package com.doneit.ascend.presentation.main.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.MainActivity
+import com.doneit.ascend.presentation.MainActivityListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
-import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.main.home.common.MastermindAdapter
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.kodein.di.Kodein
@@ -55,8 +57,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val listener = (context as MainActivityListener)
+        listener.setTitle(getString(R.string.main_title))
+        listener.setSearchEnabled(true)
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.model = viewModel
         rvMasterminds.adapter = mastermindsAdapter
 
@@ -80,20 +88,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             viewModel.updateData()
         }
 
-        setTitle(viewModel.user.value?.community)
-
-        disableTab(tlGroups, 1)
-        disableTab(tlGroups, 2)
+        binding.tlGroups.disableTab(1)
+        binding.tlGroups.disableTab(2)
     }
 
-    private fun disableTab(tabLayout: TabLayout, index: Int) {
-        (tabLayout.getChildAt(0) as ViewGroup).getChildAt(index).isEnabled = false
-        (tabLayout.getChildAt(0) as ViewGroup).getChildAt(index).alpha = 0.3f
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.updateMasterMinds()
+    private fun TabLayout.disableTab(index: Int) {
+        (this.getChildAt(0) as ViewGroup).getChildAt(index).isEnabled = false
+        (this.getChildAt(0) as ViewGroup).getChildAt(index).alpha = 0.3f
     }
 
     private fun setTitle(community: String?) {
@@ -102,6 +103,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             title += " $community"
         }
 
-        binding.tvTitle.text = title
+        (activity as MainActivityListener).setTitle(title)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateMasterMinds()
     }
 }

@@ -18,19 +18,15 @@ interface HomeContract {
         fun navigateToGroupList()
         fun updateData()
         fun updateMasterMinds()
-        fun onSearchClick()
         fun onAllMasterMindsClick()
         fun openProfile(model: MasterMindEntity)
-        fun onNotificationClick()
     }
 
     interface Router {
         fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
-        fun navigateToSearch()
         fun navigateToAllMasterMinds()
         fun navigateToGroupInfo(id: Long)
         fun navigateToMMInfo(model: MasterMindEntity)
-        fun navigateToNotifications()
         fun navigateToVideoChat(groupId: Long)
     }
 }

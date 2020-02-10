@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.main.notification.common
 
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
-import com.doneit.ascend.domain.entity.NotificationEntity
+import com.doneit.ascend.domain.entity.notification.NotificationEntity
 
 class NotificationsAdapter(
     private val onItemClick: (id: Long) -> Unit,

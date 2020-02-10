@@ -76,6 +76,7 @@ object GatewayModule {
         bind<INotificationGateway>() with singleton {
             NotificationGateway(
                 instance(),
+                instance(),
                 instance()
             )
         }
