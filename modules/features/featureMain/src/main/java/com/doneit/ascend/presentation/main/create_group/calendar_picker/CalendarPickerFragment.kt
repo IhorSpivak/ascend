@@ -11,6 +11,7 @@ import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentCalendarPickerBinding
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.waitForLayout
 import kotlinx.android.synthetic.main.fragment_calendar_picker.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -74,7 +75,7 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         btn_su.setOnCheckedChangeListener(checkedListener)
 
 
-        timeTypePicker.postDelayed({
+        binding.pickers.waitForLayout {
             val timeTypeIndex =
                 timeTypePicker.getDataIndex { (it as String) == viewModel.createGroupModel.timeType }
             val minutesIndex =
@@ -85,7 +86,7 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
             timeTypePicker.selectedItemPosition = timeTypeIndex
             minutesPicker.selectedItemPosition = minutesIndex
             hoursPicker.selectedItemPosition = hoursIndex
-        }, 100)
+        }
 
         hideKeyboard()
     }
