@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
+
 
 android {
     flavorDimensions "type"
@@ -93,5 +95,3 @@ dependencies {
 
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
 }
-
-apply plugin: 'com.google.gms.google-services'
