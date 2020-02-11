@@ -7,6 +7,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 interface NotesContract {
     interface ViewModel : BaseViewModel {
         val groupInfo: LiveData<GroupEntity?>
+        val navigation: LiveData<Navigation>
 
         fun init(groupId: Long)
         fun update(newContent: String)
@@ -15,5 +16,9 @@ interface NotesContract {
 
     interface Router {
         fun onBack()
+    }
+
+    enum class Navigation {
+        BACK
     }
 }

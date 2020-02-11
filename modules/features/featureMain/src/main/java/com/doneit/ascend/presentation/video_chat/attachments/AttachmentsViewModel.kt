@@ -7,6 +7,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 
@@ -14,15 +15,15 @@ import kotlinx.coroutines.launch
 @ViewModelDiModule
 class AttachmentsViewModel(
     private val attachmentsUseCase: AttachmentUseCase,
-    private val userUseCase: UserUseCase,
-    private val router: AttachmentsContract.Router
+    private val userUseCase: UserUseCase
 ) : BaseViewModelImpl(), AttachmentsContract.ViewModel {
 
     override val attachments = attachmentsUseCase.getAttachmentListPagedLive()
     override val user = userUseCase.getUserLive()
+    override val navigation = SingleLiveEvent<AttachmentsContract.Navigation>()
 
     override fun backClick() {
-        router.onBack()
+        navigation.postValue(AttachmentsContract.Navigation.BACK)
     }
 
     override fun onDelete(id: Long) {

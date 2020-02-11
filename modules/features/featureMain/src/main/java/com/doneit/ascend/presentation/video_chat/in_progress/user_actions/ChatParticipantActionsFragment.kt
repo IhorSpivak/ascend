@@ -25,6 +25,8 @@ class ChatParticipantActionsFragment : BaseFragment<FragmentChatParticipantActio
     }
     override val viewModel: ChatParticipantActionsContract.ViewModel by instance()
 
+    private var reportAbuseDialog: Dialog? = null
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
         val userId = arguments!!.getLong(USER_ID_KEY)
@@ -40,19 +42,31 @@ class ChatParticipantActionsFragment : BaseFragment<FragmentChatParticipantActio
         binding.tvReport.setOnClickListener {
             showReportAbuseDialog(userId)
         }
+
+        if(savedInstanceState?.getBoolean(IS_DIALOG_SHOWN_KEY) == true) {
+            showReportAbuseDialog(userId)
+        }
     }
 
     private fun showReportAbuseDialog(participantId: Long) {
-        var dialog: Dialog? = null
-        dialog = ReportAbuseDialog.create(context!!) {
+        reportAbuseDialog = ReportAbuseDialog.create(context!!) {
             viewModel.report(it, participantId)
-            dialog?.dismiss()
+            reportAbuseDialog?.dismiss()
         }
-        dialog.show()
+        reportAbuseDialog?.show()
     }
 
-    companion object{
+    override fun onSaveInstanceState(outState: Bundle) {
+        reportAbuseDialog?.let {
+            outState.putBoolean(IS_DIALOG_SHOWN_KEY, it.isShowing)
+            reportAbuseDialog?.dismiss()
+        }
+    }
+
+    companion object {
+        private const val IS_DIALOG_SHOWN_KEY = "IS_DIALOG_SHOWN_KEY"
         private const val USER_ID_KEY = "USER_ID"
+
         fun newInstance(userId: Long): Fragment {
             val fragment = ChatParticipantActionsFragment()
             fragment.arguments = Bundle().apply {

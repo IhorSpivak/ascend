@@ -7,6 +7,7 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentUserChatOptionsBinding
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
+import kotlinx.android.synthetic.main.dialog_report_abuse.view.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -23,20 +24,36 @@ class UserChatOptionsFragment : BaseFragment<FragmentUserChatOptionsBinding>() {
     }
     override val viewModel: UserChatOptionsContract.ViewModel by instance()
 
+    private var reportAbuseDialog: Dialog? = null
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
         binding.ivReport.setOnClickListener {
             showReportAbuseDialog()
         }
+
+        if(savedInstanceState?.getBoolean(IS_DIALOG_SHOWN_KEY) == true) {
+            showReportAbuseDialog()
+        }
     }
 
     private fun showReportAbuseDialog() {
-        var dialog: Dialog? = null
-        dialog = ReportAbuseDialog.create(context!!) {
+        reportAbuseDialog = ReportAbuseDialog.create(context!!) {
             viewModel.reportGroupOwner(it)
-            dialog?.dismiss()
+            reportAbuseDialog?.dismiss()
         }
-        dialog.show()
+        reportAbuseDialog?.show()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        reportAbuseDialog?.let {
+            outState.putBoolean(IS_DIALOG_SHOWN_KEY, it.isShowing)
+            reportAbuseDialog?.dismiss()
+        }
+    }
+
+    companion object {
+        private const val IS_DIALOG_SHOWN_KEY = "IS_DIALOG_SHOWN_KEY"
     }
 }

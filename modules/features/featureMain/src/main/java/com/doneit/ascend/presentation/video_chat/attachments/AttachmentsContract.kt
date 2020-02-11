@@ -10,6 +10,7 @@ interface AttachmentsContract {
     interface ViewModel : BaseViewModel {
         val attachments: LiveData<PagedList<AttachmentEntity>>
         val user: LiveData<UserEntity?>
+        val navigation: LiveData<Navigation>
 
         fun backClick()
         fun onDelete(id: Long)
@@ -18,5 +19,9 @@ interface AttachmentsContract {
 
     interface Router {
         fun onBack()
+    }
+
+    enum class Navigation {
+        BACK
     }
 }

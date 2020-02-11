@@ -17,6 +17,8 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
     override val viewModelModule = AttachmentsViewModelModule.get(this)
     override val viewModel: AttachmentsContract.ViewModel by instance()
 
+    private val router: AttachmentsContract.Router by instance()
+
     private val adapter: AttachmentsAdapter by lazy {
         AttachmentsAdapter({
             //TODO: implement
@@ -39,6 +41,16 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
         viewModel.attachments.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
+
+        viewModel.navigation.observe(viewLifecycleOwner, Observer {
+            handleNavigation(it)
+        })
+    }
+
+    private fun handleNavigation(action: AttachmentsContract.Navigation) {
+        when (action) {
+            AttachmentsContract.Navigation.BACK -> router.onBack()
+        }
     }
 
     companion object {

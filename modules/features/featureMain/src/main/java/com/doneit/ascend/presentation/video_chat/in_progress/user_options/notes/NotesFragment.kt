@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes
 
 import android.os.Bundle
 import android.view.KeyEvent
+import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentNotesBinding
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
@@ -11,6 +12,8 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>() {
 
     override val viewModelModule = NotesViewModelModule.get(this)
     override val viewModel: NotesContract.ViewModel by instance()
+
+    private val router: NotesContract.Router by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
@@ -24,11 +27,21 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>() {
             }
             return@setOnKeyListener false
         }
+
+        viewModel.navigation.observe(viewLifecycleOwner, Observer {
+            handleNavigation(it)
+        })
     }
 
     override fun onDestroyView() {
         hideKeyboard()
         super.onDestroyView()
+    }
+
+    private fun handleNavigation(action: NotesContract.Navigation) {
+        when (action) {
+            NotesContract.Navigation.BACK -> router.onBack()
+        }
     }
 
     companion object {

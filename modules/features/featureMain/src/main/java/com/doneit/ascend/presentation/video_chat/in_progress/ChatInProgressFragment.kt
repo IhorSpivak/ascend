@@ -266,13 +266,17 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     private fun Participant.clearRenderer() {
-        videoTracks.firstOrNull()?.videoTrack?.removeRenderer(videoView)
+        videoView?.let {
+            videoTracks.firstOrNull()?.videoTrack?.removeRenderer(videoView)
+        }
     }
 
     private fun RemoteParticipant.startVideoDisplay() {
         viewModel.onSpeakerChanged(identity)
         setListener(getParticipantsListener())
-        videoTracks.firstOrNull()?.videoTrack?.addRenderer(videoView)
+        videoView?.let {
+            videoTracks.firstOrNull()?.videoTrack?.addRenderer(videoView)
+        }
         binding.placeholder.visible(false)
     }
 

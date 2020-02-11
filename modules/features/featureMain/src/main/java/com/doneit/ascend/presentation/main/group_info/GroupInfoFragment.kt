@@ -58,12 +58,6 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             }
         })
 
-        viewModel.progressDialog.observe(this) {
-            it?.let {
-                showProgress(it)
-            }
-        }
-
         viewModel.cards.observe(viewLifecycleOwner, Observer {
             cardsAdapter.setData(it)
         })

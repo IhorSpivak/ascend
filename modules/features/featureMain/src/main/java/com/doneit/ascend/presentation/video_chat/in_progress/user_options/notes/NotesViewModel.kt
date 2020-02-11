@@ -9,18 +9,19 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 
 @CreateFactory
 @ViewModelDiModule
 class NotesViewModel(
-    private val groupUseCase: GroupUseCase,
-    private val router: NotesContract.Router
+    private val groupUseCase: GroupUseCase
 ) : BaseViewModelImpl(), NotesContract.ViewModel {
 
     private val groupId = MutableLiveData<Long>()
     override val groupInfo = groupId.switchMap { groupUseCase.getGroupDetailsLive(it) }
+    override val navigation = SingleLiveEvent<NotesContract.Navigation>()
 
     override fun init(groupId: Long) {
         this.groupId.postValue(groupId)
@@ -32,7 +33,7 @@ class NotesViewModel(
                 val result = groupUseCase.updateNote(UpdateNoteDTO(it, newContent))
 
                 if (result.isSuccessful) {
-                    router.onBack()
+                    onBackClick()
                 } else {
                     showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
                 }
@@ -41,6 +42,6 @@ class NotesViewModel(
     }
 
     override fun onBackClick() {
-        router.onBack()
+        navigation.postValue(NotesContract.Navigation.BACK)
     }
 }

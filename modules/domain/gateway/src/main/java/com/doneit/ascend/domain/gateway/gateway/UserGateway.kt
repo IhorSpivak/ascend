@@ -91,6 +91,7 @@ internal class UserGateway(
 
         if (res.isSuccessful) {
             updateUserLocal(res.successModel!!)
+            updateFirebase(getToken())
         }
 
         return res

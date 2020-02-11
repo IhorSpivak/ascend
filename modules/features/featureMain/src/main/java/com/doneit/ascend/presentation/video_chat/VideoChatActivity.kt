@@ -5,10 +5,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.doneit.ascend.domain.entity.ImageEntity
-import com.doneit.ascend.domain.entity.SocketEvent
-import com.doneit.ascend.domain.entity.SocketEventEntity
-import com.doneit.ascend.domain.entity.ThumbnailEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
@@ -39,7 +35,6 @@ class VideoChatActivity : BaseActivity() {
         bind<ViewModel>(VideoChatViewModel::class.java.simpleName) with provider {
             VideoChatViewModel(
                 instance(),
-                instance(),
                 instance()
             )
         }
@@ -50,11 +45,14 @@ class VideoChatActivity : BaseActivity() {
     fun getContainerId() = R.id.container
     fun getFullContainerId() = R.id.root_container
 
+    private val router: VideoChatContract.Router by instance()
     private val viewModel: VideoChatContract.ViewModel by instance()
     private lateinit var binding: ActivityVideoChatBinding
-    private val participantsAdapter by lazy { ChatParticipantsAdapter{
-        viewModel.onParticipantClick(it)
-    } }
+    private val participantsAdapter by lazy {
+        ChatParticipantsAdapter {
+            viewModel.onParticipantClick(it)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +67,10 @@ class VideoChatActivity : BaseActivity() {
         viewModel.participants.observe(this, Observer {
             participantsAdapter.submitList(it)
         })
+
+        viewModel.navigation.observe(this, Observer {
+            handleNavigation(it)
+        })
     }
 
     override fun onNetworkStateChanged(hasConnection: Boolean) {
@@ -78,6 +80,39 @@ class VideoChatActivity : BaseActivity() {
 
     override fun onBackPressed() {
         viewModel.onBackClick()
+    }
+
+    private fun handleNavigation(action: VideoChatContract.Navigation) {
+        when (action) {
+            VideoChatContract.Navigation.BACK -> router.onBack()
+            VideoChatContract.Navigation.FINISH_ACTIVITY -> router.finishActivity()
+            VideoChatContract.Navigation.TO_PREVIEW -> router.navigateToPreview()
+            VideoChatContract.Navigation.TO_CHAT_IN_PROGRESS -> router.navigateToChatInProgress()
+            VideoChatContract.Navigation.TO_CHAT_FINISH -> router.navigateToChatFinishScreen()
+            VideoChatContract.Navigation.TO_USER_CHAT_OPTIONS -> router.navigateUserChatOptions()
+            VideoChatContract.Navigation.TO_MM_CHAT_OPTIONS -> router.navigateToMMChatOptions()
+            VideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS -> {
+                val userId = action.data.getLong(VideoChatViewModel.USER_ID_KEY)
+                router.navigateToChatParticipantActions(userId)
+            }
+            VideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG -> {
+                val ordinal = action.data.getInt(VideoChatViewModel.ACTIVITY_RESULT_KEY)
+                val resultCode = ResultStatus.values()[ordinal]
+                router.navigateToPermissionsRequiredDialog(resultCode)
+            }
+            VideoChatContract.Navigation.TO_ATTACHMENTS -> {
+                val groupId = action.data.getLong(VideoChatViewModel.GROUP_ID_KEY)
+                router.navigateToAttachments(groupId)
+            }
+            VideoChatContract.Navigation.TO_NOTES -> {
+                val groupId = action.data.getLong(VideoChatViewModel.GROUP_ID_KEY)
+                router.navigateToNotes(groupId)
+            }
+            VideoChatContract.Navigation.TO_GOAL -> {
+                val groupId = action.data.getLong(VideoChatViewModel.GROUP_ID_KEY)
+                router.navigateToGoal(groupId)
+            }
+        }
     }
 
     enum class ResultStatus {

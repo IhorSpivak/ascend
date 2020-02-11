@@ -51,7 +51,6 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
 
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
-        //todo refresh token
         GlobalScope.launch {
             userUseCase.updateFirebase(p0)
         }

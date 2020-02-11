@@ -30,13 +30,13 @@ import com.doneit.ascend.presentation.video_chat.states.VideoChatState
 import com.twilio.video.CameraCapturer
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.timerTask
 
 class VideoChatViewModel(
-    private val router: VideoChatContract.Router,
     private val userUseCase: UserUseCase,
     private val groupUseCase: GroupUseCase
 ) : BaseViewModelImpl(),
@@ -53,6 +53,7 @@ class VideoChatViewModel(
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val participants = MutableLiveData<List<PresentationChatParticipant>>(listOf())
+    override val navigation = SingleLiveEvent<VideoChatContract.Navigation>()
     //endregion
 
     //region ui properties
@@ -155,7 +156,7 @@ class VideoChatViewModel(
                 groupInfo.value?.let {
                     groupUseCase.updateGroupLocal(
                         it.copy(
-                            GroupStatus.ACTIVE
+                            GroupStatus.STARTED
                         )
                     )
                 }
@@ -193,37 +194,36 @@ class VideoChatViewModel(
 
         viewModelScope.launch {
 
-            var groupEntity: GroupEntity? = null
-            var creds: GroupCredentialsModel? = null
-            var currentUser: UserEntity? = null
-
-            val groupJob = launch {
+            val groupEntity = async {
                 val result = groupUseCase.getGroupDetails(groupId)
 
                 if (result.isSuccessful) {
-                    groupEntity = result.successModel!!
-                    groupInfo.value = groupEntity
+                    groupInfo.value = result.successModel!!
+                    result.successModel!!
                 } else {
                     showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                    null
                 }
             }
 
-            val userJob = launch {
-                currentUser = userUseCase.getUser()
-                currentUserId = currentUser!!.id
+            val userEntity = async {
+                val user = userUseCase.getUser()
+                currentUserId = user!!.id
+                user
+            }
+
+            val creds = async {
                 val result = groupUseCase.getCredentials(groupId)
 
                 if (result.isSuccessful) {
-                    creds = result.successModel!!
+                    result.successModel!!
                 } else {
                     showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                    null
                 }
             }
 
-            groupJob.join()
-            userJob.join()
-
-            initializeChatState(groupEntity, creds, currentUser)
+            initializeChatState(groupEntity.await(), creds.await(), userEntity.await())
 
             loadParticipants()
 
@@ -305,7 +305,8 @@ class VideoChatViewModel(
     }
 
     override fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus) {
-        router.navigateToPermissionsRequiredDialog(resultCode)
+        VideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG.data.putInt(ACTIVITY_RESULT_KEY, resultCode.ordinal)
+        navigation.postValue(VideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG)
     }
 
     override fun forceDisconnect() {
@@ -315,15 +316,15 @@ class VideoChatViewModel(
     override fun finishCall() {
         clearChatResources()
         //todo send finish message to socket
-        router.finishActivity()
+        navigation.postValue(VideoChatContract.Navigation.FINISH_ACTIVITY)
     }
 
     override fun onOpenOptions() {
         if (chatRole != null) {
             if (chatRole == ChatRole.OWNER) {
-                router.navigateToMMChatOptions()
+                navigation.postValue(VideoChatContract.Navigation.TO_MM_CHAT_OPTIONS)
             } else {
-                router.navigateUserChatOptions()
+                navigation.postValue(VideoChatContract.Navigation.TO_USER_CHAT_OPTIONS)
             }
         }
     }
@@ -350,7 +351,7 @@ class VideoChatViewModel(
     }
 
     override fun onOkClick() {
-        router.finishActivity()
+        navigation.postValue(VideoChatContract.Navigation.FINISH_ACTIVITY)
     }
 
     override fun onConnected(presentParticipantIds: List<String>) {
@@ -415,34 +416,38 @@ class VideoChatViewModel(
 
     override fun onParticipantClick(id: Long) {
         if (chatRole == ChatRole.OWNER) {
-            router.navigateToChatParticipantActions(id)
+            VideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS.data.putLong(USER_ID_KEY, id)
+            navigation.postValue(VideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS)
         }
     }
 
     override fun allowToSay(userId: Long) {
         groupUseCase.allowToSay(userId)
-        router.onBack()
+        onBackClick()
     }
 
     override fun removeChatParticipant(userId: Long) {
         groupUseCase.removeChatParticipant(userId)
-        router.onBack()
+        onBackClick()
     }
 
     override fun onBackClick() {
-        router.onBack()
+        navigation.postValue(VideoChatContract.Navigation.BACK)
     }
 
     override fun onGoalClick() {
-        router.navigateToGoal(groupId)
+        VideoChatContract.Navigation.TO_GOAL.data.putLong(GROUP_ID_KEY, groupId)
+        navigation.postValue(VideoChatContract.Navigation.TO_GOAL)
     }
 
     override fun onAttachmentsClick() {
-        router.navigateToAttachments(groupId)
+        VideoChatContract.Navigation.TO_ATTACHMENTS.data.putLong(GROUP_ID_KEY, groupId)
+        navigation.postValue(VideoChatContract.Navigation.TO_ATTACHMENTS)
     }
 
     override fun onNotesClick() {
-        router.navigateToNotes(groupId)
+        VideoChatContract.Navigation.TO_NOTES.data.putLong(GROUP_ID_KEY, groupId)
+        navigation.postValue(VideoChatContract.Navigation.TO_NOTES)
     }
 
     override fun onCleared() {
@@ -462,7 +467,7 @@ class VideoChatViewModel(
         when (chatState) {
             VideoChatState.PREVIEW -> {
                 groupUseCase.connectToChannel(groupId)
-                router.navigateToPreview()
+                navigation.postValue(VideoChatContract.Navigation.TO_PREVIEW)
             }
             VideoChatState.PREVIEW_DATA_LOADED -> {
                 initDownTimer(groupInfo.value!!)
@@ -477,14 +482,14 @@ class VideoChatViewModel(
                 }
             }
             VideoChatState.MM_CONNECTION_LOST -> {
-                router.navigateToPreview()
+                navigation.postValue(VideoChatContract.Navigation.TO_PREVIEW)
             }
             VideoChatState.PROGRESS -> {
-                router.navigateToChatInProgress()
+                navigation.postValue(VideoChatContract.Navigation.TO_CHAT_IN_PROGRESS)
             }
             VideoChatState.FINISHED -> {
                 isFinishing.postValue(false)
-                router.navigateToChatFinishScreen()
+                navigation.postValue(VideoChatContract.Navigation.TO_CHAT_FINISH)
                 clearChatResources()
             }
         }
@@ -548,5 +553,9 @@ class VideoChatViewModel(
         private const val TIMER_PERIOD = 1000L
         private const val FINISHING_TIMER_PERIOD = 1 * 60 * 1000L //every minute
         private const val PARTICIPANTS_RESYNC_DELAY = 10 * 1000L
+
+        const val GROUP_ID_KEY = "GROUP_ID_KEY"
+        const val USER_ID_KEY = "USER_ID_KEY"
+        const val ACTIVITY_RESULT_KEY = "ACTIVITY_RESULT_KEY"
     }
 }

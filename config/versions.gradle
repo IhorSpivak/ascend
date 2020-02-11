@@ -101,12 +101,6 @@ ext {
             coroutines : "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.1"
     ]
 
-    def exoPlayer = [
-            exoplayer   : "com.google.android.exoplayer:exoplayer:$exoPlayer_version",
-            exoplayerUI : "com.google.android.exoplayer:exoplayer-ui:$exoPlayer_version",
-            mediasession: "com.google.android.exoplayer:extension-mediasession:$exoPlayer_version"
-    ]
-
     def room = [
             runtime : "androidx.room:room-runtime:$room_version",
             compiler: "androidx.room:room-compiler:$room_version",

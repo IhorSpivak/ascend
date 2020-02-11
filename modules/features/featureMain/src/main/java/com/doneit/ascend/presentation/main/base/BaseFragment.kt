@@ -90,7 +90,18 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
             }
         }
 
+        viewModel.progressDialog.observe(this) {
+            it?.let {
+                showProgress(it)
+            }
+        }
+
         initDialog()
+
+        if (savedInstanceState?.getBoolean(IS_PROGRESS_SHOWN_KEY) == true) {
+            progressDialog.show()
+        }
+
         viewCreated(savedInstanceState)
     }
 
@@ -103,11 +114,16 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     //endregion
 
     protected fun showProgress(isDialogShown: Boolean) {
-        if(isDialogShown) {
+        if (isDialogShown) {
             progressDialog.show()
         } else {
             progressDialog.dismiss()
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(IS_PROGRESS_SHOWN_KEY, progressDialog.isShowing)
+        progressDialog.dismiss()
     }
 
     //region private methods
@@ -162,4 +178,8 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     }
 
     //endregion
+
+    companion object {
+        private const val IS_PROGRESS_SHOWN_KEY = "IS_PROGRESS_SHOWN_KEY"
+    }
 }
