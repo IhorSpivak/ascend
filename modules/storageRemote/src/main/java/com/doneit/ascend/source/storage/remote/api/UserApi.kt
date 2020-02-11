@@ -69,4 +69,7 @@ interface UserApi {
 
     @POST("users/change_email")
     fun changeEmail(@Body request: ChangeEmailRequest): Deferred<Response<OKResponse>>
+
+    @POST("sessions/firebase")
+    fun updateFirebase(@Query("firebase_id") firebaseId: String): Deferred<Response<OKResponse>>
 }

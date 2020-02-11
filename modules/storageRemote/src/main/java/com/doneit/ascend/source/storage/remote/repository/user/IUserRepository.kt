@@ -42,4 +42,6 @@ interface IUserRepository {
     suspend fun changePhone(request: ChangePhoneRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun changeEmail(request: ChangeEmailRequest): RemoteResponse<OKResponse, ErrorsListResponse>
+
+    suspend fun updateFirebase(firebaseId: String): RemoteResponse<OKResponse, ErrorsListResponse>
 }

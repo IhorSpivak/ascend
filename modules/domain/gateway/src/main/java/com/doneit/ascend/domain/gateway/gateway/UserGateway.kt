@@ -43,16 +43,17 @@ internal class UserGateway(
     }
 
     override suspend fun signIn(logInModel: LogInUserModel): ResponseEntity<AuthEntity, List<String>> {
-         val res = executeRemote { remote.signIn(logInModel.toLoginRequest(getToken())) }.toResponseEntity(
-            {
-                it?.toEntity()
-            },
-            {
-                it?.errors
-            }
-        )
+        val res =
+            executeRemote { remote.signIn(logInModel.toLoginRequest(getToken())) }.toResponseEntity(
+                {
+                    it?.toEntity()
+                },
+                {
+                    it?.errors
+                }
+            )
 
-        if(res.isSuccessful) {
+        if (res.isSuccessful) {
             updateUserLocal(res.successModel!!)
         }
 
@@ -60,17 +61,18 @@ internal class UserGateway(
     }
 
     override suspend fun socialSignIn(socialLoginModel: SocialLogInModel): ResponseEntity<AuthEntity, List<String>> {
-        val res = executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest(getToken())) }.toResponseEntity(
-            {
+        val res =
+            executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest(getToken())) }.toResponseEntity(
+                {
 
-                it?.toEntity()
-            },
-            {
-                it?.errors
-            }
-        )
+                    it?.toEntity()
+                },
+                {
+                    it?.errors
+                }
+            )
 
-        if(res.isSuccessful) {
+        if (res.isSuccessful) {
             updateUserLocal(res.successModel!!)
         }
 
@@ -87,7 +89,7 @@ internal class UserGateway(
             }
         )
 
-        if(res.isSuccessful) {
+        if (res.isSuccessful) {
             updateUserLocal(res.successModel!!)
         }
 
@@ -104,7 +106,7 @@ internal class UserGateway(
             }
         )
 
-        if(result.isSuccessful) {
+        if (result.isSuccessful) {
             removeAccounts()
         }
 
@@ -112,7 +114,7 @@ internal class UserGateway(
     }
 
     override suspend fun deleteAccount(): ResponseEntity<Unit, List<String>> {
-        val result =  executeRemote { remote.deleteAccount() }.toResponseEntity(
+        val result = executeRemote { remote.deleteAccount() }.toResponseEntity(
             {
                 Unit
             },
@@ -121,7 +123,7 @@ internal class UserGateway(
             }
         )
 
-        if(result.isSuccessful) {
+        if (result.isSuccessful) {
             removeAccounts()
         }
 
@@ -194,14 +196,14 @@ internal class UserGateway(
     override suspend fun getUser(): UserEntity? {
         return local.getFirstUser()?.toUserEntity()
     }
-    
+
     override suspend fun hasSignedInUser(): Boolean {
         return accountManager.getAccountsByType(packageName).isNotEmpty()
                 && (local.getFirstUser() != null)
     }
 
     override suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>> {
-        return executeRemote { remote.report(content,id)}.toResponseEntity(
+        return executeRemote { remote.report(content, id) }.toResponseEntity(
             {
                 Unit
             },
@@ -221,7 +223,7 @@ internal class UserGateway(
             }
         )
 
-        if(res.isSuccessful) {
+        if (res.isSuccessful) {
             updateUserLocal(res.successModel!!)
         }
 
@@ -229,18 +231,19 @@ internal class UserGateway(
     }
 
     override suspend fun updateProfile(groupModel: UpdateProfileModel): ResponseEntity<UserEntity, List<String>> {
-        val file = if(groupModel.imagePath == null) null else File(groupModel.imagePath!!)
+        val file = if (groupModel.imagePath == null) null else File(groupModel.imagePath!!)
 
-        val res = executeRemote { remote.updateProfile(file, groupModel.toRequest()) }.toResponseEntity(
-            {
-                it?.currrentUser?.toEntity()
-            },
-            {
-                it?.errors
-            }
-        )
+        val res =
+            executeRemote { remote.updateProfile(file, groupModel.toRequest()) }.toResponseEntity(
+                {
+                    it?.currrentUser?.toEntity()
+                },
+                {
+                    it?.errors
+                }
+            )
 
-        if(res.isSuccessful) {
+        if (res.isSuccessful) {
             updateUserLocal(res.successModel!!)
         }
 
@@ -250,7 +253,7 @@ internal class UserGateway(
     override suspend fun getRating(ratingsModel: RatingsModel): PagedList<RateEntity> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
-            .setPageSize(ratingsModel.perPage?:10)
+            .setPageSize(ratingsModel.perPage ?: 10)
             .build()
 
         val dataSource = RateDataSource(
@@ -276,13 +279,13 @@ internal class UserGateway(
             }
         )
 
-        if(res.isSuccessful) {
+        if (res.isSuccessful) {
             val user = getUser()
             val newUser = user!!.copy(phone = model.phoneNumber)
             updateUserLocal(newUser)
         }
 
-        return  res
+        return res
     }
 
     override suspend fun changeEmail(model: ChangeEmailModel): ResponseEntity<Unit, List<String>> {
@@ -295,13 +298,13 @@ internal class UserGateway(
             }
         )
 
-        if(res.isSuccessful) {
+        if (res.isSuccessful) {
             val user = getUser()
             val newUser = user!!.copy(email = model.email)
             updateUserLocal(newUser)
         }
 
-        return  res
+        return res
     }
 
     private suspend fun updateUserLocal(authEntity: AuthEntity) {
@@ -319,6 +322,17 @@ internal class UserGateway(
     private suspend fun updateUserLocal(userEntity: UserEntity) {
         local.remove()//only single user at local storage allowed
         local.insert(userEntity.toUserLocal())
+    }
+
+    override suspend fun updateFirebase(firebaseId: String): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.updateFirebase(firebaseId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
     }
 
     private suspend fun getToken(): String {

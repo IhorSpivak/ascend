@@ -48,4 +48,6 @@ interface UserUseCase {
     suspend fun changePhone(dto: ChangePhoneModel): ResponseEntity<Unit, List<String>>
 
     suspend fun changeEmail(model: ChangeEmailModel): ResponseEntity<Unit, List<String>>
+
+    suspend fun updateFirebase(firebaseId: String): ResponseEntity<Unit, List<String>>
 }

@@ -91,4 +91,9 @@ internal class UserInteractor(
     override suspend fun changeEmail(model: ChangeEmailModel): ResponseEntity<Unit, List<String>> {
         return userGateway.changeEmail(model)
     }
+
+    override suspend fun updateFirebase(firebaseId: String): ResponseEntity<Unit, List<String>> {
+        return userGateway.updateFirebase(firebaseId)
+    }
+
 }
