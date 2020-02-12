@@ -8,7 +8,8 @@ interface UserChatOptionsContract {
     interface ViewModel : BaseViewModel {
         val groupInfo: LiveData<GroupEntity>
         val isVideoEnabled: LiveData<Boolean>
-        val isAudioEnabled: LiveData<Boolean>
+        val isAudioRecording: LiveData<Boolean>
+        val isMuted: LiveData<Boolean>
         val isHandRisen: LiveData<Boolean>
 
         fun onNotesClick()

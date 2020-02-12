@@ -13,14 +13,14 @@ class ParticipantsManager {
         return _participants.value?.toMutableList() ?: mutableListOf()
     }
 
-    fun addParticipant(newParticipant: PresentationChatParticipant) {
+    fun addParticipant(newParticipant: PresentationChatParticipant, isMergePriorityLocale: Boolean = true) {
         val resultList = getParticipantMList()
 
         val index = resultList.indexOfFirst { it.userId == newParticipant.userId }
         if (index == LIST_INDEX_ABSENT) {
             resultList.add(newParticipant)
         } else {
-            resultList[index] = resultList[index].merge(newParticipant)
+            resultList[index] = resultList[index].merge(newParticipant, isMergePriorityLocale)
         }
 
         _participants.postValue(resultList)
@@ -36,6 +36,22 @@ class ParticipantsManager {
         getParticipantMList().firstOrNull { it.userId == participant.userId }?.let {
             updateParticipant(it.copy(
                 isHandRisen = participant.isHandRisen
+            ))
+        }
+    }
+
+    fun mute(participant: PresentationChatParticipant) {
+        getParticipantMList().firstOrNull { it.userId == participant.userId }?.let {
+            updateParticipant(it.copy(
+                isMuted = true
+            ))
+        }
+    }
+
+    fun unmute(participant: PresentationChatParticipant) {
+        getParticipantMList().firstOrNull { it.userId == participant.userId }?.let {
+            updateParticipant(it.copy(
+                isMuted = false
             ))
         }
     }
@@ -66,7 +82,7 @@ class ParticipantsManager {
         return getParticipantMList().firstOrNull { it.userId == id }?.isSpeaker == true
     }
 
-    fun addParticipants(newList: List<PresentationChatParticipant>?) {
+    fun addParticipants(newList: List<PresentationChatParticipant>?, isMergePriorityLocale: Boolean = true) {
         val resultList = getParticipantMList()
 
         newList?.forEach { remoteItem ->
@@ -74,7 +90,7 @@ class ParticipantsManager {
             if (index == LIST_INDEX_ABSENT) {
                 resultList.add(remoteItem)
             } else {
-                resultList[index] = resultList[index].merge(remoteItem)
+                resultList[index] = resultList[index].merge(remoteItem, isMergePriorityLocale)
             }
         }
 
@@ -92,14 +108,15 @@ class ParticipantsManager {
         }
     }
 
-    private fun PresentationChatParticipant.merge(newParticipant: PresentationChatParticipant): PresentationChatParticipant {
+    private fun PresentationChatParticipant.merge(newParticipant: PresentationChatParticipant, isMergePriorityLocale: Boolean): PresentationChatParticipant {
         return PresentationChatParticipant(
             userId,
             fullName ?: newParticipant.fullName,
             newParticipant.image ?: image,
-            isHandRisen,
-            isSpeaker,
-            newParticipant.remoteParticipant ?: remoteParticipant
+            if(isMergePriorityLocale) isHandRisen else newParticipant.isHandRisen,
+            if(isMergePriorityLocale) isSpeaker else newParticipant.isSpeaker,
+            if(isMergePriorityLocale) isMuted else newParticipant.isMuted,
+            if(isMergePriorityLocale) remoteParticipant ?: newParticipant.remoteParticipant else newParticipant.remoteParticipant ?: remoteParticipant
         )
     }
 }

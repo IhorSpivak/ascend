@@ -3,6 +3,7 @@ package com.doneit.ascend.domain.use_case.interactor.group
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.ParticipantEntity
+import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -73,7 +74,7 @@ internal class GroupInteractor(
     override val messagesStream = groupGateway.messagesStream
 
     override fun startGroup() {
-        groupGateway.sendSocketMessage(START_GROUP)
+        groupGateway.sendSocketMessage(String.format(EVENT_TEMPLATE, SocketEvent.GROUP_STARTED.toString()))
     }
 
     override fun connectToChannel(groupId: Long) {
@@ -81,28 +82,56 @@ internal class GroupInteractor(
     }
 
     override fun riseOwnHand() {
-        groupGateway.sendSocketMessage(RISE_A_HAND_MESSAGE)
+        groupGateway.sendSocketMessage(String.format(EVENT_TEMPLATE, SocketEvent.RISE_A_HAND.toString()))
     }
 
     override fun lowerOwnHand() {
-        groupGateway.sendSocketMessage(LOWER_OWN_HAND)
+        groupGateway.sendSocketMessage(String.format(EVENT_TEMPLATE, SocketEvent.REMOVE_HAND.toString()))
     }
 
     override fun lowerAHand(userId: String) {
-        groupGateway.sendSocketMessage(String.format(LOWER_A_HAND, userId))
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_WITH_ID_TEMPLATE,
+                SocketEvent.REMOVE_HAND.toString(),
+                userId
+            )
+        )
     }
 
     override fun allowToSay(userId: String) {
-        groupGateway.sendSocketMessage(String.format(ALLOW_TO_SAY, userId))
+        groupGateway.sendSocketMessage(String.format(EVENT_WITH_ID_TEMPLATE,
+            SocketEvent.SPEAK.toString(), userId))
     }
 
     override fun removeChatParticipant(userId: String) {
-        groupGateway.sendSocketMessage(String.format(REMOVE_PARTICIPANT, userId))
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_WITH_ID_TEMPLATE,
+                SocketEvent.REMOVED_FROM_GROUP.toString(),
+                userId
+            )
+        )
     }
 
-    override fun muteUser(userId: Long) {
-        //TODO:
-        //groupGateway.sendSocketMessage(String.format())
+    override fun muteUser(userId: String) {
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_WITH_ID_TEMPLATE,
+                SocketEvent.MUTE_USER.toString(),
+                userId
+            )
+        )
+    }
+
+    override fun unmuteUser(userId: String) {
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_WITH_ID_TEMPLATE,
+                SocketEvent.RESET_MUTE_USER.toString(),
+                userId
+            )
+        )
     }
 
     override fun disconnect() {
@@ -110,18 +139,11 @@ internal class GroupInteractor(
     }
 
     companion object {
-        private const val RISE_A_HAND_MESSAGE =
-            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RiseAHand\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
-        private const val LOWER_OWN_HAND =
-            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveHand\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
-        private const val LOWER_A_HAND =
-            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveHand\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%s\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
-        private const val ALLOW_TO_SAY =
-            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"Speak\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%s\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
-        private const val REMOVE_PARTICIPANT =
-            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveParticipant\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%s\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
-        private const val START_GROUP =
-            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"StartGroup\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+        private const val EVENT_TEMPLATE =
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"%s\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+
+        private const val EVENT_WITH_ID_TEMPLATE =
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"%s\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%s\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
 
         private const val CHAT_PARTICIPANTS_MAX_COUNT = 100
     }

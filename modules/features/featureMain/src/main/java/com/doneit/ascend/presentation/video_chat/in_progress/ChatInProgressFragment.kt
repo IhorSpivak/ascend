@@ -80,7 +80,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             localVideoTrack?.enable(it)
         })
 
-        viewModel.isAudioEnabled.observe(viewLifecycleOwner, Observer {
+        viewModel.isAudioRecording.observe(viewLifecycleOwner, Observer {
             localAudioTrack?.enable(it)
         })
 

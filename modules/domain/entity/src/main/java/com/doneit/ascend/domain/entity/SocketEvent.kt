@@ -1,35 +1,30 @@
 package com.doneit.ascend.domain.entity
 
-enum class SocketEvent {
-    PARTICIPANT_CONNECTED,
-    PARTICIPANT_DISCONNECTED,
-    TRACK_ADDED,
-    RECORDING_STARTED,
-    RECORDING_COMPLETED,
-    ROOM_ENDED,
-    RISE_A_HAND,
-    REMOVE_HAND,
-    REMOVED_FROM_GROUP,
-    SPEAK,
-    GROUP_STARTED,
-    UNEXPECTED;
+enum class SocketEvent(
+    val command: String
+) {
+    PARTICIPANT_CONNECTED("ParticipantConnected"),
+    PARTICIPANT_DISCONNECTED("ParticipantDisconnected"),
+    TRACK_ADDED("TrackAdded"),
+    RECORDING_STARTED("RecordingStarted"),
+    RECORDING_COMPLETED("RecordingCompleted"),
+    ROOM_ENDED("RoomEnded"),
+    RISE_A_HAND("RiseAHand"),
+    REMOVE_HAND("RemoveHand"),
+    REMOVED_FROM_GROUP("RemoveParticipant"),
+    SPEAK("Speak"),
+    GROUP_STARTED("StartGroup"),
+    MUTE_USER("MuteUser"),
+    RESET_MUTE_USER("ResetMuteUser"),
+    UNEXPECTED("");
+
+    override fun toString(): String {
+        return command
+    }
 
     companion object {
         fun fromRemoteString(representation: String): SocketEvent {
-            return when (representation) {
-                "ParticipantConnected" -> PARTICIPANT_CONNECTED
-                "ParticipantDisconnected" -> PARTICIPANT_DISCONNECTED
-                "RoomEnded" -> ROOM_ENDED
-                "TrackAdded" -> TRACK_ADDED
-                "RecordingStarted" -> RECORDING_STARTED
-                "RecordingCompleted" -> RECORDING_COMPLETED
-                "RiseAHand" -> RISE_A_HAND
-                "RemoveHand" -> REMOVE_HAND
-                "RemoveParticipant" -> REMOVED_FROM_GROUP
-                "Speak" -> SPEAK
-                "StartGroup" -> GROUP_STARTED
-                else -> UNEXPECTED
-            }
+            return values().firstOrNull { it.command == representation } ?: UNEXPECTED
         }
     }
 }

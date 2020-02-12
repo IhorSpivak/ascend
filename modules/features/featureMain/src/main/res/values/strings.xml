@@ -320,6 +320,7 @@
     <string name="group_ended">Group ended</string>
     <string name="mm_disconnected">%s\n is disconnected</string>
     <string name="remove_from_group">Remove from Group</string>
+    <string name="unmute_this_user">Unmute this user</string>
     <string name="mute_this_user">Mute this user</string>
     <string name="report">Report</string>
     <string name="allow_say">Allow to say</string>

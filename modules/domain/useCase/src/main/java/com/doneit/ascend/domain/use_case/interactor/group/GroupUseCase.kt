@@ -47,7 +47,9 @@ interface GroupUseCase {
 
     fun removeChatParticipant(userId: String)
 
-    fun muteUser(userId: Long)
+    fun muteUser(userId: String)
+
+    fun unmuteUser(userId: String)
 
     fun disconnect()
 }

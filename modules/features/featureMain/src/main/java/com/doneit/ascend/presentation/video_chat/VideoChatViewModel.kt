@@ -1,9 +1,8 @@
 package com.doneit.ascend.presentation.video_chat
 
 import android.os.CountDownTimer
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.UserEntity
@@ -16,7 +15,6 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationChatParticipant
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.models.toPresentation
-import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.Constants.DEFAULT_MODEL_ID
 import com.doneit.ascend.presentation.utils.Constants.LIST_INDEX_ABSENT
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -74,7 +72,9 @@ class VideoChatViewModel(
         }
     override val isMMConnected = MutableLiveData<Boolean>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
-    override val isAudioEnabled = MutableLiveData<Boolean>()
+    private val _isAudioEnabled = MutableLiveData<Boolean>()
+    override val isAudioRecording = MediatorLiveData<Boolean>()
+    override val isMuted = MutableLiveData<Boolean>()
     override val isHandRisen = MutableLiveData<Boolean>()
     override val isFinishing = MutableLiveData<Boolean>()
     override val switchCameraEvent = SingleLiveManager(Unit)
@@ -94,6 +94,16 @@ class VideoChatViewModel(
         CameraCapturer.isSourceAvailable(CameraCapturer.CameraSource.FRONT_CAMERA)
                 && CameraCapturer.isSourceAvailable(CameraCapturer.CameraSource.BACK_CAMERA)
     //endregion
+
+    init {
+        isAudioRecording.addSource(_isAudioEnabled) {
+            isAudioRecording.value = it && (isMuted.value?:false).not()
+        }
+
+        isAudioRecording.addSource(isMuted) {
+            isAudioRecording.value = it.not() && _isAudioEnabled.value?:false
+        }
+    }
 
     private val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
         var user = socketEvent.data.toPresentation()
@@ -160,6 +170,18 @@ class VideoChatViewModel(
                 refetchGroupInfo()
                 changeState(VideoChatState.PROGRESS)
             }
+            SocketEvent.MUTE_USER -> {
+                if(currentUserId == user.userId) {
+                    isMuted.postValue(true)
+                }
+                participantsManager.mute(user)
+            }
+            SocketEvent.RESET_MUTE_USER -> {
+                if(currentUserId == user.userId) {
+                    isMuted.postValue(false)
+                }
+                participantsManager.unmute(user)
+            }
         }
     }
 
@@ -224,7 +246,8 @@ class VideoChatViewModel(
     private fun postDefaultValues() {
         isStartButtonVisible.postValue(false)
         isVideoEnabled.postValue(true)
-        isAudioEnabled.postValue(true)
+        _isAudioEnabled.postValue(true)
+        isMuted.postValue(false)
         isHandRisen.postValue(false)
         isFinishing.postValue(false)
     }
@@ -234,8 +257,15 @@ class VideoChatViewModel(
             val result = groupUseCase.getParticipantList(groupId, isConnected = true)
 
             if (result.isSuccessful) {
-                val joinedUsers = result.successModel!!.filter { it.id.toString() != currentUserId }
-                    .map {
+                val participants = result.successModel!!.toMutableList()
+                val currentIndex = participants.indexOfFirst { it.id.toString() == currentUserId }
+
+                if(currentIndex != LIST_INDEX_ABSENT) {
+                    isMuted.postValue(participants[currentIndex].isMuted)
+                    participants.removeAt(currentIndex)
+                }
+
+                val joinedUsers = participants.map {
                         var newItem = it.toPresentation()
                         chatRole?.let {
                             newItem = newItem.copy(
@@ -245,7 +275,7 @@ class VideoChatViewModel(
                         newItem
                     }
 
-                participantsManager.addParticipants(joinedUsers)
+                participantsManager.addParticipants(joinedUsers, false)
             } else {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
@@ -321,7 +351,7 @@ class VideoChatViewModel(
     }
 
     override fun switchAudioEnabledState() {
-        isAudioEnabled.switch()
+        _isAudioEnabled.switch()
     }
 
     override fun switchCamera() {
@@ -411,9 +441,14 @@ class VideoChatViewModel(
         onBackClick()
     }
 
-    override fun muteUser(userId: Long) {
-        groupUseCase.muteUser(userId)
-        router.onBack()
+    override fun switchMuted(user: PresentationChatParticipant) {
+        if(user.isMuted) {
+            groupUseCase.unmuteUser(user.userId)
+        } else {
+            groupUseCase.muteUser(user.userId)
+        }
+
+        navigation.postValue(VideoChatContract.Navigation.BACK)
     }
 
     override fun onBackClick() {
