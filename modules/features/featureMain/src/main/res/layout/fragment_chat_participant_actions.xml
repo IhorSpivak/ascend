@@ -110,6 +110,22 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
+                            android:background="@color/dark_gray"
+                            android:visibility="@{item.handRisen}"/>
+
+                        <TextView
+                            android:id="@+id/tvMute"
+                            style="@style/TextSFBlue"
+                            android:layout_width="match_parent"
+                            android:layout_height="58dp"
+                            android:gravity="center"
+                            android:text="@string/mute_this_user"
+                            android:textSize="20sp"
+                            android:onClick="@{(v) -> model.muteUser(item.userId)}"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
                             android:background="@color/dark_gray" />
 
                         <TextView

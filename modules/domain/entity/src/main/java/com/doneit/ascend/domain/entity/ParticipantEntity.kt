@@ -8,5 +8,6 @@ data class ParticipantEntity(
     val isConnected: Boolean,
     val isVisited: Boolean,
     val isBlocked: Boolean,
-    val isSpeaker: Boolean
+    val isSpeaker: Boolean,
+    val isMuted: Boolean
 )

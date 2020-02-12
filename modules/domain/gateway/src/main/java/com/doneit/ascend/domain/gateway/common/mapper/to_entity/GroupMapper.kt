@@ -115,7 +115,8 @@ fun ParticipantResponse.toEntity(): ParticipantEntity {
         isConnected,
         isVisited,
         isBlocked,
-        isSpeaker
+        isSpeaker,
+        isMuted
     )
 }
 

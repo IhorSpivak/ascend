@@ -10,5 +10,6 @@ data class PresentationChatParticipant(
     val image: ImageEntity? = null,
     val isHandRisen: Boolean = false,
     val isSpeaker: Boolean = false,
+    val isMuted: Boolean = false,
     val remoteParticipant: RemoteParticipant? = null
 )
