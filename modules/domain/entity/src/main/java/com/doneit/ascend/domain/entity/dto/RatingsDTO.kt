@@ -2,18 +2,14 @@ package com.doneit.ascend.domain.entity.dto
 
 import java.util.*
 
-class AttachmentsListModel(
+class RatingsDTO(
     page: Int? = null,
     perPage: Int? = null,
     sortColumn: String? = null,
     sortType: SortType? = null,
-    val groupId: Long? = null,
-    val userId: Long? = null,
-    val fileName: String? = null,
-    val link: String? = null,
-    val private: Boolean? = null,
+    val fullName: String? = null,
     val createdAtFrom: Date? = null,
     val createdAtTo: Date? = null,
     val updatedAtFrom: Date? = null,
     val updatedAtTo: Date? = null
-) : BasePagedModel(page, perPage, sortColumn, sortType)
+): BasePagedDTO(page, perPage, sortColumn, sortType)

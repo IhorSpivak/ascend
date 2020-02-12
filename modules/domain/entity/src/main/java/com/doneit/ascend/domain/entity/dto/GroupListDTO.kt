@@ -4,7 +4,7 @@ import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import java.util.*
 
-class GroupListModel(
+class GroupListDTO(
     page: Int? = null,
     perPage: Int? = null,
     sortColumn: String? = null,
@@ -16,4 +16,4 @@ class GroupListModel(
     val myGroups: Boolean? = null,
     val startDateFrom: Date? = null,
     val startDateTo: Date? = null
-) : BasePagedModel(page, perPage, sortColumn, sortType)
+) : BasePagedDTO(page, perPage, sortColumn, sortType)

@@ -5,13 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.doneit.ascend.domain.entity.CardEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.CreateCardModel
+import com.doneit.ascend.domain.entity.dto.CreateCardDTO
 import com.doneit.ascend.domain.use_case.gateway.ICardsGateway
 
 class CardsInteractor(
     private val cardsGateway: ICardsGateway
 ) : CardsUseCase {
-    override suspend fun createCard(model: CreateCardModel): ResponseEntity<CardEntity, List<String>> {
+    override suspend fun createCard(model: CreateCardDTO): ResponseEntity<CardEntity, List<String>> {
         return cardsGateway.createCard(model)
     }
 

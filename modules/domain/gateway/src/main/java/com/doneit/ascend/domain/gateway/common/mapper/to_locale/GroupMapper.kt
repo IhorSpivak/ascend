@@ -1,7 +1,7 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_locale
 
 import com.doneit.ascend.domain.entity.OwnerEntity
-import com.doneit.ascend.domain.entity.dto.GroupListModel
+import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.NoteEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRemoteString
@@ -10,7 +10,7 @@ import com.doneit.ascend.source.storage.local.data.NoteLocal
 import com.doneit.ascend.source.storage.local.data.OwnerLocal
 import com.doneit.ascend.source.storage.local.data.dto.GroupFilter
 
-fun GroupListModel.toLocal(): GroupFilter {
+fun GroupListDTO.toLocal(): GroupFilter {
     return GroupFilter(
         sortType?.ordinal,
         groupStatus?.ordinal

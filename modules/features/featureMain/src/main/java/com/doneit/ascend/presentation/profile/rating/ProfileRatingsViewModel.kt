@@ -5,7 +5,7 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.RateEntity
-import com.doneit.ascend.domain.entity.dto.RatingsModel
+import com.doneit.ascend.domain.entity.dto.RatingsDTO
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.vrgsoft.annotations.CreateFactory
@@ -24,7 +24,7 @@ class ProfileRatingsViewModel (
 
     init {
         viewModelScope.launch {
-            val list = userUseCase.getRates(RatingsModel())
+            val list = userUseCase.getRates(RatingsDTO())
             ratings.postValue(list)
         }
     }

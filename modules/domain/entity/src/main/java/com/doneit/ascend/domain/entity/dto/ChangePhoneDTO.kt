@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.entity.dto
 
-data class ChangePhoneModel(
+data class ChangePhoneDTO(
     val password: String,
     val phoneNumber: String,
     val code: String

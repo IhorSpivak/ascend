@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.PaymentType
-import com.doneit.ascend.domain.entity.dto.SubscribeGroupModel
+import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -82,7 +82,7 @@ class GroupInfoViewModel(
 
     override fun subscribe(card: PresentationCardModel) {
         viewModelScope.launch {
-            val requestModel = SubscribeGroupModel(
+            val requestModel = SubscribeGroupDTO(
                 group.value!!.id,
                 card.id,
                 PaymentType.CARD

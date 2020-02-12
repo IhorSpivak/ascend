@@ -3,7 +3,7 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_locale
 import com.doneit.ascend.domain.entity.ImageEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.ThumbnailEntity
-import com.doneit.ascend.domain.entity.dto.MasterMindListModel
+import com.doneit.ascend.domain.entity.dto.MasterMindListDTO
 import com.doneit.ascend.source.storage.local.data.ImageLocal
 import com.doneit.ascend.source.storage.local.data.MasterMindLocal
 import com.doneit.ascend.source.storage.local.data.ThumbnailLocal
@@ -42,7 +42,7 @@ fun ThumbnailEntity.toLocal(): ThumbnailLocal {
     )
 }
 
-fun MasterMindListModel.toLocal(): MMFilter {
+fun MasterMindListDTO.toLocal(): MMFilter {
     return MMFilter(
         fullName,
         displayName,

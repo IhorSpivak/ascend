@@ -44,11 +44,11 @@ internal class GroupGateway(
     override val messagesStream =
         remoteSocket.messagesStream.map { it.toEntity() }//todo remove deprecation
 
-    override suspend fun createGroup(groupModel: CreateGroupModel): ResponseEntity<GroupEntity, List<String>> {
+    override suspend fun createGroup(groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
             remote.createGroup(
-                File(groupModel.imagePath),
-                groupModel.toCreateGroupRequest()
+                File(groupDTO.imagePath),
+                groupDTO.toCreateGroupRequest()
             )
         }.toResponseEntity(
             {
@@ -60,7 +60,7 @@ internal class GroupGateway(
         )
     }
 
-    override suspend fun getGroupsList(groupListModel: GroupListModel): ResponseEntity<List<GroupEntity>, List<String>> {
+    override suspend fun getGroupsList(groupListModel: GroupListDTO): ResponseEntity<List<GroupEntity>, List<String>> {
         val res = remote.getGroupsList(groupListModel.toRequest()).toResponseEntity(
             {
                 it?.groups?.map { it.toEntity() }
@@ -78,7 +78,7 @@ internal class GroupGateway(
         return res
     }
 
-    override fun getGroupsListPaged(listRequest: GroupListModel): LiveData<PagedList<GroupEntity>> =
+    override fun getGroupsListPaged(listRequest: GroupListDTO): LiveData<PagedList<GroupEntity>> =
         liveData {
             groupLocal.removeAll()
 
@@ -108,8 +108,6 @@ internal class GroupGateway(
 
             return ResponseEntity(
                 true,
-                -1,
-                "",
                 localGroup.toEntity(),
                 null
             )
@@ -178,8 +176,8 @@ internal class GroupGateway(
         )
     }
 
-    override suspend fun subscribe(model: SubscribeGroupModel): ResponseEntity<Unit, List<String>> {
-        val res = remote.subscribe(model.groupId, model.toRequest()).toResponseEntity(
+    override suspend fun subscribe(dto: SubscribeGroupDTO): ResponseEntity<Unit, List<String>> {
+        val res = remote.subscribe(dto.groupId, dto.toRequest()).toResponseEntity(
             {
                 Unit
             },
@@ -189,7 +187,7 @@ internal class GroupGateway(
         )
 
         if (res.isSuccessful) {
-            val group = groupLocal.getGroupById(model.groupId)
+            val group = groupLocal.getGroupById(dto.groupId)
             group?.let {
 
                 groupLocal.update(
@@ -203,7 +201,7 @@ internal class GroupGateway(
         return res
     }
 
-    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsModel, List<String>> {
+    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsDTO, List<String>> {
         return remote.getCredentials(groupId).toResponseEntity(
             {
                 it?.toEntity()
@@ -214,7 +212,7 @@ internal class GroupGateway(
         )
     }
 
-    override suspend fun getParticipantList(listModel: ParticipantListModel): ResponseEntity<List<ParticipantEntity>, List<String>> {
+    override suspend fun getParticipantList(listModel: ParticipantListDTO): ResponseEntity<List<ParticipantEntity>, List<String>> {
         return remote.getParticipants(listModel.groupId, listModel.toRequest()).toResponseEntity(
             {
                 it?.participants?.map { it.toEntity() }
@@ -252,7 +250,7 @@ internal class GroupGateway(
         remoteSocket.disconnect()
     }
 
-    private fun getConfigPaged(model: BasePagedModel): PagedList.Config {
+    private fun getConfigPaged(model: BasePagedDTO): PagedList.Config {
         return PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(model.perPage ?: 10)

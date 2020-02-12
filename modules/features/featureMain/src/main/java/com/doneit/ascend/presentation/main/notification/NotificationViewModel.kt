@@ -1,11 +1,10 @@
 package com.doneit.ascend.presentation.main.notification
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.notification.NotificationEntity
-import com.doneit.ascend.domain.entity.dto.NotificationListModel
+import com.doneit.ascend.domain.entity.dto.NotificationListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -24,7 +23,7 @@ class NotificationViewModel(
     override val notifications: LiveData<PagedList<NotificationEntity>>
 
     init {
-        val requestModel = NotificationListModel(
+        val requestModel = NotificationListDTO(
             perPage = 10,
             sortColumn = "created_at",
             sortType = SortType.DESC

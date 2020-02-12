@@ -42,9 +42,9 @@ internal class UserGateway(
         return ""//todo, not required for now
     }
 
-    override suspend fun signIn(logInModel: LogInUserModel): ResponseEntity<AuthEntity, List<String>> {
+    override suspend fun signIn(logInDTO: LogInUserDTO): ResponseEntity<AuthEntity, List<String>> {
         val res =
-            executeRemote { remote.signIn(logInModel.toLoginRequest(getToken())) }.toResponseEntity(
+            executeRemote { remote.signIn(logInDTO.toLoginRequest(getToken())) }.toResponseEntity(
                 {
                     it?.toEntity()
                 },
@@ -60,9 +60,9 @@ internal class UserGateway(
         return res
     }
 
-    override suspend fun socialSignIn(socialLoginModel: SocialLogInModel): ResponseEntity<AuthEntity, List<String>> {
+    override suspend fun socialSignIn(socialLoginDTO: SocialLogInDTO): ResponseEntity<AuthEntity, List<String>> {
         val res =
-            executeRemote { remote.socialSignIn(socialLoginModel.toSocialLoginRequest(getToken())) }.toResponseEntity(
+            executeRemote { remote.socialSignIn(socialLoginDTO.toSocialLoginRequest(getToken())) }.toResponseEntity(
                 {
 
                     it?.toEntity()
@@ -79,8 +79,8 @@ internal class UserGateway(
         return res
     }
 
-    override suspend fun signUp(signUpModel: SignUpModel): ResponseEntity<AuthEntity, List<String>> {
-        val res = executeRemote { remote.signUp(signUpModel.toSignUpRequest()) }.toResponseEntity(
+    override suspend fun signUp(signUpDTO: SignUpDTO): ResponseEntity<AuthEntity, List<String>> {
+        val res = executeRemote { remote.signUp(signUpDTO.toSignUpRequest()) }.toResponseEntity(
             {
                 it?.toEntity()
             },
@@ -131,8 +131,8 @@ internal class UserGateway(
         return result
     }
 
-    override suspend fun signUpValidation(signUpModel: SignUpModel): ResponseEntity<Unit, List<String>> {
-        return executeRemote { remote.signUpValidation(signUpModel.toSignUpRequest()) }.toResponseEntity(
+    override suspend fun signUpValidation(signUpDTO: SignUpDTO): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.signUpValidation(signUpDTO.toSignUpRequest()) }.toResponseEntity(
             {
                 Unit
             },
@@ -164,8 +164,8 @@ internal class UserGateway(
         )
     }
 
-    override suspend fun resetPassword(resetModel: ResetPasswordModel): ResponseEntity<Unit, List<String>> {
-        return executeRemote { remote.resetPassword(resetModel.toResetPasswordRequest()) }.toResponseEntity(
+    override suspend fun resetPassword(resetDTO: ResetPasswordDTO): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.resetPassword(resetDTO.toResetPasswordRequest()) }.toResponseEntity(
             {
                 Unit
             },
@@ -175,8 +175,8 @@ internal class UserGateway(
         )
     }
 
-    override suspend fun changePassword(model: ChangePasswordModel): ResponseEntity<Unit, List<String>> {
-        return executeRemote { remote.changePassword(model.toRequest()) }.toResponseEntity(
+    override suspend fun changePassword(dto: ChangePasswordDTO): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.changePassword(dto.toRequest()) }.toResponseEntity(
             {
                 Unit
             },
@@ -231,11 +231,11 @@ internal class UserGateway(
         return res
     }
 
-    override suspend fun updateProfile(groupModel: UpdateProfileModel): ResponseEntity<UserEntity, List<String>> {
-        val file = if (groupModel.imagePath == null) null else File(groupModel.imagePath!!)
+    override suspend fun updateProfile(groupDTO: UpdateProfileDTO): ResponseEntity<UserEntity, List<String>> {
+        val file = if (groupDTO.imagePath == null) null else File(groupDTO.imagePath!!)
 
         val res =
-            executeRemote { remote.updateProfile(file, groupModel.toRequest()) }.toResponseEntity(
+            executeRemote { remote.updateProfile(file, groupDTO.toRequest()) }.toResponseEntity(
                 {
                     it?.currrentUser?.toEntity()
                 },
@@ -251,7 +251,7 @@ internal class UserGateway(
         return res
     }
 
-    override suspend fun getRating(ratingsModel: RatingsModel): PagedList<RateEntity> {
+    override suspend fun getRating(ratingsModel: RatingsDTO): PagedList<RateEntity> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(ratingsModel.perPage ?: 10)
@@ -270,8 +270,8 @@ internal class UserGateway(
             .build()
     }
 
-    override suspend fun changePhone(model: ChangePhoneModel): ResponseEntity<Unit, List<String>> {
-        val res = executeRemote { remote.changePhone(model.toRequest()) }.toResponseEntity(
+    override suspend fun changePhone(dto: ChangePhoneDTO): ResponseEntity<Unit, List<String>> {
+        val res = executeRemote { remote.changePhone(dto.toRequest()) }.toResponseEntity(
             {
                 Unit
             },
@@ -282,15 +282,15 @@ internal class UserGateway(
 
         if (res.isSuccessful) {
             val user = getUser()
-            val newUser = user!!.copy(phone = model.phoneNumber)
+            val newUser = user!!.copy(phone = dto.phoneNumber)
             updateUserLocal(newUser)
         }
 
         return res
     }
 
-    override suspend fun changeEmail(model: ChangeEmailModel): ResponseEntity<Unit, List<String>> {
-        val res = executeRemote { remote.changeEmail(model.toRequest()) }.toResponseEntity(
+    override suspend fun changeEmail(dto: ChangeEmailDTO): ResponseEntity<Unit, List<String>> {
+        val res = executeRemote { remote.changeEmail(dto.toRequest()) }.toResponseEntity(
             {
                 Unit
             },
@@ -301,7 +301,7 @@ internal class UserGateway(
 
         if (res.isSuccessful) {
             val user = getUser()
-            val newUser = user!!.copy(email = model.email)
+            val newUser = user!!.copy(email = dto.email)
             updateUserLocal(newUser)
         }
 

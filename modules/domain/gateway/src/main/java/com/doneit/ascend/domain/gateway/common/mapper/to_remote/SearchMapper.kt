@@ -1,11 +1,11 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
-import com.doneit.ascend.domain.entity.dto.SearchModel
+import com.doneit.ascend.domain.entity.dto.SearchDTO
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.source.storage.remote.data.request.MasterMindListRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupListRequest
 
-fun SearchModel.toGroupRequest(page: Int): GroupListRequest {
+fun SearchDTO.toGroupRequest(page: Int): GroupListRequest {
     return GroupListRequest(
         page,
         perPage,
@@ -21,7 +21,7 @@ fun SearchModel.toGroupRequest(page: Int): GroupListRequest {
     )
 }
 
-fun SearchModel.toMasterMindRequest(page: Int): MasterMindListRequest {
+fun SearchDTO.toMasterMindRequest(page: Int): MasterMindListRequest {
     return MasterMindListRequest(
         page,
         perPage,

@@ -3,8 +3,8 @@ package com.doneit.ascend.presentation.login.log_in
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.dto.LogInUserModel
-import com.doneit.ascend.domain.entity.dto.SocialLogInModel
+import com.doneit.ascend.domain.entity.dto.LogInUserDTO
+import com.doneit.ascend.domain.entity.dto.SocialLogInDTO
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.R
@@ -63,7 +63,7 @@ class LogInViewModel(
             isSignInEnabled.set(false)
             val requestEntity =
                 userUseCase.signIn(
-                    LogInUserModel(
+                    LogInUserDTO(
                         loginModel.getPhoneNumber(),
                         loginModel.password
                     )
@@ -129,7 +129,7 @@ class LogInViewModel(
     }
 
     override fun onFacebookLogin(accessToken: AccessToken) {
-        val socialLogInModel = SocialLogInModel(
+        val socialLogInModel = SocialLogInDTO(
             LoginUtils.SOCIAL_TYPE_FACEBOOK,
             accessToken.token,
             null
@@ -143,7 +143,7 @@ class LogInViewModel(
     }
 
     override fun loginWithGoogle(idToken: String) {
-        val socialLogInModel = SocialLogInModel(
+        val socialLogInModel = SocialLogInDTO(
             LoginUtils.SOCIAL_TYPE_GOOGLE,
             idToken,
             null
@@ -157,7 +157,7 @@ class LogInViewModel(
     }
 
     override fun loginWithTwitter(token: String, secretToken: String) {
-        val socialLogInModel = SocialLogInModel(
+        val socialLogInModel = SocialLogInDTO(
             LoginUtils.SOCIAL_TYPE_TWITTER,
             token,
             secretToken
@@ -166,9 +166,9 @@ class LogInViewModel(
         socialLogin(socialLogInModel)
     }
 
-    private fun socialLogin(socialLogInModel: SocialLogInModel) {
+    private fun socialLogin(socialLogInDTO: SocialLogInDTO) {
         viewModelScope.launch {
-            val requestEntity = userUseCase.socialSignIn(socialLogInModel)
+            val requestEntity = userUseCase.socialSignIn(socialLogInDTO)
 
             if (requestEntity.isSuccessful) {
 

@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.gateway.gateway.data_source
 
 import androidx.paging.PageKeyedDataSource
 import com.doneit.ascend.domain.entity.PurchaseEntity
-import com.doneit.ascend.domain.entity.dto.PurchasesModel
+import com.doneit.ascend.domain.entity.dto.PurchasesDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class PurchaseDataSource(
     private val scope: CoroutineScope,
     private val remote: IPurchaseRepository,
-    private val requestModel: PurchasesModel
+    private val requestModel: PurchasesDTO
 ) : PageKeyedDataSource<Int, PurchaseEntity>() {
     override fun loadInitial(
         params: LoadInitialParams<Int>,

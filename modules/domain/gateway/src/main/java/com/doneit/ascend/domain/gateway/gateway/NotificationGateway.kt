@@ -6,7 +6,7 @@ import androidx.lifecycle.map
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.NotificationListModel
+import com.doneit.ascend.domain.entity.dto.NotificationListDTO
 import com.doneit.ascend.domain.entity.notification.NotificationEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
@@ -31,7 +31,7 @@ internal class NotificationGateway(
         return ""//todo, not required for now
     }
 
-    override fun getNotificationList(request: NotificationListModel) =
+    override fun getNotificationList(request: NotificationListDTO) =
         liveData<PagedList<NotificationEntity>> {
             local.removeAll()
 

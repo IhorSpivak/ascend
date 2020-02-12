@@ -12,15 +12,15 @@ internal class GroupInteractor(
     private val groupGateway: IGroupGateway
 ) : GroupUseCase {
 
-    override suspend fun createGroup(groupModel: CreateGroupModel): ResponseEntity<GroupEntity, List<String>> {
-        return groupGateway.createGroup(groupModel)
+    override suspend fun createGroup(groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>> {
+        return groupGateway.createGroup(groupDTO)
     }
 
-    override suspend fun getGroupList(model: GroupListModel): ResponseEntity<List<GroupEntity>, List<String>> {
+    override suspend fun getGroupList(model: GroupListDTO): ResponseEntity<List<GroupEntity>, List<String>> {
         return groupGateway.getGroupsList(model)
     }
 
-    override fun getGroupListPaged(model: GroupListModel): LiveData<PagedList<GroupEntity>> {
+    override fun getGroupListPaged(model: GroupListDTO): LiveData<PagedList<GroupEntity>> {
         return groupGateway.getGroupsListPaged(model)
     }
 
@@ -40,11 +40,11 @@ internal class GroupInteractor(
         return groupGateway.deleteGroup(groupId)
     }
 
-    override suspend fun subscribe(model: SubscribeGroupModel): ResponseEntity<Unit, List<String>> {
-        return groupGateway.subscribe(model)
+    override suspend fun subscribe(dto: SubscribeGroupDTO): ResponseEntity<Unit, List<String>> {
+        return groupGateway.subscribe(dto)
     }
 
-    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsModel, List<String>> {
+    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsDTO, List<String>> {
         return groupGateway.getCredentials(groupId)
     }
 
@@ -54,7 +54,7 @@ internal class GroupInteractor(
         isConnected: Boolean?
     ): ResponseEntity<List<ParticipantEntity>, List<String>> {
         return groupGateway.getParticipantList(
-            ParticipantListModel(
+            ParticipantListDTO(
                 1,
                 CHAT_PARTICIPANTS_MAX_COUNT,
                 null,

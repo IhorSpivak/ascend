@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.profile.payments.payment_methods.add_paym
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.dto.CreateCardModel
+import com.doneit.ascend.domain.entity.dto.CreateCardDTO
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCreateCardModel
@@ -93,7 +93,7 @@ class AddPaymentViewModel(
                 override fun onSuccess(result: Token) {
                     val tokenID = result.id
                     createCard(
-                        CreateCardModel(
+                        CreateCardDTO(
                             dataModel.name.observableField.getNotNull(),
                             tokenID
                         )
@@ -112,7 +112,7 @@ class AddPaymentViewModel(
         router.onBack()
     }
 
-    private fun createCard(model: CreateCardModel) {
+    private fun createCard(model: CreateCardDTO) {
         viewModelScope.launch {
             val result = cardsUseCase.createCard(model)
 

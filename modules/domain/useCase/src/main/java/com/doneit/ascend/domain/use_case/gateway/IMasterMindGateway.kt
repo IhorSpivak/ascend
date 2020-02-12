@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.MasterMindListModel
+import com.doneit.ascend.domain.entity.dto.MasterMindListDTO
 
 interface IMasterMindGateway {
-    suspend fun getMasterMindsList(listRequest: MasterMindListModel): ResponseEntity<List<MasterMindEntity>, List<String>>
-    fun getMasterMindsPagedList(listRequest: MasterMindListModel): LiveData<PagedList<MasterMindEntity>>
+    suspend fun getMasterMindsList(listRequest: MasterMindListDTO): ResponseEntity<List<MasterMindEntity>, List<String>>
+    fun getMasterMindsPagedList(listRequest: MasterMindListDTO): LiveData<PagedList<MasterMindEntity>>
     fun getProfile(id: Long): LiveData<MasterMindEntity>
     suspend fun follow(userId: Long): ResponseEntity<Unit, List<String>>
     suspend fun unfollow(userId: Long): ResponseEntity<Unit, List<String>>

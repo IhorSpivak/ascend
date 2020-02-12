@@ -1,9 +1,9 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
-import com.doneit.ascend.domain.entity.dto.NotificationListModel
+import com.doneit.ascend.domain.entity.dto.NotificationListDTO
 import com.doneit.ascend.source.storage.remote.data.request.NotificationListRequest
 
-fun NotificationListModel.toRequest(): NotificationListRequest {
+fun NotificationListDTO.toRequest(): NotificationListRequest {
     return NotificationListRequest(
         page,
         perPage,
@@ -17,7 +17,7 @@ fun NotificationListModel.toRequest(): NotificationListRequest {
     )
 }
 
-fun NotificationListModel.toRequest(page: Int): NotificationListRequest {
+fun NotificationListDTO.toRequest(page: Int): NotificationListRequest {
     return NotificationListRequest(
         page,
         perPage,

@@ -1,8 +1,7 @@
 package com.doneit.ascend.domain.entity.dto
 
-data class ResetPasswordModel(
-    val phone: String,
-    val code: String,
+data class ChangePasswordDTO(
+    val currentPassword: String,
     val password: String,
     val passwordConfirmation: String
 )

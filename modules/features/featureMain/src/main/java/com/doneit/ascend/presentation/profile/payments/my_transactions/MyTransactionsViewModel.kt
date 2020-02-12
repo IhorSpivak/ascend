@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.PurchaseEntity
-import com.doneit.ascend.domain.entity.dto.PurchasesModel
+import com.doneit.ascend.domain.entity.dto.PurchasesDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.use_case.interactor.purchase.PurchaseUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -28,7 +28,7 @@ class MyTransactionsViewModel (
     override fun refetch() {
         viewModelScope.launch {
             val result = purchaseUseCase.getPurchases(
-                PurchasesModel(
+                PurchasesDTO(
                     sortColumn = PurchaseEntity.CREATED_AT_KEY,
                     sortType = SortType.DESC
                 )

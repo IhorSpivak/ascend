@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.entity.dto
 
 import java.util.*
 
-data class UpdateProfileModel(
+data class UpdateProfileDTO(
     var fullName: String? = null,
     var displayName: String? = null,
     var location: String? = null,

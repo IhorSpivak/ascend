@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.login.first_time_login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.AnswerEntity
-import com.doneit.ascend.domain.entity.dto.AnswersModel
+import com.doneit.ascend.domain.entity.dto.AnswersDTO
 import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
@@ -40,7 +40,7 @@ class FirstTimeLoginViewModel(
 
             val requestEntity =
                 answerUseCase.createAnswers(
-                    AnswersModel(
+                    AnswersDTO(
                         community = community.value!!,
                         answers = answers.toList()
                     )

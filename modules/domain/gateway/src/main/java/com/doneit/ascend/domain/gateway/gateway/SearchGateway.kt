@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.gateway.gateway
 
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.SearchEntity
-import com.doneit.ascend.domain.entity.dto.SearchModel
+import com.doneit.ascend.domain.entity.dto.SearchDTO
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.data_source.SearchDataSource
 import com.doneit.ascend.domain.use_case.gateway.ISearchGateway
@@ -20,7 +20,7 @@ internal class SearchGateway(
         return ""//todo, not required for now
     }
 
-    override suspend fun getSearchResultPaged(searchRequest: SearchModel): PagedList<SearchEntity> {
+    override suspend fun getSearchResultPaged(searchRequest: SearchDTO): PagedList<SearchEntity> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(searchRequest.perPage?:10)

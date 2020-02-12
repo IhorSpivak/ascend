@@ -6,7 +6,7 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.dto.GroupListModel
+import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -25,7 +25,7 @@ class GroupListViewModel(
 ) : BaseViewModelImpl(), GroupListContract.ViewModel {
 
     private lateinit var user: UserEntity
-    private val groupListModel = MutableLiveData<GroupListModel>()
+    private val groupListModel = MutableLiveData<GroupListDTO>()
     override val groups = groupListModel.switchMap {
         groupUseCase.getGroupListPaged(it).map {
             GroupListWithUserPaged(
@@ -45,7 +45,7 @@ class GroupListViewModel(
                 groupType = null
             }
 
-            val model = GroupListModel(
+            val model = GroupListDTO(
                 perPage = 50,
                 sortType = args.sortType,
                 sortColumn = GroupEntity.START_TIME_KEY,

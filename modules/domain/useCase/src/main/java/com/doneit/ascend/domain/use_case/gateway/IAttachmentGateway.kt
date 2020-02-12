@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.AttachmentsListModel
+import com.doneit.ascend.domain.entity.dto.AttachmentsListDTO
 
 interface IAttachmentGateway {
-    suspend fun getAttachments(listModel: AttachmentsListModel): PagedList<AttachmentEntity>
-    fun getAttachmentsPagedList(listModel: AttachmentsListModel): LiveData<PagedList<AttachmentEntity>>
+    suspend fun getAttachments(listDTO: AttachmentsListDTO): PagedList<AttachmentEntity>
+    fun getAttachmentsPagedList(listDTO: AttachmentsListDTO): LiveData<PagedList<AttachmentEntity>>
     suspend fun delete(id: Long): ResponseEntity<Unit, List<String>>
 }

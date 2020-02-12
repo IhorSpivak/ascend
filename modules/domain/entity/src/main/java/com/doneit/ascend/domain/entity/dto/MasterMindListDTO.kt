@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.entity.dto
 
-class MasterMindListModel (
+class MasterMindListDTO (
     page: Int? = null,
     perPage: Int? = null,
     sortColumn: String? = null,
@@ -9,4 +9,4 @@ class MasterMindListModel (
     val displayName: String? = null,
     val followed: Boolean? = null,
     val rated: Boolean? = null
-): BasePagedModel(page, perPage, sortColumn, sortType)
+): BasePagedDTO(page, perPage, sortColumn, sortType)

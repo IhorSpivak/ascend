@@ -1,12 +1,12 @@
 package com.doneit.ascend.presentation.login.models
 
-import com.doneit.ascend.domain.entity.dto.LogInUserModel
-import com.doneit.ascend.domain.entity.dto.ResetPasswordModel
-import com.doneit.ascend.domain.entity.dto.SignUpModel
+import com.doneit.ascend.domain.entity.dto.LogInUserDTO
+import com.doneit.ascend.domain.entity.dto.ResetPasswordDTO
+import com.doneit.ascend.domain.entity.dto.SignUpDTO
 import com.doneit.ascend.presentation.utils.getNotNullString
 
-fun PresentationSignUpModel.toEntity(): SignUpModel {
-    return SignUpModel(
+fun PresentationSignUpModel.toEntity(): SignUpDTO {
+    return SignUpDTO(
         email.observableField.getNotNullString(),
         getPhoneNumber(),
         name.observableField.get() ?: "",
@@ -20,8 +20,8 @@ fun PresentationPhoneModel.toEntity(): String {
     return getPhoneNumber()
 }
 
-fun PresentationNewPasswordModel.toEntity(): ResetPasswordModel {
-    return ResetPasswordModel(
+fun PresentationNewPasswordModel.toEntity(): ResetPasswordDTO {
+    return ResetPasswordDTO(
         phoneNumber,
         code.observableField.getNotNullString(),
         password.observableField.getNotNullString(),
@@ -29,8 +29,8 @@ fun PresentationNewPasswordModel.toEntity(): ResetPasswordModel {
     )
 }
 
-fun PresentationNewPasswordModel.toLogInModel(): LogInUserModel {
-    return LogInUserModel(
+fun PresentationNewPasswordModel.toLogInModel(): LogInUserDTO {
+    return LogInUserDTO(
         phoneNumber,
         password.observableField.getNotNullString()
     )

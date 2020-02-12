@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.MasterMindListModel
+import com.doneit.ascend.domain.entity.dto.MasterMindListDTO
 import com.doneit.ascend.domain.use_case.gateway.IMasterMindGateway
 
 internal class MasterMindInteractor(
@@ -12,15 +12,15 @@ internal class MasterMindInteractor(
 ) : MasterMindUseCase {
 
     override suspend fun getDefaultMasterMindList(): ResponseEntity<List<MasterMindEntity>, List<String>> {
-        return masterMindGateway.getMasterMindsList(MasterMindListModel(followed = true))
+        return masterMindGateway.getMasterMindsList(MasterMindListDTO(followed = true))
     }
 
     override fun getMasterMindList(isFollowed: Boolean?): LiveData<PagedList<MasterMindEntity>> {
-        return masterMindGateway.getMasterMindsPagedList(MasterMindListModel(followed = isFollowed))
+        return masterMindGateway.getMasterMindsPagedList(MasterMindListDTO(followed = isFollowed))
     }
 
     override fun getMMListByName(fullName: String): LiveData<PagedList<MasterMindEntity>> {
-        return masterMindGateway.getMasterMindsPagedList(MasterMindListModel(fullName = fullName, followed = false))
+        return masterMindGateway.getMasterMindsPagedList(MasterMindListDTO(fullName = fullName, followed = false))
     }
 
     override fun getProfile(id: Long): LiveData<MasterMindEntity> {

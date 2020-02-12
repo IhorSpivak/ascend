@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.entity.dto
 
-class SearchModel(
+class SearchDTO(
     val page: Int? = null,
     val perPage: Int? = null,
     val mmSortColumn: String? = null,

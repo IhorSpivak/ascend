@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.entity.dto
 
 import java.util.*
 
-data class CreateGroupModel(
+data class CreateGroupDTO(
     val name: String,
     val description: String,
     val startTime: Date,

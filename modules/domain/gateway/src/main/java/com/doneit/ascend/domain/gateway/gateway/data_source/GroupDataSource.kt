@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.gateway.gateway.data_source
 
 import androidx.paging.PageKeyedDataSource
 import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.dto.GroupListModel
+import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class GroupDataSource(
     private val scope: CoroutineScope,
     private val remote: IGroupRepository,
-    private val groupListModel: GroupListModel
+    private val groupListModel: GroupListDTO
 ) : PageKeyedDataSource<Int, GroupEntity>() {
 
     override fun loadInitial(

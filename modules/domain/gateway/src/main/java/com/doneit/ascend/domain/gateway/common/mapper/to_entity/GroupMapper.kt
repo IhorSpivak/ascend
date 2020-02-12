@@ -1,7 +1,7 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.*
-import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
+import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
@@ -82,8 +82,8 @@ fun String.toGroupType(): GroupType? {
     return GroupType.valueOf(this.toUpperCase())
 }
 
-fun GroupCredentialsResponse.toEntity(): GroupCredentialsModel {
-    return GroupCredentialsModel(
+fun GroupCredentialsResponse.toEntity(): GroupCredentialsDTO {
+    return GroupCredentialsDTO(
         name,
         token
     )

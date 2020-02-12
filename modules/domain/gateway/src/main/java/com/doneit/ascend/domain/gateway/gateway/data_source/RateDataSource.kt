@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.gateway.gateway.data_source
 
 import androidx.paging.PageKeyedDataSource
 import com.doneit.ascend.domain.entity.RateEntity
-import com.doneit.ascend.domain.entity.dto.RatingsModel
+import com.doneit.ascend.domain.entity.dto.RatingsDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class RateDataSource(
     private val scope: CoroutineScope,
     private val remote: IUserRepository,
-    private val ratingsModel: RatingsModel
+    private val ratingsModel: RatingsDTO
 ) : PageKeyedDataSource<Int, RateEntity>() {
 
     override fun loadInitial(

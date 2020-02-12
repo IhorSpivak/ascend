@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.entity.dto
 
-data class SubscribeGroupModel(
+data class SubscribeGroupDTO(
     val groupId: Long,
     val paymentSourceId: Long,
     val paymentSourceType: PaymentType

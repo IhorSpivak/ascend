@@ -12,28 +12,28 @@ import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 internal class UserInteractor(
     private val userGateway: IUserGateway
 ) : UserUseCase {
-    override suspend fun signIn(logInModel: LogInUserModel): ResponseEntity<AuthEntity, List<String>> {
-        return userGateway.signIn(logInModel)
+    override suspend fun signIn(logInDTO: LogInUserDTO): ResponseEntity<AuthEntity, List<String>> {
+        return userGateway.signIn(logInDTO)
     }
 
     override suspend fun signOut(): ResponseEntity<Unit, List<String>> {
         return userGateway.signOut()
     }
 
-    override suspend fun socialSignIn(socialLogInModel: SocialLogInModel): ResponseEntity<AuthEntity, List<String>> {
-        return userGateway.socialSignIn(socialLogInModel)
+    override suspend fun socialSignIn(socialLogInDTO: SocialLogInDTO): ResponseEntity<AuthEntity, List<String>> {
+        return userGateway.socialSignIn(socialLogInDTO)
     }
 
-    override suspend fun signUp(registerModel: SignUpModel): ResponseEntity<AuthEntity, List<String>> {
-        return userGateway.signUp(registerModel)
+    override suspend fun signUp(registerDTO: SignUpDTO): ResponseEntity<AuthEntity, List<String>> {
+        return userGateway.signUp(registerDTO)
     }
 
     override suspend fun deleteAccount(): ResponseEntity<Unit, List<String>> {
         return userGateway.deleteAccount()
     }
 
-    override suspend fun signUpValidation(registerModel: SignUpModel): ResponseEntity<Unit, List<String>> {
-        return userGateway.signUpValidation(registerModel)
+    override suspend fun signUpValidation(registerDTO: SignUpDTO): ResponseEntity<Unit, List<String>> {
+        return userGateway.signUpValidation(registerDTO)
     }
 
     override suspend fun getConfirmationCode(phone: String): ResponseEntity<Unit, List<String>> {
@@ -44,12 +44,12 @@ internal class UserInteractor(
         return userGateway.forgotPassword(phone)
     }
 
-    override suspend fun resetPassword(resetModel: ResetPasswordModel): ResponseEntity<Unit, List<String>> {
-        return userGateway.resetPassword(resetModel)
+    override suspend fun resetPassword(resetDTO: ResetPasswordDTO): ResponseEntity<Unit, List<String>> {
+        return userGateway.resetPassword(resetDTO)
     }
 
-    override suspend fun changePassword(model: ChangePasswordModel): ResponseEntity<Unit, List<String>> {
-        return userGateway.changePassword(model)
+    override suspend fun changePassword(dto: ChangePasswordDTO): ResponseEntity<Unit, List<String>> {
+        return userGateway.changePassword(dto)
     }
 
     override suspend fun update(user: UserEntity) {
@@ -76,20 +76,20 @@ internal class UserInteractor(
         return userGateway.getProfile()
     }
 
-    override suspend fun updateProfile(request: UpdateProfileModel): ResponseEntity<UserEntity, List<String>> {
+    override suspend fun updateProfile(request: UpdateProfileDTO): ResponseEntity<UserEntity, List<String>> {
         return userGateway.updateProfile(request)
     }
 
-    override suspend fun getRates(model: RatingsModel): PagedList<RateEntity> {
+    override suspend fun getRates(model: RatingsDTO): PagedList<RateEntity> {
         return userGateway.getRating(model)
     }
 
-    override suspend fun changePhone(dto: ChangePhoneModel): ResponseEntity<Unit, List<String>> {
+    override suspend fun changePhone(dto: ChangePhoneDTO): ResponseEntity<Unit, List<String>> {
         return userGateway.changePhone(dto)
     }
 
-    override suspend fun changeEmail(model: ChangeEmailModel): ResponseEntity<Unit, List<String>> {
-        return userGateway.changeEmail(model)
+    override suspend fun changeEmail(dto: ChangeEmailDTO): ResponseEntity<Unit, List<String>> {
+        return userGateway.changeEmail(dto)
     }
 
     override suspend fun updateFirebase(firebaseId: String): ResponseEntity<Unit, List<String>> {

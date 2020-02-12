@@ -6,7 +6,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.MasterMindListModel
+import com.doneit.ascend.domain.entity.dto.MasterMindListDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -28,7 +28,7 @@ internal class MasterMindGateway(
         return ""//todo, not required for now
     }
 
-    override suspend fun getMasterMindsList(listRequest: MasterMindListModel): ResponseEntity<List<MasterMindEntity>, List<String>> {
+    override suspend fun getMasterMindsList(listRequest: MasterMindListDTO): ResponseEntity<List<MasterMindEntity>, List<String>> {
         return executeRemote { remote.getMasterMindsList(listRequest.toRequest()) }.toResponseEntity(
             {
                 it?.users?.map { it.toEntity() }
@@ -39,7 +39,7 @@ internal class MasterMindGateway(
         )
     }
 
-    override fun getMasterMindsPagedList(listRequest: MasterMindListModel) =
+    override fun getMasterMindsPagedList(listRequest: MasterMindListDTO) =
         liveData<PagedList<MasterMindEntity>> {
             local.removeAll()
 

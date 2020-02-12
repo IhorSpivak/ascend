@@ -3,9 +3,8 @@ package com.doneit.ascend.domain.use_case.interactor.attachment
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttachmentEntity
-import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.AttachmentsListModel
+import com.doneit.ascend.domain.entity.dto.AttachmentsListDTO
 import com.doneit.ascend.domain.use_case.gateway.IAttachmentGateway
 
 internal class AttachmentInteractor(
@@ -16,10 +15,10 @@ internal class AttachmentInteractor(
     }
 
     override fun getAttachmentListPagedLive(): LiveData<PagedList<AttachmentEntity>> {
-        return attachmentGateway.getAttachmentsPagedList(AttachmentsListModel())
+        return attachmentGateway.getAttachmentsPagedList(AttachmentsListDTO())
     }
 
-    override suspend fun getAttachmentListPaged(model: AttachmentsListModel): PagedList<AttachmentEntity> {
-        return attachmentGateway.getAttachments(model)
+    override suspend fun getAttachmentListPaged(dto: AttachmentsListDTO): PagedList<AttachmentEntity> {
+        return attachmentGateway.getAttachments(dto)
     }
 }

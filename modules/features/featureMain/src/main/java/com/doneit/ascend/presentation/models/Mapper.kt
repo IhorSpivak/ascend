@@ -1,17 +1,17 @@
 package com.doneit.ascend.presentation.models
 
 import com.doneit.ascend.domain.entity.*
-import com.doneit.ascend.domain.entity.dto.ChangeEmailModel
-import com.doneit.ascend.domain.entity.dto.ChangePasswordModel
-import com.doneit.ascend.domain.entity.dto.ChangePhoneModel
-import com.doneit.ascend.domain.entity.dto.CreateGroupModel
+import com.doneit.ascend.domain.entity.dto.ChangeEmailDTO
+import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
+import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
+import com.doneit.ascend.domain.entity.dto.CreateGroupDTO
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
 import java.lang.NumberFormatException
 import java.util.*
 
-fun PresentationCreateGroupModel.toEntity(): CreateGroupModel {
+fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
     val startTime =
         CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
     val calendar = getDefaultCalendar()
@@ -20,7 +20,7 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupModel {
     calendar.set(Calendar.MINUTE, minutes.toInt())
     calendar.set(Calendar.AM_PM, timeType.toAM_PM())
 
-    return CreateGroupModel(
+    return CreateGroupDTO(
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         calendar.time,
@@ -58,24 +58,24 @@ fun String.toAM_PM(): Int {
     return if (this == "AM") Calendar.AM else Calendar.PM
 }
 
-fun EditPhoneModel.toEntity(): ChangePhoneModel {
-    return ChangePhoneModel(
+fun EditPhoneModel.toEntity(): ChangePhoneDTO {
+    return ChangePhoneDTO(
         password.observableField.getNotNull(),
         getPhone(),
         code.observableField.getNotNull()
     )
 }
 
-fun PresentationChangePasswordModel.toEntity(): ChangePasswordModel {
-    return ChangePasswordModel(
+fun PresentationChangePasswordModel.toEntity(): ChangePasswordDTO {
+    return ChangePasswordDTO(
         currentPassword.observableField.getNotNull(),
         newPassword.observableField.getNotNull(),
         confirmPassword.observableField.getNotNull()
     )
 }
 
-fun EditEmailModel.toEntity(): ChangeEmailModel {
-    return ChangeEmailModel(
+fun EditEmailModel.toEntity(): ChangeEmailDTO {
+    return ChangeEmailDTO(
         email.observableField.getNotNull(),
         password.observableField.getNotNull()
     )

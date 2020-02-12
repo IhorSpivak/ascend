@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.entity.dto
 
-class NotificationListModel(
+class NotificationListDTO(
     page: Int? = null,
     perPage: Int? = null,
     sortColumn: String? = null,
@@ -10,4 +10,4 @@ class NotificationListModel(
     val createdAtTo: String? = null,
     val updatedAtFrom: String? = null,
     val updatedAtTo: String? = null
-) : BasePagedModel(page, perPage, sortColumn, sortType)
+) : BasePagedDTO(page, perPage, sortColumn, sortType)

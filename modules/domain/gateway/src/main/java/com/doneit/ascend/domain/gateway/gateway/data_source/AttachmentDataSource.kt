@@ -3,20 +3,19 @@ package com.doneit.ascend.domain.gateway.gateway.data_source
 import androidx.paging.PageKeyedDataSource
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.AttachmentType
-import com.doneit.ascend.domain.entity.dto.AttachmentsListModel
+import com.doneit.ascend.domain.entity.dto.AttachmentsListDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.source.storage.remote.repository.attachments.IAttachmentsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import java.util.*
 
 class AttachmentDataSource(
     private val scope: CoroutineScope,
     private val remote: IAttachmentsRepository,
-    private val listModel: AttachmentsListModel
+    private val listDTO: AttachmentsListDTO
 ) : PageKeyedDataSource<Int, AttachmentEntity>() {
 
     override fun loadInitial(
@@ -34,7 +33,7 @@ class AttachmentDataSource(
                     1, false, AttachmentType.LINK, Date(1980,2,2), Date(1981,2,3)))
                 val page = 1
 
-                val groups = remote.getAttachmentsList(listModel.toRequest(page)).toResponseEntity(
+                val groups = remote.getAttachmentsList(listDTO.toRequest(page)).toResponseEntity(
                     {
                         it?.attachments?.map { attachment -> attachment.toEntity() }
                     },
@@ -63,7 +62,7 @@ class AttachmentDataSource(
                 val page = params.key
 
                 val groups =
-                    remote.getAttachmentsList(listModel.toRequest(page)).toResponseEntity(
+                    remote.getAttachmentsList(listDTO.toRequest(page)).toResponseEntity(
                         {
                             it?.attachments?.map { attachment -> attachment.toEntity() }
                         },

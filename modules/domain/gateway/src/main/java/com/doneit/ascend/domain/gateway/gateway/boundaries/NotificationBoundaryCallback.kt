@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.gateway.gateway.boundaries
 
-import com.doneit.ascend.domain.entity.dto.NotificationListModel
+import com.doneit.ascend.domain.entity.dto.NotificationListDTO
 import com.doneit.ascend.domain.entity.notification.NotificationEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -12,7 +12,7 @@ class NotificationBoundaryCallback(
     scope: CoroutineScope,
     private val local: INotificationRepository,
     private val remote: com.doneit.ascend.source.storage.remote.repository.notification.INotificationRepository,
-    private val notificationListModel: NotificationListModel
+    private val notificationListModel: NotificationListDTO
 ) : BaseBoundary<NotificationEntity>(scope) {
 
 

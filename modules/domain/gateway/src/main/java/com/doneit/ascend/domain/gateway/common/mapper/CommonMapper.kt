@@ -6,8 +6,6 @@ import com.doneit.ascend.source.storage.remote.data.response.common.RemoteRespon
 fun <T, E, R, F> RemoteResponse<T, E>.toResponseEntity(successMapper: (T?) -> R?, errorMapper: (E?) -> F?): ResponseEntity<R, F> {
     return ResponseEntity(
         isSuccessful,
-        code,
-        message,
         successMapper.invoke(successModel),
         errorMapper.invoke(errorModel)
     )

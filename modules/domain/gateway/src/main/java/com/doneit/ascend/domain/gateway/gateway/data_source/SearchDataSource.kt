@@ -3,7 +3,7 @@ package com.doneit.ascend.domain.gateway.gateway.data_source
 import androidx.paging.PageKeyedDataSource
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.SearchModel
+import com.doneit.ascend.domain.entity.dto.SearchDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toGroupRequest
@@ -18,7 +18,7 @@ class SearchDataSource(
     private val scope: CoroutineScope,
     private val remoteGroup: IGroupRepository,
     private val remoteMasterMind: IMasterMindRepository,
-    private val requestModel: SearchModel
+    private val requestDTO: SearchDTO
 ) : PageKeyedDataSource<Int, SearchEntity>() {
 
     private var lastMMPage: Int? = null
@@ -33,7 +33,7 @@ class SearchDataSource(
                 var page = 1
                 var masterMindCount: Int? = null
 
-                val masterMinds = remoteMasterMind.getMasterMindsList(requestModel.toMasterMindRequest(page)).toResponseEntity(
+                val masterMinds = remoteMasterMind.getMasterMindsList(requestDTO.toMasterMindRequest(page)).toResponseEntity(
                     {
                         masterMindCount = it?.count
                         it?.users?.map { groupIt -> groupIt.toEntity() }
@@ -46,7 +46,7 @@ class SearchDataSource(
                 val res = mutableListOf<SearchEntity>()
 
                 if(masterMindCount != null) {
-                    val perPage = requestModel.perPage?:10
+                    val perPage = requestDTO.perPage?:10
                     lastMMPage = ceil(masterMindCount!!.toDouble() / perPage).toInt()
                 } else {
                     lastMMPage = 0
@@ -58,7 +58,7 @@ class SearchDataSource(
 
                 if(res.size < params.requestedLoadSize) {
                     val groups =
-                        remoteGroup.getGroupsList(requestModel.toGroupRequest(page)).toResponseEntity(
+                        remoteGroup.getGroupsList(requestDTO.toGroupRequest(page)).toResponseEntity(
                             {
                                 it?.groups?.map { groupIt -> groupIt.toEntity() }
                             },
@@ -87,7 +87,7 @@ class SearchDataSource(
                 val res: ResponseEntity<List<SearchEntity>, List<String>>?
                 if(params.key <= lastMMPage?:0) {
                     res =
-                        remoteMasterMind.getMasterMindsList(requestModel.toMasterMindRequest(params.key)).toResponseEntity(
+                        remoteMasterMind.getMasterMindsList(requestDTO.toMasterMindRequest(params.key)).toResponseEntity(
                             {
                                 it?.users?.map { groupIt -> groupIt.toEntity() }
                             },
@@ -97,7 +97,7 @@ class SearchDataSource(
                         )
                 } else {
                     res =
-                        remoteGroup.getGroupsList(requestModel.toGroupRequest(params.key - lastMMPage!!)).toResponseEntity(
+                        remoteGroup.getGroupsList(requestDTO.toGroupRequest(params.key - lastMMPage!!)).toResponseEntity(
                             {
                                 it?.groups?.map { groupIt -> groupIt.toEntity() }
                             },

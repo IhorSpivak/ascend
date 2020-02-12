@@ -7,8 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.UserEntity
-import com.doneit.ascend.domain.entity.dto.AnswersModel
-import com.doneit.ascend.domain.entity.dto.UpdateProfileModel
+import com.doneit.ascend.domain.entity.dto.AnswersDTO
+import com.doneit.ascend.domain.entity.dto.UpdateProfileDTO
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
@@ -169,23 +169,23 @@ class ProfileViewModel(
     }
 
     override fun updateProfileIcon(path: String) {
-        updateProfile(UpdateProfileModel(imagePath = path))
+        updateProfile(UpdateProfileDTO(imagePath = path))
     }
 
     override fun removeProfileIcon() {
-        updateProfile(UpdateProfileModel(removeImage = true))
+        updateProfile(UpdateProfileDTO(removeImage = true))
     }
 
     override fun updateFullName(newFullName: String) {
-        updateProfile(UpdateProfileModel(fullName = newFullName))
+        updateProfile(UpdateProfileDTO(fullName = newFullName))
     }
 
     override fun updateDisplayName(newDisplayName: String) {
-        updateProfile(UpdateProfileModel(displayName = newDisplayName))
+        updateProfile(UpdateProfileDTO(displayName = newDisplayName))
     }
 
     override fun updateShortDescription(newShortDescription: String) {
-        updateProfile(UpdateProfileModel(description = newShortDescription))
+        updateProfile(UpdateProfileDTO(description = newShortDescription))
     }
 
     override fun onEditBioClick() {
@@ -193,7 +193,7 @@ class ProfileViewModel(
     }
 
     override fun updateBio(newBio: String) {
-        updateProfile(UpdateProfileModel(bio = newBio))
+        updateProfile(UpdateProfileDTO(bio = newBio))
     }
 
     override fun onAvatarSelected(
@@ -210,7 +210,7 @@ class ProfileViewModel(
 
     override fun updateLocation(city: String, country: String) {
         val location = getLocation(city, country)
-        updateProfile(UpdateProfileModel(location = location))
+        updateProfile(UpdateProfileDTO(location = location))
     }
 
     override fun onBirthdaySelected(year: Int, month: MonthEntity, day: Int) {
@@ -230,16 +230,16 @@ class ProfileViewModel(
 
     override fun saveBirthday() {
         birthdaySelected.value?.let {
-            updateProfile(UpdateProfileModel(birthday = it))
+            updateProfile(UpdateProfileDTO(birthday = it))
             router.onBack()
         }
     }
 
     override fun onChanged(type: NotificationSettingsItem, value: Boolean) {
         val model = when (type) {
-            NotificationSettingsItem.MEETING_STARTED -> UpdateProfileModel(isMeetingStarted = true)
-            NotificationSettingsItem.NEW_GROUPS -> UpdateProfileModel(hasNewGroups = true)
-            NotificationSettingsItem.INVITE_TO_MEETING -> UpdateProfileModel(hasInviteToMeeting = true)
+            NotificationSettingsItem.MEETING_STARTED -> UpdateProfileDTO(isMeetingStarted = true)
+            NotificationSettingsItem.NEW_GROUPS -> UpdateProfileDTO(hasNewGroups = true)
+            NotificationSettingsItem.INVITE_TO_MEETING -> UpdateProfileDTO(hasInviteToMeeting = true)
         }
         updateProfile(model)
     }
@@ -256,7 +256,7 @@ class ProfileViewModel(
             } else {
                 canSave.postValue(false)
                 viewModelScope.launch {
-                    val result = answerUseCase.createAnswers(AnswersModel(newCommunity, listOf()))
+                    val result = answerUseCase.createAnswers(AnswersDTO(newCommunity, listOf()))
 
                     if (result.isSuccessful) {
                         router.onBack()
@@ -306,9 +306,9 @@ class ProfileViewModel(
         super.onCleared()
     }
 
-    private fun updateProfile(model: UpdateProfileModel) {
+    private fun updateProfile(dto: UpdateProfileDTO) {
         viewModelScope.launch {
-            val result = userUseCase.updateProfile(model)
+            val result = userUseCase.updateProfile(dto)
 
             if (result.isSuccessful.not()) {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())

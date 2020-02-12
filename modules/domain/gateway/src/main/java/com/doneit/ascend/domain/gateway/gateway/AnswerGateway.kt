@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.gateway.gateway
 
-import com.doneit.ascend.domain.entity.dto.AnswersModel
+import com.doneit.ascend.domain.entity.dto.AnswersDTO
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
@@ -21,7 +21,7 @@ internal class AnswerGateway(
     }
 
     override suspend fun createAnswers(
-        answers: AnswersModel
+        answers: AnswersDTO
     ): ResponseEntity<Unit, List<String>> {
         val result = executeRemote { remote.createAnswers(answers.toRequest()) }.toResponseEntity(
             {

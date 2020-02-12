@@ -3,7 +3,7 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.source.storage.remote.data.request.*
 
-fun LogInUserModel.toLoginRequest(firebaseId: String): LogInRequest {
+fun LogInUserDTO.toLoginRequest(firebaseId: String): LogInRequest {
     return LogInRequest(
         number,
         password,
@@ -11,7 +11,7 @@ fun LogInUserModel.toLoginRequest(firebaseId: String): LogInRequest {
     )
 }
 
-fun SocialLogInModel.toSocialLoginRequest(firebaseId: String): SocialLoginRequest {
+fun SocialLogInDTO.toSocialLoginRequest(firebaseId: String): SocialLoginRequest {
     return SocialLoginRequest(
         socialType,
         accessToken,
@@ -20,7 +20,7 @@ fun SocialLogInModel.toSocialLoginRequest(firebaseId: String): SocialLoginReques
     )
 }
 
-fun SignUpModel.toSignUpRequest(): SignUpRequest {
+fun SignUpDTO.toSignUpRequest(): SignUpRequest {
     return SignUpRequest(
         email,
         phone,
@@ -31,7 +31,7 @@ fun SignUpModel.toSignUpRequest(): SignUpRequest {
     )
 }
 
-fun ResetPasswordModel.toResetPasswordRequest(): ResetPasswordRequest {
+fun ResetPasswordDTO.toResetPasswordRequest(): ResetPasswordRequest {
     return ResetPasswordRequest(
         phone,
         code,
@@ -40,7 +40,7 @@ fun ResetPasswordModel.toResetPasswordRequest(): ResetPasswordRequest {
     )
 }
 
-fun ChangePasswordModel.toRequest(): ChangePasswordRequest {
+fun ChangePasswordDTO.toRequest(): ChangePasswordRequest {
     return ChangePasswordRequest(
         currentPassword,
         password,
@@ -48,7 +48,7 @@ fun ChangePasswordModel.toRequest(): ChangePasswordRequest {
     )
 }
 
-fun UpdateProfileModel.toRequest(): UpdateProfileRequest {
+fun UpdateProfileDTO.toRequest(): UpdateProfileRequest {
     return UpdateProfileRequest(
         fullName,
         displayName,
@@ -63,7 +63,7 @@ fun UpdateProfileModel.toRequest(): UpdateProfileRequest {
     )
 }
 
-fun RatingsModel.toRequest(currPage: Int): RateRequest {
+fun RatingsDTO.toRequest(currPage: Int): RateRequest {
     return RateRequest(
         currPage,
         perPage,
@@ -77,7 +77,7 @@ fun RatingsModel.toRequest(currPage: Int): RateRequest {
     )
 }
 
-fun ChangePhoneModel.toRequest(): ChangePhoneRequest {
+fun ChangePhoneDTO.toRequest(): ChangePhoneRequest {
     return ChangePhoneRequest(
         password,
         phoneNumber,
@@ -85,7 +85,7 @@ fun ChangePhoneModel.toRequest(): ChangePhoneRequest {
     )
 }
 
-fun ChangeEmailModel.toRequest(): ChangeEmailRequest {
+fun ChangeEmailDTO.toRequest(): ChangeEmailRequest {
     return ChangeEmailRequest(
         email,
         password

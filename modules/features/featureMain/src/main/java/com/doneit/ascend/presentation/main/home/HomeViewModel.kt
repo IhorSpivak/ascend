@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
-import com.doneit.ascend.domain.entity.dto.GroupListModel
+import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.toStringValueUI
@@ -71,7 +71,7 @@ class HomeViewModel(
     }
 
     private suspend fun fetchGroups() {
-        val model = GroupListModel(
+        val model = GroupListDTO(
             sortType = SortType.ASC,
             sortColumn = GroupEntity.START_TIME_KEY,
             groupType = if(groupType == GroupType.DAILY) null else groupType,//according to requirement to display all created group on first tab

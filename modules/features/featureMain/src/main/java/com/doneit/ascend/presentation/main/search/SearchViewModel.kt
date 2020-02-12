@@ -6,7 +6,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.SearchEntity
-import com.doneit.ascend.domain.entity.dto.SearchModel
+import com.doneit.ascend.domain.entity.dto.SearchDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.use_case.interactor.search.SearchUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -24,7 +24,7 @@ class SearchViewModel(
 
     init {
         viewModelScope.launch {
-            val model = SearchModel(
+            val model = SearchDTO(
                 perPage = Constants.PER_PAGE_COMMON,
                 mmSortColumn = MasterMindEntity.FULL_NAME_KEY,
                 mmSortType = SortType.ASC,
@@ -42,7 +42,7 @@ class SearchViewModel(
 
     override fun submitRequest(query: String) {
         viewModelScope.launch {
-            val model = SearchModel(
+            val model = SearchDTO(
                 perPage = Constants.PER_PAGE_COMMON,
                 mmSortColumn = "fullName",
                 mmSortType = SortType.ASC,

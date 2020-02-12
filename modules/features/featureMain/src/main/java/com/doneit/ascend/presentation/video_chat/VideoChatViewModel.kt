@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.UserEntity
-import com.doneit.ascend.domain.entity.dto.GroupCredentialsModel
+import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
@@ -277,7 +277,7 @@ class VideoChatViewModel(
 
     private fun initializeChatState(
         groupEntity: GroupEntity?,
-        creds: GroupCredentialsModel?,
+        creds: GroupCredentialsDTO?,
         currentUser: UserEntity?
     ) {
         if (groupEntity != null && creds != null) {

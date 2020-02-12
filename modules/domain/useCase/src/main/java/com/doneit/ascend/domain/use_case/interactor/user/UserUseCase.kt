@@ -9,25 +9,25 @@ import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 
 interface UserUseCase {
-    suspend fun signIn(logInModel: LogInUserModel): ResponseEntity<AuthEntity, List<String>>
+    suspend fun signIn(logInDTO: LogInUserDTO): ResponseEntity<AuthEntity, List<String>>
 
     suspend fun signOut(): ResponseEntity<Unit, List<String>>
 
-    suspend fun socialSignIn(socialLogInModel: SocialLogInModel): ResponseEntity<AuthEntity, List<String>>
+    suspend fun socialSignIn(socialLogInDTO: SocialLogInDTO): ResponseEntity<AuthEntity, List<String>>
 
-    suspend fun signUp(registerModel: SignUpModel): ResponseEntity<AuthEntity, List<String>>
+    suspend fun signUp(registerDTO: SignUpDTO): ResponseEntity<AuthEntity, List<String>>
 
     suspend fun deleteAccount(): ResponseEntity<Unit, List<String>>
 
-    suspend fun signUpValidation(registerModel: SignUpModel): ResponseEntity<Unit, List<String>>
+    suspend fun signUpValidation(registerDTO: SignUpDTO): ResponseEntity<Unit, List<String>>
 
     suspend fun getConfirmationCode(phone: String): ResponseEntity<Unit, List<String>>
 
     suspend fun forgotPassword(phone: String): ResponseEntity<Unit, List<String>>
 
-    suspend fun resetPassword(resetModel: ResetPasswordModel) : ResponseEntity<Unit, List<String>>
+    suspend fun resetPassword(resetDTO: ResetPasswordDTO) : ResponseEntity<Unit, List<String>>
 
-    suspend fun changePassword(model: ChangePasswordModel): ResponseEntity<Unit, List<String>>
+    suspend fun changePassword(dto: ChangePasswordDTO): ResponseEntity<Unit, List<String>>
 
     suspend fun update(user: UserEntity)
 
@@ -41,13 +41,13 @@ interface UserUseCase {
 
     suspend fun getProfile(): ResponseEntity<UserEntity, List<String>>
 
-    suspend fun updateProfile(request: UpdateProfileModel): ResponseEntity<UserEntity, List<String>>
+    suspend fun updateProfile(request: UpdateProfileDTO): ResponseEntity<UserEntity, List<String>>
 
-    suspend fun getRates(model: RatingsModel): PagedList<RateEntity>
+    suspend fun getRates(model: RatingsDTO): PagedList<RateEntity>
 
-    suspend fun changePhone(dto: ChangePhoneModel): ResponseEntity<Unit, List<String>>
+    suspend fun changePhone(dto: ChangePhoneDTO): ResponseEntity<Unit, List<String>>
 
-    suspend fun changeEmail(model: ChangeEmailModel): ResponseEntity<Unit, List<String>>
+    suspend fun changeEmail(dto: ChangeEmailDTO): ResponseEntity<Unit, List<String>>
 
     suspend fun updateFirebase(firebaseId: String): ResponseEntity<Unit, List<String>>
 }

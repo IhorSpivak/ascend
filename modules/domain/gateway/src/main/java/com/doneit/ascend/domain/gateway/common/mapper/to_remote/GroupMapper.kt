@@ -9,7 +9,7 @@ import com.doneit.ascend.source.storage.remote.data.request.group.GroupListReque
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupParticipantsRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.UpdateNoteRequest
 
-fun CreateGroupModel.toCreateGroupRequest(): CreateGroupRequest {
+fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
     val dayOffset = startTime.getDayOffset()
 
     return CreateGroupRequest(
@@ -30,7 +30,7 @@ fun Float.toPrice(): Int {
     return (this * 100).toInt()
 }
 
-fun GroupListModel.toRequest(): GroupListRequest {
+fun GroupListDTO.toRequest(): GroupListRequest {
     return GroupListRequest(
         page,
         perPage,
@@ -46,7 +46,7 @@ fun GroupListModel.toRequest(): GroupListRequest {
     )
 }
 
-fun GroupListModel.toRequest(currPage: Int): GroupListRequest {
+fun GroupListDTO.toRequest(currPage: Int): GroupListRequest {
     return GroupListRequest(
         currPage,
         perPage,
@@ -62,14 +62,14 @@ fun GroupListModel.toRequest(currPage: Int): GroupListRequest {
     )
 }
 
-fun SubscribeGroupModel.toRequest(): SubscribeGroupRequest {
+fun SubscribeGroupDTO.toRequest(): SubscribeGroupRequest {
     return SubscribeGroupRequest(
         paymentSourceId,
         paymentSourceType.toString()
     )
 }
 
-fun ParticipantListModel.toRequest(): GroupParticipantsRequest {
+fun ParticipantListDTO.toRequest(): GroupParticipantsRequest {
     return GroupParticipantsRequest(
         page,
         perPage,

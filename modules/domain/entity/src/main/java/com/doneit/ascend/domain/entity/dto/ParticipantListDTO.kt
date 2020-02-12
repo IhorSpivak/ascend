@@ -1,7 +1,7 @@
 package com.doneit.ascend.domain.entity.dto
 
 
-class ParticipantListModel(
+class ParticipantListDTO(
     page: Int?,
     perPage: Int?,
     sortColumn: String?,
@@ -9,4 +9,4 @@ class ParticipantListModel(
     val fullName: String?,
     val connected: Boolean?,
     val groupId: Long
-): BasePagedModel(page, perPage, sortColumn, sortType)
+): BasePagedDTO(page, perPage, sortColumn, sortType)

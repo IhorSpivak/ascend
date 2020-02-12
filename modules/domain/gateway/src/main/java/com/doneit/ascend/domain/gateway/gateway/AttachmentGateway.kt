@@ -5,7 +5,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.AttachmentsListModel
+import com.doneit.ascend.domain.entity.dto.AttachmentsListDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
@@ -24,16 +24,16 @@ internal class AttachmentGateway(
     private val remote: IAttachmentsRepository
 ) : BaseGateway(errors), IAttachmentGateway {
 
-    override suspend fun getAttachments(listModel: AttachmentsListModel): PagedList<AttachmentEntity> {
+    override suspend fun getAttachments(listDTO: AttachmentsListDTO): PagedList<AttachmentEntity> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
-            .setPageSize(listModel.perPage ?: 10)
+            .setPageSize(listDTO.perPage ?: 10)
             .build()
 
         val dataSource = AttachmentDataSource(
             GlobalScope,
             remote,
-            listModel
+            listDTO
         )
         val executor = MainThreadExecutor()
 
@@ -43,13 +43,13 @@ internal class AttachmentGateway(
             .build()
     }
 
-    override fun getAttachmentsPagedList(listModel: AttachmentsListModel) =
+    override fun getAttachmentsPagedList(listDTO: AttachmentsListDTO) =
         liveData<PagedList<AttachmentEntity>> {
             local.removeAll()
 
             val config = PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
-                .setPageSize(listModel.perPage ?: 10)
+                .setPageSize(listDTO.perPage ?: 10)
                 .build()
 
             val factory = local.getAttachmentList().map { it.toEntity() }
@@ -58,7 +58,7 @@ internal class AttachmentGateway(
                 GlobalScope,
                 local,
                 remote,
-                listModel
+                listDTO
             )
 
             emitSource(

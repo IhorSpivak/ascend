@@ -2,7 +2,7 @@ package com.doneit.ascend.domain.gateway.gateway
 
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.PurchaseEntity
-import com.doneit.ascend.domain.entity.dto.PurchasesModel
+import com.doneit.ascend.domain.entity.dto.PurchasesDTO
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.data_source.PurchaseDataSource
 import com.doneit.ascend.domain.use_case.gateway.IPurchaseGateway
@@ -18,7 +18,7 @@ class PurchasesGateway(
         return ""
     }
 
-    override suspend fun getPurchases(model: PurchasesModel): PagedList<PurchaseEntity> {
+    override suspend fun getPurchases(model: PurchasesDTO): PagedList<PurchaseEntity> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(model.perPage ?: 10)

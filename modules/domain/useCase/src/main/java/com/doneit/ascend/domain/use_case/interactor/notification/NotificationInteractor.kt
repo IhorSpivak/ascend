@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.notification.NotificationEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.NotificationListModel
+import com.doneit.ascend.domain.entity.dto.NotificationListDTO
 import com.doneit.ascend.domain.use_case.gateway.INotificationGateway
 
 internal class NotificationInteractor(
     private val notificationGateway: INotificationGateway
 ) : NotificationUseCase {
 
-    override fun getNotificationList(request: NotificationListModel): LiveData<PagedList<NotificationEntity>> {
+    override fun getNotificationList(request: NotificationListDTO): LiveData<PagedList<NotificationEntity>> {
         return notificationGateway.getNotificationList(request)
     }
 
