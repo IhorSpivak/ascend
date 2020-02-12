@@ -6,5 +6,6 @@ data class PresentationChatParticipant(
     val userId: Long,
     val fullName: String?,
     val image: ImageEntity?,
-    val isHandRisen: Boolean = false
+    val isHandRisen: Boolean = false,
+    val isMuted: Boolean = false
 )

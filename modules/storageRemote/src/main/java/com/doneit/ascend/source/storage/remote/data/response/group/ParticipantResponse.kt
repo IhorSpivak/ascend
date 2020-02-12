@@ -11,5 +11,6 @@ data class ParticipantResponse(
     @SerializedName("connected") val isConnected: Boolean,
     @SerializedName("visited") val isVisited: Boolean,
     @SerializedName("blocked") val isBlocked: Boolean,
-    @SerializedName("speaker") val isSpeaker: Boolean
+    @SerializedName("speaker") val isSpeaker: Boolean,
+    @SerializedName("muted") val isMuted: Boolean
 )

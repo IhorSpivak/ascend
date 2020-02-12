@@ -118,7 +118,7 @@
                             android:gravity="center"
                             android:text="@string/mute_this_user"
                             android:textSize="20sp"
-                            android:onClick="@{(v) -> model.muteUser()(item.userId)}"/>
+                            android:onClick="@{(v) -> model.muteUser(item.userId)}"/>
 
                         <View
                             android:layout_width="match_parent"

@@ -126,6 +126,7 @@ fun ParticipantEntity.toPresentation(): PresentationChatParticipant {
         id,
         fullName,
         image,
-        isHandRisen
+        isHandRisen,
+        isMuted
     )
 }
