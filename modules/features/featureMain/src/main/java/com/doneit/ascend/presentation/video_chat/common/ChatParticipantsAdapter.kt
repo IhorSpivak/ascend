@@ -7,7 +7,7 @@ import com.doneit.ascend.domain.entity.SocketUserEntity
 import com.doneit.ascend.presentation.models.PresentationChatParticipant
 
 class ChatParticipantsAdapter(
-    private val onItemClick: (Long) -> Unit
+    private val onItemClick: (String) -> Unit
 ) : RecyclerView.Adapter<ChatParticipantViewHolder>() {
 
     private val items = mutableListOf<PresentationChatParticipant>()

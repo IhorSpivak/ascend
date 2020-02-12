@@ -7,17 +7,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateChatParticipantBinding
 import com.doneit.ascend.presentation.models.PresentationChatParticipant
+import com.twilio.video.VideoTrack
+import java.lang.ref.WeakReference
 
 class ChatParticipantViewHolder(
     private val binding: TemplateChatParticipantBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(entity: PresentationChatParticipant) {
-        binding.name = entity.fullName
-        binding.isHandRisen = entity.isHandRisen
+    private var lastRenderer: WeakReference<VideoTrack>? = null
 
-        if(binding.url != entity.image?.thumbnail?.url) {
-            binding.url = entity.image?.thumbnail?.url
+    fun bind(model: PresentationChatParticipant) {
+        binding.name = model.fullName
+        binding.isHandRisen = model.isHandRisen
+        binding.isSpeaker = model.isSpeaker
+
+        lastRenderer?.get()?.removeRenderer(binding.videoView)
+        model.remoteParticipant?.videoTracks?.firstOrNull()?.videoTrack?.let {
+            lastRenderer = WeakReference(it)
+            it.addRenderer(binding.videoView)
+        }
+
+        if(binding.url != model.image?.thumbnail?.url) {
+            binding.url = model.image?.thumbnail?.url
         }
     }
 

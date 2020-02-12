@@ -32,8 +32,13 @@ class VideoChatActivity : BaseActivity() {
 
         bind<VideoChatContract.Router>() with provider { instance<VideoChatRouter>() }
 
+        bind<ParticipantsManager>() with provider {
+            ParticipantsManager()
+        }
+
         bind<ViewModel>(VideoChatViewModel::class.java.simpleName) with provider {
             VideoChatViewModel(
+                instance(),
                 instance(),
                 instance()
             )
@@ -92,7 +97,7 @@ class VideoChatActivity : BaseActivity() {
             VideoChatContract.Navigation.TO_USER_CHAT_OPTIONS -> router.navigateUserChatOptions()
             VideoChatContract.Navigation.TO_MM_CHAT_OPTIONS -> router.navigateToMMChatOptions()
             VideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS -> {
-                val userId = action.data.getLong(VideoChatViewModel.USER_ID_KEY)
+                val userId = action.data.getString(VideoChatViewModel.USER_ID_KEY)!!
                 router.navigateToChatParticipantActions(userId)
             }
             VideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG -> {

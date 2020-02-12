@@ -18,9 +18,9 @@ interface VideoChatContract {
         fun init(groupId: Long)
         fun finishCall()
         fun onBackClick()
-        fun report(content: String, participantId: Long)
+        fun report(content: String, participantId: String)
         fun onNetworkStateChanged(hasConnection: Boolean)
-        fun onParticipantClick(id: Long)
+        fun onParticipantClick(id: String)
     }
 
     interface Router {
@@ -31,7 +31,7 @@ interface VideoChatContract {
         fun navigateToChatFinishScreen()
         fun navigateUserChatOptions()
         fun navigateToMMChatOptions()
-        fun navigateToChatParticipantActions(userId: Long)
+        fun navigateToChatParticipantActions(userId: String)
         fun navigateToPermissionsRequiredDialog(resultCode: VideoChatActivity.ResultStatus)
         fun navigateToAttachments(groupId: Long)
         fun navigateToNotes(groupId: Long)

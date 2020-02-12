@@ -29,7 +29,7 @@ class ChatParticipantActionsFragment : BaseFragment<FragmentChatParticipantActio
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        val userId = arguments!!.getLong(USER_ID_KEY)
+        val userId = arguments!!.getString(USER_ID_KEY)!!
         viewModel.participants.observe(viewLifecycleOwner, Observer {
             for(item in it) {
                 if(userId == item.userId) {
@@ -48,7 +48,7 @@ class ChatParticipantActionsFragment : BaseFragment<FragmentChatParticipantActio
         }
     }
 
-    private fun showReportAbuseDialog(participantId: Long) {
+    private fun showReportAbuseDialog(participantId: String) {
         reportAbuseDialog = ReportAbuseDialog.create(context!!) {
             viewModel.report(it, participantId)
             reportAbuseDialog?.dismiss()
@@ -67,10 +67,10 @@ class ChatParticipantActionsFragment : BaseFragment<FragmentChatParticipantActio
         private const val IS_DIALOG_SHOWN_KEY = "IS_DIALOG_SHOWN_KEY"
         private const val USER_ID_KEY = "USER_ID"
 
-        fun newInstance(userId: Long): Fragment {
+        fun newInstance(userId: String): Fragment {
             val fragment = ChatParticipantActionsFragment()
             fragment.arguments = Bundle().apply {
-                putLong(USER_ID_KEY, userId)
+                putString(USER_ID_KEY, userId)
             }
             return fragment
         }

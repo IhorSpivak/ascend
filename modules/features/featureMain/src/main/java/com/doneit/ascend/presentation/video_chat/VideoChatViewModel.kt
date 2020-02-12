@@ -16,6 +16,9 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationChatParticipant
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.models.toPresentation
+import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.Constants.DEFAULT_MODEL_ID
+import com.doneit.ascend.presentation.utils.Constants.LIST_INDEX_ABSENT
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.extensions.toMinutesFormat
 import com.doneit.ascend.presentation.utils.extensions.toTimerFormat
@@ -28,6 +31,7 @@ import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
 import com.doneit.ascend.presentation.video_chat.states.ChatRole
 import com.doneit.ascend.presentation.video_chat.states.VideoChatState
 import com.twilio.video.CameraCapturer
+import com.twilio.video.RemoteParticipant
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.async
@@ -38,7 +42,8 @@ import kotlin.concurrent.timerTask
 
 class VideoChatViewModel(
     private val userUseCase: UserUseCase,
-    private val groupUseCase: GroupUseCase
+    private val groupUseCase: GroupUseCase,
+    private val participantsManager: ParticipantsManager
 ) : BaseViewModelImpl(),
     VideoChatContract.ViewModel,
     ChatPreviewContract.ViewModel,
@@ -48,11 +53,10 @@ class VideoChatViewModel(
     MMChatOptionsContract.ViewModel,
     ChatParticipantActionsContract.ViewModel {
 
-
     //region data
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
-    override val participants = MutableLiveData<List<PresentationChatParticipant>>(listOf())
+    override val participants = participantsManager.participants
     override val navigation = SingleLiveEvent<VideoChatContract.Navigation>()
     //endregion
 
@@ -82,9 +86,8 @@ class VideoChatViewModel(
     private lateinit var chatState: VideoChatState
     private var chatRole: ChatRole? = null
 
-    private var groupId: Long = -1
-    private var currentUserId: Long = -1
-    private var currentSpeakerId: String? = null
+    private var groupId: Long = DEFAULT_MODEL_ID
+    private var currentUserId: String = DEFAULT_MODEL_ID.toString()
     private var downTimer: CountDownTimer? = null
     private var timer: Timer? = null
     private val hasBothCameras =
@@ -104,33 +107,27 @@ class VideoChatViewModel(
 
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
-                if (user.userId != groupInfo.value?.owner?.id
+                if (user.userId != groupInfo.value?.owner?.id.toString()
                     && user.userId != currentUserId
                 ) {
-                    val newList = participants.value!!.toMutableList()
-                    if (newList.find { it.userId == user.userId } == null) {
-                        newList.add(user)
-                        participants.postValue(newList)
-                    }
+                    participantsManager.addParticipant(user)
                 }
             }
             SocketEvent.PARTICIPANT_DISCONNECTED -> {
-                val newList = participants.value!!.toMutableList()
-                newList.removeAll { it.userId == user.userId }
-                participants.postValue(newList)
+                participantsManager.removeParticipant(user)
             }
             SocketEvent.RISE_A_HAND -> {
                 if (currentUserId == user.userId) {
                     isHandRisen.postValue(true)
                 } else {
-                    updateParticipant(user)
+                    participantsManager.updateHandState(user)
                 }
             }
             SocketEvent.REMOVE_HAND -> {
                 if (currentUserId == user.userId) {
                     isHandRisen.postValue(false)
                 } else {
-                    updateParticipant(user)
+                    participantsManager.updateHandState(user)
                 }
             }
             SocketEvent.REMOVED_FROM_GROUP -> {
@@ -140,7 +137,7 @@ class VideoChatViewModel(
             }
             SocketEvent.SPEAK -> {
                 if (currentUserId != user.userId) {
-                    focusedUserId.postValue(user.userId.toString())
+                    focusedUserId.postValue(user.userId)
                 }
 
                 viewModelScope.launch {
@@ -178,16 +175,6 @@ class VideoChatViewModel(
         }
     }
 
-    private fun updateParticipant(participant: PresentationChatParticipant) {
-        val newList = participants.value!!.toMutableList()
-        val index = newList.indexOfFirst { it.userId == participant.userId }
-        if (index != -1) {
-            newList.removeAt(index)
-            newList.add(index, participant)
-            participants.postValue(newList)
-        }
-    }
-
     override fun init(groupId: Long) {
         this.groupId = groupId
         postDefaultValues()
@@ -208,7 +195,7 @@ class VideoChatViewModel(
 
             val userEntity = async {
                 val user = userUseCase.getUser()
-                currentUserId = user!!.id
+                currentUserId = user!!.id.toString()
                 user
             }
 
@@ -247,33 +234,24 @@ class VideoChatViewModel(
             val result = groupUseCase.getParticipantList(groupId, isConnected = true)
 
             if (result.isSuccessful) {
-                val joinedUsers = result.successModel!!.filter { it.id != currentUserId }
+                val joinedUsers = result.successModel!!.filter { it.id.toString() != currentUserId }
                     .map {
                         var newItem = it.toPresentation()
-                        if (chatRole != null) {
+                        chatRole?.let {
                             newItem = newItem.copy(
                                 isHandRisen = newItem.isHandRisen && chatRole == ChatRole.OWNER
                             )
                         }
                         newItem
                     }
-                participants.postValue(joinedUsers.mergeParticipants(participants.value))
+
+                participantsManager.addParticipants(joinedUsers)
             } else {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
         }
     }
 
-    private fun List<PresentationChatParticipant>.mergeParticipants(localList: List<PresentationChatParticipant>?): List<PresentationChatParticipant> {
-        val remoteList = this.toMutableList()
-        localList?.forEach { localItem ->
-            if (remoteList.find { it.userId == localItem.userId } == null) {
-                remoteList.add(localItem)
-            }
-        }
-
-        return remoteList
-    }
 
     private fun initializeChatState(
         groupEntity: GroupEntity?,
@@ -305,7 +283,10 @@ class VideoChatViewModel(
     }
 
     override fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus) {
-        VideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG.data.putInt(ACTIVITY_RESULT_KEY, resultCode.ordinal)
+        VideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG.data.putInt(
+            ACTIVITY_RESULT_KEY,
+            resultCode.ordinal
+        )
         navigation.postValue(VideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG)
     }
 
@@ -333,7 +314,6 @@ class VideoChatViewModel(
         isHandRisen.value?.let {
             if (it) groupUseCase.lowerOwnHand() else groupUseCase.riseOwnHand()
         }
-
     }
 
     override fun switchVideoEnabledState() {
@@ -354,26 +334,30 @@ class VideoChatViewModel(
         navigation.postValue(VideoChatContract.Navigation.FINISH_ACTIVITY)
     }
 
-    override fun onConnected(presentParticipantIds: List<String>) {
-        presentParticipantIds.forEach {
-            onUserConnected(it)
-        }
+    override fun onConnected(presentParticipants: List<RemoteParticipant>) {
+        participantsManager.addParticipants(presentParticipants.map { it.toPresentation() })
     }
 
-    override fun onUserConnected(id: String) {
-        if (id == groupInfo.value?.owner?.id?.toString()) {
+    override fun onUserConnected(participant: RemoteParticipant) {
+        participantsManager.addParticipant(participant.toPresentation())
+        if (participant.identity == groupInfo.value?.owner?.id?.toString()) {
             _IsMMConnected = true
         }
     }
 
-    override fun onUserDisconnected(id: String) {
-        if (id == groupInfo.value?.owner?.id?.toString()) {
+    override fun onUserDisconnected(participant: RemoteParticipant) {
+        participantsManager.removeParticipant(participant.toPresentation())
+        if (participant.identity == groupInfo.value?.owner?.id?.toString()) {
             _IsMMConnected = false
         }
     }
 
     override fun onSpeakerChanged(id: String?) {
-        currentSpeakerId = id
+        participantsManager.onSpeakerChanged(id)
+    }
+
+    override fun isSpeaker(id: String): Boolean {
+        return participantsManager.isSpeaker(id)
     }
 
     override fun canFetchMMVideo(): Boolean {
@@ -383,21 +367,17 @@ class VideoChatViewModel(
         return _IsMMConnected && isMMInfoAvailable && isRegular
     }
 
-    override fun isSpeaker(id: String): Boolean {
-        return id == currentSpeakerId
-    }
-
     override fun onStartGroupClick() {
         groupUseCase.startGroup()
     }
 
     override fun reportGroupOwner(content: String) {
         groupInfo.value?.let {
-            report(content, it.owner!!.id)
+            report(content, it.owner!!.id.toString())
         }
     }
 
-    override fun report(content: String, participantId: Long) {
+    override fun report(content: String, participantId: String) {
         viewModelScope.launch {
             val res = userUseCase.report(content, participantId)
             if (res.isSuccessful.not()) {
@@ -414,19 +394,19 @@ class VideoChatViewModel(
         }
     }
 
-    override fun onParticipantClick(id: Long) {
+    override fun onParticipantClick(id: String) {
         if (chatRole == ChatRole.OWNER) {
-            VideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS.data.putLong(USER_ID_KEY, id)
+            VideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS.data.putString(USER_ID_KEY, id)
             navigation.postValue(VideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS)
         }
     }
 
-    override fun allowToSay(userId: Long) {
+    override fun allowToSay(userId: String) {
         groupUseCase.allowToSay(userId)
         onBackClick()
     }
 
-    override fun removeChatParticipant(userId: Long) {
+    override fun removeChatParticipant(userId: String) {
         groupUseCase.removeChatParticipant(userId)
         onBackClick()
     }

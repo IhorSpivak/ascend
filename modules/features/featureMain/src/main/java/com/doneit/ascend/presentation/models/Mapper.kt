@@ -6,8 +6,10 @@ import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
 import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
 import com.doneit.ascend.domain.entity.dto.CreateGroupDTO
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
+import com.doneit.ascend.presentation.utils.Constants.DEFAULT_MODEL_ID
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
+import com.twilio.video.RemoteParticipant
 import java.lang.NumberFormatException
 import java.util.*
 
@@ -114,7 +116,7 @@ fun String.toPresentationCommunity(isSelected: Boolean): PresentationCommunityMo
 
 fun SocketUserEntity.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
-        userId,
+        userId.toString(),
         fullName,
         image,
         isHandRisen
@@ -123,9 +125,16 @@ fun SocketUserEntity.toPresentation(): PresentationChatParticipant {
 
 fun ParticipantEntity.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
-        id,
+        id.toString(),
         fullName,
         image,
         isHandRisen
+    )
+}
+
+fun RemoteParticipant.toPresentation(): PresentationChatParticipant {
+    return PresentationChatParticipant(
+        userId = identity,
+        remoteParticipant = this
     )
 }

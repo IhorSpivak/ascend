@@ -88,15 +88,15 @@ internal class GroupInteractor(
         groupGateway.sendSocketMessage(LOWER_OWN_HAND)
     }
 
-    override fun lowerAHand(userId: Long) {
+    override fun lowerAHand(userId: String) {
         groupGateway.sendSocketMessage(String.format(LOWER_A_HAND, userId))
     }
 
-    override fun allowToSay(userId: Long) {
+    override fun allowToSay(userId: String) {
         groupGateway.sendSocketMessage(String.format(ALLOW_TO_SAY, userId))
     }
 
-    override fun removeChatParticipant(userId: Long) {
+    override fun removeChatParticipant(userId: String) {
         groupGateway.sendSocketMessage(String.format(REMOVE_PARTICIPANT, userId))
     }
 
@@ -110,11 +110,11 @@ internal class GroupInteractor(
         private const val LOWER_OWN_HAND =
             "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveHand\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
         private const val LOWER_A_HAND =
-            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveHand\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%d\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveHand\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%s\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
         private const val ALLOW_TO_SAY =
-            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"Speak\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%d\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"Speak\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%s\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
         private const val REMOVE_PARTICIPANT =
-            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveParticipant\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%d\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
+            "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"RemoveParticipant\\\",\\\"action\\\":\\\"speak\\\",\\\"user_id\\\":\\\"%s\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
         private const val START_GROUP =
             "{\"command\":\"message\",\"data\":\"{\\\"event\\\":\\\"StartGroup\\\",\\\"action\\\":\\\"speak\\\"}\",\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\"}"
 

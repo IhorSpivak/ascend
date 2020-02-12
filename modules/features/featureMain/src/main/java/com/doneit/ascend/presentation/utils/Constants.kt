@@ -19,4 +19,7 @@ object Constants {
 
     const val AM = "AM"
     const val PM = "PM"
+
+    const val LIST_INDEX_ABSENT = -1
+    const val DEFAULT_MODEL_ID = -1L
 }

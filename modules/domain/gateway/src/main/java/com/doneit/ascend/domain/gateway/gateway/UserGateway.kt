@@ -203,7 +203,7 @@ internal class UserGateway(
                 && (local.getFirstUser() != null)
     }
 
-    override suspend fun report(content: String, id: Long): ResponseEntity<Unit, List<String>> {
+    override suspend fun report(content: String, id: String): ResponseEntity<Unit, List<String>> {
         return executeRemote { remote.report(content, id) }.toResponseEntity(
             {
                 Unit

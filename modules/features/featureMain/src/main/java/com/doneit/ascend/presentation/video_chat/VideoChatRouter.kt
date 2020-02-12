@@ -65,7 +65,7 @@ class VideoChatRouter(
         activity.supportFragmentManager.add(fullContainerId, MMChatOptionsFragment())
     }
 
-    override fun navigateToChatParticipantActions(userId: Long) {
+    override fun navigateToChatParticipantActions(userId: String) {
         activity.supportFragmentManager.add(
             fullContainerId,
             ChatParticipantActionsFragment.newInstance(userId)

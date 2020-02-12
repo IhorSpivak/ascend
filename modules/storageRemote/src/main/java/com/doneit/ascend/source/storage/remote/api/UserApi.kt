@@ -50,7 +50,7 @@ interface UserApi {
     fun changePasswordAsync(@Body request: ChangePasswordRequest): Deferred<Response<OKResponse>>
 
     @POST("users/{id}/report")
-    fun report(@Path("id") id: Long, @Query("content") report: String): Deferred<Response<OKResponse>>
+    fun report(@Path("id") id: String, @Query("content") report: String): Deferred<Response<OKResponse>>
 
     @GET("ratings")
     fun getRatingsAsync(@Query("page") page: Int?,

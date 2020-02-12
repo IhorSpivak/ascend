@@ -122,7 +122,7 @@ class GroupInfoViewModel(
     override fun report(content: String) {
         viewModelScope.launch {
             group.value?.let {
-                val res = userUseCase.report(content, it.owner!!.id)
+                val res = userUseCase.report(content, it.owner!!.id.toString())
                 if (res.isSuccessful.not()) {
                     showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
                 }

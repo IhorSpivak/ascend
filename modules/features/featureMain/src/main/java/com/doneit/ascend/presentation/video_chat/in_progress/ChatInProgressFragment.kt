@@ -209,7 +209,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         return object : RoomListener() {
 
             override fun onConnected(room: Room) {
-                viewModel.onConnected(room.remoteParticipants.map { it.identity })
+                viewModel.onConnected(room.remoteParticipants)
                 if (room.remoteParticipants.size > 0) {
                     isPlaceholderAllowed = true
                 }
@@ -221,7 +221,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             }
 
             override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
-                viewModel.onUserConnected(remoteParticipant.identity)
+                viewModel.onUserConnected(remoteParticipant)
                 isPlaceholderAllowed = true
             }
 
@@ -229,7 +229,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 room: Room,
                 remoteParticipant: RemoteParticipant
             ) {
-                viewModel.onUserDisconnected(remoteParticipant.identity)
+                viewModel.onUserDisconnected(remoteParticipant)
 
                 if (viewModel.isSpeaker(remoteParticipant.identity)) {
                     room.displayDominant()

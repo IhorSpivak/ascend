@@ -63,7 +63,7 @@ internal class UserRepository(
 
     override suspend fun report(
         content: String,
-        id: Long
+        id: String
     ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.report(id, content) }, ErrorsListResponse::class.java)
     }

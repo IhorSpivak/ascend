@@ -57,7 +57,7 @@ class MMInfoViewModel(
     override fun report(content: String) {
         profile.value?.let {
             viewModelScope.launch {
-                val res = userUseCase.report(content, it.id)
+                val res = userUseCase.report(content, it.id.toString())
                 if (res.isSuccessful.not()) {
                     showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
                 }

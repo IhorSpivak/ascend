@@ -31,7 +31,7 @@ interface IUserRepository {
 
     suspend fun changePassword(request: ChangePasswordRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 
-    suspend fun report(content: String, id: Long): RemoteResponse<OKResponse, ErrorsListResponse>
+    suspend fun report(content: String, id: String): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun getProfile(): RemoteResponse<ProfileResponse, ErrorsListResponse>
 
