@@ -30,14 +30,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="54dp"
-            android:layout_marginTop="160dp"
             android:layout_marginEnd="54dp"
             android:text="@{model.groupInfo.name}"
             android:textColor="@android:color/white"
             android:textSize="32sp"
+            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/subtitle"/>
 
         <TextView
             android:id="@+id/subtitle"
@@ -49,7 +51,8 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintBottom_toTopOf="@id/btnOk"/>
 
         <Button
             android:id="@+id/btnOk"
@@ -63,7 +66,8 @@
             android:onClick="@{v -> model.onStartGroupClick()}"
             android:text="@string/start_group"
             android:textAllCaps="true"
-            app:layout_constraintTop_toBottomOf="@id/subtitle" />
+            app:layout_constraintTop_toBottomOf="@id/subtitle"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

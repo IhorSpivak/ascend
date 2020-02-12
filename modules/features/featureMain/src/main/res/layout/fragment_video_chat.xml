@@ -13,7 +13,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:onClick="@{(v) -> model.onOpenOptions()}">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="match_parent"
@@ -25,7 +26,6 @@
             android:id="@+id/videoView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{(v) -> model.onOpenOptions()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="54dp"
-                android:layout_marginTop="160dp"
                 android:layout_marginEnd="54dp"
                 android:gravity="center"
                 android:text="@{model.groupInfo.name}"
@@ -56,6 +55,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/mmIcon"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintVertical_bias="0.42"
                 tools:text="Fighting For Recovery" />
 
             <com.doneit.ascend.presentation.views.MasterMindIcon
@@ -66,6 +68,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                app:layout_constraintBottom_toTopOf="@id/tvName"
                 app:name="@{model.groupInfo.owner.fullName}"
                 app:url="@{model.groupInfo.owner.image.url}" />
 
@@ -84,6 +87,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/mmIcon"
+                app:layout_constraintBottom_toTopOf="@id/tvConnection"
                 tools:text="Emma Wilson" />
 
             <TextView
@@ -97,7 +101,8 @@
                 android:visibility="@{!model.isMMConnected}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvName" />
+                app:layout_constraintTop_toBottomOf="@id/tvName"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
