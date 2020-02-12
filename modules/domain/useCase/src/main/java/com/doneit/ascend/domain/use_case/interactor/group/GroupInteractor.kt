@@ -2,10 +2,10 @@ package com.doneit.ascend.domain.use_case.interactor.group
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
 
 internal class GroupInteractor(
@@ -98,6 +98,11 @@ internal class GroupInteractor(
 
     override fun removeChatParticipant(userId: Long) {
         groupGateway.sendSocketMessage(String.format(REMOVE_PARTICIPANT, userId))
+    }
+
+    override fun muteUser(userId: Long) {
+        //TODO:
+        //groupGateway.sendSocketMessage(String.format())
     }
 
     override fun disconnect() {

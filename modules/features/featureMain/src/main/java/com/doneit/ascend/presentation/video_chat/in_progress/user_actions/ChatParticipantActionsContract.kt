@@ -11,6 +11,7 @@ interface ChatParticipantActionsContract {
         fun report(content: String, participantId: Long)
         fun allowToSay(userId: Long)
         fun removeChatParticipant(userId: Long)
+        fun muteUser(userId: Long)
         fun onBackClick()
     }
 }

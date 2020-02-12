@@ -429,6 +429,11 @@ class VideoChatViewModel(
         router.onBack()
     }
 
+    override fun muteUser(userId: Long) {
+        groupUseCase.muteUser(userId)
+        router.onBack()
+    }
+
     override fun onBackClick() {
         router.onBack()
     }
