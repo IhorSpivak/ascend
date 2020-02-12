@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.video_chat.in_progress
 import android.Manifest
 import android.content.Context
 import android.content.IntentFilter
+import android.hardware.Camera
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
@@ -12,7 +13,10 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
 import com.doneit.ascend.presentation.models.StartVideoModel
-import com.doneit.ascend.presentation.utils.extensions.*
+import com.doneit.ascend.presentation.utils.extensions.requestPermissions
+import com.doneit.ascend.presentation.utils.extensions.show
+import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantsListener
@@ -63,10 +67,14 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     //endregion
 
     private var chatStrategy = ChatStrategy.DOMINANT_SPEAKER
+    private var isPlaceholderAllowed = false
+        set(value) {
+            field = value
+            placeholder?.show()//enable mm icon and group name
+        }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        binding.isPlaceholderDataVisible = false
 
         viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
             localVideoTrack?.enable(it)
@@ -125,6 +133,12 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                     context!!,
                     model.camera
                 )
+
+                cameraCapturer.updateCameraParameters(object : CameraParameterUpdater {
+                    override fun apply(cameraParameters: Camera.Parameters) {
+
+                    }
+                })
 
                 localAudioTrack = LocalAudioTrack.create(context!!, true)
                 localVideoTrack = LocalVideoTrack.create(context!!, true, cameraCapturer)!!
@@ -196,10 +210,10 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
             override fun onConnected(room: Room) {
                 viewModel.onConnected(room.remoteParticipants.map { it.identity })
-                room.displayDominant()
-                if(room.remoteParticipants.size > 0) {
-                    binding.grPlaceholderData.show()//enable mm icon and group name
+                if (room.remoteParticipants.size > 0) {
+                    isPlaceholderAllowed = true
                 }
+                room.displayDominant()
             }
 
             override fun onConnectFailure(room: Room, twilioException: TwilioException) {
@@ -208,7 +222,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
             override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
                 viewModel.onUserConnected(remoteParticipant.identity)
-                binding.grPlaceholderData.show()//enable mm icon and group name
+                isPlaceholderAllowed = true
             }
 
             override fun onParticipantDisconnected(
@@ -261,7 +275,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             }
         } else {
             viewModel.onSpeakerChanged(null)
-            binding.placeholder.visible(true)
+            showPlaceholder()
         }
     }
 
@@ -272,12 +286,14 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     private fun RemoteParticipant.startVideoDisplay() {
-        viewModel.onSpeakerChanged(identity)
-        setListener(getParticipantsListener())
-        videoView?.let {
-            videoTracks.firstOrNull()?.videoTrack?.addRenderer(videoView)
+        if (viewModel.isSpeaker(identity).not()) {
+            viewModel.onSpeakerChanged(identity)
+            setListener(getParticipantsListener())
+            videoView?.let {
+                videoTracks.firstOrNull()?.videoTrack?.addRenderer(videoView)
+            }
+            showVideo()
         }
-        binding.placeholder.visible(false)
     }
 
     private fun getParticipantsListener(): RemoteParticipantsListener {
@@ -288,7 +304,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 remoteVideoTrackPublication: RemoteVideoTrackPublication
             ) {
                 if (viewModel.isSpeaker(remoteParticipant.identity)) {
-                    binding.placeholder.visible(false)
+                    showVideo()
                 }
             }
 
@@ -297,16 +313,29 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 remoteVideoTrackPublication: RemoteVideoTrackPublication
             ) {
                 if (viewModel.isSpeaker(remoteParticipant.identity)) {
-                    binding.placeholder.visible(true)
+                    showPlaceholder()
                 }
             }
         }
     }
 
+    private fun showPlaceholder() {
+        placeholder?.visible(isPlaceholderAllowed)
+        videoView?.visible(false)
+    }
+
+    private fun showVideo() {
+        placeholder?.visible(false)
+        videoView?.visible(true)
+    }
+
     override fun onStop() {
         localAudioTrack?.release()
+        localAudioTrack = null
         localVideoTrack?.release()
+        localVideoTrack = null
         room?.disconnect()
+        room = null
         configureAudio(false)
         viewModel.forceDisconnect()
         super.onStop()

@@ -7,10 +7,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="isPlaceholderDataVisible"
-            type="Boolean" />
-
-        <variable
             name="model"
             type="com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract.ViewModel" />
     </data>
@@ -19,35 +15,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:setImage="@{model.groupInfo.image.url}" />
+
         <com.twilio.video.VideoView
             android:id="@+id/videoView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{(v) -> model.onOpenOptions()}"
-            app:mirror="true"
-            app:scaleType="balanced"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible"
+            app:mirror="true"
+            app:scaleType="balanced" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/placeholder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:setImage="@{model.groupInfo.image.url}" />
-
-            <androidx.constraintlayout.widget.Group
-                android:id="@+id/grPlaceholderData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="@{isPlaceholderDataVisible? View.VISIBLE:View.INVISIBLE}"
-                app:constraint_referenced_ids="tvTitle,mmIcon,tvName" />
+            android:layout_height="match_parent"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -103,7 +94,7 @@
                 android:text="@string/connecting"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
-                android:visibility="@{!model.isMMConnected &amp;&amp; isPlaceholderDataVisible}"
+                android:visibility="@{!model.isMMConnected}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvName" />
