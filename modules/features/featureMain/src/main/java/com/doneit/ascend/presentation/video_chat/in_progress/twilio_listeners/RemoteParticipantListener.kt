@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners
 
 import com.twilio.video.*
 
-open class RemoteParticipantsListener : RemoteParticipant.Listener {
+open class RemoteParticipantListener : RemoteParticipant.Listener {
     override fun onDataTrackPublished(
         remoteParticipant: RemoteParticipant,
         remoteDataTrackPublication: RemoteDataTrackPublication

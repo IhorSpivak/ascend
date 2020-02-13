@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
-import com.doneit.ascend.presentation.models.PresentationChatParticipant
+import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 
 interface VideoChatContract {
     interface ViewModel : BaseViewModel {

@@ -13,15 +13,15 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
 import com.doneit.ascend.presentation.models.StartVideoModel
+import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.extensions.requestPermissions
 import com.doneit.ascend.presentation.utils.extensions.show
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
-import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantsListener
+import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantListener
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RoomListener
-import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.twilio.video.*
 import kotlinx.android.synthetic.main.fragment_video_chat.*
 import org.kodein.di.Kodein
@@ -66,12 +66,12 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     private var room: Room? = null
     //endregion
 
-    private var chatStrategy = ChatStrategy.DOMINANT_SPEAKER
     private var isPlaceholderAllowed = false
         set(value) {
             field = value
             placeholder?.show()//enable mm icon and group name
         }
+    private val roomListener = getFragmentRoomListener()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
@@ -84,17 +84,12 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             localAudioTrack?.enable(it)
         })
 
-        viewModel.focusedUserId.observe(viewLifecycleOwner, Observer { id ->
-            if (id == VideoChatViewModel.UNFOCUSED_USER_ID) {
-                chatStrategy = ChatStrategy.DOMINANT_SPEAKER
-                room?.let {
-                    handleSpeaker(room!!, room!!.dominantSpeaker)
-                }
+        viewModel.currentSpeaker.observe(viewLifecycleOwner, Observer { participant ->
+            if (participant?.remoteParticipant == null) {
+                showPlaceholder()
             } else {
-                chatStrategy = ChatStrategy.USER_FOCUSED
-                room?.let {
-                    handleSpeaker(room!!, room!!.getParticipantById(id))
-                }
+                clearRenderers()
+                participant.startVideoDisplay()
             }
         })
 
@@ -110,15 +105,12 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         audioManager.isSpeakerphoneOn = isSpeakerPhoneEnabled
     }
 
-    private fun Room.getParticipantById(id: String): RemoteParticipant? {
-        return remoteParticipants.find { it.identity == id }
-    }
-
     override fun onStart() {
         super.onStart()
         viewModel.credentials.observe(this, Observer {
             startVideo(it)
         })
+        viewModel.roomListener.addListener(roomListener)
     }
 
     private fun startVideo(model: StartVideoModel) {
@@ -153,7 +145,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                         .enableDominantSpeaker(true)
                         .build()
 
-                room = Video.connect(context!!, connectOptions, getUserRoomListener())
+                room = Video.connect(context!!, connectOptions, viewModel.roomListener)
 
                 viewModel.switchCameraEvent.observe(viewLifecycleOwner) {
                     cameraCapturer.switchCamera()
@@ -205,15 +197,13 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         }
     }
 
-    private fun getUserRoomListener(): RoomListener {
+    private fun getFragmentRoomListener(): RoomListener {
         return object : RoomListener() {
 
             override fun onConnected(room: Room) {
-                viewModel.onConnected(room.remoteParticipants)
-                if (room.remoteParticipants.size > 0) {
+                /*if (room.remoteParticipants.size > 0) {
                     isPlaceholderAllowed = true
-                }
-                room.displayDominant()
+                }*/
             }
 
             override fun onConnectFailure(room: Room, twilioException: TwilioException) {
@@ -221,100 +211,47 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             }
 
             override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
-                viewModel.onUserConnected(remoteParticipant)
-                isPlaceholderAllowed = true
-            }
-
-            override fun onParticipantDisconnected(
-                room: Room,
-                remoteParticipant: RemoteParticipant
-            ) {
-                viewModel.onUserDisconnected(remoteParticipant)
-
-                if (viewModel.isSpeaker(remoteParticipant.identity)) {
-                    room.displayDominant()
-                }
-            }
-
-            override fun onDominantSpeakerChanged(
-                room: Room,
-                remoteParticipant: RemoteParticipant?
-            ) {
-                handleSpeaker(room, remoteParticipant)
+                //isPlaceholderAllowed = true
             }
         }
     }
 
-    private fun Room.displayDominant() {
-        if (chatStrategy == ChatStrategy.DOMINANT_SPEAKER) {
-            handleSpeaker(this, this.dominantSpeaker)
-        }
-    }
-
-    private fun handleSpeaker(room: Room, remoteParticipant: RemoteParticipant?) {
-        room.remoteParticipants.forEach {
-            it.clearRenderer()
-        }
-
-        if (remoteParticipant != null) {
-            remoteParticipant.startVideoDisplay()
-        } else {
-            room.displayMM()
-        }
-    }
-
-    private fun Room.displayMM() {
-        if (viewModel.canFetchMMVideo()) {
-            val mmId = viewModel.groupInfo.value!!.owner!!.id.toString()
-
-            remoteParticipants.forEach participants@{
-                if (it.identity == mmId) {
-                    it.startVideoDisplay()
-                    return@participants
-                }
-            }
-        } else {
-            viewModel.onSpeakerChanged(null)
-            showPlaceholder()
-        }
-    }
-
-    private fun Participant.clearRenderer() {
-        videoView?.let {
-            videoTracks.firstOrNull()?.videoTrack?.removeRenderer(videoView)
-        }
-    }
-
-    private fun RemoteParticipant.startVideoDisplay() {
-        if (viewModel.isSpeaker(identity).not()) {
-            viewModel.onSpeakerChanged(identity)
-            setListener(getParticipantsListener())
+    private fun clearRenderers() {
+        room?.remoteParticipants?.forEach { roomParticipant ->
             videoView?.let {
-                videoTracks.firstOrNull()?.videoTrack?.addRenderer(videoView)
+                roomParticipant.videoTracks.firstOrNull()?.videoTrack?.removeRenderer(videoView)
             }
-            showVideo()
         }
     }
 
-    private fun getParticipantsListener(): RemoteParticipantsListener {
-        return object : RemoteParticipantsListener() {
+    private fun PresentationChatParticipant.startVideoDisplay() {
+        setPrimaryVideoListener(getSpeakerListener())
+        videoView?.let {
+            val track = remoteParticipant?.videoTracks?.firstOrNull()?.videoTrack
+            if (track != null) {
+                track.addRenderer(videoView)
+                showVideo()
+            } else {
+                showPlaceholder()
+            }
+        }
+    }
+
+    private fun getSpeakerListener(): RemoteParticipantListener {
+        return object : RemoteParticipantListener() {
 
             override fun onVideoTrackEnabled(
                 remoteParticipant: RemoteParticipant,
                 remoteVideoTrackPublication: RemoteVideoTrackPublication
             ) {
-                if (viewModel.isSpeaker(remoteParticipant.identity)) {
-                    showVideo()
-                }
+                showVideo()
             }
 
             override fun onVideoTrackDisabled(
                 remoteParticipant: RemoteParticipant,
                 remoteVideoTrackPublication: RemoteVideoTrackPublication
             ) {
-                if (viewModel.isSpeaker(remoteParticipant.identity)) {
-                    showPlaceholder()
-                }
+                showPlaceholder()
             }
         }
     }
@@ -330,6 +267,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
 
     override fun onStop() {
+        viewModel.roomListener.removeListener(roomListener)
         localAudioTrack?.release()
         localAudioTrack = null
         localVideoTrack?.release()

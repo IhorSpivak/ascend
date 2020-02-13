@@ -17,8 +17,8 @@ import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapte
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupListAdapter
 import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
 import com.doneit.ascend.presentation.main.search.common.SearchAdapter
-import com.doneit.ascend.presentation.models.GroupListWithUser
-import com.doneit.ascend.presentation.models.GroupListWithUserPaged
+import com.doneit.ascend.presentation.models.group.GroupListWithUser
+import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter
 
 @BindingAdapter("app:html")

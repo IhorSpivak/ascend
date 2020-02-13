@@ -11,7 +11,7 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.models.GroupListWithUserPaged
+import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch

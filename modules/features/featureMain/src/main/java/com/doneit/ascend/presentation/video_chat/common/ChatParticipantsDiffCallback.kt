@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.video_chat.common
 
 import androidx.recyclerview.widget.DiffUtil
-import com.doneit.ascend.presentation.models.PresentationChatParticipant
+import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 
 class ChatParticipantsDiffCallback(
     private val oldItems: List<PresentationChatParticipant>,

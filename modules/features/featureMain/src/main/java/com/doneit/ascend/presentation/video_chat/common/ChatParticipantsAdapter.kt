@@ -3,8 +3,7 @@ package com.doneit.ascend.presentation.video_chat.common
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.SocketUserEntity
-import com.doneit.ascend.presentation.models.PresentationChatParticipant
+import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 
 class ChatParticipantsAdapter(
     private val onItemClick: (String) -> Unit
@@ -23,6 +22,10 @@ class ChatParticipantsAdapter(
         holder.itemView.setOnClickListener {
             onItemClick.invoke(items[position].userId)
         }
+    }
+
+    override fun onViewRecycled(holder: ChatParticipantViewHolder) {
+        holder.clear()
     }
 
     fun submitList(newItems: List<PresentationChatParticipant>) {
