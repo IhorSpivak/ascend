@@ -6,13 +6,15 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.DialogErrorBinding
 import com.doneit.ascend.presentation.main.databinding.DialogInfoBinding
 import com.doneit.ascend.presentation.views.ConnectionSnackbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.dialog_add_attachments.*
+import kotlinx.android.synthetic.main.dialog_add_attachments.view.*
 import kotlinx.android.synthetic.main.dialog_change_photo.*
+import kotlinx.android.synthetic.main.dialog_change_photo.tvCancel
 import kotlinx.android.synthetic.main.dialog_change_photo.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -152,6 +154,39 @@ fun Fragment.showChangePhotoDialog(
 
     dialog.tvDeletePhoto.setOnClickListener {
         deleteClick.invoke()
+        dialog.dismiss()
+    }
+
+    dialog.tvCancel.setOnClickListener {
+        dialog.dismiss()
+    }
+
+    dialog.show()
+}
+
+fun Fragment.showAddAttachmentDialog(
+    selectFromGallery: (() -> Unit),
+    attachFile: (() -> Unit),
+    addUrl: () -> Unit
+) {
+    val dialogView =
+        LayoutInflater.from(requireActivity()).inflate(R.layout.dialog_add_attachments, null, false)
+    val dialog = BottomSheetDialog(requireContext(), R.style.TransparentBottomSheetDialog)
+    dialog.setContentView(dialogView)
+    dialog.setCancelable(false)
+
+    dialogView.tvSelectFromGallery.setOnClickListener {
+        selectFromGallery.invoke()
+        dialog.dismiss()
+    }
+
+    dialog.tvAttachFile.setOnClickListener {
+        attachFile.invoke()
+        dialog.dismiss()
+    }
+
+    dialog.tvAddUrl.setOnClickListener {
+        addUrl.invoke()
         dialog.dismiss()
     }
 

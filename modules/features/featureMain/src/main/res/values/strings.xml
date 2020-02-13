@@ -190,6 +190,11 @@
     <string name="privacy">Privacy Policy</string>
     <string name="take_a_photo">Take A Photo</string>
     <string name="select_from_gallery">Select From Gallery</string>
+    <string name="attach_file">Attach File</string>
+    <string name="add_url">Add URL</string>
+    <string name="add_url_name">URL name</string>
+    <string name="add_url_link">URL link</string>
+    <string name="add">Add</string>
     <string name="delete_photo">Delete Photo</string>
     <string name="tap_to_set_age">Tap to set age</string>
     <string name="tap_to_choose_location">Tap to choose location</string>
@@ -197,6 +202,7 @@
     <string name="unknown_location">Unknown location</string>
     <string name="camera_denied">Please, change camera access  permissions in your device settings to use the app fully.</string>
     <string name="gallery_denied">Please, change your photos access  permissions in your device settings to use the app fully.</string>
+    <string name="add_attachments_denied">Please, change your file access  permissions in your device settings to use the app fully.</string>
     <string name="move_and_scale">Move and Scale</string>
     <string name="error_full_name">Please, enter your Full Name correctly</string>
     <string name="error_display_name">Please, enter your Display Name correctly</string>
