@@ -8,15 +8,15 @@ import com.doneit.ascend.source.storage.local.data.notification.NotificationLoca
 @Dao
 interface NotificationDao {
 
-    @Query("SELECT * FROM notification")
+    @Query("SELECT * FROM notification ORDER BY createdAt DESC")
     fun getAll(): DataSource.Factory<Int, NotificationLocal>
 
     @Transaction
-    @Query("SELECT * FROM notification WHERE is_read = :isRead")
+    @Query("SELECT * FROM notification WHERE is_read = :isRead ORDER BY createdAt DESC")
     fun getRead(isRead: Boolean): DataSource.Factory<Int, NotificationLocal>
 
     @Transaction
-    @Query("SELECT * FROM notification WHERE is_read = :isRead")
+    @Query("SELECT * FROM notification WHERE is_read = :isRead ORDER BY createdAt DESC")
     fun getReadLive(isRead: Boolean): LiveData<List<NotificationLocal>>
 
     @Transaction
