@@ -30,7 +30,7 @@ class ParticipantsManager {
             resultList[index] = resultList[index].merge(newParticipant)
         }
 
-        _participants.postValue(resultList)
+        _participants.value = resultList
     }
 
     fun removeParticipant(participant: PresentationChatParticipant) {
@@ -51,7 +51,7 @@ class ParticipantsManager {
             }
         }
 
-        _participants.postValue(resultList)
+        _participants.value = resultList
     }
 
     private fun updateParticipant(participant: PresentationChatParticipant) {
@@ -61,7 +61,7 @@ class ParticipantsManager {
         if (index != LIST_INDEX_ABSENT) {
             resultList.removeAt(index)
             resultList.add(index, participant)
-            _participants.postValue(resultList)
+            _participants.value = resultList
         }
     }
 
@@ -128,7 +128,7 @@ class ParticipantsManager {
         val speaker = resultList.firstOrNull { it.userId == id }
         _currentSpeaker.postValue(speaker)
 
-        _participants.postValue(resultList)
+        _participants.value = resultList
     }
 
     fun isSpeaker(id: String): Boolean {
