@@ -11,6 +11,7 @@ fun PushEvent.toEntity(): NotificationEntity {
         title,
         null,
         null,
+        "",
         null,
         false
     )

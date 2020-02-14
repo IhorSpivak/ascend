@@ -14,6 +14,7 @@ fun NotificationEntity.toLocal(): NotificationLocal {
         groupName,
         createdAt?.toRemoteString(),
         updatedAt?.toRemoteString(),
+        title,
         owner?.toLocal(),
         isRead
     )

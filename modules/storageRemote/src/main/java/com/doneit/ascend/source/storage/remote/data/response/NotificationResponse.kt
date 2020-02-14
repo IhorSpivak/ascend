@@ -15,6 +15,8 @@ data class NotificationResponse(
     val createdAt: String,
     @SerializedName("updated_at")
     val updatedAt: String,
+    @SerializedName("title")
+    val title: String,
     @SerializedName("owner")
     val owner: NotificationOwnerResponse
 )
