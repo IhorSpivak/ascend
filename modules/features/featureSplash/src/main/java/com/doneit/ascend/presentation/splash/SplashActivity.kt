@@ -70,8 +70,9 @@ class SplashActivity : BaseActivity() {
 
         viewModel.user.observe(this, Observer {
             it?.let {
-                tvSubtitle.text = it.community
-
+                val title =
+                    if (it.isMasterMind) getString(R.string.mastermind_subtitle) else it.community
+                tvSubtitle.text = title
             }
         })
     }
