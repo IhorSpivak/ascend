@@ -1,7 +1,18 @@
 package com.doneit.ascend.push
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.media.RingtoneManager
+import android.os.Build
+import androidx.core.app.NotificationCompat
+import com.doneit.ascend.R
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.presentation.splash.SplashActivity
+import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.push.data.PushEvent
 import com.doneit.ascend.push.data.toEntity
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -37,15 +48,13 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
 
-        //todo refactor
-        /*p0.notification?.let {
-            sendNotification(it.body.orEmpty(), it.title.orEmpty(), p0.data)
-        }*/
         val title = p0.notification?.title!!
         val content = p0.toIntent()!!.extras!!["gcm.notification.data"] as String
         var model = Gson().fromJson(content, PushEvent::class.java)
         model = model.copy(title = title)
-
+        p0.notification?.let {
+            sendNotification(it.title.orEmpty(), model)
+        }
         useCase.notificationReceived(model.toEntity())
     }
 
@@ -54,5 +63,31 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
         GlobalScope.launch {
             userUseCase.updateFirebase(p0)
         }
+    }
+
+    private fun sendNotification(messageTitle: String, data: PushEvent?) {
+        val intent = Intent(this, SplashActivity::class.java)
+        intent.putExtra(Constants.KEY_GROUP_ID, data?.groupId)
+        val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT)
+        val channelId = "ascend_n"
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+                //TODO: no icon for pushes:
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setContentTitle(messageTitle)
+            .setContentText(null)
+            .setAutoCancel(true)
+            .setSound(defaultSoundUri)
+            .setContentIntent(pendingIntent)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId,
+                "ascend_notification",
+                NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(channel)
+        }
+        notificationManager.notify(0, notificationBuilder.build())
     }
 }
