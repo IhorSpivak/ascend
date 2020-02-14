@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class OwnerLocal(
     @PrimaryKey val id: Long,
     val fullName: String,
-    @Embedded(prefix = "owner_img") val image: ImageLocal,
+    @Embedded(prefix = "owner_img") val image: ImageLocal?,
     val rating: Float,
     val followed: Boolean
 )

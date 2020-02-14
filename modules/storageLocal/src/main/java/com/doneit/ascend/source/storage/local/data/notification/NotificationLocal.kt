@@ -13,6 +13,7 @@ data class NotificationLocal(
     val groupName: String?,
     val createdAt: String?,
     val updatedAt: String?,
+    val title: String,
     @Embedded(prefix = "owner") val owner: NotificationOwnerLocal?,
     @ColumnInfo(name = "is_read") val isRead: Boolean = false
 )

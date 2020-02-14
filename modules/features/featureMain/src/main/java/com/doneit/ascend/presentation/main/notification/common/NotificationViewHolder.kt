@@ -10,74 +10,64 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateNotificationItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
 import com.doneit.ascend.presentation.utils.extensions.toNotificationDate
+import kotlin.math.abs
 
 class NotificationViewHolder(
     private val binding: TemplateNotificationItemBinding
 ) : SearchViewHolder(binding.root) {
 
-    /*private var posX: Float = 0F
-    private var posY: Float = 0F*/
+    private var lastX: Float = 0F
+    private var lastY: Float = 0F
 
-    fun bind(item: NotificationEntity, onDeleteListener: (id: Long) -> Unit, onClickListener: (id: Long) -> Unit) {
+    fun bind(
+        item: NotificationEntity,
+        onDeleteListener: (id: Long) -> Unit,
+        onClickListener: (id: Long) -> Unit
+    ) {
         binding.item = item
         itemView.isClickable = true
 
-        /*itemView.setOnTouchListener { _, motionEvent ->
+        binding.date = item.createdAt?.toNotificationDate()
+
+        val ownerFormat = when (item.notificationType) {
+            NotificationType.INVITE_TO_A_MEETING -> {
+                R.string.from
+
+            }
+            else -> R.string.by
+        }
+
+        binding.owner =
+            "${binding.root.context.getString(ownerFormat)} ${item.owner?.fullName}"
+
+        binding.ibDelete.setOnClickListener {
+            onDeleteListener.invoke(item.id!!)
+        }
+
+        itemView.setOnTouchListener { _, motionEvent ->
             var status = false
 
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
-                posX = motionEvent.rawX
-                posY = motionEvent.rawY
+                lastX = motionEvent.rawX
+                lastY = motionEvent.rawY
             }
 
-            if(motionEvent.action == MotionEvent.ACTION_MOVE) {
-                posX = 0F
-                posY = 0F
-            }
-
-            if(motionEvent.action == MotionEvent.ACTION_UP) {
-                if (posX == motionEvent.rawX && posY == motionEvent.rawY) {
-                    // click
+            if (motionEvent.action == MotionEvent.ACTION_UP) {
+                if (abs(lastX - motionEvent.rawX) < MOVEMENT_DELTA
+                    && abs(lastY - motionEvent.rawY) < MOVEMENT_DELTA
+                ) {
                     onClickListener.invoke(item.groupId!!)
                     status = true
                 }
             }
 
             status
-        }*/
-        try {
-            binding.date = item.createdAt!!.toNotificationDate()
-
-            when (item.notificationType) {
-                NotificationType.INVITE_TO_A_MEETING -> {
-                    binding.owner =
-                        "${binding.root.context.getString(R.string.from)} ${item.owner?.fullName}"
-                    binding.title = binding.root.context.getString(R.string.you_got_invite)
-                }
-                NotificationType.NEW_GROUPS -> {
-                    binding.owner =
-                        "${binding.root.context.getString(R.string.by)} ${item.owner?.fullName}"
-                    binding.title = binding.root.context.getString(R.string.new_group)
-                }
-                NotificationType.MEETING_STARTED -> {
-                    binding.owner =
-                        "${binding.root.context.getString(R.string.by)} ${item.owner?.fullName}"
-                    binding.title = binding.root.context.getString(R.string.group_started)
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            binding.date = ""
         }
-
-        binding.ibDelete.setOnClickListener {
-            onDeleteListener.invoke(item.id!!)
-        }
-
-        binding.executePendingBindings()
     }
 
     companion object {
+        private const val MOVEMENT_DELTA = 10//empirically selection
+
         fun create(parent: ViewGroup): NotificationViewHolder {
             val binding: TemplateNotificationItemBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),

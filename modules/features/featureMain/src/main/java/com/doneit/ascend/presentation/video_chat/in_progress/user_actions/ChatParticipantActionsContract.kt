@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.video_chat.in_progress.user_actions
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.base.BaseViewModel
-import com.doneit.ascend.presentation.models.PresentationChatParticipant
+import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 
 interface ChatParticipantActionsContract {
     interface ViewModel: BaseViewModel {

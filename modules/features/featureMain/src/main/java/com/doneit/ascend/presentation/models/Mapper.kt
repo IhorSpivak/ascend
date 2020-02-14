@@ -6,11 +6,11 @@ import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
 import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
 import com.doneit.ascend.domain.entity.dto.CreateGroupDTO
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
-import com.doneit.ascend.presentation.utils.Constants.DEFAULT_MODEL_ID
+import com.doneit.ascend.presentation.models.group.ParticipantSourcePriority
+import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
 import com.twilio.video.RemoteParticipant
-import java.lang.NumberFormatException
 import java.util.*
 
 fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
@@ -18,7 +18,7 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
         CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
     val calendar = getDefaultCalendar()
     calendar.time = startTime!!
-    calendar.set(Calendar.HOUR, hours.toInt() )//% 12to avoid day increment
+    calendar.set(Calendar.HOUR, hours.toInt())//% 12to avoid day increment
     calendar.set(Calendar.MINUTE, minutes.toInt())
     calendar.set(Calendar.AM_PM, timeType.toAM_PM())
 
@@ -116,6 +116,7 @@ fun String.toPresentationCommunity(isSelected: Boolean): PresentationCommunityMo
 
 fun SocketUserEntity.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
+        ParticipantSourcePriority.SOCKET,
         userId.toString(),
         fullName,
         image,
@@ -125,6 +126,7 @@ fun SocketUserEntity.toPresentation(): PresentationChatParticipant {
 
 fun ParticipantEntity.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
+        ParticipantSourcePriority.REQUEST,
         id.toString(),
         fullName,
         image,
@@ -135,6 +137,7 @@ fun ParticipantEntity.toPresentation(): PresentationChatParticipant {
 
 fun RemoteParticipant.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
+        ParticipantSourcePriority.TWILIO,
         userId = identity,
         remoteParticipant = this
     )

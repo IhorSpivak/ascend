@@ -24,6 +24,7 @@ fun NotificationResponse.toEntity(): NotificationEntity {
         groupName,
         createdAt?.toDate(),
         updatedAt?.toDate(),
+        title,
         owner.toEntity(),
         true//consider request notification as it's reading
     )
@@ -37,6 +38,7 @@ fun NotificationLocal.toEntity(): NotificationEntity {
         groupName,
         createdAt?.toDate(),
         updatedAt?.toDate(),
+        title,
         owner?.toEntity(),
         isRead
     )

@@ -2,34 +2,84 @@ package com.doneit.ascend.presentation.video_chat
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.doneit.ascend.presentation.models.PresentationChatParticipant
+import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.Constants.LIST_INDEX_ABSENT
+import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
+import com.twilio.video.RemoteParticipant
+import com.twilio.video.Room
+import kotlin.math.max
 
 class ParticipantsManager {
     private val _participants = MutableLiveData<List<PresentationChatParticipant>>(listOf())
+    private val _currentSpeaker = MutableLiveData<PresentationChatParticipant?>(null)
+
     val participants: LiveData<List<PresentationChatParticipant>> = _participants
+    val currentSpeaker: LiveData<PresentationChatParticipant?> = _currentSpeaker
 
     private fun getParticipantMList(): MutableList<PresentationChatParticipant> {
         return _participants.value?.toMutableList() ?: mutableListOf()
     }
 
-    fun addParticipant(newParticipant: PresentationChatParticipant, isMergePriorityLocale: Boolean = true) {
+    fun addParticipant(newParticipant: PresentationChatParticipant) {
         val resultList = getParticipantMList()
 
         val index = resultList.indexOfFirst { it.userId == newParticipant.userId }
         if (index == LIST_INDEX_ABSENT) {
             resultList.add(newParticipant)
         } else {
-            resultList[index] = resultList[index].merge(newParticipant, isMergePriorityLocale)
+            resultList[index] = resultList[index].merge(newParticipant)
         }
 
-        _participants.postValue(resultList)
+        _participants.value = resultList
     }
 
     fun removeParticipant(participant: PresentationChatParticipant) {
         val resultList = getParticipantMList()
         resultList.removeAll { it.userId == participant.userId }
         _participants.postValue(resultList)
+    }
+
+    fun addParticipants(newList: List<PresentationChatParticipant>?) {
+        val resultList = getParticipantMList()
+
+        newList?.forEach { remoteItem ->
+            val index = resultList.indexOfFirst { it.userId == remoteItem.userId }
+            if (index == LIST_INDEX_ABSENT) {
+                resultList.add(remoteItem)
+            } else {
+                resultList[index] = resultList[index].merge(remoteItem)
+            }
+        }
+
+        _participants.value = resultList
+    }
+
+    private fun updateParticipant(participant: PresentationChatParticipant) {
+        val resultList = getParticipantMList()
+
+        val index = resultList.indexOfFirst { it.userId == participant.userId }
+        if (index != LIST_INDEX_ABSENT) {
+            resultList.removeAt(index)
+            resultList.add(index, participant)
+            _participants.value = resultList
+        }
+    }
+
+    private fun PresentationChatParticipant.merge(newParticipant: PresentationChatParticipant): PresentationChatParticipant {
+        val first = maxOf(this, newParticipant)
+        val second = minOf(this, newParticipant)
+        val resultSource = maxOf(this.source, newParticipant.source)
+
+        return this.copy(
+            source = resultSource,
+            userId = userId,
+            fullName = first.fullName ?: second.fullName,
+            image = first.image ?: second.image,
+            isHandRisen = first.isHandRisen,
+            isSpeaker = first.isSpeaker,
+            isMuted = first.isMuted,
+            remoteParticipant = first.remoteParticipant ?: second.remoteParticipant
+        )
     }
 
     fun updateHandState(participant: PresentationChatParticipant) {
@@ -57,8 +107,7 @@ class ParticipantsManager {
     }
 
     fun onSpeakerChanged(id: String?) {
-        val resultList = getParticipantMList()
-        resultList.forEach {
+        val resultList = getParticipantMList().map {
             var res = it
 
             //new model only if field has changed
@@ -70,53 +119,19 @@ class ParticipantsManager {
                 res = it.copy(
                     isSpeaker = false
                 )
+                it.removePrimaryVideoListener()
             }
 
             res
         }
 
-        _participants.postValue(resultList)
+        val speaker = resultList.firstOrNull { it.userId == id }
+        _currentSpeaker.postValue(speaker)
+
+        _participants.value = resultList
     }
 
     fun isSpeaker(id: String): Boolean {
-        return getParticipantMList().firstOrNull { it.userId == id }?.isSpeaker == true
-    }
-
-    fun addParticipants(newList: List<PresentationChatParticipant>?, isMergePriorityLocale: Boolean = true) {
-        val resultList = getParticipantMList()
-
-        newList?.forEach { remoteItem ->
-            val index = resultList.indexOfFirst { it.userId == remoteItem.userId }
-            if (index == LIST_INDEX_ABSENT) {
-                resultList.add(remoteItem)
-            } else {
-                resultList[index] = resultList[index].merge(remoteItem, isMergePriorityLocale)
-            }
-        }
-
-        _participants.postValue(resultList)
-    }
-
-    private fun updateParticipant(participant: PresentationChatParticipant) {
-        val resultList = getParticipantMList()
-
-        val index = resultList.indexOfFirst { it.userId == participant.userId }
-        if (index != LIST_INDEX_ABSENT) {
-            resultList.removeAt(index)
-            resultList.add(index, participant)
-            _participants.postValue(resultList)
-        }
-    }
-
-    private fun PresentationChatParticipant.merge(newParticipant: PresentationChatParticipant, isMergePriorityLocale: Boolean): PresentationChatParticipant {
-        return PresentationChatParticipant(
-            userId,
-            fullName ?: newParticipant.fullName,
-            newParticipant.image ?: image,
-            if(isMergePriorityLocale) isHandRisen else newParticipant.isHandRisen,
-            if(isMergePriorityLocale) isSpeaker else newParticipant.isSpeaker,
-            if(isMergePriorityLocale) isMuted else newParticipant.isMuted,
-            if(isMergePriorityLocale) remoteParticipant ?: newParticipant.remoteParticipant else newParticipant.remoteParticipant ?: remoteParticipant
-        )
+        return _currentSpeaker.value?.userId == id
     }
 }

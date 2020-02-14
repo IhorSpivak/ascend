@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.login
 
+import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -15,7 +16,7 @@ class LogInActivityViewModel (
     private val userUseCase: UserUseCase
 ): BaseViewModelImpl(), LogInActivityContract.ViewModel {
 
-    override fun tryToLogin() {
+    override fun tryToLogin(bundle: Bundle) {
         viewModelScope.launch {
             if(userUseCase.hasSignedInUser()) {
                 val step = localStorage.getUIReturnStep()
@@ -25,7 +26,7 @@ class LogInActivityViewModel (
                         router.navigateToFirstTimeLogin(questions)
                     }
                     else -> {
-                        router.goToMain()
+                        router.goToMain(bundle)
                     }
                 }
             } else {

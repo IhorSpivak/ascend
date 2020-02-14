@@ -9,6 +9,7 @@ data class NotificationEntity(
     val groupName: String?,
     val createdAt: Date?,
     val updatedAt: Date?,
+    val title: String,
     val owner: NotificationOwnerEntity?,
     val isRead: Boolean = false
 )

@@ -12,6 +12,7 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityMainBinding
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
+import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import org.kodein.di.Kodein
@@ -74,6 +75,9 @@ class MainActivity : BaseActivity(), MainActivityListener {
         super.onCreate(savedInstanceState)
 
         viewModel.onHomeClick()
+        intent.extras?.get(Constants.KEY_GROUP_ID)?.let {
+            viewModel.navigateToGroupInfo(it as Long)
+        }
 
         binding.fabCreateGroup.setOnClickListener {
             viewModel.onCreateGroupClick()

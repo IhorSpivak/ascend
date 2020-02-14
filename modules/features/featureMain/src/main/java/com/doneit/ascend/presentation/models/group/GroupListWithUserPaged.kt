@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.models
+package com.doneit.ascend.presentation.models.group
 
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.group.GroupEntity
