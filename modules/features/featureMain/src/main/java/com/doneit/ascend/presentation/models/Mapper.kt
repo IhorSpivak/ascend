@@ -1,10 +1,7 @@
 package com.doneit.ascend.presentation.models
 
 import com.doneit.ascend.domain.entity.*
-import com.doneit.ascend.domain.entity.dto.ChangeEmailDTO
-import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
-import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
-import com.doneit.ascend.domain.entity.dto.CreateGroupDTO
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.models.group.ParticipantSourcePriority
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
@@ -140,5 +137,15 @@ fun RemoteParticipant.toPresentation(): PresentationChatParticipant {
         ParticipantSourcePriority.TWILIO,
         userId = identity,
         remoteParticipant = this
+    )
+}
+
+fun CreateAttachmentModel.toEntity(): CreateAttachmentDTO {
+    return CreateAttachmentDTO(
+        groupId = groupId,
+        attachmentType = attachmentType,
+        fileName = name.observableField.getNotNull(),
+        link = link.observableField.getNotNull(),
+        private = isPrivate
     )
 }

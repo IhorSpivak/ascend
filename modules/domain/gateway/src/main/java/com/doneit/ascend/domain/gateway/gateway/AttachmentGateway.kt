@@ -6,8 +6,10 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.AttachmentsListDTO
+import com.doneit.ascend.domain.entity.dto.CreateAttachmentDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.boundaries.AttachmentBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.data_source.AttachmentDataSource
@@ -88,5 +90,16 @@ internal class AttachmentGateway(
             }
         }
         return res
+    }
+
+    override suspend fun createAttachment(dto: CreateAttachmentDTO): ResponseEntity<AttachmentEntity, List<String>> {
+        return executeRemote { remote.createAttachment(dto.toRequest()) }.toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
     }
 }

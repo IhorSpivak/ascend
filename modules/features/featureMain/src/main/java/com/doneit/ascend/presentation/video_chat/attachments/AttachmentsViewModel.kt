@@ -41,10 +41,6 @@ class AttachmentsViewModel(
         // TODO:
     }
 
-    override fun onLinkAdded() {
-        // TODO:
-    }
-
     override fun onDelete(id: Long) {
         viewModelScope.launch {
             val response = attachmentsUseCase.delete(id)

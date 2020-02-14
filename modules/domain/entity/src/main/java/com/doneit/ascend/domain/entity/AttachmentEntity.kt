@@ -18,5 +18,16 @@ data class AttachmentEntity(
 enum class AttachmentType {
     FILE,
     IMAGE,
-    LINK
+    LINK,
+    UNEXPECTED;
+
+    override fun toString(): String {
+        return super.toString().toLowerCase()
+    }
+
+    companion object {
+        fun fromRemoteString(representation: String): AttachmentType {
+            return values().firstOrNull { it.toString().toLowerCase() == representation } ?: UNEXPECTED
+        }
+    }
 }

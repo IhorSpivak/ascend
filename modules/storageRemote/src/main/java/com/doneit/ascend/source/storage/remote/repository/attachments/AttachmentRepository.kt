@@ -1,8 +1,10 @@
 package com.doneit.ascend.source.storage.remote.repository.attachments
 
 import com.doneit.ascend.source.storage.remote.api.AttachmentsApi
-import com.doneit.ascend.source.storage.remote.data.request.AttachmentListRequest
+import com.doneit.ascend.source.storage.remote.data.request.attachment.AttachmentListRequest
+import com.doneit.ascend.source.storage.remote.data.request.attachment.CreateAttachmentRequest
 import com.doneit.ascend.source.storage.remote.data.response.AttachmentListResponse
+import com.doneit.ascend.source.storage.remote.data.response.AttachmentResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
@@ -36,5 +38,9 @@ internal class AttachmentRepository(
 
     override suspend fun deleteAttachment(id: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.deleteAttachmentAsync(id) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun createAttachment(request: CreateAttachmentRequest): RemoteResponse<AttachmentResponse, ErrorsListResponse> {
+        return execute({ api.createAttachmentAsync(request) }, ErrorsListResponse::class.java)
     }
 }

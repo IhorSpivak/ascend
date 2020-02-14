@@ -66,6 +66,52 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
         }
     }
 
+    private fun showAttachmentDialog() {
+        showAddAttachmentDialog({
+            requestWritePermissions(getString(R.string.add_attachments_denied)) {
+                val galleryIntent = Intent(Intent.ACTION_PICK)
+                galleryIntent.type = "image/*"
+
+                startActivityForResult(
+                    galleryIntent,
+                    GALLERY_REQUEST_CODE
+                )
+            }
+        }, {
+            requestWritePermissions(getString(R.string.gallery_denied)) {
+                val fileIntent = Intent(Intent.ACTION_PICK)
+                //TODO: add filter:
+                fileIntent.type = "*/*"
+
+                startActivityForResult(
+                    fileIntent,
+                    FILE_REQUEST_CODE
+                )
+            }
+        }, {
+            val groupId = arguments!!.getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)!!.groupId!!
+            router.toAddLinkFragment(groupId)
+        })
+    }
+
+    private fun requestWritePermissions(errorMessage: String, onGranted: () -> Unit) {
+        EzPermission.with(context!!)
+            .permissions(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ).request { granted, denied, _ ->
+
+                if (granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    onGranted.invoke()
+                } else {
+                    handleErrorMessage(
+                        PresentationMessage(
+                            Messages.DEFAULT_ERROR.getId(),
+                            content = errorMessage
+                        )
+                    )
+                }
+            }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -85,64 +131,6 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
                 }
             }
         }
-    }
-
-    private fun showAttachmentDialog() {
-        showAddAttachmentDialog({
-            EzPermission.with(context!!)
-                .permissions(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ).request { granted, denied, _ ->
-
-                    if (denied.isEmpty().not()) {
-                        viewModel.errorMessage.call(
-                            PresentationMessage(
-                                Messages.DEFAULT_ERROR.getId(),
-                                content = getString(R.string.gallery_denied)
-                            )
-                        )
-                    }
-
-                    if (granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        val galleryIntent = Intent(Intent.ACTION_PICK)
-                        galleryIntent.type = "image/*"
-
-                        startActivityForResult(
-                            galleryIntent,
-                            GALLERY_REQUEST_CODE
-                        )
-                    }
-                }
-        }, {
-            EzPermission.with(context!!)
-                .permissions(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ).request { granted, denied, _ ->
-
-                    if (denied.isEmpty().not()) {
-                        viewModel.errorMessage.call(
-                            PresentationMessage(
-                                Messages.DEFAULT_ERROR.getId(),
-                                content = getString(R.string.add_attachments_denied)
-                            )
-                        )
-                    }
-
-                    if (granted.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        val fileIntent = Intent(Intent.ACTION_PICK)
-                        //TODO: add filter:
-                        fileIntent.type = "*/*"
-
-                        startActivityForResult(
-                            fileIntent,
-                            FILE_REQUEST_CODE
-                        )
-                    }
-                }
-        }, {
-            // TODO: add url
-            router.toAddLinkFragment()
-        })
     }
 
     private fun handleNavigation(action: AttachmentsContract.Navigation) {

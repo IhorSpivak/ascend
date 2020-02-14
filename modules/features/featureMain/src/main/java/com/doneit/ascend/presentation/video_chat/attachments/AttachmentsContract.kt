@@ -20,12 +20,11 @@ interface AttachmentsContract {
         fun onAddAttachmentClick()
         fun onPhotoChosen(sourceUri: Uri)
         fun onFileChosen()
-        fun onLinkAdded()
     }
 
     interface Router {
         fun onBack()
-        fun toAddLinkFragment()
+        fun toAddLinkFragment(groupId: Long)
     }
 
     enum class Navigation {

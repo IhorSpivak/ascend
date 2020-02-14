@@ -100,7 +100,7 @@ class VideoChatRouter(
         activity.supportFragmentManager.add(fullContainerId, AddPlanFragment.newInstance(groupId))
     }
 
-    override fun toAddLinkFragment() {
-        activity.supportFragmentManager.add(fullContainerId, AddUrlFragment.newInstance())
+    override fun toAddLinkFragment(groupId: Long) {
+        activity.supportFragmentManager.add(fullContainerId, AddUrlFragment.newInstance(groupId))
     }
 }

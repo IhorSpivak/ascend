@@ -5,5 +5,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 open class AttachmentsArg(
-    val groupId: Long? = null
+    val groupId: Long
 ) : BaseArguments()

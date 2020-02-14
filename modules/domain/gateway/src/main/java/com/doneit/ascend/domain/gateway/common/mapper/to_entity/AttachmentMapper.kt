@@ -29,7 +29,7 @@ fun AttachmentLocal.toEntity(): AttachmentEntity {
         groupId,
         userId,
         privacy,
-        attachmentType.toAttachmentType(),
+        AttachmentType.fromRemoteString(attachmentType),
         createdAt.toDate()!!,
         updatedAt.toDate()!!
     )
