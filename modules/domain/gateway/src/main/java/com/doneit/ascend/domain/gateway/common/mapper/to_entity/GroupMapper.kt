@@ -33,7 +33,7 @@ fun OwnerResponse.toEntity(): OwnerEntity {
     return OwnerEntity(
         id,
         fullName,
-        image.toEntity(),
+        image?.toEntity(),
         rating,
         followed
     )
@@ -164,7 +164,7 @@ fun OwnerLocal.toEntity(): OwnerEntity {
     return OwnerEntity(
         id,
         fullName,
-        image.toEntity(),
+        image?.toEntity(),
         rating,
         followed
     )

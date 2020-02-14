@@ -46,7 +46,7 @@ fun OwnerEntity.toLocal(): OwnerLocal {
     return OwnerLocal(
         id,
         fullName,
-        image.toLocal(),
+        image?.toLocal(),
         rating,
         followed
     )
