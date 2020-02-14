@@ -37,7 +37,7 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-
+        val extras = intent?.extras ?: Bundle()
         tvTitle.alpha = 0F
 
         tvTitle.animate()
@@ -49,7 +49,7 @@ class SplashActivity : BaseActivity() {
                 override fun onAnimationEnd(animation: Animator?) {
                     GlobalScope.launch {
                         delay(2900)
-                        router.goToLogin()
+                        router.goToLogin(extras)
 
                     }
                 }

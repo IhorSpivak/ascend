@@ -12,12 +12,12 @@ import com.doneit.ascend.presentation.splash.ISplashRouter
 class AppRouter(private val app: Context) : ISplashRouter,
     IMainAppRouter, ILogInAppRouter {
 
-    override fun goToLogin() {
-        startActivity<LogInActivity>(clear = true)
+    override fun goToLogin(args: Bundle) {
+        startActivity<LogInActivity>(args, clear = true)
     }
 
-    override fun goToMain() {
-        startActivity<MainActivity>(clear = true)
+    override fun goToMain(args: Bundle) {
+        startActivity<MainActivity>(args, clear = true)
     }
 
     private inline fun <reified T : Any> startActivity(args: Bundle = Bundle(), clear: Boolean = false) {
