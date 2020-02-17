@@ -2,10 +2,14 @@ package com.doneit.ascend.presentation.video_chat.attachments
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.amazonaws.mobileconnectors.s3.transferutility.*
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.common.TopListDecorator
 import com.doneit.ascend.presentation.main.R
@@ -18,17 +22,49 @@ import com.doneit.ascend.presentation.utils.createTempPhotoUri
 import com.doneit.ascend.presentation.utils.extensions.copyToClipboard
 import com.doneit.ascend.presentation.utils.showAddAttachmentDialog
 import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter
+import com.hbisoft.pickit.PickiT
+import com.hbisoft.pickit.PickiTCallbacks
 import org.kodein.di.generic.instance
+import java.io.File
 
-class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
+
+class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCallbacks {
+    override fun PickiTonProgressUpdate(progress: Int) {
+    }
+
+    override fun PickiTonStartListener() {
+    }
+
+    override fun PickiTonCompleteListener(
+        path: String?,
+        wasDriveFile: Boolean,
+        wasUnknownProvider: Boolean,
+        wasSuccessful: Boolean,
+        Reason: String?
+    ) {
+        val file = File(path)
+        val observer = transferUtility.upload(
+            "bucket-ascend", file.name, file
+        )
+        observers.add(observer)
+        observer.setTransferListener(UploadListener())
+        //viewModel.onPhotoChosen(galleryPhotoUri)
+    }
 
 
     override val viewModelModule = AttachmentsViewModelModule.get(this)
     override val viewModel: AttachmentsContract.ViewModel by instance()
+    private val transferUtility: TransferUtility by instance()
 
     private val router: AttachmentsContract.Router by instance()
 
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
+
+    private lateinit var pickit: PickiT
+
+    private val observers: MutableList<TransferObserver> by lazy {
+        transferUtility.getTransfersWithType(TransferType.UPLOAD)
+    }
 
     private val adapter: AttachmentsAdapter by lazy {
         AttachmentsAdapter({
@@ -41,6 +77,11 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
         }, {
             viewModel.onDelete(it)
         })
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        pickit = PickiT(context, this)
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -68,7 +109,7 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
 
     private fun showAttachmentDialog() {
         showAddAttachmentDialog({
-            requestWritePermissions(getString(R.string.add_attachments_denied)) {
+            requestWritePermissions(getString(com.doneit.ascend.presentation.main.R.string.add_attachments_denied)) {
                 val galleryIntent = Intent(Intent.ACTION_PICK)
                 galleryIntent.type = "image/*"
 
@@ -121,7 +162,7 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
                 GALLERY_REQUEST_CODE -> {
                     if (data?.data != null) {
                         val galleryPhotoUri = context!!.copyFile(data.data!!, tempPhotoUri)
-                        viewModel.onPhotoChosen(galleryPhotoUri)
+                        pickit.getPath(galleryPhotoUri, Build.VERSION.SDK_INT)
                     }
                 }
                 FILE_REQUEST_CODE -> {
@@ -151,6 +192,24 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
                 putParcelable(ATTACHMENTS_ARGS, args)
             }
             return fragment
+        }
+    }
+
+    private inner class UploadListener : TransferListener {
+
+
+        // Simply updates the UI list when notified.
+        override fun onError(id: Int, e: Exception) {
+            Log.e("onError", "Error during upload: $id", e)
+
+        }
+
+        override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
+            Log.e("progress", "Error during upload: $id $bytesCurrent $bytesTotal")
+        }
+
+        override fun onStateChanged(id: Int, state: TransferState?) {
+            Log.e("stateChanged", state?.name ?: "")
         }
     }
 }
