@@ -9,3 +9,12 @@ data class CreateAttachmentModel(
     val link: ValidatableField = ValidatableField(),
     var isPrivate: Boolean
 )
+
+data class CreateAttachmentFileModel(
+    var groupId: Long,
+    var attachmentType: AttachmentType,
+    var name: String? = null,
+    var link: String? = null,
+    var size: Long? = null,
+    var isPrivate: Boolean
+)

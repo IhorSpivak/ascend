@@ -3,8 +3,8 @@ package com.doneit.ascend.presentation.utils
 object Constants {
 
     //TODO: amazon credentials:
-    const val AWS_REGION: String = "us-east-2"
-    const val COGNITO_POOL_REGION: String = "us-east-2"
+    const val AWS_REGION: String = "us-east-1"
+    const val COGNITO_POOL_REGION: String = "us-east-1"
     const val COGNITO_POOL_ID: String = "us-east-1:16288c3c-c8eb-4c4f-8219-a38737f3438e"
 
     const val TIME_AUTO_CLOSE_DIALOG: Long = 3_000

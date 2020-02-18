@@ -149,3 +149,14 @@ fun CreateAttachmentModel.toEntity(): CreateAttachmentDTO {
         private = isPrivate
     )
 }
+
+fun CreateAttachmentFileModel.toEntity(): CreateAttachmentDTO {
+    return CreateAttachmentDTO(
+        groupId = groupId,
+        attachmentType = attachmentType,
+        fileName = name,
+        link = link.orEmpty(),
+        fileSize = size,
+        private = isPrivate
+    )
+}

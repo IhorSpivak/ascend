@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.amazonaws.mobileconnectors.s3.transferutility.*
 import com.androidisland.ezpermission.EzPermission
+import com.doneit.ascend.domain.entity.AttachmentType
 import com.doneit.ascend.presentation.common.TopListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -109,7 +110,7 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
 
     private fun showAttachmentDialog() {
         showAddAttachmentDialog({
-            requestWritePermissions(getString(com.doneit.ascend.presentation.main.R.string.add_attachments_denied)) {
+            requestWritePermissions(getString(R.string.add_attachments_denied)) {
                 val galleryIntent = Intent(Intent.ACTION_PICK)
                 galleryIntent.type = "image/*"
 
@@ -130,7 +131,8 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
                 )
             }
         }, {
-            val groupId = arguments!!.getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)!!.groupId!!
+            val groupId = requireArguments().getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)!!.groupId
+            viewModel.init(groupId)
             router.toAddLinkFragment(groupId)
         })
     }
@@ -162,6 +164,7 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
                 GALLERY_REQUEST_CODE -> {
                     if (data?.data != null) {
                         val galleryPhotoUri = context!!.copyFile(data.data!!, tempPhotoUri)
+                        viewModel.setMeta(AttachmentType.IMAGE, galleryPhotoUri.lastPathSegment!!)
                         pickit.getPath(galleryPhotoUri, Build.VERSION.SDK_INT)
                     }
                 }
@@ -197,18 +200,22 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
 
     private inner class UploadListener : TransferListener {
 
-
-        // Simply updates the UI list when notified.
         override fun onError(id: Int, e: Exception) {
             Log.e("onError", "Error during upload: $id", e)
 
         }
 
         override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
-            Log.e("progress", "Error during upload: $id $bytesCurrent $bytesTotal")
+            Log.e("progress", "upload: $id $bytesCurrent $bytesTotal")
+            viewModel.setSize(bytesTotal)
         }
 
         override fun onStateChanged(id: Int, state: TransferState?) {
+            when(state) {
+                TransferState.COMPLETED -> {
+                    viewModel.onFileChosen()
+                }
+            }
             Log.e("stateChanged", state?.name ?: "")
         }
     }
