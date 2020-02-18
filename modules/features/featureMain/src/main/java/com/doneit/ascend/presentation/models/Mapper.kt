@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.SocketUserEntity
 import com.doneit.ascend.domain.entity.dto.ChangeEmailDTO
 import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
 import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
+import com.doneit.ascend.domain.entity.dto.CreateAttachmentDTO
 import com.doneit.ascend.presentation.models.group.ParticipantSourcePriority
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.getNotNull
