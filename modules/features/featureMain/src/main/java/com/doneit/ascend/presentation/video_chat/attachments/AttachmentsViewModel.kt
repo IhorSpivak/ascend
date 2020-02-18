@@ -43,21 +43,25 @@ class AttachmentsViewModel(
         model.groupId = groupId
     }
 
-    override fun setMeta(attachmentType: AttachmentType, fileName: String) {
+    override fun setMeta(attachmentType: AttachmentType) {
         model.attachmentType = attachmentType
-        model.name = fileName
     }
 
     override fun setSize(size: Long) {
         model.size = size
     }
 
-    override fun onFileChosen() {
+    override fun setName(name: String) {
+        model.name = name
+    }
+
+    override fun onFileChosen(link: String) {
+        model.link = link
         viewModelScope.launch {
             val result = attachmentsUseCase.createAttachment(model.toEntity())
 
             if (result.isSuccessful) {
-                backClick()
+                // todo
             } else {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }

@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.amazonaws.mobileconnectors.s3.transferutility.*
+import com.amazonaws.services.s3.AmazonS3Client
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.AttachmentType
 import com.doneit.ascend.presentation.common.TopListDecorator
@@ -17,8 +18,8 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAttachmentsBinding
 import com.doneit.ascend.presentation.models.PresentationMessage
+import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.Messages
-import com.doneit.ascend.presentation.utils.copyFile
 import com.doneit.ascend.presentation.utils.createTempPhotoUri
 import com.doneit.ascend.presentation.utils.extensions.copyToClipboard
 import com.doneit.ascend.presentation.utils.showAddAttachmentDialog
@@ -30,32 +31,11 @@ import java.io.File
 
 
 class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCallbacks {
-    override fun PickiTonProgressUpdate(progress: Int) {
-    }
-
-    override fun PickiTonStartListener() {
-    }
-
-    override fun PickiTonCompleteListener(
-        path: String?,
-        wasDriveFile: Boolean,
-        wasUnknownProvider: Boolean,
-        wasSuccessful: Boolean,
-        Reason: String?
-    ) {
-        val file = File(path)
-        val observer = transferUtility.upload(
-            "bucket-ascend", file.name, file
-        )
-        observers.add(observer)
-        observer.setTransferListener(UploadListener())
-        //viewModel.onPhotoChosen(galleryPhotoUri)
-    }
-
 
     override val viewModelModule = AttachmentsViewModelModule.get(this)
     override val viewModel: AttachmentsContract.ViewModel by instance()
     private val transferUtility: TransferUtility by instance()
+    private val s3Client: AmazonS3Client by instance()
 
     private val router: AttachmentsContract.Router by instance()
 
@@ -106,6 +86,8 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
         viewModel.showAddAttachmentDialog.observe(this) {
             showAttachmentDialog()
         }
+        val groupId = arguments!!.getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)!!.groupId
+        viewModel.init(groupId)
     }
 
     private fun showAttachmentDialog() {
@@ -131,8 +113,7 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
                 )
             }
         }, {
-            val groupId = requireArguments().getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)!!.groupId
-            viewModel.init(groupId)
+            val groupId = arguments!!.getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)!!.groupId
             router.toAddLinkFragment(groupId)
         })
     }
@@ -163,14 +144,14 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
                     if (data?.data != null) {
-                        val galleryPhotoUri = context!!.copyFile(data.data!!, tempPhotoUri)
-                        viewModel.setMeta(AttachmentType.IMAGE, galleryPhotoUri.lastPathSegment!!)
-                        pickit.getPath(galleryPhotoUri, Build.VERSION.SDK_INT)
+                        viewModel.setMeta(AttachmentType.IMAGE)
+                        pickit.getPath(data.data, Build.VERSION.SDK_INT)
                     }
                 }
                 FILE_REQUEST_CODE -> {
                     if (data?.data != null) {
-                        viewModel.onFileChosen()
+                        viewModel.setMeta(AttachmentType.FILE)
+                        pickit.getPath(data.data, Build.VERSION.SDK_INT)
                     }
                 }
             }
@@ -198,22 +179,41 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
         }
     }
 
+    override fun PickiTonProgressUpdate(progress: Int) {}
+
+    override fun PickiTonStartListener() {}
+
+    override fun PickiTonCompleteListener(
+        path: String?,
+        wasDriveFile: Boolean,
+        wasUnknownProvider: Boolean,
+        wasSuccessful: Boolean,
+        Reason: String?
+    ) {
+        val file = File(path)
+        val observer = transferUtility.upload(
+            Constants.AWS_BUCKET, file.name, file
+        )
+        viewModel.setSize(observer.bytesTotal)
+        viewModel.setName(file.name)
+        observers.add(observer)
+        observer.setTransferListener(UploadListener())
+    }
+
     private inner class UploadListener : TransferListener {
 
         override fun onError(id: Int, e: Exception) {
             Log.e("onError", "Error during upload: $id", e)
-
         }
 
         override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
             Log.e("progress", "upload: $id $bytesCurrent $bytesTotal")
-            viewModel.setSize(bytesTotal)
         }
 
         override fun onStateChanged(id: Int, state: TransferState?) {
             when(state) {
                 TransferState.COMPLETED -> {
-                    viewModel.onFileChosen()
+                    viewModel.onFileChosen(s3Client.getUrl(Constants.AWS_BUCKET, viewModel.model.name).toString())
                 }
             }
             Log.e("stateChanged", state?.name ?: "")

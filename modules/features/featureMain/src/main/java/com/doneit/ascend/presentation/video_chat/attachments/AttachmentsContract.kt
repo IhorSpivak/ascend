@@ -22,9 +22,10 @@ interface AttachmentsContract {
         fun onDelete(id: Long)
         fun onAddAttachmentClick()
         fun init(groupId: Long)
-        fun setMeta(attachmentType: AttachmentType, fileName: String)
+        fun setMeta(attachmentType: AttachmentType)
+        fun setName(name: String)
         fun setSize(size: Long)
-        fun onFileChosen()
+        fun onFileChosen(link: String)
     }
 
     interface Router {
