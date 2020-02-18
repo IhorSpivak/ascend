@@ -8,7 +8,11 @@ import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.models.*
+import com.doneit.ascend.presentation.models.GroupType
+import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
+import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.models.ValidationResult
+import com.doneit.ascend.presentation.models.group.toEntity
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -199,7 +203,7 @@ class CreateGroupViewModel(
 
     override fun backClick() {
         //todo remove this solution!!
-        if(localRouter.onBack().not()) {
+        if (localRouter.onBack().not()) {
             router.onBack()
         }
     }

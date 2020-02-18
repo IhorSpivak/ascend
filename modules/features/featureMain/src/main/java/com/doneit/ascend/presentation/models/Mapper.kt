@@ -1,64 +1,16 @@
 package com.doneit.ascend.presentation.models
 
-import com.doneit.ascend.domain.entity.*
+import com.doneit.ascend.domain.entity.CardEntity
+import com.doneit.ascend.domain.entity.ParticipantEntity
+import com.doneit.ascend.domain.entity.SocketUserEntity
 import com.doneit.ascend.domain.entity.dto.ChangeEmailDTO
 import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
 import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
-import com.doneit.ascend.domain.entity.dto.CreateGroupDTO
-import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.models.group.ParticipantSourcePriority
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
 import com.twilio.video.RemoteParticipant
-import java.util.*
-
-fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
-    val startTime =
-        CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
-    val calendar = getDefaultCalendar()
-    calendar.time = startTime!!
-    calendar.set(Calendar.HOUR, hours.toInt())//% 12to avoid day increment
-    calendar.set(Calendar.MINUTE, minutes.toInt())
-    calendar.set(Calendar.AM_PM, timeType.toAM_PM())
-
-    return CreateGroupDTO(
-        name.observableField.getNotNull(),
-        description.observableField.getNotNull(),
-        calendar.time,
-        groupType?.toString() ?: "",
-        price.observableField.get()?.toFloatS(),
-        image.observableField.getNotNull(),
-        participants.get(),
-        scheduleDays.toDays(),
-        Integer.parseInt(numberOfMeetings.observableField.getNotNull()),
-        meetingFormat.observableField.get(),
-        isPublic.get(),
-        tags.observableField.get()
-    )
-}
-
-fun String.toFloatS(): Float? {
-    var res: Float? = null
-
-    try {
-        res = this.toFloat()
-    } catch (e: NumberFormatException) {
-        e.printStackTrace()
-    }
-
-    return res
-}
-
-fun List<CalendarDayEntity>.toDays(): List<Int> {
-    return this.map {
-        it.ordinal
-    }
-}
-
-fun String.toAM_PM(): Int {
-    return if (this == "AM") Calendar.AM else Calendar.PM
-}
 
 fun EditPhoneModel.toEntity(): ChangePhoneDTO {
     return ChangePhoneDTO(
