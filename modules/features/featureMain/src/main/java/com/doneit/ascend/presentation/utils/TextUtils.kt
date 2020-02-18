@@ -88,7 +88,7 @@ fun String.getFileExtension(): String {
 }
 
 fun String.isValidStrartDate(): Boolean {
-    var res = false
+    var res = true
 
     try {
         val date = "dd MMMM yyyy".toDefaultFormatter().parse(this)
@@ -98,8 +98,8 @@ fun String.isValidStrartDate(): Boolean {
         today.set(Calendar.SECOND, 0)
         today.set(Calendar.MILLISECOND, 0)
 
-        if(date?.before(today.time) == false) {
-            res = true
+        if(date?.before(today.time) == true) {
+            res = false
         }
     } catch (e: ParseException) {
         e.printStackTrace()
