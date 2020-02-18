@@ -15,12 +15,12 @@ internal class AttachmentInteractor(
         return attachmentGateway.delete(id)
     }
 
-    override fun getAttachmentListPagedLive(): LiveData<PagedList<AttachmentEntity>> {
-        return attachmentGateway.getAttachmentsPagedList(AttachmentsListDTO())
+    override fun getAttachmentListPagedLive(dto: AttachmentsListDTO): LiveData<PagedList<AttachmentEntity>> {
+        return attachmentGateway.getAttachmentListLive(dto)
     }
 
     override suspend fun getAttachmentListPaged(dto: AttachmentsListDTO): PagedList<AttachmentEntity> {
-        return attachmentGateway.getAttachments(dto)
+        return attachmentGateway.getAttachmentList(dto)
     }
 
     override suspend fun createAttachment(dto: CreateAttachmentDTO): ResponseEntity<AttachmentEntity, List<String>> {

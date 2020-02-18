@@ -18,9 +18,9 @@ import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.databinding.FragmentSignUpBinding
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
+import com.doneit.ascend.presentation.utils.applyLinkStyle
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.vmShared
-import com.doneit.ascend.presentation.utils.applyLinkStyle
 import com.doneit.ascend.presentation.utils.getNotNullString
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import org.kodein.di.Kodein
@@ -97,6 +97,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         val spannable = SpannableString(getString(R.string.already_member))
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(p0: View) {
+                hideKeyboard()
                 viewModel.onBackClick()
             }
 

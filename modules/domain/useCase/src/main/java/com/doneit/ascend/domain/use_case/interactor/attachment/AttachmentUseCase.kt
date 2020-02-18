@@ -9,7 +9,7 @@ import com.doneit.ascend.domain.entity.dto.CreateAttachmentDTO
 
 interface AttachmentUseCase {
     suspend fun getAttachmentListPaged(dto: AttachmentsListDTO): PagedList<AttachmentEntity>
-    fun getAttachmentListPagedLive(): LiveData<PagedList<AttachmentEntity>>
+    fun getAttachmentListPagedLive(dto: AttachmentsListDTO): LiveData<PagedList<AttachmentEntity>>
     suspend fun delete(id: Long): ResponseEntity<Unit, List<String>>
     suspend fun createAttachment(dto: CreateAttachmentDTO): ResponseEntity<AttachmentEntity, List<String>>
 }

@@ -5,4 +5,6 @@ object Constants {
     const val REMOTE_DATE_FORMAT_SHORT = "yyyy-MM-dd"
 
     const val DAYS_IN_WEEK_COUNT = 7
+
+    val IMAGE_EXTENSIONS = listOf("jpg","jpeg","png")
 }

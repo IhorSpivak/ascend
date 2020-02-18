@@ -9,7 +9,7 @@ class PresentationSignUpModel(
     var phone: ValidatableField = ValidatableField(),
     var password: ValidatableField = ValidatableField(),
     var passwordConfirmation: ValidatableField = ValidatableField(),
-    var hasAgreed: ObservableField<Boolean> = ObservableField(false),
+    var hasAgreed: ObservableField<Boolean> = ObservableField(true),
     var code: ValidatableField = ValidatableField()
 ) {
     fun getPhoneNumber(): String {
@@ -23,7 +23,7 @@ class PresentationSignUpModel(
         phone.observableField.set("")
         password.observableField.set("")
         passwordConfirmation.observableField.set("")
-        hasAgreed.set(false)
+        hasAgreed.set(true)
         code.observableField.set("")
     }
 }

@@ -148,7 +148,7 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
             }
         }, {
             requestWritePermissions(getString(R.string.gallery_denied)) {
-                val fileIntent = Intent(Intent.ACTION_PICK)
+                val fileIntent = Intent(Intent.ACTION_GET_CONTENT)
                 //TODO: add filter:
                 fileIntent.type = "*/*"
 

@@ -27,7 +27,7 @@ internal class AttachmentGateway(
     private val remote: IAttachmentsRepository
 ) : BaseGateway(errors), IAttachmentGateway {
 
-    override suspend fun getAttachments(listDTO: AttachmentsListDTO): PagedList<AttachmentEntity> {
+    override suspend fun getAttachmentList(listDTO: AttachmentsListDTO): PagedList<AttachmentEntity> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setPageSize(listDTO.perPage ?: 10)
@@ -46,7 +46,7 @@ internal class AttachmentGateway(
             .build()
     }
 
-    override fun getAttachmentsPagedList(listDTO: AttachmentsListDTO) =
+    override fun getAttachmentListLive(listDTO: AttachmentsListDTO) =
         liveData<PagedList<AttachmentEntity>> {
             local.removeAll()
 

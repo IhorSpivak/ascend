@@ -1,5 +1,7 @@
 package com.doneit.ascend.presentation.video_chat.attachments
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
@@ -8,6 +10,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.services.s3.AmazonS3Client
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.AttachmentType
+import com.doneit.ascend.domain.entity.dto.AttachmentsListDTO
 import com.doneit.ascend.domain.entity.dto.CreateAttachmentDTO
 import com.doneit.ascend.domain.use_case.interactor.attachment.AttachmentUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -37,7 +40,15 @@ class AttachmentsViewModel(
         AttachmentType.UNEXPECTED,
         isPrivate = false
     )
-    override val attachments = attachmentsUseCase.getAttachmentListPagedLive()
+
+    private val groupId = MutableLiveData<Long>()
+    override val attachments = groupId.switchMap {
+        attachmentsUseCase.getAttachmentListPagedLive(
+            AttachmentsListDTO(
+                groupId = it
+            )
+        )
+    }
     override val user = userUseCase.getUserLive()
     override val showAddAttachmentDialog = SingleLiveManager(Unit)
     override val navigation = SingleLiveEvent<AttachmentsContract.Navigation>()
@@ -90,6 +101,7 @@ class AttachmentsViewModel(
     }
 
     override fun init(groupId: Long) {
+        this.groupId.postValue(groupId)
         model.groupId = groupId
     }
 
