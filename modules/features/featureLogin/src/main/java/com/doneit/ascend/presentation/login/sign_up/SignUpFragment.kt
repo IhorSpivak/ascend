@@ -53,6 +53,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         viewModel.removeErrors()
 
         binding.toolbar.imBack.setOnClickListener {
+            hideKeyboard()
             viewModel.onBackClick()
         }
 
