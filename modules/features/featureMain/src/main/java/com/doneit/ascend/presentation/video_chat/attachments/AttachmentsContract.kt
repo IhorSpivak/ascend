@@ -17,15 +17,15 @@ interface AttachmentsContract {
         val user: LiveData<UserEntity?>
         val navigation: LiveData<Navigation>
         val showAddAttachmentDialog: SingleLiveManager<Unit>
+        val transferEvents: LiveData<TransferEvent>
 
         fun backClick()
         fun onDelete(id: Long)
         fun onAddAttachmentClick()
         fun init(groupId: Long)
-        fun setMeta(attachmentType: AttachmentType)
-        fun setName(name: String)
-        fun setSize(size: Long)
-        fun onFileChosen(link: String)
+        fun setAttachmentType(attachmentType: AttachmentType)
+        fun uploadFile(path: String)
+        fun downloadAttachment(attachment: AttachmentEntity, basePath: String)
     }
 
     interface Router {

@@ -12,8 +12,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-private const val JPG = "JPEG"
-
 suspend fun Activity.copyCompressed(source: Uri, destinationPath: String): String {
     var input = contentResolver.openInputStream(source)
     var bitmap = BitmapFactory.decodeStream(input)

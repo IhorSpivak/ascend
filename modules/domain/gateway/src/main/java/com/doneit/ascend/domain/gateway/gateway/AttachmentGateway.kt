@@ -9,6 +9,7 @@ import com.doneit.ascend.domain.entity.dto.AttachmentsListDTO
 import com.doneit.ascend.domain.entity.dto.CreateAttachmentDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.boundaries.AttachmentBoundaryCallback
@@ -93,7 +94,7 @@ internal class AttachmentGateway(
     }
 
     override suspend fun createAttachment(dto: CreateAttachmentDTO): ResponseEntity<AttachmentEntity, List<String>> {
-        return executeRemote { remote.createAttachment(dto.toRequest()) }.toResponseEntity(
+        val res = executeRemote { remote.createAttachment(dto.toRequest()) }.toResponseEntity(
             {
                 it?.toEntity()
             },
@@ -101,5 +102,11 @@ internal class AttachmentGateway(
                 it?.errors
             }
         )
+
+        if(res.isSuccessful) {
+            local.insertAll(listOf(res.successModel!!.toLocal()))
+        }
+
+        return res
     }
 }

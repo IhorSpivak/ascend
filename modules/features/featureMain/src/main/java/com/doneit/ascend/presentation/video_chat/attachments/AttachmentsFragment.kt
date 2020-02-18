@@ -2,14 +2,17 @@ package com.doneit.ascend.presentation.video_chat.attachments
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.os.Environment
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.amazonaws.mobileconnectors.s3.transferutility.*
+import androidx.lifecycle.ViewModelProvider
+import com.amazonaws.auth.CognitoCachingCredentialsProvider
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
+import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3Client
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.AttachmentType
@@ -20,54 +23,91 @@ import com.doneit.ascend.presentation.main.databinding.FragmentAttachmentsBindin
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.Messages
-import com.doneit.ascend.presentation.utils.createTempPhotoUri
 import com.doneit.ascend.presentation.utils.extensions.copyToClipboard
 import com.doneit.ascend.presentation.utils.showAddAttachmentDialog
 import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter
+import com.doneit.ascend.presentation.video_chat.attachments.listeners.PickiTListener
 import com.hbisoft.pickit.PickiT
-import com.hbisoft.pickit.PickiTCallbacks
+import org.kodein.di.Kodein
+import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
-import java.io.File
+import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 
 
-class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCallbacks {
+class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
 
-    override val viewModelModule = AttachmentsViewModelModule.get(this)
-    override val viewModel: AttachmentsContract.ViewModel by instance()
-    private val transferUtility: TransferUtility by instance()
-    private val s3Client: AmazonS3Client by instance()
+    override val viewModelModule = Kodein.Module("AttachmentsFragment") {
+        bind<PickiT>() with provider {
+            PickiT(
+                this@AttachmentsFragment.context,
+                object : PickiTListener() {
+                    override fun PickiTonCompleteListener(
+                        path: String?,
+                        wasDriveFile: Boolean,
+                        wasUnknownProvider: Boolean,
+                        wasSuccessful: Boolean,
+                        Reason: String?
+                    ) {
+                        path?.let {
+                            viewModel.uploadFile(path)
+                        }
+                    }
+                }
+            )
+        }
 
-    private val router: AttachmentsContract.Router by instance()
+        bind<AmazonS3Client>() with singleton {
+            AmazonS3Client(
+                instance<CognitoCachingCredentialsProvider>(), Region.getRegion(
+                    Regions.fromName(
+                        Constants.AWS_REGION
+                    )
+                )
+            )
+        }
 
-    private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
+        bind<TransferUtility>() with singleton {
+            TransferUtility
+                .builder()
+                .s3Client(instance<AmazonS3Client>())
+                .context(this@AttachmentsFragment.context).build()
+        }
 
-    private lateinit var pickit: PickiT
+        bind<ViewModelProvider.Factory>(tag = AttachmentsFragment::class.java) with singleton {
+            AttachmentsViewModelFactory(instance(), instance(), instance(), instance())
+        }
 
-    private val observers: MutableList<TransferObserver> by lazy {
-        transferUtility.getTransfersWithType(TransferType.UPLOAD)
+        bind<AttachmentsContract.ViewModel>() with provider {
+            vm<AttachmentsViewModel>(instance(tag = AttachmentsFragment::class.java))
+        }
     }
+
+    override val viewModel: AttachmentsContract.ViewModel by instance()
+    private val router: AttachmentsContract.Router by instance()
+    private val pickit: PickiT by instance()
 
     private val adapter: AttachmentsAdapter by lazy {
         AttachmentsAdapter({
-            //TODO: implement
-            Toast.makeText(requireContext(), "download", Toast.LENGTH_LONG).show()
+            requestWritePermissions(getString(R.string.add_attachments_denied)) {
+                val directoryType =
+                    if (it.attachmentType == AttachmentType.IMAGE) Environment.DIRECTORY_PICTURES else Environment.DIRECTORY_DOWNLOADS
+                val basePath = context?.getExternalFilesDir(directoryType)?.path ?: ""
+
+                viewModel.downloadAttachment(it, basePath)
+            }
         }, {
-            //TODO: refactor
             it.link.copyToClipboard(requireContext())
-            Toast.makeText(requireContext(), "copy", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Copied", Toast.LENGTH_LONG).show()
         }, {
             viewModel.onDelete(it)
         })
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        pickit = PickiT(context, this)
-    }
-
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.adapter = this.adapter
         binding.model = viewModel
+
         val decorator =
             TopListDecorator(resources.getDimension(R.dimen.attachments_list_top_padding).toInt())
         binding.rvAttachments.addItemDecoration(decorator)
@@ -83,9 +123,14 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
             handleNavigation(it)
         })
 
-        viewModel.showAddAttachmentDialog.observe(this) {
+        viewModel.showAddAttachmentDialog.observe(viewLifecycleOwner) {
             showAttachmentDialog()
         }
+
+        viewModel.transferEvents.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(requireContext(), getString(it.messageRes), Toast.LENGTH_LONG).show()
+        })
+
         val groupId = arguments!!.getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)!!.groupId
         viewModel.init(groupId)
     }
@@ -144,13 +189,13 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
                     if (data?.data != null) {
-                        viewModel.setMeta(AttachmentType.IMAGE)
+                        viewModel.setAttachmentType(AttachmentType.IMAGE)
                         pickit.getPath(data.data, Build.VERSION.SDK_INT)
                     }
                 }
                 FILE_REQUEST_CODE -> {
                     if (data?.data != null) {
-                        viewModel.setMeta(AttachmentType.FILE)
+                        viewModel.setAttachmentType(AttachmentType.FILE)
                         pickit.getPath(data.data, Build.VERSION.SDK_INT)
                     }
                 }
@@ -176,47 +221,6 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>(), PickiTCa
                 putParcelable(ATTACHMENTS_ARGS, args)
             }
             return fragment
-        }
-    }
-
-    override fun PickiTonProgressUpdate(progress: Int) {}
-
-    override fun PickiTonStartListener() {}
-
-    override fun PickiTonCompleteListener(
-        path: String?,
-        wasDriveFile: Boolean,
-        wasUnknownProvider: Boolean,
-        wasSuccessful: Boolean,
-        Reason: String?
-    ) {
-        val file = File(path)
-        val observer = transferUtility.upload(
-            Constants.AWS_BUCKET, file.name, file
-        )
-        viewModel.setSize(observer.bytesTotal)
-        viewModel.setName(file.name)
-        observers.add(observer)
-        observer.setTransferListener(UploadListener())
-    }
-
-    private inner class UploadListener : TransferListener {
-
-        override fun onError(id: Int, e: Exception) {
-            Log.e("onError", "Error during upload: $id", e)
-        }
-
-        override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
-            Log.e("progress", "upload: $id $bytesCurrent $bytesTotal")
-        }
-
-        override fun onStateChanged(id: Int, state: TransferState?) {
-            when(state) {
-                TransferState.COMPLETED -> {
-                    viewModel.onFileChosen(s3Client.getUrl(Constants.AWS_BUCKET, viewModel.model.name).toString())
-                }
-            }
-            Log.e("stateChanged", state?.name ?: "")
         }
     }
 }

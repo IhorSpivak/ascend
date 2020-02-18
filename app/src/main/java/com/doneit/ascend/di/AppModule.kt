@@ -59,18 +59,5 @@ object AppModule {
                 Regions.fromName(Constants.COGNITO_POOL_REGION)
             )
         }
-
-        bind<AmazonS3Client>() with singleton {
-            AmazonS3Client(instance<CognitoCachingCredentialsProvider>(), Region.getRegion(
-                Regions.fromName(
-                    Constants.AWS_REGION)))
-        }
-
-        bind<TransferUtility>() with singleton {
-            TransferUtility
-                .builder()
-                .s3Client(instance<AmazonS3Client>())
-                .context(application.applicationContext).build()
-        }
     }
 }
