@@ -5,6 +5,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.AttachmentsListDTO
+import com.doneit.ascend.domain.entity.dto.CreateAttachmentDTO
 import com.doneit.ascend.domain.use_case.gateway.IAttachmentGateway
 
 internal class AttachmentInteractor(
@@ -14,11 +15,15 @@ internal class AttachmentInteractor(
         return attachmentGateway.delete(id)
     }
 
-    override fun getAttachmentListPagedLive(): LiveData<PagedList<AttachmentEntity>> {
-        return attachmentGateway.getAttachmentsPagedList(AttachmentsListDTO())
+    override fun getAttachmentListPagedLive(dto: AttachmentsListDTO): LiveData<PagedList<AttachmentEntity>> {
+        return attachmentGateway.getAttachmentListLive(dto)
     }
 
     override suspend fun getAttachmentListPaged(dto: AttachmentsListDTO): PagedList<AttachmentEntity> {
-        return attachmentGateway.getAttachments(dto)
+        return attachmentGateway.getAttachmentList(dto)
+    }
+
+    override suspend fun createAttachment(dto: CreateAttachmentDTO): ResponseEntity<AttachmentEntity, List<String>> {
+        return attachmentGateway.createAttachment(dto)
     }
 }

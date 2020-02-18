@@ -94,3 +94,24 @@ fun RemoteParticipant.toPresentation(): PresentationChatParticipant {
         remoteParticipant = this
     )
 }
+
+fun CreateAttachmentModel.toEntity(): CreateAttachmentDTO {
+    return CreateAttachmentDTO(
+        groupId = groupId,
+        attachmentType = attachmentType,
+        fileName = name.observableField.getNotNull(),
+        link = link.observableField.getNotNull(),
+        private = isPrivate
+    )
+}
+
+fun CreateAttachmentFileModel.toEntity(): CreateAttachmentDTO {
+    return CreateAttachmentDTO(
+        groupId = groupId,
+        attachmentType = attachmentType,
+        fileName = name,
+        link = link.orEmpty(),
+        fileSize = size,
+        private = isPrivate
+    )
+}

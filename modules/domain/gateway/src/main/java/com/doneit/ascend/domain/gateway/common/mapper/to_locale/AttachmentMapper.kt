@@ -13,7 +13,7 @@ fun AttachmentEntity.toLocal(): AttachmentLocal {
         groupId,
         userId,
         private,
-        attachmentType.name,
+        attachmentType.toString(),
         createdAt.toRemoteString(),
         updatedAt.toRemoteString()
     )

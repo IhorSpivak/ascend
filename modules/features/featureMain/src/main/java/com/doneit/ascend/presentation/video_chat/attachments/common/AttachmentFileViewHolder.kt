@@ -17,14 +17,14 @@ class AttachmentFileViewHolder(
     fun bind(item: AttachmentEntity, onDownloadClick: (AttachmentEntity) -> Unit, onDeleteListener: (id: Long) -> Unit){
         binding.item = item
         binding.fileSize = item.fileSize.toMb()
+        binding.date = item.createdAt.toAttachmentDate()
+
         binding.download.setOnClickListener{
             onDownloadClick.invoke(item)
         }
-        binding.date = item.createdAt.toAttachmentDate()
         binding.ibDelete.setOnClickListener {
-            onDeleteListener.invoke(item.id!!)
+            onDeleteListener.invoke(item.id)
         }
-        binding.executePendingBindings()
     }
 
     companion object {

@@ -14,11 +14,11 @@ import com.doneit.ascend.presentation.dialog.EditFieldDialogOptions
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentProfileMasterMindBinding
-import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.sendEmail
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_profile_master_mind.*
 import kotlinx.coroutines.GlobalScope
@@ -195,7 +195,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                 GALLERY_REQUEST_CODE -> {
                     data?.let {
                         val galleryPhotoUri = context!!.copyFile(data.data!!, tempPhotoUri)
-                        viewModel.onAvatarSelected(galleryPhotoUri, cropPhotoUri, this)
+                        viewModel.onAvatarSelected(data.data!!, cropPhotoUri, this)
                     }
                 }
                 CAMERA_REQUEST_CODE -> {

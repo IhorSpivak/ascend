@@ -15,7 +15,7 @@
 
         <variable
             name="fileSize"
-            type="String" />
+            type="Float" />
     </data>
 
     <com.daimajia.swipe.SwipeLayout
@@ -84,7 +84,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
                         android:fontFamily="@font/red_hat_font"
-                        android:text="@{fileSize}"
+                        android:text="@{@string/file_size_format(fileSize)}"
                         android:textColor="@color/light_gray_8f"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"

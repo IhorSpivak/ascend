@@ -8,6 +8,8 @@ import com.doneit.ascend.presentation.video_chat.add_mm_plan.AddPlanFragment
 import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsArg
 import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsContract
 import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsFragment
+import com.doneit.ascend.presentation.video_chat.attachments.add_url.AddUrlContract
+import com.doneit.ascend.presentation.video_chat.attachments.add_url.AddUrlFragment
 import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressFragment
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsFragment
@@ -24,7 +26,9 @@ class VideoChatRouter(
     AttachmentsContract.Router,
     NotesContract.Router,
     AddPlanContract.Router,
-    VideoChatContract.Router {
+    VideoChatContract.Router,
+    AddUrlContract.Router {
+
 
     override val containerId = activity.getContainerId()
     private val fullContainerId = activity.getFullContainerId()
@@ -94,5 +98,9 @@ class VideoChatRouter(
 
     override fun navigateToGoal(groupId: Long) {
         activity.supportFragmentManager.add(fullContainerId, AddPlanFragment.newInstance(groupId))
+    }
+
+    override fun toAddLinkFragment(groupId: Long) {
+        activity.supportFragmentManager.add(fullContainerId, AddUrlFragment.newInstance(groupId))
     }
 }

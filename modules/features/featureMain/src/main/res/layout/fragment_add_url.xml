@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.video_chat.attachments.add_url.AddUrlContract.ViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/white">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            bind:title="@{@string/add_url}"
+            bind:backClick="@{(v) -> model.backClick()}"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+        <com.doneit.ascend.presentation.views.EditWithError
+            android:id="@+id/addUrlName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            app:hint="@{@string/add_url_name}"
+            app:saveState="@{false}"
+            app:text="@={model.model.name.observableField}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+        <com.doneit.ascend.presentation.views.EditWithError
+            android:id="@+id/addUrlLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            app:hint="@{@string/add_url_link}"
+            app:saveState="@{false}"
+            app:text="@={model.model.link.observableField}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addUrlName"/>
+
+        <Button
+            android:id="@+id/btnAdd"
+            style="@style/AppTheme.Button"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:enabled="@{model.canSave}"
+            android:onClick="@{v -> model.onAddUrlClick()}"
+            android:text="@string/add"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addUrlLink" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -32,9 +32,8 @@ fun Activity.sendEmail(recipient: String){
     }
 }
 
-fun Long.toMb() : String {
-    val res = this.toFloat() / 1024
-    return "$res mb"
+fun Long.toMb() : Float {
+    return this.toFloat() / 1024 / 1024
 }
 
 fun String.copyToClipboard(context: Context) {

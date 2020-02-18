@@ -52,6 +52,7 @@ class App : Application(), KodeinAware {
             PaymentConfiguration.init(applicationContext, Constants.STRIPE_KEY_LIVE)
         }
         FirebaseApp.initializeApp(this)
+
         kodeinTrigger.trigger()
     }
 }
