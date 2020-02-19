@@ -38,7 +38,7 @@ internal class AnswerGateway(
             val user = local.getFirstUser()
             user?.let {
                 local.remove()
-                local.insert(user.copy(community = answers.community))
+                local.insert(user.copy(community = answers.community, unansweredQuestionsCount = 0))
             }
             questionsLocal.removeAll()
         }
