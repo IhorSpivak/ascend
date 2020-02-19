@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:orientation="horizontal"
-                app:error="@{model.errorRes}"
+                app:error="@{model.loginModel.password.observableError}"
                 app:hint="@{@string/password}"
                 app:inputType="@{InputType.TYPE_TEXT_VARIATION_PASSWORD}"
                 app:layout_constraintEnd_toEndOf="@id/phoneLayout"
@@ -76,7 +76,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/phoneLayout"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_password}"
-                app:text="@={model.loginModel.password}" />
+                app:text="@={model.loginModel.password.observableField}" />
 
             <Button
                 android:id="@+id/signIn"
