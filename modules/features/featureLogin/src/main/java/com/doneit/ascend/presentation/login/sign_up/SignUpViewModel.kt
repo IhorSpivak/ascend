@@ -133,7 +133,6 @@ class SignUpViewModel(
         canContinue.postValue(false)
         viewModelScope.launch {
             val requestEntity = userUseCase.signUpValidation(registrationModel.toEntity())
-            canContinue.postValue(true)
 
             if (requestEntity.isSuccessful) {
                 router.navigateToVerifyPhone()

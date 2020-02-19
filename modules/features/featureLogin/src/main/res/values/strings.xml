@@ -26,7 +26,7 @@
 
     <string name="sign_up_continue">Continue</string>
 
-    <string name="verify_phone_header">Enter 4 digits from SMS</string>
+    <string name="verify_phone_header">Enter the 4-digit code sent to you at %s</string>
 
     <string name="reset_password">Reset Password</string>
 
