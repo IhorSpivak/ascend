@@ -37,7 +37,7 @@ fun ObservableField<Boolean>.getNotNull(): Boolean {
 }
 
 fun String.isValidPassword(): Boolean {
-    val r = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!\$%!@#£€*?&]{6,}\$")
+    val r = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!\$%!@#£€*?&]{6,48}\$")
     return this.matches(r)
 }
 

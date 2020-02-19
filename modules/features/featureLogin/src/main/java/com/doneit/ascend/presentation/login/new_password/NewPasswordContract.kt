@@ -15,6 +15,7 @@ interface NewPasswordContract {
         val timerValue: LiveData<String>
         val sendTimer: Timer?
         val end: Long
+        val phoneNumber : LiveData<String>
 
         fun removeErrors()
         fun saveClick()

@@ -11,6 +11,8 @@ import com.doneit.ascend.presentation.login.models.PresentationLoginModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.utils.LoginUtils
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.getNotNullString
 import com.doneit.ascend.presentation.utils.isPhoneValid
@@ -28,7 +30,7 @@ class LogInViewModel(
 ) : BaseViewModelImpl(), LogInContract.ViewModel {
 
     override val loginModel = PresentationLoginModel()
-    override val isSignInEnabled = ObservableField<Boolean>(true)
+    override val isSignInEnabled = ObservableField<Boolean>(false)
     override val facebookNeedLoginSubject = SingleLiveManager<Boolean>()
     override val twitterNeedLoginSubject = SingleLiveManager<Boolean>()
     override val errorRes = MutableLiveData<Int?>()
@@ -49,8 +51,20 @@ class LogInViewModel(
             result
         }
 
+        loginModel.password.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isValidPassword().not()) {
+                result.isSussed = false
+                result.errors.add(R.string.error_password)
+            }
+
+            result
+        }
+
         val invalidationListener = { updateIsSignInEnabled() }
         loginModel.phone.onFieldInvalidate = invalidationListener
+        loginModel.password.onFieldInvalidate = invalidationListener
     }
 
     override fun singInClick() {
@@ -60,7 +74,7 @@ class LogInViewModel(
                 userUseCase.signIn(
                     LogInUserDTO(
                         loginModel.getPhoneNumber(),
-                        loginModel.password
+                        loginModel.password.observableField.getNotNullString()
                     )
                 )
 
@@ -76,7 +90,8 @@ class LogInViewModel(
                     }
                 }
             } else {
-                errorRes.postValue(R.string.error_login)
+                showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
+                //errorRes.postValue(R.string.error_login)
             }
             isSignInEnabled.set(true)
         }
@@ -105,6 +120,7 @@ class LogInViewModel(
     private fun updateIsSignInEnabled() {
         var isFormValid = true
 
+        isFormValid = isFormValid and loginModel.password.isValid
         isFormValid = isFormValid and loginModel.phone.isValid
 
         isSignInEnabled.set(isFormValid)
