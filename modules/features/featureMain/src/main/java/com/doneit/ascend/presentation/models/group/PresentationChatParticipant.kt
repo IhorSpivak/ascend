@@ -26,6 +26,7 @@ data class PresentationChatParticipant(
     }
 
     fun setPrimaryVideoListener(listener: RemoteParticipantListener) {
+        removePrimaryVideoListener()
         multilistenr.addListener(listener)
         primaryVideoListener = listener
     }
@@ -38,6 +39,7 @@ data class PresentationChatParticipant(
     }
 
     fun setSecondaryVideoListener(listener: RemoteParticipantListener) {
+        removeSecondaryVideoListener()
         multilistenr.addListener(listener)
         secondaryVideoListener = listener
     }
