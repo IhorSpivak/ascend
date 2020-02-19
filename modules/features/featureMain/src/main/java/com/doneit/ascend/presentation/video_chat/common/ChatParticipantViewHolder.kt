@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.main.databinding.TemplateChatParticipantBi
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantListener
+import com.twilio.video.RemoteAudioTrackPublication
 import com.twilio.video.RemoteParticipant
 import com.twilio.video.RemoteVideoTrackPublication
 import com.twilio.video.VideoTrack
@@ -24,7 +25,6 @@ class ChatParticipantViewHolder(
         binding.name = model.fullName
         binding.isHandRisen = model.isHandRisen
         binding.isSpeaker = model.isSpeaker
-        binding.isMicroOff = model.isMuted
 
         lastModel?.get()?.getVideoTrack()?.removeRenderer(binding.videoView)
         model.getVideoTrack()?.let {
@@ -49,6 +49,19 @@ class ChatParticipantViewHolder(
 
     private fun getParticipantsListener(): RemoteParticipantListener {
         return object : RemoteParticipantListener() {
+            override fun onAudioTrackEnabled(
+                remoteParticipant: RemoteParticipant,
+                remoteAudioTrackPublication: RemoteAudioTrackPublication
+            ) {
+                binding.ivMicroOff.visible(false)
+            }
+
+            override fun onAudioTrackDisabled(
+                remoteParticipant: RemoteParticipant,
+                remoteAudioTrackPublication: RemoteAudioTrackPublication
+            ) {
+                binding.ivMicroOff.visible(true)
+            }
 
             override fun onVideoTrackEnabled(
                 remoteParticipant: RemoteParticipant,
