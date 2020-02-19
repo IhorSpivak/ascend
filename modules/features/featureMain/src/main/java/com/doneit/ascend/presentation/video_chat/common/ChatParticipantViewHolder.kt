@@ -24,6 +24,7 @@ class ChatParticipantViewHolder(
         binding.name = model.fullName
         binding.isHandRisen = model.isHandRisen
         binding.isSpeaker = model.isSpeaker
+        binding.isMicroOff = model.isMuted
 
         lastModel?.get()?.getVideoTrack()?.removeRenderer(binding.videoView)
         model.getVideoTrack()?.let {

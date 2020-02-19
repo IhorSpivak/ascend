@@ -16,6 +16,10 @@
             type="Boolean" />
 
         <variable
+            name="isMicroOff"
+            type="Boolean" />
+
+        <variable
             name="isSpeaker"
             type="Boolean" />
     </data>
@@ -50,15 +54,29 @@
 
             <ImageView
                 android:id="@+id/ivRiseHand"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="18dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
+                android:layout_gravity="end|bottom"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_hand"
                 android:visibility="@{isHandRisen}" />
+
+            <ImageView
+                android:id="@+id/ivMicroOff"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_gravity="start|bottom"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_micro_off"
+                android:visibility="@{isMicroOff, default=gone}" />
 
             <ImageView
                 android:layout_width="match_parent"
