@@ -17,13 +17,7 @@ class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
     override val viewModel: ForgotPasswordContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.model = viewModel
-
-        binding.toolbar.imBack.setOnClickListener {
-            hideKeyboard()
-            viewModel.onBackClick()
-        }
 
         binding.phoneLayout.phoneCode.getSelectedCode().observe(this, Observer { code ->
             if (code != viewModel.phoneModel.phoneCode.getNotNullString()) {
@@ -33,14 +27,6 @@ class ForgotPasswordFragment : BaseFragment<FragmentForgotPasswordBinding>() {
 
         binding.phoneLayout.phoneCode.touchListener = {
             hideKeyboard()
-        }
-    }
-
-    override fun handleErrorMessage(message: PresentationMessage) {
-        when(message.id) {
-            Messages.DEFAULT_ERROR.getId() -> {
-                showDefaultError(message.content!!)
-            }
         }
     }
 }

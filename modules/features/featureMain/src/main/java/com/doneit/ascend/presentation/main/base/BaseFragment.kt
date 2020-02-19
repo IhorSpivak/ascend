@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -103,6 +104,11 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
         }
 
         viewCreated(savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+        hideKeyboard()
+        super.onDestroyView()
     }
 
     //endregion

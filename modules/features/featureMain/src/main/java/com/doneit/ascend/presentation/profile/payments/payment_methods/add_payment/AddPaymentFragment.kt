@@ -96,11 +96,6 @@ class AddPaymentFragment : BaseFragment<FragmentAddPaymentBinding>() {
         binding.number.edit.onFocusChangeListener = listener
     }
 
-    override fun onDestroyView() {
-        hideKeyboard()
-        super.onDestroyView()
-    }
-
     companion object {
         private const val EXPIRED_DATE_INPUT_MASK = "[00]{/}[00]"
         private const val CARD_NUMBER_INPUT_MASK = "[0000]  [0000]  [0000]  [0000]"

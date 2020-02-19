@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:elevation="8dp"
+            bind:backClick="@{(v) -> model.onBackClick(false)}"
             bind:title="@{@string/verify_phone_title}" />
 
         <TextView

@@ -30,11 +30,6 @@ class AddUrlFragment : BaseFragment<FragmentAddUrlBinding>() {
         }
     }
 
-    override fun onDestroyView() {
-        hideKeyboard()
-        super.onDestroyView()
-    }
-
     companion object {
         private const val GROUP_ID_KEY = "GROUP_ID_KEY"
 

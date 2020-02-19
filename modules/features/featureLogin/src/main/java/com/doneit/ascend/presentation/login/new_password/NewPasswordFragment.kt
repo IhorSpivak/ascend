@@ -20,10 +20,6 @@ class NewPasswordFragment : ArgumentedFragment<FragmentNewPasswordBinding, NewPa
         binding.model = viewModel
         binding.executePendingBindings()
         viewModel.removeErrors()
-
-        binding.toolbar.imBack.setOnClickListener {
-            viewModel.onBackClick()
-        }
     }
 
     override fun handleSuccessMessage(message: PresentationMessage) {
@@ -33,14 +29,6 @@ class NewPasswordFragment : ArgumentedFragment<FragmentNewPasswordBinding, NewPa
                     getString(R.string.title_password_sent),
                     getString(R.string.content_password_sent)
                 )
-            }
-        }
-    }
-
-    override fun handleErrorMessage(message: PresentationMessage) {
-        when(message.id) {
-            Messages.DEFAULT_ERROR.getId() -> {
-                showDefaultError(message.content!!)
             }
         }
     }

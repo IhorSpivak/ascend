@@ -33,11 +33,6 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>() {
         })
     }
 
-    override fun onDestroyView() {
-        hideKeyboard()
-        super.onDestroyView()
-    }
-
     private fun handleNavigation(action: NotesContract.Navigation) {
         when (action) {
             NotesContract.Navigation.BACK -> router.onBack()

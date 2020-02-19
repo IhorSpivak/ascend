@@ -40,10 +40,6 @@ class VerifyPhoneFragment : BaseFragment<FragmentVerifyPhoneBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
-        binding.toolbar.imBack.setOnClickListener {
-            viewModel.onBackClick(false)
-        }
-
         smsCode.setSubmitListener(object : SmsCodeView.OnSubmitListener {
             override fun onSubmit() {
                 hideKeyboard()
