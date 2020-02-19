@@ -35,6 +35,7 @@ object GatewayModule {
             AnswerGateway(
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }

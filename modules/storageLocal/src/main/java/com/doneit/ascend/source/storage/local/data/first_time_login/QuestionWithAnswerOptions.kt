@@ -1,7 +1,8 @@
-package com.doneit.ascend.source.storage.local.data
+package com.doneit.ascend.source.storage.local.data.first_time_login
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.doneit.ascend.source.storage.local.data.CommunityLocal
 
 data class QuestionWithAnswerOptions(
 

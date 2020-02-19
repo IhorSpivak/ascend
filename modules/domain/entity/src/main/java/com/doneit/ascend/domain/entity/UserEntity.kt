@@ -13,7 +13,7 @@ data class UserEntity(
     val meetingStarted: Boolean?,
     val newGroups: Boolean?,
     val inviteToMeeting: Boolean?,
-    val unansweredQuestions: List<Int>?,
+    val unansweredQuestionsCount: Int,
     val image: ImageEntity?,
     val displayName: String?,
     val description: String?,

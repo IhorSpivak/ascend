@@ -20,7 +20,7 @@ interface SignUpContract {
     interface Router {
         fun navigateToVerifyPhone()
         fun goToMain()
-        fun navigateToFirstTimeLogin(questions: QuestionListEntity)
+        fun navigateToFirstTimeLogin()
         fun onBack()
         fun navigateToTerms()
         fun navigateToPrivacyPolicy()

@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.use_case.gateway.IAnswerGateway
+import com.doneit.ascend.source.storage.local.repository.question.IQuestionRepository
 import com.doneit.ascend.source.storage.local.repository.user.IUserRepository
 import com.doneit.ascend.source.storage.remote.repository.answer.IAnswerRepository
 import com.vrgsoft.networkmanager.NetworkManager
@@ -13,6 +14,7 @@ import com.vrgsoft.networkmanager.NetworkManager
 internal class AnswerGateway(
     errors: NetworkManager,
     private val local: IUserRepository,
+    private val questionsLocal: IQuestionRepository,
     private val remote: IAnswerRepository
 ) : BaseGateway(errors), IAnswerGateway {
 
@@ -38,6 +40,7 @@ internal class AnswerGateway(
                 local.remove()
                 local.insert(user.copy(community = answers.community))
             }
+            questionsLocal.removeAll()
         }
 
         return result

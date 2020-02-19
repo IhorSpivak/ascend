@@ -1,4 +1,4 @@
-package com.doneit.ascend.source.storage.local.data
+package com.doneit.ascend.source.storage.local.data.first_time_login
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

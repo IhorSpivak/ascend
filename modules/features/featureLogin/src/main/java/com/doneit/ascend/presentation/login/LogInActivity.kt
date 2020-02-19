@@ -26,8 +26,6 @@ class LogInActivity : BaseActivity() {
         bind<ViewModel>(tag = LogInActivityViewModel::class.java.simpleName) with provider {
             LogInActivityViewModel(
                 instance(),
-                instance(),
-                instance(),
                 instance()
             )
         }

@@ -18,6 +18,7 @@ fun UserEntity.toUserLocal(): UserLocal {
         description = this@toUserLocal.description,
         displayName = this@toUserLocal.displayName,
         inviteToMeeting = this@toUserLocal.inviteToMeeting,
+        unansweredQuestionsCount = this@toUserLocal.unansweredQuestionsCount,
         newGroups = this@toUserLocal.newGroups,
         meetingStarted = this@toUserLocal.meetingStarted,
         location = this@toUserLocal.location,

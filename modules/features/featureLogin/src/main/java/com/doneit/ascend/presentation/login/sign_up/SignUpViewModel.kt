@@ -14,7 +14,6 @@ import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneCont
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -24,9 +23,7 @@ import kotlin.concurrent.timerTask
 
 class SignUpViewModel(
     private val userUseCase: UserUseCase,
-    private val questionUseCase: QuestionUseCase,
-    private val router: SignUpContract.Router,
-    private val localStorage: LocalStorage
+    private val router: SignUpContract.Router
 ) : BaseViewModelImpl(), SignUpContract.ViewModel, VerifyPhoneContract.ViewModel {
 
     override val registrationModel = PresentationSignUpModel()
@@ -155,19 +152,10 @@ class SignUpViewModel(
 
                 requestEntity.successModel?.let {
 
-                    if (it.userEntity.isMasterMind.not()) {
-
-                        launch(Dispatchers.Main) {
-                            val questionsRequest =
-                                questionUseCase.getList()
-
-                            if (questionsRequest.isSuccessful) {
-                                questionUseCase.insert(questionsRequest.successModel!!)
-
-                                localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
-                                router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
-                            }
-                        }
+                    if (it.userEntity.isMasterMind) {
+                        router.goToMain()
+                    } else {
+                        router.navigateToFirstTimeLogin()
                     }
                 }
             } else {

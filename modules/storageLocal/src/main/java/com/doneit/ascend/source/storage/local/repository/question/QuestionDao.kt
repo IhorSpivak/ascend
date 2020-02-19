@@ -2,6 +2,10 @@ package com.doneit.ascend.source.storage.local.repository.question
 
 import androidx.room.*
 import com.doneit.ascend.source.storage.local.data.*
+import com.doneit.ascend.source.storage.local.data.first_time_login.AnswerOptionLocal
+import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionItemLocal
+import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionListLocal
+import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionWithAnswerOptions
 
 @Dao
 interface QuestionDao {
@@ -20,7 +24,7 @@ interface QuestionDao {
 
     @Transaction
     @Query("SELECT * FROM questions")
-    suspend fun getQuestions(): QuestionWithAnswerOptions
+    suspend fun getQuestions(): QuestionWithAnswerOptions?
 
     @Transaction
     @Query("SELECT * FROM answer_options WHERE community_id == :communityId")
@@ -33,31 +37,21 @@ interface QuestionDao {
     @Transaction
     suspend fun insertAll(questions: QuestionListLocal) {
 
-        val questionItems = questions.questionItems.map {
-            it.copy(questionId = questions.id)
-        }
-
-        insertQuestionItems(questionItems)
+        insertQuestionItems(questions.questionItems)
 
         questions.community?.let {
-
-            val answerOptions = it.options.map { optionIt ->
-                optionIt.copy(communityId = it.id)
-            }
-
-            insertAnswerOptions(answerOptions)
-
-            insertCommunity(it.copy(questionId = questions.id))
+            insertAnswerOptions(it.options)
+            insertCommunity(it)
         }
 
         insertQuestion(questions)
     }
 
     @Transaction
-    suspend fun getAllQuestions() : QuestionWithAnswerOptions {
+    suspend fun getAllQuestions() : QuestionWithAnswerOptions? {
         val question = getQuestions()
 
-        question.community?.let {
+        question?.community?.let {
             it.options = getAllAnswerOptions(it.id)
         }
 

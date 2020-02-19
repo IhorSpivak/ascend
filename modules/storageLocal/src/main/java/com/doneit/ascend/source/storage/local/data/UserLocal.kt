@@ -16,6 +16,7 @@ data class UserLocal(
     val meetingStarted: Boolean?,
     val newGroups: Boolean?,
     val inviteToMeeting: Boolean?,
+    val unansweredQuestionsCount: Int,
     val displayName: String?,
     val description: String?,
     val bio: String?,

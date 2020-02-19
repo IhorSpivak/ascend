@@ -9,10 +9,6 @@
             name="model"
             type="com.doneit.ascend.presentation.login.first_time_login.FirstTimeLoginContract.ViewModel" />
 
-        <variable
-            name="adapter"
-            type="com.doneit.ascend.presentation.login.first_time_login.common.QuestionsAdapter" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,9 +58,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title"
-                    app:setAdapter="@{adapter}"
-                    app:setAdapterData="@{model.questions}" />
+                    app:layout_constraintTop_toBottomOf="@id/title" />
 
                 <LinearLayout
                     android:id="@+id/communityBox"

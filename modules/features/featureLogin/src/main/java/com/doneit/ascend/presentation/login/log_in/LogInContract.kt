@@ -36,7 +36,7 @@ interface LogInContract {
         fun navigateToSignUp()
         fun navigateToTerms()
         fun navigateToPrivacyPolicy()
-        fun navigateToFirstTimeLogin(questions: QuestionListEntity)
+        fun navigateToFirstTimeLogin()
         fun goToMain()
         fun navigateToGoogleLogin()
     }

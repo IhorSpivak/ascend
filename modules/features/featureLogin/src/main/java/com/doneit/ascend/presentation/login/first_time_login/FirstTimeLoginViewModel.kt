@@ -4,14 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.AnswerEntity
 import com.doneit.ascend.domain.entity.dto.AnswersDTO
-import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
-import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
-import com.doneit.ascend.presentation.login.first_time_login.common.FirstTimeLoginArgs
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.utils.LocalStorage
-import com.doneit.ascend.presentation.utils.UIReturnStep
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch
@@ -21,13 +16,11 @@ import kotlinx.coroutines.launch
 class FirstTimeLoginViewModel(
     private val questionUseCase: QuestionUseCase,
     private val answerUseCase: AnswerUseCase,
-    private val userUseCase: UserUseCase,
-    private val router: FirstTimeLoginContract.Router,
-    private val localStorage: LocalStorage
+    private val router: FirstTimeLoginContract.Router
 ) : BaseViewModelImpl(), FirstTimeLoginContract.ViewModel {
 
     override val canComplete = MutableLiveData<Boolean>()
-    override val questions = MutableLiveData<QuestionListEntity>()
+    override val questions = questionUseCase.getQuestionsList()
     private val questionsStates: MutableMap<Long, Boolean> = mutableMapOf()
     private val questionsAnswers: MutableMap<Long, AnswerEntity> = mutableMapOf()
     private val community = MutableLiveData<String>()
@@ -49,15 +42,9 @@ class FirstTimeLoginViewModel(
             canComplete.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                localStorage.saveUIReturnStep(UIReturnStep.NONE)
-                questionUseCase.deleteAllQuestions()
                 router.goToMain()
             }
         }
-    }
-
-    override fun applyArguments(args: FirstTimeLoginArgs) {
-        questions.postValue(args.questions)
     }
 
     override fun setState(questionId: Long, isValid: Boolean) {

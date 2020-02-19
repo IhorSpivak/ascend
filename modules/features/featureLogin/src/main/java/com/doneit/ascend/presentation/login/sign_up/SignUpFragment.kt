@@ -37,8 +37,6 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>() {
         bind<ViewModel>(tag = SignUpViewModel::class.java.simpleName) with provider {
             SignUpViewModel(
                 instance(),
-                instance(),
-                instance(),
                 instance()
             )
         }

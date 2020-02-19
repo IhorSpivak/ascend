@@ -2,10 +2,8 @@ package com.doneit.ascend.presentation.login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.presentation.login.first_time_login.FirstTimeLoginContract
 import com.doneit.ascend.presentation.login.first_time_login.FirstTimeLoginFragment
-import com.doneit.ascend.presentation.login.first_time_login.common.FirstTimeLoginArgs
 import com.doneit.ascend.presentation.login.forget_password.ForgotPasswordContract
 import com.doneit.ascend.presentation.login.forget_password.ForgotPasswordFragment
 import com.doneit.ascend.presentation.login.log_in.LogInContract
@@ -110,15 +108,7 @@ class LogInLocalRouter(
         activity.startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    override fun navigateToFirstTimeLogin(questions: QuestionListEntity) {
-
-        val args = FirstTimeLoginArgs(questions)
-
-        val fragment = FirstTimeLoginFragment()
-        (fragment as Fragment).arguments = Bundle().apply {
-            putParcelable(ArgumentedFragment.KEY_ARGS, args)
-        }
-
-        activity.supportFragmentManager.replace(R.id.container, fragment)
+    override fun navigateToFirstTimeLogin() {
+        activity.supportFragmentManager.replace(R.id.container, FirstTimeLoginFragment())
     }
 }

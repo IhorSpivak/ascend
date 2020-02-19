@@ -5,6 +5,9 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.doneit.ascend.source.storage.local.data.*
 import com.doneit.ascend.source.storage.local.data.converters.ListIntConverter
+import com.doneit.ascend.source.storage.local.data.first_time_login.AnswerOptionLocal
+import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionItemLocal
+import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionListLocal
 import com.doneit.ascend.source.storage.local.data.notification.NotificationLocal
 import com.doneit.ascend.source.storage.local.data.notification.NotificationOwnerLocal
 import com.doneit.ascend.source.storage.local.repository.attachments.AttachmentDao

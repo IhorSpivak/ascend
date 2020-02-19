@@ -12,6 +12,6 @@ interface LogInActivityContract {
     interface Router {
         fun goToMain(bundle: Bundle = Bundle())
         fun navigateToLogInFragment()
-        fun navigateToFirstTimeLogin(questions: QuestionListEntity)
+        fun navigateToFirstTimeLogin()
     }
 }

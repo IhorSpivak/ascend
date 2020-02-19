@@ -25,7 +25,7 @@ fun UserResponse.toEntity(): UserEntity {
         meetingStarted,
         newGroups,
         inviteToMeeting,
-        unansweredQuestions,
+        unansweredQuestions?.size ?: 0,
         image?.toEntity(),
         displayName,
         description,
@@ -56,11 +56,11 @@ fun UserLocal.toUserEntity(): UserEntity {
         rating = this@toUserEntity.rating,
         role = this@toUserEntity.role,
         community = this@toUserEntity.community,
-        unansweredQuestions = listOf(),
+        unansweredQuestionsCount = this@toUserEntity.unansweredQuestionsCount,
         image = ImageEntity(
-            if(imageURL?.isBlank() == true) null else imageURL,
+            if (imageURL?.isBlank() == true) null else imageURL,
             ThumbnailEntity(
-                if(thumbURL?.isBlank() == true) null else thumbURL
+                if (thumbURL?.isBlank() == true) null else thumbURL
             )
         ),
         visitedGroupCount = this@toUserEntity.visitedGroupCount,

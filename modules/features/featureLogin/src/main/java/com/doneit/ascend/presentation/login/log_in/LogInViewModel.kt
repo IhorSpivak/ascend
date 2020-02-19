@@ -5,31 +5,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.dto.LogInUserDTO
 import com.doneit.ascend.domain.entity.dto.SocialLogInDTO
-import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationLoginModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.utils.LoginUtils
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.utils.LocalStorage
-import com.doneit.ascend.presentation.utils.UIReturnStep
+import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.getNotNullString
 import com.doneit.ascend.presentation.utils.isPhoneValid
 import com.facebook.AccessToken
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @CreateFactory
 @ViewModelDiModule
 class LogInViewModel(
     private val router: LogInContract.Router,
-    private val userUseCase: UserUseCase,
-    private val questionUseCase: QuestionUseCase,
-    private val localStorage: LocalStorage
+    private val userUseCase: UserUseCase
 ) : BaseViewModelImpl(), LogInContract.ViewModel {
 
     override val loginModel = PresentationLoginModel()
@@ -72,25 +67,12 @@ class LogInViewModel(
             if (requestEntity.isSuccessful) {
                 requestEntity.successModel?.let {
 
-                    if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
-                        requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty() &&
+                    if (requestEntity.successModel!!.userEntity.unansweredQuestionsCount > 0 &&
                         it.userEntity.isMasterMind.not()
                     ) {
-                        launch(Dispatchers.Main) {
-                            val questionsRequest =
-                                questionUseCase.getList()
-
-                            if (questionsRequest.isSuccessful) {
-                                questionUseCase.insert(questionsRequest.successModel!!)
-
-                                localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
-                                router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
-                            }
-                        }
+                        router.navigateToFirstTimeLogin()
                     } else {
-                        launch(Dispatchers.Main) {
-                            router.goToMain()
-                        }
+                        router.goToMain()
                     }
                 }
             } else {
@@ -175,27 +157,16 @@ class LogInViewModel(
                 if (requestEntity.successModel != null) {
                     requestEntity.successModel?.let {
 
-                        if (requestEntity.successModel!!.userEntity.unansweredQuestions != null &&
-                            requestEntity.successModel!!.userEntity.unansweredQuestions!!.isNotEmpty() &&
+                        if (requestEntity.successModel!!.userEntity.unansweredQuestionsCount > 0 &&
                             it.userEntity.isMasterMind.not()
                         ) {
-                            launch(Dispatchers.Main) {
-                                val questionsRequest =
-                                    questionUseCase.getList()
-
-                                if (questionsRequest.isSuccessful) {
-                                    questionUseCase.insert(questionsRequest.successModel!!)
-
-                                    localStorage.saveUIReturnStep(UIReturnStep.FIRST_TIME_LOGIN)
-                                    router.navigateToFirstTimeLogin(questionsRequest.successModel!!)
-                                }
-                            }
+                            router.navigateToFirstTimeLogin()
                         } else {
                             router.goToMain()
                         }
                     }
                 } else {
-                    // TODO: show error message
+                    showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
                 }
             }
         }
