@@ -8,7 +8,6 @@ import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.models.PresentationNewPasswordModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.models.toEntity
-import com.doneit.ascend.presentation.login.models.toLogInModel
 import com.doneit.ascend.presentation.login.new_password.common.NewPasswordArgs
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationMessage
@@ -36,6 +35,7 @@ class NewPasswordViewModel(
     override val timerValue = MutableLiveData<String>()
     override var sendTimer: Timer? = null
     override var end: Long = 0
+    override val phoneNumber = MutableLiveData<String>("")
 
     init {
         newPasswordModel.code.validator = { s ->
@@ -78,6 +78,7 @@ class NewPasswordViewModel(
 
     override fun applyArguments(args: NewPasswordArgs) {
         newPasswordModel.phoneNumber = args.phone
+        phoneNumber.postValue(args.phone)
         showCodeSentMessage()
     }
 
@@ -94,13 +95,7 @@ class NewPasswordViewModel(
             canSave.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                val loginResult = userUseCase.signIn(newPasswordModel.toLogInModel())
-
-                if(loginResult.isSuccessful) {
-                    router.goToMain()
-                } else {
-                    router.navigateToLogInFragment()
-                }
+                router.navigateToLogInFragment()
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
                     errorMessage.call(
