@@ -17,12 +17,10 @@ class MastermindViewHolder(
 
         binding.imageUrl = item.image?.url
         binding.name = item.fullName
-        if(item.rated) {
+        if(item.rating > 0) {
             binding.rbRating.visibility = View.VISIBLE
             binding.rating = item.rating
         }
-
-        binding.executePendingBindings()
     }
 
     companion object {
