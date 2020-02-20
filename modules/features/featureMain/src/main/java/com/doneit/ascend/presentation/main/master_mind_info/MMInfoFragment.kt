@@ -32,11 +32,6 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
             }
         }
 
-        viewModel.showActionButtons.observe(this) {
-            btnFollow.visibility = View.GONE
-            btnUnFollow.visibility = View.GONE
-        }
-
         btnInto.setOnClickListener {
             currentDialog = ReportAbuseDialog.create(context!!) {
                 currentDialog?.dismiss()

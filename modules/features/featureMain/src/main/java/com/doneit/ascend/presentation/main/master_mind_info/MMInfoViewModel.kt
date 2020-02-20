@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.*
+import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -22,12 +23,12 @@ class MMInfoViewModel(
     private val groupId = MutableLiveData<Long>()
     override val profile = groupId.switchMap { masterMindUseCase.getProfile(it) }
     override val user: LiveData<UserEntity?> = userUseCase.getUserLive()
-    override val showActionButtons = SingleLiveManager<Boolean>()
+
     override val isFollowVisible = MutableLiveData<Boolean>(true)
     override val isUnfollowVisible = MutableLiveData<Boolean>(true)
     override val enableFollow = MutableLiveData<Boolean>(true)
     override val enableUnfollow = MutableLiveData<Boolean>(true)
-    override val followed = profile.map { it?.followed ?: false }
+
     override val showRatingBar = MediatorLiveData<Boolean>()
     override val rated = profile.map { it?.rated ?: false }
     override val myRating = profile.map { it?.myRating }
@@ -36,24 +37,24 @@ class MMInfoViewModel(
 
     init {
         showRatingBar.addSource(user) {
-            showRatingBar.value = it?.id != profile.value?.id && (profile.value?.allowRating ?: false)
-            if(it?.id == profile.value?.id) {
-                isFollowVisible.value = false
-                isUnfollowVisible.value = false
-            } else {
-                isFollowVisible.value = followed.value?.not()
-                isUnfollowVisible.value = followed.value
-            }
+            updateUIVisibility(it, profile.value)
         }
 
         showRatingBar.addSource(profile) {
-            showRatingBar.value = user.value?.id != it?.id && (it?.allowRating ?: false)
-            if(it?.id == user.value?.id) {
+            updateUIVisibility(user.value, it)
+        }
+    }
+
+    private fun updateUIVisibility(currentUser: UserEntity?, masterMind: MasterMindEntity?) {
+        if (currentUser != null && masterMind != null) {
+            if (currentUser.id == masterMind.id) {
                 isFollowVisible.value = false
                 isUnfollowVisible.value = false
+                showRatingBar.value = false
             } else {
-                isFollowVisible.value = followed.value?.not()
-                isUnfollowVisible.value = followed.value
+                isFollowVisible.value = masterMind.followed.not()
+                isUnfollowVisible.value = masterMind.followed
+                showRatingBar.value = masterMind.allowRating ?: false
             }
         }
     }

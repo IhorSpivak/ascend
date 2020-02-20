@@ -14,10 +14,8 @@ interface MMInfoContract {
         val user: LiveData<UserEntity?>
 
         val showRatingBar: LiveData<Boolean>
-        val showActionButtons: SingleLiveManager<Boolean>
         val enableFollow: LiveData<Boolean>
         val enableUnfollow: LiveData<Boolean>
-        val followed: LiveData<Boolean>
         val isFollowVisible: LiveData<Boolean>
         val isUnfollowVisible: LiveData<Boolean>
         val rated: LiveData<Boolean>
