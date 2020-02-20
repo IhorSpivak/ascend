@@ -1,8 +1,10 @@
 package com.doneit.ascend.presentation.video_chat
 
 import android.os.CountDownTimer
-import androidx.lifecycle.*
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.UserEntity
@@ -12,8 +14,8 @@ import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.models.StartVideoModel
+import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.models.toPresentation
 import com.doneit.ascend.presentation.utils.Constants.DEFAULT_MODEL_ID
 import com.doneit.ascend.presentation.utils.Constants.LIST_INDEX_ABSENT
@@ -31,10 +33,7 @@ import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
 import com.doneit.ascend.presentation.video_chat.states.ChatRole
 import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.doneit.ascend.presentation.video_chat.states.VideoChatState
-import com.twilio.video.CameraCapturer
-import com.twilio.video.RemoteParticipant
-import com.twilio.video.Room
-import com.twilio.video.TwilioException
+import com.twilio.video.*
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.async
@@ -63,6 +62,21 @@ class VideoChatViewModel(
     override val currentSpeaker = participantsManager.currentSpeaker
     override val navigation = SingleLiveEvent<VideoChatContract.Navigation>()
     override val roomListener = RoomMultilistener()
+    override var room: Room? = null
+        set(value) {
+            field?.disconnect()
+            field = value
+        }
+    override var localAudioTrack: LocalAudioTrack? = null
+        set(value) {
+            field?.release()
+            field = value
+        }
+    override var localVideoTrack: LocalVideoTrack? = null
+        set(value) {
+            field?.release()
+            field = value
+        }
     //endregion
 
     //region ui properties
@@ -97,18 +111,15 @@ class VideoChatViewModel(
     private var currentUserId: String = DEFAULT_MODEL_ID.toString()
     private var downTimer: CountDownTimer? = null
     private var timer: Timer? = null
-    private val hasBothCameras =
-        CameraCapturer.isSourceAvailable(CameraCapturer.CameraSource.FRONT_CAMERA)
-                && CameraCapturer.isSourceAvailable(CameraCapturer.CameraSource.BACK_CAMERA)
     //endregion
 
     init {
         isAudioRecording.addSource(_isAudioEnabled) {
-            isAudioRecording.value = it && (isMuted.value?:false).not()
+            isAudioRecording.value = it && (isMuted.value ?: false).not()
         }
 
         isAudioRecording.addSource(isMuted) {
-            isAudioRecording.value = it.not() && _isAudioEnabled.value?:false
+            isAudioRecording.value = it.not() && _isAudioEnabled.value ?: false
         }
 
         roomListener.addListener(getViewModelRoomListener())
@@ -180,13 +191,13 @@ class VideoChatViewModel(
                 changeState(VideoChatState.PROGRESS)
             }
             SocketEvent.MUTE_USER -> {
-                if(currentUserId == user.userId) {
+                if (currentUserId == user.userId) {
                     isMuted.postValue(true)
                 }
                 participantsManager.mute(user)
             }
             SocketEvent.RESET_MUTE_USER -> {
-                if(currentUserId == user.userId) {
+                if (currentUserId == user.userId) {
                     isMuted.postValue(false)
                 }
                 participantsManager.unmute(user)
@@ -269,20 +280,20 @@ class VideoChatViewModel(
                 val participants = result.successModel!!.toMutableList()
                 val currentIndex = participants.indexOfFirst { it.id.toString() == currentUserId }
 
-                if(currentIndex != LIST_INDEX_ABSENT) {
+                if (currentIndex != LIST_INDEX_ABSENT) {
                     isMuted.postValue(participants[currentIndex].isMuted)
                     participants.removeAt(currentIndex)
                 }
 
                 val joinedUsers = participants.filter { it.id != groupInfo.value?.owner?.id }.map {
-                        var newItem = it.toPresentation()
-                        chatRole?.let {
-                            newItem = newItem.copy(
-                                isHandRisen = newItem.isHandRisen && chatRole == ChatRole.OWNER
-                            )
-                        }
-                        newItem
+                    var newItem = it.toPresentation()
+                    chatRole?.let {
+                        newItem = newItem.copy(
+                            isHandRisen = newItem.isHandRisen && chatRole == ChatRole.OWNER
+                        )
                     }
+                    newItem
+                }
 
                 participantsManager.addParticipants(joinedUsers)
             } else {
@@ -309,8 +320,7 @@ class VideoChatViewModel(
                 StartVideoModel(
                     chatRole!!,
                     creds.name,
-                    creds.token,
-                    CameraCapturer.CameraSource.FRONT_CAMERA
+                    creds.token
                 )
             )
             changeState(VideoChatState.PREVIEW_DATA_LOADED)
@@ -327,16 +337,6 @@ class VideoChatViewModel(
             resultCode.ordinal
         )
         navigation.postValue(VideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG)
-    }
-
-    override fun forceDisconnect() {
-        clearChatResources()
-    }
-
-    override fun finishCall() {
-        clearChatResources()
-        //todo send finish message to socket
-        navigation.postValue(VideoChatContract.Navigation.FINISH_ACTIVITY)
     }
 
     override fun onOpenOptions() {
@@ -364,7 +364,7 @@ class VideoChatViewModel(
     }
 
     override fun switchCamera() {
-        if (hasBothCameras) {
+        if (cameraSources.size > 1) {
             switchCameraEvent.call()
         }
     }
@@ -493,7 +493,7 @@ class VideoChatViewModel(
     }
 
     override fun switchMuted(user: PresentationChatParticipant) {
-        if(user.isMuted) {
+        if (user.isMuted) {
             groupUseCase.unmuteUser(user.userId)
         } else {
             groupUseCase.muteUser(user.userId)
@@ -521,11 +521,28 @@ class VideoChatViewModel(
         navigation.postValue(VideoChatContract.Navigation.TO_NOTES)
     }
 
+
+    //region release resources
+    override fun finishCall() {
+        clearChatResources()
+        navigation.postValue(VideoChatContract.Navigation.FINISH_ACTIVITY)
+    }
+
     override fun onCleared() {
         messages.removeObserver(messagesObserver)
         clearChatResources()
         super.onCleared()
     }
+
+    private fun clearChatResources() {
+        groupUseCase.disconnect()
+        downTimer?.cancel()
+        timer?.cancel()
+        localAudioTrack = null
+        localVideoTrack = null
+        room = null
+    }
+    //endregion
 
     private fun MutableLiveData<Boolean>.switch() {
         value?.let {
@@ -612,12 +629,6 @@ class VideoChatViewModel(
         }, finishingDate, FINISHING_TIMER_PERIOD)
     }
 
-    private fun clearChatResources() {
-        groupUseCase.disconnect()
-        downTimer?.cancel()
-        timer?.cancel()
-    }
-
     companion object {
         private const val SPEECH_FOCUS_TIME = 3 * 1000L
         private const val TIMER_PERIOD = 1000L
@@ -627,5 +638,20 @@ class VideoChatViewModel(
         const val GROUP_ID_KEY = "GROUP_ID_KEY"
         const val USER_ID_KEY = "USER_ID_KEY"
         const val ACTIVITY_RESULT_KEY = "ACTIVITY_RESULT_KEY"
+
+        val cameraSources: List<CameraCapturer.CameraSource>
+
+        init {
+            val sources = mutableListOf<CameraCapturer.CameraSource>()
+
+            if (CameraCapturer.isSourceAvailable(CameraCapturer.CameraSource.FRONT_CAMERA)) {
+                sources.add(CameraCapturer.CameraSource.FRONT_CAMERA)
+            }
+            if (CameraCapturer.isSourceAvailable(CameraCapturer.CameraSource.BACK_CAMERA)) {
+                sources.add(CameraCapturer.CameraSource.BACK_CAMERA)
+            }
+
+            cameraSources = sources
+        }
     }
 }

@@ -54,21 +54,27 @@ open class RemoteParticipantMultilistener : RemoteParticipantListener() {
         remoteParticipant: RemoteParticipant,
         remoteDataTrackPublication: RemoteDataTrackPublication
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onDataTrackPublished(remoteParticipant, remoteDataTrackPublication)
+        }
     }
 
     override fun onAudioTrackPublished(
         remoteParticipant: RemoteParticipant,
         remoteAudioTrackPublication: RemoteAudioTrackPublication
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onAudioTrackPublished(remoteParticipant, remoteAudioTrackPublication)
+        }
     }
 
     override fun onVideoTrackPublished(
         remoteParticipant: RemoteParticipant,
         remoteVideoTrackPublication: RemoteVideoTrackPublication
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onVideoTrackPublished(remoteParticipant, remoteVideoTrackPublication)
+        }
     }
 
     override fun onVideoTrackSubscribed(
@@ -76,7 +82,13 @@ open class RemoteParticipantMultilistener : RemoteParticipantListener() {
         remoteVideoTrackPublication: RemoteVideoTrackPublication,
         remoteVideoTrack: RemoteVideoTrack
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onVideoTrackSubscribed(
+                remoteParticipant,
+                remoteVideoTrackPublication,
+                remoteVideoTrack
+            )
+        }
     }
 
     override fun onVideoTrackUnsubscribed(
@@ -84,7 +96,13 @@ open class RemoteParticipantMultilistener : RemoteParticipantListener() {
         remoteVideoTrackPublication: RemoteVideoTrackPublication,
         remoteVideoTrack: RemoteVideoTrack
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onVideoTrackUnsubscribed(
+                remoteParticipant,
+                remoteVideoTrackPublication,
+                remoteVideoTrack
+            )
+        }
     }
 
     override fun onDataTrackSubscriptionFailed(
@@ -92,7 +110,13 @@ open class RemoteParticipantMultilistener : RemoteParticipantListener() {
         remoteDataTrackPublication: RemoteDataTrackPublication,
         twilioException: TwilioException
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onDataTrackSubscriptionFailed(
+                remoteParticipant,
+                remoteDataTrackPublication,
+                twilioException
+            )
+        }
     }
 
     override fun onDataTrackSubscribed(
@@ -100,7 +124,9 @@ open class RemoteParticipantMultilistener : RemoteParticipantListener() {
         remoteDataTrackPublication: RemoteDataTrackPublication,
         remoteDataTrack: RemoteDataTrack
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onDataTrackSubscribed(remoteParticipant, remoteDataTrackPublication, remoteDataTrack)
+        }
     }
 
     override fun onAudioTrackUnsubscribed(
@@ -108,7 +134,13 @@ open class RemoteParticipantMultilistener : RemoteParticipantListener() {
         remoteAudioTrackPublication: RemoteAudioTrackPublication,
         remoteAudioTrack: RemoteAudioTrack
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onAudioTrackUnsubscribed(
+                remoteParticipant,
+                remoteAudioTrackPublication,
+                remoteAudioTrack
+            )
+        }
     }
 
     override fun onAudioTrackSubscribed(
@@ -116,7 +148,13 @@ open class RemoteParticipantMultilistener : RemoteParticipantListener() {
         remoteAudioTrackPublication: RemoteAudioTrackPublication,
         remoteAudioTrack: RemoteAudioTrack
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onAudioTrackSubscribed(
+                remoteParticipant,
+                remoteAudioTrackPublication,
+                remoteAudioTrack
+            )
+        }
     }
 
     override fun onVideoTrackSubscriptionFailed(
@@ -124,7 +162,13 @@ open class RemoteParticipantMultilistener : RemoteParticipantListener() {
         remoteVideoTrackPublication: RemoteVideoTrackPublication,
         twilioException: TwilioException
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onVideoTrackSubscriptionFailed(
+                remoteParticipant,
+                remoteVideoTrackPublication,
+                twilioException
+            )
+        }
     }
 
     override fun onAudioTrackSubscriptionFailed(
@@ -132,21 +176,31 @@ open class RemoteParticipantMultilistener : RemoteParticipantListener() {
         remoteAudioTrackPublication: RemoteAudioTrackPublication,
         twilioException: TwilioException
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onAudioTrackSubscriptionFailed(
+                remoteParticipant,
+                remoteAudioTrackPublication,
+                twilioException
+            )
+        }
     }
 
     override fun onAudioTrackUnpublished(
         remoteParticipant: RemoteParticipant,
         remoteAudioTrackPublication: RemoteAudioTrackPublication
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onAudioTrackUnpublished(remoteParticipant, remoteAudioTrackPublication)
+        }
     }
 
     override fun onVideoTrackUnpublished(
         remoteParticipant: RemoteParticipant,
         remoteVideoTrackPublication: RemoteVideoTrackPublication
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onVideoTrackUnpublished(remoteParticipant, remoteVideoTrackPublication)
+        }
     }
 
     override fun onDataTrackUnsubscribed(
@@ -154,13 +208,21 @@ open class RemoteParticipantMultilistener : RemoteParticipantListener() {
         remoteDataTrackPublication: RemoteDataTrackPublication,
         remoteDataTrack: RemoteDataTrack
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onDataTrackUnsubscribed(
+                remoteParticipant,
+                remoteDataTrackPublication,
+                remoteDataTrack
+            )
+        }
     }
 
     override fun onDataTrackUnpublished(
         remoteParticipant: RemoteParticipant,
         remoteDataTrackPublication: RemoteDataTrackPublication
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listeners.forEach {
+            it.onDataTrackUnpublished(remoteParticipant, remoteDataTrackPublication)
+        }
     }
 }

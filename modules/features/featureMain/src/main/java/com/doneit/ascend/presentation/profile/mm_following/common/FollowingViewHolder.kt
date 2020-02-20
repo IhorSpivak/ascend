@@ -30,8 +30,6 @@ class FollowingViewHolder(
         binding.icon.setOnClickListener {
             openInfo.invoke(item)
         }
-
-        binding.executePendingBindings()
     }
 
     companion object {

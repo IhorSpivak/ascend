@@ -3,7 +3,6 @@ package com.doneit.ascend.presentation.video_chat.in_progress
 import android.Manifest
 import android.content.Context
 import android.content.IntentFilter
-import android.hardware.Camera
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
@@ -42,9 +41,15 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     override val viewModel: ChatInProgressContract.ViewModel by instance()
 
+    private var isPlaceholderAllowed = false
+        set(value) {
+            field = value
+            placeholder?.show()//enable mm icon and group name
+        }
+
     //region audio
     private val audioManager by lazy {
-        activity?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        activity!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     }
     private var isSpeakerPhoneEnabled = true
         set(value) {
@@ -61,27 +66,18 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     //region video chat
     private val audioCodec: AudioCodec by lazy { OpusCodec() }
     private val videoCodec: VideoCodec by lazy { Vp8Codec() }
-    private var localVideoTrack: LocalVideoTrack? = null
-    private var localAudioTrack: LocalAudioTrack? = null
-    private var room: Room? = null
+    private val roomListener = getActivityRoomListener()
     //endregion
-
-    private var isPlaceholderAllowed = false
-        set(value) {
-            field = value
-            placeholder?.show()//enable mm icon and group name
-        }
-    private val roomListener = getFragmentRoomListener()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
         viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
-            localVideoTrack?.enable(it)
+            viewModel.localVideoTrack?.enable(it)
         })
 
         viewModel.isAudioRecording.observe(viewLifecycleOwner, Observer {
-            localAudioTrack?.enable(it)
+            viewModel.localAudioTrack?.enable(it)
         })
 
         viewModel.currentSpeaker.observe(viewLifecycleOwner, Observer { participant ->
@@ -92,8 +88,22 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 participant.startVideoDisplay()
             }
         })
+    }
 
+    override fun onStart() {
+        super.onStart()
         setupAudio()
+        viewModel.roomListener.addListener(roomListener)
+        viewModel.credentials.observe(this, Observer {
+            startVideo(it)
+        })
+    }
+
+    override fun onStop() {
+        viewModel.roomListener.removeListener(roomListener)
+        configureAudio(false)
+        activity!!.unregisterReceiver(brHeadphones)
+        super.onStop()
     }
 
     private fun setupAudio() {
@@ -101,16 +111,8 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             brHeadphones,
             IntentFilter(AudioManager.ACTION_HEADSET_PLUG)
         )
-        activity?.volumeControlStream = AudioManager.STREAM_VOICE_CALL
+        activity!!.volumeControlStream = AudioManager.STREAM_VOICE_CALL
         audioManager.isSpeakerphoneOn = isSpeakerPhoneEnabled
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.credentials.observe(this, Observer {
-            startVideo(it)
-        })
-        viewModel.roomListener.addListener(roomListener)
     }
 
     private fun startVideo(model: StartVideoModel) {
@@ -120,35 +122,40 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 Manifest.permission.CAMERA
             ),
             onGranted = {
-                configureAudio(true)
-                val cameraCapturer = CameraCapturer(
-                    context!!,
-                    model.camera
-                )
 
-                cameraCapturer.updateCameraParameters(object : CameraParameterUpdater {
-                    override fun apply(cameraParameters: Camera.Parameters) {
+                if (viewModel.room == null) {
 
+                    if (viewModel.localAudioTrack == null) {
+                        viewModel.localAudioTrack =
+                            LocalAudioTrack.create(activity!!.applicationContext, true)!!
                     }
-                })
 
-                localAudioTrack = LocalAudioTrack.create(context!!, true)
-                localVideoTrack = LocalVideoTrack.create(context!!, true, cameraCapturer)!!
+                    if (viewModel.localVideoTrack == null) {
+                        val capturer = CameraCapturer(
+                            activity!!.applicationContext,
+                            VideoChatViewModel.cameraSources.first()
+                        )
 
-                val connectOptions =
-                    ConnectOptions.Builder(model.accessToken)
-                        .roomName(model.name)
-                        .audioTracks(listOf(localAudioTrack))
-                        .preferAudioCodecs(listOf(audioCodec))
-                        .videoTracks(listOf(localVideoTrack))
-                        .preferVideoCodecs(listOf(videoCodec))
-                        .enableDominantSpeaker(true)
-                        .build()
+                        viewModel.localVideoTrack =
+                            LocalVideoTrack.create(activity!!.applicationContext, true, capturer)!!
+                    }
 
-                room = Video.connect(context!!, connectOptions, viewModel.roomListener)
+                    val connectOptions =
+                        ConnectOptions.Builder(model.accessToken)
+                            .roomName(model.name)
+                            .audioTracks(listOf(viewModel.localAudioTrack))
+                            .preferAudioCodecs(listOf(audioCodec))
+                            .videoTracks(listOf(viewModel.localVideoTrack))
+                            .preferVideoCodecs(listOf(videoCodec))
+                            .enableDominantSpeaker(true)
+                            .build()
 
-                viewModel.switchCameraEvent.observe(viewLifecycleOwner) {
-                    cameraCapturer.switchCamera()
+                    viewModel.room =
+                        Video.connect(activity!!.applicationContext, connectOptions, viewModel.roomListener)
+                }
+
+                viewModel.switchCameraEvent.observe(this) {
+                    (viewModel.localVideoTrack?.videoCapturer as? CameraCapturer)?.switchCamera()
                 }
             },
             onDenied = {
@@ -197,27 +204,16 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         }
     }
 
-    private fun getFragmentRoomListener(): RoomListener {
+    private fun getActivityRoomListener(): RoomListener {
         return object : RoomListener() {
-
-            override fun onConnected(room: Room) {
-                /*if (room.remoteParticipants.size > 0) {
-                    isPlaceholderAllowed = true
-                }*/
-            }
-
             override fun onConnectFailure(room: Room, twilioException: TwilioException) {
                 configureAudio(false)
-            }
-
-            override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
-                //isPlaceholderAllowed = true
             }
         }
     }
 
     private fun clearRenderers() {
-        room?.remoteParticipants?.forEach { roomParticipant ->
+        viewModel.room?.remoteParticipants?.forEach { roomParticipant ->
             videoView?.let {
                 roomParticipant.videoTracks.firstOrNull()?.videoTrack?.removeRenderer(videoView)
             }
@@ -264,23 +260,5 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     private fun showVideo() {
         placeholder?.visible(false)
         videoView?.visible(true)
-    }
-
-    override fun onStop() {
-        viewModel.roomListener.removeListener(roomListener)
-        localAudioTrack?.release()
-        localAudioTrack = null
-        localVideoTrack?.release()
-        localVideoTrack = null
-        room?.disconnect()
-        room = null
-        configureAudio(false)
-        viewModel.forceDisconnect()
-        super.onStop()
-    }
-
-    override fun onDestroyView() {
-        requireContext().unregisterReceiver(brHeadphones)
-        super.onDestroyView()
     }
 }
