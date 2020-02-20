@@ -11,7 +11,7 @@ abstract class BaseBoundary<T>(
 
     private var remoteCount = 0
     private var loadedCount = 0
-    protected var pageIndexToLoad = 0
+    protected var pageIndexToLoad = 1
 
     fun loadInitial() {
         loadPage()
