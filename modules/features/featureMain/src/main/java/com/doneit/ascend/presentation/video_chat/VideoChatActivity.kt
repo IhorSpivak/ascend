@@ -78,6 +78,7 @@ class VideoChatActivity : BaseActivity() {
         })
     }
 
+
     override fun onNetworkStateChanged(hasConnection: Boolean) {
         viewModel.onNetworkStateChanged(hasConnection)
         connectionLostView.visible(hasConnection.not())
@@ -89,7 +90,7 @@ class VideoChatActivity : BaseActivity() {
 
     private fun handleNavigation(action: VideoChatContract.Navigation) {
         when (action) {
-            VideoChatContract.Navigation.BACK -> router.onBack()
+            VideoChatContract.Navigation.BACK -> if (router.canGoBack()) router.onBack() else viewModel.finishCall()
             VideoChatContract.Navigation.FINISH_ACTIVITY -> router.finishActivity()
             VideoChatContract.Navigation.TO_PREVIEW -> router.navigateToPreview()
             VideoChatContract.Navigation.TO_CHAT_IN_PROGRESS -> router.navigateToChatInProgress()

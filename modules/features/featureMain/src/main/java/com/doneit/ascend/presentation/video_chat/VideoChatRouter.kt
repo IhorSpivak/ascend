@@ -33,12 +33,12 @@ class VideoChatRouter(
     override val containerId = activity.getContainerId()
     private val fullContainerId = activity.getFullContainerId()
 
+    override fun canGoBack(): Boolean {
+        return activity.supportFragmentManager.backStackEntryCount != 0
+    }
+
     override fun onBack() {
-        if (activity.supportFragmentManager.backStackEntryCount == 0) {
-            finishWithResult(VideoChatActivity.ResultStatus.OK)
-        } else {
-            activity.supportFragmentManager.popBackStack()
-        }
+        activity.supportFragmentManager.popBackStack()
     }
 
     override fun navigateToPreview() {

@@ -24,6 +24,7 @@ interface VideoChatContract {
     }
 
     interface Router {
+        fun canGoBack(): Boolean
         fun onBack()
         fun finishActivity()
         fun navigateToPreview()

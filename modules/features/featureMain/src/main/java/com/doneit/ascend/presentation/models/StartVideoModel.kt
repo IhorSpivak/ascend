@@ -6,6 +6,5 @@ import com.twilio.video.CameraCapturer
 data class StartVideoModel(
     val role: ChatRole,
     val name: String,
-    val accessToken: String,
-    val camera: CameraCapturer.CameraSource
+    val accessToken: String
 )
