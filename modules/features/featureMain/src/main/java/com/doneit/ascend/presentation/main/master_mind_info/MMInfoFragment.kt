@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindInfoBinding
@@ -22,8 +21,8 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
         binding.model = viewModel
 
         //todo replace by ArgumentedFragment
-        val model = arguments!!.getParcelable<MasterMindEntity>(MM_ENTITY)!!
-        viewModel.setModel(model)
+        val id = arguments!!.getLong(MM_ID)!!
+        viewModel.setMMId(id)
 
         viewModel.sendReportStatus.observe(this) {
             if (it == true) {
@@ -68,12 +67,12 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
     }
 
     companion object {
-        const val MM_ENTITY = "MM_ENTITY"
+        const val MM_ID = "MM_ID"
 
-        fun newInstance(model: MasterMindEntity): MMInfoFragment {
+        fun newInstance(id: Long): MMInfoFragment {
             val fragment = MMInfoFragment()
             fragment.arguments = Bundle().apply {
-                putParcelable(MM_ENTITY, model)
+                putLong(MM_ID, id)
             }
             return fragment
         }

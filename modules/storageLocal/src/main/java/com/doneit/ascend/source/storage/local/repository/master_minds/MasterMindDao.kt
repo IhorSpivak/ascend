@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.local.repository.master_minds
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
 import com.doneit.ascend.source.storage.local.data.MasterMindLocal
@@ -13,6 +14,10 @@ interface MasterMindDao {
     @Transaction
     @Query("SELECT * FROM master_minds WHERE id = :id LIMIT 1")
     suspend fun getById(id: Long): MasterMindLocal?
+
+    @Transaction
+    @Query("SELECT * FROM master_minds WHERE id = :id LIMIT 1")
+    fun getByIdLive(id: Long): LiveData<MasterMindLocal?>
 
     @Query("SELECT * FROM master_minds WHERE followed = 1")
     fun getFollowed(): DataSource.Factory<Int, MasterMindLocal>

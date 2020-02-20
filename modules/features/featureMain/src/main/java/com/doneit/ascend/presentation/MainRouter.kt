@@ -4,19 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
-import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
-import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
-import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
-import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostFragment
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupContract
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupFragment
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeContract
 import com.doneit.ascend.presentation.main.create_group.select_group_type.SelectGroupTypeFragment
 import com.doneit.ascend.presentation.main.group_info.GroupInfoContract
@@ -66,7 +59,10 @@ import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeFragment
 import com.doneit.ascend.presentation.profile.regular_user.community.CommunityFragment
-import com.doneit.ascend.presentation.utils.extensions.*
+import com.doneit.ascend.presentation.utils.extensions.addWithBackStack
+import com.doneit.ascend.presentation.utils.extensions.replace
+import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
+import com.doneit.ascend.presentation.utils.extensions.replaceWithoutBackStack
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
@@ -183,8 +179,8 @@ class MainRouter(
         )
     }
 
-    override fun navigateToMMInfo(model: MasterMindEntity) {
-        replaceFullWithMainUpdate(MMInfoFragment.newInstance(model))
+    override fun navigateToMMInfo(id: Long) {
+        replaceFullWithMainUpdate(MMInfoFragment.newInstance(id))
     }
 
     override fun navigateToSearch() {

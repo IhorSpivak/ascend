@@ -17,7 +17,7 @@ interface ListContract {
     }
 
     interface Router {
-        fun navigateToMMInfo(item: MasterMindEntity)
+        fun navigateToMMInfo(id: Long)
         fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
     }
 }

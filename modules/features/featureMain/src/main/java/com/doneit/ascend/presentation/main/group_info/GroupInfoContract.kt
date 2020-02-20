@@ -24,11 +24,13 @@ interface GroupInfoContract {
         fun deleteGroup()
         fun report(content: String)
         fun onAddPaymentClick()
+        fun onMMClick()
     }
 
     interface Router {
         fun onBack()
         fun navigateToAddPaymentMethod()
         fun navigateToVideoChat(groupId: Long)
+        fun navigateToMMInfo(id: Long)
     }
 }

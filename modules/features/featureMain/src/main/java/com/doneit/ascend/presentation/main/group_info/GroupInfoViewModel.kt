@@ -3,12 +3,13 @@ package com.doneit.ascend.presentation.main.group_info
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.PaymentType
 import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
+import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCardModel
@@ -26,7 +27,8 @@ class GroupInfoViewModel(
     private val router: GroupInfoContract.Router,
     private val groupUseCase: GroupUseCase,
     private val userUseCase: UserUseCase,
-    private val cardsUseCase: CardsUseCase
+    private val cardsUseCase: CardsUseCase,
+    private val mmUseCase: MasterMindUseCase
 ) : BaseViewModelImpl(), GroupInfoContract.ViewModel {
 
     override val group = MutableLiveData<GroupEntity>()
@@ -61,7 +63,7 @@ class GroupInfoViewModel(
         //todo refactor
         val states = mutableListOf(false, false, false, false, false)
 
-        when(getButtonType(user, details)) {
+        when (getButtonType(user, details)) {
             ButtonType.SUBSCRIBE -> states[0] = true
             ButtonType.JOIN_TO_DISCUSSION -> states[1] = true
             ButtonType.START_GROUP -> states[2] = true
@@ -128,6 +130,12 @@ class GroupInfoViewModel(
                 }
             }
 
+        }
+    }
+
+    override fun onMMClick() {
+        group.value?.owner?.id?.let {
+            router.navigateToMMInfo(it)
         }
     }
 }

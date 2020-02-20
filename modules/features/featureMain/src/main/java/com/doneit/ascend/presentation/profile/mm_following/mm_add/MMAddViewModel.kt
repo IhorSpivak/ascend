@@ -3,7 +3,6 @@ package com.doneit.ascend.presentation.profile.mm_following.mm_add
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -41,7 +40,7 @@ class MMAddViewModel(
     }
 
     override fun openInfo(entity: MasterMindEntity) {
-        router.navigateToMMInfo(entity)
+        router.navigateToMMInfo(entity.id)
     }
 
     override fun onBackClick() {

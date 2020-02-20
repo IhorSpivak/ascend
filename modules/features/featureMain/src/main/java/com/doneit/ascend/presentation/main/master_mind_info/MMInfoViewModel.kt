@@ -1,9 +1,7 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.MasterMindEntity
+import androidx.lifecycle.*
+import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -23,35 +21,45 @@ class MMInfoViewModel(
 
     private val groupId = MutableLiveData<Long>()
     override val profile = groupId.switchMap { masterMindUseCase.getProfile(it) }
+    override val user: LiveData<UserEntity?> = userUseCase.getUserLive()
     override val showActionButtons = SingleLiveManager<Boolean>()
+    override val isFollowVisible = MutableLiveData<Boolean>(true)
+    override val isUnfollowVisible = MutableLiveData<Boolean>(true)
     override val enableFollow = MutableLiveData<Boolean>(true)
     override val enableUnfollow = MutableLiveData<Boolean>(true)
-    override val followed = MutableLiveData<Boolean>()
-    override val showRatingBar = MutableLiveData<Boolean>(true)
-    override val rated = MutableLiveData<Boolean>(true)
-    override val myRating = MutableLiveData<Int?>()
+    override val followed = profile.map { it?.followed ?: false }
+    override val showRatingBar = MediatorLiveData<Boolean>()
+    override val rated = profile.map { it?.rated ?: false }
+    override val myRating = profile.map { it?.myRating }
 
     override val sendReportStatus = SingleLiveManager<Boolean>()
 
-    override fun setModel(model: MasterMindEntity) {
-        groupId.postValue(model.id)
-
-        viewModelScope.launch {
-
-            val currUser = userUseCase.getUser()
-
-            if (currUser?.id == model.id) {
-                // hide buttons and rate bar
-                showRatingBar.postValue(false)
-                showActionButtons.call(false)
+    init {
+        showRatingBar.addSource(user) {
+            showRatingBar.value = it?.id != profile.value?.id && (profile.value?.allowRating ?: false)
+            if(it?.id == profile.value?.id) {
+                isFollowVisible.value = false
+                isUnfollowVisible.value = false
             } else {
-                followed.postValue(model.followed)
-                showRatingBar.postValue(model.allowRating)
-                rated.postValue(model.rated)
+                isFollowVisible.value = followed.value?.not()
+                isUnfollowVisible.value = followed.value
             }
-
-            myRating.postValue(model.myRating)
         }
+
+        showRatingBar.addSource(profile) {
+            showRatingBar.value = user.value?.id != it?.id && (it?.allowRating ?: false)
+            if(it?.id == user.value?.id) {
+                isFollowVisible.value = false
+                isUnfollowVisible.value = false
+            } else {
+                isFollowVisible.value = followed.value?.not()
+                isUnfollowVisible.value = followed.value
+            }
+        }
+    }
+
+    override fun setMMId(id: Long) {
+        groupId.postValue(id)
     }
 
     override fun report(content: String) {
@@ -73,13 +81,7 @@ class MMInfoViewModel(
         profile.value?.let {
             viewModelScope.launch {
                 enableFollow.postValue(false)
-
-                val response = masterMindUseCase.follow(it.id)
-
-                if (response.isSuccessful) {
-                    followed.postValue(true)
-                }
-
+                masterMindUseCase.follow(it.id)
                 enableFollow.postValue(true)
             }
         }
@@ -89,13 +91,7 @@ class MMInfoViewModel(
         profile.value?.let {
             viewModelScope.launch {
                 enableUnfollow.postValue(false)
-
-                val response = masterMindUseCase.unfollow(it.id)
-
-                if (response.isSuccessful) {
-                    followed.postValue(false)
-                }
-
+                masterMindUseCase.unfollow(it.id)
                 enableUnfollow.postValue(true)
             }
         }
@@ -104,12 +100,7 @@ class MMInfoViewModel(
     override fun setRating(rating: Int) {
         profile.value?.let {
             viewModelScope.launch {
-                val response = masterMindUseCase.setRating(it.id, rating)
-
-                if (response.isSuccessful) {
-                    myRating.postValue(rating)
-                    rated.postValue(true)
-                }
+                masterMindUseCase.setRating(it.id, rating)
             }
         }
     }

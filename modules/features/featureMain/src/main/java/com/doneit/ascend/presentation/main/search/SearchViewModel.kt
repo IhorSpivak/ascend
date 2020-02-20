@@ -3,11 +3,11 @@ package com.doneit.ascend.presentation.main.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.domain.entity.dto.SearchDTO
 import com.doneit.ascend.domain.entity.dto.SortType
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.use_case.interactor.search.SearchUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.Constants
@@ -59,7 +59,7 @@ class SearchViewModel(
     }
 
     override fun onMMClick(model: MasterMindEntity) {
-        router.navigateToMMInfo(model)
+        router.navigateToMMInfo(model.id)
     }
 
     override fun onGroupClick(model: GroupEntity) {

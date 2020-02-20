@@ -103,6 +103,16 @@
                         app:layout_constraintTop_toTopOf="@id/icon"
                         app:layout_constraintVertical_chainStyle="packed" />
 
+                    <View
+                        android:id="@+id/containerUserClick"
+                        android:onClick="@{v -> model.onMMClick()}"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/icon"
+                        app:layout_constraintEnd_toEndOf="@+id/tvName"
+                        app:layout_constraintStart_toStartOf="@+id/icon"
+                        app:layout_constraintTop_toTopOf="@+id/icon"/>
+
                     <androidx.appcompat.widget.AppCompatRatingBar
                         android:id="@+id/rbRating"
                         style="?android:attr/ratingBarStyleSmall"

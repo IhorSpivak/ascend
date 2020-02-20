@@ -23,7 +23,7 @@ internal class MasterMindInteractor(
         return masterMindGateway.getMasterMindsPagedList(MasterMindListDTO(fullName = fullName, followed = false))
     }
 
-    override fun getProfile(id: Long): LiveData<MasterMindEntity> {
+    override fun getProfile(id: Long): LiveData<MasterMindEntity?> {
         return masterMindGateway.getProfile(id)
     }
 

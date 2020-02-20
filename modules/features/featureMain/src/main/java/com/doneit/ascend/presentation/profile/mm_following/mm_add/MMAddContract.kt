@@ -16,7 +16,7 @@ interface MMAddContract {
     }
 
     interface Router {
-        fun navigateToMMInfo(model: MasterMindEntity)
+        fun navigateToMMInfo(id: Long)
         fun onBack()
     }
 }

@@ -30,7 +30,7 @@ class ListViewModel(
     }
 
     override fun openProfile(item: MasterMindEntity) {
-        router.navigateToMMInfo(item)
+        router.navigateToMMInfo(item.id)
     }
 
     override fun openGroupList(id: Long) {

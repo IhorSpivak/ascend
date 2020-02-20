@@ -17,7 +17,7 @@ interface MMFollowingContract {
     }
 
     interface Router {
-        fun navigateToMMInfo(model: MasterMindEntity)
+        fun navigateToMMInfo(id: Long)
         fun navigateToAddMasterMind()
         fun onBack()
     }

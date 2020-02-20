@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.local.repository.master_minds
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.doneit.ascend.source.storage.local.data.MasterMindLocal
 import com.doneit.ascend.source.storage.local.data.dto.MMFilter
@@ -7,6 +8,9 @@ import com.doneit.ascend.source.storage.local.data.dto.MMFilter
 internal class MasterMindRepository(
     private val dao: MasterMindDao
 ) : IMasterMindRepository {
+    override fun getMMByIdLive(id: Long): LiveData<MasterMindLocal?> {
+        return dao.getByIdLive(id)
+    }
 
     override fun getMMList(filter: MMFilter): DataSource.Factory<Int, MasterMindLocal> {
         return when {

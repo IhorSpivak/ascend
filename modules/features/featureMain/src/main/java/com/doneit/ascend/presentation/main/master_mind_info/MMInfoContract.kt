@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.MasterMindEntity
+import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
@@ -9,13 +10,16 @@ import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 interface MMInfoContract {
 
     interface ViewModel: BaseViewModel {
-        val profile : LiveData<MasterMindEntity>
+        val profile : LiveData<MasterMindEntity?>
+        val user: LiveData<UserEntity?>
 
         val showRatingBar: LiveData<Boolean>
         val showActionButtons: SingleLiveManager<Boolean>
         val enableFollow: LiveData<Boolean>
         val enableUnfollow: LiveData<Boolean>
         val followed: LiveData<Boolean>
+        val isFollowVisible: LiveData<Boolean>
+        val isUnfollowVisible: LiveData<Boolean>
         val rated: LiveData<Boolean>
         val myRating: LiveData<Int?>
         val sendReportStatus: SingleLiveManager<Boolean>
@@ -26,7 +30,7 @@ interface MMInfoContract {
         fun onSeeGroupsClick()
         fun sendReport(content: String)
 
-        fun setModel(model: MasterMindEntity)
+        fun setMMId(id: Long)
         fun report(content: String)
         fun goBack()
     }

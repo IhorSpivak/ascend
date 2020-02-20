@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.home
 
 import androidx.lifecycle.LiveData
-import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.group.GroupType
@@ -26,7 +25,7 @@ interface HomeContract {
         fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
         fun navigateToAllMasterMinds()
         fun navigateToGroupInfo(id: Long)
-        fun navigateToMMInfo(model: MasterMindEntity)
+        fun navigateToMMInfo(id: Long)
         fun navigateToVideoChat(groupId: Long)
     }
 }

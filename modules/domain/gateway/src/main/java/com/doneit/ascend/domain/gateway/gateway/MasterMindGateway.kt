@@ -1,7 +1,7 @@
 package com.doneit.ascend.domain.gateway.gateway
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
@@ -67,26 +67,20 @@ internal class MasterMindGateway(
             boundary.loadInitial()
         }
 
-    override fun getProfile(id: Long) = liveData {
-        emitSource(MutableLiveData())
+    override fun getProfile(id: Long) = liveData<MasterMindEntity?> {
+        emitSource(local.getMMByIdLive(id).map { it?.toEntity() })
 
-        val mmLocal = local.getMMById(id)
-        if (mmLocal != null) {
-            emit(mmLocal.toEntity())
-        } else {
-            val res = executeRemote { remote.getMMProfile(id) }.toResponseEntity(
-                {
-                    it?.toEntity()
-                },
-                {
-                    it?.errors
-                }
-            )
-
-            if (res.isSuccessful) {
-                local.insertAll(listOf(res.successModel!!.toLocal()))
-                emit(res.successModel!!)
+        val res = executeRemote { remote.getMMProfile(id) }.toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
             }
+        )
+
+        if (res.isSuccessful) {
+            local.insertAll(listOf(res.successModel!!.toLocal()))
         }
     }
 
