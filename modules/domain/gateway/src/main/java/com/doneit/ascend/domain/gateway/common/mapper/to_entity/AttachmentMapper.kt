@@ -2,7 +2,6 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.AttachmentType
-import com.doneit.ascend.domain.gateway.common.mapper.Constants.IMAGE_EXTENSIONS
 import com.doneit.ascend.source.storage.local.data.AttachmentLocal
 import com.doneit.ascend.source.storage.remote.data.response.AttachmentResponse
 
@@ -23,11 +22,12 @@ fun AttachmentResponse.toEntity(): AttachmentEntity {
 
 fun AttachmentLocal.toEntity(): AttachmentEntity {
     var attachmentType = AttachmentType.fromRemoteString(attachmentType)
-    IMAGE_EXTENSIONS.forEach {
+    //TODO: workaround for image holder, don't use for now
+    /*IMAGE_EXTENSIONS.forEach {
         if(fileName.endsWith(it)) {
             attachmentType = AttachmentType.IMAGE
         }
-    }
+    }*/
 
     return AttachmentEntity(
         id,

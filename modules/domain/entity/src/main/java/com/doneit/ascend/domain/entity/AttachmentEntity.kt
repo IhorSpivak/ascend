@@ -17,6 +17,7 @@ data class AttachmentEntity(
 
 enum class AttachmentType {
     FILE,
+    //TODO: image type don't exist on server (used FILE instead)
     IMAGE,
     LINK,
     UNEXPECTED;
