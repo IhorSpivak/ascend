@@ -6,8 +6,8 @@ import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 
-fun View.visible(isVisible: Boolean = true) {
-    visibility = if(isVisible) View.VISIBLE else View.INVISIBLE
+fun View.visible(isVisible: Boolean = true, isGone: Boolean = false) {
+    visibility = if (isVisible) View.VISIBLE else if (isGone) View.GONE else View.INVISIBLE
 }
 
 fun View.hide() {

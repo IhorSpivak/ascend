@@ -5,7 +5,12 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 
-class TopListDecorator (private val paddingTop: Int): RecyclerView.ItemDecoration() {
+class SideListDecorator (
+    private val paddingLeft: Int = 0,
+    private val paddingTop: Int = 0,
+    private val paddingRight: Int = 0,
+    private val paddingBottom: Int = 0
+): RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -22,10 +27,10 @@ class TopListDecorator (private val paddingTop: Int): RecyclerView.ItemDecoratio
 
         if (itemPosition == 0) {
             outRect.set(
-                0,
+                paddingLeft,
                 paddingTop,
-                0,
-                0
+                paddingRight,
+                paddingBottom
             )
         }
     }

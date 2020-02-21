@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.home.group.common
+package com.doneit.ascend.presentation.main.home.daily.common.groups
 
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.vrgsoft.core.presentation.fragment.argumented.BaseArguments

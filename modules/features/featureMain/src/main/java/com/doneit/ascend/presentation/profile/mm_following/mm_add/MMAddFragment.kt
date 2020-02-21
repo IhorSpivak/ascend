@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.Observer
-import com.doneit.ascend.presentation.common.TopListDecorator
+import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMasterMindBinding
@@ -26,7 +26,7 @@ class MMAddFragment : BaseFragment<FragmentAddMasterMindBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         val decorator =
-            TopListDecorator(resources.getDimension(R.dimen.search_list_top_padding).toInt())
+            SideListDecorator(paddingTop = resources.getDimension(R.dimen.search_list_top_padding).toInt())
 
         binding.model = viewModel
         binding.lifecycleOwner = this

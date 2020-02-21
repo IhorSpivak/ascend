@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.groups
 
 import android.os.Bundle
-import com.doneit.ascend.domain.entity.group.toStringValueUI
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupsBinding
@@ -24,12 +23,7 @@ class GroupsFragment : BaseFragment<FragmentGroupsBinding>() {
         )
         binding.tlGroups.setupWithViewPager(binding.vpGroups)
 
-        if (arguments.groupType != null) {
-            binding.tvTitle.text =
-                getString(R.string.group_list_template, arguments.groupType.toStringValueUI())
-        } else {
-            binding.tvTitle.text = getString(R.string.group_list)
-        }
+        binding.tvTitle.text = getString(R.string.group_list)
     }
 
     companion object {

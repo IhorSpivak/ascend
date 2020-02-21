@@ -1,36 +1,31 @@
-package com.doneit.ascend.presentation.main.home.group.common
+package com.doneit.ascend.presentation.main.home.daily.common.master_minds
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.MasterMindEntity
 
-class GroupAdapter(
-    private val items: MutableList<GroupEntity>,
-    private var user: UserEntity? = null,
-    private val onItemClick: (GroupEntity) -> Unit,
-    private val onButtonClick: (GroupEntity) -> Unit
-) : RecyclerView.Adapter<GroupViewHolder>() {
+class MastermindAdapter(
+    private val items: MutableList<MasterMindEntity>,
+    private val onItemClick:(MasterMindEntity)->Unit
+) : RecyclerView.Adapter<MastermindViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
-        return GroupViewHolder.create(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MastermindViewHolder {
+        return MastermindViewHolder.create(
+            parent
+        )
     }
 
     override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        holder.bind(items[position], user, onButtonClick)
+    override fun onBindViewHolder(holder: MastermindViewHolder, position: Int) {
+        holder.bind(items[position])
         holder.itemView.setOnClickListener {
             onItemClick.invoke(items[position])
         }
     }
 
-    fun setUser(user: UserEntity) {
-        this.user = user
-    }
-
-    fun submitList(newItems: List<GroupEntity>) {
+    fun updateData(newItems: List<MasterMindEntity>) {
 
         val diff = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

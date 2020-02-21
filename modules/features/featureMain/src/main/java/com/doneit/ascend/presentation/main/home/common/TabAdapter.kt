@@ -1,20 +1,16 @@
 package com.doneit.ascend.presentation.main.home.common
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.doneit.ascend.domain.entity.group.GroupType
-import com.doneit.ascend.domain.entity.group.parseTo
-import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
-import com.doneit.ascend.presentation.main.home.group.GroupsFragment
-import com.doneit.ascend.presentation.main.home.group.common.GroupsArgs
+import com.doneit.ascend.presentation.main.home.daily.DailyFragment
+import com.doneit.ascend.presentation.main.home.master_mind.MasterMindFragment
+import com.doneit.ascend.presentation.main.home.webinars.WebinarsFragment
 
 class TabAdapter(
     fragmentManager: FragmentManager,
-    private val fragments: ArrayList<Fragment> = arrayListOf(),
-    private val titles: ArrayList<String> = arrayListOf()
+    private val fragments: List<Fragment> = arrayListOf(),
+    private val titles: List<String> = arrayListOf()
 ) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
@@ -30,34 +26,16 @@ class TabAdapter(
     }
 
     companion object {
-        fun newInstance(fragment: Fragment, fragmentManager: FragmentManager, userCommunity: String?): TabAdapter {
+        fun newInstance(fragmentManager: FragmentManager, titles: List<String>): TabAdapter {
 
             val fragments: ArrayList<Fragment> = arrayListOf(
-                getFragment(GroupType.DAILY, isMineGroups = true),
-                getFragment(GroupType.WEBINARS, isMineGroups = null),
-                getFragment(userCommunity.parseTo(), isMineGroups = null),
-                getFragment(GroupType.MASTER_MIND, isMineGroups = null)
-            )
-
-            val titles: ArrayList<String> = arrayListOf(
-                fragment.getString(R.string.daily),
-                fragment.getString(R.string.webinars),
-                userCommunity ?: "",
-                fragment.getString(R.string.master_mind)
+                DailyFragment(),
+                WebinarsFragment(),
+                com.doneit.ascend.presentation.main.home.groups.GroupsFragment(),
+                MasterMindFragment()
             )
 
             return TabAdapter(fragmentManager, fragments, titles)
-        }
-
-        private fun getFragment(groupType: GroupType?, isMineGroups: Boolean?): Fragment {
-            val args = GroupsArgs(groupType, isMineGroups)
-
-            val fragment = GroupsFragment()
-            (fragment as Fragment).arguments = Bundle().apply {
-                putParcelable(ArgumentedFragment.KEY_ARGS, args)
-            }
-
-            return fragment
         }
     }
 }

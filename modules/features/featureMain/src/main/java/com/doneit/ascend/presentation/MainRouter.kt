@@ -20,6 +20,7 @@ import com.doneit.ascend.presentation.main.groups.GroupsFragment
 import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
+import com.doneit.ascend.presentation.main.home.daily.DailyContract
 import com.doneit.ascend.presentation.main.master_mind.MasterMindContract
 import com.doneit.ascend.presentation.main.master_mind.MasterMindFragment
 import com.doneit.ascend.presentation.main.master_mind.list.ListContract
@@ -80,6 +81,8 @@ class MainRouter(
     ProfileContract.Router,
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router,
     HomeContract.Router,
+    com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract.Router,
+    DailyContract.Router,
     CreateGroupHostContract.Router,
     GroupInfoContract.Router,
     WebPageContract.Router,

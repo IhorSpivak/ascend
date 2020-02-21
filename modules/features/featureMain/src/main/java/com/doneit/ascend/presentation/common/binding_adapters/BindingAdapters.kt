@@ -14,8 +14,8 @@ import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
-import com.doneit.ascend.presentation.main.groups.group_list.common.GroupListAdapter
-import com.doneit.ascend.presentation.main.home.group.common.GroupAdapter
+import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
+import com.doneit.ascend.presentation.main.home.daily.common.groups.GroupAdapter
 import com.doneit.ascend.presentation.main.search.common.SearchAdapter
 import com.doneit.ascend.presentation.models.group.GroupListWithUser
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
@@ -53,14 +53,14 @@ fun TextView.setText(text: LiveData<Int?>?) {
 @BindingAdapter("app:setAdapter", "app:setAdapterData", requireAll = false)
 fun setAdapter(
     view: androidx.recyclerview.widget.RecyclerView,
-    adapter: GroupListAdapter,
+    adapter: GroupHorListAdapter,
     groups: LiveData<GroupListWithUserPaged>
 ) {
 
-    if (view.adapter is GroupListAdapter) {
+    if (view.adapter is GroupHorListAdapter) {
         groups.value?.let {
-            (view.adapter as GroupListAdapter).setUser(it.user)
-            (view.adapter as GroupListAdapter).submitList(it.groups!!)
+            (view.adapter as GroupHorListAdapter).setUser(it.user)
+            (view.adapter as GroupHorListAdapter).submitList(it.groups!!)
         }
 
         return

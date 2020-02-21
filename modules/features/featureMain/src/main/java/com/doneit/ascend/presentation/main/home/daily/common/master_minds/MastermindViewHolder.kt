@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.home.common
+package com.doneit.ascend.presentation.main.home.daily.common.master_minds
 
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +32,9 @@ class MastermindViewHolder(
                 false
             )
 
-            return MastermindViewHolder(binding)
+            return MastermindViewHolder(
+                binding
+            )
         }
     }
 }
