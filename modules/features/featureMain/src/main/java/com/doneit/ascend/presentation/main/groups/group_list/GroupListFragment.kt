@@ -2,11 +2,11 @@ package com.doneit.ascend.presentation.main.groups.group_list
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import com.doneit.ascend.presentation.common.TopListDecorator
+import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupListBinding
-import com.doneit.ascend.presentation.main.groups.group_list.common.GroupListAdapter
+import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
 
@@ -15,8 +15,8 @@ class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupList
     override val viewModelModule = GroupListViewModelModule.get(this)
     override val viewModel: GroupListContract.ViewModel by instance()
 
-    private val adapter: GroupListAdapter by lazy {
-        GroupListAdapter(null,
+    private val adapter: GroupHorListAdapter by lazy {
+        GroupHorListAdapter(null,
             {
                 viewModel.onGroupClick(it)
             },
@@ -34,7 +34,7 @@ class GroupListFragment : ArgumentedFragment<FragmentGroupListBinding, GroupList
         binding.model = viewModel
         binding.rvGroups.adapter = adapter
         val decorator =
-            TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
+            SideListDecorator(paddingTop = resources.getDimension(R.dimen.groups_list_top_padding).toInt())
         binding.rvGroups.addItemDecoration(decorator)
 
         viewModel.groups.observe(viewLifecycleOwner, Observer {

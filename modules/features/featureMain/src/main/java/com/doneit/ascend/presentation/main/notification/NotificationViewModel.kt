@@ -3,9 +3,9 @@ package com.doneit.ascend.presentation.main.notification
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.notification.NotificationEntity
 import com.doneit.ascend.domain.entity.dto.NotificationListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
+import com.doneit.ascend.domain.entity.notification.NotificationEntity
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage

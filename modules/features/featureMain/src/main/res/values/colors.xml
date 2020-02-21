@@ -36,4 +36,5 @@
     <color name="background_dimmed">#000</color>
     <color name="button_pink">#FE1E92</color>
     <color name="button_blue">#4C7CF3</color>
+    <color name="black_05">#88000000</color>
 </resources>

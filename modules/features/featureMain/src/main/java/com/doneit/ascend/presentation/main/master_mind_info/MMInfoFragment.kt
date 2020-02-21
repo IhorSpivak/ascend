@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog

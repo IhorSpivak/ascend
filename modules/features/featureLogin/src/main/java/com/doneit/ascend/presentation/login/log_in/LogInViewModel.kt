@@ -11,11 +11,10 @@ import com.doneit.ascend.presentation.login.models.PresentationLoginModel
 import com.doneit.ascend.presentation.login.models.ValidationResult
 import com.doneit.ascend.presentation.login.utils.LoginUtils
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.utils.*
-import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.getNotNullString
 import com.doneit.ascend.presentation.utils.isPhoneValid
+import com.doneit.ascend.presentation.utils.isValidPassword
 import com.facebook.AccessToken
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule

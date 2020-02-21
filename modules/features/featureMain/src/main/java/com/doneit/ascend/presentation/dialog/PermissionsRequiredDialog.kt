@@ -5,9 +5,9 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.provider.Settings
 import android.view.LayoutInflater
-import android.net.Uri
 import com.doneit.ascend.presentation.main.R
 import kotlinx.android.synthetic.main.dialog_permissions_required.view.*
 

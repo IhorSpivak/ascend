@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.views.phone_code
 
 import android.content.Context
-import android.telephony.TelephonyManager
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -22,6 +21,7 @@ import com.doneit.ascend.presentation.views.phone_code.common.CountriesAdapter
 import com.rilixtech.widget.countrycodepicker.Country
 import kotlinx.android.synthetic.main.view_phone_code.view.*
 import kotlin.math.max
+
 @InverseBindingMethods(
     value = [
         InverseBindingMethod(

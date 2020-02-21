@@ -4,10 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.Constants.LIST_INDEX_ABSENT
-import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
-import com.twilio.video.RemoteParticipant
-import com.twilio.video.Room
-import kotlin.math.max
 
 class ParticipantsManager {
     private val _participants = MutableLiveData<List<PresentationChatParticipant>>(listOf())

@@ -1,8 +1,8 @@
 package com.doneit.ascend.presentation.main.groups.group_list
 
-import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupStatus
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.vrgsoft.core.presentation.fragment.argumented.BaseArguments
 import kotlinx.android.parcel.Parcelize
 

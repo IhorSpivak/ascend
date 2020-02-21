@@ -2,9 +2,7 @@ package com.doneit.ascend.source.storage.local.data.first_time_login
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import kotlin.random.Random
 
 @Entity(tableName = "question_items")
 data class QuestionItemLocal(

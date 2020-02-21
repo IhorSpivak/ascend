@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.main.search
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import com.doneit.ascend.presentation.common.TopListDecorator
+import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentSearchBinding
@@ -43,7 +43,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         binding.model = viewModel
 
 
-        val decorator = TopListDecorator(resources.getDimension(R.dimen.groups_list_top_padding).toInt())
+        val decorator = SideListDecorator(paddingTop = resources.getDimension(R.dimen.groups_list_top_padding).toInt())
         binding.rvSearch.addItemDecoration(decorator)
 
         binding.btnBack.setOnClickListener {

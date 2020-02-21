@@ -16,7 +16,7 @@ import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3Client
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.AttachmentType
-import com.doneit.ascend.presentation.common.TopListDecorator
+import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAttachmentsBinding
@@ -109,7 +109,7 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
         binding.model = viewModel
 
         val decorator =
-            TopListDecorator(resources.getDimension(R.dimen.attachments_list_top_padding).toInt())
+            SideListDecorator(paddingTop = resources.getDimension(R.dimen.attachments_list_top_padding).toInt())
         binding.rvAttachments.addItemDecoration(decorator)
         binding.addAttachments.setOnClickListener {
             viewModel.onAddAttachmentClick()

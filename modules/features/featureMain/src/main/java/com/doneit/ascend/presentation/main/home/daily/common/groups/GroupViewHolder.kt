@@ -1,10 +1,10 @@
-package com.doneit.ascend.presentation.main.home.group.common
+package com.doneit.ascend.presentation.main.home.daily.common.groups
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
 import com.doneit.ascend.presentation.main.databinding.TemplateGroupItemBinding
@@ -51,7 +51,9 @@ class GroupViewHolder(
                 false
             )
 
-            return GroupViewHolder(binding)
+            return GroupViewHolder(
+                binding
+            )
         }
     }
 }

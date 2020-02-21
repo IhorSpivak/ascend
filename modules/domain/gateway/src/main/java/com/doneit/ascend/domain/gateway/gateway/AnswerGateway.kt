@@ -1,7 +1,7 @@
 package com.doneit.ascend.domain.gateway.gateway
 
-import com.doneit.ascend.domain.entity.dto.AnswersDTO
 import com.doneit.ascend.domain.entity.common.ResponseEntity
+import com.doneit.ascend.domain.entity.dto.AnswersDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway

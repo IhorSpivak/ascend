@@ -2,9 +2,9 @@ package com.doneit.ascend.domain.use_case.gateway
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.notification.NotificationEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.NotificationListDTO
+import com.doneit.ascend.domain.entity.notification.NotificationEntity
 
 interface INotificationGateway {
     fun getNotificationList(request: NotificationListDTO): LiveData<PagedList<NotificationEntity>>

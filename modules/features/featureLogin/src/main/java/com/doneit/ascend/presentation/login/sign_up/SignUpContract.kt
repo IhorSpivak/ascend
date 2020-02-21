@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.login.sign_up
 
 import androidx.lifecycle.LiveData
-import com.doneit.ascend.domain.entity.QuestionListEntity
 import com.doneit.ascend.presentation.login.models.PresentationSignUpModel
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 

@@ -2,7 +2,6 @@ package com.doneit.ascend.source.storage.local.repository.groups
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import androidx.sqlite.db.SimpleSQLiteQuery
 import com.doneit.ascend.source.storage.local.data.GroupLocal
 import com.doneit.ascend.source.storage.local.data.dto.GroupFilter
 

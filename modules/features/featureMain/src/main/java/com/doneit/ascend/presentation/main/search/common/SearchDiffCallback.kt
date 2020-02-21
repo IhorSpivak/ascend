@@ -1,9 +1,9 @@
 package com.doneit.ascend.presentation.main.search.common
 
 import androidx.recyclerview.widget.DiffUtil
-import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.SearchEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 
 class SearchDiffCallback : DiffUtil.ItemCallback<SearchEntity>() {
     override fun areItemsTheSame(oldItem: SearchEntity, newItem: SearchEntity): Boolean {

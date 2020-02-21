@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.profile.payments.payment_methods
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.doneit.ascend.presentation.common.DividerItemDecorator
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentPaymentMethodsBinding

@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import android.widget.GridLayout
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.QuestionListEntity
-import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.common.GridRadioGroup
+import com.doneit.ascend.presentation.login.R
 import com.doneit.ascend.presentation.login.first_time_login.common.QuestionStateListener
 import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
 import com.doneit.ascend.presentation.main.databinding.TemplateAnswerItemBinding
