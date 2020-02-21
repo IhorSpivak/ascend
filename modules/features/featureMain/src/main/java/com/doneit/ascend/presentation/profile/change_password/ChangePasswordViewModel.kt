@@ -9,8 +9,8 @@ import com.doneit.ascend.presentation.models.PresentationChangePasswordModel
 import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
-import com.doneit.ascend.presentation.utils.isValidPassword
 import com.doneit.ascend.presentation.utils.getNotNull
+import com.doneit.ascend.presentation.utils.isValidPassword
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch

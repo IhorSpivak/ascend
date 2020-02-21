@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.views
 
 import android.content.Context
 import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.InputFilter
@@ -12,7 +11,6 @@ import android.text.method.DigitsKeyListener
 import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.R

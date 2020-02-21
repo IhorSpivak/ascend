@@ -1,7 +1,7 @@
 package com.doneit.ascend.source.storage.local.repository.question
 
 import androidx.room.*
-import com.doneit.ascend.source.storage.local.data.*
+import com.doneit.ascend.source.storage.local.data.CommunityLocal
 import com.doneit.ascend.source.storage.local.data.first_time_login.AnswerOptionLocal
 import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionItemLocal
 import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionListLocal

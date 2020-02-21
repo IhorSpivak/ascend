@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.video_chat.attachments.add_url
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.CreateAttachmentModel
 import com.doneit.ascend.presentation.video_chat.attachments.AttachmentsContract

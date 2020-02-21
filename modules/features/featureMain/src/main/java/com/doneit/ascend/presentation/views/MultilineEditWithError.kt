@@ -14,12 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.utils.extensions.focusRequest
-import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
-import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.icon
-import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.textLayout
-import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.tvError
 
 @InverseBindingMethods(
     value = [

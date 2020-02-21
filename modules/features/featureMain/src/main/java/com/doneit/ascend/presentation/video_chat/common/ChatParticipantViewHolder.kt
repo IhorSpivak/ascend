@@ -9,7 +9,10 @@ import com.doneit.ascend.presentation.main.databinding.TemplateChatParticipantBi
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantListener
-import com.twilio.video.*
+import com.twilio.video.RemoteAudioTrackPublication
+import com.twilio.video.RemoteParticipant
+import com.twilio.video.RemoteVideoTrackPublication
+import com.twilio.video.VideoTrack
 import java.lang.ref.WeakReference
 
 class ChatParticipantViewHolder(

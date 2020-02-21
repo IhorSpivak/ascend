@@ -1,7 +1,5 @@
 package com.doneit.ascend.domain.entity
 
-import java.util.*
-
 enum class MonthEntity {
     JANUARY,
     FEBRUARY,

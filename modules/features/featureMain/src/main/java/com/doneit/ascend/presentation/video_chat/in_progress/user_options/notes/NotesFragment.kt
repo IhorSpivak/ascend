@@ -5,7 +5,6 @@ import android.view.KeyEvent
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentNotesBinding
-import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import org.kodein.di.generic.instance
 
 class NotesFragment : BaseFragment<FragmentNotesBinding>() {

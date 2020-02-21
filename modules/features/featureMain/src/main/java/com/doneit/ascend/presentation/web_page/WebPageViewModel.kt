@@ -3,8 +3,8 @@ package com.doneit.ascend.presentation.web_page
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.PageEntity
 import com.doneit.ascend.domain.use_case.interactor.page.PageUseCase
-import com.doneit.ascend.presentation.web_page.common.WebPageArgs
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.web_page.common.WebPageArgs
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.GlobalScope

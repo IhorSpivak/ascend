@@ -4,8 +4,8 @@ import com.doneit.ascend.source.storage.remote.api.QuestionApi
 import com.doneit.ascend.source.storage.remote.data.response.QuestionsListResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
-import com.google.gson.Gson
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
+import com.google.gson.Gson
 
 internal class QuestionRepository(
     gson: Gson,
