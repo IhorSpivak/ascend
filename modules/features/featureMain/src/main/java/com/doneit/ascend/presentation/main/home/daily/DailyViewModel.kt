@@ -42,7 +42,7 @@ class DailyViewModel (
     }
 
     override fun navigateToDailyGroups() {
-        router.navigateToGroupList(null, GroupType.DAILY, true)
+        router.navigateToGroupList(null, null, true)
     }
 
     override fun onGroupClick(groupId: Long) {
@@ -65,7 +65,6 @@ class DailyViewModel (
         val model = GroupListDTO(
             sortType = SortType.ASC,
             sortColumn = GroupEntity.START_TIME_KEY,
-            groupType = null,
             myGroups = true
         )
 
