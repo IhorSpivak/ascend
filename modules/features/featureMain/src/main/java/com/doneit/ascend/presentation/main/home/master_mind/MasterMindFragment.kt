@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.home.master_mind
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeGroupsBinding
@@ -32,9 +33,12 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.model = viewModel
+        val decorator = SideListDecorator(paddingTop = resources.getDimension(R.dimen.search_list_top_padding).toInt())
+        binding.rvGroups.addItemDecoration(decorator)
         binding.rvGroups.adapter = adapter
 
         viewModel.groups.observe(viewLifecycleOwner, Observer {
+            adapter.setUser(it.user)
             adapter.submitList(it.groups)
             binding.srLayout.isRefreshing = false
         })

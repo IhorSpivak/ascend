@@ -17,6 +17,7 @@ class GroupHorViewHolder(
 
     fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (GroupEntity) -> Unit) {
         binding.item = item
+        binding.community = user?.community
 
         if(user == null) {
             hideButtons()

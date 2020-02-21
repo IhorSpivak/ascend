@@ -32,5 +32,6 @@ class GroupHorListAdapter(
 
     fun setUser(user: UserEntity) {
         this.user = user
+        notifyDataSetChanged()
     }
 }
