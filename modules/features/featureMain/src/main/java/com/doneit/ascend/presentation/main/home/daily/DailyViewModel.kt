@@ -42,7 +42,7 @@ class DailyViewModel (
     }
 
     override fun navigateToDailyGroups() {
-        router.navigateToGroupList(null, null, true)
+        router.navigateToDailyGroupList(null, null, true)
     }
 
     override fun onGroupClick(groupId: Long) {
