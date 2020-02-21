@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.doneit.ascend.domain.entity.dto.SortType
+import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
@@ -17,6 +19,9 @@ import com.doneit.ascend.presentation.main.group_info.GroupInfoFragment
 import com.doneit.ascend.presentation.main.groups.GroupsArg
 import com.doneit.ascend.presentation.main.groups.GroupsContract
 import com.doneit.ascend.presentation.main.groups.GroupsFragment
+import com.doneit.ascend.presentation.main.groups.common.toGroupListArgs
+import com.doneit.ascend.presentation.main.groups.daily_group_list.GroupDailyListContract
+import com.doneit.ascend.presentation.main.groups.daily_group_list.GroupDailyListFragment
 import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
@@ -87,6 +92,7 @@ class MainRouter(
     MMAddContract.Router,
     GroupsContract.Router,
     GroupListContract.Router,
+    GroupDailyListContract.Router,
     NotificationContract.Router,
     MasterMindContract.Router,
     ListContract.Router,
@@ -176,6 +182,16 @@ class MainRouter(
         activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,
             GroupsFragment.newInstance(args)
+        )
+    }
+
+    override fun navigateToDailyGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?) {
+        val args =
+            GroupsArg(userId, groupType, isMyGroups)
+
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            GroupDailyListFragment.newInstance(args.toGroupListArgs(SortType.DESC, GroupStatus.ENDED))
         )
     }
 

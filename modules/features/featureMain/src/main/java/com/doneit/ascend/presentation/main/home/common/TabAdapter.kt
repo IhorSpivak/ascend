@@ -42,7 +42,7 @@ class TabAdapter(
             val titles: ArrayList<String> = arrayListOf(
                 fragment.getString(R.string.daily),
                 fragment.getString(R.string.webinars),
-                userCommunity ?: "",
+                fragment.getString(R.string.groups),
                 fragment.getString(R.string.master_mind)
             )
 

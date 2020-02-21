@@ -25,6 +25,7 @@
     <!--Home Tabs-->
     <string name="daily">Daily</string>
     <string name="webinars">Webinars</string>
+    <string name="groups">Groups</string>
     <string name="recovery">Recovery</string>
     <string name="master_mind">MasterMind</string>
 

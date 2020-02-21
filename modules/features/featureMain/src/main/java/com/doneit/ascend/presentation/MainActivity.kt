@@ -76,7 +76,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
         viewModel.onHomeClick()
         intent.extras?.get(Constants.KEY_GROUP_ID)?.let {
-            viewModel.navigateToGroupInfo(it as Long)
+            viewModel.tryToNavigateToGroupInfo(it as Long)
         }
 
         binding.fabCreateGroup.setOnClickListener {
@@ -132,6 +132,13 @@ class MainActivity : BaseActivity(), MainActivityListener {
             else -> {
                 super.onActivityResult(requestCode, resultCode, data)
             }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.extras?.get(Constants.KEY_GROUP_ID)?.let {
+            viewModel.tryToNavigateToGroupInfo(it as Long)
         }
     }
 

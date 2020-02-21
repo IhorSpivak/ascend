@@ -10,19 +10,20 @@ interface MainContract {
 
         fun onNotificationClick()
         fun onSearchClick()
-        fun navigateToGroupInfo(id: Long)
 
         fun onCreateGroupClick()
         fun onHomeClick()
         fun navigateToMyContent()
         fun navigateToAscensionPlan()
         fun navigateToProfile()
+        fun tryToNavigateToGroupInfo(id: Long)
     }
 
     interface Router {
         fun navigateToSearch()
         fun navigateToNotifications()
         fun navigateToGroupInfo(id: Long)
+        fun navigateToLogin()
 
         fun navigateToCreateGroupMM()
         fun navigateToCreateGroup(type: GroupType)

@@ -22,7 +22,7 @@ interface HomeContract {
     }
 
     interface Router {
-        fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
+        fun navigateToDailyGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
         fun navigateToAllMasterMinds()
         fun navigateToGroupInfo(id: Long)
         fun navigateToMMInfo(id: Long)

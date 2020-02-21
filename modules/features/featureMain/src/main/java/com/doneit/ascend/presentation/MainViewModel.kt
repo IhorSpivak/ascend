@@ -15,7 +15,8 @@ class MainViewModel(
     private val notificationUseCase: NotificationUseCase
 ) : BaseViewModelImpl(), MainContract.ViewModel {
 
-    override val hasUnread = notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }
+    override val hasUnread =
+        notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }
     private var user: UserEntity? = null
 
     init {
@@ -64,7 +65,13 @@ class MainViewModel(
         }
     }
 
-    override fun navigateToGroupInfo(id: Long) {
-        router.navigateToGroupInfo(id)
+    override fun tryToNavigateToGroupInfo(id: Long) {
+        viewModelScope.launch {
+            if (userUseCase.hasSignedInUser()) {
+                router.navigateToGroupInfo(id)
+            } else {
+                router.navigateToLogin()
+            }
+        }
     }
 }

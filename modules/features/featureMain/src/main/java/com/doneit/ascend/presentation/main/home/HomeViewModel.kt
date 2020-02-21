@@ -43,7 +43,7 @@ class HomeViewModel(
     }
 
     override fun navigateToGroupList() {
-        router.navigateToGroupList(null, groupType, isMyGroups)
+        router.navigateToDailyGroupList(null, null, isMyGroups)
     }
 
     override fun updateData() {

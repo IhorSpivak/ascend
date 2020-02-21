@@ -11,7 +11,7 @@ import androidx.core.app.NotificationCompat
 import com.doneit.ascend.R
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
-import com.doneit.ascend.presentation.splash.SplashActivity
+import com.doneit.ascend.presentation.MainActivity
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.push.data.PushEvent
 import com.doneit.ascend.push.data.toEntity
@@ -66,7 +66,9 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
     }
 
     private fun sendNotification(messageTitle: String, data: PushEvent?) {
-        val intent = Intent(this, SplashActivity::class.java)
+
+        //TODO: figure out how to show SplashActivity in case of background app start:
+        val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(Constants.KEY_GROUP_ID, data?.groupId)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
             PendingIntent.FLAG_UPDATE_CURRENT)
