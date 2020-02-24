@@ -46,6 +46,7 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
         val listener = (context as MainActivityListener)
         listener.setTitle(getString(R.string.profile_title))
         listener.setSearchEnabled(false)
+        listener.setFilterEnabled(false)
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {

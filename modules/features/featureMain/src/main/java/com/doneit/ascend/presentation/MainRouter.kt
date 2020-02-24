@@ -8,6 +8,8 @@ import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanContract
+import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
@@ -84,6 +86,7 @@ class MainRouter(
     ProfileContract.Router,
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router,
     HomeContract.Router,
+    AscensionPlanContract.Router,
     com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract.Router,
     DailyContract.Router,
     CreateGroupHostContract.Router,
@@ -155,7 +158,7 @@ class MainRouter(
     }
 
     override fun navigateToAscensionPlan() {
-        // TODO: navigate to ascension plan screen
+        activity.supportFragmentManager.replace(containerId, AscensionPlanFragment())
     }
 
 

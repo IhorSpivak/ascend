@@ -10,6 +10,7 @@ interface MainContract {
 
         fun onNotificationClick()
         fun onSearchClick()
+        fun onFilterClick()
 
         fun onCreateGroupClick()
         fun onHomeClick()

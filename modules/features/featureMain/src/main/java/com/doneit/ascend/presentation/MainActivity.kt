@@ -17,7 +17,6 @@ import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.visible
-import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -129,6 +128,10 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
     override fun setSearchEnabled(isVisible: Boolean) {
         binding.btnSearch.visible(isVisible)
+    }
+
+    override fun setFilterEnabled(isVisible: Boolean) {
+        binding.btnFilter.visible(isVisible)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

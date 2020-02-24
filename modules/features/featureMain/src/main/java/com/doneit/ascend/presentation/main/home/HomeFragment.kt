@@ -34,6 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val listener = (context as MainActivityListener)
         listener.setTitle(getString(R.string.main_title))
         listener.setSearchEnabled(true)
+        listener.setFilterEnabled(false)
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
