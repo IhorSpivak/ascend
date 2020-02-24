@@ -62,6 +62,10 @@ fun Date.toMinutesFormat(): String {
     return "mm' minutes'".toDefaultFormatter().getFormatted(this)
 }
 
+fun Date.toDayTime(): String {
+    return "h:mm aa".toDefaultFormatter().getFormatted(this)
+}
+
 private fun SimpleDateFormat.getFormatted(date: Date): String {
     var res = ""
     try {

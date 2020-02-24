@@ -20,5 +20,8 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
+
+        binding.fromPicker.data = viewModel.dataSource
+        binding.toPicker.data = viewModel.dataSource
     }
 }

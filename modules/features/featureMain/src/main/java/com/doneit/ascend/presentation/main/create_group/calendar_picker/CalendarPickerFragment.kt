@@ -92,7 +92,7 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
     }
 
     private fun getCorrespondingButton(day: CalendarDayEntity): ToggleButton? {
-        return daysContainer.children.elementAtOrNull(day.ordinal) as ToggleButton?
+        return binding.daysContainer.children.elementAtOrNull(day.ordinal) as ToggleButton?
     }
 
     private fun WheelPicker.getDataIndex(predicate: (Any?) -> Boolean): Int {

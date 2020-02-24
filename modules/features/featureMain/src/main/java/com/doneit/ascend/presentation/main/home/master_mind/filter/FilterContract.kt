@@ -6,6 +6,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 
 interface FilterContract {
     interface ViewModel: BaseViewModel {
+        val dataSource: List<String>
         val requestModel: LiveData<GroupListDTO>
 
         fun apply()
