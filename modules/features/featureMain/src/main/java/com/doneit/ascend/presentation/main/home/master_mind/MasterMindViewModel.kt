@@ -16,7 +16,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 import com.doneit.ascend.presentation.models.group.PresentationGroupListModel
 import com.doneit.ascend.presentation.models.group.toDTO
-import com.doneit.ascend.presentation.utils.extensions.toDayTime
+import com.doneit.ascend.presentation.utils.extensions.toGMTFormatter
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import java.util.*
@@ -37,7 +37,7 @@ class MasterMindViewModel(
 
     override val groups = MediatorLiveData<GroupListWithUserPaged>()
     override val dataSource = List(INTERVALS_COUNT) {
-        Date(it * TIME_INTERVAL).toDayTime()
+        Date(it * TIME_INTERVAL.minutesToMills()).toDayTime()
     }
 
     init {
@@ -48,6 +48,15 @@ class MasterMindViewModel(
         groups.addSource(user) {
             updateListData(it, _groups.value)
         }
+    }
+
+    private fun Date.toDayTime(): String {
+        val formatter = "h:mm aa".toGMTFormatter()
+        return formatter.format(this)
+    }
+
+    private fun Int.minutesToMills(): Long {
+        return this * 60 * 1000L
     }
 
     private fun updateListData(user: UserEntity?, pagedList: PagedList<GroupEntity>?) {
@@ -93,7 +102,8 @@ class MasterMindViewModel(
             groupType = GroupType.MASTER_MIND,
             groupStatus = GroupStatus.UPCOMING
         )
-        private const val INTERVALS_COUNT = 24 * 14//1 day
-        private const val TIME_INTERVAL = 5 * 60 * 1000L//5 min
+
+        private const val TIME_INTERVAL = 5//5 min
+        private const val INTERVALS_COUNT = 24 * 60 / TIME_INTERVAL//1 day
     }
 }

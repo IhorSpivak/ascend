@@ -62,10 +62,6 @@ fun Date.toMinutesFormat(): String {
     return "mm' minutes'".toDefaultFormatter().getFormatted(this)
 }
 
-fun Date.toDayTime(): String {
-    return "h:mm aa".toDefaultFormatter().getFormatted(this)
-}
-
 private fun SimpleDateFormat.getFormatted(date: Date): String {
     var res = ""
     try {
@@ -79,4 +75,10 @@ private fun SimpleDateFormat.getFormatted(date: Date): String {
 
 fun String.toDefaultFormatter(): SimpleDateFormat {
     return SimpleDateFormat(this, Locale.getDefault())
+}
+
+fun String.toGMTFormatter(): SimpleDateFormat {
+    val formatter = SimpleDateFormat(this, Locale.getDefault())
+    formatter.timeZone = TimeZone.getTimeZone("GMT")
+    return formatter
 }
