@@ -136,8 +136,8 @@
     <!--Group Info-->
     <string name="meetings_count">&lt;b>%d/%d&lt;/b> Meetings</string>
     <string name="group_price">&lt;b>%.2f&lt;/b> USD</string>
-    <string name="subscribe">SUBSCRIBE</string>
-    <string name="subscribed">Subscribed</string>
+    <string name="subscribe">ATTEND</string>
+    <string name="subscribed">Attended</string>
     <string name="delete_group">Delete Group</string>
     <string name="attendees">&lt;b>%d&lt;/b> Attendees</string>
     <string name="error_group_user_removed">You are removed from group</string>
