@@ -27,6 +27,8 @@
     <string name="webinars">Webinars</string>
     <string name="groups">Groups</string>
     <string name="master_mind">MasterMind</string>
+    <string name="master_mind_group">MasterMind Group</string>
+    <string name="support_group">Support Group</string>
     <string name="placeholder_text"><b>Oops!</b>\n There is no data to display.</string>
 
     <string name="my_daily_gr">My Daily Groups List</string>
@@ -36,6 +38,7 @@
     <string name="explore_fro">Explore from the great list\nof groups. Find those that\nare of interest to you\n personally.\nJoin and enjoy!</string>
     <string name="add_master_mind">Add\nMasterMind</string>
     <string name="create_by">by %s</string>
+    <string name="filter_groups">Filter Groups</string>
 
     <!--Create Group-->
     <string name="create_group">Create Group</string>
