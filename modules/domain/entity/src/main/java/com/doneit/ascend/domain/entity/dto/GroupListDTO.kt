@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.entity.dto
 
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.group.GroupTypeParticipants
 import java.util.*
 
 class GroupListDTO(
@@ -15,5 +16,7 @@ class GroupListDTO(
     val groupStatus: GroupStatus? = null,
     val myGroups: Boolean? = null,
     val startDateFrom: Date? = null,
-    val startDateTo: Date? = null
+    val startDateTo: Date? = null,
+    val daysOfWeen: List<Int>? = null,
+    val numberOfParticipants: GroupTypeParticipants? = null
 ) : BasePagedDTO(page, perPage, sortColumn, sortType)

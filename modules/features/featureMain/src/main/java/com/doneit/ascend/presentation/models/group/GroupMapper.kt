@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.models.group
 
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.dto.CreateGroupDTO
+import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
@@ -30,6 +31,24 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
         meetingFormat.observableField.get(),
         isPublic.get(),
         tags.observableField.get()
+    )
+}
+
+fun PresentationGroupListModel.toDTO(default: GroupListDTO): GroupListDTO {
+    return GroupListDTO(
+        page = default.page,
+        perPage = default.perPage,
+        sortColumn = default.sortColumn,
+        sortType = default.sortType,
+        name = default.name,
+        userId = default.userId,
+        groupType = default.groupType,
+        groupStatus = default.groupStatus,
+        myGroups = default.myGroups,
+        startDateFrom = dateFrom,
+        startDateTo = dateTo,
+        daysOfWeen = daysOfWeek,
+        numberOfParticipants = numberOfParticipants
     )
 }
 

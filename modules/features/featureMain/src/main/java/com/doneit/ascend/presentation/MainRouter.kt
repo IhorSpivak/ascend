@@ -26,6 +26,7 @@ import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
+import com.doneit.ascend.presentation.main.home.master_mind.filter.FilterFragment
 import com.doneit.ascend.presentation.main.master_mind.MasterMindContract
 import com.doneit.ascend.presentation.main.master_mind.MasterMindFragment
 import com.doneit.ascend.presentation.main.master_mind.list.ListContract
@@ -65,10 +66,7 @@ import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeFragment
 import com.doneit.ascend.presentation.profile.regular_user.community.CommunityFragment
-import com.doneit.ascend.presentation.utils.extensions.addWithBackStack
-import com.doneit.ascend.presentation.utils.extensions.replace
-import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
-import com.doneit.ascend.presentation.utils.extensions.replaceWithoutBackStack
+import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
@@ -188,13 +186,22 @@ class MainRouter(
         )
     }
 
-    override fun navigateToDailyGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?) {
+    override fun navigateToDailyGroupList(
+        userId: Long?,
+        groupType: GroupType?,
+        isMyGroups: Boolean?
+    ) {
         val args =
             GroupsArg(userId, groupType, isMyGroups)
 
         activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,
-            GroupDailyListFragment.newInstance(args.toGroupListArgs(SortType.DESC, GroupStatus.ENDED))
+            GroupDailyListFragment.newInstance(
+                args.toGroupListArgs(
+                    SortType.DESC,
+                    GroupStatus.ENDED
+                )
+            )
         )
     }
 
@@ -339,6 +346,10 @@ class MainRouter(
         }
 
         activity.supportFragmentManager.replaceWithBackStack(containerIdFull, fragment)
+    }
+
+    override fun navigateToGroupsFilter() {
+        activity.supportFragmentManager.add(containerIdFull, FilterFragment())
     }
 
     private fun replaceFullWithMainUpdate(fragment: Fragment) {

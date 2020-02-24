@@ -1,12 +1,8 @@
 package com.doneit.ascend.domain.entity.group
 
-enum class GroupType {
-    MASTER_MIND,
-    WEBINARS,
-    SUPPORT,
-    //todo remove this locale types
-    DAILY,
-    MY_GROUPS;
+enum class GroupTypeParticipants {
+    GROUP,
+    INDIVIDUAL;
 
     override fun toString(): String {
         return super.toString().toLowerCase()

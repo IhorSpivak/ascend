@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.home.master_mind
 
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.UserEntity
@@ -13,9 +14,10 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
+import com.doneit.ascend.presentation.models.group.PresentationGroupListModel
+import com.doneit.ascend.presentation.models.group.toDTO
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
-import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 
 @CreateFactory
 @ViewModelDiModule
@@ -25,17 +27,10 @@ class MasterMindViewModel(
     private val router: MasterMindContract.Router
 ) : BaseViewModelImpl(), MasterMindContract.ViewModel {
 
-    private val requestModel = GroupListDTO(
-        perPage = 10,
-        sortType = SortType.DESC,
-        sortColumn = GroupEntity.START_TIME_KEY,
-        groupType = GroupType.MASTER_MIND,
-        groupStatus = GroupStatus.UPCOMING
-    )
+    private val formingRequestModel = PresentationGroupListModel()
+    override val requestModel = MutableLiveData<GroupListDTO>(defaultRequest)
 
-    private val shouldUpdateData = SingleLiveEvent<Void>()
-    private val _groups =
-        shouldUpdateData.switchMap { groupUseCase.getGroupListPaged(requestModel) }
+    private val _groups = requestModel.switchMap { groupUseCase.getGroupListPaged(it) }
     private val user = userUseCase.getUserLive()
 
     override val groups = MediatorLiveData<GroupListWithUserPaged>()
@@ -61,8 +56,16 @@ class MasterMindViewModel(
         }
     }
 
+    override fun apply() {
+        requestModel.postValue(formingRequestModel.toDTO(defaultRequest))
+    }
+
+    override fun cancel() {
+        router.onBack()
+    }
+
     override fun updateData() {
-        shouldUpdateData.call()
+        requestModel.postValue(requestModel.value)
     }
 
     override fun onStartChatClick(groupId: Long) {
@@ -71,5 +74,19 @@ class MasterMindViewModel(
 
     override fun onGroupClick(groupId: Long) {
         router.navigateToGroupInfo(groupId)
+    }
+
+    override fun onFilterClick() {
+        router.navigateToGroupsFilter()
+    }
+
+    companion object {
+        val defaultRequest = GroupListDTO(
+            perPage = 10,
+            sortType = SortType.DESC,
+            sortColumn = GroupEntity.START_TIME_KEY,
+            groupType = GroupType.MASTER_MIND,
+            groupStatus = GroupStatus.UPCOMING
+        )
     }
 }

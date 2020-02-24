@@ -10,10 +10,14 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityMainBinding
+import com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract
+import com.doneit.ascend.presentation.main.home.master_mind.MasterMindViewModel
+import com.doneit.ascend.presentation.main.home.master_mind.MasterMindViewModelFactory
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -60,6 +64,14 @@ class MainActivity : BaseActivity(), MainActivityListener {
         }
 
         bind<MainContract.ViewModel>() with provider { vm<MainViewModel>(instance()) }
+
+
+        bind<ViewModelProvider.Factory>(tag = "MasterMind") with singleton {
+            MasterMindViewModelFactory(instance(), instance(), instance())
+        }
+        bind<MasterMindContract.ViewModel>() with provider {
+            vm<MasterMindViewModel>(instance(tag = "MasterMind"))
+        }
     }
 
     fun getContainerId() = R.id.container
