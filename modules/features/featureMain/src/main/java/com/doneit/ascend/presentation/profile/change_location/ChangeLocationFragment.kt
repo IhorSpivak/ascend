@@ -50,7 +50,6 @@ class ChangeLocationFragment :
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.model = viewModel
 
         with(binding) {

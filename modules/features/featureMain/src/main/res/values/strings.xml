@@ -38,7 +38,7 @@
     <string name="explore_fro">Explore from the great list\nof groups. Find those that\nare of interest to you\n personally.\nJoin and enjoy!</string>
     <string name="add_master_mind">Add\nMasterMind</string>
     <string name="create_by">by %s</string>
-    
+
     <!--Groups filter-->
     <string name="filter_groups">Filter Groups</string>
     <string name="select_days_of_week">Select Days of Week</string>
@@ -372,5 +372,12 @@
     <string name="spiritual_action_steps">Spiritual Action Steps</string>
     <string name="goals_lists">Goals Lists</string>
 
+    <!--Create Spiritual-->
+    <string name="clear">Clear</string>
+    <string name="edit">Edit</string>
+    <string name="spiritual_action_step">Spiritual action step</string>
+    <string name="repeat">Repeat</string>
+    <string name="time_commitment">Time Commitment</string>
+    <string name="create_spiritual_actions_steps">Create Spiritual Actions Steps</string>
 
 </resources>

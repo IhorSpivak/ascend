@@ -5,15 +5,16 @@ import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 
 interface AscensionPlanContract {
-        interface ViewModel : BaseViewModel {
-            val user: LiveData<UserEntity?>
+    interface ViewModel : BaseViewModel {
+        val user: LiveData<UserEntity?>
 
-        }
+        fun createSpiritual()
+    }
 
-        interface Router {
-            fun navigateToSpiritualActionSteps()
-            fun navigateToMyGoals()
-            fun navigateToCreateSpiritualActionSteps()
-            fun navigateToCreateGoal()
-        }
+    interface Router {
+        fun navigateToSpiritualActionSteps()
+        fun navigateToMyGoals()
+        fun navigateToCreateSpiritualActionSteps()
+        fun navigateToCreateGoal()
+    }
 }

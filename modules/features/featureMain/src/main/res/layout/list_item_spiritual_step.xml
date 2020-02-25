@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="step"
+            type="com.doneit.ascend.domain.entity.spiritual.SpiritualStepEntity" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp">
+
+        <include
+            android:id="@+id/fields"
+            layout="@layout/template_create_spiritual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            bind:title="@{step.title}"
+            bind:repeat="@{step.repeat}"
+            bind:commitment="@{step.timeCommitment}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <Button
+            android:id="@+id/btnClear"
+            style="@style/AppTheme.Button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="7dp"
+            android:backgroundTint="@color/light_gray_f4f7"
+            android:text="@string/btn_cancel"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/btnEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fields" />
+
+        <Button
+            android:id="@+id/btnEdit"
+            style="@style/AppTheme.Button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="7dp"
+            android:backgroundTint="@color/selector_btn_enabled"
+            android:text="@string/edit"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnClear"
+            app:layout_constraintTop_toTopOf="@id/btnClear"
+            app:layout_constraintBottom_toBottomOf="@id/btnClear"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

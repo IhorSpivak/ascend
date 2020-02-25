@@ -26,8 +26,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="2dp"
-                app:cardBackgroundColor="@color/button_pink"
-                app:cardCornerRadius="4dp"
                 app:layout_constraintEnd_toStartOf="@+id/cardView_plan"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -245,29 +243,29 @@
             android:visibility="visible"
             app:backgroundTint="@android:color/white"
             style="@style/Widget.Design.FloatingActionButton"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            app:fabCustomSize="32dp"
+            app:fabSize="mini"
+            android:onClick="@{(v) -> model.createSpiritual()}"
             app:layout_constraintBottom_toBottomOf="@id/cardView_sa"
             app:layout_constraintEnd_toEndOf="@+id/cardView_sa"
             app:layout_constraintTop_toBottomOf="@id/cardView_sa"
-            app:srcCompat="@drawable/ic_plus" />
+            android:src="@drawable/ic_plus" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_plan"
             style="@style/Widget.Design.FloatingActionButton"
             app:backgroundTint="@android:color/white"
             android:tint="@color/button_blue"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:visibility="visible"
-            app:fabCustomSize="32dp"
+            app:fabSize="mini"
             app:layout_constraintBottom_toBottomOf="@id/cardView_plan"
             app:layout_constraintEnd_toEndOf="@+id/cardView_plan"
             app:layout_constraintTop_toBottomOf="@id/cardView_plan"
-            app:srcCompat="@drawable/ic_plus" />
+            android:src="@drawable/ic_plus" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

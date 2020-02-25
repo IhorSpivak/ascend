@@ -12,16 +12,16 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
     override val viewModelModule = AscensionPlanViewModelModule.get(this)
     override val viewModel: AscensionPlanContract.ViewModel by instance()
 
-    override
-    fun viewCreated(savedInstanceState: Bundle?) {
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val listener = (context as MainActivityListener)
         listener.setTitle(getString(R.string.ascension_plan))
         listener.setSearchEnabled(false)
         listener.setFilterEnabled(true)
+    }
+
+    override fun viewCreated(savedInstanceState: Bundle?) {
+        binding.model = viewModel
     }
 
 }

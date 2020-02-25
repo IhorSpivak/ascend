@@ -151,7 +151,7 @@
             android:layout_height="56dp"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="@color/selecor_btn_enabled"
+            app:cardBackgroundColor="@color/selector_btn_enabled"
             app:cardCornerRadius="28dp"
             app:cardElevation="4dp"
             app:layout_anchor="@id/bottom_app_bar"
