@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.home.master_mind
 
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.UserEntity
@@ -13,9 +14,12 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
+import com.doneit.ascend.presentation.models.group.PresentationGroupListModel
+import com.doneit.ascend.presentation.models.group.toDTO
+import com.doneit.ascend.presentation.utils.extensions.toGMTFormatter
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
-import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
+import java.util.*
 
 @CreateFactory
 @ViewModelDiModule
@@ -25,20 +29,16 @@ class MasterMindViewModel(
     private val router: MasterMindContract.Router
 ) : BaseViewModelImpl(), MasterMindContract.ViewModel {
 
-    private val requestModel = GroupListDTO(
-        perPage = 10,
-        sortType = SortType.DESC,
-        sortColumn = GroupEntity.START_TIME_KEY,
-        groupType = GroupType.MASTER_MIND,
-        groupStatus = GroupStatus.UPCOMING
-    )
+    private val formingRequestModel = PresentationGroupListModel()
+    override val requestModel = MutableLiveData<GroupListDTO>(defaultRequest)
 
-    private val shouldUpdateData = SingleLiveEvent<Void>()
-    private val _groups =
-        shouldUpdateData.switchMap { groupUseCase.getGroupListPaged(requestModel) }
+    private val _groups = requestModel.switchMap { groupUseCase.getGroupListPaged(it) }
     private val user = userUseCase.getUserLive()
 
     override val groups = MediatorLiveData<GroupListWithUserPaged>()
+    override val dataSource = List(INTERVALS_COUNT) {
+        Date(it * TIME_INTERVAL.minutesToMills()).toDayTime()
+    }
 
     init {
         groups.addSource(_groups) {
@@ -48,6 +48,15 @@ class MasterMindViewModel(
         groups.addSource(user) {
             updateListData(it, _groups.value)
         }
+    }
+
+    private fun Date.toDayTime(): String {
+        val formatter = "h:mm aa".toGMTFormatter()
+        return formatter.format(this)
+    }
+
+    private fun Int.minutesToMills(): Long {
+        return this * 60 * 1000L
     }
 
     private fun updateListData(user: UserEntity?, pagedList: PagedList<GroupEntity>?) {
@@ -61,8 +70,16 @@ class MasterMindViewModel(
         }
     }
 
+    override fun apply() {
+        requestModel.postValue(formingRequestModel.toDTO(defaultRequest))
+    }
+
+    override fun cancel() {
+        router.onBack()
+    }
+
     override fun updateData() {
-        shouldUpdateData.call()
+        requestModel.postValue(requestModel.value)
     }
 
     override fun onStartChatClick(groupId: Long) {
@@ -71,5 +88,22 @@ class MasterMindViewModel(
 
     override fun onGroupClick(groupId: Long) {
         router.navigateToGroupInfo(groupId)
+    }
+
+    override fun onFilterClick() {
+        router.navigateToGroupsFilter()
+    }
+
+    companion object {
+        val defaultRequest = GroupListDTO(
+            perPage = 10,
+            sortType = SortType.DESC,
+            sortColumn = GroupEntity.START_TIME_KEY,
+            groupType = GroupType.MASTER_MIND,
+            groupStatus = GroupStatus.UPCOMING
+        )
+
+        private const val TIME_INTERVAL = 5//5 min
+        private const val INTERVALS_COUNT = 24 * 60 / TIME_INTERVAL//1 day
     }
 }

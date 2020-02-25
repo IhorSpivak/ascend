@@ -27,6 +27,8 @@
     <string name="webinars">Webinars</string>
     <string name="groups">Groups</string>
     <string name="master_mind">MasterMind</string>
+    <string name="master_mind_group">MasterMind Group</string>
+    <string name="support_group">Support Group</string>
     <string name="placeholder_text"><b>Oops!</b>\n There is no data to display.</string>
 
     <string name="my_daily_gr">My Daily Groups List</string>
@@ -36,6 +38,16 @@
     <string name="explore_fro">Explore from the great list\nof groups. Find those that\nare of interest to you\n personally.\nJoin and enjoy!</string>
     <string name="add_master_mind">Add\nMasterMind</string>
     <string name="create_by">by %s</string>
+    
+    <!--Groups filter-->
+    <string name="filter_groups">Filter Groups</string>
+    <string name="select_days_of_week">Select Days of Week</string>
+    <string name="preferred_time">Preferred Time</string>
+    <string name="number_of_participants">Number of participants</string>
+    <string name="group">Group</string>
+    <string name="individual">Individual</string>
+    <string name="apply">Apply</string>
+    <string name="to">to</string>
 
     <!--Create Group-->
     <string name="create_group">Create Group</string>
@@ -347,6 +359,18 @@
     <string name="permission_required_title">Video call is unavailable</string>
     <string name="permission_required_content">The camera could not be turned on, please check your device\'s privacy settings or make an audio call instead</string>
     <string name="permissions_required_settings">Settings</string>
+
+    <!--Ascension Plan-->
+    <string name="my_spiritual_action_steps">My spiritual\nAction Steps</string>
+    <string name="my_goals_lists">My Goals\nLists</string>
+    <string name="today_tasks">Today Tasks</string>
+    <string name="weekly_tasks">Weekly Tasks</string>
+    <string name="monthly_tasks">Monthly Tasks</string>
+    <string name="date_range">Date-Range</string>
+    <string name="steps">Steps</string>
+    <string name="all_tasks">All</string>
+    <string name="spiritual_action_steps">Spiritual Action Steps</string>
+    <string name="goals_lists">Goals Lists</string>
 
 
 </resources>

@@ -10,6 +10,9 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityMainBinding
+import com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract
+import com.doneit.ascend.presentation.main.home.master_mind.MasterMindViewModel
+import com.doneit.ascend.presentation.main.home.master_mind.MasterMindViewModelFactory
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
@@ -60,6 +63,15 @@ class MainActivity : BaseActivity(), MainActivityListener {
         }
 
         bind<MainContract.ViewModel>() with provider { vm<MainViewModel>(instance()) }
+
+
+        //todo fix wrong lifecycle for this model
+        bind<ViewModelProvider.Factory>(tag = "MasterMind") with singleton {
+            MasterMindViewModelFactory(instance(), instance(), instance())
+        }
+        bind<MasterMindContract.ViewModel>() with provider {
+            vm<MasterMindViewModel>(instance(tag = "MasterMind"))
+        }
     }
 
     fun getContainerId() = R.id.container
@@ -116,6 +128,10 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
     override fun setSearchEnabled(isVisible: Boolean) {
         binding.btnSearch.visible(isVisible)
+    }
+
+    override fun setFilterEnabled(isVisible: Boolean) {
+        binding.btnFilter.visible(isVisible)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

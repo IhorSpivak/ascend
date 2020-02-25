@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.main.home.master_mind.filter.FilterContract.ViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="20dp"
+            android:background="@android:color/white">
+
+            <TextView
+                android:id="@+id/tvSelectedDays"
+                style="@style/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/select_days_of_week"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/daysOfWeek"
+                layout="@layout/template_week_days"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tvSelectedDays"
+                app:layout_constraintTop_toBottomOf="@id/tvSelectedDays" />
+
+            <TextView
+                android:id="@+id/tvPrefTime"
+                style="@style/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/preferred_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/daysOfWeek" />
+
+            <com.aigestudio.wheelpicker.WheelPicker
+                android:id="@+id/fromPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                app:wheel_atmospheric="true"
+                app:wheel_curved="true"
+                app:wheel_cyclic="true"
+                app:wheel_item_align="right"
+                app:wheel_item_space="30dp"
+                app:wheel_item_text_color="#D1D1D1"
+                app:wheel_item_text_size="23sp"
+                app:wheel_selected_item_text_color="@color/colorAccent"
+                app:layout_constraintEnd_toStartOf="@id/tvTO"
+                app:layout_constraintTop_toBottomOf="@id/tvPrefTime" />
+
+            <TextView
+                android:id="@+id/tvTO"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to"
+                app:layout_constraintBottom_toBottomOf="@id/fromPicker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/fromPicker" />
+
+            <com.aigestudio.wheelpicker.WheelPicker
+                android:id="@+id/toPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                app:wheel_atmospheric="true"
+                app:wheel_curved="true"
+                app:wheel_cyclic="true"
+                app:wheel_item_align="right"
+                app:wheel_item_space="30dp"
+                app:wheel_item_text_color="#D1D1D1"
+                app:wheel_item_text_size="23sp"
+                app:wheel_selected_item_text_color="@color/colorAccent"
+                app:layout_constraintStart_toEndOf="@id/tvTO"
+                app:layout_constraintTop_toBottomOf="@id/tvPrefTime" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/timeBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="fromPicker,toPicker" />
+
+            <TextView
+                android:id="@+id/tvParticipantsNumber"
+                style="@style/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/number_of_participants"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timeBarrier" />
+
+            <RadioGroup
+                android:id="@+id/rgParticipants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tvParticipantsNumber">
+
+                <RadioButton
+                    android:id="@+id/radio0"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/pref_time_selector"
+                    android:button="@android:color/transparent"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="@string/group"
+                    android:textColor="@color/pref_time_text_selector" />
+
+                <RadioButton
+                    android:id="@+id/radio1"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/pref_time_selector"
+                    android:button="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="@string/individual"
+                    android:textColor="@color/pref_time_text_selector" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/AppTheme.Button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="4dp"
+                android:backgroundTint="@color/light_gray_f4f7"
+                android:text="@string/btn_cancel"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                android:onClick="@{(v) -> model.cancel()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rgParticipants"
+                app:layout_constraintEnd_toStartOf="@id/btnApply"/>
+
+            <Button
+                android:id="@+id/btnApply"
+                style="@style/AppTheme.Button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="4dp"
+                android:backgroundTint="@color/selecor_btn_enabled"
+                android:text="@string/apply"
+                android:textSize="16sp"
+                android:onClick="@{(v) -> model.apply()}"
+                app:layout_constraintTop_toTopOf="@id/btnCancel"
+                app:layout_constraintBottom_toBottomOf="@id/btnCancel"
+                app:layout_constraintStart_toEndOf="@id/btnCancel"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

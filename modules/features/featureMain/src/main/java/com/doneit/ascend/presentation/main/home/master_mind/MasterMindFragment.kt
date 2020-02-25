@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.home.master_mind
 
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
@@ -13,7 +12,6 @@ import org.kodein.di.generic.instance
 
 class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
 
-    override val viewModelModule = MasterMindViewModelModule.get(this)
     override val viewModel: MasterMindContract.ViewModel by instance()
 
     private val adapter: GroupHorListAdapter by lazy {
@@ -31,13 +29,17 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
         )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        val decorator = SideListDecorator(paddingTop = resources.getDimension(R.dimen.search_list_top_padding).toInt())
+        binding.hasGroups = false
+
+        val decorator =
+            SideListDecorator(paddingTop = resources.getDimension(R.dimen.search_list_top_padding).toInt())
         binding.rvGroups.addItemDecoration(decorator)
         binding.rvGroups.adapter = adapter
 
         viewModel.groups.observe(viewLifecycleOwner, Observer {
+            binding.hasGroups = it.groups.isNullOrEmpty().not()
             adapter.setUser(it.user)
             adapter.submitList(it.groups)
             binding.srLayout.isRefreshing = false
@@ -46,10 +48,6 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
         binding.srLayout.setOnRefreshListener {
             viewModel.updateData()
         }
-    }
-
-    override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.model = viewModel
     }
 
     override fun onResume() {

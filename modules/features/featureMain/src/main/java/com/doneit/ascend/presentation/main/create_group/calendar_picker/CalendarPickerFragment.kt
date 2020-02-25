@@ -12,7 +12,7 @@ import com.doneit.ascend.presentation.main.databinding.FragmentCalendarPickerBin
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.waitForLayout
-import kotlinx.android.synthetic.main.fragment_calendar_picker.*
+import kotlinx.android.synthetic.main.template_week_days.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -32,19 +32,19 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         binding.model = viewModel
         binding.executePendingBindings()
 
-        hoursPicker.data = CalendarPickerUtil.getHours()
-        minutesPicker.data = CalendarPickerUtil.getMinutes()
-        timeTypePicker.data = CalendarPickerUtil.getTimeType()
+        binding.hoursPicker.data = CalendarPickerUtil.getHours()
+        binding.minutesPicker.data = CalendarPickerUtil.getMinutes()
+        binding.timeTypePicker.data = CalendarPickerUtil.getTimeType()
 
-        hoursPicker.setOnItemSelectedListener { _, data, position ->
+        binding.hoursPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setHours(data as String)
         }
 
-        minutesPicker.setOnItemSelectedListener { _, data, position ->
+        binding.minutesPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setMinutes(data as String)
         }
 
-        timeTypePicker.setOnItemSelectedListener { _, data, position ->
+        binding.timeTypePicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setTimeType(data as String)
         }
 
@@ -62,7 +62,7 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
 
 
         val checkedListener = CompoundButton.OnCheckedChangeListener { button, isChecked ->
-            val index = binding.daysContainer.children.indexOf(button)
+            val index = daysContainer.children.indexOf(button)
             viewModel.changeDayState(CalendarDayEntity.values()[index], isChecked)
         }
 
@@ -77,15 +77,15 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
 
         binding.pickers.waitForLayout {
             val timeTypeIndex =
-                timeTypePicker.getDataIndex { (it as String) == viewModel.createGroupModel.timeType }
+                binding.timeTypePicker.getDataIndex { (it as String) == viewModel.createGroupModel.timeType }
             val minutesIndex =
-                minutesPicker.getDataIndex { (it as String) == viewModel.createGroupModel.minutes }
+                binding.minutesPicker.getDataIndex { (it as String) == viewModel.createGroupModel.minutes }
             val hoursIndex =
-                hoursPicker.getDataIndex { (it as String) == viewModel.createGroupModel.hours }
+                binding.hoursPicker.getDataIndex { (it as String) == viewModel.createGroupModel.hours }
 
-            timeTypePicker.selectedItemPosition = timeTypeIndex
-            minutesPicker.selectedItemPosition = minutesIndex
-            hoursPicker.selectedItemPosition = hoursIndex
+            binding.timeTypePicker.selectedItemPosition = timeTypeIndex
+            binding.minutesPicker.selectedItemPosition = minutesIndex
+            binding.hoursPicker.selectedItemPosition = hoursIndex
         }
 
         hideKeyboard()

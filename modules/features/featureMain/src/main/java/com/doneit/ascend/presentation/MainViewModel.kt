@@ -14,6 +14,9 @@ class MainViewModel(
     private val userUseCase: UserUseCase,
     private val notificationUseCase: NotificationUseCase
 ) : BaseViewModelImpl(), MainContract.ViewModel {
+    override fun onFilterClick() {
+        //TODO:
+    }
 
     override val hasUnread =
         notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }

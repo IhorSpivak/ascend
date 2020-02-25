@@ -42,18 +42,16 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/daysContainer"
+                <LinearLayout android:id="@+id/daysContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp">
+                    android:layout_marginTop="24dp" >
 
                     <ToggleButton
                         android:id="@+id/btn_su"
                         style="@style/TextNormal"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/day_button_selector"
@@ -134,7 +132,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="24dp"
                         android:layout_weight="1"
                         android:background="@drawable/day_button_selector"
                         android:textColor="@drawable/day_button_text_selector"

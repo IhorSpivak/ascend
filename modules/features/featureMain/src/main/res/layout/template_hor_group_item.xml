@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.doneit.ascend.domain.entity.group.GroupType"/>
 
         <variable
             name="item"
@@ -142,22 +143,54 @@
                 app:layout_constraintStart_toEndOf="@+id/ivOwnerImage"
                 app:layout_constraintTop_toTopOf="@+id/ivOwnerImage" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvGroupDescription"
-                style="@style/TextNormal"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tvWebinarMarker"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="@{item.description}"
-                android:textColor="#7E7D8F"
+                android:layout_marginTop="16dp"
+                android:padding="4dp"
+                style="@style/TextNormal.White"
                 android:textSize="12sp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivOwnerImage" />
+                android:text="@string/webinars"
+                android:visibility="@{item.groupType == GroupType.WEBINARS, default = gone}"
+                app:layout_constraintTop_toBottomOf="@id/ownerName"
+                app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
+                android:background="@drawable/bg_r4_4b39"/>
+
+            <TextView
+                android:id="@+id/tvSupportMarker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="4dp"
+                style="@style/TextNormal.White"
+                android:textSize="12sp"
+                android:text="@string/support_group"
+                android:visibility="@{item.groupType == GroupType.SUPPORT, default=gone}"
+                app:layout_constraintTop_toBottomOf="@id/ownerName"
+                app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
+                android:background="@drawable/bg_r4_9dc0"/>
+
+            <TextView
+                android:id="@+id/tvMasterMindMarker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="4dp"
+                style="@style/TextNormal.White"
+                android:textSize="12sp"
+                android:text="@string/master_mind_group"
+                android:visibility="@{item.groupType == GroupType.MASTER_MIND, default = gone}"
+                app:layout_constraintTop_toBottomOf="@id/ownerName"
+                app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
+                android:background="@drawable/bg_r4_519f"/>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/brMarkers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tvWebinarMarker,tvSupportMarker,tvMasterMindMarker"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,7 +199,7 @@
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGroupDescription">
+                app:layout_constraintTop_toBottomOf="@+id/brMarkers">
 
                 <Button
                     android:id="@+id/btnJoin"
