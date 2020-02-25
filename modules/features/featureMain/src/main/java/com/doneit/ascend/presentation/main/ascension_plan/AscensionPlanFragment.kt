@@ -6,6 +6,7 @@ import com.doneit.ascend.presentation.MainActivityListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAscensionPlanBinding
+import kotlinx.android.synthetic.main.activity_main.*
 import org.kodein.di.generic.instance
 
 class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
@@ -22,6 +23,11 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
+
+        //todo any better solution?
+        activity!!.btnFilter.setOnClickListener {
+            FilterDialog.create(context!!).show()
+        }
     }
 
 }
