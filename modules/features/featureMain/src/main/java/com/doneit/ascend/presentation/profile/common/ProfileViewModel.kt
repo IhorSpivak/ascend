@@ -6,11 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.MonthEntity
-import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.dto.AnswersDTO
 import com.doneit.ascend.domain.entity.dto.UpdateProfileDTO
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -20,6 +20,8 @@ import com.doneit.ascend.presentation.models.PresentationCommunityModel
 import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toPresentationCommunity
+import com.doneit.ascend.presentation.models.user.PresentationUserModel
+import com.doneit.ascend.presentation.models.user.toPresentation
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.edit_bio.EditBioContract
 import com.doneit.ascend.presentation.profile.notification_settings.NotificationSettingsContract
@@ -49,7 +51,7 @@ class ProfileViewModel(
     AgeContract.ViewModel,
     CommunityContract.ViewModel {
 
-    override val user = MutableLiveData<UserEntity>()
+    override val user = MutableLiveData<PresentationUserModel>()
     override val showPhotoDialog = SingleLiveManager(Unit)
     override val bioValue = ValidatableField()
     override val birthdaySelected = MutableLiveData<Date>()
@@ -107,9 +109,10 @@ class ProfileViewModel(
 
         userObserver = Observer {
             it?.let {
-                user.postValue(it)
+                user.postValue(it.toPresentation())
                 val birthday = it.birthday ?: minBirthday
                 birthdaySelected.postValue(birthday)
+                bioValue.observableField.set(it.bio ?: "")
             }
         }
         userLocal.observeForever(userObserver)
@@ -117,11 +120,7 @@ class ProfileViewModel(
 
     override fun fetchData() {
         viewModelScope.launch {
-            val result = userUseCase.getProfile()
-
-            if (result.isSuccessful) {
-                bioValue.observableField.set(result.successModel?.bio)
-            }
+            userUseCase.updateCurrentUserData()
         }
     }
 
@@ -221,7 +220,7 @@ class ProfileViewModel(
         calendar.set(Calendar.MONTH, month.ordinal)
         calendar.set(Calendar.DAY_OF_MONTH, day)
 
-        if(calendar.time.after(minBirthday)) {
+        if (calendar.time.after(minBirthday)) {
             birthdaySelected.postValue(minBirthday)
         } else {
             birthdaySelected.postValue(calendar.time)

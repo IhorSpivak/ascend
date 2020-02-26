@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 
 data class GroupResponse(
     @SerializedName("id") val id: Long,
-    @SerializedName("name") val name: String,
+    @SerializedName("fullName") val name: String,
     @SerializedName("description") val description: String,
     @SerializedName("start_time") val startTime: String,
     @SerializedName("status") val status: String,

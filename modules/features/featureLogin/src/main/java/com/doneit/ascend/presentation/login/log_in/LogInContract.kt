@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.login.log_in
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
-import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.login.models.PresentationLoginModel
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.facebook.AccessToken

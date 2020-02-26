@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CardResponse(
     @SerializedName("id")val id: Long,
-    @SerializedName("name")val name: String,
+    @SerializedName("fullName") val name: String,
     @SerializedName("brand")val brand: String,
     @SerializedName("country")val country: String,
     @SerializedName("exp_month")val expMonth: Int,

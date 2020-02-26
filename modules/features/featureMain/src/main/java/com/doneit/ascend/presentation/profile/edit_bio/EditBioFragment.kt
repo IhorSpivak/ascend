@@ -22,7 +22,6 @@ class EditBioFragment : BaseFragment<FragmentEditBioBinding>() {
     override val viewModel: EditBioContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.model = viewModel
 
         with(binding) {
@@ -38,7 +37,7 @@ class EditBioFragment : BaseFragment<FragmentEditBioBinding>() {
                 hideKeyboard()
                 viewModel.goBack()
             }
-            etBio. multilineEditText.focusRequest()
+            etBio.multilineEditText.focusRequest()
         }
     }
 }

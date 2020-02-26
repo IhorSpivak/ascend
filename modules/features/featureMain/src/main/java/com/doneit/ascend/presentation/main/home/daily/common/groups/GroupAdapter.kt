@@ -3,8 +3,8 @@ package com.doneit.ascend.presentation.main.home.daily.common.groups
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 
 class GroupAdapter(
     private val items: MutableList<GroupEntity>,
