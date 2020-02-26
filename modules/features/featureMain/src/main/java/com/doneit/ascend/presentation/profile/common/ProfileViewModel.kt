@@ -153,7 +153,7 @@ class ProfileViewModel(
     }
 
     override fun onSeeMyGroupsClick() {
-        router.navigateToGroupList(null, GroupType.MY_GROUPS, true)
+        router.navigateToGroupList(user.value?.id, GroupType.MY_GROUPS, true)
     }
 
     override fun onNotificationClick() {
