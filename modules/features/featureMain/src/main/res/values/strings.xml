@@ -372,5 +372,9 @@
     <string name="spiritual_action_steps">Spiritual Action Steps</string>
     <string name="goals_lists">Goals Lists</string>
 
+    <!--My Spiritual Action Steps-->
+    <string name="tab_active">Active</string>
+    <string name="tab_completed">Completed</string>
+    <string name="my_sa_steps_app_bar_title">My Spiritual Action Steps</string>
 
 </resources>
