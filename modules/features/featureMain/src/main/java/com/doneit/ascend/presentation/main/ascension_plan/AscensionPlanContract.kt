@@ -9,6 +9,7 @@ interface AscensionPlanContract {
         val user: LiveData<UserEntity?>
 
         fun createSpiritual()
+        fun createGoal()
     }
 
     interface Router {

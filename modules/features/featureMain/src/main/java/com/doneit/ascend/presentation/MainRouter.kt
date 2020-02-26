@@ -10,6 +10,8 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanContract
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
+import com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoalsContract
+import com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoalsFragment
 import com.doneit.ascend.presentation.main.ascension_plan.create_spiritual.CreateSpiritualContract
 import com.doneit.ascend.presentation.main.ascension_plan.create_spiritual.CreateSpiritualFragment
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
@@ -90,6 +92,7 @@ class MainRouter(
     HomeContract.Router,
     AscensionPlanContract.Router,
     CreateSpiritualContract.Router,
+    CreateGoalsContract.Router,
     com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract.Router,
     DailyContract.Router,
     CreateGroupHostContract.Router,
@@ -371,7 +374,7 @@ class MainRouter(
     }
 
     override fun navigateToCreateGoal() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, CreateGoalsFragment())
     }
 
     private fun replaceFullWithMainUpdate(fragment: Fragment) {

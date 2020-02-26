@@ -17,4 +17,8 @@ class AscensionPlanViewModel(
     override fun createSpiritual() {
         router.navigateToCreateSpiritualActionSteps()
     }
+
+    override fun createGoal() {
+        router.navigateToCreateGoal()
+    }
 }
