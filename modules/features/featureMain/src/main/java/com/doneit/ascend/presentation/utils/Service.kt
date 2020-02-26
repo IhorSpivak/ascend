@@ -1,8 +1,8 @@
 package com.doneit.ascend.presentation.utils
 
-import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
+import com.doneit.ascend.domain.entity.user.UserEntity
 
 fun getButtonType(user: UserEntity, group: GroupEntity): ButtonType {
     var res = ButtonType.SUBSCRIBE

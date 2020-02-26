@@ -33,7 +33,7 @@ internal class GroupRepository(
 
             var builder = MultipartBody.Builder()
 
-            var stringPart = MultipartBody.Part.createFormData("name", request.name)
+            var stringPart = MultipartBody.Part.createFormData("fullName", request.name)
             builder = builder.addPart(stringPart)
 
             stringPart = MultipartBody.Part.createFormData("description", request.description)

@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.local.data
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,7 +8,7 @@ import androidx.room.PrimaryKey
 data class UserLocal(
     @PrimaryKey
     var id: Long,
-    val name: String? = "",
+    val fullName: String? = "",
     val email: String? = "",
     val phone: String? = "",
     val location: String? = "",
@@ -16,15 +17,16 @@ data class UserLocal(
     val meetingStarted: Boolean?,
     val newGroups: Boolean?,
     val inviteToMeeting: Boolean?,
+    val registrationType: String,
     val unansweredQuestionsCount: Int,
+    val unreadNotificationsCount: Int,
+    @Embedded(prefix = "img") val image: ImageLocal?,
     val displayName: String?,
     val description: String?,
     val bio: String?,
     val rating: Float? = -1f,
-    val role: String?,
-    val community: String? = "",
+    val isMasterMind: Boolean,
     val visitedGroupCount: Int = 0,
-    val birthday: String? = "",
-    val imageURL: String? = "",//todo move to another table
-    val thumbURL: String? = ""
+    val community: String? = "",
+    val birthday: String? = ""
 )

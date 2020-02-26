@@ -5,19 +5,21 @@ import android.accounts.AccountManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.AuthEntity
 import com.doneit.ascend.domain.entity.RateEntity
-import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.user.AuthEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_locale.merge
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toUserLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.*
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.data_source.RateDataSource
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
+import com.doneit.ascend.source.storage.local.data.UserLocal
 import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.google.firebase.iid.FirebaseInstanceId
@@ -42,9 +44,9 @@ internal class UserGateway(
         return ""//todo, not required for now
     }
 
-    override suspend fun signIn(logInDTO: LogInUserDTO): ResponseEntity<AuthEntity, List<String>> {
+    override suspend fun signIn(logInUserDTO: LogInUserDTO): ResponseEntity<AuthEntity, List<String>> {
         val res =
-            executeRemote { remote.signIn(logInDTO.toLoginRequest(getToken())) }.toResponseEntity(
+            executeRemote { remote.signIn(logInUserDTO.toLoginRequest(getToken())) }.toResponseEntity(
                 {
                     it?.toEntity()
                 },
@@ -53,9 +55,7 @@ internal class UserGateway(
                 }
             )
 
-        if (res.isSuccessful) {
-            updateUserLocal(res.successModel!!)
-        }
+        handleAuthResponse(res)
 
         return res
     }
@@ -72,9 +72,7 @@ internal class UserGateway(
                 }
             )
 
-        if (res.isSuccessful) {
-            updateUserLocal(res.successModel!!)
-        }
+        handleAuthResponse(res)
 
         return res
     }
@@ -90,11 +88,19 @@ internal class UserGateway(
         )
 
         if (res.isSuccessful) {
-            updateUserLocal(res.successModel!!)
+            handleAuthResponse(res)
             updateFirebase(getToken())
         }
 
         return res
+    }
+
+    private suspend fun handleAuthResponse(authResponse: ResponseEntity<AuthEntity, List<String>>) {
+        if (authResponse.isSuccessful) {
+            val authEntity = authResponse.successModel!!
+            updateCredentials(authEntity)
+            updateUserLocal(authEntity.userEntity.toUserLocal())
+        }
     }
 
     override suspend fun signOut(): ResponseEntity<Unit, List<String>> {
@@ -214,8 +220,28 @@ internal class UserGateway(
         )
     }
 
-    override suspend fun getProfile(): ResponseEntity<UserEntity, List<String>> {
-        val res = executeRemote { remote.getProfile() }.toResponseEntity(
+    override suspend fun updateCurrentUserData() {
+        val res = executeRemote { remote.getProfile() }
+
+        if (res.isSuccessful) {
+            local.getFirstUser()?.let {
+                updateUserLocal(it.merge(res.successModel!!.currrentUser))
+            }
+        }
+    }
+
+    override suspend fun updateProfile(groupDTO: UpdateProfileDTO): ResponseEntity<UserEntity, List<String>> {
+        val file = if (groupDTO.imagePath == null) null else File(groupDTO.imagePath!!)
+
+        val response = executeRemote { remote.updateProfile(file, groupDTO.toRequest()) }
+
+        if (response.isSuccessful) {
+            local.getFirstUser()?.let {
+                updateUserLocal(it.merge(response.successModel!!.currrentUser))
+            }
+        }
+
+        return response.toResponseEntity(
             {
                 it?.currrentUser?.toEntity()
             },
@@ -223,32 +249,6 @@ internal class UserGateway(
                 it?.errors
             }
         )
-
-        if (res.isSuccessful) {
-            updateUserLocal(res.successModel!!)
-        }
-
-        return res
-    }
-
-    override suspend fun updateProfile(groupDTO: UpdateProfileDTO): ResponseEntity<UserEntity, List<String>> {
-        val file = if (groupDTO.imagePath == null) null else File(groupDTO.imagePath!!)
-
-        val res =
-            executeRemote { remote.updateProfile(file, groupDTO.toRequest()) }.toResponseEntity(
-                {
-                    it?.currrentUser?.toEntity()
-                },
-                {
-                    it?.errors
-                }
-            )
-
-        if (res.isSuccessful) {
-            updateUserLocal(res.successModel!!)
-        }
-
-        return res
     }
 
     override suspend fun getRating(ratingsModel: RatingsDTO): PagedList<RateEntity> {
@@ -281,9 +281,10 @@ internal class UserGateway(
         )
 
         if (res.isSuccessful) {
-            val user = getUser()
-            val newUser = user!!.copy(phone = dto.phoneNumber)
-            updateUserLocal(newUser)
+            local.getFirstUser()?.let {
+                val newUser = it.copy(phone = dto.phoneNumber)
+                updateUserLocal(newUser)
+            }
         }
 
         return res
@@ -300,17 +301,16 @@ internal class UserGateway(
         )
 
         if (res.isSuccessful) {
-            val user = getUser()
-            val newUser = user!!.copy(email = dto.email)
-            updateUserLocal(newUser)
+            local.getFirstUser()?.let {
+                val newUser = it!!.copy(email = dto.email)
+                updateUserLocal(newUser)
+            }
         }
 
         return res
     }
 
-    private suspend fun updateUserLocal(authEntity: AuthEntity) {
-        updateUserLocal(authEntity.userEntity)
-
+    private suspend fun updateCredentials(authEntity: AuthEntity) {
         // save token
         val account = Account(authEntity.userEntity.fullName, packageName)
 
@@ -320,9 +320,9 @@ internal class UserGateway(
         accountManager.setAuthToken(account, "Bearer", authEntity.token)
     }
 
-    private suspend fun updateUserLocal(userEntity: UserEntity) {
+    private suspend fun updateUserLocal(userLocal: UserLocal) {
         local.remove()//only single user at local storage allowed
-        local.insert(userEntity.toUserLocal())
+        local.insert(userLocal)
     }
 
     override suspend fun updateFirebase(firebaseId: String): ResponseEntity<Unit, List<String>> {

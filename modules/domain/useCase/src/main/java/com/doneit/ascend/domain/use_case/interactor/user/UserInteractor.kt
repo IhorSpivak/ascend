@@ -2,11 +2,11 @@ package com.doneit.ascend.domain.use_case.interactor.user
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.AuthEntity
 import com.doneit.ascend.domain.entity.RateEntity
-import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.user.AuthEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
 
 internal class UserInteractor(
@@ -72,8 +72,8 @@ internal class UserInteractor(
         return userGateway.report(content, id)
     }
 
-    override suspend fun getProfile(): ResponseEntity<UserEntity, List<String>> {
-        return userGateway.getProfile()
+    override suspend fun updateCurrentUserData() {
+        userGateway.updateCurrentUserData()
     }
 
     override suspend fun updateProfile(request: UpdateProfileDTO): ResponseEntity<UserEntity, List<String>> {

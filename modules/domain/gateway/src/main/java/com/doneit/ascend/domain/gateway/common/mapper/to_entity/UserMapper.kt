@@ -1,10 +1,16 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
-import com.doneit.ascend.domain.entity.*
+import com.doneit.ascend.domain.entity.RateEntity
+import com.doneit.ascend.domain.entity.getDefaultCalendar
+import com.doneit.ascend.domain.entity.user.AuthEntity
+import com.doneit.ascend.domain.entity.user.RegistrationType
+import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.gateway.common.mapper.Constants.MM_ROLE
 import com.doneit.ascend.source.storage.local.data.UserLocal
-import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.RateResponse
-import com.doneit.ascend.source.storage.remote.data.response.UserResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.AuthResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.UserAuthResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.UserProfileResponse
 
 fun AuthResponse.toEntity(): AuthEntity {
     return AuthEntity(
@@ -13,10 +19,10 @@ fun AuthResponse.toEntity(): AuthEntity {
     )
 }
 
-fun UserResponse.toEntity(): UserEntity {
+fun UserAuthResponse.toEntity(): UserEntity {
     return UserEntity(
         id,
-        name,
+        fullName,
         email,
         phone,
         location,
@@ -25,44 +31,70 @@ fun UserResponse.toEntity(): UserEntity {
         meetingStarted,
         newGroups,
         inviteToMeeting,
+        RegistrationType.REGULAR,
         unansweredQuestions?.size ?: 0,
+        unreadNotificationsCount ?: 0,
         image?.toEntity(),
         displayName,
         description,
         bio,
         rating,
-        role,
+        role == MM_ROLE,
+        community,
+        visitedGroupsCount ?: 0,
+        getDefaultCalendar().time
+    )
+}
+
+fun UserProfileResponse.toEntity(): UserEntity {
+    return UserEntity(
+        id,
+        fullName,
+        email,
+        phone,
+        location,
+        createdAt?.toDate(),
+        updatedAt?.toDate(),
+        meetingStarted,
+        newGroups,
+        inviteToMeeting,
+        RegistrationType.fromRemoteString(socialType),
+        unansweredQuestions?.size ?: 0,
+        unreadNotificationsCount ?: 0,
+        image?.toEntity(),
+        null,
+        null,
+        null,
+        null,
+        role == MM_ROLE,
         community,
         visitedGroupsCount,
-        birthday?.toShortDate()
+        birthday?.toDate()
     )
 }
 
 fun UserLocal.toUserEntity(): UserEntity {
     return UserEntity(
         id = id,
-        fullName = this@toUserEntity.name,
-        email = this@toUserEntity.email,
-        phone = this@toUserEntity.phone,
-        location = this@toUserEntity.location,
-        createdAt = this@toUserEntity.createdAt?.toDate(),
-        updatedAt = this@toUserEntity.updatedAt?.toDate(),
-        meetingStarted = this@toUserEntity.meetingStarted,
-        newGroups = this@toUserEntity.newGroups,
-        inviteToMeeting = this@toUserEntity.inviteToMeeting,
-        displayName = this@toUserEntity.displayName,
-        description = this@toUserEntity.description,
-        bio = this@toUserEntity.bio,
-        rating = this@toUserEntity.rating,
-        role = this@toUserEntity.role,
-        community = this@toUserEntity.community,
-        unansweredQuestionsCount = this@toUserEntity.unansweredQuestionsCount,
-        image = ImageEntity(
-            if (imageURL?.isBlank() == true) null else imageURL,
-            ThumbnailEntity(
-                if (thumbURL?.isBlank() == true) null else thumbURL
-            )
-        ),
+        fullName = fullName,
+        email = email,
+        phone = phone,
+        location = location,
+        createdAt = createdAt?.toDate(),
+        updatedAt = updatedAt?.toDate(),
+        meetingStarted = meetingStarted,
+        newGroups = newGroups,
+        inviteToMeeting = inviteToMeeting,
+        registrationType = RegistrationType.fromRemoteString(registrationType),
+        unansweredQuestionsCount = unansweredQuestionsCount,
+        unreadNotificationsCount = unreadNotificationsCount,
+        image = image?.toEntity(),
+        displayName = displayName,
+        description = description,
+        bio = bio,
+        rating = rating,
+        isMasterMind = isMasterMind,
+        community = community,
         visitedGroupCount = this@toUserEntity.visitedGroupCount,
         birthday = this@toUserEntity.birthday?.toShortDate()
     )

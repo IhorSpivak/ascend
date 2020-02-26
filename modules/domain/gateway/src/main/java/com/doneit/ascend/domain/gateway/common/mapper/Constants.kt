@@ -6,5 +6,5 @@ object Constants {
 
     const val DAYS_IN_WEEK_COUNT = 7
 
-    val IMAGE_EXTENSIONS = listOf("jpg","jpeg","png")
+    const val MM_ROLE = "master_mind"
 }

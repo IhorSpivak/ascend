@@ -1,7 +1,7 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
-import com.doneit.ascend.domain.entity.AnswerEntity
 import com.doneit.ascend.domain.entity.dto.AnswersDTO
+import com.doneit.ascend.domain.entity.user.AnswerEntity
 import com.doneit.ascend.source.storage.remote.data.request.AnswerItemRequest
 import com.doneit.ascend.source.storage.remote.data.request.AnswerRequest
 
