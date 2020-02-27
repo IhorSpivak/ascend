@@ -9,7 +9,7 @@ class GroupListRequest(
     perPage: Int?,
     sortColumn: String?,
     sortType: String?,
-    @SerializedName("name") val name: String?,
+    @SerializedName("fullName") val name: String?,
     @SerializedName("user_id") val userId: Long?,
     @SerializedName("group_type") val groupType: String?,
     @SerializedName("status") val status: String?,

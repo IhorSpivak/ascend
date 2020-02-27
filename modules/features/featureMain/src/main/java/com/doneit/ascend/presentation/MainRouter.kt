@@ -11,6 +11,10 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanContract
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
+import com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoalsContract
+import com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoalsFragment
+import com.doneit.ascend.presentation.main.ascension_plan.create_spiritual.CreateSpiritualContract
+import com.doneit.ascend.presentation.main.ascension_plan.create_spiritual.CreateSpiritualFragment
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
@@ -91,6 +95,8 @@ class MainRouter(
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router,
     HomeContract.Router,
     AscensionPlanContract.Router,
+    CreateSpiritualContract.Router,
+    CreateGoalsContract.Router,
     com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract.Router,
     DailyContract.Router,
     CreateGroupHostContract.Router,
@@ -378,6 +384,22 @@ class MainRouter(
 
     override fun navigateToGroupsFilter() {
         activity.supportFragmentManager.add(containerIdFull, FilterFragment())
+    }
+
+    override fun navigateToSpiritualActionSteps() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun navigateToMyGoals() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun navigateToCreateSpiritualActionSteps() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, CreateSpiritualFragment())
+    }
+
+    override fun navigateToCreateGoal() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, CreateGoalsFragment())
     }
 
     private fun replaceFullWithMainUpdate(fragment: Fragment) {

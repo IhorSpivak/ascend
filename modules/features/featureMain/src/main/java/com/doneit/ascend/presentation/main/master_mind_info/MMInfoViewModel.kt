@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.*
 import com.doneit.ascend.domain.entity.MasterMindEntity
-import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl

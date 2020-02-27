@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="repeat"
+            type="String" />
+
+        <variable
+            name="commitment"
+            type="String" />
+    </data>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:hintTextAppearance="@style/HintStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTitle"
+                style="@style/TextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:lines="1"
+                android:singleLine="true"
+                android:hint="@string/spiritual_action_step"
+                android:text="@={title}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlRepeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:hintTextAppearance="@style/HintStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etRepeat"
+                style="@style/TextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:lines="1"
+                android:singleLine="true"
+                android:hint="@string/repeat"
+                android:drawableEnd="@drawable/ic_down_arrow"
+                android:text="@={repeat}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ltTimeCommitment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:hintTextAppearance="@style/HintStyle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTimeCommitment"
+                style="@style/TextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:lines="1"
+                android:singleLine="true"
+                android:hint="@string/time_commitment"
+                android:drawableEnd="@drawable/ic_down_arrow"
+                android:text="@={commitment}"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+</layout>

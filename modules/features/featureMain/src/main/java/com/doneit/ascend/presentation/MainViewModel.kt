@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation
 
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl

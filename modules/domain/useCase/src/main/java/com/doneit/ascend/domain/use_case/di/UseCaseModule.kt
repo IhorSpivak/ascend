@@ -2,6 +2,8 @@ package com.doneit.ascend.domain.use_case.di
 
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerInteractor
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
+import com.doneit.ascend.domain.use_case.interactor.ascention_plan.AscensionInteractor
+import com.doneit.ascend.domain.use_case.interactor.ascention_plan.AscensionUseCase
 import com.doneit.ascend.domain.use_case.interactor.attachment.AttachmentInteractor
 import com.doneit.ascend.domain.use_case.interactor.attachment.AttachmentUseCase
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsInteractor
@@ -91,6 +93,12 @@ object UseCaseModule {
 
         bind<AttachmentUseCase>() with singleton {
             AttachmentInteractor(
+                instance()
+            )
+        }
+
+        bind<AscensionUseCase>() with singleton {
+            AscensionInteractor(
                 instance()
             )
         }

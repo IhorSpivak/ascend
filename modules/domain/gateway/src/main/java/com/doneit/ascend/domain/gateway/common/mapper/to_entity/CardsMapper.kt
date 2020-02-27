@@ -7,7 +7,7 @@ import com.doneit.ascend.source.storage.remote.data.response.CardResponse
 fun CardResponse.toEntity(): CardEntity {
     return CardEntity(
         id,
-        name,
+        name?:"",
         brand.toCardBrend(),
         country,
         expMonth,

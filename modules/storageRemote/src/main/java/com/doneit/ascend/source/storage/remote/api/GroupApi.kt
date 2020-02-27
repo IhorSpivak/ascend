@@ -23,7 +23,7 @@ interface GroupApi {
         @Query("per_page") perPage: Int?,
         @Query("sort_column") sortColumn: String?,
         @Query("sort_type") sortType: String?,
-        @Query("name") name: String?,
+        @Query("fullName") name: String?,
         @Query("user_id") userId: Long?,
         @Query("group_type") groupType: String?,
         @Query("status") status: String?,

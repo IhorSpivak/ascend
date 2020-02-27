@@ -82,7 +82,7 @@ internal class GroupGateway(
         liveData {
             groupLocal.removeAll()
 
-            val config = getConfigPaged(listRequest)
+            val config = getDefaultPagedConfig(listRequest)
             val factory = groupLocal.getGroupList(listRequest.toLocal()).map { it.toEntity() }
 
             val boundary = GroupBoundaryCallback(
@@ -248,12 +248,5 @@ internal class GroupGateway(
 
     override fun disconnect() {
         remoteSocket.disconnect()
-    }
-
-    private fun getConfigPaged(model: BasePagedDTO): PagedList.Config {
-        return PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setPageSize(model.perPage ?: 10)
-            .build()
     }
 }

@@ -167,7 +167,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="4dp"
-                android:backgroundTint="@color/selecor_btn_enabled"
+                android:backgroundTint="@color/selector_btn_enabled"
                 android:text="@string/apply"
                 android:textSize="16sp"
                 android:onClick="@{(v) -> model.apply()}"

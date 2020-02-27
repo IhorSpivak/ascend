@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.doneit.ascend.presentation.models.ascension_plan.PresentationDateRange" />
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanContract.ViewModel" />
@@ -19,162 +21,143 @@
         android:layout_marginBottom="8dp"
         android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@drawable/bg_pink"
-                android:id="@+id/cardView_sa"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="2dp"
-                app:cardBackgroundColor="@color/button_pink"
-                app:cardCornerRadius="4dp"
-                app:layout_constraintEnd_toStartOf="@+id/cardView_plan"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:padding="4dp">
-
-                <TextView
-                    android:id="@+id/tv_goals"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="@font/red_hat_text_bold"
-                    android:text="@string/my_spiritual_action_steps"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toStartOf="@+id/arrow_sa_steps"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/arrow_sa_steps"
-                    android:layout_width="15dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:rotation="270"
-                    android:tint="@android:color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_down_arrow" />
-
-                <TextView
-                    android:id="@+id/count_goals"
-                    style="@style/Title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/bg_plan_steps"
-                    android:includeFontPadding="false"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="4/5"
-                    android:textColor="@color/button_pink"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tv_goals"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_goals" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cardView_plan"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bg_blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/cardView_sa"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/tv_sa_steps"
-                    style="@style/Title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/my_goals_lists"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toStartOf="@+id/arrow_plan_steps"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/arrow_plan_steps"
-                    android:layout_width="15dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:rotation="270"
-                    android:tint="@android:color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_down_arrow" />
-
-                <TextView
-                    android:id="@+id/count_sa_steps"
-                    style="@style/Title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/bg_plan_steps"
-                    android:includeFontPadding="false"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="4/5"
-                    android:textColor="@color/button_blue"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tv_sa_steps"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_sa_steps" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/day"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clSpiritual"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/red_hat_font"
-            android:text="Today"
-            android:textColor="@color/light_gray_8f"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="@+id/cardView_sa"
-            app:layout_constraintTop_toBottomOf="@+id/category"
-            tools:text="Today" />
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/bg_pink"
+            android:padding="4dp"
+            android:visibility="@{model.isActionStepsVisible()}"
+            app:layout_constraintEnd_toStartOf="@+id/clGoals"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
 
-        <TextView
-            android:id="@+id/time"
+            <TextView
+                android:id="@+id/tv_goals"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/red_hat_text_bold"
+                android:text="@string/my_spiritual_action_steps"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/arrow_sa_steps"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/arrow_sa_steps"
+                android:layout_width="15dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:rotation="270"
+                android:tint="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_down_arrow" />
+
+            <TextView
+                android:id="@+id/count_goals"
+                style="@style/Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_plan_steps"
+                android:includeFontPadding="false"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="4/5"
+                android:textColor="@color/button_pink"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_goals"
+                app:layout_constraintTop_toBottomOf="@+id/tv_goals" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clGoals"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_blue"
+            android:padding="4dp"
+            android:visibility="@{model.isGoalsListVisible()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/clSpiritual"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_sa_steps"
+                style="@style/Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/my_goals_lists"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/arrow_plan_steps"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/arrow_plan_steps"
+                android:layout_width="15dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:rotation="270"
+                android:tint="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_down_arrow" />
+
+            <TextView
+                android:id="@+id/count_sa_steps"
+                style="@style/Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_plan_steps"
+                android:includeFontPadding="false"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="4/5"
+                android:textColor="@color/button_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_sa_steps"
+                app:layout_constraintTop_toBottomOf="@+id/tv_sa_steps" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/brTabs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/red_hat_font"
-            android:text="2h 32m"
-            android:textColor="@color/light_gray_8f"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/day"
-            app:layout_constraintEnd_toEndOf="@+id/cardView_plan"
-            tools:text="2h 32m" />
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="clSpiritual,clGoals" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="42dp"
             android:background="@drawable/bg_blue_border"
+            android:visibility="@{!model.isActionStepsVisible() &amp;&amp; model.isGoalsListVisible()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/floating_sa">
+            app:layout_constraintTop_toBottomOf="@+id/brTabs">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image"
@@ -218,12 +201,12 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/arrow_imv"
                 android:layout_width="24dp"
-                android:tint="@color/button_blue"
                 android:layout_height="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 android:padding="6dp"
+                android:tint="@color/button_blue"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -231,10 +214,37 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/red_hat_font"
+            android:text="@{model.filter.dateRange.title}"
+            android:textColor="@color/light_gray_8f"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/clSpiritual"
+            app:layout_constraintTop_toBottomOf="@+id/category"
+            tools:text="Today" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/red_hat_font"
+            android:text="2h 32m"
+            android:textColor="@color/light_gray_8f"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/day"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{model.filter.dateRange == PresentationDateRange.TODAY}" />
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvItems"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -242,32 +252,38 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_sa"
-            android:visibility="visible"
-            app:backgroundTint="@android:color/white"
             style="@style/Widget.Design.FloatingActionButton"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            app:fabCustomSize="32dp"
-            app:layout_constraintBottom_toBottomOf="@id/cardView_sa"
-            app:layout_constraintEnd_toEndOf="@+id/cardView_sa"
-            app:layout_constraintTop_toBottomOf="@id/cardView_sa"
-            app:srcCompat="@drawable/ic_plus" />
+            android:onClick="@{(v) -> model.createSpiritual()}"
+            android:src="@drawable/ic_plus"
+            android:visibility="@{model.isActionStepsVisible()}"
+            app:backgroundTint="@android:color/white"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="@id/clSpiritual"
+            app:layout_constraintEnd_toEndOf="@+id/clSpiritual"
+            app:layout_constraintHorizontal_bias="@{model.isGoalsListVisible? 1.0f : 0.5f}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clSpiritual" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_plan"
             style="@style/Widget.Design.FloatingActionButton"
-            app:backgroundTint="@android:color/white"
-            android:tint="@color/button_blue"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:visibility="visible"
-            app:fabCustomSize="32dp"
-            app:layout_constraintBottom_toBottomOf="@id/cardView_plan"
-            app:layout_constraintEnd_toEndOf="@+id/cardView_plan"
-            app:layout_constraintTop_toBottomOf="@id/cardView_plan"
-            app:srcCompat="@drawable/ic_plus" />
-
+            android:src="@drawable/ic_plus"
+            android:tint="@color/button_blue"
+            android:visibility="@{model.isGoalsListVisible()}"
+            app:backgroundTint="@android:color/white"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toBottomOf="@id/clGoals"
+            app:layout_constraintEnd_toEndOf="@+id/clGoals"
+            app:layout_constraintHorizontal_bias="@{model.isActionStepsVisible? 1.0f : 0.5f}"
+            app:layout_constraintStart_toStartOf="@+id/clGoals"
+            app:layout_constraintTop_toBottomOf="@id/clGoals" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

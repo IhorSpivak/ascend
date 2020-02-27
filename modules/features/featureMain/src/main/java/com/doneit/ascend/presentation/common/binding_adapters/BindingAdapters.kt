@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
@@ -123,6 +124,13 @@ fun setVisibility(view: Button, isShow: Boolean) {
 @BindingAdapter("android:visibility")
 fun View.setVisibility(isShow: Boolean) {
     visibility = if (isShow) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter("app:layout_constraintHorizontal_bias")
+fun View.setConstrainHorizontalBias(value: Float){
+    val params = layoutParams as ConstraintLayout.LayoutParams
+    params.horizontalBias = value
+    layoutParams = params
 }
 
 @BindingAdapter("app:setAdapter", "app:setAdapterData", requireAll = false)

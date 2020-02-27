@@ -1,12 +1,13 @@
 package com.doneit.ascend.source.storage.remote.repository.user
 
 import com.doneit.ascend.source.storage.remote.data.request.*
-import com.doneit.ascend.source.storage.remote.data.response.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
-import com.doneit.ascend.source.storage.remote.data.response.ProfileResponse
 import com.doneit.ascend.source.storage.remote.data.response.RatesResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.AuthResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.ProfileResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.UpdateProfileResponse
 import java.io.File
 
 interface IUserRepository {
@@ -35,7 +36,10 @@ interface IUserRepository {
 
     suspend fun getProfile(): RemoteResponse<ProfileResponse, ErrorsListResponse>
 
-    suspend fun updateProfile(file: File?, request: UpdateProfileRequest): RemoteResponse<ProfileResponse, ErrorsListResponse>
+    suspend fun updateProfile(
+        file: File?,
+        request: UpdateProfileRequest
+    ): RemoteResponse<UpdateProfileResponse, ErrorsListResponse>
 
     suspend fun getRates(request: RateRequest): RemoteResponse<RatesResponse, ErrorsListResponse>
 

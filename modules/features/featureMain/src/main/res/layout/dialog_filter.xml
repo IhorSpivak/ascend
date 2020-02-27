@@ -1,158 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/tvDateRange"
-        style="@style/Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/date_range"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeBarrier" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RadioGroup
-        android:id="@+id/rgDateRange"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tvParticipantsNumber">
+    <data>
 
-        <RadioButton
-            android:id="@+id/radioDate0"
-            android:layout_width="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_height="30dp"
-            android:background="@drawable/pref_time_selector"
-            android:button="@android:color/transparent"
-            android:checked="true"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:text="@string/today_tasks"
-            android:textColor="@color/pref_time_text_selector" />
+        <import type="com.doneit.ascend.presentation.models.ascension_plan.PresentationDateRange" />
 
-        <RadioButton
-            android:id="@+id/radioDate1"
-            android:layout_width="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/pref_time_selector"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/weekly_tasks"
-            android:textColor="@color/pref_time_text_selector" />
+        <import type="com.doneit.ascend.domain.entity.dto.ascension_plan.StepsDTO" />
 
-        <RadioButton
-            android:id="@+id/radioDate2"
-            android:layout_width="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/pref_time_selector"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/monthly_tasks"
-            android:textColor="@color/pref_time_text_selector" />
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/tvSteps"
-        style="@style/Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/steps"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeBarrier" />
-
-    <RadioGroup
-        android:id="@+id/rgSteps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tvParticipantsNumber">
-
-        <RadioButton
-            android:id="@+id/radioStep0"
-            android:layout_width="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_height="30dp"
-            android:background="@drawable/pref_time_selector"
-            android:button="@android:color/transparent"
-            android:checked="true"
-            android:gravity="center"
-            android:textSize="14sp"
-            android:text="@string/all_tasks"
-            android:textColor="@color/pref_time_text_selector" />
-
-        <RadioButton
-            android:id="@+id/radioStep1"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:layout_width="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:background="@drawable/action_steps_selector"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/spiritual_action_steps"
-            android:textColor="@color/action_steps_text_selector" />
-
-        <RadioButton
-            android:id="@+id/radioStep2"
-            android:layout_width="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/goal_selector"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:text="@string/goals_lists"
-            android:textColor="@color/goal_text_selector" />
-
-    </RadioGroup>
+        <variable
+            name="filter"
+            type="com.doneit.ascend.presentation.models.ascension_plan.PresentationAscensionFilter" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <Button
-            android:layout_weight="1"
-            android:id="@+id/btnSubscribed"
-            style="@style/AppTheme.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="18dp"
-            android:background="@drawable/ic_bg_btn_joined"
-            android:enabled="false"
-            android:layout_marginEnd="2dp"
-            android:text="@string/btn_cancel"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintTop_toBottomOf="@id/brMaster" />
-
-        <Button
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
+        <TextView
+            android:id="@+id/tvDateRange"
+            style="@style/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:id="@+id/btnSubscribe"
-            style="@style/AppTheme.Button"
-            android:layout_marginTop="18dp"
-            android:text="@string/apply"
-            app:layout_constraintTop_toBottomOf="@id/brMaster" />
+            android:layout_marginTop="24dp"
+            android:text="@string/date_range"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timeBarrier" />
+
+        <RadioGroup
+            android:id="@+id/rgDateRange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tvParticipantsNumber">
+
+            <RadioButton
+                android:id="@+id/radioDate0"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/pref_time_selector"
+                android:button="@android:color/transparent"
+                android:checked="@{filter.dateRange == PresentationDateRange.TODAY}"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/today_tasks"
+                android:textColor="@color/pref_time_text_selector"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/radioDate1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/pref_time_selector"
+                android:button="@android:color/transparent"
+                android:checked="@{filter.dateRange == PresentationDateRange.WEEKLY}"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/weekly_tasks"
+                android:textColor="@color/pref_time_text_selector" />
+
+            <RadioButton
+                android:id="@+id/radioDate2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/pref_time_selector"
+                android:button="@android:color/transparent"
+                android:checked="@{filter.dateRange == PresentationDateRange.MONTHLY}"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/monthly_tasks"
+                android:textColor="@color/pref_time_text_selector" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvSteps"
+            style="@style/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/steps"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timeBarrier" />
+
+        <RadioGroup
+            android:id="@+id/rgSteps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tvParticipantsNumber">
+
+            <RadioButton
+                android:id="@+id/radioStep0"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/pref_time_selector"
+                android:button="@android:color/transparent"
+                android:checked="@{filter.steps == StepsDTO.ALL}"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/all_tasks"
+                android:textColor="@color/pref_time_text_selector"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/radioStep1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/action_steps_selector"
+                android:button="@android:color/transparent"
+                android:checked="@{filter.steps == StepsDTO.SIRITUAL_STEPS}"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/spiritual_action_steps"
+                android:textColor="@color/action_steps_text_selector" />
+
+            <RadioButton
+                android:id="@+id/radioStep2"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/goal_selector"
+                android:button="@android:color/transparent"
+                android:checked="@{filter.steps == StepsDTO.GOALS}"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/goals_lists"
+                android:textColor="@color/goal_text_selector" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/AppTheme.Button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="7dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/light_gray_f4f7"
+                android:text="@string/btn_cancel"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnApply"
+                style="@style/AppTheme.Button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="7dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/selector_btn_enabled"
+                android:text="@string/apply"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</layout>

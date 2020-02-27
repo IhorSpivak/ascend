@@ -2,8 +2,8 @@ package com.doneit.ascend.presentation.main.groups.group_list.common
 
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
-import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 
 class GroupHorListAdapter(
     private var user: UserEntity? = null,
