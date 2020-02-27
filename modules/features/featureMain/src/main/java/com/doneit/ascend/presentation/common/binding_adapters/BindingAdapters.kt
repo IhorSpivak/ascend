@@ -125,6 +125,11 @@ fun View.setVisibility(isShow: Boolean) {
     visibility = if (isShow) View.VISIBLE else View.GONE
 }
 
+//TODO: add binding adapter for layout_constraintHorizontal_bias
+@BindingAdapter("app:layout_constraintHorizontal_bias")
+fun setConstrainHorizontalBias(b: Boolean){
+    
+}
 @BindingAdapter("app:setAdapter", "app:setAdapterData", requireAll = false)
 fun setAdapter(
     view: androidx.recyclerview.widget.RecyclerView,

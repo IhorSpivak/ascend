@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.ascension_plan
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import com.doneit.ascend.presentation.MainActivityListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -26,7 +27,10 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
 
         //todo any better solution?
         activity!!.btnFilter.setOnClickListener {
-            FilterDialog.create(context!!).show()
+            FilterDialog.create(context!!) {
+                viewModel.setFilter(it)
+                Toast.makeText(requireContext(), "applied", Toast.LENGTH_LONG).show()
+            }.show()
         }
     }
 
