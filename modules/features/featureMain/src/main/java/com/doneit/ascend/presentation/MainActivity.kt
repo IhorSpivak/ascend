@@ -66,11 +66,11 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
 
         //todo fix wrong lifecycle for this model
-        bind<ViewModelProvider.Factory>(tag = "MasterMind") with singleton {
+        bind<ViewModelProvider.Factory>(tag = "MasterMindGroups") with singleton {
             MasterMindViewModelFactory(instance(), instance(), instance())
         }
         bind<MasterMindContract.ViewModel>() with provider {
-            vm<MasterMindViewModel>(instance(tag = "MasterMind"))
+            vm<MasterMindViewModel>(instance(tag = "MasterMindGroups"))
         }
     }
 
