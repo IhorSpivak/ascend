@@ -1,4 +1,4 @@
-package com.doneit.ascend.domain.entity.dto
+package com.doneit.ascend.domain.entity.dto.ascension_plan
 
 enum class DateRangeDTO {
     TODAY,

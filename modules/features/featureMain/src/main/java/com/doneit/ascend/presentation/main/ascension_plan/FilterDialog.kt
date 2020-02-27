@@ -3,19 +3,19 @@ package com.doneit.ascend.presentation.main.ascension_plan
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.WindowManager
-import com.doneit.ascend.domain.entity.dto.DateRangeDTO
-import com.doneit.ascend.domain.entity.dto.FilterDTO
-import com.doneit.ascend.domain.entity.dto.StepsDTO
+import com.doneit.ascend.domain.entity.dto.ascension_plan.StepsDTO
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.DialogFilterBinding
+import com.doneit.ascend.presentation.models.ascension_plan.PresentationAscensionFilter
+import com.doneit.ascend.presentation.models.ascension_plan.PresentationDateRange
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class FilterDialog {
     companion object {
         fun create(
             context: Context,
-            filter: FilterDTO,
-            applyChangesClick: ((FilterDTO) -> Unit)
+            filter: PresentationAscensionFilter,
+            applyChangesClick: ((PresentationAscensionFilter) -> Unit)
         ): BottomSheetDialog {
             val binding = DialogFilterBinding.inflate(LayoutInflater.from(context), null, false)
             binding.filter = filter
@@ -27,9 +27,9 @@ class FilterDialog {
             dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             binding.rgDateRange.setOnCheckedChangeListener { radioGroup, i ->
                 when (i) {
-                    R.id.radioDate0 -> filter.dateRange = DateRangeDTO.TODAY
-                    R.id.radioDate1 -> filter.dateRange = DateRangeDTO.WEEKLY
-                    R.id.radioDate2 -> filter.dateRange = DateRangeDTO.MONTHLY
+                    R.id.radioDate0 -> filter.dateRange = PresentationDateRange.TODAY
+                    R.id.radioDate1 -> filter.dateRange = PresentationDateRange.WEEKLY
+                    R.id.radioDate2 -> filter.dateRange = PresentationDateRange.MONTHLY
                 }
             }
             binding.rgSteps.setOnCheckedChangeListener { radioGroup, i ->

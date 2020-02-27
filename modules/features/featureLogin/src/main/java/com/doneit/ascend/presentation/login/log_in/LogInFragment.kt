@@ -45,8 +45,6 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
     private val twitterAuthClient: TwitterAuthClient = TwitterAuthClient()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-
-        binding.lifecycleOwner = this
         binding.model = viewModel
 
         initSignUpSpannable()

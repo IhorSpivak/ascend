@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="com.doneit.ascend.presentation.models.ascension_plan.PresentationDateRange" />
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanContract.ViewModel" />
@@ -218,7 +220,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/red_hat_font"
-            android:text="Today"
+            android:text="@{model.filter.dateRange.title}"
             android:textColor="@color/light_gray_8f"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="@+id/clSpiritual"
@@ -235,12 +237,14 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/day"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="2h 32m" />
+            android:visibility="@{model.filter.dateRange == PresentationDateRange.TODAY}" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvItems"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -31,7 +31,6 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
         binding.model = viewModel
 
         viewModel.group.observe(this, Observer { group ->

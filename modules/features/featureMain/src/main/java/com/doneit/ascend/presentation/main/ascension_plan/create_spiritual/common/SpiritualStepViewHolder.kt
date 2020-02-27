@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.doneit.ascend.domain.entity.ascension.SpiritualStepEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemSpiritualStepBinding
-import com.doneit.ascend.domain.entity.spiritual.SpiritualStepEntity
 
 class SpiritualStepViewHolder(
     private val binding: ListItemSpiritualStepBinding

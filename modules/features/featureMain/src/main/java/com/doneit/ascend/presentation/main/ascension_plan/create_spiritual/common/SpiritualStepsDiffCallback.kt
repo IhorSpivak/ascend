@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.main.ascension_plan.create_spiritual.common
 
 import androidx.recyclerview.widget.DiffUtil
-import com.doneit.ascend.domain.entity.spiritual.SpiritualStepEntity
+import com.doneit.ascend.domain.entity.ascension.SpiritualStepEntity
 
 class SpiritualStepsDiffCallback(
     private val oldItems: List<SpiritualStepEntity>,

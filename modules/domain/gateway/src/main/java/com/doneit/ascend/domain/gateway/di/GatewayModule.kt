@@ -103,5 +103,11 @@ object GatewayModule {
                 instance()
             )
         }
+
+        bind<IAscensionGateway>() with singleton {
+            AscensionGateway(
+                instance()
+            )
+        }
     }
 }

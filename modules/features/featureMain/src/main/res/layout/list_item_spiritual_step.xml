@@ -5,7 +5,7 @@
     <data>
         <variable
             name="step"
-            type="com.doneit.ascend.domain.entity.spiritual.SpiritualStepEntity" />
+            type="com.doneit.ascend.domain.entity.ascension.SpiritualStepEntity" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

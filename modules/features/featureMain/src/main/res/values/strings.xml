@@ -363,6 +363,7 @@
     <!--Ascension Plan-->
     <string name="my_spiritual_action_steps">My spiritual\nAction Steps</string>
     <string name="my_goals_lists">My Goals\nLists</string>
+    <string name="today">Today</string>
     <string name="today_tasks">Today Tasks</string>
     <string name="weekly_tasks">Weekly Tasks</string>
     <string name="monthly_tasks">Monthly Tasks</string>

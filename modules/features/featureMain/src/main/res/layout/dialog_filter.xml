@@ -4,13 +4,13 @@
 
     <data>
 
-        <import type="com.doneit.ascend.domain.entity.dto.DateRangeDTO" />
+        <import type="com.doneit.ascend.presentation.models.ascension_plan.PresentationDateRange" />
 
-        <import type="com.doneit.ascend.domain.entity.dto.StepsDTO" />
+        <import type="com.doneit.ascend.domain.entity.dto.ascension_plan.StepsDTO" />
 
         <variable
             name="filter"
-            type="com.doneit.ascend.domain.entity.dto.FilterDTO" />
+            type="com.doneit.ascend.presentation.models.ascension_plan.PresentationAscensionFilter" />
     </data>
 
     <LinearLayout
@@ -46,7 +46,7 @@
                 android:layout_height="30dp"
                 android:background="@drawable/pref_time_selector"
                 android:button="@android:color/transparent"
-                android:checked="@{filter.dateRange == DateRangeDTO.TODAY}"
+                android:checked="@{filter.dateRange == PresentationDateRange.TODAY}"
                 android:gravity="center"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
@@ -61,7 +61,7 @@
                 android:layout_marginStart="8dp"
                 android:background="@drawable/pref_time_selector"
                 android:button="@android:color/transparent"
-                android:checked="@{filter.dateRange == DateRangeDTO.WEEKLY}"
+                android:checked="@{filter.dateRange == PresentationDateRange.WEEKLY}"
                 android:gravity="center"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
@@ -75,7 +75,7 @@
                 android:layout_marginStart="8dp"
                 android:background="@drawable/pref_time_selector"
                 android:button="@android:color/transparent"
-                android:checked="@{filter.dateRange == DateRangeDTO.MONTHLY}"
+                android:checked="@{filter.dateRange == PresentationDateRange.MONTHLY}"
                 android:gravity="center"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"

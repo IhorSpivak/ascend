@@ -1,12 +1,13 @@
 package com.doneit.ascend.presentation.main.ascension_plan.create_spiritual
 
 import androidx.lifecycle.MutableLiveData
-import com.doneit.ascend.domain.entity.spiritual.SpiritualStepEntity
+import com.doneit.ascend.domain.entity.ascension.SpiritualStepEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.ascension_plan.PresentationSpiritualStepModel
 import com.doneit.ascend.presentation.utils.getNotNullString
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import java.util.*
 import kotlin.random.Random
 
 @CreateFactory
@@ -23,6 +24,7 @@ class CreateSpiritualViewModel(
         items.add(
             SpiritualStepEntity(
                 Random.nextLong(),
+                Date(),
                 addModel.title.getNotNullString(),
                 addModel.repeat.getNotNullString(),
                 addModel.timeCommitment.getNotNullString()
