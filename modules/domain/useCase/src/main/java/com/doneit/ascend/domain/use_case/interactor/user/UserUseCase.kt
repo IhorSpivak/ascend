@@ -2,9 +2,9 @@ package com.doneit.ascend.domain.use_case.interactor.user
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.AuthEntity
+import com.doneit.ascend.domain.entity.user.AuthEntity
 import com.doneit.ascend.domain.entity.RateEntity
-import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 
@@ -39,7 +39,7 @@ interface UserUseCase {
 
     suspend fun report(content: String, id: String): ResponseEntity<Unit, List<String>>
 
-    suspend fun getProfile(): ResponseEntity<UserEntity, List<String>>
+    suspend fun updateCurrentUserData()
 
     suspend fun updateProfile(request: UpdateProfileDTO): ResponseEntity<UserEntity, List<String>>
 

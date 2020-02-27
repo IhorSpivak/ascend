@@ -1,4 +1,4 @@
-package com.doneit.ascend.domain.entity
+package com.doneit.ascend.domain.entity.user
 
 data class AnswerEntity(
     val questionId: Long,

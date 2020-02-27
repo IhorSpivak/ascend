@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoalsContract.ViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true">
+
+        <LinearLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:elevation="8dp"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imBack"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:onClick="@{(v) -> model.onBackClick()}"
+                android:paddingStart="8dp"
+                android:paddingEnd="20dp"
+                android:scaleType="center"
+                android:tint="@color/light_gray_8f"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/toolbarTitle"
+                style="@style/TextNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:letterSpacing="-0.0241176"
+                android:text="@string/create_spiritual_actions_steps"
+                android:textColor="@color/button_blue"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:text="@string/save"
+                android:textColor="@color/button_text_color_selector"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlGoalName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="20dp"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:hintTextAppearance="@style/HintStyle"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etGoalName"
+                style="@style/TextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/goal_name"
+                android:lines="1"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:hintTextAppearance="@style/HintStyle"
+            app:layout_constraintTop_toBottomOf="@id/tlGoalName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCategory"
+                style="@style/TextNormal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/category"
+                android:lines="1"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvTargetedLength"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/targeted_completion_length"
+            android:textColor="@color/green_font_color"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tlCategory" />
+
+        <Button
+            android:id="@+id/btnMinus"
+            android:layout_width="80dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:onClick="@{(v) -> model.minus()}"
+            android:text="@string/minus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTargetedLength" />
+
+        <TextView
+            android:id="@+id/tvCompletionLength"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            style="@style/TextNormal"
+            android:background="@drawable/bg_r4_grey_border"
+            android:text="@{model.counter.toString()}"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/btnMinus"
+            app:layout_constraintEnd_toStartOf="@id/btnPlus"
+            app:layout_constraintStart_toEndOf="@id/btnMinus"
+            app:layout_constraintTop_toTopOf="@id/btnMinus" />
+
+        <Button
+            android:id="@+id/btnPlus"
+            android:layout_width="80dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:onClick="@{(v) -> model.plus()}"
+            android:text="@string/plus"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTargetedLength" />
+
+        <RadioGroup
+            android:id="@+id/rgPeriods"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/btnMinus">
+
+            <RadioButton
+                android:id="@+id/rbDays"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/pref_time_selector"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:gravity="center"
+                android:text="@string/days"
+                android:textColor="@color/pref_time_text_selector" />
+
+            <RadioButton
+                android:id="@+id/rbWeeks"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/pref_time_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/weeks"
+                android:textColor="@color/pref_time_text_selector" />
+
+            <RadioButton
+                android:id="@+id/rbMonth"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/pref_time_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/months"
+                android:textColor="@color/pref_time_text_selector" />
+
+            <RadioButton
+                android:id="@+id/rbYears"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/pref_time_selector"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:text="@string/years"
+                android:textColor="@color/pref_time_text_selector" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvActionSteps"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/action_steps"
+            android:textColor="@color/green_font_color"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgPeriods" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,9 +1,9 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
-import com.doneit.ascend.domain.entity.AnswerOptionEntity
 import com.doneit.ascend.domain.entity.CommunityQuestionEntity
 import com.doneit.ascend.domain.entity.QuestionEntity
 import com.doneit.ascend.domain.entity.QuestionListEntity
+import com.doneit.ascend.domain.entity.user.AnswerOptionEntity
 import com.doneit.ascend.source.storage.local.data.CommunityLocal
 import com.doneit.ascend.source.storage.local.data.first_time_login.AnswerOptionLocal
 import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionItemLocal

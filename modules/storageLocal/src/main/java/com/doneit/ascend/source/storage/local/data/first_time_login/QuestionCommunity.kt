@@ -12,10 +12,10 @@ package com.doneit.ascend.source.storage.local.data.first_time_login
 //)
 //data class QuestionCommunity(
 //    @PrimaryKey
-//    @ColumnInfo(name = "question_community_id")
+//    @ColumnInfo(fullName = "question_community_id")
 //    var id: Long = Random.nextLong(),
-//    @ColumnInfo(name = "question_id")
+//    @ColumnInfo(fullName = "question_id")
 //    var questionId: Long? = 0,
-//    @ColumnInfo(name = "community_id")
+//    @ColumnInfo(fullName = "community_id")
 //    var communityId: Long? = 0
 //)

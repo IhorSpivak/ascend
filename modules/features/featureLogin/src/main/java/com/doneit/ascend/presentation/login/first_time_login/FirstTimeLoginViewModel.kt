@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.login.first_time_login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.AnswerEntity
+import com.doneit.ascend.domain.entity.user.AnswerEntity
 import com.doneit.ascend.domain.entity.dto.AnswersDTO
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase

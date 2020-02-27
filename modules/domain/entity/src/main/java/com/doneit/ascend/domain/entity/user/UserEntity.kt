@@ -1,5 +1,7 @@
-package com.doneit.ascend.domain.entity
+package com.doneit.ascend.domain.entity.user
 
+import com.doneit.ascend.domain.entity.ImageEntity
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import java.util.*
 
 data class UserEntity(
@@ -13,29 +15,27 @@ data class UserEntity(
     val meetingStarted: Boolean?,
     val newGroups: Boolean?,
     val inviteToMeeting: Boolean?,
+    val registrationType: RegistrationType,
     val unansweredQuestionsCount: Int,
+    val unreadNotificationsCount: Int,
     val image: ImageEntity?,
     val displayName: String?,
     val description: String?,
     val bio: String?,
     val rating: Float?,
-    val role: String?,
+    val isMasterMind: Boolean,
     val community: String?,
     val visitedGroupCount: Int,
     val birthday: Date?
 ) {
     val age: Int?
         get() {
-            return if (birthday == null) null else getAge(birthday)
-        }
-
-    val isMasterMind: Boolean
-        get() {
-            return role == MM_ROLE
+            return if (birthday == null) null else getAge(
+                birthday
+            )
         }
 
     companion object {
-        private const val MM_ROLE = "master_mind"
 
         fun getAge(birthDate: Date): Int {
             val currentDate = getDefaultCalendar()

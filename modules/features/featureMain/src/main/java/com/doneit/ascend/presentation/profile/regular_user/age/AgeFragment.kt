@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.profile.regular_user.age
 
 import android.os.Bundle
 import com.doneit.ascend.domain.entity.MonthEntity
-import com.doneit.ascend.domain.entity.UserEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAgeBinding
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel

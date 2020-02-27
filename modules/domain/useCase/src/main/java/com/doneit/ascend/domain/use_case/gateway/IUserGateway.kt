@@ -2,11 +2,11 @@ package com.doneit.ascend.domain.use_case.gateway
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.AuthEntity
 import com.doneit.ascend.domain.entity.RateEntity
-import com.doneit.ascend.domain.entity.UserEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.user.AuthEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 
 interface IUserGateway {
     suspend fun signIn(loginMode: LogInUserDTO): ResponseEntity<AuthEntity, List<String>>
@@ -39,7 +39,7 @@ interface IUserGateway {
 
     suspend fun report(content: String, id: String): ResponseEntity<Unit, List<String>>
 
-    suspend fun getProfile() : ResponseEntity<UserEntity, List<String>>
+    suspend fun updateCurrentUserData()
 
     suspend fun updateProfile(groupDTO: UpdateProfileDTO): ResponseEntity<UserEntity, List<String>>
 

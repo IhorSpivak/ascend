@@ -61,7 +61,7 @@
     <string name="number_of_meetings">Number Of Meetings</string>
     <string name="start_date">Start Date</string>
     <string name="price">Price</string>
-    <string name="description">Group Description</string>
+    <string name="group_description">Group Description</string>
     <string name="upload_group_image">Upload Group Image</string>
     <string name="reservation">Reservation a seat</string>
     <string name="create">Create</string>
@@ -102,6 +102,7 @@
     <string name="support_group_description">Provide an opportunity for people to share personal experiences, feelings and helps people who are going through or have gone through similar experiences</string>
     <string name="mastermind_group_title">MasterMind Group</string>
     <string name="mastermind_group_description">Offer a combination of brainstorming, education, peer accountability and support in a group setting to sharpen your business and personal skills</string>
+    <string name="logged_social">You\'re logged in via %s</string>
 
     <string name="su">Su</string>
     <string name="mo">Mo</string>
@@ -380,5 +381,19 @@
     <string name="repeat">Repeat</string>
     <string name="time_commitment">Time Commitment</string>
     <string name="create_spiritual_actions_steps">Create Spiritual Actions Steps</string>
+    
+    <!--Create Goals-->
+    <string name="create_goals_list">Create Goals List</string>
+    <string name="goal_name">Goal Name</string>
+    <string name="category">Category</string>
+    <string name="targeted_completion_length">Targeted completion length</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="days">Days</string>
+    <string name="weeks">Weeks</string>
+    <string name="months">Months</string>
+    <string name="years">Years</string>
+    <string name="action_steps">Action steps</string>
+    <string name="description">Description</string>
 
 </resources>
