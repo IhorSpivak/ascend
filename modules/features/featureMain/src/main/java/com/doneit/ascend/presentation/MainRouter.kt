@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.doneit.ascend.domain.entity.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
@@ -38,6 +39,9 @@ import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
+import com.doneit.ascend.presentation.main.spiritual_action_steps.SpiritualActionStepsContract
+import com.doneit.ascend.presentation.main.spiritual_action_steps.SpiritualActionStepsFragment
+import com.doneit.ascend.presentation.main.spiritual_action_steps.list.SpiritualActionListContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
 import com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract
@@ -113,7 +117,28 @@ class MainRouter(
     PaymentMethodsContract.Router,
     AddPaymentContract.Router,
     MyTransactionsContract.Router,
-    SelectGroupTypeContract.Router {
+    SelectGroupTypeContract.Router,
+    SpiritualActionStepsContract.Router,
+    SpiritualActionListContract.Router{
+    override fun navigateToEditActionStep(actionStep: SpiritualActionStepEntity) {
+        //todo create fragment
+    }
+
+    override fun navigateToSpiritualActionSteps() {
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull,SpiritualActionStepsFragment())
+    }
+
+    override fun navigateToMyGoals() {
+        //todo create fragment
+    }
+
+    override fun navigateToCreateSpiritualActionSteps() {
+
+    }
+
+    override fun navigateToCreateGoal() {
+
+    }
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()

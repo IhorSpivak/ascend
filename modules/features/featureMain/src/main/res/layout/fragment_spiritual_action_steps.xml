@@ -7,18 +7,21 @@
 
         <variable
             name="tabAdapter"
-            type="com.doneit.ascend.presentation.main.my_spiritual_action_steps.common.TabAdapter">
+            type="com.doneit.ascend.presentation.main.spiritual_action_steps.common.TabAdapter">
         </variable>
 
         <variable
             name="viewModel"
-            type="com.doneit.ascend.presentation.main.my_spiritual_action_steps.MySpiritualActionStepsContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.spiritual_action_steps.SpiritualActionStepsContract.ViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        android:focusable="true">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -47,7 +50,6 @@
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_back"
                         android:tint="@color/light_gray_8f"
-                        android:onClick="@{viewModel.goBack()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -70,7 +72,6 @@
                         android:layout_height="16dp"
                         android:layout_marginEnd="8dp"
                         android:background="@android:color/transparent"
-                        android:onClick="@{viewModel.onAddClick()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

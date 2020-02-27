@@ -1,8 +1,8 @@
-package com.doneit.ascend.presentation.main.my_spiritual_action_steps
+package com.doneit.ascend.presentation.main.spiritual_action_steps
 
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 
-interface MySpiritualActionStepsContract {
+interface SpiritualActionStepsContract {
 
     interface ViewModel : BaseViewModel {
         fun onAddClick()

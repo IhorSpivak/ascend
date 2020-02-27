@@ -376,5 +376,9 @@
     <string name="tab_active">Active</string>
     <string name="tab_completed">Completed</string>
     <string name="my_sa_steps_app_bar_title">My Spiritual Action Steps</string>
+    <string name="spiritual_action_menu_item_complete">Complete this step</string>
+    <string name="spiritual_action_menu_item_edit">Edit this action step</string>
+    <string name="spiritual_action_commitment_hour">%d hr</string>
+    <string name="spiritual_action_commitment_minute">%d min</string>
 
 </resources>

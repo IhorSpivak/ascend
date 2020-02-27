@@ -7,7 +7,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 interface AscensionPlanContract {
         interface ViewModel : BaseViewModel {
             val user: LiveData<UserEntity?>
-
+            fun goToSA()
         }
 
         interface Router {

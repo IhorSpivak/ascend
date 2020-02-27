@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.my_spiritual_action_steps.list.common
+package com.doneit.ascend.presentation.main.spiritual_action_steps.list.common
 
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
@@ -9,10 +9,6 @@ class SpiritualActionListAdapter(
     private val onComplete: (item: SpiritualActionStepEntity) -> Unit,
     private val onEdit: (item: SpiritualActionStepEntity) -> Unit
 ): PagedListAdapter<SpiritualActionStepEntity, SpiritualActionStepViewHolder>(SpiritualActionStepEntityDiffCallback()) {
-
-    init {
-        setHasStableIds(true)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int
     ): SpiritualActionStepViewHolder {
@@ -29,7 +25,7 @@ class SpiritualActionListAdapter(
         }
 
         override fun areContentsTheSame(oldItem: SpiritualActionStepEntity, newItem: SpiritualActionStepEntity): Boolean {
-            return oldItem == newItem
+            return oldItem.equals(newItem)
         }
     }
 }

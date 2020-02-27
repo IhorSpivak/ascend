@@ -11,6 +11,9 @@ class AscensionPlanViewModel(
     private val userUseCase: UserUseCase,
     private val router: AscensionPlanContract.Router
 ) : BaseViewModelImpl(), AscensionPlanContract.ViewModel {
+    override fun goToSA() {
+        router.navigateToSpiritualActionSteps()
+    }
 
     override val user = userUseCase.getUserLive()
 }

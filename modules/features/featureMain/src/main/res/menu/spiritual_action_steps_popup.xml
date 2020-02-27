@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/spiritual_action_menu_on_complete"
+        android:title="@string/spiritual_action_menu_item_complete">
+    </item>
+
+    <item
+        android:id="@+id/spiritual_action_menu_on_edit"
+        android:title="@string/spiritual_action_menu_item_edit">
+    </item>
+</menu>

@@ -14,6 +14,9 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
 
     override
     fun viewCreated(savedInstanceState: Bundle?) {
+        binding.arrowSaSteps.setOnClickListener {
+            viewModel.goToSA()
+        }
     }
 
     override fun onAttach(context: Context) {
