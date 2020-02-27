@@ -10,9 +10,9 @@ interface AscensionPlanContract {
         val user: LiveData<UserEntity?>
         val isActionStepsVisible: LiveData<Boolean>
         val isGoalsListVisible: LiveData<Boolean>
+        var filter: FilterDTO
 
         fun createSpiritual()
-        fun setFilter(filterDTO: FilterDTO)
     }
 
     interface Router {

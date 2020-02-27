@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.entity.dto
 
 data class FilterDTO (
-    val dateRange: DateRangeDTO?,
-    val stepsEntity: StepsDTO?
+    var dateRange: DateRangeDTO?,
+    var steps: StepsDTO?
 )

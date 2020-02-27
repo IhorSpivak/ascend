@@ -25,11 +25,10 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
-        //todo any better solution?
+        //todo any better solution to set listener?
         activity!!.btnFilter.setOnClickListener {
-            FilterDialog.create(context!!) {
-                viewModel.setFilter(it)
-                Toast.makeText(requireContext(), "applied", Toast.LENGTH_LONG).show()
+            FilterDialog.create(context!!, viewModel.filter.copy()) {
+                viewModel.filter = it
             }.show()
         }
     }
