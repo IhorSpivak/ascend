@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.spiritual_action_steps.list
+package com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list
 
 import androidx.lifecycle.*
 import androidx.paging.DataSource
@@ -10,7 +10,7 @@ import com.doneit.ascend.domain.entity.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.TimeCommitmentEntity
 import com.doneit.ascend.domain.entity.TimeCommitmentType
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.spiritual_action_steps.list.common.SpiritualActionListArgs
+import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.common.SpiritualActionListArgs
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import java.util.concurrent.Executors

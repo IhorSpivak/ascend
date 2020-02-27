@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.spiritual_action_steps.list
+package com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -6,8 +6,8 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 
 import com.doneit.ascend.presentation.main.databinding.FragmentSpiritualActionStepsListBinding
-import com.doneit.ascend.presentation.main.spiritual_action_steps.list.common.SpiritualActionListAdapter
-import com.doneit.ascend.presentation.main.spiritual_action_steps.list.common.SpiritualActionListArgs
+import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.common.SpiritualActionListAdapter
+import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.common.SpiritualActionListArgs
 import org.kodein.di.generic.instance
 
 class SpiritualActionListFragment: BaseFragment<FragmentSpiritualActionStepsListBinding>() {
@@ -26,6 +26,7 @@ class SpiritualActionListFragment: BaseFragment<FragmentSpiritualActionStepsList
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
+        binding.model = viewModel
         binding.recyclerViewActionStepList.adapter = this.adapter
         viewModel.spiritualActionList.observe(this, Observer {
             adapter.submitList(it)

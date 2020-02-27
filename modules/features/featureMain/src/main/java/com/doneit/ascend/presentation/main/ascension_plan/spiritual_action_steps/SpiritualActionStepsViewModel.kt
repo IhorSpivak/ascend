@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.spiritual_action_steps
+package com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps
 
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.vrgsoft.annotations.CreateFactory

@@ -5,7 +5,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.spiritual_action_steps.list.SpiritualActionListContract" />
+            type="com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.SpiritualActionListContract.ViewModel" />
     </data>
 
     <LinearLayout

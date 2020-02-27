@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.spiritual_action_steps.common
+package com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.common
 
 import android.content.Context
 import android.os.Bundle
@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
-import com.doneit.ascend.presentation.main.spiritual_action_steps.list.SpiritualActionListFragment
-import com.doneit.ascend.presentation.main.spiritual_action_steps.list.common.SpiritualActionListArgs
+import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.SpiritualActionListFragment
+import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.common.SpiritualActionListArgs
 
 class TabAdapter(
     private val fragmentManager: FragmentManager,

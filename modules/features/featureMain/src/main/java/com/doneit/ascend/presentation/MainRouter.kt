@@ -43,9 +43,9 @@ import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
-import com.doneit.ascend.presentation.main.spiritual_action_steps.SpiritualActionStepsContract
-import com.doneit.ascend.presentation.main.spiritual_action_steps.SpiritualActionStepsFragment
-import com.doneit.ascend.presentation.main.spiritual_action_steps.list.SpiritualActionListContract
+import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsContract
+import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsFragment
+import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.SpiritualActionListContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
 import com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract
@@ -128,22 +128,6 @@ class MainRouter(
     SpiritualActionListContract.Router{
     override fun navigateToEditActionStep(actionStep: SpiritualActionStepEntity) {
         //todo create fragment
-    }
-
-    override fun navigateToSpiritualActionSteps() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull,SpiritualActionStepsFragment())
-    }
-
-    override fun navigateToMyGoals() {
-        //todo create fragment
-    }
-
-    override fun navigateToCreateSpiritualActionSteps() {
-
-    }
-
-    override fun navigateToCreateGoal() {
-
     }
 
     override val containerId = activity.getContainerId()
@@ -387,7 +371,7 @@ class MainRouter(
     }
 
     override fun navigateToSpiritualActionSteps() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull,SpiritualActionStepsFragment())
     }
 
     override fun navigateToMyGoals() {

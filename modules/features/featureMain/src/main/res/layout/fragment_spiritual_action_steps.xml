@@ -7,12 +7,12 @@
 
         <variable
             name="tabAdapter"
-            type="com.doneit.ascend.presentation.main.spiritual_action_steps.common.TabAdapter">
+            type="com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.common.TabAdapter">
         </variable>
 
         <variable
             name="viewModel"
-            type="com.doneit.ascend.presentation.main.spiritual_action_steps.SpiritualActionStepsContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsContract.ViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,6 +50,7 @@
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_back"
                         android:tint="@color/light_gray_8f"
+                        android:onClick="@{(v) -> viewModel.goBack()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -72,6 +73,7 @@
                         android:layout_height="16dp"
                         android:layout_marginEnd="8dp"
                         android:background="@android:color/transparent"
+                        android:onClick="@{(v) -> viewModel.onAddClick()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.spiritual_action_steps.list.common
+package com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.common
 
 import android.view.*
 import android.widget.PopupMenu
