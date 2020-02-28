@@ -9,9 +9,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/spiritual_action_step_background"
-        android:paddingBottom="12dp">
+        android:background="@drawable/spiritual_action_step_background">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_spiritual_action_id"
@@ -38,35 +36,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_view_spiritual_action_commitment_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:fontFamily="@font/red_hat_font"
-            android:textColor="@color/light_gray_b1bf"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/text_view_spiritual_action_id"
-            app:layout_constraintTop_toBottomOf="@id/text_view_spiritual_action_name" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_view_spiritual_action_divider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/red_hat_font"
-            android:text=" | "
-            android:textColor="@color/light_gray_b1bf"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/text_view_spiritual_action_commitment_time"
-            app:layout_constraintTop_toBottomOf="@id/text_view_spiritual_action_name" />
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_spiritual_action_reiteration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/red_hat_font"
             android:textColor="@color/light_gray_b1bf"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/text_view_spiritual_action_divider"
+            app:layout_constraintStart_toEndOf="@id/text_view_spiritual_action_name"
             app:layout_constraintTop_toBottomOf="@id/text_view_spiritual_action_name" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -79,17 +55,6 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_view_spiritual_action_name" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/button_spiritual_action_interaction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_more_menu"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

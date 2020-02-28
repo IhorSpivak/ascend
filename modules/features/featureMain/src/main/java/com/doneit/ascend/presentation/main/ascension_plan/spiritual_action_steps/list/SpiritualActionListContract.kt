@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_step
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.SpiritualActionStepEntity
+import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedViewModel
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.common.SpiritualActionListArgs
 

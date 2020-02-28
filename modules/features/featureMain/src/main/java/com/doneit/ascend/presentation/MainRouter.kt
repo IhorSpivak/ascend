@@ -4,7 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.doneit.ascend.domain.entity.SpiritualActionStepEntity
+import com.doneit.ascend.domain.entity.ascension.goal.GoalEntity
+import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
@@ -15,6 +16,7 @@ import com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoal
 import com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoalsFragment
 import com.doneit.ascend.presentation.main.ascension_plan.create_spiritual.CreateSpiritualContract
 import com.doneit.ascend.presentation.main.ascension_plan.create_spiritual.CreateSpiritualFragment
+import com.doneit.ascend.presentation.main.ascension_plan.goals.list.GoalsListContract
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
@@ -46,6 +48,8 @@ import com.doneit.ascend.presentation.main.search.SearchFragment
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsContract
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsFragment
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.SpiritualActionListContract
+import com.doneit.ascend.presentation.main.goals.GoalsContract
+import com.doneit.ascend.presentation.main.goals.GoalsFragment
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
 import com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract
@@ -125,7 +129,13 @@ class MainRouter(
     MyTransactionsContract.Router,
     SelectGroupTypeContract.Router,
     SpiritualActionStepsContract.Router,
-    SpiritualActionListContract.Router{
+    SpiritualActionListContract.Router,
+    GoalsContract.Router,
+    GoalsListContract.Router{
+    override fun navigateToEditGoal(goal: GoalEntity) {
+        //add later
+    }
+
     override fun navigateToEditActionStep(actionStep: SpiritualActionStepEntity) {
         //todo create fragment
     }
@@ -375,7 +385,7 @@ class MainRouter(
     }
 
     override fun navigateToMyGoals() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, GoalsFragment())
     }
 
     override fun navigateToCreateSpiritualActionSteps() {

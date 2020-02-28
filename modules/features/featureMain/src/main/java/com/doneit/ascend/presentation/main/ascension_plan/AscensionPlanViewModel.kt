@@ -19,6 +19,10 @@ class AscensionPlanViewModel(
     private val ascensionUseCase: AscensionUseCase,
     private val router: AscensionPlanContract.Router
 ) : BaseViewModelImpl(), AscensionPlanContract.ViewModel {
+    override fun goToG() {
+        router.navigateToMyGoals()
+    }
+
     override fun goToSA() {
         router.navigateToSpiritualActionSteps()
     }

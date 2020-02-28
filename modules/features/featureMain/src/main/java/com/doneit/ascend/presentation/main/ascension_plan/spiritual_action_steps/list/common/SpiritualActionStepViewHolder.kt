@@ -4,9 +4,9 @@ import android.view.*
 import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.RepeatType
-import com.doneit.ascend.domain.entity.SpiritualActionStepEntity
-import com.doneit.ascend.domain.entity.TimeCommitmentType
+import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.RepeatType
+import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
+import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.TimeCommitmentType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.SpiritualActionListItemBinding
 import java.text.SimpleDateFormat

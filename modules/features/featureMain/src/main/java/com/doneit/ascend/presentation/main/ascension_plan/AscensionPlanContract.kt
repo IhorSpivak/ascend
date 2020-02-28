@@ -19,6 +19,7 @@ interface AscensionPlanContract {
         fun setFilterModel(filter: PresentationAscensionFilter)
         fun createGoal()
         fun goToSA()
+        fun goToG()
     }
 
     interface Router {

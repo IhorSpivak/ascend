@@ -1,6 +1,7 @@
-package com.doneit.ascend.domain.entity
+package com.doneit.ascend.domain.entity.ascension.spiritual_action_step
 
 import android.os.Parcelable
+import com.doneit.ascend.domain.entity.CalendarDayEntity
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

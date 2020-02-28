@@ -405,4 +405,23 @@
     <string name="spiritual_action_commitment_hour">%d hr</string>
     <string name="spiritual_action_commitment_minute">%d min</string>
 
+    <!--My Goals Action Steps-->
+    <string name="goals_tab_active">Active</string>
+    <string name="goals_tab_completed">Completed</string>
+    <string name="goals_menu_item_complete">Complete this step</string>
+    <string name="goals_menu_item_edit">Edit this goal list</string>
+    <string name="goals_app_bar_title">My Goals</string>
+    <string name="goals_main_">Category</string>
+
+    <!--Create Webinar-->
+    <string name="create_webinar_title">Create Webinar</string>
+    <string name="create_webinar_cancel">Cancel</string>
+    <string name="create_webinar_complete">Complete</string>
+    <string name="create_webinar_group_name">Group Name</string>
+    <string name="create_webinar_date_and_time">Date&amp;Time</string>
+    <string name="create_webinar_choose_schedule">Choose Schedule</string>
+    <string name="create_webinar_group_description">Group Description</string>
+    <string name="create_webinar_upload_group_image">Upload Group Image</string>
+    <string name="create_webinar_invate">Invite members</string>
+    <string name="create_webinar_add_member">Add Member</string>
 </resources>

@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_step
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.doneit.ascend.domain.entity.SpiritualActionStepEntity
+import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 
 class SpiritualActionListAdapter(
     private val onComplete: (item: SpiritualActionStepEntity) -> Unit,

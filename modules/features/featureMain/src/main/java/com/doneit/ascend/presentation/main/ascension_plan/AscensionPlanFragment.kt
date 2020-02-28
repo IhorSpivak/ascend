@@ -41,6 +41,9 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
         binding.arrowSaSteps.setOnClickListener {
             viewModel.goToSA()
         }
+        binding.arrowPlanSteps.setOnClickListener {
+            viewModel.goToG()
+        }
 
         viewModel.data.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
