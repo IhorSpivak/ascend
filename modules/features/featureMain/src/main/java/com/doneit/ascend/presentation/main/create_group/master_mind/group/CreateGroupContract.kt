@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.create_group.master_mind
+package com.doneit.ascend.presentation.main.create_group.master_mind.group
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedViewModel
