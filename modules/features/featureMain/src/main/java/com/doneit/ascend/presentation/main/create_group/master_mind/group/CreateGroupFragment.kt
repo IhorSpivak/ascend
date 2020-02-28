@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.create_group.master_mind
+package com.doneit.ascend.presentation.main.create_group.master_mind.group
 
 import android.Manifest
 import android.app.Activity
@@ -9,9 +9,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import com.androidisland.ezpermission.EzPermission
-import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
-import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
+import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
@@ -29,7 +27,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, CreateGroupArgs>() {
+class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<CreateGroupContract.ViewModel>() with provider {
@@ -48,8 +46,6 @@ class CreateGroupFragment : ArgumentedFragment<FragmentCreateGroupBinding, Creat
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
         binding.adapter = adapter
-
-        tvTitle.text = getString(R.string.create_group)
 
         chooseSchedule.multilineEditText.setOnClickListener {
             mainContainer.requestFocus()

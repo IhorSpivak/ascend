@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupContract
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
@@ -25,9 +26,10 @@ class CreateGroupViewModel(
     private val router: CreateGroupHostContract.Router,
     private val localRouter: CreateGroupHostContract.LocalRouter,
     private val calendarUtil: CalendarPickerUtil
-) : BaseViewModelImpl(),
-    CreateGroupHostContract.ViewModel {
+) : BaseViewModelImpl(), CreateGroupHostContract.ViewModel {
 
+    override val navigation =
+        MutableLiveData<CreateMMGroupContract.Navigation>(CreateMMGroupContract.Navigation.TO_GROUP)
     override val createGroupModel = PresentationCreateGroupModel()
     override var email: ValidatableField = ValidatableField()
     override val canComplete = MutableLiveData<Boolean>()
@@ -195,9 +197,9 @@ class CreateGroupViewModel(
 
     override fun handleBaseNavigation(args: CreateGroupArgs) {
         if (args.groupType == GroupType.SUPPORT) {
-            localRouter.navigateToCreateSubGroup(args)
+            localRouter.navigateToCreateSupGroup(args)
         } else {
-            localRouter.navigateToCreateGroup(args)
+            localRouter.navigateToCreateMMGroup(args)
         }
     }
 
@@ -268,24 +270,50 @@ class CreateGroupViewModel(
     }
 
     private fun updateCanCreate() {
+
+        val isValid = when {
+            createGroupModel.groupType == GroupType.SUPPORT -> canCreateSupport()
+            createGroupModel.isPublic.getNotNull() -> canCreateMMGroup()
+            else -> canCreateMMIndividual()
+        }
+        canComplete.postValue(isValid)
+    }
+
+    private fun canCreateSupport(): Boolean {
         var isFormValid = true
 
         isFormValid = isFormValid and createGroupModel.name.isValid
-        isFormValid = isFormValid and (createGroupModel.meetingFormat.isValid
-                || createGroupModel.groupType != GroupType.SUPPORT)
+        isFormValid = isFormValid and createGroupModel.meetingFormat.isValid
         isFormValid = isFormValid and
                 createGroupModel.scheduleTime.observableField.getNotNull().isNotEmpty() and
                 createGroupModel.scheduleDays.isNotEmpty()
         isFormValid = isFormValid and createGroupModel.numberOfMeetings.isValid
         isFormValid = isFormValid and createGroupModel.startDate.isValid
-        isFormValid = isFormValid and (createGroupModel.price.isValid
-                || createGroupModel.groupType == GroupType.SUPPORT)
-        isFormValid = isFormValid and (createGroupModel.tags.isValid
-                || createGroupModel.groupType != GroupType.SUPPORT)
+        isFormValid = isFormValid and createGroupModel.tags.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
 
-        canComplete.postValue(isFormValid)
+        return isFormValid
+    }
+
+    private fun canCreateMMGroup(): Boolean {
+        var isFormValid = true
+
+        isFormValid = isFormValid and createGroupModel.name.isValid
+        isFormValid = isFormValid and
+                createGroupModel.scheduleTime.observableField.getNotNull().isNotEmpty() and
+                createGroupModel.scheduleDays.isNotEmpty()
+        isFormValid = isFormValid and createGroupModel.numberOfMeetings.isValid
+        isFormValid = isFormValid and createGroupModel.startDate.isValid
+        isFormValid = isFormValid and createGroupModel.price.isValid
+        isFormValid = isFormValid and createGroupModel.description.isValid
+        isFormValid = isFormValid and createGroupModel.image.isValid
+
+        return isFormValid
+    }
+
+    private fun canCreateMMIndividual(): Boolean {
+        return true
     }
 
     private fun updateCanAddParticipant() {
@@ -383,6 +411,14 @@ class CreateGroupViewModel(
 
     override fun getYear(): Int {
         return createGroupModel.year
+    }
+
+    override fun onGroupSelected() {
+        navigation.postValue(CreateMMGroupContract.Navigation.TO_GROUP)
+    }
+
+    override fun onIndividualSelected() {
+        navigation.postValue(CreateMMGroupContract.Navigation.TO_INDIVIDUAL)
     }
 
     companion object {

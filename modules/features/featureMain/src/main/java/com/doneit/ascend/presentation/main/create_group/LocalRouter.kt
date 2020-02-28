@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateGroupFragment
+import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupFragment
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.vrgsoft.core.presentation.router.FragmentRouter
@@ -25,8 +25,9 @@ class LocalRouter(
         }
     }
 
-    override fun navigateToCreateGroup(args: CreateGroupArgs) {
-        val fragment = CreateGroupFragment()
+    override fun navigateToCreateMMGroup(args: CreateGroupArgs) {
+        val fragment =
+            CreateMMGroupFragment()
         fragment.arguments = Bundle().apply {
             putParcelable(
                 com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,
@@ -40,7 +41,7 @@ class LocalRouter(
             .commit()//replace(containerId, fragment)
     }
 
-    override fun navigateToCreateSubGroup(args: CreateGroupArgs) {
+    override fun navigateToCreateSupGroup(args: CreateGroupArgs) {
         val fragment = CreateSupGroupFragment()
         fragment.arguments = Bundle().apply {
             putParcelable(
