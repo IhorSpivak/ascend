@@ -33,7 +33,7 @@ internal class GroupRepository(
 
             var builder = MultipartBody.Builder()
 
-            var stringPart = MultipartBody.Part.createFormData("fullName", request.name)
+            var stringPart = MultipartBody.Part.createFormData("name", request.name)
             builder = builder.addPart(stringPart)
 
             stringPart = MultipartBody.Part.createFormData("description", request.description)
@@ -44,6 +44,12 @@ internal class GroupRepository(
 
             stringPart = MultipartBody.Part.createFormData("group_type", request.groupType)
             builder = builder.addPart(stringPart)
+
+            if(request.groupType.equals("support", true)){
+                //always set tag_id to 1, no tag ids
+                stringPart = MultipartBody.Part.createFormData("tag_id", 1.toString())
+                builder = builder.addPart(stringPart)
+            }
 
             request.days?.forEach {
                 stringPart = MultipartBody.Part.createFormData("wdays[]", it.toString())
