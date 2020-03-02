@@ -5,6 +5,7 @@ import com.doneit.ascend.presentation.main.create_group.calendar_picker.Calendar
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupFragment
+import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarFragment
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.vrgsoft.core.presentation.router.FragmentRouter
@@ -43,6 +44,18 @@ class LocalRouter(
 
     override fun navigateToCreateSupGroup(args: CreateGroupArgs) {
         val fragment = CreateSupGroupFragment()
+        fragment.arguments = Bundle().apply {
+            putParcelable(
+                com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,
+                args
+            )
+        }
+
+        hostFragment.childFragmentManager.replace(containerId, fragment)
+    }
+
+    override fun navigateToCreateWebinar(args: CreateGroupArgs) {
+        val fragment = CreateWebinarFragment()
         fragment.arguments = Bundle().apply {
             putParcelable(
                 com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,

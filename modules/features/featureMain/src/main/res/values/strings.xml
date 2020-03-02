@@ -423,6 +423,6 @@
     <string name="create_webinar_choose_schedule">Choose Schedule</string>
     <string name="create_webinar_group_description">Group Description</string>
     <string name="create_webinar_upload_group_image">Upload Group Image</string>
-    <string name="create_webinar_invate">Invite members</string>
-    <string name="create_webinar_add_member">Add Member</string>
+    <string name="create_webinar_invite">Invite members</string>
+    <string name="create_webinar_add_member">Add\nMember</string>
 </resources>

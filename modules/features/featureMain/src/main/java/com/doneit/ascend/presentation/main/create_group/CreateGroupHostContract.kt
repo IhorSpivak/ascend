@@ -1,11 +1,13 @@
 package com.doneit.ascend.presentation.main.create_group
 
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
+import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.CalendarWithTimePickerContact
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerContract
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupContract
 import com.doneit.ascend.presentation.main.create_group.master_mind.group.CreateGroupContract
 import com.doneit.ascend.presentation.main.create_group.master_mind.individual.IndividualGroupContract
+import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarContract
 
 interface CreateGroupHostContract {
     interface ViewModel : CreateGroupContract.ViewModel,
@@ -13,7 +15,9 @@ interface CreateGroupHostContract {
         CalendarPickerContract.ViewModel,
         DatePickerContract.ViewModel,
         CreateMMGroupContract.ViewModel,
-        IndividualGroupContract.ViewModel {
+        IndividualGroupContract.ViewModel,
+        CreateWebinarContract.ViewModel,
+        CalendarWithTimePickerContact.ViewModel {
 
         fun handleBaseNavigation(args: CreateGroupArgs)
     }
@@ -25,6 +29,7 @@ interface CreateGroupHostContract {
     interface LocalRouter {
         fun navigateToCreateMMGroup(args: CreateGroupArgs)
         fun navigateToCreateSupGroup(args: CreateGroupArgs)
+        fun navigateToCreateWebinar(args: CreateGroupArgs)
         fun navigateToCalendarPiker()
         fun navigateToDatePicker()
         fun onBack(): Boolean

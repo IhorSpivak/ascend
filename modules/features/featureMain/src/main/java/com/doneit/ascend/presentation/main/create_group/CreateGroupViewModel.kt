@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.create_group
 
+import android.icu.text.TimeZoneFormat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.CalendarDayEntity
@@ -196,10 +197,15 @@ class CreateGroupViewModel(
     }
 
     override fun handleBaseNavigation(args: CreateGroupArgs) {
-        if (args.groupType == GroupType.SUPPORT) {
+        /*if (args.groupType == GroupType.SUPPORT) {
             localRouter.navigateToCreateSupGroup(args)
         } else {
             localRouter.navigateToCreateMMGroup(args)
+        }*/
+        when(args.groupType){
+            GroupType.SUPPORT -> localRouter.navigateToCreateSupGroup(args)
+            GroupType.MASTER_MIND -> localRouter.navigateToCreateMMGroup(args)
+            GroupType.WEBINAR -> localRouter.navigateToCreateWebinar(args)
         }
     }
 
@@ -419,6 +425,30 @@ class CreateGroupViewModel(
 
     override fun onIndividualSelected() {
         navigation.postValue(CreateMMGroupContract.Navigation.TO_INDIVIDUAL)
+    }
+
+    override fun setType(type: TimeZoneFormat.TimeType) {
+
+    }
+
+    override fun getType() {
+
+    }
+
+    override fun setMinute(minute: Short) {
+
+    }
+
+    override fun getMinute() {
+
+    }
+
+    override fun setHour(hour: Short) {
+
+    }
+
+    override fun getHour() {
+
     }
 
     companion object {
