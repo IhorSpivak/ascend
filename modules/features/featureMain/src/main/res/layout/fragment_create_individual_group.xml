@@ -1,17 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.create_group.master_mind.individual.IndividualGroupContract.ViewModel" />
+
+        <import type="android.text.InputType" />
+
+        <import type="android.view.View" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blMain">
 
-    </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <!--<com.doneit.ascend.presentation.views.EditWithError
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                app:error="@{model.createGroupModel.name.observableError}"
+                app:hint="@{@string/group_name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:maxLength="@{64}"
+                app:saveState="@{false}"
+                app:src="@{@drawable/ic_header}"
+                app:text="@={model.createGroupModel.name.observableField}" />
+
+            <com.doneit.ascend.presentation.views.MultilineEditWithError
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                android:layout_marginTop="@dimen/create_group_top_margin"
+                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                app:digits="@{@string/allow_description_digits}"
+                app:error="@{model.createGroupModel.description.observableError}"
+                app:hint="@{@string/description}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/price"
+                app:maxLength="@{1000}"
+                app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
+                app:saveState="@{false}"
+                app:src="@{@drawable/ic_description}"
+                app:text="@={model.createGroupModel.description.observableField}" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

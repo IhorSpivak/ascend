@@ -246,10 +246,11 @@ class MainRouter(
     }
 
     override fun navigateToGroupInfo(id: Long) {
-        activity.supportFragmentManager.replaceWithBackStack(
+        /*activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,
             GroupInfoFragment.newInstance(id)
-        )
+        )*/
+        replaceFullWithMainUpdate(GroupInfoFragment.newInstance(id))
     }
 
     override fun navigateToNotifications() {

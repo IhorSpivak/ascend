@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders

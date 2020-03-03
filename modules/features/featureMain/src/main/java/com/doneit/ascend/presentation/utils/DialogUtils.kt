@@ -3,6 +3,9 @@ package com.doneit.ascend.presentation.utils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.R
@@ -119,8 +122,12 @@ fun BaseFragment<*>.showInfoDialog(
 fun View.showNoConnectionDialog(
     text: String
 ): ConnectionSnackbar {
-
-    val snackbar = ConnectionSnackbar.make(this, text)
+    /*val errorViewHolder = if (this.findViewById<View>(R.id.container_full) != null){
+        this.findViewById<View>(R.id.container_full)
+    }else{
+        this.findViewById<View>(R.id.container)
+    }*/
+    val snackbar = ConnectionSnackbar.make(this.findViewById(R.id.container), text)
     snackbar.show()
 
     return snackbar

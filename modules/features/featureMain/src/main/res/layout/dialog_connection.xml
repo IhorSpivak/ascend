@@ -17,8 +17,8 @@
         <LinearLayout
             android:id="@+id/connectionDialog"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="@dimen/dialog_bottom_margin"
+            android:layout_height="60dp"
+
             android:background="@color/error_color"
             android:orientation="vertical">
 

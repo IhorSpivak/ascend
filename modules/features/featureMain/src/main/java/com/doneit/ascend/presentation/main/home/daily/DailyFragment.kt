@@ -40,8 +40,8 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        binding.hasGroups = false
-        binding.hasMasterMinds = false
+        binding.hasGroups = true
+        binding.hasMasterMinds = true
 
         val decorator = SideListDecorator(paddingLeft = resources.getDimension(R.dimen.create_group_horizontal_margin).toInt())
         binding.rvGroups.addItemDecoration(decorator)
