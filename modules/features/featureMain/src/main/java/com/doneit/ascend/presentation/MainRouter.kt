@@ -205,12 +205,12 @@ class MainRouter(
         replaceFullWithMainUpdate(SelectGroupTypeFragment())
     }
 
-    override fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?) {
+    override fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?, mmName: String?) {
         val args =
             GroupsArg(userId, groupType, isMyGroups)
         activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,
-            GroupsFragment.newInstance(args)
+            GroupsFragment.newInstance(args, mmName)
         )
     }
 

@@ -35,6 +35,6 @@ interface MMInfoContract {
 
     interface Router {
         fun onBack()
-        fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
+        fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?, mmName: String?)
     }
 }

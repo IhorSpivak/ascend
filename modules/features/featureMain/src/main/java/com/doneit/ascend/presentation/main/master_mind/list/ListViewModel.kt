@@ -34,6 +34,6 @@ class ListViewModel(
     }
 
     override fun openGroupList(id: Long) {
-        router.navigateToGroupList(id, null, null)
+        router.navigateToGroupList(id, null, null, null)
     }
 }

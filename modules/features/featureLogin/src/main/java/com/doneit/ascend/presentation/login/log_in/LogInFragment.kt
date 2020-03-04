@@ -119,7 +119,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
                 }
 
                 override fun onError(error: FacebookException?) {
-                    Log.d("myLog", "Error")
+                    Log.d("myLog", error.toString())
                 }
             })
         }

@@ -73,7 +73,7 @@ class MasterMindIcon @JvmOverloads constructor(
         Glide.with(ivIcon)
             .load(url)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
+            //.skipMemoryCache(true)
             .into(ivIcon)
     }
 

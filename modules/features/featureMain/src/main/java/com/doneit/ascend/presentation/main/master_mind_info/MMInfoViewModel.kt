@@ -108,7 +108,7 @@ class MMInfoViewModel(
 
     override fun onSeeGroupsClick() {
         profile.value?.let {
-            router.navigateToGroupList(it.id, null, null)
+            router.navigateToGroupList(it.id, null, null, it.fullName)
         }
     }
 

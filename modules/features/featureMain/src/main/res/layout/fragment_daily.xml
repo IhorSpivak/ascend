@@ -32,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/placeholder_join_group"
                     android:layout_width="240dp"
@@ -51,40 +52,38 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/placeholder_join_group_join_group"
                         style="@style/TextNormal"
-                        android:layout_width="80dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="32dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginEnd="24dp"
                         android:ellipsize="end"
                         android:fontFamily="@font/red_hat_font"
                         android:gravity="center_horizontal|top"
-                        android:lines="2"
                         android:text="@string/join_group"
                         android:textColor="@color/light_gray_b1bf"
-                        android:textSize="12sp"
+                        android:textSize="24sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/placeholder_join_group_join_group" />
+                        app:layout_constraintTop_toTopOf="@+id/placeholder_join_group" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/placeholder_join_group_message"
                         style="@style/TextNormal"
-                        android:layout_width="80dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="32dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginEnd="24dp"
                         android:ellipsize="end"
                         android:fontFamily="@font/red_hat_font"
                         android:gravity="center_horizontal|top"
-                        android:lines="2"
                         android:text="@string/explore_fro"
                         android:textColor="@color/light_gray_b1bf"
-                        android:textSize="12sp"
+                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@+id/placeholder_join_group_join_group" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -109,9 +108,8 @@
                     android:focusable="true"
                     android:onClick="@{() -> model.navigateToDailyGroups()}"
                     android:text="@string/my_daily_group_list"
-                    android:visibility="@{hasGroups}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rvGroups" />
+                    app:layout_constraintTop_toBottomOf="@+id/placeholder_join_group" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvFollowing"
@@ -123,7 +121,6 @@
                     android:gravity="bottom"
                     android:text="@string/following"
                     android:textSize="24sp"
-                    android:visibility="@{hasMasterMinds}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDailyList" />
 
@@ -137,7 +134,6 @@
                     android:focusable="true"
                     android:onClick="@{() -> model.onAllMasterMindsClick()}"
                     android:text="@string/all_masterm"
-                    android:visibility="@{hasMasterMinds}"
                     app:layout_constraintBottom_toBottomOf="@+id/tvFollowing"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tvFollowing" />
@@ -161,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="15dp"
+                    android:layout_marginBottom="24dp"
                     android:visibility="@{!hasMasterMinds}"
                     android:clickable="true"
                     android:focusable="true"

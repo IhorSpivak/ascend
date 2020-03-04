@@ -9,6 +9,9 @@ class MastermindAdapter(
     private val items: MutableList<MasterMindEntity>,
     private val onItemClick:(MasterMindEntity)->Unit
 ) : RecyclerView.Adapter<MastermindViewHolder>() {
+    init {
+        items.sortWith(compareBy {it.fullName})
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MastermindViewHolder {
         return MastermindViewHolder.create(

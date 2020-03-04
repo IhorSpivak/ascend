@@ -18,6 +18,6 @@ interface ListContract {
 
     interface Router {
         fun navigateToMMInfo(id: Long)
-        fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?)
+        fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?, mmName: String?)
     }
 }
