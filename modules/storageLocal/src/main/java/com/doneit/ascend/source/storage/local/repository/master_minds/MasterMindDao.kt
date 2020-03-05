@@ -8,7 +8,7 @@ import com.doneit.ascend.source.storage.local.data.MasterMindLocal
 @Dao
 interface MasterMindDao {
 
-    @Query("SELECT * FROM master_minds")
+    @Query("SELECT * FROM master_minds ORDER BY full_name ASC")
     fun getAll(): DataSource.Factory<Int, MasterMindLocal>
 
     @Transaction

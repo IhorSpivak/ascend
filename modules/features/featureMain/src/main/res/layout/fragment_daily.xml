@@ -33,6 +33,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/groups_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/placeholder_join_group"
                     android:layout_width="240dp"
@@ -40,14 +47,15 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
                     android:visibility="@{!hasGroups}"
                     android:clickable="true"
                     android:focusable="true"
                     android:orientation="vertical"
                     android:background="@drawable/ic_dash_join_group_background"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tvDailyList">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/placeholder_join_group_join_group"
@@ -90,11 +98,13 @@
                     android:id="@+id/rvGroups"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
                     android:clipChildren="false"
                     android:orientation="horizontal"
                     android:visibility="@{hasGroups}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tvDailyList"
                     tools:listitem="@layout/template_group_item" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -103,13 +113,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_marginTop="16dp"
+
                     android:clickable="true"
                     android:focusable="true"
                     android:onClick="@{() -> model.navigateToDailyGroups()}"
                     android:text="@string/my_daily_group_list"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/placeholder_join_group" />
+                    app:layout_constraintBottom_toBottomOf="@id/groups_container"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/mms_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/groups_container"
+                    app:layout_constraintTop_toBottomOf="@id/groups_container">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvFollowing"
@@ -121,8 +140,8 @@
                     android:gravity="bottom"
                     android:text="@string/following"
                     android:textSize="24sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDailyList" />
+                    app:layout_constraintStart_toStartOf="@+id/mms_container"
+                    app:layout_constraintTop_toTopOf="@+id/mms_container" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvAllMM"
@@ -203,6 +222,8 @@
                         app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
                         app:layout_constraintStart_toStartOf="@+id/add_member_template_round"
                         app:layout_constraintTop_toBottomOf="@id/add_member_template_round" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 

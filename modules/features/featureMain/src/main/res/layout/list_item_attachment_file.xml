@@ -59,6 +59,7 @@
                         android:layout_height="16dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
+
                         android:src="@drawable/ic_download"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -72,11 +73,11 @@
                         android:layout_marginEnd="16dp"
                         android:text="@{item.fileName}"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/download"
+
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/download"
-                        app:layout_constraintTop_toTopOf="@+id/download"
-                        tools:text="tettete" />
+                        app:layout_constraintStart_toEndOf="@id/download"
+                        app:layout_constraintTop_toTopOf="@id/download"
+                        tools:text="Tettete" />
 
                     <TextView
                         android:id="@+id/size"

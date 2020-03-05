@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.splash
 
 import android.animation.Animator
+import android.content.Intent
 import android.os.Bundle
 import android.view.animation.LinearInterpolator
 import androidx.lifecycle.Observer
@@ -37,7 +38,8 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        val extras = intent?.extras ?: Bundle()
+
+        val extras = intent?.extras?: Bundle()
         tvTitle.alpha = 0F
 
         tvTitle.animate()
@@ -50,7 +52,6 @@ class SplashActivity : BaseActivity() {
                     GlobalScope.launch {
                         delay(2900)
                         router.goToLogin(extras)
-
                     }
                 }
 

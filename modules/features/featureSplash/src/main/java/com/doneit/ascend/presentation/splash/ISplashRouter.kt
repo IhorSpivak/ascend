@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.splash
 
+import android.content.Intent
 import android.os.Bundle
 
 interface ISplashRouter {

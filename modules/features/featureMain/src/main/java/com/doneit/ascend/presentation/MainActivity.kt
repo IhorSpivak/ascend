@@ -88,7 +88,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
         viewModel.onHomeClick()
         intent.extras?.get(Constants.KEY_GROUP_ID)?.let {
-            viewModel.tryToNavigateToGroupInfo(it as Long)
+            viewModel.tryToNavigateToGroupInfo(it.toString().toLong())
         }
 
         binding.fabCreateGroup.setOnClickListener {

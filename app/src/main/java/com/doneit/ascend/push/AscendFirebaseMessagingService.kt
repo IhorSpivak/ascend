@@ -48,14 +48,15 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
 
-        val title = p0.notification?.title!!
-        val content = p0.toIntent()!!.extras!!["gcm.notification.data"] as String
-        var model = Gson().fromJson(content, PushEvent::class.java)
-        model = model.copy(title = title)
+        //val title = p0.notification?.title!!
+        //val content = p0.toIntent()!!.extras!!["gcm.notification.data"] as String
+        //val content = p0.data;
+        //var model = Gson().fromJson(content, PushEvent::class.java)
+        //model = model.copy(title = title)
         p0.notification?.let {
-            sendNotification(it.title.orEmpty(), model)
+            sendNotification(it.title.orEmpty(), p0.data.getValue("group_id").toLong())
         }
-        useCase.notificationReceived(model.toEntity())
+        useCase.notificationReceived(p0.toEntity())
     }
 
     override fun onNewToken(p0: String) {
@@ -65,11 +66,11 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
         }
     }
 
-    private fun sendNotification(messageTitle: String, data: PushEvent?) {
+    private fun sendNotification(messageTitle: String, id: Long) {
 
         //TODO: figure out how to show SplashActivity in case of background app start:
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(Constants.KEY_GROUP_ID, data?.groupId)
+        intent.putExtra(Constants.KEY_GROUP_ID, id)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
             PendingIntent.FLAG_UPDATE_CURRENT)
         val channelId = "ascend_n"
