@@ -38,7 +38,7 @@
 
     <!--New Password-->
     <string name="enter_code_from_sms">Code</string>
-    <string name="enter_code_sent_you">Enter 4-digit code\nsent to you at %s</string>
+    <string name="enter_code_sent_you">Enter the 4-digit code\nsent to you at %s</string>
     <string name="haven_code_sms">Haven\'t received the code yet?</string>
     <string name="resend_code">Resend Code</string>
     <string name="save_new_password">Save New Password</string>

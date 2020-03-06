@@ -19,10 +19,10 @@ interface MasterMindDao {
     @Query("SELECT * FROM master_minds WHERE id = :id LIMIT 1")
     fun getByIdLive(id: Long): LiveData<MasterMindLocal?>
 
-    @Query("SELECT * FROM master_minds WHERE followed = 1")
+    @Query("SELECT * FROM master_minds WHERE followed = 1 ORDER BY full_name ASC")
     fun getFollowed(): DataSource.Factory<Int, MasterMindLocal>
 
-    @Query("SELECT * FROM master_minds WHERE followed = 0")
+    @Query("SELECT * FROM master_minds WHERE followed = 0 ORDER BY full_name ASC")
     fun getUnFollowed(): DataSource.Factory<Int, MasterMindLocal>
 
     @Transaction

@@ -9,6 +9,6 @@ class MasterMindDiffCallback : DiffUtil.ItemCallback<MasterMindEntity>() {
     }
 
     override fun areContentsTheSame(oldItem: MasterMindEntity, newItem: MasterMindEntity): Boolean {
-        return oldItem == newItem
+        return oldItem.equals(newItem)
     }
 }
