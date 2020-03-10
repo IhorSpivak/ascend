@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeGroupsBinding
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
@@ -31,7 +32,10 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        binding.hasGroups = false
+        binding.apply {
+            hasGroups = true
+            networkStatus = (activity as BaseActivity).isNetworkAvailable
+        }
 
         val decorator =
             SideListDecorator(paddingTop = resources.getDimension(R.dimen.search_list_top_padding).toInt())
@@ -40,6 +44,7 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
 
         viewModel.groups.observe(viewLifecycleOwner, Observer {
             binding.hasGroups = it.groups.isNullOrEmpty().not()
+            binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
             adapter.setUser(it.user)
             adapter.submitList(it.groups)
             binding.srLayout.isRefreshing = false
@@ -53,5 +58,6 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
     override fun onResume() {
         super.onResume()
         viewModel.updateData()
+        binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
     }
 }

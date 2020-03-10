@@ -24,9 +24,10 @@ class MeetingFormatsAdapter(
 
         view?.let {
             it.title.hint = view.resources.getString(R.string.meeting_format)
-            //it.title.setHintTextColor(view.resources.getColor(R.color.light_gray_b1bf))
             it.title.text = types[position]
-            it.title.setTextColor(view.resources.getColor(R.color.light_gray_b1bf))
+            if (position == 0) {
+                it.title.setTextColor(view.resources.getColor(R.color.light_gray_b1bf))
+            }
         }
         "".isNullOrBlank()
         return view

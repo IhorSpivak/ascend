@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentDailyBinding
 import com.doneit.ascend.presentation.main.home.daily.common.groups.GroupAdapter
@@ -40,9 +41,9 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        binding.hasGroups = true
-        binding.hasMasterMinds = true
-
+        //binding.hasGroups = true
+        //binding.hasMasterMinds = true
+        binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
         val decorator = SideListDecorator(paddingLeft = resources.getDimension(R.dimen.create_group_horizontal_margin).toInt())
         binding.rvGroups.addItemDecoration(decorator)
         binding.rvMasterminds.addItemDecoration(decorator)
@@ -50,7 +51,9 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>() {
         binding.rvMasterminds.adapter = mastermindsAdapter
 
         viewModel.masterMinds.observe(viewLifecycleOwner, Observer {
-            binding.hasMasterMinds = it.isNotEmpty()
+            binding.apply {
+                hasMasterMinds = it.isNotEmpty()
+            }
             mastermindsAdapter.updateData(it)
         })
 
@@ -66,11 +69,13 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>() {
 
         binding.srLayout.setOnRefreshListener {
             viewModel.updateData()
+            binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
         }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.updateData()
+        binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
     }
 }

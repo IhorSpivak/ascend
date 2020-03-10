@@ -14,10 +14,10 @@ fun getButtonType(user: UserEntity, group: GroupEntity): ButtonType {
         }
     }
 
-    if (user.isMasterMind && user.id == group.owner?.id) {
+    if (/*user.isMasterMind && */user.id == group.owner?.id) {
         res = if (group.isStarting && group.status != GroupStatus.STARTED) {
             ButtonType.START_GROUP
-        } else if (group.inProgress) {
+        } else if (group.inProgress && group.status == GroupStatus.STARTED) {
             ButtonType.JOIN_TO_DISCUSSION
         } else if (group.participantsCount == 0) {
             ButtonType.DELETE_GROUP

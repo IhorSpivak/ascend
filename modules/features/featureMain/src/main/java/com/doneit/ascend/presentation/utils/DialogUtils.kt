@@ -122,12 +122,8 @@ fun BaseFragment<*>.showInfoDialog(
 fun View.showNoConnectionDialog(
     text: String
 ): ConnectionSnackbar {
-    /*val errorViewHolder = if (this.findViewById<View>(R.id.container_full) != null){
-        this.findViewById<View>(R.id.container_full)
-    }else{
-        this.findViewById<View>(R.id.container)
-    }*/
-    val snackbar = ConnectionSnackbar.make(this.findViewById(R.id.container), text)
+
+    val snackbar = ConnectionSnackbar.make(this, text)
     snackbar.show()
 
     return snackbar

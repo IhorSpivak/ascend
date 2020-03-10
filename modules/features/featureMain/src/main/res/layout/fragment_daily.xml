@@ -16,6 +16,10 @@
         <variable
             name="hasMasterMinds"
             type="Boolean" />
+
+        <variable
+            name="networkStatus"
+            type="Boolean" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -27,203 +31,223 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/groups_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/placeholder_join_group"
-                    android:layout_width="240dp"
-                    android:layout_height="320dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:visibility="@{!hasGroups}"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="vertical"
-                    android:background="@drawable/ic_dash_join_group_background"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/tvDailyList">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/placeholder_join_group_join_group"
-                        style="@style/TextNormal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginEnd="24dp"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/red_hat_font"
-                        android:gravity="center_horizontal"
-                        android:text="@string/join_group"
-                        android:textColor="@color/light_gray_b1bf"
-                        android:textSize="24sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/placeholder_join_group" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/placeholder_join_group_message"
-                        style="@style/TextNormal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:fontFamily="@font/red_hat_font"
-                        android:gravity="center_horizontal"
-                        android:text="@string/explore_fro"
-                        android:textColor="@color/light_gray_b1bf"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/placeholder_join_group_join_group" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvGroups"
+                    android:id="@+id/content_daily"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:clipChildren="false"
-                    android:orientation="horizontal"
-                    android:visibility="@{hasGroups}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/tvDailyList"
-                    tools:listitem="@layout/template_group_item" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvDailyList"
-                    style="@style/TextNormalSecond"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="@{() -> model.navigateToDailyGroups()}"
-                    android:text="@string/my_daily_group_list"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/groups_container"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/mms_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@id/groups_container"
-                    app:layout_constraintTop_toBottomOf="@id/groups_container">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvFollowing"
-                    style="@style/TextNormal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="32dp"
-                    android:gravity="bottom"
-                    android:text="@string/following"
-                    android:textSize="24sp"
-                    app:layout_constraintStart_toStartOf="@+id/mms_container"
-                    app:layout_constraintTop_toTopOf="@+id/mms_container" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvAllMM"
-                    style="@style/TextNormalSecond"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="@{() -> model.onAllMasterMindsClick()}"
-                    android:text="@string/all_masterm"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvFollowing"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvFollowing" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvMasterminds"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="horizontal"
-                    android:visibility="@{hasMasterMinds}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFollowing"
+                    android:visibility="@{networkStatus}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0"
-                    tools:listitem="@layout/template_follower_item" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/placeholder_add_mastermind"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="15dp"
-
-                    android:visibility="@{!hasMasterMinds}"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="@{() -> model.onAllMasterMindsClick()}"
-                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvFollowing">
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/add_member_template_round"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/ic_dash_round"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/groups_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/add_member_template_plus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_member_plus"
-                        android:tint="@color/light_gray_b1bf"
-                        app:layout_constraintBottom_toBottomOf="@id/add_member_template_round"
-                        app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
-                        app:layout_constraintStart_toStartOf="@id/add_member_template_round"
-                        app:layout_constraintTop_toTopOf="@id/add_member_template_round" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/placeholder_join_group"
+                            android:layout_width="240dp"
+                            android:layout_height="320dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@drawable/ic_dash_join_group_background"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="vertical"
+                            android:visibility="@{!hasGroups}"
+                            app:layout_constraintBottom_toTopOf="@id/tvDailyList"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text_view_add_member"
-                        style="@style/TextNormal"
-                        android:layout_width="80dp"
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/placeholder_join_group_join_group"
+                                style="@style/TextNormal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="40dp"
+                                android:layout_marginEnd="24dp"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/red_hat_font"
+                                android:gravity="center_horizontal"
+                                android:text="@string/join_group"
+                                android:textColor="@color/light_gray_b1bf"
+                                android:textSize="24sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@+id/placeholder_join_group" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/placeholder_join_group_message"
+                                style="@style/TextNormal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="24dp"
+                                android:layout_marginTop="24dp"
+                                android:layout_marginEnd="24dp"
+                                android:fontFamily="@font/red_hat_font"
+                                android:gravity="center_horizontal"
+                                android:text="@string/explore_fro"
+                                android:textColor="@color/light_gray_b1bf"
+                                android:textSize="16sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/placeholder_join_group_join_group" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvGroups"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="15dp"
+                            android:clipChildren="false"
+                            android:orientation="horizontal"
+                            android:visibility="@{hasGroups}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toTopOf="@id/tvDailyList"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:listitem="@layout/template_group_item" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvDailyList"
+                            style="@style/TextNormalSecond"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="@{() -> model.navigateToDailyGroups()}"
+                            android:text="@string/my_daily_group_list"
+                            app:layout_constraintBottom_toBottomOf="@id/groups_container"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/mms_container"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="24dp"
-                        android:fontFamily="@font/red_hat_font"
-                        android:gravity="center_horizontal"
-                        android:text="@string/mm_add"
-                        android:textColor="@color/light_gray_b1bf"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
-                        app:layout_constraintStart_toStartOf="@id/add_member_template_round"
-                        app:layout_constraintTop_toBottomOf="@id/add_member_template_round"
-                        app:layout_constraintBottom_toBottomOf="@id/placeholder_add_mastermind"/>
+                        app:layout_constraintStart_toStartOf="@id/groups_container"
+                        app:layout_constraintTop_toBottomOf="@id/groups_container">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvFollowing"
+                            style="@style/TextNormal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="32dp"
+                            android:gravity="bottom"
+                            android:text="@string/following"
+                            android:textSize="24sp"
+                            app:layout_constraintStart_toStartOf="@+id/mms_container"
+                            app:layout_constraintTop_toTopOf="@+id/mms_container" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvAllMM"
+                            style="@style/TextNormalSecond"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="@{() -> model.onAllMasterMindsClick()}"
+                            android:text="@string/all_masterm"
+                            app:layout_constraintBottom_toBottomOf="@+id/tvFollowing"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/tvFollowing" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvMasterminds"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal"
+                            android:visibility="@{hasMasterMinds}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvFollowing"
+                            app:layout_constraintVertical_bias="0"
+                            tools:listitem="@layout/template_follower_item" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/placeholder_add_mastermind"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="15dp"
+
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="@{() -> model.onAllMasterMindsClick()}"
+                            android:orientation="vertical"
+                            android:visibility="@{!hasMasterMinds}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvFollowing">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/add_member_template_round"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:background="@drawable/ic_dash_round"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/add_member_template_plus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/ic_member_plus"
+                                android:tint="@color/light_gray_b1bf"
+                                app:layout_constraintBottom_toBottomOf="@id/add_member_template_round"
+                                app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
+                                app:layout_constraintStart_toStartOf="@id/add_member_template_round"
+                                app:layout_constraintTop_toTopOf="@id/add_member_template_round" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/text_view_add_member"
+                                style="@style/TextNormal"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="24dp"
+                                android:fontFamily="@font/red_hat_font"
+                                android:gravity="center_horizontal"
+                                android:text="@string/mm_add"
+                                android:textColor="@color/light_gray_b1bf"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toBottomOf="@id/placeholder_add_mastermind"
+                                app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
+                                app:layout_constraintStart_toStartOf="@id/add_member_template_round"
+                                app:layout_constraintTop_toBottomOf="@id/add_member_template_round" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include
+                layout="@layout/placeholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_horizontal|center_vertical"
+                android:layout_marginTop="80dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="@{!networkStatus}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

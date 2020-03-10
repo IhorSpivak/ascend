@@ -1,7 +1,9 @@
 package com.doneit.ascend.presentation.common.binding_adapters
 
+import android.text.format.DateFormat
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import java.util.*
 
@@ -31,10 +33,8 @@ fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date?) 
 @BindingAdapter("app:setTime")
 fun setTime(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date) {
     try {
-
         dateTime?.let {
-            val sdf = "hh:mm aa".toDefaultFormatter()
-            view.text = sdf.format(it)
+            view.text = view.context.getTimeFormat().format(it)
         }
     } catch (e: Exception) {
         e.printStackTrace()

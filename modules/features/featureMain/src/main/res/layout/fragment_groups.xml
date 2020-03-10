@@ -47,7 +47,8 @@
                         android:src="@drawable/ic_back"
                         android:tint="#7E7D8F"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/tlGroups"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvTitle"
@@ -58,7 +59,8 @@
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/tlGroups"/>
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tlGroups"

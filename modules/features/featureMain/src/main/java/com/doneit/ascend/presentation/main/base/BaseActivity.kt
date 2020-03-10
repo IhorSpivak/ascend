@@ -4,7 +4,6 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Resources
 import android.os.Build
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -21,13 +20,14 @@ abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivit
     private val connectionObserver: ConnectionObserver by lazy {
         ConnectionObserver(this@BaseActivity)
     }
-
+    var isNetworkAvailable = false
 
     override fun onResume() {
         super.onResume()
 
         connectionObserver.networkStateChanged.observe(this, Observer {
             onNetworkStateChanged(it)
+            isNetworkAvailable = it
         })
     }
 

@@ -157,19 +157,39 @@
                 app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
                 android:background="@drawable/bg_r4_4b39"/>
 
-            <TextView
-                android:id="@+id/tvSupportMarker"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:padding="4dp"
-                style="@style/TextNormal.White"
-                android:textSize="12sp"
-                android:text="@string/support_group"
-                android:visibility="@{item.groupType == GroupType.SUPPORT, default=gone}"
                 app:layout_constraintTop_toBottomOf="@id/ownerName"
                 app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
-                android:background="@drawable/bg_r4_9dc0"/>
+                android:background="@drawable/bg_r4_9dc0"
+                android:visibility="@{item.groupType == GroupType.SUPPORT, default=gone}">
+                <TextView
+                    android:id="@+id/tvSupportMarker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    style="@style/TextNormal.White"
+                    android:textSize="12sp"
+                    android:text="@string/support_group"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:background="@drawable/bg_r4_9dc0"/>
+
+                <TextView
+                    android:id="@+id/tvSupportMarkerType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    style="@style/TextNormal.White"
+                    android:textSize="12sp"
+                    android:text=" //"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvSupportMarker"
+                    android:background="@drawable/bg_r4_9dc0"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/tvMasterMindMarker"

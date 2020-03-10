@@ -13,6 +13,10 @@
             name="hasGroups"
             type="Boolean" />
 
+        <variable
+            name="networkStatus"
+            type="Boolean" />
+
     </data>
 
     <FrameLayout
@@ -58,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="64dp"
-                    tools:visibility="@{!hasGroups}" />
+                    tools:visibility="@{!networkStatus}" />
             </LinearLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -374,7 +374,7 @@ class MainRouter(
             )
         }
 
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, fragment)
+        replaceFullWithMainUpdate(fragment)
     }
 
     override fun navigateToGroupsFilter() {

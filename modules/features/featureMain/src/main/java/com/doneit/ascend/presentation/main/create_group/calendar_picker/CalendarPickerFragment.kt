@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.create_group.calendar_picker
 
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.widget.CompoundButton
 import android.widget.ToggleButton
 import androidx.core.view.children
@@ -10,6 +11,7 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentCalendarPickerBinding
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
+import com.doneit.ascend.presentation.utils.extensions.getHoursByTimeZone
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.waitForLayout
 import kotlinx.android.synthetic.main.template_week_days.*
@@ -29,12 +31,13 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
     override val viewModel: CalendarPickerContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.model = viewModel
+        binding.apply {
+            model = viewModel
+            is24 = DateFormat.is24HourFormat(context)
+        }
         binding.executePendingBindings()
-
-        binding.hoursPicker.data = CalendarPickerUtil.getHours()
+        binding.hoursPicker.data = context!!.getHoursByTimeZone()
         binding.minutesPicker.data = CalendarPickerUtil.getMinutes()
-        binding.timeTypePicker.data = CalendarPickerUtil.getTimeType()
 
         binding.hoursPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setHours(data as String)
@@ -43,10 +46,13 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         binding.minutesPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setMinutes(data as String)
         }
-
-        binding.timeTypePicker.setOnItemSelectedListener { _, data, position ->
-            viewModel.setTimeType(data as String)
+        if(!DateFormat.is24HourFormat(context)){
+            binding.timeTypePicker.data = CalendarPickerUtil.getTimeType()
+            binding.timeTypePicker.setOnItemSelectedListener { _, data, position ->
+                viewModel.setTimeType(data as String)
+            }
         }
+
 
         val selectedDays = viewModel.createGroupModel.selectedDays
         selectedDays.forEach {

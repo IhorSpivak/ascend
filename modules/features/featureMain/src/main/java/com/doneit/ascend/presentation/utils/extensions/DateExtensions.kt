@@ -1,5 +1,7 @@
 package com.doneit.ascend.presentation.utils.extensions
 
+import android.content.Context
+import android.text.format.DateFormat
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.presentation.utils.Constants.AM
@@ -81,4 +83,34 @@ fun String.toGMTFormatter(): SimpleDateFormat {
     val formatter = SimpleDateFormat(this, Locale.getDefault())
     formatter.timeZone = TimeZone.getTimeZone("GMT")
     return formatter
+}
+
+fun Context.getTimeFormat(): SimpleDateFormat{
+    return if (DateFormat.is24HourFormat(this)){
+        "HH:mm".toDefaultFormatter()
+    }else{
+        "hh:mm aa".toDefaultFormatter()
+    }
+}
+
+fun Context.getHoursByTimeZone(): List<String>{
+    val list = mutableListOf<String>()
+    if (DateFormat.is24HourFormat(this)){
+        for (n in 1..24) {
+            list.add(n.toTimeString())
+        }
+    }else{
+        for (n in 1..12) {
+            list.add(n.toTimeString())
+        }
+    }
+    return list
+}
+
+fun Context.getTimeType(): String{
+    return if (DateFormat.is24HourFormat(this)){
+        "24"
+    }else{
+        "AM"
+    }
 }
