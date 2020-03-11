@@ -37,6 +37,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         binding.model = viewModel
 
         viewModel.group.observe(this, Observer { group ->
+            binding.group = group
             binding.tvName.text = group.name
             binding.tvStartDate.text = group.startTime?.toDayMonthYear()
 

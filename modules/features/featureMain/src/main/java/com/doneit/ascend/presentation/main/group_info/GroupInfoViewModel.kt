@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.dto.PaymentType
 import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
@@ -44,6 +45,7 @@ class GroupInfoViewModel(
             val isInitialized = group.value != null
             return isInitialized && group.value?.blocked == true
         }
+    override val isSupport = MutableLiveData<Boolean>(false)
 
     override fun loadData(groupId: Long) {
         showProgress(true)
@@ -52,6 +54,7 @@ class GroupInfoViewModel(
 
             if (response.isSuccessful) {
                 group.postValue(response.successModel!!)
+                isSupport.postValue(response.successModel?.groupType != GroupType.SUPPORT)
                 val user = userUseCase.getUser()
                 updateButtonsState(user!!, response.successModel!!)
             }

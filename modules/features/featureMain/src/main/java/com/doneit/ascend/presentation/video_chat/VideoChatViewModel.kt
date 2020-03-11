@@ -81,7 +81,7 @@ class VideoChatViewModel(
 
     //region ui properties
     override val timerLabel = MutableLiveData<String>()
-    override val isStartButtonVisible = MutableLiveData<Boolean>()
+    override val isStartButtonVisible = MutableLiveData<Boolean>(false)
     override val finishingLabel = MutableLiveData<String>()
     //endregion
 
@@ -388,6 +388,7 @@ class VideoChatViewModel(
                 if (remoteParticipant.identity != groupInfo.value?.owner?.id?.toString()) {
                     participantsManager.addParticipant(remoteParticipant.toPresentation())
                 } else {
+                    participantsManager.addParticipant(remoteParticipant.toPresentation())
                     _IsMMConnected = true
                 }
             }

@@ -197,11 +197,6 @@ class CreateGroupViewModel(
     }
 
     override fun handleBaseNavigation(args: CreateGroupArgs) {
-        /*if (args.groupType == GroupType.SUPPORT) {
-            localRouter.navigateToCreateSupGroup(args)
-        } else {
-            localRouter.navigateToCreateMMGroup(args)
-        }*/
         when(args.groupType){
             GroupType.SUPPORT -> localRouter.navigateToCreateSupGroup(args)
             GroupType.MASTER_MIND -> localRouter.navigateToCreateMMGroup(args)
@@ -348,8 +343,11 @@ class CreateGroupViewModel(
         }
         builder.deleteCharAt(builder.length - 1)//remove space
         builder.deleteCharAt(builder.length - 1)//remove coma
-
-        builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
+        if (createGroupModel.timeType == "is24"){
+            builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes}")
+        }else{
+            builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
+        }
         createGroupModel.scheduleTime.observableField.set(builder.toString())
 
         createGroupModel.scheduleDays.clear()

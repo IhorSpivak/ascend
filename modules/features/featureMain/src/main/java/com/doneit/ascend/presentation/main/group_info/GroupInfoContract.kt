@@ -15,6 +15,7 @@ interface GroupInfoContract {
         val group: LiveData<GroupEntity>
         val cards: LiveData<List<PresentationCardModel>>
         val isBlocked: Boolean
+        val isSupport: LiveData<Boolean>
 
         fun onBackPressed()
         fun loadData(groupId: Long)

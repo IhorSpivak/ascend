@@ -10,13 +10,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.models.PresentationMessage
+import com.doneit.ascend.presentation.utils.ConnectionObserver
 import com.doneit.ascend.presentation.utils.Messages
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.showDefaultError
+import com.doneit.ascend.presentation.utils.showNoConnectionDialog
+import com.doneit.ascend.presentation.views.ConnectionSnackbar
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.KodeinTrigger
@@ -48,6 +52,11 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
     abstract val viewModel: BaseViewModel
 
+    private var noConnectionDialog: ConnectionSnackbar? = null
+    private val connectionObserver: ConnectionObserver by lazy {
+        ConnectionObserver(context!!)
+    }
+
     private lateinit var progressDialog: Dialog
 
     //endregion
@@ -56,6 +65,19 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     private var initialized = false
 
     //region lifecycle
+
+    override fun onResume() {
+        super.onResume()
+        connectionObserver.networkStateChanged.observe(this, Observer {
+            onNetworkStateChanged(it)
+        })
+    }
+
+    override fun onPause() {
+        noConnectionDialog?.dismiss()
+        connectionObserver.networkStateChanged.removeObservers(this)
+        super.onPause()
+    }
 
     override fun onAttach(context: Context) {
         kodeinTrigger.trigger()
@@ -126,10 +148,19 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
             progressDialog.dismiss()
         }
     }
+    protected open fun onNetworkStateChanged(hasConnection: Boolean){
+        if (hasConnection) {
+            noConnectionDialog?.dismiss()
+        } else {
+            noConnectionDialog =
+                view?.showNoConnectionDialog(getString(R.string.connecting))
+        }
+    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean(IS_PROGRESS_SHOWN_KEY, progressDialog.isShowing)
         progressDialog.dismiss()
+        noConnectionDialog?.dismiss()
     }
 
     //region private methods

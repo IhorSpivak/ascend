@@ -33,7 +33,10 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
-            is24 = DateFormat.is24HourFormat(context)
+            if(DateFormat.is24HourFormat(context)){
+                viewModel.setTimeType("is24")
+                is24 = true
+            }
         }
         binding.executePendingBindings()
         binding.hoursPicker.data = context!!.getHoursByTimeZone()

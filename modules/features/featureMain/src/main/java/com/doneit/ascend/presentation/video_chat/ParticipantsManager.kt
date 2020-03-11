@@ -2,6 +2,8 @@ package com.doneit.ascend.presentation.video_chat
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.Constants.LIST_INDEX_ABSENT
 
@@ -25,7 +27,9 @@ class ParticipantsManager {
         } else {
             resultList[index] = resultList[index].merge(newParticipant)
         }
-
+        /*if (newParticipant.isSpeaker){
+            _currentSpeaker.postValue(newParticipant)
+        }*/
         _participants.value = resultList
     }
 
@@ -46,7 +50,11 @@ class ParticipantsManager {
                 resultList[index] = resultList[index].merge(remoteItem)
             }
         }
-
+        /*newList?.forEach {
+            if (it.isSpeaker){
+                _currentSpeaker.postValue(it)
+            }
+        }*/
         _participants.value = resultList
     }
 

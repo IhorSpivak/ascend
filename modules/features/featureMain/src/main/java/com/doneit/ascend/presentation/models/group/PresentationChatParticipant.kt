@@ -1,10 +1,12 @@
 package com.doneit.ascend.presentation.models.group
 
+import android.os.Parcelable
 import com.doneit.ascend.domain.entity.ImageEntity
 import com.doneit.ascend.presentation.utils.Constants.DEFAULT_MODEL_ID
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantListener
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantMultilistener
 import com.twilio.video.RemoteParticipant
+import kotlinx.android.parcel.Parcelize
 
 data class PresentationChatParticipant(
     val source: ParticipantSourcePriority,

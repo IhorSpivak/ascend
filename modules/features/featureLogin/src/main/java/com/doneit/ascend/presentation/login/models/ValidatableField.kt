@@ -4,6 +4,7 @@ import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.doneit.ascend.presentation.utils.getNotNull
 import com.doneit.ascend.presentation.utils.getNotNullString
 
 class ValidatableField {
@@ -35,6 +36,9 @@ class ValidatableField {
                     }
 
                     errors.postValue(validation.errors.firstOrNull())
+                }
+                if(observableField.getNotNullString().isEmpty()) {
+                    removeError()
                 }
             }
         })

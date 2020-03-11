@@ -10,6 +10,10 @@
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.group_info.GroupInfoContract.ViewModel" />
+
+        <variable
+            name="group"
+            type="com.doneit.ascend.domain.entity.group.GroupEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -144,6 +148,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
+                        android:visibility="@{model.isSupport}"
                         app:html="@{@string/group_price(model.group.price)}"
                         app:layout_constraintEnd_toEndOf="@id/tvMeetings"
                         app:layout_constraintStart_toStartOf="@id/tvMeetings"

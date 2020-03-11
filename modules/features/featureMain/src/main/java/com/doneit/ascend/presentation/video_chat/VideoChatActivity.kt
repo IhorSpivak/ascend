@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityVideoChatBinding
 import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.video_chat.common.ChatParticipantListAdapter
 import com.doneit.ascend.presentation.video_chat.common.ChatParticipantsAdapter
 import kotlinx.android.synthetic.main.activity_video_chat.*
 import org.kodein.di.Kodein
@@ -54,7 +55,7 @@ class VideoChatActivity : BaseActivity() {
     private val viewModel: VideoChatContract.ViewModel by instance()
     private lateinit var binding: ActivityVideoChatBinding
     private val participantsAdapter by lazy {
-        ChatParticipantsAdapter {
+        ChatParticipantListAdapter {
             viewModel.onParticipantClick(it)
         }
     }

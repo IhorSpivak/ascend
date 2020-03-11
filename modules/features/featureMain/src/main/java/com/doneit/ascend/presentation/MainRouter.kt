@@ -238,26 +238,25 @@ class MainRouter(
     }
 
     override fun navigateToSearch() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, SearchFragment())
+        //activity.supportFragmentManager.replaceWithBackStack(containerIdFull, SearchFragment())
+        replaceFullWithMainUpdate(SearchFragment())
     }
 
     override fun navigateToAllMasterMinds() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MasterMindFragment())
+        //activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MasterMindFragment())
+        replaceFullWithMainUpdate(MasterMindFragment())
     }
 
     override fun navigateToGroupInfo(id: Long) {
-        /*activity.supportFragmentManager.replaceWithBackStack(
-            containerIdFull,
-            GroupInfoFragment.newInstance(id)
-        )*/
         replaceFullWithMainUpdate(GroupInfoFragment.newInstance(id))
     }
 
     override fun navigateToNotifications() {
-        activity.supportFragmentManager.replaceWithBackStack(
+        /*activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,
             NotificationFragment()
-        )
+        )*/
+        replaceFullWithMainUpdate(NotificationFragment())
     }
 
     override fun navigateToAvatarUCropActivity(

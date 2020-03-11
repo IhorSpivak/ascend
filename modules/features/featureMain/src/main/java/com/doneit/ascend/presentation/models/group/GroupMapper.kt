@@ -16,7 +16,16 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
     calendar.time = startTime!!
     calendar.set(Calendar.HOUR, hours.toHours())
     calendar.set(Calendar.MINUTE, minutes.toInt())
-    calendar.set(Calendar.AM_PM, timeType.toAM_PM())
+    val type = if (timeType == "is24"){
+        if (hours.toInt() > 12){
+            Calendar.PM
+        }else {
+            Calendar.AM
+        }
+    }else{
+        timeType.toAM_PM()
+    }
+    calendar.set(Calendar.AM_PM, type)
 
     return CreateGroupDTO(
         name.observableField.getNotNull(),

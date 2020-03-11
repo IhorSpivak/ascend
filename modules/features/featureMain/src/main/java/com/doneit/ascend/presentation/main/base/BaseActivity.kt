@@ -26,7 +26,7 @@ abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivit
         super.onResume()
 
         connectionObserver.networkStateChanged.observe(this, Observer {
-            onNetworkStateChanged(it)
+            //onNetworkStateChanged(it)
             isNetworkAvailable = it
         })
     }
@@ -35,8 +35,8 @@ abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivit
         if (hasConnection) {
             noConnectionDialog?.dismiss()
         } else {
-            noConnectionDialog =
-                window.decorView.rootView.showNoConnectionDialog(getString(R.string.connecting))
+            /*noConnectionDialog =
+                window.decorView.rootView.showNoConnectionDialog(getString(R.string.connecting))*/
         }
     }
 
