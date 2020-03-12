@@ -76,6 +76,9 @@ internal class GroupRepository(
                     "image/*".toMediaTypeOrNull(), file
                 )
             )
+            stringPart = MultipartBody.Part.createFormData("meeting_format", request.meetingFormat?: "")
+            builder = builder.addPart(stringPart)
+
             builder = builder.addPart(filePart)
 
             api.createGroupAsync(builder.build().parts)

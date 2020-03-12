@@ -51,7 +51,7 @@
                         android:tint="@color/light_gray_8f"
                         android:visibility="visible"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvTitle"
@@ -62,7 +62,7 @@
                         android:text="@string/masterminds"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/btnSearch"
@@ -74,7 +74,7 @@
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_search"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tlMasterMinds"

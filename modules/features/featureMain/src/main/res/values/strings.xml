@@ -29,6 +29,7 @@
     <string name="master_mind">MasterMind</string>
     <string name="master_mind_group">MasterMind Group</string>
     <string name="support_group">Support Group</string>
+    <string name="support_group_type">// %s</string>
     <string name="placeholder_text"><b>Oops!</b>\n There is no data to display.</string>
 
     <string name="my_daily_gr">My Daily Groups List</string>

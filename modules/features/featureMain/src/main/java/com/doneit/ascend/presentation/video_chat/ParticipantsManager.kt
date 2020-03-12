@@ -10,9 +10,11 @@ import com.doneit.ascend.presentation.utils.Constants.LIST_INDEX_ABSENT
 class ParticipantsManager {
     private val _participants = MutableLiveData<List<PresentationChatParticipant>>(listOf())
     private val _currentSpeaker = MutableLiveData<PresentationChatParticipant?>(null)
+    private val _participantToUpdate = MutableLiveData<PresentationChatParticipant?>(null)
 
     val participants: LiveData<List<PresentationChatParticipant>> = _participants
     val currentSpeaker: LiveData<PresentationChatParticipant?> = _currentSpeaker
+    val participantToUpdate : LiveData<PresentationChatParticipant?> = _participantToUpdate
 
     private fun getParticipantMList(): MutableList<PresentationChatParticipant> {
         return _participants.value?.toMutableList() ?: mutableListOf()
@@ -66,6 +68,7 @@ class ParticipantsManager {
             resultList.removeAt(index)
             resultList.add(index, participant)
             _participants.value = resultList
+            //_participantToUpdate.value = participant
         }
     }
 
@@ -91,6 +94,9 @@ class ParticipantsManager {
             updateParticipant(it.copy(
                 isHandRisen = participant.isHandRisen
             ))
+            /*updateParticipant(it.apply {
+                isHandRisen = participant.isHandRisen
+            })*/
         }
     }
 
@@ -99,6 +105,9 @@ class ParticipantsManager {
             updateParticipant(it.copy(
                 isMuted = true
             ))
+            /*updateParticipant(it.apply {
+                isMuted = true
+            })*/
         }
     }
 
@@ -107,6 +116,9 @@ class ParticipantsManager {
             updateParticipant(it.copy(
                 isMuted = false
             ))
+            /*updateParticipant(it.apply {
+                isMuted = false
+            })*/
         }
     }
 

@@ -34,7 +34,6 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         binding.apply {
             model = viewModel
             if(DateFormat.is24HourFormat(context)){
-                viewModel.setTimeType("is24")
                 is24 = true
             }
         }
@@ -49,11 +48,10 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         binding.minutesPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setMinutes(data as String)
         }
-        if(!DateFormat.is24HourFormat(context)){
-            binding.timeTypePicker.data = CalendarPickerUtil.getTimeType()
-            binding.timeTypePicker.setOnItemSelectedListener { _, data, position ->
-                viewModel.setTimeType(data as String)
-            }
+
+        binding.timeTypePicker.data = CalendarPickerUtil.getTimeType()
+        binding.timeTypePicker.setOnItemSelectedListener { _, data, position ->
+            viewModel.setTimeType(data as String)
         }
 
 
@@ -90,7 +88,9 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
             val minutesIndex =
                 binding.minutesPicker.getDataIndex { (it as String) == viewModel.createGroupModel.minutes }
             val hoursIndex =
-                binding.hoursPicker.getDataIndex { (it as String) == viewModel.createGroupModel.hours }
+                binding.hoursPicker.getDataIndex {
+                    (it as String) == viewModel.createGroupModel.hours
+                }
 
             binding.timeTypePicker.selectedItemPosition = timeTypeIndex
             binding.minutesPicker.selectedItemPosition = minutesIndex

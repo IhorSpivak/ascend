@@ -19,6 +19,7 @@ interface ChatInProgressContract {
         val groupInfo: LiveData<GroupEntity>
         val isVideoEnabled: LiveData<Boolean>
         val isAudioRecording: LiveData<Boolean>
+        val isAudioEnabled: LiveData<Boolean>
 
         //VideoChat
         val credentials: LiveData<StartVideoModel>

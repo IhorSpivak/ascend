@@ -9,7 +9,7 @@ import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorView
 import com.doneit.ascend.presentation.main.master_mind.list.common.MasterMindViewHolder
 
 class SearchAdapter(
-    private val onSeeGroupsClick: (id: Long)->Unit,
+    private val onSeeGroupsClick: (mm: MasterMindEntity)->Unit,
     private val onMMClick: (model: MasterMindEntity)->Unit,
     private val onGroupClick: (model: GroupEntity)->Unit,
     private val onButtonClick: (GroupEntity) -> Unit

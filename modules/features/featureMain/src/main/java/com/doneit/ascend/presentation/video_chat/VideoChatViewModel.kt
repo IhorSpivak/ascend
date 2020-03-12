@@ -1,10 +1,8 @@
 package com.doneit.ascend.presentation.video_chat
 
 import android.os.CountDownTimer
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
@@ -61,6 +59,7 @@ class VideoChatViewModel(
     override val participants = participantsManager.participants
     override val currentSpeaker = participantsManager.currentSpeaker
     override val navigation = SingleLiveEvent<VideoChatContract.Navigation>()
+    override val participantToUpdate = participantsManager.participantToUpdate
     override val roomListener = RoomMultilistener()
     override var room: Room? = null
         set(value) {
@@ -93,8 +92,9 @@ class VideoChatViewModel(
         }
     override val isMMConnected = MutableLiveData<Boolean>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
-    private val _isAudioEnabled = MutableLiveData<Boolean>()
+    //private val _isAudioEnabled = MutableLiveData<Boolean>()
     override val isAudioRecording = MediatorLiveData<Boolean>()
+    override val isAudioEnabled = MutableLiveData<Boolean>()
     override val isMuted = MutableLiveData<Boolean>()
     override val isHandRisen = MutableLiveData<Boolean>()
     override val isFinishing = MutableLiveData<Boolean>()
@@ -114,12 +114,12 @@ class VideoChatViewModel(
     //endregion
 
     init {
-        isAudioRecording.addSource(_isAudioEnabled) {
+        isAudioRecording.addSource(isAudioEnabled) {
             isAudioRecording.value = it && (isMuted.value ?: false).not()
         }
 
         isAudioRecording.addSource(isMuted) {
-            isAudioRecording.value = it.not() && _isAudioEnabled.value ?: false
+            isAudioRecording.value = it.not() && isAudioEnabled.value ?: false
         }
 
         roomListener.addListener(getViewModelRoomListener())
@@ -266,7 +266,7 @@ class VideoChatViewModel(
     private fun postDefaultValues() {
         isStartButtonVisible.postValue(false)
         isVideoEnabled.postValue(true)
-        _isAudioEnabled.postValue(true)
+        isAudioEnabled.postValue(true)
         isMuted.postValue(false)
         isHandRisen.postValue(false)
         isFinishing.postValue(false)
@@ -360,7 +360,7 @@ class VideoChatViewModel(
     }
 
     override fun switchAudioEnabledState() {
-        _isAudioEnabled.switch()
+        isAudioEnabled.switch()
     }
 
     override fun switchCamera() {
@@ -377,9 +377,18 @@ class VideoChatViewModel(
     private fun getViewModelRoomListener(): RoomListener {
         return object : RoomListener() {
             override fun onConnected(room: Room) {
+                room.remoteParticipants.forEach {
+                    if(it.identity == groupInfo.value?.owner?.id.toString()){
+                        _IsMMConnected = true
+                    }
+                }
                 val participants = room.remoteParticipants
-                    .filter { it.identity != groupInfo.value?.owner?.id.toString() }
-                    .map { it.toPresentation() }
+                    .filter {
+                        it.identity != groupInfo.value?.owner?.id.toString()
+                    }
+                    .map {
+                        it.toPresentation()
+                    }
                 participantsManager.addParticipants(participants)
                 handleSpeaker(room, room.dominantSpeaker)
             }
@@ -389,6 +398,11 @@ class VideoChatViewModel(
                     participantsManager.addParticipant(remoteParticipant.toPresentation())
                 } else {
                     participantsManager.addParticipant(remoteParticipant.toPresentation())
+                    /*room.remoteParticipants.forEach{
+                        if (it.identity == groupInfo.value?.owner?.id?.toString()){
+                            _IsMMConnected = true
+                        }
+                    }*/
                     _IsMMConnected = true
                 }
             }

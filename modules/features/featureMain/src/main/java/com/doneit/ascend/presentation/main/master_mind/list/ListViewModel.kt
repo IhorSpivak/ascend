@@ -33,7 +33,7 @@ class ListViewModel(
         router.navigateToMMInfo(item.id)
     }
 
-    override fun openGroupList(id: Long) {
-        router.navigateToGroupList(id, null, null, null)
+    override fun openGroupList(item: MasterMindEntity) {
+        router.navigateToGroupList(item.id, null, null, item.fullName)
     }
 }

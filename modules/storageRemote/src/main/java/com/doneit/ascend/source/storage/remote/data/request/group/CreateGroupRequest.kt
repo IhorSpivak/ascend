@@ -3,7 +3,7 @@ package com.doneit.ascend.source.storage.remote.data.request.group
 import com.google.gson.annotations.SerializedName
 
 data class CreateGroupRequest(
-    @SerializedName("fullName") val name: String,
+    @SerializedName("name") val name: String,
     @SerializedName("description") val description: String,
     @SerializedName("start_time") val startTime: String,
     @SerializedName("group_type") val groupType: String,

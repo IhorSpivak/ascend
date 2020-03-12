@@ -54,8 +54,8 @@ class SearchViewModel(
         }
     }
 
-    override fun openGroupList(id: Long) {
-        router.navigateToGroupList(id, null, null, null)
+    override fun openGroupList(mm: MasterMindEntity) {
+        router.navigateToGroupList(mm.id, null, null, mm.fullName)
     }
 
     override fun onMMClick(model: MasterMindEntity) {

@@ -13,9 +13,9 @@ data class PresentationChatParticipant(
     val userId: String = DEFAULT_MODEL_ID.toString(),
     val fullName: String? = null,
     val image: ImageEntity? = null,
-    val isHandRisen: Boolean = false,
-    val isSpeaker: Boolean = false,
-    val isMuted: Boolean = false,
+    var isHandRisen: Boolean = false,
+    var isSpeaker: Boolean = false,
+    var isMuted: Boolean = false,
     val remoteParticipant: RemoteParticipant? = null,
     private val multilistenr: RemoteParticipantMultilistener = RemoteParticipantMultilistener()
 ) : Comparable<PresentationChatParticipant> {

@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.utils
 
 import android.content.Context
+import android.text.format.DateFormat
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.utils.Constants.AM
@@ -55,5 +56,8 @@ class CalendarPickerUtil(
         fun getTimeType(): List<String> {
             return listOf("AM", "PM")
         }
+    }
+    fun is24TimeFormat(): Boolean{
+        return DateFormat.is24HourFormat(context)
     }
 }

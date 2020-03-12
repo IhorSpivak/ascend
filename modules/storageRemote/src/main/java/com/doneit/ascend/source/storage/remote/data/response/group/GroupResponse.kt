@@ -24,5 +24,5 @@ data class GroupResponse(
     @SerializedName("invites_count") val invitesCount: Int,
     @SerializedName("wdays") val daysOfWeek: List<Int>,
     @SerializedName("note") val note: NoteResponse?,
-    @SerializedName("meeting_format") val meeting_format: String?
+    @SerializedName("meeting_format") val meetingFormat: String?
 )

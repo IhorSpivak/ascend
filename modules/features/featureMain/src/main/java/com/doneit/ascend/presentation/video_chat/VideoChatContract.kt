@@ -14,6 +14,7 @@ interface VideoChatContract {
         val isFinishing: LiveData<Boolean>
         val finishingLabel: LiveData<String>
         val navigation: LiveData<Navigation>
+        val participantToUpdate: LiveData<PresentationChatParticipant?>
 
         fun init(groupId: Long)
         fun finishCall()

@@ -63,7 +63,8 @@ fun GroupResponse.toEntity(): GroupEntity {
         participantsCount,
         invitesCount,
         daysOfWeek.applyDaysOffset(dayOffset).map { it.toCalendarDay() },
-        note?.toEntity()
+        note?.toEntity(),
+        meetingFormat
     )
 }
 
@@ -141,7 +142,8 @@ fun GroupLocal.toEntity(): GroupEntity {
         participantsCount,
         invitesCount,
         daysOfWeek?.map { CalendarDayEntity.values()[it] },
-        note?.toLocale()
+        note?.toLocale(),
+        meetingFormat
     )
 }
 

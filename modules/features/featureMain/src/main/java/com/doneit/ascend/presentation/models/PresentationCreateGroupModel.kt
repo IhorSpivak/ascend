@@ -36,7 +36,7 @@ class PresentationCreateGroupModel(
 ) {
     init {
         val currentDate = getDefaultCalendar()
-        hours = currentDate.get(Calendar.HOUR).toTimeString()
+        hours = currentDate.get(Calendar.HOUR_OF_DAY).toTimeString()
         minutes = currentDate.get(Calendar.MINUTE).toTimeString()
         timeType = currentDate.get(Calendar.AM_PM).toAmPm()
 

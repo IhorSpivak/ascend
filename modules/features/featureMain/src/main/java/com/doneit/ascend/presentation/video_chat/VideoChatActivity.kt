@@ -55,7 +55,7 @@ class VideoChatActivity : BaseActivity() {
     private val viewModel: VideoChatContract.ViewModel by instance()
     private lateinit var binding: ActivityVideoChatBinding
     private val participantsAdapter by lazy {
-        ChatParticipantListAdapter {
+        ChatParticipantsAdapter {
             viewModel.onParticipantClick(it)
         }
     }
@@ -76,6 +76,10 @@ class VideoChatActivity : BaseActivity() {
 
         viewModel.navigation.observe(this, Observer {
             handleNavigation(it)
+        })
+
+        viewModel.participantToUpdate.observe(this, Observer {
+            participantsAdapter.updateUser(it)
         })
     }
 

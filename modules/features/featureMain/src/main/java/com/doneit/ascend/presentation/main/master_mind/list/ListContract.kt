@@ -13,7 +13,7 @@ interface ListContract {
 
         fun updateData()
         fun openProfile(item: MasterMindEntity)
-        fun openGroupList(id: Long)
+        fun openGroupList(item: MasterMindEntity)
     }
 
     interface Router {

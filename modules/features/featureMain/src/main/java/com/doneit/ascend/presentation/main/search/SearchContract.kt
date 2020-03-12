@@ -14,7 +14,7 @@ interface SearchContract {
 
         fun submitRequest(query: String)
         fun goBack()
-        fun openGroupList(id: Long)
+        fun openGroupList(mm: MasterMindEntity)
         fun onMMClick(model: MasterMindEntity)
         fun onGroupClick(model: GroupEntity)
         fun onStartChatClick(groupId: Long)

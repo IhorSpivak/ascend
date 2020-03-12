@@ -343,7 +343,7 @@ class CreateGroupViewModel(
         }
         builder.deleteCharAt(builder.length - 1)//remove space
         builder.deleteCharAt(builder.length - 1)//remove coma
-        if (createGroupModel.timeType == "is24"){
+        if (calendarUtil.is24TimeFormat()){
             builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes}")
         }else{
             builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")

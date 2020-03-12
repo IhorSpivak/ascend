@@ -38,7 +38,8 @@ fun GroupEntity.toLocal(): GroupLocal {
         participantsCount,
         invitesCount,
         daysOfWeek?.map { it.ordinal },
-        note?.toLocale()
+        note?.toLocale(),
+        meetingFormat
     )
 }
 

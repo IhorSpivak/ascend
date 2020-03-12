@@ -54,6 +54,11 @@
         <item name="android:letterSpacing">-0.04</item>
     </style>
 
+    <style name="TextNormal.Blue">
+        <item name="android:textColor">@color/light_gray_cd</item>
+        <item name="android:letterSpacing">-0.04</item>
+    </style>
+
     <style name="Title" parent="@style/TextNormal">
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:textStyle">bold</item>
