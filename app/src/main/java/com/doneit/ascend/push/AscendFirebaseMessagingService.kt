@@ -73,9 +73,8 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
         intent.putExtra(Constants.KEY_GROUP_ID, id)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
             PendingIntent.FLAG_UPDATE_CURRENT)
-        val channelId = "ascend_n"
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
                 //TODO: no icon for pushes:
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentTitle(messageTitle)
@@ -86,11 +85,13 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId,
-                "ascend_notification",
-                NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager.createNotificationChannel(channel)
         }
         notificationManager.notify(0, notificationBuilder.build())
+    }
+    companion object{
+        private const val CHANNEL_NAME = "ascend_notification"
+        private const val CHANNEL_ID = "ascend_n"
     }
 }
