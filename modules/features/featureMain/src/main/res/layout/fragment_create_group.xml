@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -220,7 +221,7 @@
                 app:layout_constraintStart_toStartOf="@+id/uploadImagePlaceHolder"
                 app:layout_constraintTop_toTopOf="@+id/uploadImagePlaceHolder" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/reservation"
                 style="@style/TextNormalSecond"
                 android:layout_width="match_parent"
@@ -293,6 +294,93 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_view_invite_members"
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/create_webinar_invite"
+                android:textColor="@color/master_mind_color"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/uploadImagePlaceHolder" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_view_invite_members"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/add_member_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/add_member_template_round"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@drawable/ic_dash_round"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/add_member_template_plus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_member_plus"
+                        android:tint="@color/light_gray_b1bf"
+                        app:layout_constraintBottom_toBottomOf="@id/add_member_template_round"
+                        app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
+                        app:layout_constraintStart_toStartOf="@id/add_member_template_round"
+                        app:layout_constraintTop_toTopOf="@id/add_member_template_round" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_view_add_member"
+                        style="@style/TextNormal"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="8dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/red_hat_font"
+                        android:gravity="center_horizontal|top"
+                        android:lines="2"
+                        android:text="@string/create_webinar_add_member"
+                        android:textColor="@color/light_gray_b1bf"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
+                        app:layout_constraintStart_toStartOf="@+id/add_member_template_round"
+                        app:layout_constraintTop_toBottomOf="@id/add_member_template_round" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_added_members"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="@id/add_member_container"
+                    app:layout_constraintStart_toEndOf="@+id/add_member_container"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0"
+                    tools:listitem="@layout/template_follower_item" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

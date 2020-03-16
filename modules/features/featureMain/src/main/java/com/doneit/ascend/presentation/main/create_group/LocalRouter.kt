@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.create_group
 
 import android.os.Bundle
+import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberFragment
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
@@ -72,6 +73,10 @@ class LocalRouter(
 
     override fun navigateToDatePicker() {
         hostFragment.childFragmentManager.add(containerId, DatePickerFragment())
+    }
+
+    override fun navigateToAddMember(individual: Boolean) {
+        hostFragment.childFragmentManager.add(containerId, AddMemberFragment.getInstance(individual))
     }
 
 }

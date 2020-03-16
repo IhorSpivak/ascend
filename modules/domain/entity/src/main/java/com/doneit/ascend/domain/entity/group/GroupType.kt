@@ -4,6 +4,7 @@ enum class GroupType {
     MASTER_MIND,
     WEBINARS,
     SUPPORT,
+    INDIVIDUAL,
     //todo remove this locale types
     DAILY,
     MY_GROUPS;

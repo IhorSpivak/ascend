@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.create_group
 
+import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberContract
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
 import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.CalendarWithTimePickerContact
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
@@ -17,7 +18,8 @@ interface CreateGroupHostContract {
         CreateMMGroupContract.ViewModel,
         IndividualGroupContract.ViewModel,
         CreateWebinarContract.ViewModel,
-        CalendarWithTimePickerContact.ViewModel {
+        CalendarWithTimePickerContact.ViewModel,
+        AddMemberContract.ViewModel{
 
         fun handleBaseNavigation(args: CreateGroupArgs)
     }
@@ -32,6 +34,7 @@ interface CreateGroupHostContract {
         fun navigateToCreateWebinar(args: CreateGroupArgs)
         fun navigateToCalendarPiker()
         fun navigateToDatePicker()
+        fun navigateToAddMember(individual: Boolean)
         fun onBack(): Boolean
     }
 }

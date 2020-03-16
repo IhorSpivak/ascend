@@ -68,7 +68,8 @@ class PresentationCreateGroupModel(
 enum class GroupType {
     WEBINAR,
     SUPPORT,
-    MASTER_MIND;
+    MASTER_MIND,
+    INDIVIDUAL;
 
     override fun toString(): String {
         return super.toString().toLowerCase()

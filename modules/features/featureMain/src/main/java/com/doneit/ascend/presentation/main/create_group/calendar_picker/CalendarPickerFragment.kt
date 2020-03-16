@@ -11,14 +11,13 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentCalendarPickerBinding
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
-import com.doneit.ascend.presentation.utils.extensions.getHoursByTimeZone
-import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.doneit.ascend.presentation.utils.extensions.waitForLayout
+import com.doneit.ascend.presentation.utils.extensions.*
 import kotlinx.android.synthetic.main.template_week_days.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import java.util.*
 
 class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
 
@@ -83,13 +82,21 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
 
 
         binding.pickers.waitForLayout {
+            val calendar = Calendar.getInstance()
             val timeTypeIndex =
-                binding.timeTypePicker.getDataIndex { (it as String) == viewModel.createGroupModel.timeType }
+                binding.timeTypePicker.getDataIndex {
+                    (it as String) == calendar.get(Calendar.AM_PM).toAmPm() }
             val minutesIndex =
-                binding.minutesPicker.getDataIndex { (it as String) == viewModel.createGroupModel.minutes }
+                binding.minutesPicker.getDataIndex {
+                    (it as String) == calendar.get(Calendar.MINUTE).toTimeString() }
             val hoursIndex =
                 binding.hoursPicker.getDataIndex {
-                    (it as String) == viewModel.createGroupModel.hours
+                    if(DateFormat.is24HourFormat(context)){
+                        (it as String) == calendar.get(Calendar.HOUR_OF_DAY).toTimeString()
+                    }else{
+                        (it as String) == calendar.get(Calendar.HOUR).toTimeString()
+                    }
+
                 }
 
             binding.timeTypePicker.selectedItemPosition = timeTypeIndex

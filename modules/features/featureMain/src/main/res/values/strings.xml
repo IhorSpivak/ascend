@@ -85,6 +85,11 @@
     <string name="btn_cancel_spaced">Cancel&#160;&#160;</string>
     <string name="btn_complete">Complete</string>
     <string name="btn_done">Done</string>
+    <plurals name="x_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <string name="duration_hours">Duration</string>
 
     <string-array name="meeting_formats">
         <item>Meeting Format</item>

@@ -425,6 +425,10 @@ class CreateGroupViewModel(
         navigation.postValue(CreateMMGroupContract.Navigation.TO_INDIVIDUAL)
     }
 
+    override fun addMember() {
+        localRouter.navigateToAddMember(true)
+    }
+
     override fun setType(type: TimeZoneFormat.TimeType) {
 
     }
@@ -446,6 +450,14 @@ class CreateGroupViewModel(
     }
 
     override fun getHour() {
+
+    }
+
+    override fun goBack() {
+        //from add member
+    }
+
+    override fun onMemberClick() {
 
     }
 

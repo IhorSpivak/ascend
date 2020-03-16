@@ -309,6 +309,7 @@
                             android:layout_marginStart="16dp"
                             app:html="@{@string/attendees(model.group.participantsCount)}"
                             tools:text="12 Attendees" />
+
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
