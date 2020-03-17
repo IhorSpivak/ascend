@@ -48,8 +48,10 @@ import com.doneit.ascend.presentation.main.search.SearchFragment
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsContract
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsFragment
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.SpiritualActionListContract
+import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberFragment
 import com.doneit.ascend.presentation.main.goals.GoalsContract
 import com.doneit.ascend.presentation.main.goals.GoalsFragment
+import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesFragment
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
 import com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract
@@ -235,6 +237,10 @@ class MainRouter(
 
     override fun navigateToMMInfo(id: Long) {
         replaceFullWithMainUpdate(MMInfoFragment.newInstance(id))
+    }
+
+    override fun navigateToViewAttendees() {
+        replaceFullWithMainUpdate(AttendeesFragment())
     }
 
     override fun navigateToSearch() {

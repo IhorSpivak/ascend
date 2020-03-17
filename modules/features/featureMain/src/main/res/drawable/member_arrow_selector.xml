@@ -2,10 +2,13 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_selected="true"
-        android:drawable="@drawable/member_selected_item_background"
+        android:drawable="@drawable/ic_added_member"
         />
     <item
         android:state_selected="false"
-        android:drawable="@drawable/member_unselected_item_background"
+        android:drawable="@drawable/ic_not_added_member"
+        />
+    <item
+        android:drawable="@drawable/ic_added_member"
         />
 </selector>

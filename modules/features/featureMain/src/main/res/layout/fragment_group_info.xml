@@ -6,7 +6,7 @@
     <data>
 
         <import type="android.text.Html" />
-
+        <import type="com.doneit.ascend.domain.entity.group.GroupType"/>
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.group_info.GroupInfoContract.ViewModel" />
@@ -14,6 +14,9 @@
         <variable
             name="group"
             type="com.doneit.ascend.domain.entity.group.GroupEntity" />
+        <variable
+            name="isAttended"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,18 +58,20 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_white_round_top"
                     android:clipToPadding="false"
-                    android:paddingStart="24dp"
+
                     android:paddingTop="30dp"
-                    android:paddingEnd="24dp"
+
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/contentSpace"
-                    app:layout_constraintVertical_bias="0">
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:layout_editor_absoluteX="0dp">
 
                     <TextView
                         android:id="@+id/title"
                         style="@style/Title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
                         android:layout_marginEnd="8dp"
                         android:text="@{model.group.name}"
                         app:layout_constraintEnd_toStartOf="@id/ic_abuse"
@@ -78,6 +83,7 @@
                         android:id="@+id/ic_abuse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
                         android:src="@drawable/ic_info"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -86,6 +92,7 @@
                         android:id="@+id/icon"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginTop="24dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/title"
@@ -109,13 +116,13 @@
 
                     <View
                         android:id="@+id/containerUserClick"
-                        android:onClick="@{v -> model.onMMClick()}"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
+                        android:onClick="@{v -> model.onMMClick()}"
                         app:layout_constraintBottom_toBottomOf="@+id/icon"
                         app:layout_constraintEnd_toEndOf="@+id/tvName"
                         app:layout_constraintStart_toStartOf="@+id/icon"
-                        app:layout_constraintTop_toTopOf="@+id/icon"/>
+                        app:layout_constraintTop_toTopOf="@+id/icon" />
 
                     <androidx.appcompat.widget.AppCompatRatingBar
                         android:id="@+id/rbRating"
@@ -135,8 +142,9 @@
                         style="@style/TextNormal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
                         android:textColor="@color/light_gray_8f"
-                        android:textSize="16dp"
+                        android:textSize="16sp"
                         app:html="@{@string/meetings_count( 0, model.group.meetingsCount)}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/icon"
@@ -165,27 +173,47 @@
                     <Button
                         android:id="@+id/btnSubscribed"
                         style="@style/AppTheme.Button"
+                        android:layout_marginStart="24dp"
                         android:layout_marginTop="18dp"
+                        android:layout_marginEnd="24dp"
                         android:background="@drawable/ic_bg_btn_joined"
                         android:enabled="false"
                         android:text="@string/subscribed"
                         android:textAllCaps="true"
                         android:textColor="@color/light_gray_8f"
-                        app:setVisibility="@{model.btnJoinedVisible}"
-                        app:layout_constraintTop_toBottomOf="@id/brMaster" />
+                        app:layout_constraintTop_toBottomOf="@id/brMaster"
+                        app:setVisibility="@{model.btnJoinedVisible}" />
 
                     <Button
                         android:id="@+id/btnSubscribe"
                         style="@style/AppTheme.Button"
+                        android:layout_marginStart="24dp"
                         android:layout_marginTop="18dp"
+                        android:layout_marginEnd="24dp"
                         android:text="@string/subscribe"
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
                         app:setVisibility="@{model.btnSubscribeVisible}" />
 
+
+                    <Button
+                        android:id="@+id/btnStart"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="24dp"
+                        android:background="@drawable/start_group_button_states"
+                        android:onClick="@{(v) -> model.startGroup()}"
+                        android:text="@string/start_group"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster" />
                     <Button
                         android:id="@+id/btnJoinToDisc"
                         style="@style/AppTheme.Button"
+                        android:layout_marginStart="24dp"
                         android:layout_marginTop="18dp"
+                        android:layout_marginEnd="24dp"
                         android:background="@drawable/button_join_background"
                         android:text="@string/join_to_discussion"
                         android:textAllCaps="true"
@@ -193,45 +221,109 @@
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
                         app:setVisibility="@{model.btnJoinVisible}" />
 
-                    <Button
-                        android:id="@+id/btnStart"
-                        style="@style/AppTheme.Button"
-                        android:layout_marginTop="18dp"
-                        android:background="@drawable/button_start_background"
-                        android:onClick="@{(v) -> model.startGroup()}"
-                        android:text="@string/start_group"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/white"
-                        android:textSize="24sp"
-                        app:layout_constraintTop_toBottomOf="@id/brMaster"
-                        app:setVisibility="@{model.btnStartVisible}" />
-
-                    <Button
+                    <!--<Button
                         android:id="@+id/btnDelete"
                         style="@style/AppTheme.Button"
+                        android:layout_marginStart="24dp"
                         android:layout_marginTop="18dp"
+                        android:layout_marginEnd="24dp"
                         android:background="@drawable/ic_bg_btn_delete"
                         android:text="@string/delete_group"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
-                        app:setVisibility="@{model.btnDeleteVisible}" />
+                        app:setVisibility="@{model.btnDeleteVisible}" />-->
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/buttonsBarrier"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="btnSubscribed,btnDelete,btnJoinToDisc,btnStart,btnSubscribe"/>
+                        app:constraint_referenced_ids="btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/mm_panel_buttons_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/mm_panel_buttons_container_background"
+                        android:padding="8dp"
+                        app:layout_constraintTop_toBottomOf="@id/buttonsBarrier">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/mm_del_cancel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/mm_duplicate">
+                            <Button
+                                android:id="@+id/mm_delete"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/mm_delete_background"
+                                android:text="@string/mm_delete_group"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:setVisibility="@{model.btnDeleteVisible}" />
+                            <Button
+                                android:id="@+id/mm_cancel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/mm_cancel_background"
+                                android:text="@string/cancel_group"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:onClick="@{() -> model.onCancelClick(group)}"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:setVisibility="@{model.btnStartVisible}" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <Button
+                            android:id="@+id/mm_duplicate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/mm_duplicate_background"
+                            android:text="@string/duplicate_group"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp"
+                            android:onClick="@{() -> model.onDuplicateClick(group)}"
+                            app:layout_constraintEnd_toStartOf="@id/mm_edit"
+                            app:layout_constraintStart_toEndOf="@id/mm_del_cancel"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/mm_edit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/mm_edit_background"
+                            android:text="@string/edit_group"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:onClick="@{() -> model.onEditClick(group)}"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:setVisibility="@{model.isEditable}" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/icCalendar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
                         android:layout_marginTop="24dp"
                         android:src="@drawable/ic_calendar"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/buttonsBarrier" />
+                        app:layout_constraintTop_toBottomOf="@id/mm_panel_buttons_container" />
 
                     <TextView
                         android:id="@+id/tvStartDate"
@@ -276,41 +368,197 @@
                         app:barrierDirection="bottom"
                         app:constraint_referenced_ids="icCalendar,tvStartDate,icSchedule,tvSchedule" />
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/tvMMGContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_r4_519f"
+                        android:orientation="horizontal"
+                        android:visibility="@{group.groupType == GroupType.MASTER_MIND || group.groupType == GroupType.INDIVIDUAL, default=gone}"
+                        app:layout_constraintStart_toStartOf="@id/icCalendar"
+                        app:layout_constraintTop_toBottomOf="@id/icCalendar">
+
+                        <TextView
+                            android:id="@+id/tvInividual"
+                            style="@style/TextNormal.White"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_ic_supervisor_account_24px"
+                            android:drawablePadding="4dp"
+                            android:padding="4dp"
+                            android:text="@string/individual"
+                            android:textColor="@color/gold"
+                            android:textSize="12sp"
+                            android:visibility="@{group.groupType == GroupType.INDIVIDUAL, default = gone}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tvMasterMindMarker"
+                            style="@style/TextNormal.White"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="@string/master_mind_group"
+                            android:textSize="12sp"
+                            android:visibility="@{group.groupType == GroupType.MASTER_MIND || group.groupType == GroupType.INDIVIDUAL, default = gone}"
+                            app:layout_constraintStart_toEndOf="@id/tvInividual"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tvSGContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_r4_9dc0"
+                        android:orientation="horizontal"
+                        android:visibility="@{group.groupType == GroupType.SUPPORT, default=gone}"
+                        app:layout_constraintStart_toStartOf="@id/icCalendar"
+                        app:layout_constraintTop_toBottomOf="@id/icCalendar">
+
+                        <TextView
+                            android:id="@+id/tvSupportMarker"
+                            style="@style/TextNormal.White"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:text="@string/support_group"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvSupportMarkerType"
+                            style="@style/TextNormal.Blue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_r4_519f"
+                            android:padding="4dp"
+                            android:text="@{@string/support_group_type(group.meetingFormat)}"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
                     <TextView
                         android:id="@+id/description"
                         style="@style/TextNormal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="24dp"
                         android:text="@{model.group.description}"
-                        app:layout_constraintTop_toBottomOf="@id/brInfo" />
+                        app:layout_constraintTop_toBottomOf="@id/tvMMGContainer" />
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="64dp"
                         android:background="@drawable/bg_white_bordered"
-                        android:padding="16dp"
+                        android:padding="24dp"
+                        android:visibility="@{group.groupType != GroupType.INDIVIDUAL}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/description">
 
                         <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ic_attendees_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_attendees" />
+                            android:src="@drawable/ic_attendees"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
 
                         <TextView
+                            android:id="@+id/attendees_count"
                             style="@style/TextNormal"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
                             android:layout_marginStart="16dp"
                             app:html="@{@string/attendees(model.group.participantsCount)}"
-                            tools:text="12 Attendees" />
+                            tools:text="12 Attendees"
+                            app:layout_constraintStart_toEndOf="@id/ic_attendees_icon"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
 
-                    </LinearLayout>
+                        <TextView
+                            android:id="@+id/view_attendees"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:fontFamily="@font/red_hat_font"
+                            android:textSize="16sp"
+                            android:text="@string/view_attendees"
+                            android:textColor="@color/green_font_color"
+                            android:onClick="@{() -> model.onViewClick()}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/description">
+
+                        <com.doneit.ascend.presentation.views.MasterMindIcon
+                            android:id="@+id/attendee_icon"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginTop="24dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:name="@{model.group.owner.fullName}"
+                            app:url="@{model.group.owner.image.url}" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/member_attended"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_added_member"
+                            android:tint="@color/green_font_color"
+                            android:visibility="@{isAttended}"
+                            app:layout_constraintEnd_toEndOf="@+id/attendee_icon"
+                            app:layout_constraintTop_toTopOf="@+id/attendee_icon" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/member_not_attended"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="2dp"
+                            android:background="@drawable/clear_member_button_background"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_clear_member_button"
+                            android:visibility="@{!isAttended}"
+                            app:layout_constraintEnd_toEndOf="@+id/attendee_icon"
+                            app:layout_constraintTop_toTopOf="@+id/attendee_icon" />
+
+                        <TextView
+                            android:id="@+id/attendee_name"
+                            style="@style/TextNormal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:gravity="center"
+                            android:text="@{model.group.owner.fullName}"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="@id/attendee_icon"
+                            app:layout_constraintStart_toStartOf="@id/attendee_icon"
+                            app:layout_constraintTop_toBottomOf="@id/attendee_icon"
+                            app:layout_constraintVertical_chainStyle="packed" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

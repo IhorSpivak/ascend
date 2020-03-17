@@ -25,7 +25,7 @@ android {
     productFlavors {
         dev {
             dimension "type"
-            versionNameSuffix "-dev"
+            versionNameSuffix ""
             //todo move to Build from res
             resValue "string", "base_url", "https://ascend-backend.herokuapp.com/api/v1/"
         }

@@ -110,7 +110,7 @@
                 android:layout_marginTop="@dimen/create_group_top_margin"
                 android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                 android:text="@{@plurals/x_hours(duration,duration)}"
-                app:src="@{@drawable/ic_hand_number}"
+                app:src="@{@drawable/ic_duration}"
                 app:hint="@{@string/duration_hours}"
                 android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"

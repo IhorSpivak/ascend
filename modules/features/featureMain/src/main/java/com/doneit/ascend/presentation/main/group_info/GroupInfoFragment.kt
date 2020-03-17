@@ -40,7 +40,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             binding.group = group
             binding.tvName.text = group.name
             binding.tvStartDate.text = group.startTime?.toDayMonthYear()
-
+            binding.isAttended = false
             val builder = StringBuilder()
 
             if (group.daysOfWeek != null) {//todo refactor
@@ -63,9 +63,12 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         viewModel.cards.observe(viewLifecycleOwner, Observer {
             cardsAdapter.setData(it)
         })
+        viewModel.starting.observe(this, Observer {
+            btnStart.isEnabled = it
+        })
 
 
-        btnDelete.setOnClickListener {
+        mm_delete.setOnClickListener {
             currentDialog = DeleteDialog.create(
                 context!!,
                 getString(R.string.delete_this_group),

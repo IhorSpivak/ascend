@@ -16,6 +16,9 @@ interface GroupInfoContract {
         val cards: LiveData<List<PresentationCardModel>>
         val isBlocked: Boolean
         val isSupport: LiveData<Boolean>
+        val isEditable: LiveData<Boolean>
+        val isMM: LiveData<Boolean>
+        val starting: LiveData<Boolean>
 
         fun onBackPressed()
         fun loadData(groupId: Long)
@@ -26,6 +29,10 @@ interface GroupInfoContract {
         fun report(content: String)
         fun onAddPaymentClick()
         fun onMMClick()
+        fun onViewClick()
+        fun onDuplicateClick(group: GroupEntity)
+        fun onEditClick(group: GroupEntity)
+        fun onCancelClick(group: GroupEntity)
     }
 
     interface Router {
@@ -33,5 +40,6 @@ interface GroupInfoContract {
         fun navigateToAddPaymentMethod()
         fun navigateToVideoChat(groupId: Long)
         fun navigateToMMInfo(id: Long)
+        fun navigateToViewAttendees()
     }
 }

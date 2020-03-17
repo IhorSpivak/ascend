@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.dto.PaymentType
 import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
@@ -39,6 +40,9 @@ class GroupInfoViewModel(
     override val btnStartVisible = MutableLiveData<Boolean>(false)
     override val btnDeleteVisible = MutableLiveData<Boolean>(false)
     override val btnJoinedVisible = MutableLiveData<Boolean>(false)
+    override val isEditable = MutableLiveData<Boolean>(false)
+    override val isMM = MutableLiveData<Boolean>(false)
+    override val starting = MutableLiveData<Boolean>(false)
 
     override val isBlocked: Boolean
         get() {
@@ -56,6 +60,7 @@ class GroupInfoViewModel(
                 group.postValue(response.successModel!!)
                 isSupport.postValue(response.successModel?.groupType != GroupType.SUPPORT)
                 val user = userUseCase.getUser()
+                isMM.postValue(user!!.isMasterMind && user.id == response.successModel!!.owner?.id)
                 updateButtonsState(user!!, response.successModel!!)
             }
             showProgress(false)
@@ -64,9 +69,20 @@ class GroupInfoViewModel(
 
     private fun updateButtonsState(user: UserEntity, details: GroupEntity) {
         //todo refactor
-        val states = mutableListOf(false, false, false, false, false)
-
-        when (getButtonType(user, details)) {
+        //val states = mutableListOf(false, false, false, false, false)
+        details.apply {
+            btnJoinedVisible.postValue(subscribed)
+            btnJoinVisible.postValue(isStarting || inProgress)
+            isEditable.postValue(status != GroupStatus.ENDED)
+            starting.postValue(isStarting)
+            btnStartVisible.postValue(status != GroupStatus.STARTED)
+            btnDeleteVisible.postValue(participantsCount == 0)
+            btnSubscribeVisible.postValue(subscribed != true && user.id != details.owner?.id)
+            if (user.id == details.owner?.id){
+                btnJoinVisible.postValue(inProgress && status == GroupStatus.STARTED)
+            }
+        }
+        /*when (getButtonType(user, details)) {
             ButtonType.SUBSCRIBE -> states[0] = true
             ButtonType.JOIN_TO_DISCUSSION -> states[1] = true
             ButtonType.START_GROUP -> states[2] = true
@@ -78,7 +94,7 @@ class GroupInfoViewModel(
         btnJoinVisible.postValue(states[1])
         btnStartVisible.postValue(states[2])
         btnDeleteVisible.postValue(states[3])
-        btnJoinedVisible.postValue(states[4])
+        btnJoinedVisible.postValue(states[4])*/
     }
 
     override fun joinToDiscussion() {
@@ -140,5 +156,19 @@ class GroupInfoViewModel(
         group.value?.owner?.id?.let {
             router.navigateToMMInfo(it)
         }
+    }
+
+    override fun onViewClick() {
+        router.navigateToViewAttendees()
+    }
+
+    override fun onDuplicateClick(group: GroupEntity) {
+
+    }
+
+    override fun onEditClick(group: GroupEntity) {
+    }
+
+    override fun onCancelClick(group: GroupEntity) {
     }
 }

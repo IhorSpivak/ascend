@@ -46,7 +46,7 @@
     <string name="preferred_time">Preferred Time</string>
     <string name="number_of_participants">Number of participants</string>
     <string name="group">Group</string>
-    <string name="individual">Individual</string>
+    <string name="individual"> Individual</string>
     <string name="apply">Apply</string>
     <string name="to">to</string>
 
@@ -161,6 +161,10 @@
     <string name="delete_group">Delete Group</string>
     <string name="attendees">&lt;b>%d&lt;/b> Attendees</string>
     <string name="error_group_user_removed">You are removed from group</string>
+    <string name="duplicate_group">Duplicate</string>
+    <string name="cancel_group">Cancel</string>
+    <string name="edit_group">Edit</string>
+    <string name="mm_delete_group">Delete</string>
 
     <!--MasterMind Tab-->
     <string name="tab_all">All</string>
@@ -434,4 +438,10 @@
 
     <!--MM Groups-->
     <string name="mm_name_groups">%s Groups</string>
+
+    <!--Add members-->
+    <string name="invite_member_text"><b>%s</b>\is not yet registered in the application,\n or uses a different email.\n\nWant to invite this user to the app?</string>
+    <string name="invite_member_button">INVITE</string>
+    <string name="search_member_hint">Search by name or email</string>
+    <string name="view_attendees">View</string>
 </resources>

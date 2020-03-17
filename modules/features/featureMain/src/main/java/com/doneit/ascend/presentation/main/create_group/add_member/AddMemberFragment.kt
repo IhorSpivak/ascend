@@ -33,7 +33,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
         memberAdapter.members = listOf("NAME1", "NAME2","NAME3")
 
         binding.btnBack.setOnClickListener {
-            //viewModel.goBack()
+            viewModel.goBack()
         }
 
         binding.tvSearch.addTextChangedListener(object: TextWatcher {

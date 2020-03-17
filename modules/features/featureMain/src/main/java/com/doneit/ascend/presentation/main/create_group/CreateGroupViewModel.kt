@@ -220,7 +220,7 @@ class CreateGroupViewModel(
         localRouter.navigateToDatePicker()
     }
 
-    override fun okClick() {
+    override fun okClick(/*hours: String, minutes: String, timeType: String*/) {
         changeSchedule()
         backClick()
     }

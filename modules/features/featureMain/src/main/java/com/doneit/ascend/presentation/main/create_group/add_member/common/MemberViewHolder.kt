@@ -14,8 +14,16 @@ class MemberViewHolder(
 
     fun bind(name: String){
         binding.name = name
-        binding.root.setOnClickListener {
-            it.swapSelection()
+        binding.apply {
+            followerName.initSelection()
+            selection.initSelection()
+        }
+        binding.apply {
+            root.setOnClickListener {
+                it.swapSelection()
+                followerName.swapSelection()
+                selection.swapSelection()
+            }
         }
     }
 
@@ -31,11 +39,11 @@ class MemberViewHolder(
             )
             return MemberViewHolder(binding)
         }
-
-        private const val FIRST = 1
-        private const val SECOND = 2
     }
     fun View.swapSelection(){
         this.isSelected = !isSelected
+    }
+    fun View.initSelection(){
+        this.isSelected = false
     }
 }
