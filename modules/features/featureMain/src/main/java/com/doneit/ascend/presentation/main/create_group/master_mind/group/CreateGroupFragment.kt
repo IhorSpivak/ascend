@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
@@ -46,6 +47,13 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
         binding.adapter = adapter
+
+        viewModel.changeGroup.observe(this, Observer {
+            binding.apply {
+                userName.text = it.name?: ""
+                description.text = it.description?: ""
+            }
+        })
 
         chooseSchedule.multilineEditText.setOnClickListener {
             mainContainer.requestFocus()

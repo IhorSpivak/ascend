@@ -1,7 +1,9 @@
 package com.doneit.ascend.domain.use_case.interactor.group
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.common.ResponseEntity
@@ -69,6 +71,10 @@ internal class GroupInteractor(
 
     override suspend fun updateNote(dto: UpdateNoteDTO): ResponseEntity<Unit, List<String>> {
         return groupGateway.updateNote(dto)
+    }
+
+    override fun searchMembers(query: String): LiveData<PagedList<AttendeeEntity>> {
+        return groupGateway.getMembersPaged(query)
     }
 
     override val messagesStream = groupGateway.messagesStream

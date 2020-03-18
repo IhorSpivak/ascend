@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:state_selected="true"
+        android:state_enabled="true"
         android:drawable="@drawable/ic_added_member"
         />
     <item
-        android:state_selected="false"
+
+        android:state_enabled="false"
         android:drawable="@drawable/ic_not_added_member"
-        />
-    <item
-        android:drawable="@drawable/ic_added_member"
         />
 </selector>

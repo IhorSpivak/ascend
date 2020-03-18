@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.create_group.add_member.common
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.doneit.ascend.domain.entity.AttendeeEntity
 
 class MemberListAdapter: RecyclerView.Adapter<MemberViewHolder>() {
 
@@ -18,6 +19,6 @@ class MemberListAdapter: RecyclerView.Adapter<MemberViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MemberViewHolder, position: Int) {
-        holder.bind(members[position])
+        holder.bind(AttendeeEntity(1,"name","name@mail.com", ""))
     }
 }

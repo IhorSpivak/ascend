@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.RateEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.entity.user.AuthEntity
@@ -9,6 +10,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.Constants.MM_ROLE
 import com.doneit.ascend.source.storage.local.data.UserLocal
 import com.doneit.ascend.source.storage.remote.data.response.RateResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.AuthResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.SearchUsersResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.UserAuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.UserProfileResponse
 
@@ -108,5 +110,14 @@ fun RateResponse.toEntity(): RateEntity {
         image.toEntity(),
         createdAt.toDate()!!,
         updatedAt.toDate()
+    )
+}
+
+fun SearchUsersResponse.toEntity(): AttendeeEntity{
+    return AttendeeEntity(
+        id.toInt(),
+        fullName,
+        email,
+        image?.url
     )
 }

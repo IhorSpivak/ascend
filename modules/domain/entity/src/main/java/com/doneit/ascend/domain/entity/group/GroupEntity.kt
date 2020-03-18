@@ -1,11 +1,13 @@
 package com.doneit.ascend.domain.entity.group
 
+import android.os.Parcelable
 import com.doneit.ascend.domain.entity.*
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-
+@Parcelize
 class GroupEntity(
-    id: Long,
+    override var id: Long,
     val name: String?,
     val description: String?,
     val startTime: Date?,
@@ -26,7 +28,7 @@ class GroupEntity(
     val daysOfWeek: List<CalendarDayEntity>?,
     val note: NoteEntity?,
     val meetingFormat: String?
-) : SearchEntity(id) {
+) : SearchEntity(id), Parcelable {
 
     val timeInProgress: Long
         get() {

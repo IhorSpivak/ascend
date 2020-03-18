@@ -2,9 +2,11 @@ package com.doneit.ascend.domain.entity
 
 import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 class MasterMindEntity(
-    id: Long,
+    override var id: Long,
     val fullName: String?,
     val displayName: String?,
     val description: String?,
@@ -19,7 +21,7 @@ class MasterMindEntity(
     val myRating: Int?
 ) : SearchEntity(id), Parcelable {
 
-    private constructor(parcel: Parcel) : this(
+   /* private constructor(parcel: Parcel) : this(
         id = parcel.readLong(),
         fullName = parcel.readString(),
         displayName = parcel.readString(),
@@ -50,9 +52,12 @@ class MasterMindEntity(
         p0?.writeBool(allowRating)
         p0?.writeInteger(myRating)
 
-    }
+    }*/
 
-    override fun describeContents() = 0
+    companion object{
+        const val FULL_NAME_KEY = "fullName"
+    }
+    /*override fun describeContents() = 0
 
     companion object CREATOR : Parcelable.Creator<MasterMindEntity> {
         const val FULL_NAME_KEY = "fullName"
@@ -64,5 +69,5 @@ class MasterMindEntity(
         override fun newArray(size: Int): Array<MasterMindEntity?> {
             return arrayOfNulls(size)
         }
-    }
+    }*/
 }

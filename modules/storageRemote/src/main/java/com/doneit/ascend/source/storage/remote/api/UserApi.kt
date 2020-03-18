@@ -3,6 +3,7 @@ package com.doneit.ascend.source.storage.remote.api
 import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.RatesResponse
+import com.doneit.ascend.source.storage.remote.data.response.SearchUserListResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.ProfileResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.UpdateProfileResponse
@@ -73,4 +74,19 @@ interface UserApi {
 
     @PUT("sessions/firebase")
     fun updateFirebase(@Query("firebase_id") firebaseId: String): Deferred<Response<OKResponse>>
+
+    @GET("users/search")
+    fun searchUsersByNameAsync(@Query("full_name") fullName: String): Deferred<Response<SearchUserListResponse>>
+
+    @GET("users/search")
+    fun searchUsersByEmailAsync(@Query("email") email: String): Deferred<Response<SearchUserListResponse>>
+
+    @GET("users/search")
+    fun searchUsersAsync(@Query("page") page: Int?,
+                        @Query("per_page") perPage: Int?,
+                        @Query("sort_column") sortColumn: String?,
+                        @Query("sort_type") sortType: String?,
+                        @Query("full_name") fullName: String?,
+                        @Query("email") email: String?
+    ): Deferred<Response<SearchUserListResponse>>
 }

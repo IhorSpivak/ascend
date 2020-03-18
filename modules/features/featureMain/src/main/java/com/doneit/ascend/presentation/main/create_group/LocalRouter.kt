@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.create_group
 
 import android.os.Bundle
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberFragment
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
@@ -27,7 +28,7 @@ class LocalRouter(
         }
     }
 
-    override fun navigateToCreateMMGroup(args: CreateGroupArgs) {
+    override fun navigateToCreateMMGroup(args: CreateGroupArgs, group: GroupEntity?, what: String?) {
         val fragment =
             CreateMMGroupFragment()
         fragment.arguments = Bundle().apply {
@@ -35,6 +36,9 @@ class LocalRouter(
                 com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,
                 args
             )
+            if (group != null){
+                putParcelable(what, group)
+            }
         }
 
         hostFragment.childFragmentManager.beginTransaction()

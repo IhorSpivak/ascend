@@ -41,5 +41,7 @@ interface GroupInfoContract {
         fun navigateToVideoChat(groupId: Long)
         fun navigateToMMInfo(id: Long)
         fun navigateToViewAttendees()
+        fun navigateToEditGroup(group: GroupEntity)
+        fun navigateToDuplicateGroup(group: GroupEntity)
     }
 }

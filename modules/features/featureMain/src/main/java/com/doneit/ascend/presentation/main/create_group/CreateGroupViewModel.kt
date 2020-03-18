@@ -1,11 +1,13 @@
 package com.doneit.ascend.presentation.main.create_group
 
 import android.icu.text.TimeZoneFormat
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -40,6 +42,10 @@ class CreateGroupViewModel(
     override val participants = MutableLiveData<List<String>>()
     override val networkErrorMessage = SingleLiveManager<String>()
     override val clearReservationSeat = SingleLiveManager<Boolean>()
+    override val changeGroup: LiveData<GroupEntity>
+        get() = MutableLiveData()
+
+    private val searchQuery = MutableLiveData<String>()
 
     init {
         createGroupModel.name.validator = { s ->
@@ -196,12 +202,17 @@ class CreateGroupViewModel(
         }
     }
 
-    override fun handleBaseNavigation(args: CreateGroupArgs) {
+    override fun handleBaseNavigation(args: CreateGroupArgs, group: GroupEntity?, what: String?) {
         when(args.groupType){
             GroupType.SUPPORT -> localRouter.navigateToCreateSupGroup(args)
-            GroupType.MASTER_MIND -> localRouter.navigateToCreateMMGroup(args)
+            GroupType.MASTER_MIND -> localRouter.navigateToCreateMMGroup(args, group, what)
             GroupType.WEBINAR -> localRouter.navigateToCreateWebinar(args)
+            GroupType.INDIVIDUAL -> localRouter.navigateToCreateMMGroup(args, group, what)
         }
+    }
+
+    override fun updateGroup(group: GroupEntity) {
+
     }
 
     override fun backClick() {
@@ -453,8 +464,19 @@ class CreateGroupViewModel(
 
     }
 
+    override val searchResult: LiveData<PagedList<AttendeeEntity>>
+        get() = searchQuery.switchMap {
+            groupUseCase.searchMembers(it)
+        }
+
+    override fun onQueryTextChange(query: String) {
+        if (query.length > 1){
+            searchQuery.postValue(query)
+        }
+    }
+
     override fun goBack() {
-        //from add member
+        router.onBack()
     }
 
     override fun onMemberClick() {

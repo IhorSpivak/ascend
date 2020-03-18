@@ -73,6 +73,7 @@ object StorageRemoteModule {
         bind<IGroupRepository>() with singleton {
             GroupRepository(
                 instance(),
+                instance(),
                 instance()
             )
         }

@@ -1,12 +1,15 @@
 package com.doneit.ascend.source.storage.remote.repository.group
 
 import com.doneit.ascend.source.storage.remote.api.GroupApi
+import com.doneit.ascend.source.storage.remote.api.UserApi
+import com.doneit.ascend.source.storage.remote.data.request.SearchUserRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.CreateGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupListRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupParticipantsRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.UpdateNoteRequest
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
+import com.doneit.ascend.source.storage.remote.data.response.SearchUserListResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
@@ -22,7 +25,8 @@ import java.io.File
 
 internal class GroupRepository(
     gson: Gson,
-    private val api: GroupApi
+    private val api: GroupApi,
+    private val userApi: UserApi
 ) : BaseRepository(gson), IGroupRepository {
 
     override suspend fun createGroup(
@@ -144,6 +148,20 @@ internal class GroupRepository(
         request: UpdateNoteRequest
     ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.updateNote(groupId, request) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun searchUsers(searchRequest: SearchUserRequest): RemoteResponse<SearchUserListResponse, ErrorsListResponse> {
+        return execute(
+            { userApi.searchUsersAsync(
+                searchRequest.page,
+                searchRequest.perPage,
+                searchRequest.sortColumn,
+                searchRequest.sortType,
+                searchRequest.fullName,
+                searchRequest.email
+            )},
+            ErrorsListResponse::class.java
+        )
     }
 }
 

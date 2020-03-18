@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.doneit.ascend.domain.entity.ascension.goal.GoalEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.dto.SortType
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
@@ -243,13 +244,39 @@ class MainRouter(
         replaceFullWithMainUpdate(AttendeesFragment())
     }
 
+    override fun navigateToEditGroup(group: GroupEntity) {
+        val type = com.doneit.ascend.presentation.models.GroupType.values().getOrNull(group.groupType!!.ordinal)
+        val args = CreateGroupArgs(type!!)
+        replaceFullWithMainUpdate(CreateGroupHostFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(
+                    com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,
+                    args
+                )
+                putParcelable(CreateGroupHostFragment.EDIT, group)
+            }
+        })
+    }
+
+    override fun navigateToDuplicateGroup(group: GroupEntity) {
+        val type = com.doneit.ascend.presentation.models.GroupType.values().getOrNull(group.groupType!!.ordinal)
+        val args = CreateGroupArgs(type!!)
+        replaceFullWithMainUpdate(CreateGroupHostFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(
+                    com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,
+                    args
+                )
+                putParcelable(CreateGroupHostFragment.DUPLICATE, group)
+            }
+        })
+    }
+
     override fun navigateToSearch() {
-        //activity.supportFragmentManager.replaceWithBackStack(containerIdFull, SearchFragment())
         replaceFullWithMainUpdate(SearchFragment())
     }
 
     override fun navigateToAllMasterMinds() {
-        //activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MasterMindFragment())
         replaceFullWithMainUpdate(MasterMindFragment())
     }
 
@@ -258,10 +285,6 @@ class MainRouter(
     }
 
     override fun navigateToNotifications() {
-        /*activity.supportFragmentManager.replaceWithBackStack(
-            containerIdFull,
-            NotificationFragment()
-        )*/
         replaceFullWithMainUpdate(NotificationFragment())
     }
 

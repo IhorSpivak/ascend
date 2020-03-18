@@ -440,7 +440,7 @@
     <string name="mm_name_groups">%s Groups</string>
 
     <!--Add members-->
-    <string name="invite_member_text"><b>%s</b>\is not yet registered in the application,\n or uses a different email.\n\nWant to invite this user to the app?</string>
+    <string name="invite_member_text"><b>%s</b>\nis not yet registered in the application,\n or uses a different email.\n\nWant to invite this user to the app?</string>
     <string name="invite_member_button">INVITE</string>
     <string name="search_member_hint">Search by name or email</string>
     <string name="view_attendees">View</string>

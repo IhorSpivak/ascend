@@ -4,6 +4,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 
 interface AttendeesContract {
     interface ViewModel: BaseViewModel {
+
         fun submitRequest(query: String)
         fun goBack()
         fun onClearClick()

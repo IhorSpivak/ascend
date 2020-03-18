@@ -6,6 +6,8 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.paging.toLiveData
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
@@ -17,6 +19,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toCreateGroupReq
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.boundaries.GroupBoundaryCallback
+import com.doneit.ascend.domain.gateway.gateway.data_source.UserDataSourceFactory
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCookies
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
@@ -175,6 +178,11 @@ internal class GroupGateway(
             }
         )
     }
+
+    override fun getMembersPaged(query: String): LiveData<PagedList<AttendeeEntity>> {
+        return UserDataSourceFactory(GlobalScope, remote, query).toLiveData(pageSize = 10, fetchExecutor = Executors.newSingleThreadExecutor())
+    }
+
 
     override suspend fun subscribe(dto: SubscribeGroupDTO): ResponseEntity<Unit, List<String>> {
         val res = remote.subscribe(dto.groupId, dto.toRequest()).toResponseEntity(

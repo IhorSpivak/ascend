@@ -1,3 +1,9 @@
 package com.doneit.ascend.domain.entity
 
-open class SearchEntity(id: Long): IdentifiableEntity(id)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+open class SearchEntity(
+    override var id: Long
+): IdentifiableEntity(id), Parcelable

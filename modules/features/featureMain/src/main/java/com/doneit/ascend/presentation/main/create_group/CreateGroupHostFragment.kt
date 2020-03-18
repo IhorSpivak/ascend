@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.create_group
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
@@ -44,10 +45,31 @@ class CreateGroupHostFragment : BaseFragment<FragmentHostCreateGroupBinding>() {
 
     override val viewModel: CreateGroupHostContract.ViewModel by instance()
 
+    private var group: GroupEntity? = null
+    private var what: String? = null
+
     override fun viewCreated(savedInstanceState: Bundle?) {
+        WHAT.values().forEach {
+            group = arguments!!.getParcelable(it.toString())
+            if (group != null){
+                what = it.toString()
+            }
+        }
         val args = arguments!!.getParcelable<CreateGroupArgs>(ArgumentedFragment.KEY_ARGS)!!
-        viewModel.handleBaseNavigation(args)
+        viewModel.handleBaseNavigation(args, group, what)
     }
 
     fun getContainerId() = R.id.container
+
+    enum class WHAT{
+        DUPLICATE,
+        EDIT;
+        override fun toString(): String {
+            return super.toString().toLowerCase()
+        }
+    }
+    companion object{
+        const val DUPLICATE = "duplicate"
+        const val EDIT = "edit"
+    }
 }

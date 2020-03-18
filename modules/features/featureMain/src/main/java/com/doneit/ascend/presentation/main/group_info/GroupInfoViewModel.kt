@@ -163,10 +163,11 @@ class GroupInfoViewModel(
     }
 
     override fun onDuplicateClick(group: GroupEntity) {
-
+        router.navigateToDuplicateGroup(group)
     }
 
     override fun onEditClick(group: GroupEntity) {
+        router.navigateToEditGroup(group)
     }
 
     override fun onCancelClick(group: GroupEntity) {

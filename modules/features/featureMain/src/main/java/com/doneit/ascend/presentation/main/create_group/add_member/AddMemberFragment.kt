@@ -3,8 +3,12 @@ package com.doneit.ascend.presentation.main.create_group.add_member
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
+import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberListAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupContract
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
@@ -22,23 +26,41 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
         }
     }
     override val viewModel: AddMemberContract.ViewModel by instance()
-    val memberAdapter: MemberListAdapter by lazy {
-        MemberListAdapter()
+
+    private val memberAdapter: MemberAdapter by lazy {
+        MemberAdapter()
     }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = this
-
-        binding.rvMembers.adapter = memberAdapter
-
-        memberAdapter.members = listOf("NAME1", "NAME2","NAME3")
-
-        binding.btnBack.setOnClickListener {
-            viewModel.goBack()
+        binding.apply {
+            lifecycleOwner = this@AddMemberFragment
+            rvMembers.adapter = memberAdapter
+            isEmpty = false
+            clearSearch.setOnClickListener {
+                tvSearch.text.clear()
+            }
+            btnBack.setOnClickListener {
+                childFragmentManager.popBackStack()
+            }
         }
+
+        viewModel.searchResult.observe(this, Observer {
+            memberAdapter.submitList(it)
+            binding.apply {
+                isEmpty = it.isEmpty()
+                query = tvSearch.text.toString()
+            }
+        })
 
         binding.tvSearch.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                //viewModel.submitRequest(p0.toString())
+                viewModel.onQueryTextChange(p0.toString())
+                if (p0.isNullOrBlank()){
+                    binding.apply {
+                        isEmpty = false
+                        rvMembers.visibility = View.GONE
+                    }
+                }
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

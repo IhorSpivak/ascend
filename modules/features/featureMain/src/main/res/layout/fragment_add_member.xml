@@ -5,12 +5,15 @@
     <data>
 
         <variable
-            name="model"
-            type="com.doneit.ascend.presentation.main.search.SearchContract.ViewModel" />
-
+            name="isEmpty"
+            type="Boolean" />
         <variable
-            name="adapter"
-            type="com.doneit.ascend.presentation.main.search.common.SearchAdapter" />
+            name="query"
+            type="String" />
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.main.create_group.add_member.AddMemberContract.ViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -110,15 +113,14 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchBar"
-            tools:listitem="@layout/list_item_member"/><!--
-            app:setAdapter="@{adapter}"
-            app:setAdapterData="@{model.groups}" -->
+            android:visibility="@{!isEmpty}"
+            tools:listitem="@layout/list_item_member"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/invite_member_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="gone"
+            android:visibility="@{isEmpty}"
             android:layout_marginTop="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -129,9 +131,10 @@
                 android:id="@+id/invite_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/invite_member_text"
+                android:text="@{@string/invite_member_text(query)}"
                 android:textColor="@color/default_font_color"
                 android:textSize="16sp"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
