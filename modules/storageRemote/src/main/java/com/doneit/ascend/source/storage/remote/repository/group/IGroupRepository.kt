@@ -17,10 +17,9 @@ import com.doneit.ascend.source.storage.remote.data.response.group.ParticipantLi
 import java.io.File
 
 interface IGroupRepository {
-    suspend fun createGroup(
-        file: File,
-        request: CreateGroupRequest
-    ): RemoteResponse<GroupResponse, ErrorsListResponse>
+    suspend fun createGroup(file: File, request: CreateGroupRequest): RemoteResponse<GroupResponse, ErrorsListResponse>
+
+    suspend fun updateGroup(id: Long, file: File, request: CreateGroupRequest): RemoteResponse<GroupResponse, ErrorsListResponse>
 
     suspend fun getGroupsList(listRequest: GroupListRequest): RemoteResponse<GroupListResponse, ErrorsListResponse>
 

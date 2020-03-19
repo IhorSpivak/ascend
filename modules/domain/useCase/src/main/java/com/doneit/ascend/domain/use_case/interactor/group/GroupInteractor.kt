@@ -19,6 +19,10 @@ internal class GroupInteractor(
         return groupGateway.createGroup(groupDTO)
     }
 
+    override suspend fun updateGroup(id: Long, groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>> {
+        return groupGateway.updateGroup(id, groupDTO)
+    }
+
     override suspend fun getGroupList(model: GroupListDTO): ResponseEntity<List<GroupEntity>, List<String>> {
         return groupGateway.getGroupsList(model)
     }

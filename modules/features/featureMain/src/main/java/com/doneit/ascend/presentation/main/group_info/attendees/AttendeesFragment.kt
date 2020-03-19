@@ -12,15 +12,15 @@ class AttendeesFragment : BaseFragment<FragmentAddMemberBinding>() {
 
     override val viewModelModule = AttendeesViewModelModule.get(this)
     override val viewModel: AttendeesContract.ViewModel by instance()
-    private val memberAdapter: MemberListAdapter by lazy {
+    /*private val memberAdapter: MemberListAdapter by lazy {
         MemberListAdapter()
-    }
+    }*/
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.lifecycleOwner = this
 
-        binding.rvMembers.adapter = memberAdapter
+        //binding.rvMembers.adapter = memberAdapter
 
-        memberAdapter.members = listOf("NAME1", "NAME2","NAME3")
+        //memberAdapter.members = listOf("NAME1", "NAME2","NAME3")
 
         binding.btnBack.setOnClickListener {
             viewModel.goBack()

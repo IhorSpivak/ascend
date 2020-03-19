@@ -1,9 +1,9 @@
 package com.doneit.ascend.domain.entity.group
 
 enum class GroupType {
-    MASTER_MIND,
     WEBINARS,
     SUPPORT,
+    MASTER_MIND,
     INDIVIDUAL,
     //todo remove this locale types
     DAILY,

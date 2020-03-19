@@ -23,7 +23,6 @@ interface CreateGroupHostContract {
         AddMemberContract.ViewModel{
 
         fun handleBaseNavigation(args: CreateGroupArgs, group: GroupEntity?, what: String?)
-        fun updateGroup(group: GroupEntity)
     }
 
     interface Router {
@@ -36,7 +35,7 @@ interface CreateGroupHostContract {
         fun navigateToCreateWebinar(args: CreateGroupArgs)
         fun navigateToCalendarPiker()
         fun navigateToDatePicker()
-        fun navigateToAddMember(individual: Boolean)
+        fun navigateToAddMember(isPublic: Boolean)
         fun onBack(): Boolean
     }
 }

@@ -13,6 +13,7 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
+import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
@@ -44,9 +45,16 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         ParticipantAdapter(mutableListOf(), viewModel)
     }
 
+    private val membersAdapter: InvitedMembersAdapter by lazy {
+        InvitedMembersAdapter()
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        binding.adapter = adapter
+        binding.apply {
+            adapter = adapter
+            recyclerViewAddedMembers.adapter = membersAdapter
+        }
 
         viewModel.changeGroup.observe(this, Observer {
             binding.apply {
@@ -73,6 +81,10 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             pickFromGallery()
         }
 
+        viewModel.members.observe(this, Observer {
+            membersAdapter.submitList(it)
+        })
+
         val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
             TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -89,6 +101,10 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         })
         binding.price.editText.addTextChangedListener(listener)
         binding.price.editText.onFocusChangeListener = listener
+
+        binding.addMemberContainer.setOnClickListener {
+            viewModel.addMember(viewModel.createGroupModel.isPublic.getNotNull())
+        }
 
         viewModel.networkErrorMessage.observe(this) {
             it?.let { errorMessageIt ->

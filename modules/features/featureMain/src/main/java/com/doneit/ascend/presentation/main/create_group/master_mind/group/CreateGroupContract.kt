@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.create_group.master_mind.group
 
 import androidx.lifecycle.LiveData
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedViewModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
@@ -19,12 +20,14 @@ interface CreateGroupContract {
         val networkErrorMessage: SingleLiveManager<String>
         val clearReservationSeat: SingleLiveManager<Boolean>
         val changeGroup: LiveData<GroupEntity>
+        val members: LiveData<MutableList<AttendeeEntity>>
+        val selectedMembers: MutableList<AttendeeEntity>
 
         fun addNewParticipant()
         fun completeClick()
         fun backClick()
         fun chooseScheduleTouch()
         fun chooseStartDateTouch()
-        fun addMember()
+        fun addMember(isPublic: Boolean)
     }
 }

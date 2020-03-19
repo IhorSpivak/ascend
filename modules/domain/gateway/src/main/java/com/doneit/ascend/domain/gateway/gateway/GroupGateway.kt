@@ -63,6 +63,25 @@ internal class GroupGateway(
         )
     }
 
+    override suspend fun updateGroup(
+        id: Long,
+        groupDTO: CreateGroupDTO
+    ): ResponseEntity<GroupEntity, List<String>> {
+        return executeRemote {
+            remote.updateGroup(id,
+                File(groupDTO.imagePath),
+                groupDTO.toCreateGroupRequest()
+            )
+        }.toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override suspend fun getGroupsList(groupListModel: GroupListDTO): ResponseEntity<List<GroupEntity>, List<String>> {
         val res = remote.getGroupsList(groupListModel.toRequest()).toResponseEntity(
             {

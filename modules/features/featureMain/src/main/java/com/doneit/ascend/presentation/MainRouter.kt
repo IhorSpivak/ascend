@@ -83,6 +83,7 @@ import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeFragment
 import com.doneit.ascend.presentation.profile.regular_user.community.CommunityFragment
+import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.web_page.WebPageContract
@@ -253,7 +254,7 @@ class MainRouter(
                     com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,
                     args
                 )
-                putParcelable(CreateGroupHostFragment.EDIT, group)
+                putParcelable(GroupAction.EDIT.toString(), group)
             }
         })
     }
@@ -267,7 +268,7 @@ class MainRouter(
                     com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,
                     args
                 )
-                putParcelable(CreateGroupHostFragment.DUPLICATE, group)
+                putParcelable(GroupAction.DUPLICATE.toString(), group)
             }
         })
     }

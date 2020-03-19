@@ -8,9 +8,12 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
+import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.group.CreateGroupFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualGroupBinding
 import com.doneit.ascend.presentation.models.GroupType
@@ -35,14 +38,19 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
         }
     }
 
+    private val membersAdapter: InvitedMembersAdapter by lazy {
+        InvitedMembersAdapter()
+    }
+
     private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
     override val viewModel: IndividualGroupContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        viewModel.createGroupModel.groupType = GroupType.INDIVIDUAL
+
         binding.apply {
             model = viewModel
+            recyclerViewAddedMembers.adapter = membersAdapter
             duration = 1
             chooseSchedule.multilineEditText.setOnClickListener {
                 mainContainer.requestFocus()
@@ -62,6 +70,9 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
             }
         }
 
+        viewModel.members.observe(this, Observer {
+            membersAdapter.submitList(it)
+        })
         val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
             TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -86,7 +97,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
         }
 
         binding.addMemberContainer.setOnClickListener {
-            viewModel.addMember()
+            viewModel.addMember(viewModel.createGroupModel.isPublic.getNotNull())
         }
     }
 
@@ -140,6 +151,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
 
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
+                binding.dashRectangleBackground.setOnClickListener {  }
                 viewModel.createGroupModel.image.observableField.set(compressed)
             }
         }

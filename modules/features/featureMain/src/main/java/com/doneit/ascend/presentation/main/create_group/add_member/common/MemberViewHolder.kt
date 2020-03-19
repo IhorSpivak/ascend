@@ -10,7 +10,11 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemMemberBinding
 
 class MemberViewHolder(
-    private val binding: ListItemMemberBinding
+    private val binding: ListItemMemberBinding,
+    private val isPublic: Boolean,
+    private val onAdd: (member: AttendeeEntity) -> Unit,
+    private val onRemove: (member: AttendeeEntity) -> Unit,
+    private val onInviteClick: (email: String) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(member: AttendeeEntity?){
@@ -22,6 +26,11 @@ class MemberViewHolder(
         }
         binding.apply {
             root.setOnClickListener {
+                if (it.isSelected){
+                    onRemove.invoke(member!!)
+                }else{
+                    onAdd.invoke(member!!)
+                }
                 it.swapSelection()
                 followerName.apply {
                     isEnabled = !isEnabled
@@ -35,7 +44,11 @@ class MemberViewHolder(
 
     companion object {
         fun create(
-            parent: ViewGroup
+            parent: ViewGroup,
+            isPublic: Boolean,
+            onAdd: (member: AttendeeEntity) -> Unit,
+            onRemove: (member: AttendeeEntity) -> Unit,
+            onInviteClick: (email: String) -> Unit
         ): MemberViewHolder {
             val binding: ListItemMemberBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
@@ -43,7 +56,7 @@ class MemberViewHolder(
                 parent,
                 false
             )
-            return MemberViewHolder(binding)
+            return MemberViewHolder(binding, isPublic, onAdd, onRemove, onInviteClick)
         }
     }
     fun View.swapSelection(){

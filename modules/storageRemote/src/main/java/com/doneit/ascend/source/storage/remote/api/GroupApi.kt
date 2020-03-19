@@ -17,6 +17,10 @@ interface GroupApi {
     @POST("groups")
     fun createGroupAsync(@Part part: List<MultipartBody.Part>): Deferred<Response<GroupResponse>>
 
+    @Multipart
+    @PUT("groups/{id}")
+    fun updateGroupAsync(@Path("id") id: Long,@Part part: List<MultipartBody.Part>): Deferred<Response<GroupResponse>>
+
     @GET("groups")
     fun getGroupsAsync(
         @Query("page") page: Int?,

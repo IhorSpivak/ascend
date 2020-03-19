@@ -79,8 +79,8 @@ class LocalRouter(
         hostFragment.childFragmentManager.add(containerId, DatePickerFragment())
     }
 
-    override fun navigateToAddMember(individual: Boolean) {
-        hostFragment.childFragmentManager.add(containerId, AddMemberFragment.getInstance(individual))
+    override fun navigateToAddMember(isPublic: Boolean) {
+        hostFragment.childFragmentManager.add(containerId, AddMemberFragment.getInstance(isPublic))
     }
 
 }

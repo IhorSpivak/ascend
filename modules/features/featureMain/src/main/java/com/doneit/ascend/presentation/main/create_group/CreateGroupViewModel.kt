@@ -3,10 +3,7 @@ package com.doneit.ascend.presentation.main.create_group
 import android.icu.text.TimeZoneFormat
 import androidx.lifecycle.*
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.AttendeeEntity
-import com.doneit.ascend.domain.entity.CalendarDayEntity
-import com.doneit.ascend.domain.entity.MonthEntity
-import com.doneit.ascend.domain.entity.getDefaultCalendar
+import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
@@ -211,10 +208,6 @@ class CreateGroupViewModel(
         }
     }
 
-    override fun updateGroup(group: GroupEntity) {
-
-    }
-
     override fun backClick() {
         //todo remove this solution!!
         if (localRouter.onBack().not()) {
@@ -286,6 +279,7 @@ class CreateGroupViewModel(
         val isValid = when {
             createGroupModel.groupType == GroupType.SUPPORT -> canCreateSupport()
             createGroupModel.isPublic.getNotNull() -> canCreateMMGroup()
+            createGroupModel.isPublic.getNotNull().not() -> canCreateMMGroup()
             else -> canCreateMMIndividual()
         }
         canComplete.postValue(isValid)
@@ -325,7 +319,19 @@ class CreateGroupViewModel(
     }
 
     private fun canCreateMMIndividual(): Boolean {
-        return true
+        var isFormValid = true
+
+        isFormValid = isFormValid and createGroupModel.name.isValid
+        isFormValid = isFormValid and
+                createGroupModel.scheduleTime.observableField.getNotNull().isNotEmpty() and
+                createGroupModel.scheduleDays.isNotEmpty()
+        isFormValid = isFormValid and createGroupModel.numberOfMeetings.isValid
+        isFormValid = isFormValid and createGroupModel.startDate.isValid
+        isFormValid = isFormValid and createGroupModel.price.isValid
+        isFormValid = isFormValid and createGroupModel.description.isValid
+        isFormValid = isFormValid and createGroupModel.image.isValid
+
+        return isFormValid
     }
 
     private fun updateCanAddParticipant() {
@@ -336,7 +342,7 @@ class CreateGroupViewModel(
         canAddParticipant.postValue(isFormValid)
     }
 
-    private fun changeSchedule() {
+    override fun changeSchedule() {
 
         val builder = StringBuilder()
 
@@ -363,6 +369,29 @@ class CreateGroupViewModel(
 
         createGroupModel.scheduleDays.clear()
         createGroupModel.scheduleDays.addAll(days)
+    }
+
+    override val members: MutableLiveData<MutableList<AttendeeEntity>> = MutableLiveData()
+
+    override fun updateGroup(id: Long) {
+        canComplete.postValue(false)
+
+        viewModelScope.launch {
+            val requestEntity =
+                groupUseCase.updateGroup(id, createGroupModel.toEntity())
+
+            canComplete.postValue(true)
+
+            if (requestEntity.isSuccessful) {
+                backClick()
+                backClick()
+            } else {
+                if (requestEntity.errorModel!!.isNotEmpty()) {
+                    showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
+                }
+            }
+        }
+
     }
 
     private fun changeStartDate() {
@@ -436,8 +465,8 @@ class CreateGroupViewModel(
         navigation.postValue(CreateMMGroupContract.Navigation.TO_INDIVIDUAL)
     }
 
-    override fun addMember() {
-        localRouter.navigateToAddMember(true)
+    override fun addMember(isPublic: Boolean) {
+        localRouter.navigateToAddMember(isPublic)
     }
 
     override fun setType(type: TimeZoneFormat.TimeType) {
@@ -468,6 +497,7 @@ class CreateGroupViewModel(
         get() = searchQuery.switchMap {
             groupUseCase.searchMembers(it)
         }
+    override val selectedMembers: MutableList<AttendeeEntity> = mutableListOf()
 
     override fun onQueryTextChange(query: String) {
         if (query.length > 1){
@@ -476,10 +506,24 @@ class CreateGroupViewModel(
     }
 
     override fun goBack() {
-        router.onBack()
+        localRouter.onBack()
     }
 
-    override fun onMemberClick() {
+    override fun onAdd(member: AttendeeEntity) {
+        if (createGroupModel.isPublic.getNotNull()){
+            selectedMembers.add(member)
+        }else{
+            if (selectedMembers.size < 1){
+                selectedMembers.add(member)
+            }
+        }
+    }
+
+    override fun onRemove(member: AttendeeEntity) {
+        selectedMembers.remove(member)
+    }
+
+    override fun onInviteClick(email: String) {
 
     }
 

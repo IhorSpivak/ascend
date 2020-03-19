@@ -13,6 +13,8 @@ import java.time.temporal.TemporalQuery
 interface GroupUseCase {
     suspend fun createGroup(groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>>
 
+    suspend fun updateGroup(id : Long, groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>>
+
     suspend fun getGroupList(model: GroupListDTO): ResponseEntity<List<GroupEntity>, List<String>>
 
     fun getGroupListPaged(model: GroupListDTO): LiveData<PagedList<GroupEntity>>

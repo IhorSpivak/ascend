@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHostCreateGroupBinding
+import com.doneit.ascend.presentation.utils.GroupAction
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -49,10 +50,12 @@ class CreateGroupHostFragment : BaseFragment<FragmentHostCreateGroupBinding>() {
     private var what: String? = null
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        WHAT.values().forEach {
-            group = arguments!!.getParcelable(it.toString())
-            if (group != null){
-                what = it.toString()
+        GroupAction.values().forEach {
+            if (arguments!!.containsKey(it.toString())){
+                group = arguments!!.getParcelable(it.toString())
+                if (group != null){
+                    what = it.toString()
+                }
             }
         }
         val args = arguments!!.getParcelable<CreateGroupArgs>(ArgumentedFragment.KEY_ARGS)!!
@@ -60,16 +63,4 @@ class CreateGroupHostFragment : BaseFragment<FragmentHostCreateGroupBinding>() {
     }
 
     fun getContainerId() = R.id.container
-
-    enum class WHAT{
-        DUPLICATE,
-        EDIT;
-        override fun toString(): String {
-            return super.toString().toLowerCase()
-        }
-    }
-    companion object{
-        const val DUPLICATE = "duplicate"
-        const val EDIT = "edit"
-    }
 }

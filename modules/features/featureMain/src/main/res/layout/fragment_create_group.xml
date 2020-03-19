@@ -203,7 +203,8 @@
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
                         android:scaleType="centerCrop"
-                        app:path="@{model.createGroupModel.image.observableField}" />
+                        app:path="@{model.createGroupModel.image.observableField}"
+                        app:setImage="@{model.createGroupModel.image.observableField}"/>
                 </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -323,12 +324,10 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/add_member_container"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:orientation="vertical"
-                    android:onClick="@{()->model.addMember()}"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -377,11 +376,12 @@
                     android:layout_marginBottom="8dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="@id/add_member_container"
-                    app:layout_constraintStart_toEndOf="@+id/add_member_container"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/add_member_container"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="0"
-                    tools:listitem="@layout/template_follower_item" />
+                    tools:listitem="@layout/attendee_list_item" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

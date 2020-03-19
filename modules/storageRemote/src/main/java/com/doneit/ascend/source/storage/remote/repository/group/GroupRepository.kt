@@ -89,6 +89,67 @@ internal class GroupRepository(
         }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun updateGroup(
+        id: Long,
+        file: File,
+        request: CreateGroupRequest
+    ): RemoteResponse<GroupResponse, ErrorsListResponse> {
+        return execute({
+
+            var builder = MultipartBody.Builder()
+
+            var stringPart = MultipartBody.Part.createFormData("name", request.name)
+            builder = builder.addPart(stringPart)
+
+            stringPart = MultipartBody.Part.createFormData("description", request.description)
+            builder = builder.addPart(stringPart)
+
+            stringPart = MultipartBody.Part.createFormData("start_time", request.startTime)
+            builder = builder.addPart(stringPart)
+
+            stringPart = MultipartBody.Part.createFormData("group_type", request.groupType)
+            builder = builder.addPart(stringPart)
+
+            if(request.groupType.equals("support", true)){
+                //always set tag_id to 1, no tag ids
+                stringPart = MultipartBody.Part.createFormData("tag_id", 1.toString())
+                builder = builder.addPart(stringPart)
+            }
+
+            request.days?.forEach {
+                stringPart = MultipartBody.Part.createFormData("wdays[]", it.toString())
+                builder = builder.addPart(stringPart)
+            }
+
+            stringPart = MultipartBody.Part.createFormData(
+                "meetings_count",
+                Gson().toJson(request.meetingsCount)
+            )
+            builder = builder.addPart(stringPart)
+
+            stringPart = MultipartBody.Part.createFormData("price", request.price.toString())
+            builder = builder.addPart(stringPart)
+
+
+            request.participants?.forEach {
+                stringPart = MultipartBody.Part.createFormData("participants[]", it)
+                builder = builder.addPart(stringPart)
+            }
+
+            val filePart = MultipartBody.Part.createFormData(
+                "image", file.name, RequestBody.create(
+                    "image/*".toMediaTypeOrNull(), file
+                )
+            )
+            stringPart = MultipartBody.Part.createFormData("meeting_format", request.meetingFormat?: "")
+            builder = builder.addPart(stringPart)
+
+            builder = builder.addPart(filePart)
+
+            api.updateGroupAsync(id, builder.build().parts)
+        }, ErrorsListResponse::class.java)
+    }
+
     override suspend fun getGroupsList(listRequest: GroupListRequest): RemoteResponse<GroupListResponse, ErrorsListResponse> {
         return execute({
             api.getGroupsAsync(

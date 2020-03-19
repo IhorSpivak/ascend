@@ -3,16 +3,15 @@ package com.doneit.ascend.presentation.main.create_group.add_member
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.paging.PagedList
+import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
-import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberListAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupContract
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
-import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualGroupBindingImpl
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -28,10 +27,17 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
     override val viewModel: AddMemberContract.ViewModel by instance()
 
     private val memberAdapter: MemberAdapter by lazy {
-        MemberAdapter()
+        MemberAdapter(
+            isPublic,
+            {viewModel.onAdd(it) },
+            {viewModel.onRemove(it)},
+            {viewModel.onInviteClick(it)}
+        )
     }
+    private var isPublic: Boolean = true
 
     override fun viewCreated(savedInstanceState: Bundle?) {
+        isPublic = arguments!!.getBoolean(IS_PUBLIC, true)
         binding.apply {
             lifecycleOwner = this@AddMemberFragment
             rvMembers.adapter = memberAdapter
@@ -40,7 +46,8 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
                 tvSearch.text.clear()
             }
             btnBack.setOnClickListener {
-                childFragmentManager.popBackStack()
+                viewModel.members.postValue(viewModel.selectedMembers)
+                fragmentManager?.popBackStack()
             }
         }
 
@@ -71,12 +78,14 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
         })
     }
 
+
+
     companion object{
-        private const val INDIVIDUAL = "individual"
+        private const val IS_PUBLIC = "isPublic"
         fun getInstance(individual: Boolean): AddMemberFragment{
             return AddMemberFragment().apply {
                 arguments = Bundle().apply {
-                    putBoolean(INDIVIDUAL, individual)
+                    putBoolean(IS_PUBLIC, individual)
                 }
             }
         }
