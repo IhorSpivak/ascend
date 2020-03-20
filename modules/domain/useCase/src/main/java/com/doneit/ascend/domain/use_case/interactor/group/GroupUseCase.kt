@@ -35,6 +35,8 @@ interface GroupUseCase {
 
     suspend fun updateNote(dto: UpdateNoteDTO): ResponseEntity<Unit, List<String>>
 
+    suspend fun cancelGroup(dto: CancelGroupDTO): ResponseEntity<Unit, List<String>>
+
     fun searchMembers(query: String): LiveData<PagedList<AttendeeEntity>>
 
     val messagesStream: LiveData<SocketEventEntity>

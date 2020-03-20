@@ -15,7 +15,7 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
     val calendar = getDefaultCalendar()
     calendar.time = startTime!!
     calendar.set(Calendar.HOUR, hours.toHours())
-    calendar.set(Calendar.HOUR_OF_DAY, hours.toInt())
+    //calendar.set(Calendar.HOUR_OF_DAY, hours.toInt())
     calendar.set(Calendar.MINUTE, minutes.toInt())
     val type = if (hours.toInt() > 12){
         Calendar.PM

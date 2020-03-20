@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aigestudio="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/transparent">
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsContract.ViewModel" />
+
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <RadioGroup
+            android:id="@+id/radio_group_top"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:paddingStart="41dp"
+            android:paddingEnd="39dp"
+            android:gravity="center"
+            aigestudio:layout_constraintBottom_toTopOf="@id/radio_group_bottom"
+            aigestudio:layout_constraintEnd_toEndOf="parent"
+            aigestudio:layout_constraintStart_toStartOf="parent"
+            android:background="@android:color/white">
+
+            <RadioButton
+                android:id="@+id/radioButton1"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="1"/>
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="2" />
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="3" />
+
+            <RadioButton
+                android:id="@+id/radioButton4"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="4" />
+
+            <RadioButton
+                android:id="@+id/radioButton5"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="5" />
+
+            <RadioButton
+                android:id="@+id/radioButton6"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="6" />
+
+         </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/radio_group_bottom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="41dp"
+                android:paddingEnd="39dp"
+                android:gravity="center"
+                aigestudio:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                aigestudio:layout_constraintEnd_toEndOf="parent"
+                aigestudio:layout_constraintStart_toStartOf="parent"
+                android:background="@android:color/white">
+
+            <RadioButton
+                android:id="@+id/radioButton7"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="7" />
+
+            <RadioButton
+                android:id="@+id/radioButton8"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="8" />
+
+            <RadioButton
+                android:id="@+id/radioButton9"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="9" />
+
+            <RadioButton
+                android:id="@+id/radioButton10"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="10" />
+
+            <RadioButton
+                android:id="@+id/radioButton11"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="11" />
+
+            <RadioButton
+                android:id="@+id/radioButton12"
+                style="@style/MeetingCountRadioButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="12" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="47dp"
+            android:paddingEnd="47dp"
+            android:background="@android:color/white"
+            aigestudio:layout_constraintBottom_toBottomOf="parent"
+            aigestudio:layout_constraintEnd_toEndOf="parent"
+            aigestudio:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/AppTheme.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_cancel_selector"
+                android:onClick="@{() -> model.backClick()}"
+                android:text="@string/btn_cancel"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnOk"
+                style="@style/AppTheme.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+
+                android:layout_marginBottom="24dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_ok_selector"
+                android:enabled="@{model.meetingsCountOk}"
+                android:text="@string/ok"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

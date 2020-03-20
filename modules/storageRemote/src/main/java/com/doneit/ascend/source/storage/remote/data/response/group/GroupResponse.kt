@@ -2,6 +2,7 @@ package com.doneit.ascend.source.storage.remote.data.response.group
 
 import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
 import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
+import com.doneit.ascend.source.storage.remote.data.response.TagResponse
 import com.google.gson.annotations.SerializedName
 
 data class GroupResponse(
@@ -14,6 +15,7 @@ data class GroupResponse(
     @SerializedName("price") val price: Float,
     @SerializedName("image") val image: ImageResponse,
     @SerializedName("meetings_count") val meetingsCount: Int,
+    @SerializedName("tag") val tag: TagResponse?,
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("updated_at") val updatedAt: String,
     @SerializedName("owner") val owner: OwnerResponse,

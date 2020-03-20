@@ -228,4 +228,14 @@
         <item name="android:layout_margin">16dp</item>
     </style>
 
+    <style name="MeetingCountRadioButton">
+        <item name="android:background">@drawable/meeting_count_button_states</item>
+        <item name="android:textColor">@color/pref_time_text_selector</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/red_hat_font</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
 </resources>

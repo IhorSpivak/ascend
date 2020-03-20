@@ -77,6 +77,10 @@ internal class GroupInteractor(
         return groupGateway.updateNote(dto)
     }
 
+    override suspend fun cancelGroup(dto: CancelGroupDTO): ResponseEntity<Unit, List<String>> {
+        return groupGateway.cancelGroup(dto)
+    }
+
     override fun searchMembers(query: String): LiveData<PagedList<AttendeeEntity>> {
         return groupGateway.getMembersPaged(query)
     }

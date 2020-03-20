@@ -57,6 +57,11 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
         viewModel.navigation.observe(viewLifecycleOwner, Observer {
             handleNavigation(it)
         })
+        viewModel.members.observe(this, Observer {
+            viewModel.createGroupModel.participants.set(it.map {
+                it.email
+            })
+        })
 
         viewModel.createGroupModel.isPublic.addOnPropertyChangedCallback(object :
             Observable.OnPropertyChangedCallback() {

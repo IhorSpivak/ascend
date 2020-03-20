@@ -12,7 +12,7 @@ interface CalendarPickerContract {
 
         fun backDateClick()
         fun backClick()
-        fun okClick(/*hours: String, minutes: String, timeType: String*/) //todo check usage wheelpicker
+        fun okClick(hours: String, minutes: String, timeType: String)
         fun setHours(hours: String)
         fun setMinutes(minutes: String)
         fun setTimeType(timeType: String)

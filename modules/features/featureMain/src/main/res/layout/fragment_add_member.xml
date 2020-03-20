@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-
+        <import
+            type="android.text.Html" />
         <variable
             name="isEmpty"
             type="Boolean" />
@@ -131,7 +132,8 @@
                 android:id="@+id/invite_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/invite_member_text(query)}"
+                app:html="@{@string/invite_member_text(query)}"
+                android:text="@string/invite_member_text"
                 android:textColor="@color/default_font_color"
                 android:textSize="16sp"
                 android:gravity="center"

@@ -31,7 +31,8 @@ import com.doneit.ascend.source.storage.local.repository.user.UserDao
         NoteLocal::class,
         AttachmentLocal::class,
         NotificationLocal::class,
-        NotificationOwnerLocal::class
+        NotificationOwnerLocal::class,
+        TagLocal::class
     ],
     version = 2//todo move down
 )

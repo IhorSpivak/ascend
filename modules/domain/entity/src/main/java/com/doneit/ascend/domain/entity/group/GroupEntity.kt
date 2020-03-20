@@ -27,7 +27,8 @@ class GroupEntity(
     val invitesCount: Int?,
     val daysOfWeek: List<CalendarDayEntity>?,
     val note: NoteEntity?,
-    val meetingFormat: String?
+    val meetingFormat: String?,
+    val tag: TagEntity?
 ) : SearchEntity(id), Parcelable {
 
     val timeInProgress: Long
@@ -143,7 +144,8 @@ class GroupEntity(
             invitesCount,
             daysOfWeek,
             note?.copy(),
-            meetingFormat
+            meetingFormat,
+            tag
         )
     }
 

@@ -11,8 +11,10 @@ import com.doneit.ascend.domain.gateway.common.getDayOffset
 import com.doneit.ascend.source.storage.local.data.GroupLocal
 import com.doneit.ascend.source.storage.local.data.NoteLocal
 import com.doneit.ascend.source.storage.local.data.OwnerLocal
+import com.doneit.ascend.source.storage.local.data.TagLocal
 import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
 import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
+import com.doneit.ascend.source.storage.remote.data.response.TagResponse
 import com.doneit.ascend.source.storage.remote.data.response.ThumbnailResponse
 import com.doneit.ascend.source.storage.remote.data.response.group.*
 
@@ -36,6 +38,13 @@ fun OwnerResponse.toEntity(): OwnerEntity {
         image?.toEntity(),
         rating,
         followed
+    )
+}
+
+fun TagResponse.toEntity(): TagEntity{
+    return TagEntity(
+        id,
+        tag
     )
 }
 
@@ -64,7 +73,8 @@ fun GroupResponse.toEntity(): GroupEntity {
         invitesCount,
         daysOfWeek.applyDaysOffset(dayOffset).map { it.toCalendarDay() },
         note?.toEntity(),
-        meetingFormat
+        meetingFormat,
+        tag?.toEntity()
     )
 }
 
@@ -143,7 +153,8 @@ fun GroupLocal.toEntity(): GroupEntity {
         invitesCount,
         daysOfWeek?.map { CalendarDayEntity.values()[it] },
         note?.toLocale(),
-        meetingFormat
+        meetingFormat,
+        tag?.toEntity()
     )
 }
 
@@ -169,5 +180,12 @@ fun OwnerLocal.toEntity(): OwnerEntity {
         image?.toEntity(),
         rating,
         followed
+    )
+}
+
+fun TagLocal.toEntity(): TagEntity{
+    return TagEntity(
+        id,
+        tag
     )
 }

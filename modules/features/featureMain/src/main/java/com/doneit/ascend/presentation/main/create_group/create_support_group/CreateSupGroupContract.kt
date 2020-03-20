@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.create_group.create_support_group
 
 import androidx.lifecycle.LiveData
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedViewModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.common.IClickListener
@@ -16,11 +17,14 @@ interface CreateSupGroupContract {
         val canAddParticipant: LiveData<Boolean>
         val participants: LiveData<List<String>>
         val clearReservationSeat: SingleLiveManager<Boolean>
+        val members: LiveData<MutableList<AttendeeEntity>>
+        val selectedMembers: MutableList<AttendeeEntity>
 
         fun addNewParticipant()
         fun completeClick()
         fun backClick()
         fun chooseScheduleTouch()
         fun chooseStartDateTouch()
+        fun addMember(isPublic: Boolean)
     }
 }

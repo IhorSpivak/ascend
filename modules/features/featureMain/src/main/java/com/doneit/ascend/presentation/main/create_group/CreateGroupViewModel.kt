@@ -224,7 +224,10 @@ class CreateGroupViewModel(
         localRouter.navigateToDatePicker()
     }
 
-    override fun okClick(/*hours: String, minutes: String, timeType: String*/) {
+    override fun okClick(hours: String, minutes: String, timeType: String) {
+        setHours(hours)
+        setMinutes(minutes)
+        setTimeType(timeType)
         changeSchedule()
         backClick()
     }
@@ -363,12 +366,17 @@ class CreateGroupViewModel(
         if (calendarUtil.is24TimeFormat()){
             builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes}")
         }else{
-            builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
+            builder.append("\n${createGroupModel.hours.toHours()}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
         }
         createGroupModel.scheduleTime.observableField.set(builder.toString())
 
         createGroupModel.scheduleDays.clear()
         createGroupModel.scheduleDays.addAll(days)
+    }
+
+    override fun chooseMeetingCountTouch() {
+        meetingsCountOk.postValue(createGroupModel.numberOfMeetings.observableField.get() != null)
+        localRouter.navigateToMeetingCount()
     }
 
     override val members: MutableLiveData<MutableList<AttendeeEntity>> = MutableLiveData()
@@ -527,7 +535,19 @@ class CreateGroupViewModel(
 
     }
 
+    override val meetingsCountOk: MutableLiveData<Boolean> = MutableLiveData(false)
+    override fun okMeetingCountClick() {
+        localRouter.onBack()
+    }
+
+    override fun setMeetingCount(count: String) {
+        createGroupModel.numberOfMeetings.observableField.set(count)
+    }
+    private fun String.toHours(): Int {
+        return this.toInt() % 12 //% 12to avoid day increment
+    }
     companion object {
         val START_TIME_FORMATTER = "dd MMMM yyyy".toDefaultFormatter()
+
     }
 }

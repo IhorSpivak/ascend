@@ -9,7 +9,10 @@ import android.provider.MediaStore
 import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Spinner
+import android.widget.SpinnerAdapter
 import androidx.core.view.GestureDetectorCompat
+import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.main.R
@@ -18,6 +21,7 @@ import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
+import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateSupportGroupBinding
 import com.doneit.ascend.presentation.utils.copyCompressed
 import com.doneit.ascend.presentation.utils.copyFile
@@ -58,6 +62,18 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             )
         )
     }
+
+    private val tagsAdapter by lazy {
+        MeetingFormatsAdapter(
+            context!!.resources.getStringArray(
+                R.array.tags_array
+            )
+        )
+    }
+
+    private val membersAdapter: InvitedMembersAdapter by lazy {
+        InvitedMembersAdapter()
+    }
     private val mDetector by lazy {
         GestureDetectorCompat(context, object : DefaultGestureDetectorListener() {
             override fun onSingleTapUp(p0: MotionEvent?): Boolean {
@@ -67,8 +83,11 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.model = viewModel
-        binding.adapter = adapter
+        binding.apply {
+            model = viewModel
+            adapter = adapter
+            recyclerViewAddedMembers.adapter = membersAdapter
+        }
 
         chooseSchedule.multilineEditText.setOnClickListener {
             mainContainer.requestFocus()
@@ -79,6 +98,9 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             mainContainer.requestFocus()
             viewModel.chooseStartDateTouch()
         }
+        viewModel.members.observe(this, Observer {
+            membersAdapter.submitList(it)
+        })
 
         binding.placeholderDash.setOnClickListener {
             pickFromGallery()
@@ -95,25 +117,15 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             }
         }
 
-        initSpinner()
+        initSpinner(binding.meetingsPicker, meetingFormatListener, meetingTypesAdapter)
+        initSpinner(binding.tagsPicker, tagsListener, tagsAdapter)
     }
 
-    private fun initSpinner() {
-        binding.meetingsPicker.adapter = meetingTypesAdapter
-        binding.meetingsPicker.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    if(p2 > 0) {
-                        val format = binding.meetingsPicker.selectedItem as String
-                        viewModel.createGroupModel.meetingFormat.observableField.set(format)
-                    }
-                }
+    private fun initSpinner(spinner: Spinner, listener: AdapterView.OnItemSelectedListener, spinnerAdapter: SpinnerAdapter) {
+        spinner.adapter = spinnerAdapter
+        spinner.onItemSelectedListener = listener
 
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                }
-            }
-
-        binding.meetingsPicker.setOnTouchListener { view, motionEvent ->
+        spinner.setOnTouchListener { view, motionEvent ->
             if (mDetector.onTouchEvent(motionEvent)) {
                 hideKeyboard()
             }
@@ -170,6 +182,31 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
                 viewModel.createGroupModel.image.observableField.set(compressed)
+            }
+        }
+    }
+
+    private val meetingFormatListener: AdapterView.OnItemSelectedListener by lazy {
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if(p2 > 0) {
+                    viewModel.createGroupModel.meetingFormat.observableField.set(binding.meetingsPicker.selectedItem as String)
+                }
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+    }
+
+    private val tagsListener: AdapterView.OnItemSelectedListener by lazy {
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if(p2 > 0) {
+                    viewModel.createGroupModel.tags.observableField.set(binding.meetingsPicker.selectedItem as String)
+                    binding.tagHint.visibility = View.VISIBLE
+                }
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
     }

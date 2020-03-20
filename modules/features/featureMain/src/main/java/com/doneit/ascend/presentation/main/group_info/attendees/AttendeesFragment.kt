@@ -18,12 +18,8 @@ class AttendeesFragment : BaseFragment<FragmentAddMemberBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.lifecycleOwner = this
 
-        //binding.rvMembers.adapter = memberAdapter
-
-        //memberAdapter.members = listOf("NAME1", "NAME2","NAME3")
-
         binding.btnBack.setOnClickListener {
-            viewModel.goBack()
+            fragmentManager?.popBackStack()
         }
 
         binding.tvSearch.addTextChangedListener(object: TextWatcher {

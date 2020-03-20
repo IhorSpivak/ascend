@@ -4,7 +4,8 @@ enum class GroupStatus {
     UPCOMING,
     ACTIVE,
     STARTED,
-    ENDED;
+    ENDED,
+    CANCELLED;
 
     override fun toString(): String {
         return super.toString().toLowerCase()

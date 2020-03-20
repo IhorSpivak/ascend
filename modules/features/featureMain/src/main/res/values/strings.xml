@@ -61,6 +61,7 @@
     <string name="group_name">Group Name</string>
     <string name="meeting_format">Meeting Format</string>
     <string name="tags">Tags</string>
+    <string name="tag">Tag</string>
     <string name="choose_schedule">Choose Schedule</string>
     <string name="number_of_meetings">Number Of Meetings</string>
     <string name="start_date">Start Date</string>
@@ -100,6 +101,25 @@
         <item>Speaker Panel</item>
         <item>Topic Discussion</item>
         <item>Group Discussion</item>
+    </string-array>
+
+    <string-array name="duration_array">
+        <item>Duration</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+        <item>4 hours</item>
+    </string-array>
+    <string-array name="tags_array">
+        <item>Tags</item>
+        <item>Power of the minds</item>
+        <item>Spiritual</item>
+        <item>Kids</item>
+        <item>Animals</item>
+        <item>Smart Recovery</item>
+        <item>Refused Recovery</item>
+        <item>Celebrate Recovery</item>
+        <item>3 Principals</item>
     </string-array>
 
 
@@ -310,6 +330,11 @@
     <string name="hint_enter_full_name">Enter full name</string>
     <string name="hint_enter_display_name">Enter display name</string>
     <string name="hint_enter_short_description">Enter short description</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_cancel_description">Enter a reason</string>
+    <string name="action_cancel_hint">Reason</string>
+    <string name="action_cancel_btn_done">Done</string>
+    <string name="action_cancel_btn_cancel">Cancel</string>
 
     <!--Select payment-->
     <string name="select_payment_title">Select Payment Method</string>
@@ -443,7 +468,7 @@
     <string name="mm_name_groups">%s Groups</string>
 
     <!--Add members-->
-    <string name="invite_member_text"><b>%s</b>\nis not yet registered in the application,\n or uses a different email.\n\nWant to invite this user to the app?</string>
+    <string name="invite_member_text">&lt;b>%s&lt;/b>&lt;br>is not yet registered in the application,&lt;br> or uses a different email.&lt;br>&lt;br>Want to invite this user to the app?</string>
     <string name="invite_member_button">INVITE</string>
     <string name="search_member_hint">Search by name or email</string>
     <string name="view_attendees">View</string>

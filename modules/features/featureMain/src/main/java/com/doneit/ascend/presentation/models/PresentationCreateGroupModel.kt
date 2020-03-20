@@ -32,11 +32,12 @@ class PresentationCreateGroupModel(
     var year: Int = 0,
     val selectedDays: MutableList<CalendarDayEntity> = mutableListOf(),
     val scheduleDays: MutableList<CalendarDayEntity> = mutableListOf(),
-    val scheduleTime: ValidatableField = ValidatableField()
+    val scheduleTime: ValidatableField = ValidatableField(),
+    var duration: String = ""
 ) {
     init {
         val currentDate = getDefaultCalendar()
-        hours = currentDate.get(Calendar.HOUR_OF_DAY).toTimeString()
+        hours = currentDate.get(Calendar.HOUR).toTimeString()
         minutes = currentDate.get(Calendar.MINUTE).toTimeString()
         timeType = currentDate.get(Calendar.AM_PM).toAmPm()
 

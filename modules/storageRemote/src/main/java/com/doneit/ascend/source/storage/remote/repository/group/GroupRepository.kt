@@ -4,10 +4,7 @@ import com.doneit.ascend.source.storage.remote.api.GroupApi
 import com.doneit.ascend.source.storage.remote.api.UserApi
 import com.doneit.ascend.source.storage.remote.data.request.SearchUserRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
-import com.doneit.ascend.source.storage.remote.data.request.group.CreateGroupRequest
-import com.doneit.ascend.source.storage.remote.data.request.group.GroupListRequest
-import com.doneit.ascend.source.storage.remote.data.request.group.GroupParticipantsRequest
-import com.doneit.ascend.source.storage.remote.data.request.group.UpdateNoteRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.*
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.SearchUserListResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
@@ -209,6 +206,13 @@ internal class GroupRepository(
         request: UpdateNoteRequest
     ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.updateNote(groupId, request) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun cancelGroup(
+        groupId: Long,
+        request: CancelGroupRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.cancelGroup(groupId, request) }, ErrorsListResponse::class.java)
     }
 
     override suspend fun searchUsers(searchRequest: SearchUserRequest): RemoteResponse<SearchUserListResponse, ErrorsListResponse> {

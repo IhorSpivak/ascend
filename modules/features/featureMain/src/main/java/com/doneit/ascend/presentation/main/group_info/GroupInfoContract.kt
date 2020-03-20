@@ -18,6 +18,7 @@ interface GroupInfoContract {
         val isSupport: LiveData<Boolean>
         val isEditable: LiveData<Boolean>
         val isMM: LiveData<Boolean>
+        val isOwner: LiveData<Boolean>
         val starting: LiveData<Boolean>
 
         fun onBackPressed()
@@ -26,6 +27,7 @@ interface GroupInfoContract {
         fun joinToDiscussion()
         fun startGroup()
         fun deleteGroup()
+        fun cancelGroup(reason: String)
         fun report(content: String)
         fun onAddPaymentClick()
         fun onMMClick()

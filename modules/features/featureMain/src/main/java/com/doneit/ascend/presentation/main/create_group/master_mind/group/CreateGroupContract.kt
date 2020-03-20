@@ -27,6 +27,7 @@ interface CreateGroupContract {
         fun completeClick()
         fun backClick()
         fun chooseScheduleTouch()
+        fun chooseMeetingCountTouch()
         fun chooseStartDateTouch()
         fun addMember(isPublic: Boolean)
     }

@@ -27,5 +27,6 @@ data class GroupLocal(
     val invitesCount: Int?,
     @ColumnInfo(name = "days_of_week") val daysOfWeek: List<Int>?,
     @Embedded(prefix = "notes") val note: NoteLocal?,
-    @ColumnInfo(name = "meeting_format") val meetingFormat: String?
+    @ColumnInfo(name = "meeting_format") val meetingFormat: String?,
+    @Embedded(prefix = "tag") val tag: TagLocal?
 )

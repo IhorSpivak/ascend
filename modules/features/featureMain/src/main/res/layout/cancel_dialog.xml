@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.text.InputType" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="37dp"
+            android:gravity="center"
+            android:lineSpacingExtra="0sp"
+            android:text="@string/action_cancel"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/description"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="37dp"
+            android:gravity="center"
+            android:lineSpacingExtra="0sp"
+            android:text="@string/action_cancel_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/tvEditText"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_rounded_background"
+            android:gravity="center_vertical"
+            android:hint="@string/action_cancel_hint"
+            android:includeFontPadding="false"
+            android:inputType="@{InputType.TYPE_TEXT_FLAG_CAP_SENTENCES}"
+            android:maxLength="48"
+            android:padding="12dp"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/description" />
+
+        <TextView
+            android:id="@+id/tvError"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/error_full_name"
+            android:textColor="@color/error_color"
+            android:textSize="10sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvEditText"
+            app:layout_constraintTop_toBottomOf="@id/tvEditText"
+            tools:text="Error" />
+
+        <Button
+            android:id="@+id/btnNegative"
+            style="@style/AppTheme.Button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="7dp"
+            android:layout_marginBottom="40dp"
+            android:backgroundTint="#F4F4F7"
+            android:text="@string/btn_cancel"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnPositive"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvError" />
+
+        <Button
+            android:id="@+id/btnPositive"
+            style="@style/AppTheme.Button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="40dp"
+            android:backgroundTint="@color/selector_btn_enabled"
+            android:text="@string/action_cancel_btn_done"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnNegative"
+            app:layout_constraintTop_toBottomOf="@+id/tvError" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -69,8 +69,13 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
 
         startDate.editText.setOnClickListener {
-            mainContainer.requestFocus()
+            binding.mainContainer.requestFocus()
             viewModel.chooseStartDateTouch()
+        }
+
+        binding.numberOfMeetings.editText.setOnClickListener {
+            binding.mainContainer.requestFocus()
+            viewModel.chooseMeetingCountTouch()
         }
 
         binding.placeholderDash.setOnClickListener {

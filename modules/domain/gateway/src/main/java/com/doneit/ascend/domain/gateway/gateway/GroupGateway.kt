@@ -198,6 +198,17 @@ internal class GroupGateway(
         )
     }
 
+    override suspend fun cancelGroup(dto: CancelGroupDTO): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.cancelGroup(dto.groupId, dto.toRequest()) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override fun getMembersPaged(query: String): LiveData<PagedList<AttendeeEntity>> {
         return UserDataSourceFactory(GlobalScope, remote, query).toLiveData(pageSize = 10, fetchExecutor = Executors.newSingleThreadExecutor())
     }

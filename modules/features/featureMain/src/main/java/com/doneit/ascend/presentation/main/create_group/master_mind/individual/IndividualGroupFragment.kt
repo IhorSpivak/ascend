@@ -8,18 +8,22 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
+import android.view.View
+import android.widget.AdapterView
+import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
-import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
-import com.doneit.ascend.presentation.main.create_group.master_mind.group.CreateGroupFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualGroupBinding
-import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.redmadrobot.inputmask.MaskedTextChangedListener
-import kotlinx.android.synthetic.main.fragment_create_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +46,21 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
         InvitedMembersAdapter()
     }
 
+    private val durationAdapter by lazy {
+        MeetingFormatsAdapter(
+            context!!.resources.getStringArray(
+                R.array.duration_array
+            )
+        )
+    }
+    private val detector by lazy {
+        GestureDetectorCompat(context, object : DefaultGestureDetectorListener() {
+            override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+                return true
+            }
+        })
+    }
+
     private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
     override val viewModel: IndividualGroupContract.ViewModel by instance()
@@ -51,7 +70,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
         binding.apply {
             model = viewModel
             recyclerViewAddedMembers.adapter = membersAdapter
-            duration = 1
+            //duration = 1
             chooseSchedule.multilineEditText.setOnClickListener {
                 mainContainer.requestFocus()
                 viewModel.chooseScheduleTouch()
@@ -62,6 +81,10 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
                 viewModel.chooseStartDateTouch()
             }
 
+            numberOfMeetings.editText.setOnClickListener {
+                mainContainer.requestFocus()
+                viewModel.chooseMeetingCountTouch()
+            }
             dashRectangleBackground.setOnClickListener {
                 pickFromGallery()
             }
@@ -72,6 +95,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
 
         viewModel.members.observe(this, Observer {
             membersAdapter.submitList(it)
+            //viewModel.participants.
         })
         val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
             TextWatcher {
@@ -99,6 +123,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
         binding.addMemberContainer.setOnClickListener {
             viewModel.addMember(viewModel.createGroupModel.isPublic.getNotNull())
         }
+        initSpinner()
     }
 
     private fun pickFromGallery() {
@@ -153,6 +178,31 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
                 binding.dashRectangleBackground.setOnClickListener {  }
                 viewModel.createGroupModel.image.observableField.set(compressed)
+            }
+        }
+    }
+
+    private fun initSpinner() {
+        binding.durationPicker.apply {
+            adapter = durationAdapter
+            onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                        if(p2 > 0) {
+                            viewModel.createGroupModel.duration = p2.toString()
+                            binding.durationHint.visibility = View.VISIBLE
+                        }
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                    }
+                }
+
+            setOnTouchListener { view, motionEvent ->
+                if (detector.onTouchEvent(motionEvent)) {
+                    hideKeyboard()
+                }
+                false
             }
         }
     }

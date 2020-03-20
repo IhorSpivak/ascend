@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.group_info
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.dto.CancelGroupDTO
 import com.doneit.ascend.domain.entity.dto.PaymentType
 import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -42,6 +43,7 @@ class GroupInfoViewModel(
     override val btnJoinedVisible = MutableLiveData<Boolean>(false)
     override val isEditable = MutableLiveData<Boolean>(false)
     override val isMM = MutableLiveData<Boolean>(false)
+    override val isOwner = MutableLiveData<Boolean>(false)
     override val starting = MutableLiveData<Boolean>(false)
 
     override val isBlocked: Boolean
@@ -60,7 +62,8 @@ class GroupInfoViewModel(
                 group.postValue(response.successModel!!)
                 isSupport.postValue(response.successModel?.groupType != GroupType.SUPPORT)
                 val user = userUseCase.getUser()
-                isMM.postValue(user!!.isMasterMind && user.id == response.successModel!!.owner?.id)
+                isMM.postValue(user!!.isMasterMind)
+                isOwner.postValue(user.id == response.successModel!!.owner?.id)
                 updateButtonsState(user!!, response.successModel!!)
             }
             showProgress(false)
@@ -68,8 +71,6 @@ class GroupInfoViewModel(
     }
 
     private fun updateButtonsState(user: UserEntity, details: GroupEntity) {
-        //todo refactor
-        //val states = mutableListOf(false, false, false, false, false)
         details.apply {
             btnJoinedVisible.postValue(subscribed)
             btnJoinVisible.postValue(isStarting || inProgress)
@@ -82,19 +83,6 @@ class GroupInfoViewModel(
                 btnJoinVisible.postValue(inProgress && status == GroupStatus.STARTED)
             }
         }
-        /*when (getButtonType(user, details)) {
-            ButtonType.SUBSCRIBE -> states[0] = true
-            ButtonType.JOIN_TO_DISCUSSION -> states[1] = true
-            ButtonType.START_GROUP -> states[2] = true
-            ButtonType.DELETE_GROUP -> states[3] = true
-            ButtonType.SUBSCRIBED -> states[4] = true
-        }
-
-        btnSubscribeVisible.postValue(states[0])
-        btnJoinVisible.postValue(states[1])
-        btnStartVisible.postValue(states[2])
-        btnDeleteVisible.postValue(states[3])
-        btnJoinedVisible.postValue(states[4])*/
     }
 
     override fun joinToDiscussion() {
@@ -124,6 +112,20 @@ class GroupInfoViewModel(
 
             if (res.isSuccessful) {
                 router.onBack()
+            }
+        }
+    }
+
+    override fun cancelGroup(reason: String) {
+        group.value?.let {
+            viewModelScope.launch {
+                val response = groupUseCase.cancelGroup(CancelGroupDTO(it.id, reason))
+
+                if (response.isSuccessful) {
+                    router.onBack()
+                } else {
+                    showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+                }
             }
         }
     }

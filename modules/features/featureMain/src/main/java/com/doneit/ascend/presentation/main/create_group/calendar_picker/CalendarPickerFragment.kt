@@ -27,6 +27,10 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         }
     }
 
+    private var selectedHour: String = ""
+    private var selectedMinute: String = ""
+    private var selectedAmPm: String = ""
+
     override val viewModel: CalendarPickerContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -35,22 +39,32 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
             if(DateFormat.is24HourFormat(context)){
                 is24 = true
             }
+            btnOk.setOnClickListener {
+                viewModel.okClick(selectedHour, selectedMinute, selectedAmPm)
+            }
         }
         binding.executePendingBindings()
         binding.hoursPicker.data = context!!.getHoursByTimeZone()
         binding.minutesPicker.data = CalendarPickerUtil.getMinutes()
+        binding.timeTypePicker.data = CalendarPickerUtil.getTimeType()
 
         binding.hoursPicker.setOnItemSelectedListener { _, data, position ->
-            viewModel.setHours(data as String)
+            selectedHour = ((data as String).toInt() % 12).toString()
+            if(DateFormat.is24HourFormat(context)){
+                selectedAmPm = if ((data as String).toInt() > 12){
+                    "PM"
+                }else{
+                    "AM"
+                }
+            }
         }
 
         binding.minutesPicker.setOnItemSelectedListener { _, data, position ->
-            viewModel.setMinutes(data as String)
+            selectedMinute = data as String
         }
 
-        binding.timeTypePicker.data = CalendarPickerUtil.getTimeType()
         binding.timeTypePicker.setOnItemSelectedListener { _, data, position ->
-            viewModel.setTimeType(data as String)
+            selectedAmPm = data as String
         }
 
 
@@ -84,13 +98,13 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         binding.pickers.waitForLayout {
             val calendar = Calendar.getInstance()
             val timeTypeIndex =
-                binding.timeTypePicker.getDataIndex {
+                binding.timeTypePicker.getAmPmIndex {
                     (it as String) == calendar.get(Calendar.AM_PM).toAmPm() }
             val minutesIndex =
-                binding.minutesPicker.getDataIndex {
+                binding.minutesPicker.getMinuteIndex {
                     (it as String) == calendar.get(Calendar.MINUTE).toTimeString() }
             val hoursIndex =
-                binding.hoursPicker.getDataIndex {
+                binding.hoursPicker.getHourIndex {
                     if(DateFormat.is24HourFormat(context)){
                         (it as String) == calendar.get(Calendar.HOUR_OF_DAY).toTimeString()
                     }else{
@@ -111,10 +125,35 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         return binding.daysContainer.children.elementAtOrNull(day.ordinal) as ToggleButton?
     }
 
-    private fun WheelPicker.getDataIndex(predicate: (Any?) -> Boolean): Int {
+    private fun WheelPicker.getHourIndex(predicate: (Any?) -> Boolean): Int {
         val index = data.indexOfFirst(predicate)
-
-        return if (index >= 0) index else DEFAULT_INDEX
+        return if (index >= 0) {
+            selectedHour = data[index] as String
+            index
+        } else {
+            selectedHour = data[DEFAULT_INDEX] as String
+            DEFAULT_INDEX
+        }
+    }
+    private fun WheelPicker.getMinuteIndex(predicate: (Any?) -> Boolean): Int {
+        val index = data.indexOfFirst(predicate)
+        return if (index >= 0) {
+            selectedMinute = data[index] as String
+            index
+        } else {
+            selectedMinute = data[DEFAULT_INDEX] as String
+            DEFAULT_INDEX
+        }
+    }
+    private fun WheelPicker.getAmPmIndex(predicate: (Any?) -> Boolean): Int {
+        val index = data.indexOfFirst(predicate)
+        return if (index >= 0) {
+            selectedAmPm = data[index] as String
+            index
+        } else {
+            selectedAmPm = data[DEFAULT_INDEX] as String
+            DEFAULT_INDEX
+        }
     }
 
     companion object {

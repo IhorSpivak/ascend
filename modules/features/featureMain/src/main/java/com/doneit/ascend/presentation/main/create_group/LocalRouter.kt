@@ -8,6 +8,7 @@ import com.doneit.ascend.presentation.main.create_group.create_support_group.Cre
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarFragment
+import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsFragment
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.vrgsoft.core.presentation.router.FragmentRouter
@@ -78,6 +79,9 @@ class LocalRouter(
     override fun navigateToDatePicker() {
         hostFragment.childFragmentManager.add(containerId, DatePickerFragment())
     }
+
+    override fun navigateToMeetingCount() {
+        hostFragment.childFragmentManager.add(containerId,  NumberOfMeetingsFragment())    }
 
     override fun navigateToAddMember(isPublic: Boolean) {
         hostFragment.childFragmentManager.add(containerId, AddMemberFragment.getInstance(isPublic))

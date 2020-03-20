@@ -1,13 +1,9 @@
 package com.doneit.ascend.presentation.main.group_info
 
 import android.os.Bundle
-import android.text.format.DateFormat
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import com.doneit.ascend.presentation.dialog.DeleteDialog
-import com.doneit.ascend.presentation.dialog.QuestionButtonType
-import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
-import com.doneit.ascend.presentation.dialog.SelectPaymentDialog
+import com.doneit.ascend.presentation.dialog.*
 import com.doneit.ascend.presentation.dialog.common.CardsAdapter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -15,7 +11,6 @@ import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
-import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.showDefaultError
 import kotlinx.android.synthetic.main.fragment_group_info.*
 import org.kodein.di.generic.instance
@@ -81,6 +76,16 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                     QuestionButtonType.POSITIVE -> viewModel.deleteGroup()
                 }
             }
+        }
+
+        binding.mmCancel.setOnClickListener {
+            currentDialog = CancelDialog.create(
+                context!!
+            ) {
+                viewModel.cancelGroup(it)
+            }
+
+            currentDialog?.show()
         }
 
         ic_abuse.setOnClickListener {

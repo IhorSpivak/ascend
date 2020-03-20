@@ -12,6 +12,7 @@ import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupContract
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
+import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -76,6 +77,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
+        binding.tvSearch.showKeyboard()
     }
 
 
