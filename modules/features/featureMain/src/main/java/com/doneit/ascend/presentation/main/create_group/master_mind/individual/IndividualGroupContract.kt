@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupTypeParticipants
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
@@ -23,11 +24,13 @@ interface IndividualGroupContract {
         val selectedMembers: MutableList<AttendeeEntity>
 
         fun addNewParticipant()
+        fun removeMember(member: AttendeeEntity)
         fun completeClick()
         fun backClick()
         fun chooseScheduleTouch()
         fun chooseMeetingCountTouch()
         fun chooseStartDateTouch()
         fun addMember(isPublic: Boolean)
+        fun inviteToGroup(participants: List<String>)
     }
 }

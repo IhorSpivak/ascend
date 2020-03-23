@@ -7,6 +7,7 @@
 
         <import type="android.text.Html" />
         <import type="com.doneit.ascend.domain.entity.group.GroupType"/>
+        <import type="com.doneit.ascend.domain.entity.group.GroupStatus"/>
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.group_info.GroupInfoContract.ViewModel" />
@@ -278,6 +279,7 @@
                                 android:text="@string/cancel_group"
                                 android:textColor="@android:color/white"
                                 android:textSize="18sp"
+                                android:visibility="@{group.status != GroupStatus.CANCELLED}"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:setVisibility="@{model.btnStartVisible}" />
@@ -521,77 +523,27 @@
                             android:textSize="16sp"
                             android:text="@string/view_attendees"
                             android:textColor="@color/green_font_color"
-                            android:onClick="@{() -> model.onViewClick()}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_attendees"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="24dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
                         android:visibility="@{group.groupType == GroupType.INDIVIDUAL &amp;&amp; model.isOwner()}"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/description">
-
-                        <com.doneit.ascend.presentation.views.MasterMindIcon
-                            android:id="@+id/attendee_icon"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginTop="24dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:name="@{model.group.owner.fullName}"
-                            app:url="@{model.group.owner.image.url}" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/member_attended"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="2dp"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_added_member"
-                            android:tint="@color/green_font_color"
-                            android:visibility="@{isAttended}"
-                            app:layout_constraintEnd_toEndOf="@+id/attendee_icon"
-                            app:layout_constraintTop_toTopOf="@+id/attendee_icon" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/member_not_attended"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="2dp"
-                            android:background="@drawable/clear_member_button_background"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_clear_member_button"
-                            android:visibility="@{!isAttended}"
-                            app:layout_constraintEnd_toEndOf="@+id/attendee_icon"
-                            app:layout_constraintTop_toTopOf="@+id/attendee_icon" />
-
-                        <TextView
-                            android:id="@+id/attendee_name"
-                            style="@style/TextNormal"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:gravity="center"
-                            android:text="@{model.group.owner.fullName}"
-                            android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@id/attendee_icon"
-                            app:layout_constraintStart_toStartOf="@id/attendee_icon"
-                            app:layout_constraintTop_toBottomOf="@id/attendee_icon"
-                            app:layout_constraintVertical_chainStyle="packed" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toBottomOf="@id/description"
+                        app:layout_constraintVertical_bias="0"
+                        tools:listitem="@layout/attendee_list_item" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

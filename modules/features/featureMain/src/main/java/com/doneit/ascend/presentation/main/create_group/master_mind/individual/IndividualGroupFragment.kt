@@ -43,10 +43,12 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
     }
 
     private val membersAdapter: InvitedMembersAdapter by lazy {
-        InvitedMembersAdapter()
+        InvitedMembersAdapter {
+            viewModel.removeMember(it)
+        }
     }
 
-    private val durationAdapter by lazy {
+    /*private val durationAdapter by lazy {
         MeetingFormatsAdapter(
             context!!.resources.getStringArray(
                 R.array.duration_array
@@ -59,7 +61,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
                 return true
             }
         })
-    }
+    }*/
 
     private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
@@ -85,6 +87,9 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
                 mainContainer.requestFocus()
                 viewModel.chooseMeetingCountTouch()
             }
+
+            duration.isClickable = false
+
             dashRectangleBackground.setOnClickListener {
                 pickFromGallery()
             }
@@ -123,7 +128,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
         binding.addMemberContainer.setOnClickListener {
             viewModel.addMember(viewModel.createGroupModel.isPublic.getNotNull())
         }
-        initSpinner()
+        //initSpinner()
     }
 
     private fun pickFromGallery() {
@@ -182,7 +187,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
         }
     }
 
-    private fun initSpinner() {
+    /*private fun initSpinner() {
         binding.durationPicker.apply {
             adapter = durationAdapter
             onItemSelectedListener =
@@ -205,7 +210,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
                 false
             }
         }
-    }
+    }*/
 
     companion object {
         private const val GALLERY_REQUEST_CODE = 42

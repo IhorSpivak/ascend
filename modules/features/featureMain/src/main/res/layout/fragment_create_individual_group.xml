@@ -46,6 +46,7 @@
                 app:maxLength="@{64}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_header}"
+                app:tint="@{@color/colorAccent}"
                 app:text="@={model.createGroupModel.name.observableField}" />
 
             <com.doneit.ascend.presentation.views.EditWithError
@@ -64,6 +65,7 @@
                 app:noFocusable="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_favorite_date}"
+                app:tint="@{@color/colorAccent}"
                 app:text="@{model.createGroupModel.startDate.observableField}" />
 
             <com.doneit.ascend.presentation.views.MultilineEditWithError
@@ -81,6 +83,7 @@
                 app:noFocusable="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_schedule}"
+                app:tint="@{@color/colorAccent}"
                 app:text="@{model.createGroupModel.scheduleTime.observableField}" />
 
             <com.doneit.ascend.presentation.views.EditWithError
@@ -98,28 +101,45 @@
                 app:noFocusable="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_hand_number}"
+                app:tint="@{@color/colorAccent}"
                 app:text="@={model.createGroupModel.numberOfMeetings.observableField}" />
 
-            <TextView
+            <com.doneit.ascend.presentation.views.EditWithError
+                android:id="@+id/duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                android:layout_marginTop="@dimen/create_group_top_margin"
+                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                app:hint="@{@string/duration_hours}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/numberOfMeetings"
+                app:noFocusable="@{true}"
+                app:saveState="@{false}"
+                app:src="@{@drawable/ic_duration}"
+                app:tint="@{@color/colorAccent}"
+                app:text="@{@plurals/x_hours(1,1)}"/>
+            <!--<TextView
                 android:id="@+id/duration_hint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/create_group_top_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:text="@string/duration_hours"
                 android:textSize="10sp"
                 android:textColor="@color/light_gray_b1bf"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@id/durationPicker"
-                app:layout_constraintBottom_toTopOf="@id/durationPicker"/>
+                app:layout_constraintStart_toStartOf="@id/numberOfMeetings"
+                app:layout_constraintTop_toBottomOf="@id/numberOfMeetings"/>
 
             <ImageView
                 android:id="@+id/duration_icon"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginTop="@dimen/create_group_top_margin"
                 android:layout_marginStart="@dimen/create_group_horizontal_margin"
                 android:src="@drawable/ic_duration"
-                app:layout_constraintTop_toBottomOf="@+id/numberOfMeetings"
+                android:tint="@color/colorAccent"
+                app:layout_constraintTop_toBottomOf="@+id/duration_hint"
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <Spinner
@@ -127,13 +147,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
-                android:layout_marginTop="@dimen/create_group_top_margin"
                 android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                 android:background="@null"
                 android:spinnerMode="dropdown"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/duration_icon"
-                app:layout_constraintTop_toBottomOf="@id/numberOfMeetings" />
+                app:layout_constraintTop_toBottomOf="@id/duration_hint" />
             <View
                 android:id="@+id/underline"
                 android:layout_width="0dp"
@@ -141,7 +160,7 @@
                 android:background="@color/light_gray_e9f0"
                 app:layout_constraintEnd_toEndOf="@id/durationPicker"
                 app:layout_constraintStart_toStartOf="@id/durationPicker"
-                app:layout_constraintTop_toBottomOf="@id/durationPicker" />
+                app:layout_constraintTop_toBottomOf="@id/durationPicker" />-->
 
             <com.doneit.ascend.presentation.views.EditWithError
                 android:id="@+id/price"
@@ -156,7 +175,7 @@
                 app:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/underline"
+                app:layout_constraintTop_toBottomOf="@+id/duration"
                 app:maxLength="@{7}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_price}"
@@ -179,6 +198,7 @@
                 app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_description}"
+                app:tint="@{@color/colorAccent}"
                 app:text="@={model.createGroupModel.description.observableField}" />
 
             <androidx.appcompat.widget.AppCompatImageView

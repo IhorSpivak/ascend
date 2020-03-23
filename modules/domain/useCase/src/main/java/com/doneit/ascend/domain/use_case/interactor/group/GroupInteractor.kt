@@ -46,6 +46,9 @@ internal class GroupInteractor(
     override suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
         return groupGateway.deleteGroup(groupId)
     }
+    override suspend fun deleteInvite(groupId: Long, inviteId: Long): ResponseEntity<Unit, List<String>> {
+        return groupGateway.deleteInvite(groupId, inviteId)
+    }
 
     override suspend fun subscribe(dto: SubscribeGroupDTO): ResponseEntity<Unit, List<String>> {
         return groupGateway.subscribe(dto)
@@ -79,6 +82,10 @@ internal class GroupInteractor(
 
     override suspend fun cancelGroup(dto: CancelGroupDTO): ResponseEntity<Unit, List<String>> {
         return groupGateway.cancelGroup(dto)
+    }
+
+    override suspend fun inviteToGroup(dto: InviteToGroupDTO): ResponseEntity<Unit, List<String>> {
+        return groupGateway.inviteToGroup(dto)
     }
 
     override fun searchMembers(query: String): LiveData<PagedList<AttendeeEntity>> {

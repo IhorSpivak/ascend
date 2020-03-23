@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.group_info
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.dto.CancelGroupDTO
 import com.doneit.ascend.domain.entity.dto.PaymentType
 import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
@@ -122,12 +123,15 @@ class GroupInfoViewModel(
                 val response = groupUseCase.cancelGroup(CancelGroupDTO(it.id, reason))
 
                 if (response.isSuccessful) {
-                    router.onBack()
                 } else {
                     showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
                 }
             }
         }
+    }
+
+    override fun inviteToGroup(reason: List<String>) {
+
     }
 
     override fun startGroup() {
@@ -150,7 +154,6 @@ class GroupInfoViewModel(
                     showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
                 }
             }
-
         }
     }
 
@@ -160,8 +163,8 @@ class GroupInfoViewModel(
         }
     }
 
-    override fun onViewClick() {
-        router.navigateToViewAttendees()
+    override fun onViewClick(attendees: List<AttendeeEntity>) {
+        router.navigateToViewAttendees(attendees, group.value?.id!!)
     }
 
     override fun onDuplicateClick(group: GroupEntity) {
@@ -173,5 +176,9 @@ class GroupInfoViewModel(
     }
 
     override fun onCancelClick(group: GroupEntity) {
+    }
+
+    override fun removeMember(attendee: AttendeeEntity) {
+
     }
 }

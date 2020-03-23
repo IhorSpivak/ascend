@@ -12,6 +12,7 @@
         <variable
             name="is24"
             type="Boolean" />
+        <import type="com.doneit.ascend.presentation.models.GroupType"/>
 
     </data>
 
@@ -58,7 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/day_button_selector"
+                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                         android:textColor="@drawable/day_button_text_selector"
                         android:textOff="@string/su"
                         android:textOn="@string/su"
@@ -71,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/day_button_selector"
+                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                         android:textColor="@drawable/day_button_text_selector"
                         android:textOff="@string/mo"
                         android:textOn="@string/mo"
@@ -84,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/day_button_selector"
+                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                         android:textColor="@drawable/day_button_text_selector"
                         android:textOff="@string/tu"
                         android:textOn="@string/tu"
@@ -97,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/day_button_selector"
+                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                         android:textColor="@drawable/day_button_text_selector"
                         android:textOff="@string/we"
                         android:textOn="@string/we"
@@ -110,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/day_button_selector"
+                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                         android:textColor="@drawable/day_button_text_selector"
                         android:textOff="@string/th"
                         android:textOn="@string/th"
@@ -123,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/day_button_selector"
+                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                         android:text="@string/fr"
                         android:textColor="@drawable/day_button_text_selector"
                         android:textOff="@string/fr"
@@ -137,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:background="@drawable/day_button_selector"
+                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                         android:textColor="@drawable/day_button_text_selector"
                         android:textOff="@string/sa"
                         android:textOn="@string/sa"
@@ -223,9 +224,8 @@
                         android:layout_marginEnd="24dp"
                         android:layout_marginBottom="24dp"
                         android:layout_weight="1"
-                        android:background="@drawable/button_ok_selector"
+                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/button_ok_selector : @drawable/button_ok_selector_support}"
                         android:enabled="@{model.canOk}"
-
                         android:text="@string/ok"
                         android:textColor="@android:color/white"
                         android:textSize="16sp" />

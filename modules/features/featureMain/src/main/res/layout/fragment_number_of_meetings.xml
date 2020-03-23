@@ -5,9 +5,16 @@
     <data>
 
         <variable
+            name="background"
+            type="android.graphics.drawable.Drawable" />
+        <variable
+            name="buttonOkBackground"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
             name="model"
             type="com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsContract.ViewModel" />
-
+        <import type="com.doneit.ascend.presentation.models.GroupType"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,7 +28,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="24dp"
-            android:paddingStart="41dp"
+            android:paddingStart="39dp"
             android:paddingEnd="39dp"
             android:gravity="center"
             aigestudio:layout_constraintBottom_toTopOf="@id/radio_group_bottom"
@@ -32,7 +39,7 @@
             <RadioButton
                 android:id="@+id/radioButton1"
                 style="@style/MeetingCountRadioButton"
-                android:layout_width="40dp"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"                android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="1"/>
@@ -40,6 +47,7 @@
             <RadioButton
                 android:id="@+id/radioButton2"
                 style="@style/MeetingCountRadioButton"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -48,7 +56,7 @@
             <RadioButton
                 android:id="@+id/radioButton3"
                 style="@style/MeetingCountRadioButton"
-                android:layout_width="40dp"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"                android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="3" />
@@ -56,6 +64,7 @@
             <RadioButton
                 android:id="@+id/radioButton4"
                 style="@style/MeetingCountRadioButton"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -64,6 +73,7 @@
             <RadioButton
                 android:id="@+id/radioButton5"
                 style="@style/MeetingCountRadioButton"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -72,6 +82,7 @@
             <RadioButton
                 android:id="@+id/radioButton6"
                 style="@style/MeetingCountRadioButton"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -84,7 +95,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingStart="41dp"
+                android:paddingStart="39dp"
                 android:paddingEnd="39dp"
                 android:gravity="center"
                 aigestudio:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -95,6 +106,7 @@
             <RadioButton
                 android:id="@+id/radioButton7"
                 style="@style/MeetingCountRadioButton"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -103,6 +115,7 @@
             <RadioButton
                 android:id="@+id/radioButton8"
                 style="@style/MeetingCountRadioButton"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -111,6 +124,7 @@
             <RadioButton
                 android:id="@+id/radioButton9"
                 style="@style/MeetingCountRadioButton"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -119,6 +133,7 @@
             <RadioButton
                 android:id="@+id/radioButton10"
                 style="@style/MeetingCountRadioButton"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -127,6 +142,7 @@
             <RadioButton
                 android:id="@+id/radioButton11"
                 style="@style/MeetingCountRadioButton"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -135,6 +151,7 @@
             <RadioButton
                 android:id="@+id/radioButton12"
                 style="@style/MeetingCountRadioButton"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -175,7 +192,7 @@
 
                 android:layout_marginBottom="24dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_ok_selector"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/button_ok_selector : @drawable/button_ok_selector_support}"
                 android:enabled="@{model.meetingsCountOk}"
                 android:text="@string/ok"
                 android:textColor="@android:color/white"

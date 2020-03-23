@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.group_info
 
 import androidx.lifecycle.LiveData
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.PresentationCardModel
@@ -28,13 +29,15 @@ interface GroupInfoContract {
         fun startGroup()
         fun deleteGroup()
         fun cancelGroup(reason: String)
+        fun inviteToGroup(reason: List<String>)
         fun report(content: String)
         fun onAddPaymentClick()
         fun onMMClick()
-        fun onViewClick()
+        fun onViewClick(attendees: List<AttendeeEntity>)
         fun onDuplicateClick(group: GroupEntity)
         fun onEditClick(group: GroupEntity)
         fun onCancelClick(group: GroupEntity)
+        fun removeMember(attendee: AttendeeEntity)
     }
 
     interface Router {
@@ -42,7 +45,7 @@ interface GroupInfoContract {
         fun navigateToAddPaymentMethod()
         fun navigateToVideoChat(groupId: Long)
         fun navigateToMMInfo(id: Long)
-        fun navigateToViewAttendees()
+        fun navigateToViewAttendees(attendees: List<AttendeeEntity>, groupId: Long)
         fun navigateToEditGroup(group: GroupEntity)
         fun navigateToDuplicateGroup(group: GroupEntity)
     }

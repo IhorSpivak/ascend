@@ -56,6 +56,7 @@
     <string name="create_mm_group">Create MM Group</string>
     <string name="create_create">Create</string>
     <string name="action_mm_group">%s MM Group</string>
+    <string name="action_support_group">%s Support Group</string>
     <string name="private_group">Private Group</string>
     <string name="public_group">Public Group</string>
     <string name="group_name">Group Name</string>
@@ -104,7 +105,6 @@
     </string-array>
 
     <string-array name="duration_array">
-        <item>Duration</item>
         <item>1 hour</item>
         <item>2 hours</item>
         <item>3 hours</item>

@@ -21,7 +21,7 @@ class PresentationCreateGroupModel(
     var image: ValidatableField = ValidatableField(),
     var participants: ObservableField<List<String>> = ObservableField(),
     var meetingFormat: ValidatableField = ValidatableField(),
-    var tags: ValidatableField = ValidatableField(),
+    var tags: Int = 0,
     var isPublic: ObservableField<Boolean> = ObservableField(true),
     var groupType: GroupType? = null,
     var hours: String = "00",

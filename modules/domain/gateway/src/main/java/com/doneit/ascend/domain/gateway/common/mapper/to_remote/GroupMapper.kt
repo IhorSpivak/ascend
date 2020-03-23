@@ -19,7 +19,8 @@ fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
         days.applyDaysOffset(dayOffset),
         meetingsCount,
         meetingFormat,
-        privacy
+        privacy,
+        tags
     )
 }
 
@@ -86,5 +87,11 @@ fun UpdateNoteDTO.toRequest(): UpdateNoteRequest {
 fun CancelGroupDTO.toRequest(): CancelGroupRequest {
     return CancelGroupRequest(
         reason
+    )
+}
+
+fun InviteToGroupDTO.toRequest(): InviteToGroupRequest {
+    return InviteToGroupRequest(
+        participants
     )
 }

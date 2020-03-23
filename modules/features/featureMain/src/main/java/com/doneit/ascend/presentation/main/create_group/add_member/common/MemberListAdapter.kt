@@ -1,25 +1,34 @@
 package com.doneit.ascend.presentation.main.create_group.add_member.common
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.AttendeeViewHolder
+import com.doneit.ascend.presentation.main.group_info.attendees.common.AttendeeItemViewHolder
 
-class MemberListAdapter: RecyclerView.Adapter<AttendeeViewHolder>() {
+class MemberListAdapter(
+    private val onDeleteMember: (AttendeeEntity) -> Unit
+): ListAdapter<AttendeeEntity, AttendeeItemViewHolder>(AttendeeDiffCallback()) {
 
-    var members = emptyList<String>()
-    set(value) {
-        field = value
-    }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttendeeViewHolder {
-        return AttendeeViewHolder.create(parent)
-    }
-
-    override fun getItemCount(): Int {
-        return members.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttendeeItemViewHolder {
+        return AttendeeItemViewHolder.create(parent, onDeleteMember)
     }
 
-    override fun onBindViewHolder(holder: AttendeeViewHolder, position: Int) {
-        holder.bind(AttendeeEntity(1,"name","name@mail.com", ""))
+    override fun onBindViewHolder(holder: AttendeeItemViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
+
+    private class AttendeeDiffCallback: DiffUtil.ItemCallback<AttendeeEntity>(){
+        override fun areItemsTheSame(oldItem: AttendeeEntity, newItem: AttendeeEntity): Boolean {
+            return newItem.id == oldItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: AttendeeEntity, newItem: AttendeeEntity): Boolean {
+            return newItem.equals(oldItem)
+        }
+
+    }
+
 }

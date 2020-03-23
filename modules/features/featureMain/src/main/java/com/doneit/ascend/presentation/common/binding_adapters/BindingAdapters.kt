@@ -202,7 +202,13 @@ fun setParticipantsVisibility(
 fun AppCompatImageView.setImageUri(path: String?) {
     setImageURI(null)//in order to force image update
     path?.let {
-        setImageURI(Uri.parse(it))
+        if (it.contains("http")){
+            Glide.with(this)
+                .load(it)
+                .into(this)
+        }else{
+            setImageURI(Uri.parse(it))
+        }
     }
 }
 

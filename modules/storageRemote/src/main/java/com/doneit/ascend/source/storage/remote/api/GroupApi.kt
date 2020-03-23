@@ -2,6 +2,7 @@ package com.doneit.ascend.source.storage.remote.api
 
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.CancelGroupRequest
+import com.doneit.ascend.source.storage.remote.data.request.group.InviteToGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.UpdateNoteRequest
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
@@ -65,4 +66,10 @@ interface GroupApi {
 
     @POST("groups/{groupId}/cancel")
     fun cancelGroup(@Path("groupId") groupId: Long, @Body request: CancelGroupRequest): Deferred<Response<OKResponse>>
+
+    @POST("groups/{groupId}/cancel")
+    fun inviteToGroup(@Path("groupId") groupId: Long, @Body request: InviteToGroupRequest): Deferred<Response<OKResponse>>
+
+    @DELETE("groups/{id}/invite/{inviteId}")
+    fun deleteInviteAsync(@Path("id") id: Long, @Path("id") inviteId: Long): Deferred<Response<OKResponse>>
 }

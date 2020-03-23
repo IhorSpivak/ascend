@@ -7,9 +7,11 @@ import android.widget.ToggleButton
 import androidx.core.view.children
 import com.aigestudio.wheelpicker.WheelPicker
 import com.doneit.ascend.domain.entity.CalendarDayEntity
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentCalendarPickerBinding
+import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.*
 import kotlinx.android.synthetic.main.template_week_days.*

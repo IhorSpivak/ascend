@@ -157,7 +157,107 @@
                 app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
                 android:background="@drawable/bg_r4_4b39"/>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/group_type_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/ownerName"
+                app:layout_constraintStart_toStartOf="@id/ivOwnerImage">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/tvMMGContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_r4_519f"
+                    android:orientation="horizontal"
+                    android:visibility="@{item.groupType == GroupType.MASTER_MIND || item.groupType == GroupType.INDIVIDUAL, default=gone}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/support_tag">
+
+                    <TextView
+                        android:id="@+id/tvInividual"
+                        style="@style/TextNormal.White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_ic_supervisor_account_24px"
+                        android:drawablePadding="4dp"
+                        android:padding="4dp"
+                        android:text="@string/individual"
+                        android:textColor="@color/gold"
+                        android:textSize="12sp"
+                        android:visibility="@{item.groupType == GroupType.INDIVIDUAL, default = gone}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvMasterMindMarker"
+                        style="@style/TextNormal.White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:text="@string/master_mind_group"
+                        android:textSize="12sp"
+                        android:visibility="@{item.groupType == GroupType.MASTER_MIND || item.groupType == GroupType.INDIVIDUAL, default = gone}"
+                        app:layout_constraintStart_toEndOf="@id/tvInividual"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/tvSGContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/bg_r4_9dc0"
+                    android:orientation="horizontal"
+                    android:visibility="@{item.groupType == GroupType.SUPPORT, default=gone}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/support_tag">
+
+                    <TextView
+                        android:id="@+id/tvSupportMarker"
+                        style="@style/TextNormal.White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        android:text="@string/support_group"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tvSupportMarkerType"
+                        style="@style/TextNormal.Blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_r4_9dc0"
+                        android:padding="4dp"
+                        android:text="@{@string/support_group_type(item.meetingFormat)}"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toEndOf="@id/tvSupportMarker"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/support_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_r4_519f"
+                    android:padding="4dp"
+                    android:textSize="12sp"
+                    android:text="@{item.tag.tag}"
+                    android:textColor="@android:color/white"
+                    android:visibility="@{item.groupType == GroupType.SUPPORT, default=gone}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--<LinearLayout
                 android:id="@+id/tvSupportMarkerContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -203,14 +303,14 @@
                 android:visibility="@{item.groupType == GroupType.MASTER_MIND, default = gone}"
                 app:layout_constraintTop_toBottomOf="@id/ownerName"
                 app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
-                android:background="@drawable/bg_r4_519f"/>
+                android:background="@drawable/bg_r4_519f"/>-->
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/brMarkers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="tvWebinarMarker,tvSupportMarkerContainer,tvMasterMindMarker"/>
+                app:constraint_referenced_ids="group_type_container"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

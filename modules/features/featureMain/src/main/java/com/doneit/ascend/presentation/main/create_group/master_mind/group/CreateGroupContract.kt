@@ -24,11 +24,13 @@ interface CreateGroupContract {
         val selectedMembers: MutableList<AttendeeEntity>
 
         fun addNewParticipant()
+        fun removeMember(member: AttendeeEntity)
         fun completeClick()
         fun backClick()
         fun chooseScheduleTouch()
         fun chooseMeetingCountTouch()
         fun chooseStartDateTouch()
         fun addMember(isPublic: Boolean)
+        fun inviteToGroup(participants: List<String>)
     }
 }

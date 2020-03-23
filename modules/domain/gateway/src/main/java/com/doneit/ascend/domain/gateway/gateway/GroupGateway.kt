@@ -125,7 +125,23 @@ internal class GroupGateway(
         }
 
     override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>> {
-        val localGroup = groupLocal.getGroupById(groupId)
+        val res = executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+
+        if (res.isSuccessful) {
+            GlobalScope.launch(Dispatchers.IO) {
+                groupLocal.insertAll(listOf(res.successModel!!.toLocal()))
+            }
+        }
+
+        return res
+        /*val localGroup = groupLocal.getGroupById(groupId)
         if (localGroup != null) {
 
             return ResponseEntity(
@@ -150,7 +166,7 @@ internal class GroupGateway(
             }
 
             return res
-        }
+        }*/
     }
 
     override fun getGroupDetailsLive(groupId: Long) = liveData<GroupEntity?> {
@@ -187,6 +203,17 @@ internal class GroupGateway(
         )
     }
 
+    override suspend fun deleteInvite(groupId: Long, inviteId: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.deleteInvite(groupId, inviteId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override suspend fun updateNote(dto: UpdateNoteDTO): ResponseEntity<Unit, List<String>> {
         return executeRemote { remote.updateNote(dto.groupId, dto.toRequest()) }.toResponseEntity(
             {
@@ -200,6 +227,17 @@ internal class GroupGateway(
 
     override suspend fun cancelGroup(dto: CancelGroupDTO): ResponseEntity<Unit, List<String>> {
         return executeRemote { remote.cancelGroup(dto.groupId, dto.toRequest()) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun inviteToGroup(dto: InviteToGroupDTO): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.inviteToGroup(dto.groupId, dto.toRequest()) }.toResponseEntity(
             {
                 Unit
             },

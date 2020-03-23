@@ -33,7 +33,7 @@ interface CreateGroupHostContract {
 
     interface LocalRouter {
         fun navigateToCreateMMGroup(args: CreateGroupArgs, group: GroupEntity?, what: String?)
-        fun navigateToCreateSupGroup(args: CreateGroupArgs)
+        fun navigateToCreateSupGroup(args: CreateGroupArgs, group: GroupEntity?, what: String?)
         fun navigateToCreateWebinar(args: CreateGroupArgs)
         fun navigateToCalendarPiker()
         fun navigateToDatePicker()

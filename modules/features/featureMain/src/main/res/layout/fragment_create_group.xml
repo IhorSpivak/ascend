@@ -48,7 +48,8 @@
                 app:maxLength="@{64}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_header}"
-                app:text="@={model.createGroupModel.name.observableField}" />
+                app:text="@={model.createGroupModel.name.observableField}"
+                app:tint="@{@color/colorAccent}"/>
 
             <com.doneit.ascend.presentation.views.EditWithError
                 android:id="@+id/startDate"
@@ -66,6 +67,7 @@
                 app:noFocusable="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_favorite_date}"
+                app:tint="@{@color/colorAccent}"
                 app:text="@{model.createGroupModel.startDate.observableField}" />
 
             <com.doneit.ascend.presentation.views.MultilineEditWithError
@@ -83,6 +85,7 @@
                 app:noFocusable="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_schedule}"
+                app:tint="@{@color/colorAccent}"
                 app:text="@{model.createGroupModel.scheduleTime.observableField}" />
 
             <com.doneit.ascend.presentation.views.EditWithError
@@ -100,6 +103,7 @@
                 app:noFocusable="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_hand_number}"
+                app:tint="@{@color/colorAccent}"
                 app:text="@={model.createGroupModel.numberOfMeetings.observableField}" />
 
             <com.doneit.ascend.presentation.views.EditWithError
@@ -119,6 +123,7 @@
                 app:maxLength="@{7}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_price}"
+                app:tint="@{@color/colorAccent}"
                 app:text="@={model.createGroupModel.price.observableField}" />
 
             <com.doneit.ascend.presentation.views.MultilineEditWithError
@@ -138,6 +143,7 @@
                 app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_description}"
+                app:tint="@{@color/colorAccent}"
                 app:text="@={model.createGroupModel.description.observableField}" />
 
             <!--todo remove this container-->
@@ -323,7 +329,6 @@
                     android:id="@+id/add_member_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:orientation="vertical"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">

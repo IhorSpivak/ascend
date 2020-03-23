@@ -46,7 +46,9 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
     }
 
     private val membersAdapter: InvitedMembersAdapter by lazy {
-        InvitedMembersAdapter()
+        InvitedMembersAdapter{
+            viewModel.removeMember(it)
+        }
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {

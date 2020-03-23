@@ -8,10 +8,7 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.group.NoteEntity
 import com.doneit.ascend.domain.gateway.common.applyDaysOffset
 import com.doneit.ascend.domain.gateway.common.getDayOffset
-import com.doneit.ascend.source.storage.local.data.GroupLocal
-import com.doneit.ascend.source.storage.local.data.NoteLocal
-import com.doneit.ascend.source.storage.local.data.OwnerLocal
-import com.doneit.ascend.source.storage.local.data.TagLocal
+import com.doneit.ascend.source.storage.local.data.*
 import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
 import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
 import com.doneit.ascend.source.storage.remote.data.response.TagResponse
@@ -74,7 +71,8 @@ fun GroupResponse.toEntity(): GroupEntity {
         daysOfWeek.applyDaysOffset(dayOffset).map { it.toCalendarDay() },
         note?.toEntity(),
         meetingFormat,
-        tag?.toEntity()
+        tag?.toEntity(),
+        invites?.map { it.toEntity() }
     )
 }
 
@@ -154,7 +152,8 @@ fun GroupLocal.toEntity(): GroupEntity {
         daysOfWeek?.map { CalendarDayEntity.values()[it] },
         note?.toLocale(),
         meetingFormat,
-        tag?.toEntity()
+        tag?.toEntity(), emptyList()/*,
+        attendees?.map { it.toEntity() }*/
     )
 }
 

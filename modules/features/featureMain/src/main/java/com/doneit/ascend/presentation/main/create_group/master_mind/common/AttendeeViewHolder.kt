@@ -9,16 +9,23 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.AttendeeListItemBinding
 
 class AttendeeViewHolder (
-    private val binding: AttendeeListItemBinding
+    private val binding: AttendeeListItemBinding,
+    private val onDeleteMember: (AttendeeEntity) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(member: AttendeeEntity?){
-        binding.attendee = member
+    fun bind(member: AttendeeEntity){
+        binding.apply {
+            attendee = member
+            memberNotAttended.setOnClickListener {
+                onDeleteMember.invoke(member)
+            }
+        }
     }
 
     companion object {
         fun create(
-            parent: ViewGroup
+            parent: ViewGroup,
+            onDeleteMember: (AttendeeEntity) -> Unit
         ): AttendeeViewHolder {
             val binding: AttendeeListItemBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
@@ -26,7 +33,7 @@ class AttendeeViewHolder (
                 parent,
                 false
             )
-            return AttendeeViewHolder(binding)
+            return AttendeeViewHolder(binding, onDeleteMember)
         }
     }
 }

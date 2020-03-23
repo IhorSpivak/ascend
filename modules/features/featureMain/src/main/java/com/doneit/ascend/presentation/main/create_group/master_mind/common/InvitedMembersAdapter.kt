@@ -5,10 +5,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.doneit.ascend.domain.entity.AttendeeEntity
 
-class InvitedMembersAdapter: ListAdapter<AttendeeEntity, AttendeeViewHolder>(AttendeeDiffCallback()) {
+class InvitedMembersAdapter(
+    private val onDeleteMember: (AttendeeEntity) -> Unit
+): ListAdapter<AttendeeEntity, AttendeeViewHolder>(AttendeeDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttendeeViewHolder {
-        return AttendeeViewHolder.create(parent)
+        return AttendeeViewHolder.create(parent, onDeleteMember)
     }
 
     override fun onBindViewHolder(holder: AttendeeViewHolder, position: Int) {

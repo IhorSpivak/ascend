@@ -27,6 +27,8 @@ interface GroupUseCase {
 
     suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>>
 
+    suspend fun deleteInvite(groupId: Long, inviteId: Long): ResponseEntity<Unit, List<String>>
+
     suspend fun subscribe(dto: SubscribeGroupDTO): ResponseEntity<Unit, List<String>>
 
     suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsDTO, List<String>>
@@ -36,6 +38,8 @@ interface GroupUseCase {
     suspend fun updateNote(dto: UpdateNoteDTO): ResponseEntity<Unit, List<String>>
 
     suspend fun cancelGroup(dto: CancelGroupDTO): ResponseEntity<Unit, List<String>>
+
+    suspend fun inviteToGroup(dto: InviteToGroupDTO): ResponseEntity<Unit, List<String>>
 
     fun searchMembers(query: String): LiveData<PagedList<AttendeeEntity>>
 

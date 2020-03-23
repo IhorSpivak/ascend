@@ -76,7 +76,12 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
         if (group != null){
             binding.btbComplete.apply {
                 text = getString(R.string.btn_save_action)
-                setOnClickListener { viewModel.updateGroup(group!!.id) }
+                setOnClickListener {
+                    when (what) {
+                        GroupAction.DUPLICATE.toString() -> viewModel.completeClick()
+                        GroupAction.EDIT.toString() -> viewModel.updateGroup(group!!.id)
+                    }
+                }
             }
             when(group!!.groupType){
                 GroupType.INDIVIDUAL ->{
@@ -107,6 +112,10 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 selectedDays.addAll(group!!.daysOfWeek!!)
                 viewModel.changeSchedule()
                 image.observableField.set(group!!.image!!.url)
+            }
+            viewModel.apply{
+                members.postValue(group!!.attendees?.toMutableList())
+                selectedMembers.addAll(group!!.attendees?: emptyList())
             }
         }else{
             binding.btbComplete.setOnClickListener {

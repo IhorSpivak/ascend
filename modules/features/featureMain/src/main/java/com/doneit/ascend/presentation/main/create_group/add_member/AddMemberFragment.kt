@@ -47,7 +47,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
                 tvSearch.text.clear()
             }
             btnBack.setOnClickListener {
-                viewModel.members.postValue(viewModel.selectedMembers)
+                viewModel.members.postValue(viewModel.selectedMembers.toMutableList())
                 fragmentManager?.popBackStack()
             }
         }

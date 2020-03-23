@@ -1,9 +1,6 @@
 package com.doneit.ascend.source.storage.local.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(tableName = "groups")
 data class GroupLocal(

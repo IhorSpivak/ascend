@@ -7,6 +7,7 @@ import com.doneit.ascend.presentation.dialog.*
 import com.doneit.ascend.presentation.dialog.common.CardsAdapter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
@@ -27,9 +28,17 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         viewModel.onAddPaymentClick()
         currentDialog?.dismiss()
     }
+    private val membersAdapter: InvitedMembersAdapter by lazy {
+        InvitedMembersAdapter{
+            viewModel.removeMember(it)
+        }
+    }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.model = viewModel
+        binding.apply {
+            model = viewModel
+            recyclerViewAttendees.adapter = membersAdapter
+        }
 
         viewModel.group.observe(this, Observer { group ->
             binding.group = group
@@ -53,6 +62,10 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 builder.append(context!!.getTimeFormat().format(group.startTime))
                 binding.tvSchedule.text = builder.toString()
             }
+            membersAdapter.submitList(group.attendees)
+            binding.viewAttendees.setOnClickListener {
+                viewModel.onViewClick(group.attendees?: emptyList())
+            }
         })
 
         viewModel.cards.observe(viewLifecycleOwner, Observer {
@@ -61,7 +74,6 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         viewModel.starting.observe(this, Observer {
             btnStart.isEnabled = it
         })
-
 
         mm_delete.setOnClickListener {
             currentDialog = DeleteDialog.create(
@@ -83,6 +95,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 context!!
             ) {
                 viewModel.cancelGroup(it)
+                currentDialog?.dismiss()
             }
 
             currentDialog?.show()

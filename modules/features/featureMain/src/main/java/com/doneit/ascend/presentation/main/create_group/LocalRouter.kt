@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGrou
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarFragment
 import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsFragment
 import com.doneit.ascend.presentation.utils.extensions.add
+import com.doneit.ascend.presentation.utils.extensions.addWithBackStack
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
@@ -48,13 +49,16 @@ class LocalRouter(
             .commit()//replace(containerId, fragment)
     }
 
-    override fun navigateToCreateSupGroup(args: CreateGroupArgs) {
+    override fun navigateToCreateSupGroup(args: CreateGroupArgs, group: GroupEntity?, what: String?) {
         val fragment = CreateSupGroupFragment()
         fragment.arguments = Bundle().apply {
             putParcelable(
                 com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,
                 args
             )
+            if (group != null){
+                putParcelable(what, group)
+            }
         }
 
         hostFragment.childFragmentManager.replace(containerId, fragment)
@@ -86,5 +90,4 @@ class LocalRouter(
     override fun navigateToAddMember(isPublic: Boolean) {
         hostFragment.childFragmentManager.add(containerId, AddMemberFragment.getInstance(isPublic))
     }
-
 }

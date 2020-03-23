@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ascension.goal.GoalEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.dto.SortType
@@ -241,8 +242,8 @@ class MainRouter(
         replaceFullWithMainUpdate(MMInfoFragment.newInstance(id))
     }
 
-    override fun navigateToViewAttendees() {
-        replaceFullWithMainUpdate(AttendeesFragment())
+    override fun navigateToViewAttendees(attendees: List<AttendeeEntity>, groupId: Long) {
+        replaceFullWithMainUpdate(AttendeesFragment(attendees.toMutableList(), groupId))
     }
 
     override fun navigateToEditGroup(group: GroupEntity) {

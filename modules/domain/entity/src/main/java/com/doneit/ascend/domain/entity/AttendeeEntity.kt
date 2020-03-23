@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class AttendeeEntity(
-    val id: Int,
+    val id: Long,
     val fullName: String,
     val email: String,
     val imageUrl: String?

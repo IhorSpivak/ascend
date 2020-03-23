@@ -48,7 +48,7 @@ internal class GroupRepository(
 
             if(request.groupType.equals("support", true)){
                 //always set tag_id to 1, no tag ids
-                stringPart = MultipartBody.Part.createFormData("tag_id", 1.toString())
+                stringPart = MultipartBody.Part.createFormData("tag_id", request.tagId.toString())
                 builder = builder.addPart(stringPart)
             }
 
@@ -173,6 +173,10 @@ internal class GroupRepository(
         return execute({ api.deleteGroupAsync(groupId) }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun deleteInvite(groupId: Long, inviteId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.deleteInviteAsync(groupId, inviteId) }, ErrorsListResponse::class.java)
+    }
+
     override suspend fun subscribe(
         groupId: Long,
         request: SubscribeGroupRequest
@@ -213,6 +217,13 @@ internal class GroupRepository(
         request: CancelGroupRequest
     ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.cancelGroup(groupId, request) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun inviteToGroup(
+        groupId: Long,
+        request: InviteToGroupRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.inviteToGroup(groupId, request) }, ErrorsListResponse::class.java)
     }
 
     override suspend fun searchUsers(searchRequest: SearchUserRequest): RemoteResponse<SearchUserListResponse, ErrorsListResponse> {

@@ -4,6 +4,7 @@ import android.icu.text.TimeZoneFormat
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.*
+import com.doneit.ascend.domain.entity.dto.InviteToGroupDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
@@ -103,7 +104,7 @@ class CreateGroupViewModel(
             result
         }
 
-        createGroupModel.tags.validator = { s ->
+        /*createGroupModel.tags.validator = { s ->
             val result = ValidationResult()
 
             if (createGroupModel.groupType == GroupType.SUPPORT && s.isBlank()) {
@@ -111,7 +112,7 @@ class CreateGroupViewModel(
             }
 
             result
-        }
+        }*/
 
         createGroupModel.description.validator = { s ->
             val result = ValidationResult()
@@ -151,7 +152,7 @@ class CreateGroupViewModel(
         createGroupModel.numberOfMeetings.onFieldInvalidate = invalidationListener
         createGroupModel.startDate.onFieldInvalidate = invalidationListener
         createGroupModel.price.onFieldInvalidate = invalidationListener
-        createGroupModel.tags.onFieldInvalidate = invalidationListener
+        //createGroupModel.tags.onFieldInvalidate = invalidationListener
         createGroupModel.description.onFieldInvalidate = invalidationListener
         createGroupModel.image.onFieldInvalidate = invalidationListener
 
@@ -201,7 +202,7 @@ class CreateGroupViewModel(
 
     override fun handleBaseNavigation(args: CreateGroupArgs, group: GroupEntity?, what: String?) {
         when(args.groupType){
-            GroupType.SUPPORT -> localRouter.navigateToCreateSupGroup(args)
+            GroupType.SUPPORT -> localRouter.navigateToCreateSupGroup(args, group, what)
             GroupType.MASTER_MIND -> localRouter.navigateToCreateMMGroup(args, group, what)
             GroupType.WEBINAR -> localRouter.navigateToCreateWebinar(args)
             GroupType.INDIVIDUAL -> localRouter.navigateToCreateMMGroup(args, group, what)
@@ -298,7 +299,7 @@ class CreateGroupViewModel(
                 createGroupModel.scheduleDays.isNotEmpty()
         isFormValid = isFormValid and createGroupModel.numberOfMeetings.isValid
         isFormValid = isFormValid and createGroupModel.startDate.isValid
-        isFormValid = isFormValid and createGroupModel.tags.isValid
+        //isFormValid = isFormValid and createGroupModel.tags.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
 
@@ -372,6 +373,15 @@ class CreateGroupViewModel(
 
         createGroupModel.scheduleDays.clear()
         createGroupModel.scheduleDays.addAll(days)
+    }
+
+    override fun removeMember(member: AttendeeEntity) {
+        /*val temp = selectedMembers.filter {
+            it.id == member.id
+        }.toMutableList()*/
+        if(selectedMembers.remove(member)){
+            members.postValue(selectedMembers.toMutableList())
+        }
     }
 
     override fun chooseMeetingCountTouch() {
@@ -475,6 +485,10 @@ class CreateGroupViewModel(
 
     override fun addMember(isPublic: Boolean) {
         localRouter.navigateToAddMember(isPublic)
+    }
+
+    override fun inviteToGroup(participants: List<String>) {
+
     }
 
     override fun setType(type: TimeZoneFormat.TimeType) {

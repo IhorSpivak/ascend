@@ -1,15 +1,13 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_locale
 
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.OwnerEntity
 import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.NoteEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRemoteString
-import com.doneit.ascend.source.storage.local.data.GroupLocal
-import com.doneit.ascend.source.storage.local.data.NoteLocal
-import com.doneit.ascend.source.storage.local.data.OwnerLocal
-import com.doneit.ascend.source.storage.local.data.TagLocal
+import com.doneit.ascend.source.storage.local.data.*
 import com.doneit.ascend.source.storage.local.data.dto.GroupFilter
 
 fun GroupListDTO.toLocal(): GroupFilter {
@@ -42,7 +40,8 @@ fun GroupEntity.toLocal(): GroupLocal {
         daysOfWeek?.map { it.ordinal },
         note?.toLocale(),
         meetingFormat,
-        tag?.toLocal()
+        tag?.toLocal()/*,
+        attendees?.map { it.toLocal() }*/
     )
 }
 
@@ -55,6 +54,16 @@ fun OwnerEntity.toLocal(): OwnerLocal {
         followed
     )
 }
+
+fun AttendeeEntity.toLocal(): AttendeeLocal{
+    return AttendeeLocal(
+        id,
+        fullName,
+        email,
+        imageUrl
+    )
+}
+
 fun TagEntity.toLocal(): TagLocal {
     return TagLocal(
         id,

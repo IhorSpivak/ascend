@@ -24,6 +24,8 @@ interface IGroupRepository {
 
     suspend fun deleteGroup(groupId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 
+    suspend fun deleteInvite(groupId: Long, inviteId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
+
     suspend fun subscribe(
         groupId: Long,
         request: SubscribeGroupRequest
@@ -36,6 +38,8 @@ interface IGroupRepository {
     suspend fun updateNote(groupId: Long, request: UpdateNoteRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun cancelGroup(groupId: Long, request: CancelGroupRequest): RemoteResponse<OKResponse, ErrorsListResponse>
+
+    suspend fun inviteToGroup(groupId: Long, request: InviteToGroupRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun searchUsers(searchRequest: SearchUserRequest): RemoteResponse<SearchUserListResponse, ErrorsListResponse>
 }
