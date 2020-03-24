@@ -233,8 +233,7 @@
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/red_hat_font</item>
         <item name="android:button">@null</item>
-        <item name="android:layout_marginEnd">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_margin">4dp</item>
     </style>
 
 </resources>

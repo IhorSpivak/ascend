@@ -101,18 +101,31 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
             val calendar = Calendar.getInstance()
             val timeTypeIndex =
                 binding.timeTypePicker.getAmPmIndex {
-                    (it as String) == calendar.get(Calendar.AM_PM).toAmPm() }
+                    if(viewModel.createGroupModel.scheduleTime.observableField.get()!!.isNotBlank()){
+                        (it as String) == viewModel.createGroupModel.timeType
+                    }else {
+                        (it as String) == calendar.get(Calendar.AM_PM).toAmPm()
+                    }
+                }
             val minutesIndex =
                 binding.minutesPicker.getMinuteIndex {
-                    (it as String) == calendar.get(Calendar.MINUTE).toTimeString() }
+                    if(viewModel.createGroupModel.scheduleTime.observableField.get()!!.isNotBlank()){
+                        (it as String) == viewModel.createGroupModel.minutes
+                    }else {
+                        (it as String) == calendar.get(Calendar.MINUTE).toTimeString()
+                    }
+                }
             val hoursIndex =
                 binding.hoursPicker.getHourIndex {
-                    if(DateFormat.is24HourFormat(context)){
-                        (it as String) == calendar.get(Calendar.HOUR_OF_DAY).toTimeString()
+                    if(viewModel.createGroupModel.scheduleTime.observableField.get()!!.isNotBlank()){
+                        (it as String) == viewModel.createGroupModel.hours
                     }else{
-                        (it as String) == calendar.get(Calendar.HOUR).toTimeString()
+                        if(DateFormat.is24HourFormat(context)){
+                            (it as String) == calendar.get(Calendar.HOUR_OF_DAY).toTimeString()
+                        }else{
+                            (it as String) == calendar.get(Calendar.HOUR).toTimeString()
+                        }
                     }
-
                 }
 
             binding.timeTypePicker.selectedItemPosition = timeTypeIndex

@@ -6,6 +6,9 @@
         <variable
             name="user"
             type="com.doneit.ascend.domain.entity.AttendeeEntity" />
+        <variable
+            name="modelView"
+            type="com.doneit.ascend.presentation.main.create_group.add_member.common.AddMemberViewModel" />
 
     </data>
 
@@ -42,7 +45,7 @@
         android:fontFamily="@font/red_hat_font"
         android:textSize="18sp"
         android:text="@{user.fullName}"
-        android:textColor="@drawable/member_text_selector"
+        android:textColor="@color/member_item_text_states"
         app:layout_constraintStart_toEndOf="@id/followerImage"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

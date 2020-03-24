@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <import
-            type="android.text.Html" />
+        <import type="android.text.Html" />
+        <import type="android.view.View"/>
         <variable
             name="isEmpty"
             type="Boolean" />
@@ -13,7 +13,7 @@
             type="String" />
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.create_group.add_member.AddMemberContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.group_info.attendees.AttendeesContract.ViewModel" />
 
     </data>
 
@@ -83,6 +83,7 @@
                                 android:background="@android:color/transparent"
                                 android:gravity="center_vertical"
                                 android:textSize="14sp"
+                                android:enabled="@{model.selectedMembers.size() &lt; 30}"
                                 android:hint="@string/search_member_hint"/>
 
                             <androidx.appcompat.widget.AppCompatImageView
@@ -108,39 +109,42 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMembers"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchBar"
-            android:visibility="@{!isEmpty}"
-            tools:listitem="@layout/list_item_member"/>
-
-        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAttendees"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchBar"
-            tools:listitem="@layout/list_item_member"/>
+            tools:listitem="@layout/template_attendee_item"
+            android:background="#ffffff"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMembers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchBar"
+            android:visibility="@{model.searchVisibility ? View.VISIBLE : View.GONE}"
+            tools:listitem="@layout/list_item_member"
+            android:background="#ffffff"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/invite_member_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:visibility="@{isEmpty}"
-            android:layout_marginTop="40dp"
+            android:visibility="@{model.inviteVisibility ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchBar">
+            app:layout_constraintTop_toBottomOf="@id/searchBar"
+            android:background="#ffffff">
 
             <TextView
                 android:id="@+id/invite_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
                 app:html="@{@string/invite_member_text(query)}"
                 android:text="@string/invite_member_text"
                 android:textColor="@color/default_font_color"
@@ -154,10 +158,12 @@
                 android:id="@+id/invite"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/member_invite_button_background"
+                android:background="@drawable/button_ok_selector"
+                android:enabled="@{model.inviteButtonActive}"
+                android:onClick="@{() -> model.onInviteClick(model.validQuery)}"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
                 android:text="@string/invite_member_button"

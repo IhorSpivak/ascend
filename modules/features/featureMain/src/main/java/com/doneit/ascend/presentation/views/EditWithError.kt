@@ -68,6 +68,12 @@ import kotlinx.android.synthetic.main.view_edit_with_error.view.*
             attribute = "tint",
             method = "setTint"
 
+        ),
+        BindingMethod(
+            type = EditWithError::class,
+            attribute = "color",
+            method = "setColor"
+
         )
     ]
 )
@@ -199,6 +205,10 @@ class EditWithError @JvmOverloads constructor(
             editText.inputType = InputType.TYPE_NULL
             editText.isFocusable = false
         }
+    }
+
+    fun setColor(color: Int){
+        editText.setTextColor(color)
     }
 
     override fun getBaseline(): Int {

@@ -4,16 +4,18 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesContract
 
 class MemberAdapter(
     private val isPublic: Boolean,
     private val onAdd: (member: AttendeeEntity) -> Unit,
     private val onRemove: (member: AttendeeEntity) -> Unit,
-    private val onInviteClick: (email: String) -> Unit
+    private val onInviteClick: (email: String) -> Unit,
+    val model: AddMemberViewModel
 ): PagedListAdapter<AttendeeEntity, MemberViewHolder>(AttendeeDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberViewHolder {
-        return MemberViewHolder.create(parent, isPublic, onAdd, onRemove, onInviteClick)
+        return MemberViewHolder.create(parent, isPublic, onAdd, onRemove, onInviteClick, model)
     }
 
     override fun onBindViewHolder(holder: MemberViewHolder, position: Int) {

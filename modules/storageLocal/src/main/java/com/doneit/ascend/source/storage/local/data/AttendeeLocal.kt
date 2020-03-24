@@ -1,8 +1,6 @@
 package com.doneit.ascend.source.storage.local.data
 
-import androidx.room.Entity
 import androidx.room.PrimaryKey
-
 
 data class AttendeeLocal (
     @PrimaryKey

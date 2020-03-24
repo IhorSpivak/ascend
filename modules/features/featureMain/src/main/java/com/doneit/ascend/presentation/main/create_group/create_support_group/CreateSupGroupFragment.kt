@@ -137,7 +137,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
         })
         viewModel.members.observe(this, Observer {
             viewModel.createGroupModel.participants.set(it.map {
-                it.email
+                it.email!!
             })
         })
 

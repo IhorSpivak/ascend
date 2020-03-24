@@ -59,7 +59,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
         })
         viewModel.members.observe(this, Observer {
             viewModel.createGroupModel.participants.set(it.map {
-                it.email
+                it.email?: ""
             })
         })
 

@@ -3,10 +3,12 @@ package com.doneit.ascend.presentation.main.create_group.add_member
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
@@ -32,7 +34,8 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             isPublic,
             {viewModel.onAdd(it) },
             {viewModel.onRemove(it)},
-            {viewModel.onInviteClick(it)}
+            {viewModel.onInviteClick(it)},
+            viewModel
         )
     }
     private var isPublic: Boolean = true
@@ -58,6 +61,10 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
                 isEmpty = it.isEmpty()
                 query = tvSearch.text.toString()
             }
+        })
+
+        viewModel.validQuery.observe(this, Observer {
+            viewModel.inviteButtonActive.postValue(Patterns.EMAIL_ADDRESS.matcher(it).matches())
         })
 
         binding.tvSearch.addTextChangedListener(object: TextWatcher {

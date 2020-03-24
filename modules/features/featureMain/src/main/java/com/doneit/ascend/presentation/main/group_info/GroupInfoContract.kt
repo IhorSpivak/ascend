@@ -20,6 +20,7 @@ interface GroupInfoContract {
         val isEditable: LiveData<Boolean>
         val isMM: LiveData<Boolean>
         val isOwner: LiveData<Boolean>
+        val isSubscribed: LiveData<Boolean>
         val starting: LiveData<Boolean>
 
         fun onBackPressed()

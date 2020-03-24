@@ -1,6 +1,5 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_locale
 
-import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.OwnerEntity
 import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
@@ -40,8 +39,7 @@ fun GroupEntity.toLocal(): GroupLocal {
         daysOfWeek?.map { it.ordinal },
         note?.toLocale(),
         meetingFormat,
-        tag?.toLocal()/*,
-        attendees?.map { it.toLocal() }*/
+        tag?.toLocal()
     )
 }
 
@@ -52,15 +50,6 @@ fun OwnerEntity.toLocal(): OwnerLocal {
         image?.toLocal(),
         rating,
         followed
-    )
-}
-
-fun AttendeeEntity.toLocal(): AttendeeLocal{
-    return AttendeeLocal(
-        id,
-        fullName,
-        email,
-        imageUrl
     )
 }
 

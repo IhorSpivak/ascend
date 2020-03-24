@@ -119,7 +119,8 @@
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_duration}"
                 app:tint="@{@color/colorAccent}"
-                app:text="@{@plurals/x_hours(1,1)}"/>
+                app:text="@{@plurals/x_hours(1,1)}"
+                app:color="@{@color/light_gray_b1bf}" />
             <!--<TextView
                 android:id="@+id/duration_hint"
                 android:layout_width="0dp"

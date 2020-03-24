@@ -376,16 +376,12 @@ class CreateGroupViewModel(
     }
 
     override fun removeMember(member: AttendeeEntity) {
-        /*val temp = selectedMembers.filter {
-            it.id == member.id
-        }.toMutableList()*/
         if(selectedMembers.remove(member)){
             members.postValue(selectedMembers.toMutableList())
         }
     }
 
     override fun chooseMeetingCountTouch() {
-        meetingsCountOk.postValue(createGroupModel.numberOfMeetings.observableField.get() != null)
         localRouter.navigateToMeetingCount()
     }
 
@@ -515,15 +511,28 @@ class CreateGroupViewModel(
 
     }
 
+    override val groupId: MutableLiveData<Long> = MutableLiveData()
+    override val searchVisibility = MutableLiveData<Boolean>(false)
+    override val inviteVisibility = MutableLiveData<Boolean>(false)
+    override val inviteButtonActive = MutableLiveData<Boolean>(false)
+    override val validQuery = MutableLiveData<String>()
+    override val attendees: MutableLiveData<MutableList<AttendeeEntity>> = MutableLiveData()
+
     override val searchResult: LiveData<PagedList<AttendeeEntity>>
         get() = searchQuery.switchMap {
             groupUseCase.searchMembers(it)
         }
+
+    override fun loadAttendees() {
+        //empty
+    }
+
     override val selectedMembers: MutableList<AttendeeEntity> = mutableListOf()
 
     override fun onQueryTextChange(query: String) {
         if (query.length > 1){
             searchQuery.postValue(query)
+            validQuery.postValue(query)
         }
     }
 
@@ -531,14 +540,12 @@ class CreateGroupViewModel(
         localRouter.onBack()
     }
 
+    override fun onClearClick(member: AttendeeEntity) {
+        //empty
+    }
+
     override fun onAdd(member: AttendeeEntity) {
-        if (createGroupModel.isPublic.getNotNull()){
-            selectedMembers.add(member)
-        }else{
-            if (selectedMembers.size < 1){
-                selectedMembers.add(member)
-            }
-        }
+        selectedMembers.add(member)
     }
 
     override fun onRemove(member: AttendeeEntity) {
@@ -546,7 +553,15 @@ class CreateGroupViewModel(
     }
 
     override fun onInviteClick(email: String) {
-
+        selectedMembers.add(
+            AttendeeEntity(
+            (0L - selectedMembers.size),
+            "",
+            email,
+            ""
+        )
+        )
+        localRouter.onBack()
     }
 
     override val meetingsCountOk: MutableLiveData<Boolean> = MutableLiveData(false)

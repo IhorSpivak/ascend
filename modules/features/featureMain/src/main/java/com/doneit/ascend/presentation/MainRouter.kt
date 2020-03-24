@@ -53,6 +53,7 @@ import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps
 import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberFragment
 import com.doneit.ascend.presentation.main.goals.GoalsContract
 import com.doneit.ascend.presentation.main.goals.GoalsFragment
+import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesContract
 import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesFragment
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
@@ -136,7 +137,8 @@ class MainRouter(
     SpiritualActionStepsContract.Router,
     SpiritualActionListContract.Router,
     GoalsContract.Router,
-    GoalsListContract.Router{
+    GoalsListContract.Router,
+    AttendeesContract.Router{
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }
@@ -232,7 +234,7 @@ class MainRouter(
             GroupDailyListFragment.newInstance(
                 args.toGroupListArgs(
                     SortType.DESC,
-                    GroupStatus.ENDED
+                    GroupStatus.UPCOMING
                 )
             )
         )

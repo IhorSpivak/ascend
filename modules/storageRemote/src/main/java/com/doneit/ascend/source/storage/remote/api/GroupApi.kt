@@ -67,9 +67,9 @@ interface GroupApi {
     @POST("groups/{groupId}/cancel")
     fun cancelGroup(@Path("groupId") groupId: Long, @Body request: CancelGroupRequest): Deferred<Response<OKResponse>>
 
-    @POST("groups/{groupId}/cancel")
+    @POST("groups/{groupId}/invite")
     fun inviteToGroup(@Path("groupId") groupId: Long, @Body request: InviteToGroupRequest): Deferred<Response<OKResponse>>
 
-    @DELETE("groups/{id}/invite/{inviteId}")
-    fun deleteInviteAsync(@Path("id") id: Long, @Path("id") inviteId: Long): Deferred<Response<OKResponse>>
+    @DELETE("groups/{groupId}/invite/{inviteId}")
+    fun deleteInviteAsync(@Path("groupId") groupId: Long, @Path("inviteId") inviteId: Long): Deferred<Response<OKResponse>>
 }

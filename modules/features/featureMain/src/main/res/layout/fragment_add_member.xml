@@ -13,7 +13,7 @@
             type="String" />
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.create_group.add_member.AddMemberContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.create_group.add_member.common.AddMemberViewModel" />
 
     </data>
 
@@ -87,8 +87,8 @@
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/clear_search"
-                                android:layout_width="13dp"
-                                android:layout_height="12dp"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
                                 android:layout_marginTop="12dp"
                                 android:layout_marginEnd="12dp"
                                 android:layout_marginBottom="12dp"
@@ -148,12 +148,14 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/member_invite_button_background"
                 android:paddingTop="13dp"
                 android:paddingBottom="13dp"
                 android:text="@string/invite_member_button"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
+                android:background="@drawable/button_ok_selector"
+                android:enabled="@{model.inviteButtonActive}"
+                android:onClick="@{() -> model.onInviteClick(model.validQuery)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/invite_message" />

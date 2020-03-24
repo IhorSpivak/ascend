@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.group_info
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
@@ -45,6 +46,7 @@ class GroupInfoViewModel(
     override val isEditable = MutableLiveData<Boolean>(false)
     override val isMM = MutableLiveData<Boolean>(false)
     override val isOwner = MutableLiveData<Boolean>(false)
+    override val isSubscribed = MutableLiveData<Boolean>(false)
     override val starting = MutableLiveData<Boolean>(false)
 
     override val isBlocked: Boolean
@@ -83,6 +85,7 @@ class GroupInfoViewModel(
             if (user.id == details.owner?.id){
                 btnJoinVisible.postValue(inProgress && status == GroupStatus.STARTED)
             }
+            isSubscribed.postValue(subscribed)
         }
     }
 

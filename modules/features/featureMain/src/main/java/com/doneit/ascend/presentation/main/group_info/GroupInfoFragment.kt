@@ -90,6 +90,21 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             }
         }
 
+        binding.supportDelete.setOnClickListener {
+            currentDialog = DeleteDialog.create(
+                context!!,
+                getString(R.string.delete_this_group),
+                R.string.delete_content,
+                R.string.btn_delete,
+                R.string.btn_negative
+            ) {
+                currentDialog?.dismiss()
+                when (it) {
+                    QuestionButtonType.POSITIVE -> viewModel.deleteGroup()
+                }
+            }
+        }
+
         binding.mmCancel.setOnClickListener {
             currentDialog = CancelDialog.create(
                 context!!

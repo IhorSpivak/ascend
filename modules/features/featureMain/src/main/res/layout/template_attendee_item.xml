@@ -24,7 +24,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="4dp"
-            app:name="@{user.fullName}"
+            app:name="@{user.fullName.empty ? user.fullName : user.email}"
             app:url="@{user.imageUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,20 +32,22 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/followerName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="12dp"
             android:ellipsize="end"
-            android:gravity="center_horizontal|top"
             android:fontFamily="@font/red_hat_font"
-            android:textSize="18sp"
-            android:text="@{user.fullName}"
+            android:gravity="center_vertical"
+            android:text="@{user.fullName.empty ? user.fullName : user.email}"
             android:textColor="@color/default_font_color"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/remove"
             app:layout_constraintStart_toEndOf="@id/followerImage"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Name Name" />
 
         <androidx.appcompat.widget.AppCompatImageView

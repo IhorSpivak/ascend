@@ -1,22 +1,16 @@
 package com.doneit.ascend.presentation.main.group_info.attendees
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMemberViewModel
+import com.doneit.ascend.presentation.models.ValidatableField
 
 interface AttendeesContract {
-    interface ViewModel: BaseViewModel {
-        val groupId: MutableLiveData<Long>
-        val attendees: MutableLiveData<MutableList<AttendeeEntity>>
-        val selectedMembers: MutableList<AttendeeEntity>
+    interface ViewModel: AddMemberViewModel {
 
-        fun onAdd(member: AttendeeEntity)
-        fun onRemove(member: AttendeeEntity)
-        fun onInviteClick(email: String)
-        fun submitRequest(query: String)
-        fun goBack()
-        fun onClearClick(member: AttendeeEntity)
-        fun onAttendeeClick()
     }
 
     interface Router{

@@ -31,6 +31,7 @@
             android:paddingStart="39dp"
             android:paddingEnd="39dp"
             android:gravity="center"
+            android:paddingTop="20dp"
             aigestudio:layout_constraintBottom_toTopOf="@id/radio_group_bottom"
             aigestudio:layout_constraintEnd_toEndOf="parent"
             aigestudio:layout_constraintStart_toStartOf="parent"
@@ -39,7 +40,8 @@
             <RadioButton
                 android:id="@+id/radioButton1"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"                android:layout_width="40dp"
+                android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
+                android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="1"/>
@@ -158,7 +160,7 @@
                 android:text="12" />
         </RadioGroup>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -173,14 +175,18 @@
                 android:id="@+id/btnCancel"
                 style="@style/AppTheme.Button"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_weight="1"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/button_cancel_selector"
                 android:onClick="@{() -> model.backClick()}"
                 android:text="@string/btn_cancel"
                 android:textColor="@color/colorAccent"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                aigestudio:layout_constraintStart_toStartOf="parent"
+                aigestudio:layout_constraintTop_toTopOf="parent"
+                aigestudio:layout_constraintEnd_toStartOf="@id/btnOk"
+                aigestudio:layout_constraintBottom_toBottomOf="parent"/>
 
             <Button
                 android:id="@+id/btnOk"
@@ -188,16 +194,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="24dp"
-                android:layout_weight="1"
                 android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/button_ok_selector : @drawable/button_ok_selector_support}"
                 android:enabled="@{model.meetingsCountOk}"
                 android:text="@string/ok"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
-        </LinearLayout>
+                android:textSize="16sp"
+                aigestudio:layout_constraintEnd_toEndOf="parent"
+                aigestudio:layout_constraintTop_toTopOf="parent"
+                aigestudio:layout_constraintStart_toEndOf="@id/btnCancel"
+                aigestudio:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
