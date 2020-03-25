@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
+import android.widget.EditText
 import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
@@ -96,13 +97,16 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
             icEdit.setOnClickListener {
                 pickFromGallery()
             }
+            price.editText.setOnClickListener {
+                viewModel.onPriceClick(price.editText)
+            }
         }
 
         viewModel.members.observe(this, Observer {
             membersAdapter.submitList(it)
             //viewModel.participants.
         })
-        val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
+        /*val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
             TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
@@ -117,7 +121,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
             }
         })
         binding.price.editText.addTextChangedListener(listener)
-        binding.price.editText.onFocusChangeListener = listener
+        binding.price.editText.onFocusChangeListener = listener*/
 
         viewModel.networkErrorMessage.observe(this) {
             it?.let { errorMessageIt ->

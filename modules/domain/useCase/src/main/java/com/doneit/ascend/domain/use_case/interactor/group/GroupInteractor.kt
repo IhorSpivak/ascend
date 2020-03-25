@@ -46,6 +46,10 @@ internal class GroupInteractor(
     override suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
         return groupGateway.deleteGroup(groupId)
     }
+
+    override suspend fun leaveGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
+        return groupGateway.leaveGroup(groupId)
+    }
     override suspend fun deleteInvite(groupId: Long, inviteId: Long): ResponseEntity<Unit, List<String>> {
         return groupGateway.deleteInvite(groupId, inviteId)
     }

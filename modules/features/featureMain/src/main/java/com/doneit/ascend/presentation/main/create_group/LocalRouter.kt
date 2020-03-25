@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.create_group
 
 import android.os.Bundle
+import android.widget.EditText
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberFragment
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
@@ -9,6 +10,7 @@ import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFr
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarFragment
 import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsFragment
+import com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerFragment
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.addWithBackStack
 import com.doneit.ascend.presentation.utils.extensions.replace
@@ -28,6 +30,10 @@ class LocalRouter(
         } else {
             false
         }
+    }
+
+    override fun navigateToPricePicker(editor: EditText) {
+        hostFragment.childFragmentManager.add(containerId,  PricePickerFragment(editor))
     }
 
     override fun navigateToCreateMMGroup(args: CreateGroupArgs, group: GroupEntity?, what: String?) {

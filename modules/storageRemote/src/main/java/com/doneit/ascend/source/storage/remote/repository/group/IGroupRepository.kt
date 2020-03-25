@@ -24,6 +24,8 @@ interface IGroupRepository {
 
     suspend fun deleteGroup(groupId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 
+    suspend fun leaveGroup(groupId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
+
     suspend fun deleteInvite(groupId: Long, inviteId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun subscribe(

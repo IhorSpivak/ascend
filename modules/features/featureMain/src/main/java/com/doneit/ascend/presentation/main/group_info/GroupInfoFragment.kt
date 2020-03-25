@@ -16,8 +16,6 @@ import com.doneit.ascend.presentation.utils.showDefaultError
 import kotlinx.android.synthetic.main.fragment_group_info.*
 import org.kodein.di.generic.instance
 
-
-
 class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
 
     override val viewModelModule = GroupInfoViewModelModule.get(this)
@@ -136,6 +134,21 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 showDefaultError(getString(R.string.error_group_user_removed))
             } else {
                 viewModel.joinToDiscussion()
+            }
+        }
+
+        binding.btnLeaveThisGroup.setOnClickListener {
+            currentDialog = DeleteDialog.create(
+                context!!,
+                getString(R.string.leave_this_group_question),
+                R.string.leave_content,
+                R.string.btn_leave,
+                R.string.btn_negative
+            ) {
+                currentDialog?.dismiss()
+                when (it) {
+                    QuestionButtonType.POSITIVE -> viewModel.leaveGroup()
+                }
             }
         }
     }

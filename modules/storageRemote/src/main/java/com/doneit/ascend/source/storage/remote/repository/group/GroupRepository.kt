@@ -173,6 +173,10 @@ internal class GroupRepository(
         return execute({ api.deleteGroupAsync(groupId) }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun leaveGroup(groupId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.leaveGroupAsync(groupId) }, ErrorsListResponse::class.java)
+    }
+
     override suspend fun deleteInvite(groupId: Long, inviteId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.deleteInviteAsync(groupId, inviteId) }, ErrorsListResponse::class.java)
     }

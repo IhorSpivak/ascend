@@ -143,7 +143,7 @@
                         android:button="@drawable/switch_button"
                         android:track="@drawable/bg_round_solid_blue"
                         android:theme="@style/SwitchTheme"
-                        android:checked="@={!model.createGroupModel.isPublic()}"
+                        android:checked="@{!model.createGroupModel.isPublic()}"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

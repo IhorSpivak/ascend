@@ -116,8 +116,8 @@ fun RateResponse.toEntity(): RateEntity {
 fun SearchUsersResponse.toEntity(): AttendeeEntity{
     return AttendeeEntity(
         id,
-        fullName,
-        email,
+        fullName ?: "",
+        email ?: "",
         image?.url
     )
 }

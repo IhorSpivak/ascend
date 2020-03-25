@@ -203,6 +203,17 @@ internal class GroupGateway(
         )
     }
 
+    override suspend fun leaveGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.leaveGroup(groupId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override suspend fun deleteInvite(groupId: Long, inviteId: Long): ResponseEntity<Unit, List<String>> {
         return executeRemote { remote.deleteInvite(groupId, inviteId) }.toResponseEntity(
             {

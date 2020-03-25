@@ -123,10 +123,10 @@
                 android:layout_height="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                app:url="@{item.owner.image.thumbnail.url}"
-                app:name="@{item.owner.fullName}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGroupName"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvGroupName"
+                app:name="@{item.owner.fullName}"
+                app:url="@{item.owner.image.thumbnail.url}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/ownerName"
@@ -219,6 +219,19 @@
                     app:layout_constraintBottom_toTopOf="@id/support_tag">
 
                     <TextView
+                        android:id="@+id/tvSupportPrivate"
+                        style="@style/TextNormal.White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_support_private"
+                        android:drawablePadding="4dp"
+                        android:padding="4dp"
+                        android:text="@string/support_private"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
                         android:id="@+id/tvSupportMarker"
                         style="@style/TextNormal.White"
                         android:layout_width="wrap_content"
@@ -226,7 +239,7 @@
                         android:padding="4dp"
                         android:text="@string/support_group"
                         android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tvSupportPrivate"
                         app:layout_constraintTop_toTopOf="parent"/>
 
                     <TextView

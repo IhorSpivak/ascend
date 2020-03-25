@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.create_group
 
+import android.widget.EditText
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberContract
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
@@ -11,6 +12,7 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.group.Create
 import com.doneit.ascend.presentation.main.create_group.master_mind.individual.IndividualGroupContract
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarContract
 import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsContract
+import com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerContract
 
 interface CreateGroupHostContract {
     interface ViewModel : CreateGroupContract.ViewModel,
@@ -22,7 +24,8 @@ interface CreateGroupHostContract {
         CreateWebinarContract.ViewModel,
         CalendarWithTimePickerContact.ViewModel,
         AddMemberContract.ViewModel,
-        NumberOfMeetingsContract.ViewModel{
+        NumberOfMeetingsContract.ViewModel,
+        PricePickerContract.ViewModel{
 
         fun handleBaseNavigation(args: CreateGroupArgs, group: GroupEntity?, what: String?)
     }
@@ -40,5 +43,6 @@ interface CreateGroupHostContract {
         fun navigateToMeetingCount()
         fun navigateToAddMember(isPublic: Boolean)
         fun onBack(): Boolean
+        fun navigateToPricePicker(editor: EditText)
     }
 }

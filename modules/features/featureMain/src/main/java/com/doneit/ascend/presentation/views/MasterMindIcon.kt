@@ -50,7 +50,7 @@ class MasterMindIcon @JvmOverloads constructor(
     fun setName(name: String?) {
         if (name.isNullOrBlank().not()) {
             val splited = name!!.split(' ')
-            var res = name[0].toString()
+            var res = name[0].toString().capitalize()
             if (splited.size > 1) {
                 res += splited[1][0]
             }
@@ -60,7 +60,7 @@ class MasterMindIcon @JvmOverloads constructor(
 
     fun setLongText(text: String?) {
         if (text.isNullOrBlank().not()) {
-            tvLongPlaceholder.text = text
+            tvLongPlaceholder.text = text?.capitalize()
         }
     }
 

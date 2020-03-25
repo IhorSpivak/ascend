@@ -39,7 +39,8 @@ fun GroupEntity.toLocal(): GroupLocal {
         daysOfWeek?.map { it.ordinal },
         note?.toLocale(),
         meetingFormat,
-        tag?.toLocal()
+        tag?.toLocal(),
+        isPrivate
     )
 }
 

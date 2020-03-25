@@ -29,6 +29,7 @@ interface GroupInfoContract {
         fun joinToDiscussion()
         fun startGroup()
         fun deleteGroup()
+        fun leaveGroup()
         fun cancelGroup(reason: String)
         fun inviteToGroup(reason: List<String>)
         fun report(content: String)

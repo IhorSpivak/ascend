@@ -120,6 +120,16 @@ class GroupInfoViewModel(
         }
     }
 
+    override fun leaveGroup() {
+        viewModelScope.launch {
+            val res = groupUseCase.leaveGroup(group.value?.id ?: return@launch)
+
+            if (res.isSuccessful) {
+                router.onBack()
+            }
+        }
+    }
+
     override fun cancelGroup(reason: String) {
         group.value?.let {
             viewModelScope.launch {

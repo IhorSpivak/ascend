@@ -27,22 +27,37 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.8" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.3" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.7" />
+
         <TextView
             android:id="@+id/tvPlaceholder"
             style="@style/TextNormal"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_percent="0.5"
             android:gravity="center"
             android:includeFontPadding="false"
             android:textColor="@color/light_gray_8f"
             app:autoSizeTextType="uniform"
             android:lines="1"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guidTop"
             app:layout_constraintEnd_toStartOf="@id/guidR"
             app:layout_constraintStart_toEndOf="@id/guidL"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guidBottom"
             tools:text="D" />
 
         <TextView

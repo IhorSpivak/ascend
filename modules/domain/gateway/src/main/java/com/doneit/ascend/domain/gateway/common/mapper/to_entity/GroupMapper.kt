@@ -72,7 +72,8 @@ fun GroupResponse.toEntity(): GroupEntity {
         note?.toEntity(),
         meetingFormat,
         tag?.toEntity(),
-        invites?.map { it.toEntity() }
+        invites?.map { it.toEntity() },
+        private
     )
 }
 
@@ -152,8 +153,8 @@ fun GroupLocal.toEntity(): GroupEntity {
         daysOfWeek?.map { CalendarDayEntity.values()[it] },
         note?.toLocale(),
         meetingFormat,
-        tag?.toEntity(), emptyList()/*,
-        attendees?.map { it.toEntity() }*/
+        tag?.toEntity(), emptyList(),
+        isPrivate
     )
 }
 

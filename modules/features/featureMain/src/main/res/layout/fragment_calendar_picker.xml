@@ -31,207 +31,193 @@
             aigestudio:layout_constraintStart_toStartOf="parent"
             aigestudio:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            aigestudio:cardCornerRadius="5dp"
+            android:orientation="vertical"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
             aigestudio:layout_constraintBottom_toBottomOf="parent"
             aigestudio:layout_constraintEnd_toEndOf="parent"
             aigestudio:layout_constraintStart_toStartOf="parent"
-            aigestudio:layout_constraintTop_toTopOf="parent">
+            android:background="@android:color/white">
+
+            <LinearLayout
+                android:id="@+id/daysContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp">
+
+                <ToggleButton
+                    android:id="@+id/btn_su"
+                    style="@style/TextDayPicker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                    android:textColor="@drawable/day_button_text_selector"
+                    android:textOff="@string/su"
+                    android:textOn="@string/su"
+                    android:layout_weight="1"/>
+
+                <ToggleButton
+                    android:id="@+id/btn_mo"
+                    style="@style/TextDayPicker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                    android:textColor="@drawable/day_button_text_selector"
+                    android:textOff="@string/mo"
+                    android:textOn="@string/mo"
+                    android:layout_weight="1"/>
+
+                <ToggleButton
+                    android:id="@+id/btn_tu"
+                    style="@style/TextDayPicker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                    android:textColor="@drawable/day_button_text_selector"
+                    android:textOff="@string/tu"
+                    android:textOn="@string/tu"
+                    android:layout_weight="1"/>
+
+                <ToggleButton
+                    android:id="@+id/btn_we"
+                    style="@style/TextDayPicker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                    android:textColor="@drawable/day_button_text_selector"
+                    android:textOff="@string/we"
+                    android:textOn="@string/we"
+                    android:layout_weight="1"/>
+
+                <ToggleButton
+                    android:id="@+id/btn_th"
+                    style="@style/TextDayPicker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                    android:textColor="@drawable/day_button_text_selector"
+                    android:textOff="@string/th"
+                    android:textOn="@string/th"
+                    android:layout_weight="1"/>
+
+                <ToggleButton
+                    android:id="@+id/btn_fr"
+                    style="@style/TextDayPicker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                    android:textColor="@drawable/day_button_text_selector"
+                    android:textOff="@string/fr"
+                    android:textOn="@string/fr" />
+
+                <ToggleButton
+                    android:id="@+id/btn_sa"
+                    style="@style/TextDayPicker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                    android:textColor="@drawable/day_button_text_selector"
+                    android:textOff="@string/sa"
+                    android:textOn="@string/sa"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pickers"
+                android:layout_width="wrap_content"
+                android:layout_height="173dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp">
+
+                <com.aigestudio.wheelpicker.WheelPicker
+                    android:id="@+id/hoursPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    aigestudio:wheel_atmospheric="true"
+                    aigestudio:wheel_curved="true"
+                    aigestudio:wheel_cyclic="true"
+                    aigestudio:wheel_item_align="right"
+                    aigestudio:wheel_item_space="40dp"
+                    aigestudio:wheel_item_text_color="#D1D1D1"
+                    aigestudio:wheel_item_text_size="23sp"
+                    aigestudio:wheel_selected_item_text_color="@color/colorAccent" />
+
+                <com.aigestudio.wheelpicker.WheelPicker
+                    android:id="@+id/minutesPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="27dp"
+                    aigestudio:wheel_atmospheric="true"
+                    aigestudio:wheel_curved="true"
+                    aigestudio:wheel_cyclic="true"
+                    aigestudio:wheel_item_align="right"
+                    aigestudio:wheel_item_space="40dp"
+                    aigestudio:wheel_item_text_color="#D1D1D1"
+                    aigestudio:wheel_item_text_size="23sp"
+                    aigestudio:wheel_selected_item_text_color="@color/colorAccent" />
+
+                <com.aigestudio.wheelpicker.WheelPicker
+                    android:id="@+id/timeTypePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="@{!is24}"
+                    android:layout_marginStart="27dp"
+                    aigestudio:wheel_atmospheric="true"
+                    aigestudio:wheel_curved="true"
+                    aigestudio:wheel_cyclic="false"
+                    aigestudio:wheel_item_align="right"
+                    aigestudio:wheel_item_space="40dp"
+                    aigestudio:wheel_item_text_color="#D1D1D1"
+                    aigestudio:wheel_item_text_size="23sp"
+                    aigestudio:wheel_selected_item_text_color="@color/colorAccent" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <LinearLayout android:id="@+id/daysContainer"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/btnCancel"
+                    style="@style/AppTheme.Button"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp" >
+                    android:layout_marginTop="24dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_cancel_selector"
+                    android:onClick="@{() -> model.backClick()}"
+                    android:text="@string/btn_cancel"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp" />
 
-                    <ToggleButton
-                        android:id="@+id/btn_su"
-                        style="@style/TextNormal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
-                        android:textColor="@drawable/day_button_text_selector"
-                        android:textOff="@string/su"
-                        android:textOn="@string/su"
-                        android:textSize="14sp" />
+                <Button
+                    android:id="@+id/btnOk"
+                    style="@style/AppTheme.Button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:layout_weight="1"
+                    android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/button_ok_selector_support : @drawable/button_ok_selector}"
+                    android:enabled="@{model.canOk}"
+                    android:text="@string/ok"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-                    <ToggleButton
-                        android:id="@+id/btn_mo"
-                        style="@style/TextNormal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
-                        android:textColor="@drawable/day_button_text_selector"
-                        android:textOff="@string/mo"
-                        android:textOn="@string/mo"
-                        android:textSize="14sp" />
-
-                    <ToggleButton
-                        android:id="@+id/btn_tu"
-                        style="@style/TextNormal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
-                        android:textColor="@drawable/day_button_text_selector"
-                        android:textOff="@string/tu"
-                        android:textOn="@string/tu"
-                        android:textSize="14sp" />
-
-                    <ToggleButton
-                        android:id="@+id/btn_we"
-                        style="@style/TextNormal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
-                        android:textColor="@drawable/day_button_text_selector"
-                        android:textOff="@string/we"
-                        android:textOn="@string/we"
-                        android:textSize="14sp" />
-
-                    <ToggleButton
-                        android:id="@+id/btn_th"
-                        style="@style/TextNormal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
-                        android:textColor="@drawable/day_button_text_selector"
-                        android:textOff="@string/th"
-                        android:textOn="@string/th"
-                        android:textSize="14sp" />
-
-                    <ToggleButton
-                        android:id="@+id/btn_fr"
-                        style="@style/TextNormal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
-                        android:text="@string/fr"
-                        android:textColor="@drawable/day_button_text_selector"
-                        android:textOff="@string/fr"
-                        android:textOn="@string/fr"
-                        android:textSize="14sp" />
-
-                    <ToggleButton
-                        android:id="@+id/btn_sa"
-                        style="@style/TextNormal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/day_button_selector : @drawable/day_button_selector_support}"
-                        android:textColor="@drawable/day_button_text_selector"
-                        android:textOff="@string/sa"
-                        android:textOn="@string/sa"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/pickers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="173dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp">
-
-                    <com.aigestudio.wheelpicker.WheelPicker
-                        android:id="@+id/hoursPicker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        aigestudio:wheel_atmospheric="true"
-                        aigestudio:wheel_curved="true"
-                        aigestudio:wheel_cyclic="true"
-                        aigestudio:wheel_item_align="right"
-                        aigestudio:wheel_item_space="40dp"
-                        aigestudio:wheel_item_text_color="#D1D1D1"
-                        aigestudio:wheel_item_text_size="23sp"
-                        aigestudio:wheel_selected_item_text_color="@color/colorAccent" />
-
-                    <com.aigestudio.wheelpicker.WheelPicker
-                        android:id="@+id/minutesPicker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="27dp"
-                        aigestudio:wheel_atmospheric="true"
-                        aigestudio:wheel_curved="true"
-                        aigestudio:wheel_cyclic="true"
-                        aigestudio:wheel_item_align="right"
-                        aigestudio:wheel_item_space="40dp"
-                        aigestudio:wheel_item_text_color="#D1D1D1"
-                        aigestudio:wheel_item_text_size="23sp"
-                        aigestudio:wheel_selected_item_text_color="@color/colorAccent" />
-
-                    <com.aigestudio.wheelpicker.WheelPicker
-                        android:id="@+id/timeTypePicker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:visibility="@{!is24}"
-                        android:layout_marginStart="27dp"
-                        aigestudio:wheel_atmospheric="true"
-                        aigestudio:wheel_curved="true"
-                        aigestudio:wheel_cyclic="false"
-                        aigestudio:wheel_item_align="right"
-                        aigestudio:wheel_item_space="40dp"
-                        aigestudio:wheel_item_text_color="#D1D1D1"
-                        aigestudio:wheel_item_text_size="23sp"
-                        aigestudio:wheel_selected_item_text_color="@color/colorAccent" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <Button
-                        android:id="@+id/btnCancel"
-                        style="@style/AppTheme.Button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/button_cancel_selector"
-                        android:onClick="@{() -> model.backClick()}"
-                        android:text="@string/btn_cancel"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="16sp" />
-
-                    <Button
-                        android:id="@+id/btnOk"
-                        style="@style/AppTheme.Button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="24dp"
-                        android:layout_weight="1"
-                        android:background="@{model.createGroupModel.groupType == GroupType.MASTER_MIND ? @drawable/button_ok_selector : @drawable/button_ok_selector_support}"
-                        android:enabled="@{model.canOk}"
-                        android:text="@string/ok"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -296,7 +296,6 @@
                                 android:textColor="@android:color/white"
                                 android:textSize="18sp"
                                 android:fontFamily="@font/red_hat_font"
-                                android:visibility="@{group.status != GroupStatus.CANCELLED}"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:setVisibility="@{model.group.groupType == GroupType.INDIVIDUAL &amp;&amp; model.group.status != GroupStatus.CANCELLED &amp;&amp; model.group.status == GroupStatus.UPCOMING &amp;&amp; group.participantsCount == 0}" />
@@ -490,6 +489,20 @@
                         app:layout_constraintBottom_toTopOf="@id/support_tag">
 
                         <TextView
+                            android:id="@+id/tvSupportPrivate"
+                            style="@style/TextNormal.White"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_support_private"
+                            android:drawablePadding="4dp"
+                            android:padding="4dp"
+                            android:text="@string/support_private"
+                            android:textSize="12sp"
+                            android:visibility="@{group.private, default=gone}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+
+                        <TextView
                             android:id="@+id/tvSupportMarker"
                             style="@style/TextNormal.White"
                             android:layout_width="wrap_content"
@@ -497,7 +510,7 @@
                             android:padding="4dp"
                             android:text="@string/support_group"
                             android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tvSupportPrivate"
                             app:layout_constraintTop_toTopOf="parent"/>
 
                         <TextView
@@ -536,10 +549,12 @@
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="24dp"
+                        android:paddingBottom="24dp"
                         android:text="@{model.group.description}"
-                        app:layout_constraintTop_toBottomOf="@id/group_type_container" />
+                        app:layout_constraintTop_toBottomOf="@id/group_type_container"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/attendees_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"

@@ -27,6 +27,8 @@ interface GroupUseCase {
 
     suspend fun deleteGroup(groupId: Long): ResponseEntity<Unit, List<String>>
 
+    suspend fun leaveGroup(groupId: Long): ResponseEntity<Unit, List<String>>
+
     suspend fun deleteInvite(groupId: Long, inviteId: Long): ResponseEntity<Unit, List<String>>
 
     suspend fun subscribe(dto: SubscribeGroupDTO): ResponseEntity<Unit, List<String>>

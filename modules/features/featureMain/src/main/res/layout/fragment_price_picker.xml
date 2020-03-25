@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+<import type="com.doneit.ascend.presentation.models.GroupType"/>
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerContract.ViewModel" />
+
+        <variable
+            name="background"
+            type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@{background}">
+
+            <Button
+                android:id="@+id/btnDone"
+                style="@style/AppTheme.InputButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{background}"
+                android:text="@string/btn_done"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/AppTheme.InputButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{background}"
+                android:text="@string/btn_cancel"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TableLayout
+                android:id="@+id/keyboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:divider="@drawable/keyboard_divider"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle|end">
+
+                <TableRow style="@style/keyboard_row">
+
+                    <TextView
+                        android:id="@+id/key_1"
+                        style="@style/keyboard_number_button"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/number_one" />
+
+                    <TextView
+                        android:id="@+id/key_2"
+                        style="@style/keyboard_number_button"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/number_two" />
+
+                    <TextView
+                        android:id="@+id/key_3"
+                        style="@style/keyboard_number_button"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/number_three" />
+                </TableRow>
+
+                <TableRow style="@style/keyboard_row">
+
+                    <TextView
+                        android:id="@+id/key_4"
+                        style="@style/keyboard_number_button"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/number_four" />
+
+                    <TextView
+                        android:id="@+id/key_5"
+                        style="@style/keyboard_number_button"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/number_five" />
+
+                    <TextView
+                        android:id="@+id/key_6"
+                        style="@style/keyboard_number_button"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/number_six" />
+                </TableRow>
+
+                <TableRow style="@style/keyboard_row">
+
+                    <TextView
+                        android:id="@+id/key_7"
+                        style="@style/keyboard_number_button"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/number_seven" />
+
+                    <TextView
+                        android:id="@+id/key_8"
+                        style="@style/keyboard_number_button"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/number_eight" />
+
+                    <TextView
+                        android:id="@+id/key_9"
+                        style="@style/keyboard_number_button"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/number_nine" />
+                </TableRow>
+
+                <TableRow style="@style/keyboard_row">
+
+                    <TextView
+                        android:id="@+id/key_dot"
+                        style="@style/keyboard_button"
+                        android:background="@android:color/darker_gray"
+                        android:text="@string/btn_clear"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/key_0"
+                        style="@style/keyboard_number_button"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/number_zero" />
+
+                    <ImageView
+                        android:id="@+id/key_backspace"
+                        style="@style/keyboard_button"
+                        android:background="@android:color/darker_gray"
+                        android:src="@drawable/ic_backspace"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.create_group.master_mind.individual
 
+import android.widget.EditText
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.AttendeeEntity
@@ -32,5 +33,6 @@ interface IndividualGroupContract {
         fun chooseStartDateTouch()
         fun addMember(isPublic: Boolean)
         fun inviteToGroup(participants: List<String>)
+        fun onPriceClick(editor: EditText)
     }
 }

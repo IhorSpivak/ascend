@@ -29,6 +29,7 @@
     <string name="master_mind">MasterMind</string>
     <string name="master_mind_group">MasterMind Group</string>
     <string name="support_group">Support Group</string>
+    <string name="support_private">Private</string>
     <string name="support_group_type">// %s</string>
     <string name="placeholder_text"><b>Oops!</b>\n There is no data to display.</string>
 
@@ -198,7 +199,9 @@
     <string name="btn_positive">OK</string>
     <string name="btn_negative">Cancel</string>
     <string name="btn_delete">Yes, delete</string>
+    <string name="btn_leave">Yes, Leave</string>
     <string name="delete_content">If you delete a group, it cannot be restored and all funds will be returned to the participants.</string>
+    <string name="leave_content">If you leave,\n You can\'t join this group again.</string>
     <string name="btn_send">Send</string>
     <string name="enter_reason">Enter a reason</string>
     <string name="report_abuse">Report Abuse</string>
@@ -213,6 +216,7 @@
     <string name="set_rating">Set Rating</string>
 
     <string name="delete_this_group">Delete this group?</string>
+    <string name="leave_this_group_question">You really want to leave?</string>
     <string name="notifications">Notifications</string>
     <string name="from">from</string>
     <string name="by">by</string>
@@ -473,4 +477,18 @@
     <string name="invite_member_button">INVITE</string>
     <string name="search_member_hint">Search by name or email</string>
     <string name="view_attendees">View</string>
+
+    <!--Custom price keyboard-->
+    <string name="number_zero">0</string>
+    <string name="number_one">1</string>
+    <string name="number_two">2</string>
+    <string name="number_three">3</string>
+    <string name="number_four">4</string>
+    <string name="number_five">5</string>
+    <string name="number_six">6</string>
+    <string name="number_seven">7</string>
+    <string name="number_eight">8</string>
+    <string name="number_nine">9</string>
+    <string name="btn_clear">.</string>
+    <string name="btn_backspace">Back</string>
 </resources>

@@ -44,6 +44,9 @@ interface GroupApi {
     @DELETE("groups/{id}")
     fun deleteGroupAsync(@Path("id") id: Long): Deferred<Response<OKResponse>>
 
+    @POST("groups/{id}/leave")
+    fun leaveGroupAsync(@Path("id") id: Long): Deferred<Response<OKResponse>>
+
     @POST("groups/{groupId}/buy")
     fun subscribeAsync(@Path("groupId") groupId: Long, @Body request: SubscribeGroupRequest): Deferred<Response<OKResponse>>
 

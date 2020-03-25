@@ -29,7 +29,8 @@ class GroupEntity(
     val note: NoteEntity?,
     val meetingFormat: String?,
     val tag: TagEntity?,
-    val attendees: List<AttendeeEntity>?
+    val attendees: List<AttendeeEntity>?,
+    val isPrivate: Boolean
 ) : SearchEntity(id), Parcelable {
 
     val timeInProgress: Long
@@ -147,7 +148,8 @@ class GroupEntity(
             note?.copy(),
             meetingFormat,
             tag,
-            attendees
+            attendees,
+            isPrivate
         )
     }
 

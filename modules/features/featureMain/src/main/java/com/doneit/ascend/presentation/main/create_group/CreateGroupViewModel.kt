@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.create_group
 
 import android.icu.text.TimeZoneFormat
+import android.widget.EditText
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.*
@@ -479,6 +480,10 @@ class CreateGroupViewModel(
         navigation.postValue(CreateMMGroupContract.Navigation.TO_INDIVIDUAL)
     }
 
+    override fun onPriceClick(editor: EditText) {
+        localRouter.navigateToPricePicker(editor)
+    }
+
     override fun addMember(isPublic: Boolean) {
         localRouter.navigateToAddMember(isPublic)
     }
@@ -572,6 +577,17 @@ class CreateGroupViewModel(
     override fun setMeetingCount(count: String) {
         createGroupModel.numberOfMeetings.observableField.set(count)
     }
+
+    override val priceOk = MutableLiveData<Boolean>(false)
+
+    override fun okPriceClick(price: String) {
+        createGroupModel.price.observableField.set(price)
+        localRouter.onBack()
+    }
+
+    override fun setPrice(price: String) {
+    }
+
     private fun String.toHours(): Int {
         return this.toInt() % 12 //% 12to avoid day increment
     }

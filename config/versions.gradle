@@ -5,7 +5,7 @@ ext {
     versionMajor = 0
     versionMinor = 7
     versionPatch = 1
-    version_code = 14
+    version_code = 16
 
     kotlin_version = '1.3.31'
     androidx_version = '1.0.2'

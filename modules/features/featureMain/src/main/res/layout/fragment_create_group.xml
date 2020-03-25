@@ -49,7 +49,7 @@
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_header}"
                 app:text="@={model.createGroupModel.name.observableField}"
-                app:tint="@{@color/colorAccent}"/>
+                app:tint="@{@color/master_mind_color}"/>
 
             <com.doneit.ascend.presentation.views.EditWithError
                 android:id="@+id/startDate"
@@ -67,7 +67,7 @@
                 app:noFocusable="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_favorite_date}"
-                app:tint="@{@color/colorAccent}"
+                app:tint="@{@color/master_mind_color}"
                 app:text="@{model.createGroupModel.startDate.observableField}" />
 
             <com.doneit.ascend.presentation.views.MultilineEditWithError
@@ -85,7 +85,7 @@
                 app:noFocusable="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_schedule}"
-                app:tint="@{@color/colorAccent}"
+                app:tint="@{@color/master_mind_color}"
                 app:text="@{model.createGroupModel.scheduleTime.observableField}" />
 
             <com.doneit.ascend.presentation.views.EditWithError
@@ -103,7 +103,7 @@
                 app:noFocusable="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_hand_number}"
-                app:tint="@{@color/colorAccent}"
+                app:tint="@{@color/master_mind_color}"
                 app:text="@={model.createGroupModel.numberOfMeetings.observableField}" />
 
             <com.doneit.ascend.presentation.views.EditWithError
@@ -123,7 +123,7 @@
                 app:maxLength="@{7}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_price}"
-                app:tint="@{@color/colorAccent}"
+                app:tint="@{@color/master_mind_color}"
                 app:text="@={model.createGroupModel.price.observableField}" />
 
             <com.doneit.ascend.presentation.views.MultilineEditWithError
@@ -143,10 +143,9 @@
                 app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_description}"
-                app:tint="@{@color/colorAccent}"
+                app:tint="@{@color/master_mind_color}"
                 app:text="@={model.createGroupModel.description.observableField}" />
 
-            <!--todo remove this container-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/uploadImagePlaceHolder"
                 android:layout_width="match_parent"
@@ -170,6 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:src="@drawable/ic_upload_file"
+                    android:tint="@color/master_mind_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -182,6 +182,7 @@
                     android:layout_marginTop="15dp"
                     android:text="@string/upload_group_image"
                     android:textSize="16sp"
+                    android:textColor="@color/master_mind_color"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ivUploadFileIcon" />
@@ -224,81 +225,6 @@
                 android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.GONE : View.VISIBLE}"
                 app:layout_constraintStart_toStartOf="@+id/uploadImagePlaceHolder"
                 app:layout_constraintTop_toTopOf="@+id/uploadImagePlaceHolder" />
-
-            <!--<TextView
-                android:id="@+id/reservation"
-                style="@style/TextNormalSecond"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:gravity="center_horizontal|bottom"
-                android:text="@string/reservation"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/uploadImagePlaceHolder" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvParticipants"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:items="@{model.participants}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reservation"
-                app:setAdapter="@{adapter}"
-                app:setParticipantsVisibility="@{model.participants}" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/add_participant_box"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                android:layout_marginBottom="@dimen/create_group_top_margin"
-                android:background="@drawable/ic_dash_stroke"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rvParticipants">
-
-                <com.doneit.ascend.presentation.views.EditWithError
-                    android:id="@+id/email"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="5dp"
-                    app:digits="@{@string/allow_email_digits}"
-                    app:error="@{model.email.observableError}"
-                    app:hint="@{@string/reserved_person_email}"
-                    app:inputType="@{InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/add_participant"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:maxLength="@{48}"
-                    app:saveState="@{false}"
-                    app:text="@={model.email.observableField}" />
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/add_participant"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginEnd="15dp"
-                    android:backgroundTint="@android:color/transparent"
-                    android:enabled="@{model.canAddParticipant}"
-                    android:onClick="@{() -> model.addNewParticipant()}"
-                    android:src="@drawable/ic_checked"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_view_invite_members"
