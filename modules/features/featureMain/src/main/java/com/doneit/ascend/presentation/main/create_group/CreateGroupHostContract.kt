@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.create_group
 import android.widget.EditText
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberContract
+import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMemberViewModel
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
 import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.CalendarWithTimePickerContact
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
@@ -23,7 +24,7 @@ interface CreateGroupHostContract {
         IndividualGroupContract.ViewModel,
         CreateWebinarContract.ViewModel,
         CalendarWithTimePickerContact.ViewModel,
-        AddMemberContract.ViewModel,
+        AddMemberViewModel,
         NumberOfMeetingsContract.ViewModel,
         PricePickerContract.ViewModel{
 
@@ -32,6 +33,8 @@ interface CreateGroupHostContract {
 
     interface Router {
         fun onBack()
+        fun navigateToDetails(group: GroupEntity)
+        fun navigateToAddMember(isPublic: Boolean)
     }
 
     interface LocalRouter {

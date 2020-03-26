@@ -118,7 +118,12 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
             val hoursIndex =
                 binding.hoursPicker.getHourIndex {
                     if(viewModel.createGroupModel.scheduleTime.observableField.get()!!.isNotBlank()){
-                        (it as String) == viewModel.createGroupModel.hours
+                        if(DateFormat.is24HourFormat(context)){
+                            (it as String) == viewModel.createGroupModel.hoursOfDay
+                        }else{
+                            (it as String) == viewModel.createGroupModel.hours
+                        }
+
                     }else{
                         if(DateFormat.is24HourFormat(context)){
                             (it as String) == calendar.get(Calendar.HOUR_OF_DAY).toTimeString()

@@ -158,8 +158,10 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(IS_PROGRESS_SHOWN_KEY, progressDialog.isShowing)
-        progressDialog.dismiss()
+        if (progressDialog != null) {
+            outState.putBoolean(IS_PROGRESS_SHOWN_KEY, progressDialog.isShowing)
+        }
+        progressDialog?.dismiss()
         noConnectionDialog?.dismiss()
     }
 

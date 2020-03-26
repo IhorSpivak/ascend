@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.EditText
 import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.get
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
@@ -73,7 +74,6 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
         binding.apply {
             model = viewModel
             recyclerViewAddedMembers.adapter = membersAdapter
-            //duration = 1
             chooseSchedule.multilineEditText.setOnClickListener {
                 mainContainer.requestFocus()
                 viewModel.chooseScheduleTouch()
@@ -98,6 +98,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
                 pickFromGallery()
             }
             price.editText.setOnClickListener {
+                scroll.scrollTo(0, price.top)
                 viewModel.onPriceClick(price.editText)
             }
         }

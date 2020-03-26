@@ -24,8 +24,10 @@ class MemberViewHolder(
             user = member
             modelView = model
             this.setSelection(false)
-            if (model.selectedMembers.contains(member)){
-                this.setSelection(true)
+            model.selectedMembers.forEach {
+                if (it.email == member!!.email){
+                    this.setSelection(true)
+                }
             }
         }
         binding.apply {
@@ -34,7 +36,7 @@ class MemberViewHolder(
                     onRemove.invoke(member!!)
                     this.swap()
                 }else{
-                    if (model.selectedMembers.size < MAX_MEMBERS_COUNT) {
+                    if (model.canAddMembers.value!!) {
                         onAdd.invoke(member!!)
                         this.swap()
                     }

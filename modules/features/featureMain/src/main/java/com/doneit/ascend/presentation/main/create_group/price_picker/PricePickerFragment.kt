@@ -41,7 +41,7 @@ class PricePickerFragment(
                 else -> resources.getColor(R.color.support_color)
             }
             btnCancel.setOnClickListener {
-                if(viewModel.createGroupModel.price.observableField.get()!!.isNotBlank()) {
+                if(viewModel.createGroupModel.price.observableField.get()!!.isNotEmpty()) {
                     viewModel.backClick()
                 }else {
                     editor.text?.clear()

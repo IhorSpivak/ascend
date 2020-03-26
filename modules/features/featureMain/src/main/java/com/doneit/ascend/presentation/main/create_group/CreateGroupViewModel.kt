@@ -36,6 +36,7 @@ class CreateGroupViewModel(
     override var email: ValidatableField = ValidatableField()
     override val canComplete = MutableLiveData<Boolean>()
     override val canAddParticipant = MutableLiveData<Boolean>()
+    override val canAddMembers = MutableLiveData<Boolean>()
     override val canOk = MutableLiveData<Boolean>()
 
     override val participants = MutableLiveData<List<String>>()
@@ -157,7 +158,7 @@ class CreateGroupViewModel(
         createGroupModel.description.onFieldInvalidate = invalidationListener
         createGroupModel.image.onFieldInvalidate = invalidationListener
 
-        email.onFieldInvalidate = { updateCanAddParticipant() }
+        //email.onFieldInvalidate = { updateCanAddParticipant() }
     }
 
     override fun addNewParticipant() {
@@ -191,8 +192,7 @@ class CreateGroupViewModel(
             canComplete.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                backClick()
-                backClick()
+                router.navigateToDetails(requestEntity.successModel!!)
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
                     showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
@@ -227,15 +227,20 @@ class CreateGroupViewModel(
     }
 
     override fun okClick(hours: String, minutes: String, timeType: String) {
-        setHours(hours)
+        setHours(hours, timeType)
         setMinutes(minutes)
         setTimeType(timeType)
         changeSchedule()
         backClick()
     }
 
-    override fun setHours(hours: String) {
+    override fun setHours(hours: String, timeType: String) {
         createGroupModel.hours = hours
+        createGroupModel.hoursOfDay = if (timeType == "AM"){
+            hours
+        }else{
+            ((hours.toInt()%12) + 12).toString()
+        }
     }
 
     override fun setMinutes(minutes: String) {
@@ -284,7 +289,7 @@ class CreateGroupViewModel(
         val isValid = when {
             createGroupModel.groupType == GroupType.SUPPORT -> canCreateSupport()
             createGroupModel.isPublic.getNotNull() -> canCreateMMGroup()
-            createGroupModel.isPublic.getNotNull().not() -> canCreateMMGroup()
+            createGroupModel.isPublic.getNotNull().not() -> canCreateMMIndividual()
             else -> canCreateMMIndividual()
         }
         canComplete.postValue(isValid)
@@ -347,6 +352,10 @@ class CreateGroupViewModel(
         canAddParticipant.postValue(isFormValid)
     }
 
+    private fun checkCanAddMembers(){
+        canAddMembers.postValue(createGroupModel.participants.get()?.size!! < 50)
+    }
+
     override fun changeSchedule() {
 
         val builder = StringBuilder()
@@ -366,7 +375,7 @@ class CreateGroupViewModel(
         builder.deleteCharAt(builder.length - 1)//remove space
         builder.deleteCharAt(builder.length - 1)//remove coma
         if (calendarUtil.is24TimeFormat()){
-            builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes}")
+            builder.append("\n${createGroupModel.hoursOfDay}:${createGroupModel.minutes}")
         }else{
             builder.append("\n${createGroupModel.hours.toHours()}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
         }
@@ -398,8 +407,7 @@ class CreateGroupViewModel(
             canComplete.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                backClick()
-                backClick()
+                router.navigateToDetails(requestEntity.successModel!!)
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
                     showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
@@ -533,6 +541,7 @@ class CreateGroupViewModel(
     }
 
     override val selectedMembers: MutableList<AttendeeEntity> = mutableListOf()
+    override val nonMembers : MutableList<String> = mutableListOf()
 
     override fun onQueryTextChange(query: String) {
         if (query.length > 1){
@@ -551,10 +560,23 @@ class CreateGroupViewModel(
 
     override fun onAdd(member: AttendeeEntity) {
         selectedMembers.add(member)
+        if(createGroupModel.groupType == GroupType.INDIVIDUAL){
+            canAddMembers.postValue(selectedMembers.size < 1)
+        }else{
+            canAddMembers.postValue(selectedMembers.size < 50)
+        }
     }
 
     override fun onRemove(member: AttendeeEntity) {
-        selectedMembers.remove(member)
+        val itemToDelete = selectedMembers.first {
+            it.email == member.email
+        }
+        selectedMembers.remove(itemToDelete)
+        if(createGroupModel.groupType == GroupType.INDIVIDUAL){
+            canAddMembers.postValue(selectedMembers.size <= 1)
+        }else{
+            canAddMembers.postValue(selectedMembers.size < 50)
+        }
     }
 
     override fun onInviteClick(email: String) {
@@ -564,8 +586,10 @@ class CreateGroupViewModel(
             "",
             email,
             ""
+            )
         )
-        )
+        nonMembers.add(email)
+        members.postValue(selectedMembers)
         localRouter.onBack()
     }
 

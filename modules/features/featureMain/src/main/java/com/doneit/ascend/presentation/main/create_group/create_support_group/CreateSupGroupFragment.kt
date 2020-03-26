@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.create_group.create_support_group
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,10 +15,14 @@ import android.widget.SpinnerAdapter
 import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
+import com.doneit.ascend.presentation.common.binding_adapters.setImageUri
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
@@ -114,6 +119,10 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                 viewModel.chooseMeetingCountTouch()
             }
 
+            isPrivate.setOnCheckedChangeListener { compoundButton, b ->
+                viewModel.createGroupModel.isPublic.set(b)
+            }
+
             placeholderDash.setOnClickListener {
                 pickFromGallery()
             }
@@ -155,14 +164,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                 text = getString(R.string.btn_save_action)
                 setOnClickListener { viewModel.updateGroup(group!!.id) }
             }
-            when(group!!.groupType){
-                GroupType.INDIVIDUAL ->{
-                    viewModel.createGroupModel.isPublic.set(false)
-                }
-                GroupType.MASTER_MIND -> {
-                    viewModel.createGroupModel.isPublic.set(true)
-                }
-            }
+            viewModel.createGroupModel.isPublic.set(group!!.isPrivate)
             viewModel.createGroupModel.apply {
                 when(what){
                     GroupAction.DUPLICATE.toString() ->{name.observableField.set(group!!.name.plus("(2)"))}
@@ -179,6 +181,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                 year = date!!.toYear()
                 month = MonthEntity.values()[date!!.toMonth()]
                 day = date!!.toDayOfMonth()
+                //todo maybe need HOUR, not HOUR_OF_DAY
                 hours = date!!.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
                 minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
                 timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
@@ -187,6 +190,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                 startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy").format(date))
                 selectedDays.addAll(group!!.daysOfWeek!!)
                 viewModel.changeSchedule()
+                image.observableField.set(null)
                 image.observableField.set(group!!.image!!.url)
             }
             viewModel.apply{

@@ -80,6 +80,11 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             viewModel.chooseMeetingCountTouch()
         }
 
+        binding.price.editText.setOnClickListener {
+            scroll.scrollTo(0, price.top)
+            viewModel.onPriceClick(price.editText)
+        }
+
         binding.placeholderDash.setOnClickListener {
             pickFromGallery()
         }

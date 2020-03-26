@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.create_group.master_mind.group
 
+import android.widget.EditText
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -16,12 +17,14 @@ interface CreateGroupContract {
         var email: ValidatableField
         val canComplete: LiveData<Boolean>
         val canAddParticipant: LiveData<Boolean>
+        val canAddMembers: LiveData<Boolean>
         val participants: LiveData<List<String>>
         val networkErrorMessage: SingleLiveManager<String>
         val clearReservationSeat: SingleLiveManager<Boolean>
         val changeGroup: LiveData<GroupEntity>
         val members: LiveData<MutableList<AttendeeEntity>>
         val selectedMembers: MutableList<AttendeeEntity>
+        val nonMembers: MutableList<String>
 
         fun addNewParticipant()
         fun removeMember(member: AttendeeEntity)
@@ -32,5 +35,6 @@ interface CreateGroupContract {
         fun chooseStartDateTouch()
         fun addMember(isPublic: Boolean)
         fun inviteToGroup(participants: List<String>)
+        fun onPriceClick(editor: EditText)
     }
 }

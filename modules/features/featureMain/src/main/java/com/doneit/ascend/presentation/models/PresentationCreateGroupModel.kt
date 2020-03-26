@@ -25,6 +25,7 @@ class PresentationCreateGroupModel(
     var isPublic: ObservableField<Boolean> = ObservableField(true),
     var groupType: GroupType? = null,
     var hours: String = "00",
+    var hoursOfDay: String = "00",
     var minutes: String = "00",
     var timeType: String = CalendarPickerUtil.DEFAULT_TIME_TYPE,
     var month: MonthEntity = MonthEntity.JANUARY,
@@ -38,6 +39,7 @@ class PresentationCreateGroupModel(
     init {
         val currentDate = getDefaultCalendar()
         hours = currentDate.get(Calendar.HOUR).toTimeString()
+        hoursOfDay = currentDate.get(Calendar.HOUR_OF_DAY).toTimeString()
         minutes = currentDate.get(Calendar.MINUTE).toTimeString()
         timeType = currentDate.get(Calendar.AM_PM).toAmPm()
 

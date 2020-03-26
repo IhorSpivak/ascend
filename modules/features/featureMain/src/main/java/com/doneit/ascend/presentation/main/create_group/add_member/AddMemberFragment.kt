@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
+import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMemberViewModel
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupContract
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
@@ -23,11 +24,11 @@ import org.kodein.di.generic.provider
 class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
-        bind<CreateMMGroupContract.ViewModel>() with provider {
+        bind<AddMemberViewModel>() with provider {
             instance<CreateGroupHostContract.ViewModel>()
         }
     }
-    override val viewModel: AddMemberContract.ViewModel by instance()
+    override val viewModel: AddMemberViewModel by instance()
 
     private val memberAdapter: MemberAdapter by lazy {
         MemberAdapter(
@@ -42,52 +43,62 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         isPublic = arguments!!.getBoolean(IS_PUBLIC, true)
+        viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 50)
         binding.apply {
             lifecycleOwner = this@AddMemberFragment
             rvMembers.adapter = memberAdapter
-            isEmpty = false
             clearSearch.setOnClickListener {
                 tvSearch.text.clear()
+                searchVis = false
+                inviteVis = false
             }
             btnBack.setOnClickListener {
                 viewModel.members.postValue(viewModel.selectedMembers.toMutableList())
+                binding.apply {
+                    searchVis = false
+                    inviteVis = false
+                }
                 fragmentManager?.popBackStack()
+            }
+
+            invite.setOnClickListener {
+                viewModel.onInviteClick(tvSearch.text.toString())
             }
         }
 
         viewModel.searchResult.observe(this, Observer {
             memberAdapter.submitList(it)
             binding.apply {
-                isEmpty = it.isEmpty()
                 query = tvSearch.text.toString()
+                searchVis = it.isNotEmpty()
+                inviteVis = it.isEmpty()
             }
-        })
-
-        viewModel.validQuery.observe(this, Observer {
-            viewModel.inviteButtonActive.postValue(Patterns.EMAIL_ADDRESS.matcher(it).matches())
         })
 
         binding.tvSearch.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 viewModel.onQueryTextChange(p0.toString())
-                if (p0.isNullOrBlank()){
-                    binding.apply {
-                        isEmpty = false
-                        rvMembers.visibility = View.GONE
-                    }
-                }
+                binding.inviteActive = Patterns.EMAIL_ADDRESS.matcher(p0.toString()).matches()
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.isEmpty()!!){
+                    binding.apply {
+                        searchVis = false
+                        inviteVis = false
+                    }
+                }
             }
         })
-        binding.tvSearch.showKeyboard()
+        binding.apply{
+            tvSearch.showKeyboard()
+            searchVis = false
+            inviteVis = false
+        }
     }
-
-
 
     companion object{
         private const val IS_PUBLIC = "isPublic"

@@ -211,7 +211,7 @@
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
-                        android:visibility="@{model.isOwner}"
+                        android:visibility="@{model.isOwner &amp;&amp; model.btnStartVisible}"
                         app:layout_constraintTop_toBottomOf="@id/brMaster" />
                     <Button
                         android:id="@+id/btnJoinToDisc"
@@ -298,7 +298,7 @@
                                 android:fontFamily="@font/red_hat_font"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:setVisibility="@{model.group.groupType == GroupType.INDIVIDUAL &amp;&amp; model.group.status != GroupStatus.CANCELLED &amp;&amp; model.group.status == GroupStatus.UPCOMING &amp;&amp; group.participantsCount == 0}" />
+                                app:setVisibility="@{model.group.groupType == GroupType.INDIVIDUAL &amp;&amp; model.group.status != GroupStatus.CANCELLED &amp;&amp; model.group.status == GroupStatus.UPCOMING &amp;&amp; group.participantsCount != 0}" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <Button
@@ -481,6 +481,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
                         android:background="@drawable/bg_r4_9dc0"
                         android:orientation="horizontal"
                         android:visibility="@{group.groupType == GroupType.SUPPORT, default=gone}"
@@ -495,7 +497,8 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_support_private"
                             android:drawablePadding="4dp"
-                            android:padding="4dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
                             android:text="@string/support_private"
                             android:textSize="12sp"
                             android:visibility="@{group.private, default=gone}"
@@ -584,7 +587,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            app:html="@{@string/attendees(model.group.participantsCount)}"
+                            app:html="@{model.group.groupType == GroupType.INDIVIDUAL ? @string/attendees(model.group.invitesCount) : @string/attendees(model.group.participantsCount)}"
                             tools:text="12 Attendees"
                             app:layout_constraintStart_toEndOf="@id/ic_attendees_icon"
                             app:layout_constraintTop_toTopOf="parent"

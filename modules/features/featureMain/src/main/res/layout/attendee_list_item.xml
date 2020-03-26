@@ -22,7 +22,7 @@
             android:layout_height="80dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:name="@{attendee.fullName}"
+            app:name="@{attendee.fullName.empty ? attendee.email : attendee.fullName}"
             app:url="@{attendee.imageUrl}" />
 
 
@@ -46,7 +46,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:text="@{attendee.fullName}"
+            android:text="@{attendee.fullName.empty ? attendee.email : attendee.fullName}"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/attendee_icon"
             app:layout_constraintStart_toStartOf="@id/attendee_icon"

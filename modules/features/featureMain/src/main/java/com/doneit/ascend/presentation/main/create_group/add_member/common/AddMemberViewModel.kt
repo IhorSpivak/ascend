@@ -16,6 +16,7 @@ interface AddMemberViewModel: BaseViewModel {
     val selectedMembers: MutableList<AttendeeEntity>
     val searchResult: LiveData<PagedList<AttendeeEntity>>
     val members: MutableLiveData<MutableList<AttendeeEntity>>
+    val canAddMembers: MutableLiveData<Boolean>
 
     fun loadAttendees()
     fun onAdd(member: AttendeeEntity)

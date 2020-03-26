@@ -38,6 +38,7 @@ class AttendeesViewModel (
             groupUseCase.searchMembers(it)
         }
     override val members = MutableLiveData<MutableList<AttendeeEntity>>()
+    override val canAddMembers = MutableLiveData<Boolean>()
 
     override fun loadAttendees() {
         showProgress(true)

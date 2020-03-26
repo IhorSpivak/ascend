@@ -13,7 +13,7 @@ interface CalendarPickerContract {
         fun backDateClick()
         fun backClick()
         fun okClick(hours: String, minutes: String, timeType: String)
-        fun setHours(hours: String)
+        fun setHours(hours: String, timeType: String)
         fun setMinutes(minutes: String)
         fun setTimeType(timeType: String)
         fun changeDayState(day: CalendarDayEntity, state: Boolean)

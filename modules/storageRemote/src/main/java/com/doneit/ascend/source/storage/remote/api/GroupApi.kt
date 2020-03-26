@@ -21,7 +21,7 @@ interface GroupApi {
 
     @Multipart
     @PUT("groups/{id}")
-    fun updateGroupAsync(@Path("id") id: Long,@Part part: List<MultipartBody.Part>): Deferred<Response<GroupResponse>>
+    fun updateGroupAsync(@Path("id") id: Long, @Part part: List<MultipartBody.Part>): Deferred<Response<GroupResponse>>
 
     @GET("groups")
     fun getGroupsAsync(

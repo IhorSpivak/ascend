@@ -1,8 +1,12 @@
 package com.doneit.ascend.presentation.main.create_group.master_mind
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
@@ -16,6 +20,7 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.group.Create
 import com.doneit.ascend.presentation.main.create_group.master_mind.individual.IndividualGroupFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateMmGroupBinding
 import com.doneit.ascend.presentation.utils.GroupAction
+import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.utils.getNotNull
 import kotlinx.android.synthetic.main.fragment_create_individual_group.*
@@ -111,6 +116,20 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy").format(date))
                 selectedDays.addAll(group!!.daysOfWeek!!)
                 viewModel.changeSchedule()
+                image.observableField.set(null)
+                /*Glide.with(context!!)
+                    .asBitmap()
+                    .load(group!!.image!!.url)
+                    .into(object : SimpleTarget<Bitmap>(){
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            image.observableField.set(context?.copyToStorage(resource))
+                        }
+
+                    })*/
+
                 image.observableField.set(group!!.image!!.url)
             }
             viewModel.apply{

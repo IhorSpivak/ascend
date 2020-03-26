@@ -155,6 +155,15 @@ class MainRouter(
         activity.supportFragmentManager.popBackStack()
     }
 
+    override fun navigateToDetails(group: GroupEntity) {
+        activity.supportFragmentManager.popBackStack()
+        replaceFullWithMainUpdate(GroupInfoFragment.newInstance(group.id))
+    }
+
+    override fun navigateToAddMember(isPublic: Boolean) {
+        activity.supportFragmentManager.add(containerIdFull, AddMemberFragment.getInstance(isPublic))
+    }
+
     override fun navigateToLogin() {
         appRouter.goToLogin()
     }

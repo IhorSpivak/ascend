@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.common.binding_adapters
 
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
@@ -12,6 +13,11 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.Request
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.SizeReadyCallback
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
@@ -20,6 +26,7 @@ import com.doneit.ascend.presentation.main.home.daily.common.groups.GroupAdapter
 import com.doneit.ascend.presentation.main.search.common.SearchAdapter
 import com.doneit.ascend.presentation.models.group.GroupListWithUser
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
+import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter
 
 @BindingAdapter("app:html")
@@ -202,7 +209,7 @@ fun setParticipantsVisibility(
 fun AppCompatImageView.setImageUri(path: String?) {
     setImageURI(null)//in order to force image update
     path?.let {
-        if (it.contains("http")){
+        if (it.contains("https://ascend2u.s3.amazonaws.com")){
             Glide.with(this)
                 .load(it)
                 .into(this)

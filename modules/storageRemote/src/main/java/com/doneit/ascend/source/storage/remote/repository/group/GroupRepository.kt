@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.remote.repository.group
 
+import android.util.Log
 import com.doneit.ascend.source.storage.remote.api.GroupApi
 import com.doneit.ascend.source.storage.remote.api.UserApi
 import com.doneit.ascend.source.storage.remote.data.request.SearchUserRequest
@@ -46,8 +47,14 @@ internal class GroupRepository(
             stringPart = MultipartBody.Part.createFormData("group_type", request.groupType)
             builder = builder.addPart(stringPart)
 
+            stringPart = if (request.private!!){
+                MultipartBody.Part.createFormData("private", "1")
+            }else{
+                MultipartBody.Part.createFormData("private", "0")
+            }
+            builder = builder.addPart(stringPart)
+
             if(request.groupType.equals("support", true)){
-                //always set tag_id to 1, no tag ids
                 stringPart = MultipartBody.Part.createFormData("tag_id", request.tagId.toString())
                 builder = builder.addPart(stringPart)
             }
@@ -107,9 +114,15 @@ internal class GroupRepository(
             stringPart = MultipartBody.Part.createFormData("group_type", request.groupType)
             builder = builder.addPart(stringPart)
 
+            stringPart = if (request.private!!){
+                MultipartBody.Part.createFormData("private", "1")
+            }else{
+                MultipartBody.Part.createFormData("private", "0")
+            }
+            builder = builder.addPart(stringPart)
+
             if(request.groupType.equals("support", true)){
-                //always set tag_id to 1, no tag ids
-                stringPart = MultipartBody.Part.createFormData("tag_id", 1.toString())
+                stringPart = MultipartBody.Part.createFormData("tag_id", request.tagId.toString())
                 builder = builder.addPart(stringPart)
             }
 
