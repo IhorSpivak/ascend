@@ -38,28 +38,46 @@
                 app:setImage="@{item.image.url}"
                 app:placeholder="@{@drawable/group_item_placeholder}"/>
 
+
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="160dp"
-                android:src="@drawable/bg_shadow"
-                app:layout_constraintStart_toStartOf="@id/image"
+                android:layout_height="0dp"
+                android:background="@color/transparent_30_black"
+
+                app:layout_constraintBottom_toBottomOf="@id/image"
                 app:layout_constraintEnd_toEndOf="@id/image"
-                app:layout_constraintBottom_toBottomOf="@id/image"/>
+                app:layout_constraintStart_toStartOf="@id/image"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvName"
                 style="@style/TextNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:text="@{item.name}"
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/tvCreator"
-                app:layout_constraintEnd_toStartOf="@+id/dateTimeBox"
+                android:textSize="24sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Ullamco sint proident est irure" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvGroupType"
+                style="@style/TextNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/light_gray_e9f0"
+                android:textSize="10sp"
+                app:layout_constraintTop_toBottomOf="@id/tvName"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Ullamco sint proident est irure" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvCreator"

@@ -23,7 +23,7 @@ fun TextView.setDate(dateTime: Date?) {
 @BindingAdapter("app:setDate")
 fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date?) {
     try {
-        val formatter = "dd MMM".toDefaultFormatter()
+        val formatter = "d MMM".toDefaultFormatter()
         view.text = formatter.format(dateTime)
     } catch (e: Exception) {
         e.printStackTrace()

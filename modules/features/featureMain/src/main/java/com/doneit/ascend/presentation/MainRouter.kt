@@ -160,10 +160,6 @@ class MainRouter(
         replaceFullWithMainUpdate(GroupInfoFragment.newInstance(group.id))
     }
 
-    override fun navigateToAddMember(isPublic: Boolean) {
-        activity.supportFragmentManager.add(containerIdFull, AddMemberFragment.getInstance(isPublic))
-    }
-
     override fun navigateToLogin() {
         appRouter.goToLogin()
     }
@@ -253,8 +249,8 @@ class MainRouter(
         replaceFullWithMainUpdate(MMInfoFragment.newInstance(id))
     }
 
-    override fun navigateToViewAttendees(attendees: List<AttendeeEntity>, groupId: Long) {
-        replaceFullWithMainUpdate(AttendeesFragment(attendees.toMutableList(), groupId))
+    override fun navigateToViewAttendees(attendees: List<AttendeeEntity>, group: GroupEntity) {
+        replaceFullWithMainUpdate(AttendeesFragment(attendees.toMutableList(), group))
     }
 
     override fun navigateToEditGroup(group: GroupEntity) {

@@ -48,9 +48,9 @@ internal class GroupRepository(
             builder = builder.addPart(stringPart)
 
             stringPart = if (request.private!!){
-                MultipartBody.Part.createFormData("private", "1")
-            }else{
                 MultipartBody.Part.createFormData("private", "0")
+            }else{
+                MultipartBody.Part.createFormData("private", "1")
             }
             builder = builder.addPart(stringPart)
 
@@ -115,9 +115,9 @@ internal class GroupRepository(
             builder = builder.addPart(stringPart)
 
             stringPart = if (request.private!!){
-                MultipartBody.Part.createFormData("private", "1")
-            }else{
                 MultipartBody.Part.createFormData("private", "0")
+            }else{
+                MultipartBody.Part.createFormData("private", "1")
             }
             builder = builder.addPart(stringPart)
 

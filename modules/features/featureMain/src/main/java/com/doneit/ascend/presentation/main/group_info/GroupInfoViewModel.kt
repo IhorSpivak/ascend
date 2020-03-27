@@ -76,9 +76,9 @@ class GroupInfoViewModel(
     private fun updateButtonsState(user: UserEntity, details: GroupEntity) {
         details.apply {
             btnJoinedVisible.postValue(subscribed)
-            btnJoinVisible.postValue(isStarting || inProgress)
+            btnJoinVisible.postValue(inProgress && subscribed!!)
             isEditable.postValue(status != GroupStatus.ENDED)
-            starting.postValue(isStarting)
+            starting.postValue(status == GroupStatus.ACTIVE)
             btnStartVisible.postValue(status != GroupStatus.STARTED)
             btnDeleteVisible.postValue(participantsCount == 0)
             btnSubscribeVisible.postValue(subscribed != true && user.id != details.owner?.id)
@@ -177,7 +177,7 @@ class GroupInfoViewModel(
     }
 
     override fun onViewClick(attendees: List<AttendeeEntity>) {
-        router.navigateToViewAttendees(attendees, group.value?.id!!)
+        router.navigateToViewAttendees(attendees, group.value!!)
     }
 
     override fun onDuplicateClick(group: GroupEntity) {

@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.group_info
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -69,9 +70,9 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         viewModel.cards.observe(viewLifecycleOwner, Observer {
             cardsAdapter.setData(it)
         })
-        viewModel.starting.observe(this, Observer {
+        /*viewModel.starting.observe(this, Observer {
             btnStart.isEnabled = it
-        })
+        })*/
 
         mm_delete.setOnClickListener {
             currentDialog = DeleteDialog.create(
@@ -89,29 +90,21 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         }
 
         binding.supportDelete.setOnClickListener {
-            currentDialog = DeleteDialog.create(
-                context!!,
-                getString(R.string.delete_this_group),
-                R.string.delete_content,
-                R.string.btn_delete,
-                R.string.btn_negative
-            ) {
-                currentDialog?.dismiss()
-                when (it) {
-                    QuestionButtonType.POSITIVE -> viewModel.deleteGroup()
-                }
-            }
+            currentDialog = createDeleteDialog()
         }
 
-        binding.mmCancel.setOnClickListener {
-            currentDialog = CancelDialog.create(
-                context!!
-            ) {
-                viewModel.cancelGroup(it)
-                currentDialog?.dismiss()
+        binding.apply {
+            mmCancel.setOnClickListener {
+                currentDialog = createCancelDialog()
+
+                currentDialog?.show()
             }
 
-            currentDialog?.show()
+            btnCancelSupport.setOnClickListener {
+                currentDialog = createCancelDialog()
+
+                currentDialog?.show()
+            }
         }
 
         ic_abuse.setOnClickListener {
@@ -138,18 +131,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         }
 
         binding.btnLeaveThisGroup.setOnClickListener {
-            currentDialog = DeleteDialog.create(
-                context!!,
-                getString(R.string.leave_this_group_question),
-                R.string.leave_content,
-                R.string.btn_leave,
-                R.string.btn_negative
-            ) {
-                currentDialog?.dismiss()
-                when (it) {
-                    QuestionButtonType.POSITIVE -> viewModel.leaveGroup()
-                }
-            }
+            currentDialog = createLeaveDialog()
         }
     }
 
@@ -157,6 +139,45 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         super.onResume()
         val id = arguments!!.getLong(GROUP_ID, -1)
         viewModel.loadData(id)
+    }
+
+    private fun createCancelDialog(): AlertDialog{
+        return CancelDialog.create(
+            context!!
+        ) {
+            viewModel.cancelGroup(it)
+            currentDialog?.dismiss()
+        }
+    }
+
+    private fun createLeaveDialog(): AlertDialog{
+        return DeleteDialog.create(
+            context!!,
+            getString(R.string.leave_this_group_question),
+            R.string.leave_content,
+            R.string.btn_leave,
+            R.string.btn_negative
+        ) {
+            currentDialog?.dismiss()
+            when (it) {
+                QuestionButtonType.POSITIVE -> viewModel.leaveGroup()
+            }
+        }
+    }
+
+    private fun createDeleteDialog(): AlertDialog{
+        return DeleteDialog.create(
+            context!!,
+            getString(R.string.delete_this_group),
+            R.string.delete_content,
+            R.string.btn_delete,
+            R.string.btn_negative
+        ) {
+            currentDialog?.dismiss()
+            when (it) {
+                QuestionButtonType.POSITIVE -> viewModel.deleteGroup()
+            }
+        }
     }
 
     companion object {

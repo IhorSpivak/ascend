@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.create_group.master_mind
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.text.format.DateFormat
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -108,7 +109,8 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 year = date!!.toYear()
                 month = MonthEntity.values()[date!!.toMonth()]
                 day = date!!.toDayOfMonth()
-                hours = date!!.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
+                hours = date!!.toCalendar().get(Calendar.HOUR).toTimeString()
+                hoursOfDay = date!!.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
                 minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
                 timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
                 groupType = com.doneit.ascend.presentation.models.GroupType.values()[group!!.groupType!!.ordinal]
@@ -117,7 +119,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 selectedDays.addAll(group!!.daysOfWeek!!)
                 viewModel.changeSchedule()
                 image.observableField.set(null)
-                /*Glide.with(context!!)
+                Glide.with(context!!)
                     .asBitmap()
                     .load(group!!.image!!.url)
                     .into(object : SimpleTarget<Bitmap>(){
@@ -128,9 +130,9 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                             image.observableField.set(context?.copyToStorage(resource))
                         }
 
-                    })*/
+                    })
 
-                image.observableField.set(group!!.image!!.url)
+                //image.observableField.set(group!!.image!!.url)
             }
             viewModel.apply{
                 members.postValue(group!!.attendees?.toMutableList())

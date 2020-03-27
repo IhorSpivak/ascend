@@ -38,4 +38,5 @@
     <color name="button_blue">#4C7CF3</color>
     <color name="black_05">#88000000</color>
     <color name="gold">#FFCA00</color>
+    <color name="transparent_30_black">#4c000000</color>
 </resources>

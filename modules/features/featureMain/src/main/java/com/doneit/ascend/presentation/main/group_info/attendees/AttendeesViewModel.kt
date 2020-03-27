@@ -6,13 +6,12 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
-import com.doneit.ascend.domain.entity.dto.CancelGroupDTO
+import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.dto.InviteToGroupDTO
+import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
-import com.doneit.ascend.domain.use_case.interactor.search.SearchUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.search.SearchContract
-import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -24,8 +23,9 @@ class AttendeesViewModel (
     private val groupUseCase: GroupUseCase,
     private val router: AttendeesContract.Router
 ) : BaseViewModelImpl(), AttendeesContract.ViewModel {
+    override val users: MutableLiveData<List<ParticipantEntity>> = MutableLiveData()
 
-    override val groupId: MutableLiveData<Long> = MutableLiveData()
+    override val group =  MutableLiveData<GroupEntity>()
     override val searchVisibility = MutableLiveData<Boolean>(false)
     override val inviteVisibility = MutableLiveData<Boolean>(false)
     override val inviteButtonActive = MutableLiveData<Boolean>(false)
@@ -43,10 +43,18 @@ class AttendeesViewModel (
     override fun loadAttendees() {
         showProgress(true)
         viewModelScope.launch {
-            val response = groupUseCase.getGroupDetails(groupId.value!!)
-
+            val response = groupUseCase.getGroupDetails(group.value!!.id)
+            val participantsList = groupUseCase.getParticipantList(group.value!!.id)
             if (response.isSuccessful) {
-                attendees.postValue(response.successModel?.attendees?.toMutableList())
+                response.successModel?.attendees?.toMutableList().let {
+                    attendees.postValue(it)
+                    selectedMembers.clear()
+                    checkCanAdd()
+                }
+            }
+
+            if (participantsList.isSuccessful) {
+                users.postValue(participantsList.successModel)
             }
             showProgress(false)
         }
@@ -55,26 +63,42 @@ class AttendeesViewModel (
     private val searchQuery =  MutableLiveData<String>()
 
     override fun onAdd(member: AttendeeEntity) {
-        if (member.email != null && member.email.isNullOrBlank()) {
-            if (member.email.isNullOrBlank()){
-                selectedMembers.add(member)
-            }
-        }
+        selectedMembers.add(member)
+        checkCanAdd()
     }
 
     override fun onRemove(member: AttendeeEntity) {
-        selectedMembers.remove(member)
+        val itemToDelete = selectedMembers.first {
+            it.email == member.email
+        }
+        selectedMembers.remove(itemToDelete)
+        checkCanAdd()
     }
 
-    override fun onInviteClick(email: String) {
-        groupId.value?.let {
+    override fun onInviteClick(email: List<String>) {
+        group.value?.id!!.let {
             viewModelScope.launch {
-                val result = groupUseCase.inviteToGroup(InviteToGroupDTO(it, listOf(email)))
+                val result = groupUseCase.inviteToGroup(InviteToGroupDTO(it, email))
 
                 if (result.isSuccessful) {
                     searchVisibility.postValue(false)
                     inviteVisibility.postValue(false)
                     loadAttendees()
+                } else {
+                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                }
+            }
+        }
+    }
+
+    override fun onBackClick(emails: List<String>) {
+        group.value?.id!!.let {
+            viewModelScope.launch {
+                val result = groupUseCase.inviteToGroup(InviteToGroupDTO(it, emails))
+
+                if (result.isSuccessful) {
+                    selectedMembers.clear()
+                    router.onBack()
                 } else {
                     showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
                 }
@@ -96,7 +120,7 @@ class AttendeesViewModel (
     override fun onClearClick(member: AttendeeEntity) {
         member.let {
             viewModelScope.launch {
-                val response = groupUseCase.deleteInvite(groupId.value!!, member.id)
+                val response = groupUseCase.deleteInvite(group.value!!.id, member.id)
 
                 if (response.isSuccessful) {
                     loadAttendees()
@@ -104,6 +128,13 @@ class AttendeesViewModel (
                     showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
                 }
             }
+        }
+    }
+    private fun checkCanAdd(){
+        if(group.value!!.groupType == GroupType.INDIVIDUAL){
+            canAddMembers.postValue((attendees.value?.size?: 0) < 1)
+        }else{
+            canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 50)
         }
     }
 }

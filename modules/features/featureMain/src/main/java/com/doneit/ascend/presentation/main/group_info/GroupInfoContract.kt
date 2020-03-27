@@ -47,7 +47,7 @@ interface GroupInfoContract {
         fun navigateToAddPaymentMethod()
         fun navigateToVideoChat(groupId: Long)
         fun navigateToMMInfo(id: Long)
-        fun navigateToViewAttendees(attendees: List<AttendeeEntity>, groupId: Long)
+        fun navigateToViewAttendees(attendees: List<AttendeeEntity>, group: GroupEntity)
         fun navigateToEditGroup(group: GroupEntity)
         fun navigateToDuplicateGroup(group: GroupEntity)
     }

@@ -14,6 +14,7 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.individual.I
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarContract
 import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsContract
 import com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerContract
+import com.doneit.ascend.presentation.models.GroupType
 
 interface CreateGroupHostContract {
     interface ViewModel : CreateGroupContract.ViewModel,
@@ -34,7 +35,6 @@ interface CreateGroupHostContract {
     interface Router {
         fun onBack()
         fun navigateToDetails(group: GroupEntity)
-        fun navigateToAddMember(isPublic: Boolean)
     }
 
     interface LocalRouter {
@@ -44,7 +44,7 @@ interface CreateGroupHostContract {
         fun navigateToCalendarPiker()
         fun navigateToDatePicker()
         fun navigateToMeetingCount()
-        fun navigateToAddMember(isPublic: Boolean)
+        fun navigateToAddMember(groupType: GroupType)
         fun onBack(): Boolean
         fun navigateToPricePicker(editor: EditText)
     }

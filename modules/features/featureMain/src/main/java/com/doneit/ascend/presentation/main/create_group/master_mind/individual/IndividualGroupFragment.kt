@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -35,6 +36,10 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBinding>() {
 
@@ -98,7 +103,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
                 pickFromGallery()
             }
             price.editText.setOnClickListener {
-                scroll.scrollTo(0, price.top)
+                scroll.scrollTo(0, numberOfMeetings.top)
                 viewModel.onPriceClick(price.editText)
             }
         }
@@ -107,22 +112,6 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
             membersAdapter.submitList(it)
             //viewModel.participants.
         })
-        /*val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
-            TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        }, object: MaskedTextChangedListener.ValueListener {
-            override fun onTextChanged(maskFilled: Boolean, extractedValue: String) {
-            }
-        })
-        binding.price.editText.addTextChangedListener(listener)
-        binding.price.editText.onFocusChangeListener = listener*/
 
         viewModel.networkErrorMessage.observe(this) {
             it?.let { errorMessageIt ->
@@ -131,13 +120,13 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
         }
 
         binding.addMemberContainer.setOnClickListener {
-            viewModel.addMember(viewModel.createGroupModel.isPublic.getNotNull())
+            viewModel.addMember(viewModel.createGroupModel.groupType!!)
         }
         //initSpinner()
     }
 
     private fun pickFromGallery() {
-
+        hideKeyboard()
         EzPermission.with(context!!)
             .permissions(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -157,13 +146,10 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
                         Intent.createChooser(galleryIntent, "Select an App to choose an Image")
                     chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
 
-                    startActivityForResult(chooser,
-                        GALLERY_REQUEST_CODE
-                    )
+                    startActivityForResult(chooser, GALLERY_REQUEST_CODE)
                 }
             }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

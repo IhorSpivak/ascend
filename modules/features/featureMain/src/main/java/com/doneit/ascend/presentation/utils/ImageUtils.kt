@@ -15,25 +15,27 @@ import androidx.core.net.toUri
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Context.copyToStorage(bitmap: Bitmap): String{
-    val values = ContentValues()
-    val name = (System.currentTimeMillis() / 1000).toString() + ".jpg"
+    /*val values = ContentValues()
+    val name = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()) + ".jpg"
     values.put(MediaStore.Images.Media.TITLE, name);
     values.put(MediaStore.Images.Media.DISPLAY_NAME, name);
     values.put(MediaStore.Images.Media.DESCRIPTION, "group_image");
     values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-    values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);
+    values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);*/
 
     try {
-        val uri = this.contentResolver.insert(externalCacheDir?.toUri()!!, values)
-        val outputStream = uri?.let { this.contentResolver.openOutputStream(it) }
+        val imageFile = this.createImageUri()
+        val outputStream = FileOutputStream(imageFile)
         try {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-            //return File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + "/" + name).path
-            return uri?.path!!
+            bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, outputStream)
+            return imageFile.absolutePath
         }finally {
-            outputStream?.close()
+            outputStream.flush()
+            outputStream.close()
         }
     }catch (e: IOException){
         return ""
@@ -163,4 +165,16 @@ private fun Context.createTempFile(name: String): Uri {
     }
 
     return FileProvider.getUriForFile(this, "com.doneit.ascend.fileprovider", imageFile)
+}
+
+@Throws(IOException::class)
+private fun Context.createImageUri(): File {
+    // Create an image file name
+    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    val storageDir: File = File(externalCacheDir!!.path)
+    return File.createTempFile(
+        "JPEG_${timeStamp}_",
+        ".jpg",
+        storageDir
+    )
 }

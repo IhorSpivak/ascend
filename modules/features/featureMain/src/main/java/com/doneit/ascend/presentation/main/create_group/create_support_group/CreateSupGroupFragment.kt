@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.format.DateFormat
 import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
@@ -120,7 +121,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             }
 
             isPrivate.setOnCheckedChangeListener { compoundButton, b ->
-                viewModel.createGroupModel.isPublic.set(b)
+                viewModel.createGroupModel.isPublic.set(!b)
             }
 
             placeholderDash.setOnClickListener {
@@ -170,6 +171,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                     GroupAction.DUPLICATE.toString() ->{name.observableField.set(group!!.name.plus("(2)"))}
                     GroupAction.EDIT.toString() ->{name.observableField.set(group!!.name)}
                 }
+                isPublic.set(!group!!.isPrivate)
                 tags = group!!.tag!!.id
                 binding.tagsPicker.setSelection(tags)
                 meetingFormat.observableField.set(group!!.meetingFormat!!)
@@ -181,8 +183,8 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                 year = date!!.toYear()
                 month = MonthEntity.values()[date!!.toMonth()]
                 day = date!!.toDayOfMonth()
-                //todo maybe need HOUR, not HOUR_OF_DAY
-                hours = date!!.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
+                hours = date!!.toCalendar().get(Calendar.HOUR).toTimeString()
+                hoursOfDay = date!!.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
                 minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
                 timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
                 groupType = com.doneit.ascend.presentation.models.GroupType.values()[group!!.groupType!!.ordinal]
@@ -190,8 +192,18 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                 startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy").format(date))
                 selectedDays.addAll(group!!.daysOfWeek!!)
                 viewModel.changeSchedule()
-                image.observableField.set(null)
-                image.observableField.set(group!!.image!!.url)
+                Glide.with(context!!)
+                    .asBitmap()
+                    .load(group!!.image!!.url)
+                    .into(object : SimpleTarget<Bitmap>(){
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            image.observableField.set(context?.copyToStorage(resource))
+                        }
+
+                    })
             }
             viewModel.apply{
                 members.postValue(group!!.attendees?.toMutableList())
@@ -217,7 +229,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
     }
 
     private fun pickFromGallery() {
-
+        hideKeyboard()
         EzPermission.with(context!!)
             .permissions(
                 Manifest.permission.READ_EXTERNAL_STORAGE,

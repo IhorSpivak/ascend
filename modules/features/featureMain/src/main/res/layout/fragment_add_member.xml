@@ -95,6 +95,8 @@
                                 android:background="@android:color/transparent"
                                 android:gravity="center_vertical"
                                 android:textSize="14sp"
+                                android:imeOptions="actionSearch"
+                                android:singleLine="true"
                                 android:hint="@string/search_member_hint"/>
 
                             <androidx.appcompat.widget.AppCompatImageView

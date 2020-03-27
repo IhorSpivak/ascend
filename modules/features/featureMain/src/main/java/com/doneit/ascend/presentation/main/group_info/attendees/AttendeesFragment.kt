@@ -7,18 +7,23 @@ import android.util.Patterns
 import android.view.View
 import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberListAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
 import com.doneit.ascend.presentation.main.databinding.FragmentAttendeesBinding
+import com.doneit.ascend.presentation.main.group_info.attendees.common.ParticipantsAdapter
+import com.doneit.ascend.presentation.models.GroupType
+import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.isValidEmail
+import kotlinx.android.synthetic.main.fragment_change_email.*
 import org.kodein.di.generic.instance
 
 class AttendeesFragment(
     val attendees: MutableList<AttendeeEntity>,
-    val groupId: Long
+    val group: GroupEntity
 ): BaseFragment<FragmentAttendeesBinding>() {
 
     override val viewModelModule = AttendeesViewModelModule.get(this)
@@ -29,12 +34,14 @@ class AttendeesFragment(
         }
     }
 
+    private val participantsAdapter: ParticipantsAdapter by lazy {
+        ParticipantsAdapter()
+    }
+
     private val searchAdapter: MemberAdapter by lazy {
         MemberAdapter(
-            true,
             {viewModel.onAdd(it) },
             {viewModel.onRemove(it)},
-            {viewModel.onInviteClick(it)},
             viewModel
         )
     }
@@ -45,10 +52,15 @@ class AttendeesFragment(
             model = viewModel
             rvAttendees.adapter = memberAdapter
             rvMembers.adapter = searchAdapter
+            rvParticipants.adapter = participantsAdapter
         }
-        viewModel.groupId.postValue(groupId)
+        viewModel.group.postValue(group)
         viewModel.attendees.observe(this, Observer {
-            memberAdapter.submitList(it.toMutableList())
+            memberAdapter.submitList(it)
+        })
+
+        viewModel.users.observe(this, Observer {
+            participantsAdapter.submitList(it.toMutableList())
         })
         //viewModel.selectedMembers.addAll(attendees)
         //viewModel.attendees.postValue(attendees)
@@ -59,7 +71,8 @@ class AttendeesFragment(
             }
             viewModel.apply {
                 searchVisibility.postValue(it.isNotEmpty())
-                inviteVisibility.postValue(it.isEmpty())
+                inviteVisibility.postValue(it.isEmpty() && Patterns.EMAIL_ADDRESS
+                    .matcher(binding.tvSearch.text.toString()).matches())
             }
         })
 
@@ -71,7 +84,14 @@ class AttendeesFragment(
 
         binding.apply {
             btnBack.setOnClickListener {
-                fragmentManager?.popBackStack()
+                if (viewModel.selectedMembers.size > 0){
+                    viewModel.onBackClick(viewModel.selectedMembers.map { it.email?: "" })
+                }else{
+                    fragmentManager?.popBackStack()
+                }
+            }
+            invite.setOnClickListener {
+                viewModel.onInviteClick(listOf(viewModel.validQuery.value!!))
             }
             clearSearch.setOnClickListener {
                 tvSearch.text.clear()

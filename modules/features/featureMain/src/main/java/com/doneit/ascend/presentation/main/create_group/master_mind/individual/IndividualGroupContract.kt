@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupTypeParticipants
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
@@ -33,7 +34,7 @@ interface IndividualGroupContract {
         fun chooseScheduleTouch()
         fun chooseMeetingCountTouch()
         fun chooseStartDateTouch()
-        fun addMember(isPublic: Boolean)
+        fun addMember(groupType: GroupType)
         fun inviteToGroup(participants: List<String>)
         fun onPriceClick(editor: EditText)
     }

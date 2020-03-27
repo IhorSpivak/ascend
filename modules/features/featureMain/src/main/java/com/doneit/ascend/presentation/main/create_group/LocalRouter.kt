@@ -11,6 +11,7 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGrou
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarFragment
 import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsFragment
 import com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerFragment
+import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.addWithBackStack
 import com.doneit.ascend.presentation.utils.extensions.replace
@@ -93,7 +94,7 @@ class LocalRouter(
     override fun navigateToMeetingCount() {
         hostFragment.childFragmentManager.add(containerId,  NumberOfMeetingsFragment())    }
 
-    override fun navigateToAddMember(isPublic: Boolean) {
-        hostFragment.childFragmentManager.addWithBackStack(containerId, AddMemberFragment.getInstance(isPublic))
+    override fun navigateToAddMember(groupType: GroupType) {
+        hostFragment.childFragmentManager.addWithBackStack(containerId, AddMemberFragment.getInstance(groupType))
     }
 }

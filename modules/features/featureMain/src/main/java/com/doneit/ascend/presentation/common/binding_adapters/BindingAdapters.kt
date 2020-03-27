@@ -209,13 +209,14 @@ fun setParticipantsVisibility(
 fun AppCompatImageView.setImageUri(path: String?) {
     setImageURI(null)//in order to force image update
     path?.let {
-        if (it.contains("https://ascend2u.s3.amazonaws.com")){
+        setImageURI(Uri.parse(it))
+        /*if (it.contains("https://ascend2u.s3.amazonaws.com")){
             Glide.with(this)
                 .load(it)
                 .into(this)
         }else{
             setImageURI(Uri.parse(it))
-        }
+        }*/
     }
 }
 

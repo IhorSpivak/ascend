@@ -12,10 +12,8 @@ import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesContrac
 
 class MemberViewHolder(
     private val binding: ListItemMemberBinding,
-    private val isPublic: Boolean,
     private val onAdd: (member: AttendeeEntity) -> Unit,
     private val onRemove: (member: AttendeeEntity) -> Unit,
-    private val onInviteClick: (email: String) -> Unit,
     val model: AddMemberViewModel
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -46,13 +44,10 @@ class MemberViewHolder(
     }
 
     companion object {
-        const val MAX_MEMBERS_COUNT = 50
         fun create(
             parent: ViewGroup,
-            isPublic: Boolean,
             onAdd: (member: AttendeeEntity) -> Unit,
             onRemove: (member: AttendeeEntity) -> Unit,
-            onInviteClick: (email: String) -> Unit,
             model: AddMemberViewModel
         ): MemberViewHolder {
             val binding: ListItemMemberBinding = DataBindingUtil.inflate(
@@ -61,7 +56,7 @@ class MemberViewHolder(
                 parent,
                 false
             )
-            return MemberViewHolder(binding, isPublic, onAdd, onRemove, onInviteClick, model)
+            return MemberViewHolder(binding, onAdd, onRemove, model)
         }
     }
     private fun View.swapSelection(){

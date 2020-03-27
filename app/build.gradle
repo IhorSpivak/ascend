@@ -28,13 +28,14 @@ android {
             versionNameSuffix ""
             //todo move to Build from res
             resValue "string", "base_url", "https://ascend-backend.herokuapp.com/api/v1/"
+            //resValue "string", "base_url", "https://ascend-backend-prod.herokuapp.com/api/v1/"
         }
 
         prod {
             dimension "type"
             versionNameSuffix "-prod"
 
-            resValue "string", "base_url", "https://ascend-backend.herokuapp.com/api/v1/"
+            resValue "string", "base_url", "https://ascend-backend-prod.herokuapp.com/api/v1/"
         }
     }
 

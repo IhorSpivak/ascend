@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.AttendeeEntity
@@ -15,6 +16,8 @@ import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMem
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupContract
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
+import com.doneit.ascend.presentation.models.GroupType
+import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -32,21 +35,26 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
 
     private val memberAdapter: MemberAdapter by lazy {
         MemberAdapter(
-            isPublic,
             {viewModel.onAdd(it) },
             {viewModel.onRemove(it)},
-            {viewModel.onInviteClick(it)},
             viewModel
         )
     }
-    private var isPublic: Boolean = true
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        isPublic = arguments!!.getBoolean(IS_PUBLIC, true)
-        viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 50)
+        if(arguments!!.getString(GROUP_TYPE) == GroupType.INDIVIDUAL.toString()) {
+            viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 1)
+        }else{
+            viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < Constants.MAX_MEMBERS_COUNT)
+        }
+
         binding.apply {
             lifecycleOwner = this@AddMemberFragment
             rvMembers.adapter = memberAdapter
+            /*tvSearch.setOnEditorActionListener { textView, i, keyEvent ->
+                if (i == EditorInfo.IME_ACTION_SEARCH){
+                }
+            }*/
             clearSearch.setOnClickListener {
                 tvSearch.text.clear()
                 searchVis = false
@@ -62,7 +70,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             }
 
             invite.setOnClickListener {
-                viewModel.onInviteClick(tvSearch.text.toString())
+                viewModel.onInviteClick(listOf(tvSearch.text.toString()))
             }
         }
 
@@ -71,7 +79,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             binding.apply {
                 query = tvSearch.text.toString()
                 searchVis = it.isNotEmpty()
-                inviteVis = it.isEmpty()
+                inviteVis = it.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(query).matches()
             }
         })
 
@@ -101,11 +109,11 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
     }
 
     companion object{
-        private const val IS_PUBLIC = "isPublic"
-        fun getInstance(individual: Boolean): AddMemberFragment{
+        private const val GROUP_TYPE = "type"
+        fun getInstance(groupType: GroupType): AddMemberFragment{
             return AddMemberFragment().apply {
                 arguments = Bundle().apply {
-                    putBoolean(IS_PUBLIC, individual)
+                    getString(GROUP_TYPE, groupType.toString())
                 }
             }
         }

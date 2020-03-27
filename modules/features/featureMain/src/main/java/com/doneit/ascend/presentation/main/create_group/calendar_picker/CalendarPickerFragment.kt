@@ -30,6 +30,7 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
     }
 
     private var selectedHour: String = ""
+    private var selectedHourOfDay: String = ""
     private var selectedMinute: String = ""
     private var selectedAmPm: String = ""
 
@@ -42,7 +43,7 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
                 is24 = true
             }
             btnOk.setOnClickListener {
-                viewModel.okClick(selectedHour, selectedMinute, selectedAmPm)
+                viewModel.okClick(selectedHour, selectedHourOfDay, selectedMinute, selectedAmPm)
             }
         }
         binding.executePendingBindings()
@@ -51,12 +52,22 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         binding.timeTypePicker.data = CalendarPickerUtil.getTimeType()
 
         binding.hoursPicker.setOnItemSelectedListener { _, data, position ->
-            selectedHour = ((data as String).toInt() % 12).toString()
             if(DateFormat.is24HourFormat(context)){
                 selectedAmPm = if ((data as String).toInt() > 12){
+                    selectedHour = ((data as String).toInt() - 12).toString()
+                    selectedHourOfDay = data
                     "PM"
                 }else{
+                    selectedHour = data
+                    selectedHourOfDay = data
                     "AM"
+                }
+            }else{
+                selectedHour = data as String
+                selectedHourOfDay = if(selectedAmPm == "PM"){
+                    ((data as String).toInt() + 12).toString()
+                }else{
+                    data as String
                 }
             }
         }
@@ -67,6 +78,13 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
 
         binding.timeTypePicker.setOnItemSelectedListener { _, data, position ->
             selectedAmPm = data as String
+            if(!DateFormat.is24HourFormat(context)){
+                selectedHourOfDay = if(selectedAmPm == "PM"){
+                    (selectedHourOfDay.toInt() + 12).toString()
+                }else{
+                    (selectedHourOfDay.toInt() - 12).toString()
+                }
+            }
         }
 
 
@@ -119,9 +137,9 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
                 binding.hoursPicker.getHourIndex {
                     if(viewModel.createGroupModel.scheduleTime.observableField.get()!!.isNotBlank()){
                         if(DateFormat.is24HourFormat(context)){
-                            (it as String) == viewModel.createGroupModel.hoursOfDay
+                            (it as String) == viewModel.createGroupModel.hoursOfDay.toInt().toTimeString()
                         }else{
-                            (it as String) == viewModel.createGroupModel.hours
+                            (it as String) == viewModel.createGroupModel.hours.toInt().toTimeString()
                         }
 
                     }else{
@@ -148,10 +166,26 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
     private fun WheelPicker.getHourIndex(predicate: (Any?) -> Boolean): Int {
         val index = data.indexOfFirst(predicate)
         return if (index >= 0) {
-            selectedHour = data[index] as String
+            if(DateFormat.is24HourFormat(context)){
+                selectedHour = if ((data[index] as String).toInt() > 12){
+                    selectedHourOfDay = data[index] as String
+                    ((data[index] as String).toInt() - 12).toString()
+                }else{
+                    selectedHourOfDay = data[index] as String
+                    data[index] as String
+                }
+            }else{
+                selectedHour = data[index] as String
+                selectedHourOfDay = if(selectedAmPm == "PM"){
+                    ((data[index] as String).toInt() + 12).toString()
+                }else{
+                    data[index] as String
+                }
+            }
             index
         } else {
             selectedHour = data[DEFAULT_INDEX] as String
+            selectedHourOfDay = data[DEFAULT_INDEX] as String
             DEFAULT_INDEX
         }
     }

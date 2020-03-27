@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
@@ -16,7 +17,15 @@ class GroupViewHolder(
 ) : LifecycleViewHolder(binding.root) {
 
     fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (GroupEntity) -> Unit) {
-        binding.item = item
+        binding.apply {
+            this.item = item
+            when(item.groupType){
+                GroupType.MASTER_MIND -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)
+                GroupType.INDIVIDUAL -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)
+                GroupType.SUPPORT -> tvGroupType.text = root.context.resources.getString(R.string.support_group)
+                GroupType.WEBINARS -> tvGroupType.text = root.context.resources.getString(R.string.webinars)
+            }
+        }
 
         when(getButtonType(user!!, item)) {
             ButtonType.START_GROUP -> {

@@ -81,7 +81,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
 
         binding.price.editText.setOnClickListener {
-            scroll.scrollTo(0, price.top)
+            scroll.scrollTo(0, chooseSchedule.bottom)
             viewModel.onPriceClick(price.editText)
         }
 
@@ -97,7 +97,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             membersAdapter.submitList(it)
         })
 
-        val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
+        /*val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
             TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
@@ -112,10 +112,10 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             }
         })
         binding.price.editText.addTextChangedListener(listener)
-        binding.price.editText.onFocusChangeListener = listener
+        binding.price.editText.onFocusChangeListener = listener*/
 
         binding.addMemberContainer.setOnClickListener {
-            viewModel.addMember(viewModel.createGroupModel.isPublic.getNotNull())
+            viewModel.addMember(viewModel.createGroupModel.groupType!!)
         }
 
         viewModel.networkErrorMessage.observe(this) {
@@ -133,7 +133,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
     }
 
     private fun pickFromGallery() {
-
+        hideKeyboard()
         EzPermission.with(context!!)
             .permissions(
                 Manifest.permission.READ_EXTERNAL_STORAGE,

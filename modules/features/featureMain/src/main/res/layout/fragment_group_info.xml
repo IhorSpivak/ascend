@@ -211,7 +211,22 @@
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
+                        android:enabled="@{model.starting}"
                         android:visibility="@{model.isOwner &amp;&amp; model.btnStartVisible}"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster" />
+
+                    <Button
+                        android:id="@+id/btnCancelSupport"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/button_start_background"
+                        android:text="@string/action_cancel"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        android:visibility="@{model.isOwner &amp;&amp; group.groupType == GroupType.SUPPORT &amp;&amp; group.status == GroupStatus.UPCOMING &amp;&amp; group.participantsCount > 0}"
                         app:layout_constraintTop_toBottomOf="@id/brMaster" />
                     <Button
                         android:id="@+id/btnJoinToDisc"
@@ -287,6 +302,7 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:setVisibility="@{model.btnDeleteVisible}" />
+
                             <Button
                                 android:id="@+id/mm_cancel"
                                 android:layout_width="0dp"
@@ -351,8 +367,24 @@
                                 android:text="@string/mm_delete_group"
                                 android:textColor="@android:color/white"
                                 android:textSize="18sp"
-                                app:layout_constraintEnd_toStartOf="@id/support_edit"
+                                android:visibility="@{group.participantsCount == 0}"
                                 app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/support_duplicate"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <Button
+                                android:id="@+id/support_duplicate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:background="@{group.status == GroupStatus.ENDED ? @drawable/mm_duplicate_background : @drawable/mm_delete_background}"
+                                android:text="@string/duplicate_group"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/red_hat_font"
+                                android:visibility="@{group.participantsCount > 0}"
+                                android:onClick="@{() -> model.onDuplicateClick(group)}"
+                                app:layout_constraintEnd_toStartOf="@id/support_edit"
+                                app:layout_constraintStart_toEndOf="@id/support_delete"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <Button
@@ -365,8 +397,9 @@
                                 android:textColor="@android:color/white"
                                 android:textSize="18sp"
                                 android:fontFamily="@font/red_hat_font"
+                                android:visibility="@{group.participantsCount == 0 &amp;&amp; group.status == GroupStatus.UPCOMING}"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/support_delete"
+                                app:layout_constraintStart_toEndOf="@id/support_duplicate"
                                 android:onClick="@{() -> model.onEditClick(group)}"
                                 app:layout_constraintTop_toTopOf="parent"/>
                         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -546,7 +546,7 @@
                         android:orientation="vertical"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:onClick="@{()->model.addMember(true)}">
+                        android:onClick="@{()->model.addMember(model.createGroupModel.groupType)}">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/add_member_template_round"

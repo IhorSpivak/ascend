@@ -30,4 +30,6 @@ object Constants {
     const val DEFAULT_MODEL_ID = -1L
 
     const val KEY_GROUP_ID = "group_id"
+
+    const val MAX_MEMBERS_COUNT = 50
 }

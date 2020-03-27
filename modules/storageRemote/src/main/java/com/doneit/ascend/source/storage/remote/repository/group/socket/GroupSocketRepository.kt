@@ -89,6 +89,7 @@ class GroupSocketRepository(
         private const val SUBSCRIBE_GROUP_CHANNEL_COMMAND =
             "{\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\",\"command\": \"subscribe\"}"
         private const val URL = "wss://ascend-backend.herokuapp.com/cable"
+        //private const val URL = "wss://ascend-backend-prod.herokuapp.com/cable"
         private const val COOKIE_KEY = "Cookie"
     }
 }

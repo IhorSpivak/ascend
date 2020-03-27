@@ -40,6 +40,7 @@ class CreateGroupViewModel(
     override val canOk = MutableLiveData<Boolean>()
 
     override val participants = MutableLiveData<List<String>>()
+    override val users = MutableLiveData<List<ParticipantEntity>>()
     override val networkErrorMessage = SingleLiveManager<String>()
     override val clearReservationSeat = SingleLiveManager<Boolean>()
     override val changeGroup: LiveData<GroupEntity>
@@ -226,21 +227,17 @@ class CreateGroupViewModel(
         localRouter.navigateToDatePicker()
     }
 
-    override fun okClick(hours: String, minutes: String, timeType: String) {
-        setHours(hours, timeType)
+    override fun okClick(hours: String, hourOfDay: String, minutes: String, timeType: String) {
+        setHours(hours, hourOfDay)
         setMinutes(minutes)
         setTimeType(timeType)
         changeSchedule()
         backClick()
     }
 
-    override fun setHours(hours: String, timeType: String) {
+    override fun setHours(hours: String, hourOfDay: String) {
         createGroupModel.hours = hours
-        createGroupModel.hoursOfDay = if (timeType == "AM"){
-            hours
-        }else{
-            ((hours.toInt()%12) + 12).toString()
-        }
+        createGroupModel.hoursOfDay = hourOfDay
     }
 
     override fun setMinutes(minutes: String) {
@@ -377,7 +374,7 @@ class CreateGroupViewModel(
         if (calendarUtil.is24TimeFormat()){
             builder.append("\n${createGroupModel.hoursOfDay}:${createGroupModel.minutes}")
         }else{
-            builder.append("\n${createGroupModel.hours.toHours()}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
+            builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
         }
         createGroupModel.scheduleTime.observableField.set(builder.toString())
 
@@ -492,8 +489,8 @@ class CreateGroupViewModel(
         localRouter.navigateToPricePicker(editor)
     }
 
-    override fun addMember(isPublic: Boolean) {
-        localRouter.navigateToAddMember(isPublic)
+    override fun addMember(groupType: GroupType) {
+        localRouter.navigateToAddMember(groupType)
     }
 
     override fun inviteToGroup(participants: List<String>) {
@@ -524,7 +521,7 @@ class CreateGroupViewModel(
 
     }
 
-    override val groupId: MutableLiveData<Long> = MutableLiveData()
+    override val group: MutableLiveData<GroupEntity> = MutableLiveData()
     override val searchVisibility = MutableLiveData<Boolean>(false)
     override val inviteVisibility = MutableLiveData<Boolean>(false)
     override val inviteButtonActive = MutableLiveData<Boolean>(false)
@@ -563,7 +560,7 @@ class CreateGroupViewModel(
         if(createGroupModel.groupType == GroupType.INDIVIDUAL){
             canAddMembers.postValue(selectedMembers.size < 1)
         }else{
-            canAddMembers.postValue(selectedMembers.size < 50)
+            canAddMembers.postValue(selectedMembers.size < Constants.MAX_MEMBERS_COUNT)
         }
     }
 
@@ -575,22 +572,25 @@ class CreateGroupViewModel(
         if(createGroupModel.groupType == GroupType.INDIVIDUAL){
             canAddMembers.postValue(selectedMembers.size <= 1)
         }else{
-            canAddMembers.postValue(selectedMembers.size < 50)
+            canAddMembers.postValue(selectedMembers.size < Constants.MAX_MEMBERS_COUNT)
         }
     }
 
-    override fun onInviteClick(email: String) {
+    override fun onInviteClick(emails: List<String>) {
         selectedMembers.add(
             AttendeeEntity(
             (0L - selectedMembers.size),
             "",
-            email,
+            emails[0],
             ""
             )
         )
-        nonMembers.add(email)
         members.postValue(selectedMembers)
         localRouter.onBack()
+    }
+
+    override fun onBackClick(emails: List<String>) {
+        //empty
     }
 
     override val meetingsCountOk: MutableLiveData<Boolean> = MutableLiveData(false)
