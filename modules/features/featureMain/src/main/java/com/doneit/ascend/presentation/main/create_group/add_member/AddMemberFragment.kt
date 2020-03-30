@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.AttendeeEntity
@@ -18,6 +20,7 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGrou
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -51,10 +54,16 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
         binding.apply {
             lifecycleOwner = this@AddMemberFragment
             rvMembers.adapter = memberAdapter
-            /*tvSearch.setOnEditorActionListener { textView, i, keyEvent ->
-                if (i == EditorInfo.IME_ACTION_SEARCH){
+            tvSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener{
+                override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                    if (p1 == EditorInfo.IME_ACTION_SEARCH) {
+                        hideKeyboard()
+                        return true
+                    }
+
+                    return false
                 }
-            }*/
+            })
             clearSearch.setOnClickListener {
                 tvSearch.text.clear()
                 searchVis = false

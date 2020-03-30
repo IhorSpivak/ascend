@@ -35,18 +35,15 @@ class SplashActivity : BaseActivity() {
 
     private val router: ISplashRouter by instance()
     private val viewModel: SplashContract.ViewModel by instance()
-    private var isFromSavedState: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        isFromSavedState = savedInstanceState?.getBoolean(SAVED_STATE, false)?: false
-
         val extras = intent?.extras?: Bundle()
         tvTitle.alpha = 0F
 
-        if (isFromSavedState){
+        if (intent?.extras?.containsKey(KEY_GROUP_ID) == true){
             router.goToLogin(extras)
         }else{
             tvTitle.animate()
@@ -86,15 +83,10 @@ class SplashActivity : BaseActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(SAVED_STATE, true)
-        super.onSaveInstanceState(outState)
-    }
-
     private inline fun <reified VM : BaseViewModelImpl> vm(factory: ViewModelProvider.Factory): VM {
         return ViewModelProviders.of(this, factory)[VM::class.java]
     }
     companion object{
-        private const val SAVED_STATE = "saved_state"
+        const val KEY_GROUP_ID = "group_id"
     }
 }

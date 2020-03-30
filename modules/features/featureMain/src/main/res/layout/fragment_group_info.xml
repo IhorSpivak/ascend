@@ -252,7 +252,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
-                        android:visibility="@{model.group.status != GroupStatus.STARTED &amp;&amp; model.isSubscribed}" />
+                        android:visibility="@{!model.isOwner &amp;&amp; (model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE) &amp;&amp; model.group.subscribed}" />
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/buttonsBarrier"
@@ -274,26 +274,133 @@
                         app:layout_constraintTop_toBottomOf="@id/buttonsBarrier">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/other_groups_buttons_container"
+                            android:id="@+id/mm_group_buttons_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            android:visibility="@{model.group.groupType != GroupType.SUPPORT}">
+                            android:visibility="@{model.group.groupType == GroupType.MASTER_MIND}">
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/mm_delete_edit"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/mm_open_close">
+
+                                <Button
+                                    android:id="@+id/mm_delete"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="12dp"
+                                    android:background="@drawable/mm_delete_background"
+                                    android:text="@string/mm_delete_group"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/red_hat_font"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@id/mm_edit"
+                                    app:setVisibility="@{model.btnDeleteVisible}" />
+
+                                <Button
+                                    android:id="@+id/mm_edit"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/mm_edit_background"
+                                    android:text="@string/edit_group"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/red_hat_font"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    android:onClick="@{() -> model.onEditClick(group)}"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:setVisibility="@{model.isEditable}" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/mm_open_close"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/mm_delete_edit"
+                                app:layout_constraintEnd_toStartOf="@id/mm_duplicate">
+
+                                <Button
+                                    android:id="@+id/mm_open"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/mm_make_opened_background"
+                                    android:text="@string/mm_open"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/red_hat_font"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    android:onClick="@{() -> model.onEditClick(group)}"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:setVisibility="@{model.isEditable}" />
+                                <Button
+                                    android:id="@+id/mm_close"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/mm_make_closed_background"
+                                    android:text="@string/mm_close"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/red_hat_font"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:setVisibility="@{model.isEditable}" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <Button
+                                android:id="@+id/mm_duplicate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/mm_duplicate_background"
+                                android:text="@string/duplicate_group"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/red_hat_font"
+                                android:onClick="@{() -> model.onDuplicateClick(group)}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/mm_del_cancel"
+                            android:id="@+id/individual_group_buttons_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:visibility="@{model.group.groupType == GroupType.INDIVIDUAL}">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/ind_delete_cancel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/mm_duplicate">
+                            app:layout_constraintEnd_toStartOf="@id/ind_duplicate">
                             <Button
-                                android:id="@+id/mm_delete"
+                                android:id="@+id/ind_delete"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
                                 android:background="@drawable/mm_delete_background"
                                 android:text="@string/mm_delete_group"
                                 android:textColor="@android:color/white"
@@ -304,9 +411,10 @@
                                 app:setVisibility="@{model.btnDeleteVisible}" />
 
                             <Button
-                                android:id="@+id/mm_cancel"
+                                android:id="@+id/ind_cancel"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
                                 android:background="@drawable/mm_cancel_background"
                                 android:text="@string/cancel_group"
                                 android:textColor="@android:color/white"
@@ -318,23 +426,21 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <Button
-                            android:id="@+id/mm_duplicate"
+                            android:id="@+id/ind_duplicate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_marginEnd="12dp"
                             android:background="@drawable/mm_duplicate_background"
                             android:text="@string/duplicate_group"
                             android:textColor="@android:color/white"
                             android:textSize="18sp"
                             android:fontFamily="@font/red_hat_font"
                             android:onClick="@{() -> model.onDuplicateClick(group)}"
-                            app:layout_constraintEnd_toStartOf="@id/mm_edit"
-                            app:layout_constraintStart_toEndOf="@id/mm_del_cancel"
+                            app:layout_constraintEnd_toStartOf="@id/ind_edit"
+                            app:layout_constraintStart_toEndOf="@id/ind_delete_cancel"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <Button
-                            android:id="@+id/mm_edit"
+                            android:id="@+id/ind_edit"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
@@ -346,6 +452,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             android:onClick="@{() -> model.onEditClick(group)}"
                             app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/ind_duplicate"
                             app:setVisibility="@{model.isEditable}" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                         <androidx.constraintlayout.widget.ConstraintLayout

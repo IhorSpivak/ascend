@@ -50,7 +50,8 @@ fun OwnerEntity.toLocal(): OwnerLocal {
         fullName,
         image?.toLocal(),
         rating,
-        followed
+        followed,
+        location?:""
     )
 }
 

@@ -7,5 +7,6 @@ data class OwnerResponse(
     @SerializedName("full_name") val fullName: String,
     @SerializedName("image") val image: ImageResponse?,
     @SerializedName("rating") val rating: Float,
-    @SerializedName("followed") val followed: Boolean
+    @SerializedName("followed") val followed: Boolean,
+    @SerializedName("location") val location: String
 )

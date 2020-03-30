@@ -190,6 +190,8 @@
     <string name="cancel_group">Cancel</string>
     <string name="edit_group">Edit</string>
     <string name="mm_delete_group">Delete</string>
+    <string name="mm_open">Make Opened</string>
+    <string name="mm_close">Make Closed</string>
 
     <!--MasterMind Tab-->
     <string name="tab_all">All</string>

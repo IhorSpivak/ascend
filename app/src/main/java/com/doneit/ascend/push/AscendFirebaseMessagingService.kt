@@ -47,12 +47,6 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
 
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
-
-        //val title = p0.notification?.title!!
-        //val content = p0.toIntent()!!.extras!!["gcm.notification.data"] as String
-        //val content = p0.data;
-        //var model = Gson().fromJson(content, PushEvent::class.java)
-        //model = model.copy(title = title)
         p0.notification?.let {
             sendNotification(it.title.orEmpty(), p0.data.getValue("group_id").toLong())
         }
@@ -75,8 +69,8 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
             PendingIntent.FLAG_UPDATE_CURRENT)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-                //TODO: no icon for pushes:
-            .setSmallIcon(R.drawable.ic_launcher_background)
+                /*//TODO: no icon for pushes:
+            .setSmallIcon(R.drawable.ic_launcher_background)*/
             .setContentTitle(messageTitle)
             .setContentText(null)
             .setAutoCancel(true)

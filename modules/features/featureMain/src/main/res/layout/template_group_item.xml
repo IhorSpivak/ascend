@@ -78,21 +78,38 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Ullamco sint proident est irure" />
 
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvCreator"
-                style="@style/TextNormal"
-                android:layout_width="0dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@{String.format(@string/create_by, item.owner.fullName)}"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
                 app:layout_constraintBottom_toTopOf="@+id/buttonBox"
-                app:layout_constraintEnd_toStartOf="@+id/dateTimeBox"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="by Timoty Lowson" />
+                app:layout_constraintStart_toStartOf="@id/tvName">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCreator"
+                    style="@style/TextNormal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@{String.format(@string/create_by, item.owner.fullName)}"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="by Timoty Lowson" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCreatorLocation"
+                    style="@style/TextNormal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="10sp"
+                    android:text="@{item.owner.location}"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCreator"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="London, United Kingdom" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/dateTimeBox"

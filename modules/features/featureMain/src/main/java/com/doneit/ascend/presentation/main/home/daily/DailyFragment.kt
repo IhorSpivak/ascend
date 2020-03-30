@@ -61,6 +61,7 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>() {
             binding.hasGroups = it.groups.isNotEmpty()
             groupsAdapter.setUser(it.user)
             groupsAdapter.submitList(it.groups)
+            binding.rvGroups.layoutManager?.scrollToPosition(0)
         })
 
         viewModel.isRefreshing.observe(viewLifecycleOwner, Observer {

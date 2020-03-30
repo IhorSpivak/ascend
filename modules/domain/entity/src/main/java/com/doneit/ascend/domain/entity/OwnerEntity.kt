@@ -9,5 +9,6 @@ data class OwnerEntity(
     val fullName: String,
     val image: ImageEntity?,
     val rating: Float,
-    val followed: Boolean
+    val followed: Boolean,
+    val location: String?
 ): Parcelable

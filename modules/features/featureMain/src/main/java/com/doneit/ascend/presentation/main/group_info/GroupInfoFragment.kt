@@ -74,7 +74,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             btnStart.isEnabled = it
         })*/
 
-        mm_delete.setOnClickListener {
+        ind_delete.setOnClickListener {
             currentDialog = DeleteDialog.create(
                 context!!,
                 getString(R.string.delete_this_group),
@@ -94,7 +94,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         }
 
         binding.apply {
-            mmCancel.setOnClickListener {
+            indCancel.setOnClickListener {
                 currentDialog = createCancelDialog()
 
                 currentDialog?.show()

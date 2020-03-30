@@ -10,5 +10,6 @@ data class OwnerLocal(
     val fullName: String,
     @Embedded(prefix = "owner_img") val image: ImageLocal?,
     val rating: Float,
-    val followed: Boolean
+    val followed: Boolean,
+    val location: String
 )
