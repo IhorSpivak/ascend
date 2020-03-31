@@ -478,6 +478,7 @@
     <string name="invite_member_text">&lt;b>%s&lt;/b>&lt;br>is not yet registered in the application,&lt;br> or uses a different email.&lt;br>&lt;br>Want to invite this user to the app?</string>
     <string name="invite_member_button">INVITE</string>
     <string name="search_member_hint">Search by name or email</string>
+    <string name="add_attendee_hint">Add attendee by username or email</string>
     <string name="view_attendees">View</string>
 
     <!--Custom price keyboard-->

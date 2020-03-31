@@ -51,6 +51,7 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         binding.minutesPicker.data = CalendarPickerUtil.getMinutes()
         binding.timeTypePicker.data = CalendarPickerUtil.getTimeType()
 
+        //todo refactor handling time with strings
         binding.hoursPicker.setOnItemSelectedListener { _, data, position ->
             if(DateFormat.is24HourFormat(context)){
                 selectedAmPm = if ((data as String).toInt() > 12){
@@ -87,19 +88,15 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
             }
         }
 
-
-        val selectedDays = viewModel.createGroupModel.selectedDays
-        selectedDays.forEach {
-            getCorrespondingButton(it)?.isChecked = true
-        }
-
         viewModel.createGroupModel.getStartTimeDay()?.let {
             //this day mustn't be unselected
             val dayView = getCorrespondingButton(it)
             dayView?.isChecked = true
             dayView?.isEnabled = false
         }
-
+        viewModel.createGroupModel.selectedDays.forEach {
+            getCorrespondingButton(it)?.isChecked = true
+        }
 
         val checkedListener = CompoundButton.OnCheckedChangeListener { button, isChecked ->
             val index = daysContainer.children.indexOf(button)
@@ -162,7 +159,7 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
     private fun getCorrespondingButton(day: CalendarDayEntity): ToggleButton? {
         return binding.daysContainer.children.elementAtOrNull(day.ordinal) as ToggleButton?
     }
-
+    //todo refactor handling time with strings
     private fun WheelPicker.getHourIndex(predicate: (Any?) -> Boolean): Int {
         val index = data.indexOfFirst(predicate)
         return if (index >= 0) {

@@ -5,18 +5,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.KeyEvent
-import android.view.MotionEvent
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMemberViewModel
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
-import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupContract
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.Constants
@@ -53,6 +48,17 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
 
         binding.apply {
             lifecycleOwner = this@AddMemberFragment
+            root.apply {
+                isFocusableInTouchMode = true
+                requestFocus()
+                setOnKeyListener { view, i, keyEvent ->
+                    if (i == KeyEvent.KEYCODE_BACK){
+                        fragmentManager?.popBackStack()
+                        true
+                    }
+                    false
+                }
+            }
             rvMembers.adapter = memberAdapter
             tvSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener{
                 override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {

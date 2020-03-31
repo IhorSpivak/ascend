@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.group_info
 
-import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -40,10 +39,12 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         }
 
         viewModel.group.observe(this, Observer { group ->
-            binding.group = group
-            binding.tvName.text = group.name
-            binding.tvStartDate.text = group.startTime?.toDayMonthYear()
-            binding.isAttended = false
+            binding.apply {
+                this.group = group
+                tvName.text = group.name
+                tvStartDate.text = group.startTime?.toDayMonthYear()
+                isAttended = false
+            }
             val builder = StringBuilder()
 
             if (group.daysOfWeek != null) {//todo refactor
@@ -70,40 +71,25 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         viewModel.cards.observe(viewLifecycleOwner, Observer {
             cardsAdapter.setData(it)
         })
-        /*viewModel.starting.observe(this, Observer {
-            btnStart.isEnabled = it
-        })*/
-
-        ind_delete.setOnClickListener {
-            currentDialog = DeleteDialog.create(
-                context!!,
-                getString(R.string.delete_this_group),
-                R.string.delete_content,
-                R.string.btn_delete,
-                R.string.btn_negative
-            ) {
-                currentDialog?.dismiss()
-                when (it) {
-                    QuestionButtonType.POSITIVE -> viewModel.deleteGroup()
-                }
-            }
-        }
-
-        binding.supportDelete.setOnClickListener {
-            currentDialog = createDeleteDialog()
-        }
 
         binding.apply {
+            mmDelete.setOnClickListener {
+                currentDialog = createDeleteDialog()
+            }
+            indDelete.setOnClickListener {
+                currentDialog = createDeleteDialog()
+            }
             indCancel.setOnClickListener {
                 currentDialog = createCancelDialog()
-
                 currentDialog?.show()
             }
 
             btnCancelSupport.setOnClickListener {
                 currentDialog = createCancelDialog()
-
                 currentDialog?.show()
+            }
+            supportDelete.setOnClickListener {
+                currentDialog = createDeleteDialog()
             }
         }
 

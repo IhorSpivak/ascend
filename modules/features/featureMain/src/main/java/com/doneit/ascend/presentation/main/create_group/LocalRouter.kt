@@ -95,6 +95,6 @@ class LocalRouter(
         hostFragment.childFragmentManager.add(containerId,  NumberOfMeetingsFragment())    }
 
     override fun navigateToAddMember(groupType: GroupType) {
-        hostFragment.childFragmentManager.addWithBackStack(containerId, AddMemberFragment.getInstance(groupType))
+        hostFragment.childFragmentManager.add(containerId,  AddMemberFragment.getInstance(groupType))
     }
 }

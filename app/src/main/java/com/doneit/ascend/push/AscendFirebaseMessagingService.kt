@@ -69,8 +69,8 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
             PendingIntent.FLAG_UPDATE_CURRENT)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-                /*//TODO: no icon for pushes:
-            .setSmallIcon(R.drawable.ic_launcher_background)*/
+                //TODO: no icon for pushes:
+            .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentTitle(messageTitle)
             .setContentText(null)
             .setAutoCancel(true)

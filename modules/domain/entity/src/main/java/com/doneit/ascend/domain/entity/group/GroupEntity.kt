@@ -47,8 +47,8 @@ class GroupEntity(
         }
 
     val inProgress: Boolean
-        get() {//todo refactor
-            var res = false
+        get() {//todo refactor  --wtf?
+            /*var res = false
 
             if (startTime != null && daysOfWeek != null) {
 
@@ -78,14 +78,14 @@ class GroupEntity(
                         }
                     }
                 }
-            }
+            }*/
 
-            return res
+            return status == GroupStatus.STARTED && subscribed!!
         }
 
     val isStarting: Boolean
         get() {//todo refactor
-            var res = false
+            /*var res = false
             if (startTime != null && daysOfWeek != null) {
                 if (passedCount < meetingsCount ?: 0) {
                     val startDate = getDefaultCalendar()
@@ -111,8 +111,8 @@ class GroupEntity(
                     }
                 }
             }
-
-            return res
+*/
+            return (startTime!!.time - getDefaultCalendar().timeInMillis) < UPCOMING_INTERVAL && participantsCount!! > 0
         }
 
     private fun Calendar.plus(interval: Long): Calendar {

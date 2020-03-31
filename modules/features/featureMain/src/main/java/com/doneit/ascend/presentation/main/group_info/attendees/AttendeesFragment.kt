@@ -4,21 +4,15 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
-import android.view.View
 import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberListAdapter
-import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
 import com.doneit.ascend.presentation.main.databinding.FragmentAttendeesBinding
 import com.doneit.ascend.presentation.main.group_info.attendees.common.ParticipantsAdapter
-import com.doneit.ascend.presentation.models.GroupType
-import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.doneit.ascend.presentation.utils.isValidEmail
-import kotlinx.android.synthetic.main.fragment_change_email.*
 import org.kodein.di.generic.instance
 
 class AttendeesFragment(
@@ -62,8 +56,6 @@ class AttendeesFragment(
         viewModel.users.observe(this, Observer {
             participantsAdapter.submitList(it.toMutableList())
         })
-        //viewModel.selectedMembers.addAll(attendees)
-        //viewModel.attendees.postValue(attendees)
         viewModel.searchResult.observe(this, Observer {
             searchAdapter.submitList(it)
             binding.apply {

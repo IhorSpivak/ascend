@@ -371,9 +371,9 @@ class CreateGroupViewModel(
         builder.deleteCharAt(builder.length - 1)//remove space
         builder.deleteCharAt(builder.length - 1)//remove coma
         if (calendarUtil.is24TimeFormat()){
-            builder.append("\n${createGroupModel.hoursOfDay}:${createGroupModel.minutes}")
+            builder.append(" ${createGroupModel.hoursOfDay}:${createGroupModel.minutes}")
         }else{
-            builder.append("\n${createGroupModel.hours}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
+            builder.append(" ${createGroupModel.hours}:${createGroupModel.minutes} ${createGroupModel.timeType.toLowerCase()}")
         }
         createGroupModel.scheduleTime.observableField.set(builder.toString())
 

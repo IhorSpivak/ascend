@@ -84,7 +84,7 @@
                                 android:gravity="center_vertical"
                                 android:textSize="14sp"
                                 android:enabled="@{model.selectedMembers.size() &lt; 30}"
-                                android:hint="@string/search_member_hint"/>
+                                android:hint="@string/add_attendee_hint"/>
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/clear_search"
@@ -154,7 +154,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMembers"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:background="#ffffff"
                 android:visibility="@{model.searchVisibility ? View.VISIBLE : View.GONE}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
