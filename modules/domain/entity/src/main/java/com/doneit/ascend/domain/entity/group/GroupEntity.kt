@@ -80,7 +80,7 @@ class GroupEntity(
                 }
             }*/
 
-            return status == GroupStatus.STARTED && subscribed!!
+            return (getDefaultCalendar().timeInMillis - startTime!!.time) in 0..PROGRESS_DURATION
         }
 
     val isStarting: Boolean

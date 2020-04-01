@@ -228,6 +228,34 @@
                         android:textSize="24sp"
                         android:visibility="@{model.isOwner &amp;&amp; group.groupType == GroupType.SUPPORT &amp;&amp; group.status == GroupStatus.UPCOMING &amp;&amp; group.participantsCount > 0}"
                         app:layout_constraintTop_toBottomOf="@id/brMaster" />
+
+                    <Button
+                        android:id="@+id/btnLeaveThisGroup"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/mm_delete_background"
+                        android:text="@string/leave_this_group"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        android:visibility="@{!model.isOwner &amp;&amp; (model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE) &amp;&amp; model.group.subscribed &amp;&amp; !model.group.inProgress}"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster"
+                        tools:layout_editor_absoluteX="20dp" />
+                    <Button
+                        android:id="@+id/btnGroupEnded"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/start_group_button_states"
+                        android:text="@string/ended_group"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        android:enabled="false"
+                        android:visibility="@{model.isOwner &amp;&amp; group.status == GroupStatus.ENDED}"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster" />
                     <Button
                         android:id="@+id/btnJoinToDisc"
                         style="@style/AppTheme.Button"
@@ -240,36 +268,18 @@
                         android:textColor="@color/default_font_color"
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
                         app:setVisibility="@{model.btnJoinVisible}" />
-
-                    <Button
-                        android:id="@+id/btnLeaveThisGroup"
-                        style="@style/AppTheme.Button"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="18dp"
-                        android:layout_marginEnd="20dp"
-                        android:background="@drawable/mm_delete_background"
-                        android:text="@string/leave_this_group"
-                        android:textColor="@android:color/white"
-                        android:textSize="24sp"
-                        app:layout_constraintTop_toBottomOf="@id/brMaster"
-                        android:visibility="@{!model.isOwner &amp;&amp; (model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE) &amp;&amp; model.group.subscribed}" />
-
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/buttonsBarrier"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe, btnLeaveThisGroup" />
+                        app:constraint_referenced_ids="btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe, btnLeaveThisGroup, btnGroupEnded" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/mm_panel_buttons_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:paddingStart="20dp"
-                        android:paddingEnd="20dp"
-                        android:background="@drawable/mm_panel_buttons_container_background"
-                        android:padding="8dp"
                         android:visibility="@{model.isOwner()}"
                         app:layout_constraintTop_toBottomOf="@id/buttonsBarrier">
 
@@ -277,6 +287,11 @@
                             android:id="@+id/mm_group_buttons_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:background="@drawable/mm_panel_buttons_container_background"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -321,7 +336,7 @@
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toStartOf="@id/mm_edit"
-                                    android:visibility="@{(model.group.status != GroupStatus.ENDED || model.group.status != GroupStatus.STARTED) &amp;&amp; model.group.participantsCount == 0}" />
+                                    android:visibility="@{(model.group.status == GroupStatus.UPCOMING || model.group.status != GroupStatus.ACTIVE) &amp;&amp; model.group.participantsCount == 0}" />
 
                                 <Button
                                     android:id="@+id/mm_edit"
@@ -337,7 +352,7 @@
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toEndOf="@id/mm_delete"
-                                    android:visibility="@{model.group.status == GroupStatus.UPCOMING &amp;&amp; model.group.participantsCount == 0}" />
+                                    android:visibility="@{(model.group.status == GroupStatus.UPCOMING || model.group.status != GroupStatus.ACTIVE) &amp;&amp; model.group.participantsCount == 0}" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <androidx.constraintlayout.widget.ConstraintLayout
@@ -363,8 +378,7 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     android:onClick="@{() -> model.onEditClick(group)}"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:setVisibility="@{model.isEditable}" />
+                                    app:layout_constraintStart_toStartOf="parent"/>
                                 <Button
                                     android:id="@+id/mm_close"
                                     android:layout_width="0dp"
@@ -376,8 +390,7 @@
                                     android:fontFamily="@font/red_hat_font"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:setVisibility="@{model.isEditable}" />
+                                    app:layout_constraintStart_toStartOf="parent" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -385,6 +398,11 @@
                             android:id="@+id/individual_group_buttons_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:background="@drawable/mm_panel_buttons_container_background"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -429,7 +447,7 @@
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                app:setVisibility="@{model.group.groupType == GroupType.INDIVIDUAL &amp;&amp; model.group.status == GroupStatus.UPCOMING &amp;&amp; group.participantsCount != 0}" />
+                                app:setVisibility="@{model.group.groupType == GroupType.INDIVIDUAL &amp;&amp; (model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE) &amp;&amp; group.participantsCount != 0}" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <Button
@@ -460,52 +478,57 @@
                             android:onClick="@{() -> model.onEditClick(group)}"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toEndOf="@id/ind_duplicate"
-                            app:setVisibility="@{model.isEditable}" />
+                            android:visibility="@{(model.group.status != GroupStatus.ENDED || model.group.status != GroupStatus.STARTED) &amp;&amp; model.group.participantsCount == 0}" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/support_group_buttons_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:background="@drawable/mm_panel_buttons_container_background"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            android:visibility="@{model.group.groupType == GroupType.SUPPORT &amp;&amp; model.group.status != GroupStatus.STARTED}">
+                            android:visibility="@{model.group.groupType == GroupType.SUPPORT}">
 
                             <Button
-                                android:id="@+id/support_delete"
+                                android:id="@+id/support_duplicate"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/mm_delete_background"
-                                android:fontFamily="@font/red_hat_font"
-                                android:text="@string/mm_delete_group"
+                                android:background="@{group.status == GroupStatus.ENDED ? @drawable/mm_duplicate_background : @drawable/mm_delete_background}"
+                                android:text="@string/duplicate_group"
                                 android:textColor="@android:color/white"
                                 android:textSize="18sp"
-                                android:visibility="@{group.participantsCount == 0}"
+                                android:fontFamily="@font/red_hat_font"
+                                android:visibility="@{group.participantsCount > 0}"
+                                android:onClick="@{() -> model.onDuplicateClick(group)}"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintEnd_toStartOf="@id/sup_dup_edit"
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/sup_dup_edit"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:visibility="@{group.participantsCount == 0  &amp;&amp; (model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE)}"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/support_delete"
+                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent">
                                 <Button
-                                    android:id="@+id/support_duplicate"
+                                    android:id="@+id/support_delete"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:background="@{group.status == GroupStatus.ENDED ? @drawable/mm_duplicate_background : @drawable/mm_delete_background}"
-                                    android:text="@string/duplicate_group"
+                                    android:background="@drawable/mm_delete_background"
+                                    android:fontFamily="@font/red_hat_font"
+                                    android:text="@string/mm_delete_group"
                                     android:textColor="@android:color/white"
                                     android:textSize="18sp"
-                                    android:fontFamily="@font/red_hat_font"
-                                    android:visibility="@{group.participantsCount > 0}"
-                                    android:onClick="@{() -> model.onDuplicateClick(group)}"
-                                    app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@id/support_edit"
                                     app:layout_constraintTop_toTopOf="parent" />
 
                                 <Button
@@ -518,9 +541,8 @@
                                     android:textColor="@android:color/white"
                                     android:textSize="18sp"
                                     android:fontFamily="@font/red_hat_font"
-                                    android:visibility="@{group.participantsCount == 0 &amp;&amp; (group.status == GroupStatus.UPCOMING || group.status == GroupStatus.ACTIVE)}"
                                     app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintStart_toEndOf="@id/support_delete"
                                     app:layout_constraintTop_toTopOf="parent"
                                     android:onClick="@{() -> model.onEditClick(group)}"/>
                             </androidx.constraintlayout.widget.ConstraintLayout>

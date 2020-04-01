@@ -7,6 +7,7 @@ import android.util.Patterns
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
@@ -40,6 +41,16 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                viewModel.members.postValue(viewModel.selectedMembers.toMutableList())
+                binding.apply {
+                    searchVis = false
+                    inviteVis = false
+                }
+                fragmentManager?.popBackStack()
+            }
+        })
         if(arguments!!.getString(GROUP_TYPE) == GroupType.INDIVIDUAL.toString()) {
             viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 1)
         }else{

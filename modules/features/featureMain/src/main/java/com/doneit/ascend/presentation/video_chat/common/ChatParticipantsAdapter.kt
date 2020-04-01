@@ -41,15 +41,4 @@ class ChatParticipantsAdapter(
 
         diff.dispatchUpdatesTo(this)
     }
-
-    fun updateUser(user: PresentationChatParticipant?){
-        items.forEach {
-            if (it.userId == user?.userId){
-                it.isHandRisen = user.isHandRisen
-                it.isMuted = user.isMuted
-                it.isSpeaker = user.isSpeaker
-                notifyItemChanged(items.indexOf(it))
-            }
-        }
-    }
 }

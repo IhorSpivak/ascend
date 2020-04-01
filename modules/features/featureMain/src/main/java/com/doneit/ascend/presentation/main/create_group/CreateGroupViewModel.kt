@@ -419,8 +419,10 @@ class CreateGroupViewModel(
         calendar.set(Calendar.YEAR, createGroupModel.year)
         calendar.set(Calendar.MONTH, createGroupModel.month.ordinal)
         calendar.set(Calendar.DAY_OF_MONTH, createGroupModel.day)
-
-        createGroupModel.startDate.observableField.set(START_TIME_FORMATTER.format(calendar.time))
+        createGroupModel.apply {
+            selectedDays.clear()
+            startDate.observableField.set(START_TIME_FORMATTER.format(calendar.time))
+        }
     }
 
     override fun getMonthList(): List<MonthEntity> {

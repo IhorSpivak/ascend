@@ -5,7 +5,7 @@
 
     <data>
         <import type="com.doneit.ascend.domain.entity.group.GroupType"/>
-
+        <import type="com.doneit.ascend.domain.entity.group.GroupStatus"/>
         <variable
             name="item"
             type="com.doneit.ascend.domain.entity.group.GroupEntity" />
@@ -21,6 +21,9 @@
         <variable
             name="community"
             type="String" />
+        <variable
+            name="user"
+            type="com.doneit.ascend.domain.entity.user.UserEntity" />
 
     </data>
 
@@ -351,7 +354,7 @@
                     android:text="@string/join_to_discussion"
                     android:textAllCaps="true"
                     android:textSize="24sp"
-                    app:setVisibility="@{showJoinButton}" />
+                    android:visibility="@{item.owner.id == user.id ? (item.inProgress &amp;&amp; item.status == GroupStatus.STARTED) : (item.inProgress &amp;&amp; item.subscribed)}" />
 
                 <Button
                     android:id="@+id/btnStart"
@@ -367,7 +370,7 @@
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
-                    app:setVisibility="@{showStartButton}"/>
+                    android:visibility="@{item.owner.id == user.id &amp;&amp; item.starting &amp;&amp; item.status == GroupStatus.ACTIVE}"/>
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -77,10 +77,6 @@ class VideoChatActivity : BaseActivity() {
         viewModel.navigation.observe(this, Observer {
             handleNavigation(it)
         })
-
-        viewModel.participantToUpdate.observe(this, Observer {
-            participantsAdapter.updateUser(it)
-        })
     }
 
 

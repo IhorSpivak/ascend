@@ -54,7 +54,6 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
 
         yearPicker.setOnItemSelectedListener { _, data, position ->
             viewModel.setYear(data as Int)
-
             dayPicker.year = data
         }
 

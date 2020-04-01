@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
+import com.doneit.ascend.presentation.main.group_info.common.InvitedParticipantAdapter
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
@@ -31,13 +32,15 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             viewModel.removeMember(it)
         }
     }
+    private val participantAdapter: InvitedParticipantAdapter by lazy {
+        InvitedParticipantAdapter()
+    }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
             recyclerViewAttendees.adapter = membersAdapter
         }
-
         viewModel.group.observe(this, Observer { group ->
             binding.apply {
                 this.group = group
@@ -65,6 +68,13 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             membersAdapter.submitList(group.attendees)
             binding.viewAttendees.setOnClickListener {
                 viewModel.onViewClick(group.attendees?: emptyList())
+            }
+        })
+
+        viewModel.users.observe(this, Observer {
+            if (it.isNotEmpty()){
+                binding.recyclerViewAttendees.adapter = participantAdapter
+                participantAdapter.participants = it
             }
         })
 
@@ -168,7 +178,6 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
 
     companion object {
         const val GROUP_ID = "GROUP_ID"
-
         fun newInstance(groupId: Long): GroupInfoFragment {
             val fragment = GroupInfoFragment()
             fragment.arguments = Bundle().apply {

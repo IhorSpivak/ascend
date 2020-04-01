@@ -8,41 +8,29 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateHorGroupItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
-import com.doneit.ascend.presentation.utils.ButtonType
-import com.doneit.ascend.presentation.utils.getButtonType
 
 class GroupHorViewHolder(
     private val binding: TemplateHorGroupItemBinding
 ) : SearchViewHolder(binding.root) {
 
     fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (GroupEntity) -> Unit) {
-        binding.item = item
-        binding.community = user?.community
-
+        binding.apply {
+            this.item = item
+            community = user?.community
+            this.user = user
+        }
         if(user == null) {
             hideButtons()
         } else {
-            when(getButtonType(user!!, item)) {
-                ButtonType.START_GROUP -> {
-                    binding.showStartButton = true
-                    binding.btnStart.setOnClickListener {
-                        onButtonClick.invoke(item)
-                    }
-                    binding.showJoinButton = false
+            binding.apply {
+                btnStart.setOnClickListener {
+                    onButtonClick.invoke(item)
                 }
-                ButtonType.JOIN_TO_DISCUSSION -> {
-                    binding.showStartButton = false
-                    binding.showJoinButton = true
-                    binding.btnJoin.setOnClickListener {
-                        onButtonClick.invoke(item)
-                    }
-                }
-                else -> {
-                    hideButtons()
+                btnJoin.setOnClickListener {
+                    onButtonClick.invoke(item)
                 }
             }
         }
-
         binding.executePendingBindings()
     }
 
@@ -59,7 +47,6 @@ class GroupHorViewHolder(
                 parent,
                 false
             )
-
             return GroupHorViewHolder(binding)
         }
     }

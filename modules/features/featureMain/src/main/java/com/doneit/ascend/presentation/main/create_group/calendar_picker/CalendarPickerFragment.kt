@@ -87,7 +87,6 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
                 }
             }
         }
-
         viewModel.createGroupModel.getStartTimeDay()?.let {
             //this day mustn't be unselected
             val dayView = getCorrespondingButton(it)

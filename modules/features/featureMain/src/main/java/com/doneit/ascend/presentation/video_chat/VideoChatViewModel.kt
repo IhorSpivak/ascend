@@ -59,7 +59,7 @@ class VideoChatViewModel(
     override val participants = participantsManager.participants
     override val currentSpeaker = participantsManager.currentSpeaker
     override val navigation = SingleLiveEvent<VideoChatContract.Navigation>()
-    override val participantToUpdate = participantsManager.participantToUpdate
+
     override val roomListener = RoomMultilistener()
     override var room: Room? = null
         set(value) {

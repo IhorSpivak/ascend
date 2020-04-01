@@ -14,7 +14,7 @@ class ParticipantsManager {
 
     val participants: LiveData<List<PresentationChatParticipant>> = _participants
     val currentSpeaker: LiveData<PresentationChatParticipant?> = _currentSpeaker
-    val participantToUpdate : LiveData<PresentationChatParticipant?> = _participantToUpdate
+
 
     private fun getParticipantMList(): MutableList<PresentationChatParticipant> {
         return _participants.value?.toMutableList() ?: mutableListOf()

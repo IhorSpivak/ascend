@@ -1,7 +1,9 @@
 package com.doneit.ascend.presentation.main.group_info
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.PresentationCardModel
@@ -22,6 +24,8 @@ interface GroupInfoContract {
         val isOwner: LiveData<Boolean>
         val isSubscribed: LiveData<Boolean>
         val starting: LiveData<Boolean>
+        val users: MutableLiveData<List<ParticipantEntity>>
+
 
         fun onBackPressed()
         fun loadData(groupId: Long)

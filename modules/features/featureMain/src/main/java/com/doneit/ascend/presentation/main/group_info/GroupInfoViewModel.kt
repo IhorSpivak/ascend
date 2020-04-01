@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.dto.CancelGroupDTO
 import com.doneit.ascend.domain.entity.dto.PaymentType
 import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
@@ -48,6 +49,7 @@ class GroupInfoViewModel(
     override val isOwner = MutableLiveData<Boolean>(false)
     override val isSubscribed = MutableLiveData<Boolean>(false)
     override val starting = MutableLiveData<Boolean>(false)
+    override val users: MutableLiveData<List<ParticipantEntity>> = MutableLiveData()
 
     override val isBlocked: Boolean
         get() {
@@ -60,13 +62,19 @@ class GroupInfoViewModel(
         showProgress(true)
         viewModelScope.launch {
             val response = groupUseCase.getGroupDetails(groupId)
-
             if (response.isSuccessful) {
                 group.postValue(response.successModel!!)
                 isSupport.postValue(response.successModel?.groupType != GroupType.SUPPORT)
                 val user = userUseCase.getUser()
                 isMM.postValue(user!!.isMasterMind)
                 isOwner.postValue(user.id == response.successModel!!.owner?.id)
+                if(response.successModel!!.participantsCount!! > 0){
+                    groupUseCase.getParticipantList(groupId, null, null).let {
+                        if (it.isSuccessful){
+                            users.postValue(it.successModel)
+                        }
+                    }
+                }
                 updateButtonsState(user!!, response.successModel!!)
             }
             showProgress(false)
