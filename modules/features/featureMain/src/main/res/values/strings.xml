@@ -338,7 +338,8 @@
     <string name="hint_enter_full_name">Enter full name</string>
     <string name="hint_enter_display_name">Enter display name</string>
     <string name="hint_enter_short_description">Enter short description</string>
-    <string name="action_cancel">Cancel</string>
+    <string name="action_cancel">Cancel Group</string>
+    <string name="group_cancelled">Group Cancelled</string>
     <string name="action_cancel_description">Enter a reason</string>
     <string name="action_cancel_hint">Reason</string>
     <string name="action_cancel_btn_done">Done</string>

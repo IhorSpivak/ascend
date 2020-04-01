@@ -140,6 +140,7 @@ class VideoChatViewModel(
                 if (user.userId != groupInfo.value?.owner?.id.toString()
                     && user.userId != currentUserId
                 ) {
+                    //todo maybe add if() statement in case user is owner
                     participantsManager.addParticipant(user)
                 }
             }
@@ -397,12 +398,6 @@ class VideoChatViewModel(
                 if (remoteParticipant.identity != groupInfo.value?.owner?.id?.toString()) {
                     participantsManager.addParticipant(remoteParticipant.toPresentation())
                 } else {
-                    participantsManager.addParticipant(remoteParticipant.toPresentation())
-                    /*room.remoteParticipants.forEach{
-                        if (it.identity == groupInfo.value?.owner?.id?.toString()){
-                            _IsMMConnected = true
-                        }
-                    }*/
                     _IsMMConnected = true
                 }
             }

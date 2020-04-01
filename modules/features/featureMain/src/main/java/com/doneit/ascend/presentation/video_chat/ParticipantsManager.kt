@@ -2,15 +2,12 @@ package com.doneit.ascend.presentation.video_chat
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
-import androidx.lifecycle.switchMap
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.Constants.LIST_INDEX_ABSENT
 
 class ParticipantsManager {
     private val _participants = MutableLiveData<List<PresentationChatParticipant>>(listOf())
     private val _currentSpeaker = MutableLiveData<PresentationChatParticipant?>(null)
-    private val _participantToUpdate = MutableLiveData<PresentationChatParticipant?>(null)
 
     val participants: LiveData<List<PresentationChatParticipant>> = _participants
     val currentSpeaker: LiveData<PresentationChatParticipant?> = _currentSpeaker

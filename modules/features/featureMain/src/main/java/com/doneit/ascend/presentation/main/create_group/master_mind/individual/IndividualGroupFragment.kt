@@ -5,28 +5,15 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.MotionEvent
-import android.view.View
-import android.widget.AdapterView
-import android.widget.EditText
-import androidx.core.view.GestureDetectorCompat
-import androidx.core.view.get
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
-import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
-import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
-import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualGroupBinding
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.redmadrobot.inputmask.MaskedTextChangedListener
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -36,10 +23,6 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBinding>() {
 
@@ -54,21 +37,6 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
             viewModel.removeMember(it)
         }
     }
-
-    /*private val durationAdapter by lazy {
-        MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
-                R.array.duration_array
-            )
-        )
-    }
-    private val detector by lazy {
-        GestureDetectorCompat(context, object : DefaultGestureDetectorListener() {
-            override fun onSingleTapUp(p0: MotionEvent?): Boolean {
-                return true
-            }
-        })
-    }*/
 
     private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
@@ -110,7 +78,6 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
 
         viewModel.members.observe(this, Observer {
             membersAdapter.submitList(it)
-            //viewModel.participants.
         })
 
         viewModel.networkErrorMessage.observe(this) {
@@ -177,31 +144,6 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
             }
         }
     }
-
-    /*private fun initSpinner() {
-        binding.durationPicker.apply {
-            adapter = durationAdapter
-            onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                        if(p2 > 0) {
-                            viewModel.createGroupModel.duration = p2.toString()
-                            binding.durationHint.visibility = View.VISIBLE
-                        }
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {
-                    }
-                }
-
-            setOnTouchListener { view, motionEvent ->
-                if (detector.onTouchEvent(motionEvent)) {
-                    hideKeyboard()
-                }
-                false
-            }
-        }
-    }*/
 
     companion object {
         private const val GALLERY_REQUEST_CODE = 42

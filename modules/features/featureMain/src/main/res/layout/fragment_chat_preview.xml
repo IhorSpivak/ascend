@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View"/>
         <import type="com.doneit.ascend.presentation.video_chat.states.ChatRole" />
 
         <variable
@@ -62,7 +62,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="20dp"
-            android:visibility="@{model.isStartButtonVisible}"
+            android:visibility="@{model.isStartButtonVisible, default = gone}"
             android:onClick="@{v -> model.onStartGroupClick()}"
             android:text="@string/start_group"
             android:textAllCaps="true"

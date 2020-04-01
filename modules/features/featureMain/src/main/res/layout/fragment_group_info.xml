@@ -257,6 +257,20 @@
                         android:visibility="@{model.isOwner &amp;&amp; group.status == GroupStatus.ENDED}"
                         app:layout_constraintTop_toBottomOf="@id/brMaster" />
                     <Button
+                        android:id="@+id/bntCanceled"
+                        style="@style/AppTheme.Button"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/start_group_button_states"
+                        android:text="@string/group_cancelled"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        android:textSize="24sp"
+                        android:enabled="false"
+                        android:visibility="@{group.status == GroupStatus.CANCELLED}"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster" />
+                    <Button
                         android:id="@+id/btnJoinToDisc"
                         style="@style/AppTheme.Button"
                         android:layout_marginStart="20dp"
@@ -273,7 +287,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe, btnLeaveThisGroup, btnGroupEnded" />
+                        app:constraint_referenced_ids="btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe, btnLeaveThisGroup, btnGroupEnded, bntCanceled" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/mm_panel_buttons_container"
@@ -336,7 +350,7 @@
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toStartOf="@id/mm_edit"
-                                    android:visibility="@{(model.group.status == GroupStatus.UPCOMING || model.group.status != GroupStatus.ACTIVE) &amp;&amp; model.group.participantsCount == 0}" />
+                                    android:visibility="@{(model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE) &amp;&amp; model.group.participantsCount == 0}" />
 
                                 <Button
                                     android:id="@+id/mm_edit"
@@ -352,7 +366,7 @@
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toEndOf="@id/mm_delete"
-                                    android:visibility="@{(model.group.status == GroupStatus.UPCOMING || model.group.status != GroupStatus.ACTIVE) &amp;&amp; model.group.participantsCount == 0}" />
+                                    android:visibility="@{(model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE) &amp;&amp; model.group.participantsCount == 0}" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <androidx.constraintlayout.widget.ConstraintLayout
@@ -478,7 +492,7 @@
                             android:onClick="@{() -> model.onEditClick(group)}"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toEndOf="@id/ind_duplicate"
-                            android:visibility="@{(model.group.status != GroupStatus.ENDED || model.group.status != GroupStatus.STARTED) &amp;&amp; model.group.participantsCount == 0}" />
+                            android:visibility="@{model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE}" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/support_group_buttons_container"

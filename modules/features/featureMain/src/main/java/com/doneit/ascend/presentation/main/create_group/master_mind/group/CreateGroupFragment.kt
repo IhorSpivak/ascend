@@ -6,8 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -17,7 +15,6 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.common.Invit
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.redmadrobot.inputmask.MaskedTextChangedListener
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
@@ -96,23 +93,6 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         viewModel.members.observe(this, Observer {
             membersAdapter.submitList(it)
         })
-
-        /*val listener = MaskedTextChangedListener(PRICE_MASK, binding.price.editText, object:
-            TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-        }, object: MaskedTextChangedListener.ValueListener {
-            override fun onTextChanged(maskFilled: Boolean, extractedValue: String) {
-            }
-        })
-        binding.price.editText.addTextChangedListener(listener)
-        binding.price.editText.onFocusChangeListener = listener*/
 
         binding.addMemberContainer.setOnClickListener {
             viewModel.addMember(viewModel.createGroupModel.groupType!!)
