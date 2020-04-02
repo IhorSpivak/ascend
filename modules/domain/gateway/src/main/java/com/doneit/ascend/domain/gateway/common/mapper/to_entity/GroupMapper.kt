@@ -74,7 +74,8 @@ fun GroupResponse.toEntity(): GroupEntity {
         meetingFormat,
         tag?.toEntity(),
         invites?.map { it.toEntity() },
-        private
+        private,
+        pastMeetingsCount
     )
 }
 
@@ -155,7 +156,8 @@ fun GroupLocal.toEntity(): GroupEntity {
         note?.toLocale(),
         meetingFormat,
         tag?.toEntity(), emptyList(),
-        isPrivate
+        isPrivate,
+        pastMeetingsCount
     )
 }
 

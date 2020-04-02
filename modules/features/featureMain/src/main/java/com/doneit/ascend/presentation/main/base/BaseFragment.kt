@@ -57,7 +57,14 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
         ConnectionObserver(context!!)
     }
 
-    private lateinit var progressDialog: Dialog
+    private val progressDialog: Dialog by lazy {
+        LayoutInflater.from(context).inflate(R.layout.dialog_progress, null, false).let {
+            AlertDialog.Builder(context, R.style.ProgressDialogStyle)
+                .setCancelable(false)
+                .setView(it)
+                .create()
+        }
+    }
 
     //endregion
 
@@ -119,7 +126,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
             }
         }
 
-        initDialog()
+        //initDialog()
 
         if (savedInstanceState?.getBoolean(IS_PROGRESS_SHOWN_KEY) == true) {
             progressDialog.show()
@@ -167,13 +174,13 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
     //region private methods
 
-    private fun initDialog() {
+    /*private fun initDialog() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_progress, null, false)
         progressDialog = AlertDialog.Builder(context, R.style.ProgressDialogStyle)
             .setCancelable(false)
             .setView(dialogView)
             .create()
-    }
+    }*/
 
     open fun getLayoutRes(): Int {
         var superClassGeneric = this.javaClass.genericSuperclass

@@ -207,6 +207,13 @@ class EditWithError @JvmOverloads constructor(
         }
     }
 
+    fun setHasCursor(isEnable: Boolean) {
+        if (isEnable) {
+            editText.showSoftInputOnFocus = false
+            editText.isFocusable = false
+        }
+    }
+
     fun setColor(color: Int){
         editText.setTextColor(color)
     }

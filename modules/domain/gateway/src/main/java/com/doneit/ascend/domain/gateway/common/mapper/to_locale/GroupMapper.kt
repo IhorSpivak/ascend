@@ -27,6 +27,7 @@ fun GroupEntity.toLocal(): GroupLocal {
         price,
         image?.toLocal(),
         meetingsCount,
+        pastMeetingsCount,
         passedCount,
         createdAt?.toRemoteString(),
         updatedAt?.toRemoteString(),

@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.create_group
 
+import android.Manifest
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -63,4 +64,13 @@ class CreateGroupHostFragment : BaseFragment<FragmentHostCreateGroupBinding>() {
     }
 
     fun getContainerId() = R.id.container
+
+    companion object{
+        const val REQUEST_PERMISSION = 0
+        val PERMISSIONS = arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+        )
+    }
 }

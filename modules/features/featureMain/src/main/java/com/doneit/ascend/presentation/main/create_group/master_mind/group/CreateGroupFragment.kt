@@ -25,6 +25,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import kotlin.random.Random
 
 class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
@@ -123,7 +124,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             .request { granted, _, _ ->
                 if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
-                    val galleryIntent = Intent(Intent.ACTION_PICK)
+                    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     galleryIntent.type = "image/*"
 
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -139,7 +140,6 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                 }
             }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

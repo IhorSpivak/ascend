@@ -1,15 +1,17 @@
 package com.doneit.ascend.presentation.main.create_group.master_mind.individual
 
-import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
+import com.doneit.ascend.presentation.main.create_group.CreateGroupHostFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualGroupBinding
 import com.doneit.ascend.presentation.utils.*
@@ -65,12 +67,13 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
             duration.isClickable = false
 
             dashRectangleBackground.setOnClickListener {
-                pickFromGallery()
+                takeImageIfHasPermissions()
             }
             icEdit.setOnClickListener {
-                pickFromGallery()
+                takeImageIfHasPermissions()
             }
             price.editText.setOnClickListener {
+                it.isFocusable = true
                 scroll.scrollTo(0, numberOfMeetings.top)
                 viewModel.onPriceClick(price.editText)
             }
@@ -92,38 +95,57 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
         //initSpinner()
     }
 
-    private fun pickFromGallery() {
-        hideKeyboard()
-        EzPermission.with(context!!)
-            .permissions(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            )
-            .request { granted, _, _ ->
-                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-                    val galleryIntent = Intent(Intent.ACTION_PICK)
-                    galleryIntent.type = "image/*"
-
-                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempPhotoUri)
-
-                    val chooser =
-                        Intent.createChooser(galleryIntent, "Select an App to choose an Image")
-                    chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
-
-                    startActivityForResult(chooser, GALLERY_REQUEST_CODE)
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            CreateGroupHostFragment.REQUEST_PERMISSION -> {
+                if (grantResults.isNotEmpty() &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED&&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED&&
+                    grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+                    pickFromGallery()
                 }
             }
+            else -> {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+            }
+        }
+    }
+    private fun takeImageIfHasPermissions(){
+        context?.let {
+            if(it.hasPermissions()){
+                pickFromGallery()
+            }else{
+                requestPermissions(CreateGroupHostFragment.PERMISSIONS, CreateGroupHostFragment.REQUEST_PERMISSION)
+            }
+        }
+    }
+
+    private fun pickFromGallery() {
+        hideKeyboard()
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        galleryIntent.type = "image/*"
+
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempPhotoUri)
+
+
+        val chooser =
+            Intent.createChooser(galleryIntent, "Select an App to choose an Image")
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
+
+        startActivityForResult(chooser, GALLERY_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK)
+        if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
-                    if(data?.data != null) {
+                    if (data?.data != null) {
                         val galleryPhotoUri = context!!.copyFile(data.data!!, tempPhotoUri)
                         handleImageURI(galleryPhotoUri)
                     } else {
@@ -131,6 +153,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
                     }
                 }
             }
+        }
     }
 
     private fun handleImageURI(sourcePath: Uri) {
@@ -148,5 +171,11 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
     companion object {
         private const val GALLERY_REQUEST_CODE = 42
         private const val PRICE_MASK = "[0999]{.}[09]"
+
+        private fun Context.hasPermissions(): Boolean{
+            return (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, CreateGroupHostFragment.PERMISSIONS[0]) &&
+                    PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, CreateGroupHostFragment.PERMISSIONS[1]) &&
+                    PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, CreateGroupHostFragment.PERMISSIONS[2]))
+        }
     }
 }

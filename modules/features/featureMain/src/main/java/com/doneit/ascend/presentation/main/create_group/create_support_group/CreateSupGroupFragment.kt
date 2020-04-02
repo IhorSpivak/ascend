@@ -128,17 +128,18 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             icEdit.setOnClickListener {
                 pickFromGallery()
             }
+
+            chooseSchedule.multilineEditText.setOnClickListener {
+                mainContainer.requestFocus()
+                viewModel.chooseScheduleTouch()
+            }
+
+            startDate.editText.setOnClickListener {
+                mainContainer.requestFocus()
+                viewModel.chooseStartDateTouch()
+            }
         }
 
-        chooseSchedule.multilineEditText.setOnClickListener {
-            mainContainer.requestFocus()
-            viewModel.chooseScheduleTouch()
-        }
-
-        startDate.editText.setOnClickListener {
-            mainContainer.requestFocus()
-            viewModel.chooseStartDateTouch()
-        }
         viewModel.members.observe(this, Observer {
             membersAdapter.submitList(it)
         })
@@ -236,7 +237,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             .request { granted, _, _ ->
                 if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
-                    val galleryIntent = Intent(Intent.ACTION_PICK)
+                    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     galleryIntent.type = "image/*"
 
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)

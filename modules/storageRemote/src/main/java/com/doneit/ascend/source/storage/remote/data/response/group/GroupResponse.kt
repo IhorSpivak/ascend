@@ -30,5 +30,6 @@ data class GroupResponse(
     @SerializedName("note") val note: NoteResponse?,
     @SerializedName("meeting_format") val meetingFormat: String?,
     @SerializedName("invites") val invites: List<SearchUsersResponse>?,
-    @SerializedName("private") val private: Boolean
+    @SerializedName("private") val private: Boolean,
+    @SerializedName("past_meetings_count") val pastMeetingsCount: Int
 )

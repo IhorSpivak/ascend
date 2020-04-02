@@ -171,18 +171,16 @@
                 android:layout_marginStart="@dimen/create_group_horizontal_margin"
                 android:layout_marginTop="@dimen/create_group_top_margin"
                 android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-
                 app:error="@{model.createGroupModel.price.observableError}"
                 app:hint="@{@string/price}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/duration"
                 app:maxLength="@{7}"
-                app:noFocusable="@{true}"
+                app:hasCursor="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_price}"
-                app:tint="@{@color/master_mind_color}"
-                app:text="@={model.createGroupModel.price.observableField}" />
+                app:tint="@{@color/master_mind_color}" />
 
             <com.doneit.ascend.presentation.views.MultilineEditWithError
                 android:id="@+id/description"

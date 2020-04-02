@@ -19,14 +19,22 @@ class GroupViewHolder(
     fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (GroupEntity) -> Unit) {
         binding.apply {
             this.item = item
+            this.user = user
             when(item.groupType){
                 GroupType.MASTER_MIND -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)
                 GroupType.INDIVIDUAL -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)
                 GroupType.SUPPORT -> tvGroupType.text = root.context.resources.getString(R.string.support_group)
                 GroupType.WEBINARS -> tvGroupType.text = root.context.resources.getString(R.string.webinars)
             }
+            btnStartGroup.setOnClickListener {
+                onButtonClick.invoke(item)
+            }
+            btnJoinToDisc.setOnClickListener {
+                onButtonClick.invoke(item)
+            }
         }
 
+/*
         when(getButtonType(user!!, item)) {
             ButtonType.START_GROUP -> {
                 binding.showStartButton = true
@@ -47,6 +55,7 @@ class GroupViewHolder(
                 binding.showStartButton = false
             }
         }
+*/
 
         binding.executePendingBindings()
     }

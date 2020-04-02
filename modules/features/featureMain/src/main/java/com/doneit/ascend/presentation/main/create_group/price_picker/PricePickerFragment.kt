@@ -8,6 +8,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.text.set
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
@@ -32,6 +33,11 @@ class PricePickerFragment(
     override val viewModel: PricePickerContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
+        editor.apply {
+            isPressed = true
+            isActivated = true
+            isCursorVisible = true
+        }
         binding.apply {
             background = when(viewModel.createGroupModel.groupType){
                 GroupType.SUPPORT -> resources.getColor(R.color.support_color)
@@ -41,11 +47,17 @@ class PricePickerFragment(
                 else -> resources.getColor(R.color.support_color)
             }
             btnCancel.setOnClickListener {
-                if(viewModel.createGroupModel.price.observableField.get()!!.isNotEmpty()) {
-                    viewModel.backClick()
-                }else {
-                    editor.text?.clear()
-                    viewModel.backClick()
+                viewModel.createGroupModel.price.observableField.get().let {
+                    if (it!!.isNotEmpty()){
+                        editor.text.apply {
+                            clear()
+                            append(it)
+                        }
+                        viewModel.backClick()
+                    }else{
+                        editor.text.clear()
+                        viewModel.backClick()
+                    }
                 }
             }
 
@@ -65,26 +77,16 @@ class PricePickerFragment(
             key8.setOnClickListener(clickHandle)
             key9.setOnClickListener(clickHandle)
         }
-        editor.addTextChangedListener(object: TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.priceOk.postValue("^\\d{1,4}(\\.\\d{1,4})?\$".toRegex().matches(s.toString()))
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-        })
-
-        hideKeyboard()
     }
 
     private val clickHandle = View.OnClickListener {
         if (it.id == R.id.key_backspace) {
-            if(editor.text.isNotEmpty()) {
-                editor.setText(editor.text.toString().dropLast(1))
+            editor.text.apply {
+                length.let {length ->
+                    if (length > 0){
+                        this.delete(length-1, length)
+                    }
+                }
             }
         } else {
             editor.text.append((it as TextView).text)

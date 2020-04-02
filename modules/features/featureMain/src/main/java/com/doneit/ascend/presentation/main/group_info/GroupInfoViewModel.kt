@@ -84,7 +84,7 @@ class GroupInfoViewModel(
     private fun updateButtonsState(user: UserEntity, details: GroupEntity) {
         details.apply {
             btnJoinedVisible.postValue(subscribed)
-            btnJoinVisible.postValue(inProgress && subscribed!!)
+            btnJoinVisible.postValue((inProgress || isStarting) && subscribed!! && status != GroupStatus.CANCELLED)
             isEditable.postValue(status != GroupStatus.ENDED)
             starting.postValue(status == GroupStatus.ACTIVE)
             btnStartVisible.postValue(status != GroupStatus.STARTED)
@@ -124,6 +124,8 @@ class GroupInfoViewModel(
 
             if (res.isSuccessful) {
                 router.onBack()
+            }else {
+                showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
             }
         }
     }
@@ -131,9 +133,10 @@ class GroupInfoViewModel(
     override fun leaveGroup() {
         viewModelScope.launch {
             val res = groupUseCase.leaveGroup(group.value?.id ?: return@launch)
-
             if (res.isSuccessful) {
                 router.onBack()
+            }else {
+                showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
             }
         }
     }
@@ -141,12 +144,14 @@ class GroupInfoViewModel(
     override fun cancelGroup(reason: String) {
         group.value?.let {
             viewModelScope.launch {
-                val response = groupUseCase.cancelGroup(CancelGroupDTO(it.id, reason))
-
-                if (response.isSuccessful) {
-                } else {
-                    showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+                groupUseCase.cancelGroup(CancelGroupDTO(it.id, reason)).let {response ->
+                    if (response.isSuccessful) {
+                        loadData(it.id)
+                    } else {
+                        showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+                    }
                 }
+
             }
         }
     }

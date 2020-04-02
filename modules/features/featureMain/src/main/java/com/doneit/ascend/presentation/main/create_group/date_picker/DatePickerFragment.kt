@@ -9,7 +9,6 @@ import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentDatePickerBinding
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import kotlinx.android.synthetic.main.fragment_date_picker.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -37,36 +36,34 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
                 else -> resources.getColor(R.color.support_color)
             }
             executePendingBindings()
-        }
+            monthPicker.data = viewModel.getMonthList() //MonthEntity.values().toList()
 
-        monthPicker.data = viewModel.getMonthList() //MonthEntity.values().toList()
+            dayPicker.setOnItemSelectedListener { _, data, position ->
+                viewModel.setDay(data as Int)
+            }
 
-        dayPicker.setOnItemSelectedListener { _, data, position ->
-            viewModel.setDay(data as Int)
-        }
+            monthPicker.setOnItemSelectedListener { _, data, position ->
+                (data as MonthEntity).let {
+                    viewModel.setMonth(it)
+                    dayPicker.month = it.toNumeric()
+                }
+            }
 
-        monthPicker.setOnItemSelectedListener { _, data, position ->
-            val month = (data as MonthEntity)
+            yearPicker.setOnItemSelectedListener { _, data, position ->
+                viewModel.setYear(data as Int)
+                dayPicker.year = data
+            }
 
-            viewModel.setMonth(month)
+            yearPicker.selectedYear = viewModel.getYear()
+
+            val month = viewModel.getMonth()
+            val position = monthPicker.getDataIndex { it == month }
+            monthPicker.setSelectedItemPosition(position, false)
+
+            dayPicker.year = viewModel.getYear()
             dayPicker.month = month.toNumeric()
+            dayPicker.selectedDay = viewModel.getDay()
         }
-
-        yearPicker.setOnItemSelectedListener { _, data, position ->
-            viewModel.setYear(data as Int)
-            dayPicker.year = data
-        }
-
-        yearPicker.selectedYear = viewModel.getYear()
-
-        val month = viewModel.getMonth()
-        val position = monthPicker.getDataIndex { it == month }
-        monthPicker.setSelectedItemPosition(position, false)
-
-        dayPicker.year = viewModel.getYear()
-        dayPicker.month = month.toNumeric()
-        dayPicker.selectedDay = viewModel.getDay()
-
         hideKeyboard()
     }
 

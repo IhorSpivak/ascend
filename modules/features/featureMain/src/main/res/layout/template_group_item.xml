@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.doneit.ascend.domain.entity.group.GroupStatus"/>
         <variable
             name="item"
             type="com.doneit.ascend.domain.entity.group.GroupEntity" />
 
+        <variable
+            name="user"
+            type="com.doneit.ascend.domain.entity.user.UserEntity" />
         <variable
             name="showJoinButton"
             type="Boolean" />
@@ -175,12 +178,11 @@
                     android:textAllCaps="true"
                     android:textColor="@color/colorAccent"
                     android:textSize="18sp"
-                    android:visibility="gone"
+                    android:visibility="@{item.owner.id == user.id ? (item.inProgress &amp;&amp; item.status == GroupStatus.STARTED) : ((item.inProgress || item.starting) &amp;&amp; item.subscribed &amp;&amp; item.status != GroupStatus.CANCELLED)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:setVisibility="@{showJoinButton}" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <Button
                     android:id="@+id/btnStartGroup"
@@ -195,12 +197,11 @@
                     android:textAllCaps="true"
                     style="@style/TextNormal"
                     android:textColor="@android:color/white"
-                    android:visibility="visible"
+                    android:visibility="@{item.owner.id == user.id &amp;&amp; item.starting &amp;&amp; item.status == GroupStatus.ACTIVE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:setVisibility="@{showStartButton}" />
+                    app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

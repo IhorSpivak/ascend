@@ -7,5 +7,9 @@ enum class CalendarDayEntity {
     WEDNESDAY,
     THURSDAY,
     FRIDAY,
-    SATURDAY
+    SATURDAY;
+
+    override fun toString(): String {
+        return super.toString().toLowerCase().capitalize()
+    }
 }

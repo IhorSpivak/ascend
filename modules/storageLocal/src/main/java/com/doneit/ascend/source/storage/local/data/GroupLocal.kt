@@ -13,6 +13,7 @@ data class GroupLocal(
     val price: Float?,
     @Embedded(prefix = "img") val image: ImageLocal?,
     @ColumnInfo(name = "meetings_count") val meetingsCount: Int?,
+    @ColumnInfo(name = "past_meetings_count") val pastMeetingsCount: Int?,
     @ColumnInfo(name = "passed_count") val passedCount: Int,
     @ColumnInfo(name = "created_at") val createdAt: String?,
     @ColumnInfo(name = "updated_at") val updatedAt: String?,

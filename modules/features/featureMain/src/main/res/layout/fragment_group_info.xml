@@ -147,7 +147,7 @@
                         android:layout_marginEnd="24dp"
                         android:textColor="@color/light_gray_8f"
                         android:textSize="16sp"
-                        app:html="@{@string/meetings_count( 0, model.group.meetingsCount)}"
+                        app:html="@{@string/meetings_count( model.group.pastMeetingsCount, model.group.meetingsCount)}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/icon"
                         tools:text="@string/meetings_count" />

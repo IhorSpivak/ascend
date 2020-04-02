@@ -14,7 +14,6 @@ import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
 import com.doneit.ascend.presentation.utils.showDefaultError
-import kotlinx.android.synthetic.main.fragment_group_info.*
 import org.kodein.di.generic.instance
 
 class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
@@ -101,33 +100,32 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             supportDelete.setOnClickListener {
                 currentDialog = createDeleteDialog()
             }
-        }
-
-        ic_abuse.setOnClickListener {
-            currentDialog = ReportAbuseDialog.create(context!!) {
-                viewModel.report(it)
-                currentDialog?.dismiss()
+            icAbuse.setOnClickListener {
+                currentDialog = ReportAbuseDialog.create(context!!) {
+                    viewModel.report(it)
+                    currentDialog?.dismiss()
+                }
+                currentDialog?.show()
             }
-            currentDialog?.show()
-        }
 
-        binding.btnSubscribe.setOnClickListener {
-            currentDialog = SelectPaymentDialog.create(context!!, cardsAdapter) {
-                viewModel.subscribe(it)
+            btnSubscribe.setOnClickListener {
+                currentDialog = SelectPaymentDialog.create(context!!, cardsAdapter) {
+                    viewModel.subscribe(it)
+                }
+                currentDialog?.show()
             }
-            currentDialog?.show()
-        }
 
-        binding.btnJoinToDisc.setOnClickListener {
-            if(viewModel.isBlocked) {
-                showDefaultError(getString(R.string.error_group_user_removed))
-            } else {
-                viewModel.joinToDiscussion()
+            btnJoinToDisc.setOnClickListener {
+                if(viewModel.isBlocked) {
+                    showDefaultError(getString(R.string.error_group_user_removed))
+                } else {
+                    viewModel.joinToDiscussion()
+                }
             }
-        }
 
-        binding.btnLeaveThisGroup.setOnClickListener {
-            currentDialog = createLeaveDialog()
+            btnLeaveThisGroup.setOnClickListener {
+                currentDialog = createLeaveDialog()
+            }
         }
     }
 
