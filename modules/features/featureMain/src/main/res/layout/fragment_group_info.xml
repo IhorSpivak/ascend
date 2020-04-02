@@ -759,7 +759,7 @@
                         android:paddingBottom="16dp"
                         android:paddingTop="16dp"
                         android:background="@drawable/bg_white_bordered"
-                        android:visibility="@{group.groupType != GroupType.INDIVIDUAL &amp;&amp; model.isOwner()}"
+                        android:visibility="@{(group.groupType != GroupType.INDIVIDUAL &amp;&amp; model.isOwner()) || group.groupType == GroupType.SUPPORT}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/description">
 
