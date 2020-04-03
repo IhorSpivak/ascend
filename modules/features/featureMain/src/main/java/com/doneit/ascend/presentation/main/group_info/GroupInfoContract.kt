@@ -43,6 +43,7 @@ interface GroupInfoContract {
         fun onDuplicateClick(group: GroupEntity)
         fun onEditClick(group: GroupEntity)
         fun onCancelClick(group: GroupEntity)
+        fun onUpdatePrivacyClick(isPrivate: Boolean)
         fun removeMember(attendee: AttendeeEntity)
     }
 

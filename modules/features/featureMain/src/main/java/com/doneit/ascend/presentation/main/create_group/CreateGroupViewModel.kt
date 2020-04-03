@@ -284,8 +284,8 @@ class CreateGroupViewModel(
 
         val isValid = when {
             createGroupModel.groupType == GroupType.SUPPORT -> canCreateSupport()
-            createGroupModel.isPublic.getNotNull() -> canCreateMMGroup()
-            createGroupModel.isPublic.getNotNull().not() -> canCreateMMIndividual()
+            createGroupModel.isPrivate.getNotNull() -> canCreateMMGroup()
+            createGroupModel.isPrivate.getNotNull().not() -> canCreateMMIndividual()
             else -> canCreateMMIndividual()
         }
         canComplete.postValue(isValid)
@@ -410,7 +410,6 @@ class CreateGroupViewModel(
                 }
             }
         }
-
     }
 
     private fun changeStartDate() {

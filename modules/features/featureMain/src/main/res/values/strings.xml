@@ -48,6 +48,7 @@
     <string name="number_of_participants">Number of participants</string>
     <string name="group">Group</string>
     <string name="individual"> Individual</string>
+    <string name="closed_group"> Closed</string>
     <string name="apply">Apply</string>
     <string name="to">to</string>
 
@@ -220,6 +221,10 @@
 
     <string name="delete_this_group">Delete this group?</string>
     <string name="leave_this_group_question">You really want to leave?</string>
+    <string name="make_closed_title">Make this group closed?</string>
+    <string name="make_closed_description">If you close the group, new users will not be able to find it in the group list.</string>
+    <string name="make_closed_ok">Yes, close</string>
+    <string name="make_closed_cancell">Cancel</string>
     <string name="notifications">Notifications</string>
     <string name="from">from</string>
     <string name="by">by</string>

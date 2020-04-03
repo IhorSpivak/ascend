@@ -390,9 +390,10 @@
                                     android:textSize="18sp"
                                     android:fontFamily="@font/red_hat_font"
                                     app:layout_constraintEnd_toEndOf="parent"
-                                    android:onClick="@{() -> model.onEditClick(group)}"
+                                    android:onClick="@{() -> model.onUpdatePrivacyClick(false)}"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"/>
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    android:visibility="@{model.group.private}"/>
                                 <Button
                                     android:id="@+id/mm_close"
                                     android:layout_width="0dp"
@@ -404,7 +405,8 @@
                                     android:fontFamily="@font/red_hat_font"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent" />
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    android:visibility="@{!model.group.private}"/>
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -639,20 +641,43 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/support_tag">
 
-                        <TextView
-                            android:id="@+id/tvInividual"
-                            style="@style/TextNormal.White"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/closed_individual_container"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableStart="@drawable/ic_ic_supervisor_account_24px"
-                            android:drawablePadding="4dp"
-                            android:padding="4dp"
-                            android:text="@string/individual"
-                            android:textColor="@color/gold"
-                            android:textSize="12sp"
-                            android:visibility="@{group.groupType == GroupType.INDIVIDUAL, default = gone}"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent" >
+                            <TextView
+                                android:id="@+id/tvInividual"
+                                style="@style/TextNormal.White"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/ic_ic_supervisor_account_24px"
+                                android:drawablePadding="4dp"
+                                android:padding="4dp"
+                                android:text="@string/individual"
+                                android:textColor="@color/gold"
+                                android:textSize="12sp"
+                                android:visibility="@{model.group.groupType == GroupType.INDIVIDUAL, default = gone}"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvClosed"
+                                style="@style/TextNormal.White"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@drawable/ic_closed_mm_group"
+                                android:drawablePadding="4dp"
+                                android:padding="4dp"
+                                android:text="@string/closed_group"
+                                android:textColor="@color/green_light"
+                                android:textSize="12sp"
+                                android:visibility="@{model.group.groupType == GroupType.MASTER_MIND &amp;&amp; model.group.private, default = gone}"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                         <TextView
                             android:id="@+id/tvMasterMindMarker"
@@ -662,8 +687,8 @@
                             android:padding="4dp"
                             android:text="@string/master_mind_group"
                             android:textSize="12sp"
-                            android:visibility="@{group.groupType == GroupType.MASTER_MIND || group.groupType == GroupType.INDIVIDUAL, default = gone}"
-                            app:layout_constraintStart_toEndOf="@id/tvInividual"
+                            android:visibility="@{model.group.groupType == GroupType.MASTER_MIND || model.group.groupType == GroupType.INDIVIDUAL, default = gone}"
+                            app:layout_constraintStart_toEndOf="@id/closed_individual_container"
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -677,7 +702,7 @@
                         android:paddingEnd="4dp"
                         android:background="@drawable/bg_r4_9dc0"
                         android:orientation="horizontal"
-                        android:visibility="@{group.groupType == GroupType.SUPPORT, default=gone}"
+                        android:visibility="@{model.group.groupType == GroupType.SUPPORT, default=gone}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/support_tag">
@@ -693,7 +718,7 @@
                             android:paddingBottom="4dp"
                             android:text="@string/support_private"
                             android:textSize="12sp"
-                            android:visibility="@{group.private, default=gone}"
+                            android:visibility="@{model.group.private, default=gone}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -731,7 +756,7 @@
                             android:textSize="12sp"
                             android:text="@{group.tag.tag}"
                             android:textColor="@android:color/white"
-                            android:visibility="@{group.groupType == GroupType.SUPPORT, default=gone}"
+                            android:visibility="@{model.group.groupType == GroupType.SUPPORT, default=gone}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -759,7 +784,7 @@
                         android:paddingBottom="16dp"
                         android:paddingTop="16dp"
                         android:background="@drawable/bg_white_bordered"
-                        android:visibility="@{(group.groupType != GroupType.INDIVIDUAL &amp;&amp; model.isOwner()) || group.groupType == GroupType.SUPPORT}"
+                        android:visibility="@{(model.group.groupType != GroupType.INDIVIDUAL &amp;&amp; model.isOwner()) || model.group.groupType == GroupType.SUPPORT}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/description">
 

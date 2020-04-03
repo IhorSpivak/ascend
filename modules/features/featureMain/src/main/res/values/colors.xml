@@ -7,6 +7,7 @@
 
     <color name="default_font_color">#43425D</color>
     <color name="green_font_color">#598E7E</color>
+    <color name="green_light">#8ADBC3</color>
     <color name="green_stroke_participant">#66BB6A</color>
     <color name="error_color">#FF2D55</color>
     <color name="cancel_color">#FF3B30</color>

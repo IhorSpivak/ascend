@@ -69,7 +69,8 @@ internal class GroupGateway(
     ): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
             remote.updateGroup(id,
-                File(groupDTO.imagePath),
+                groupDTO.imagePath.let{
+                    if (it != null){ File(it) } else {null}},
                 groupDTO.toCreateGroupRequest()
             )
         }.toResponseEntity(

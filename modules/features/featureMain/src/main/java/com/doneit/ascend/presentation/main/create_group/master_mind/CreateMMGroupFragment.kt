@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.main.create_group.master_mind
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.text.format.DateFormat
 import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -15,8 +14,6 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
-import com.doneit.ascend.presentation.main.create_group.CreateGroupHostFragment
-import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.main.create_group.master_mind.group.CreateGroupFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.individual.IndividualGroupFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateMmGroupBinding
@@ -24,7 +21,6 @@ import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.utils.getNotNull
-import kotlinx.android.synthetic.main.fragment_create_individual_group.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -69,13 +65,13 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
             })
         })
 
-        viewModel.createGroupModel.isPublic.addOnPropertyChangedCallback(object :
+        viewModel.createGroupModel.isPrivate.addOnPropertyChangedCallback(object :
             Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (viewModel.createGroupModel.isPublic.getNotNull()) {
-                    viewModel.onGroupSelected()
-                } else {
+                if (viewModel.createGroupModel.isPrivate.getNotNull()) {
                     viewModel.onIndividualSelected()
+                } else {
+                    viewModel.onGroupSelected()
                 }
             }
         })
@@ -91,10 +87,10 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
             }
             when(group!!.groupType){
                 GroupType.INDIVIDUAL ->{
-                    viewModel.createGroupModel.isPublic.set(false)
+                    viewModel.createGroupModel.isPrivate.set(true)
                 }
                 GroupType.MASTER_MIND -> {
-                    viewModel.createGroupModel.isPublic.set(true)
+                    viewModel.createGroupModel.isPrivate.set(false)
                 }
             }
             viewModel.createGroupModel.apply {

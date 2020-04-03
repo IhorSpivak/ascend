@@ -126,6 +126,10 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             btnLeaveThisGroup.setOnClickListener {
                 currentDialog = createLeaveDialog()
             }
+            mmClose.setOnClickListener {
+                currentDialog = createMakeClosedDialog()
+                currentDialog?.show()
+            }
         }
     }
 
@@ -156,6 +160,19 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             when (it) {
                 QuestionButtonType.POSITIVE -> viewModel.leaveGroup()
             }
+        }
+    }
+
+    private fun createMakeClosedDialog(): AlertDialog{
+        return DialogPattern.create(
+            context!!,
+            getString(R.string.make_closed_title),
+            getString(R.string.make_closed_description),
+            getString(R.string.make_closed_ok),
+            getString(R.string.make_closed_cancell)
+        ){
+            currentDialog?.dismiss()
+            viewModel.onUpdatePrivacyClick(true)
         }
     }
 

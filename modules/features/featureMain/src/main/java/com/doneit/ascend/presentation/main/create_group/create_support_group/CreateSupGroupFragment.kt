@@ -118,7 +118,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             }
 
             isPrivate.setOnCheckedChangeListener { compoundButton, b ->
-                viewModel.createGroupModel.isPublic.set(!b)
+                viewModel.createGroupModel.isPrivate.set(b)
             }
 
             placeholderDash.setOnClickListener {
@@ -163,13 +163,13 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                 text = getString(R.string.btn_save_action)
                 setOnClickListener { viewModel.updateGroup(group!!.id) }
             }
-            viewModel.createGroupModel.isPublic.set(group!!.isPrivate)
+            viewModel.createGroupModel.isPrivate.set(group!!.isPrivate)
             viewModel.createGroupModel.apply {
                 when(what){
                     GroupAction.DUPLICATE.toString() ->{name.observableField.set(group!!.name.plus("(2)"))}
                     GroupAction.EDIT.toString() ->{name.observableField.set(group!!.name)}
                 }
-                isPublic.set(!group!!.isPrivate)
+                isPrivate.set(group!!.isPrivate)
                 tags = group!!.tag!!.id
                 binding.tagsPicker.setSelection(tags)
                 meetingFormat.observableField.set(group!!.meetingFormat!!)

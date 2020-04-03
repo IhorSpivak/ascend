@@ -378,18 +378,9 @@ class VideoChatViewModel(
     private fun getViewModelRoomListener(): RoomListener {
         return object : RoomListener() {
             override fun onConnected(room: Room) {
-                room.remoteParticipants.forEach {
-                    if(it.identity == groupInfo.value?.owner?.id.toString()){
-                        _IsMMConnected = true
-                    }
-                }
                 val participants = room.remoteParticipants
-                    .filter {
-                        it.identity != groupInfo.value?.owner?.id.toString()
-                    }
-                    .map {
-                        it.toPresentation()
-                    }
+                    .filter { it.identity != groupInfo.value?.owner?.id.toString() }
+                    .map { it.toPresentation() }
                 participantsManager.addParticipants(participants)
                 handleSpeaker(room, room.dominantSpeaker)
             }

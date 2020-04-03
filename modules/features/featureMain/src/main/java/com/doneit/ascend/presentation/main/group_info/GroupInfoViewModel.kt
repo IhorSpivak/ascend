@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.dto.CancelGroupDTO
+import com.doneit.ascend.domain.entity.dto.CreateGroupDTO
 import com.doneit.ascend.domain.entity.dto.PaymentType
 import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -19,6 +20,7 @@ import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCas
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCardModel
+import com.doneit.ascend.presentation.models.group.toEntity
 import com.doneit.ascend.presentation.models.toPresentation
 import com.doneit.ascend.presentation.utils.ButtonType
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -204,7 +206,39 @@ class GroupInfoViewModel(
     override fun onCancelClick(group: GroupEntity) {
     }
 
+    override fun onUpdatePrivacyClick(isPrivate: Boolean) {
+        group.value.let {
+            viewModelScope.launch {
+                groupUseCase.updateGroup(it!!.id, it.toUpdatePrivacyGroupDTO(isPrivate)).let {response ->
+                    if (response.isSuccessful) {
+                        loadData(it.id)
+                    } else {
+                        if (response.errorModel!!.isNotEmpty()) {
+                            showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun removeMember(attendee: AttendeeEntity) {
 
+    }
+    private fun GroupEntity.toUpdatePrivacyGroupDTO(isPrivate: Boolean): CreateGroupDTO{
+        return CreateGroupDTO(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            isPrivate,
+            null
+        )
     }
 }

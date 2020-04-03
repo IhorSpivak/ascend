@@ -7,16 +7,16 @@ import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupReques
 import com.doneit.ascend.source.storage.remote.data.request.group.*
 
 fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
-    val dayOffset = startTime.getDayOffset()
+    val dayOffset = startTime?.getDayOffset()?: 0
 
     return CreateGroupRequest(
         name,
         description,
-        startTime.toRemoteString(),
+        startTime?.toRemoteString(),
         groupType,
         price?.toPrice(),
         participants,
-        days.applyDaysOffset(dayOffset),
+        days?.applyDaysOffset(dayOffset),
         meetingsCount,
         meetingFormat,
         privacy,

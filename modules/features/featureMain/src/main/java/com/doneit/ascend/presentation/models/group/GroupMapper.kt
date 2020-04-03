@@ -35,7 +35,7 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
         scheduleDays.toDays(),
         Integer.parseInt(numberOfMeetings.observableField.getNotNull()),
         meetingFormat.observableField.get(),
-        isPublic.get(),
+        isPrivate.get(),
         tags
     )
 }

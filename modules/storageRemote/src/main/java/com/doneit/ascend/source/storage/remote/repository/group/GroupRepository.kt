@@ -1,6 +1,5 @@
 package com.doneit.ascend.source.storage.remote.repository.group
 
-import android.util.Log
 import com.doneit.ascend.source.storage.remote.api.GroupApi
 import com.doneit.ascend.source.storage.remote.api.UserApi
 import com.doneit.ascend.source.storage.remote.data.request.SearchUserRequest
@@ -32,130 +31,156 @@ internal class GroupRepository(
         request: CreateGroupRequest
     ): RemoteResponse<GroupResponse, ErrorsListResponse> {
         return execute({
-
-            var builder = MultipartBody.Builder()
-
-            var stringPart = MultipartBody.Part.createFormData("name", request.name)
-            builder = builder.addPart(stringPart)
-
-            stringPart = MultipartBody.Part.createFormData("description", request.description)
-            builder = builder.addPart(stringPart)
-
-            stringPart = MultipartBody.Part.createFormData("start_time", request.startTime)
-            builder = builder.addPart(stringPart)
-
-            stringPart = MultipartBody.Part.createFormData("group_type", request.groupType)
-            builder = builder.addPart(stringPart)
-
-            stringPart = if (request.private!!){
-                MultipartBody.Part.createFormData("private", "0")
-            }else{
-                MultipartBody.Part.createFormData("private", "1")
-            }
-            builder = builder.addPart(stringPart)
-
-            if(request.groupType.equals("support", true)){
-                stringPart = MultipartBody.Part.createFormData("tag_id", request.tagId.toString())
-                builder = builder.addPart(stringPart)
-            }
-
-            request.days?.forEach {
-                stringPart = MultipartBody.Part.createFormData("wdays[]", it.toString())
-                builder = builder.addPart(stringPart)
-            }
-
-            stringPart = MultipartBody.Part.createFormData(
-                "meetings_count",
-                Gson().toJson(request.meetingsCount)
-            )
-            builder = builder.addPart(stringPart)
-
-            stringPart = MultipartBody.Part.createFormData("price", request.price.toString())
-            builder = builder.addPart(stringPart)
-
-
-            request.participants?.forEach {
-                stringPart = MultipartBody.Part.createFormData("participants[]", it)
-                builder = builder.addPart(stringPart)
-            }
-
-            val filePart = MultipartBody.Part.createFormData(
-                "image", file.name, RequestBody.create(
-                    "image/*".toMediaTypeOrNull(), file
+            val builder = MultipartBody.Builder().apply {
+                addPart(MultipartBody.Part.createFormData("name", request.name ?: ""))
+                addPart(MultipartBody.Part.createFormData("description", request.description ?: ""))
+                addPart(MultipartBody.Part.createFormData("start_time", request.startTime ?: ""))
+                addPart(MultipartBody.Part.createFormData("group_type", request.groupType ?: ""))
+                when (request.groupType) {
+                    MASTER_MIND -> {
+                    }
+                    INDIVIDUAL -> {
+                    }
+                    SUPPORT -> {
+                        addPart(
+                            MultipartBody.Part.createFormData(
+                                "tag_id",
+                                request.tagId.toString()
+                            )
+                        )
+                    }
+                    WEBINAR -> {
+                    }
+                }
+                if (request.private!!) {
+                    addPart(MultipartBody.Part.createFormData("private", "1"))
+                } else {
+                    addPart(MultipartBody.Part.createFormData("private", "0"))
+                }
+                request.days?.forEach {
+                    addPart(MultipartBody.Part.createFormData("wdays[]", it.toString()))
+                }
+                addPart(
+                    MultipartBody.Part.createFormData(
+                        "meetings_count",
+                        Gson().toJson(request.meetingsCount)
+                    )
                 )
-            )
-            stringPart = MultipartBody.Part.createFormData("meeting_format", request.meetingFormat?: "")
-            builder = builder.addPart(stringPart)
-
-            builder = builder.addPart(filePart)
-
+                addPart(MultipartBody.Part.createFormData("price", request.price.toString()))
+                addPart(
+                    MultipartBody.Part.createFormData(
+                        "image",
+                        file.name,
+                        RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                    )
+                )
+                addPart(
+                    MultipartBody.Part.createFormData(
+                        "meeting_format",
+                        request.meetingFormat ?: ""
+                    )
+                )
+            }
             api.createGroupAsync(builder.build().parts)
         }, ErrorsListResponse::class.java)
     }
 
     override suspend fun updateGroup(
         id: Long,
-        file: File,
+        file: File?,
         request: CreateGroupRequest
     ): RemoteResponse<GroupResponse, ErrorsListResponse> {
         return execute({
 
             var builder = MultipartBody.Builder()
-
-            var stringPart = MultipartBody.Part.createFormData("name", request.name)
-            builder = builder.addPart(stringPart)
-
-            stringPart = MultipartBody.Part.createFormData("description", request.description)
-            builder = builder.addPart(stringPart)
-
-            stringPart = MultipartBody.Part.createFormData("start_time", request.startTime)
-            builder = builder.addPart(stringPart)
-
-            stringPart = MultipartBody.Part.createFormData("group_type", request.groupType)
-            builder = builder.addPart(stringPart)
-
-            stringPart = if (request.private!!){
-                MultipartBody.Part.createFormData("private", "0")
-            }else{
-                MultipartBody.Part.createFormData("private", "1")
+            request.let {
+                if (it.name != null) {
+                    builder.addPart(MultipartBody.Part.createFormData("name", it.name))
+                }
+                if (it.description != null) {
+                    builder.addPart(
+                        MultipartBody.Part.createFormData(
+                            "description",
+                            it.description
+                        )
+                    )
+                }
+                if (it.startTime != null) {
+                    builder.addPart(MultipartBody.Part.createFormData("start_time", it.startTime))
+                }
+                if (it.groupType != null) {
+                    builder.addPart(MultipartBody.Part.createFormData("group_type", it.groupType))
+                    if (it.groupType.equals("support", true)) {
+                        builder.addPart(
+                            MultipartBody.Part.createFormData(
+                                "tag_id",
+                                it.tagId.toString()
+                            )
+                        )
+                    }
+                }
+                if (it.private != null) {
+                    builder.addPart(
+                        MultipartBody.Part.createFormData(
+                            "private",
+                            it.private.let { isPrivate ->
+                                if (isPrivate) {
+                                    "1"
+                                } else {
+                                    "0"
+                                }
+                            })
+                    )
+                }
+                if (it.days != null) {
+                    it.days.forEach { day ->
+                        builder.addPart(
+                            MultipartBody.Part.createFormData(
+                                "wdays[]",
+                                day.toString()
+                            )
+                        )
+                    }
+                }
+                if (it.meetingsCount != null) {
+                    builder.addPart(
+                        MultipartBody.Part.createFormData(
+                            "meetings_count",
+                            Gson().toJson(it.meetingsCount)
+                        )
+                    )
+                }
+                if (it.price != null) {
+                    builder.addPart(MultipartBody.Part.createFormData("price", it.price.toString()))
+                }
+                if (it.participants != null) {
+                    it.participants.forEach { email ->
+                        builder = builder.addPart(
+                            MultipartBody.Part.createFormData(
+                                "participants[]",
+                                email
+                            )
+                        )
+                    }
+                }
+                if (file != null) {
+                    builder.addPart(
+                        MultipartBody.Part.createFormData(
+                            "image",
+                            file.name,
+                            RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                        )
+                    )
+                }
+                if (it.meetingFormat != null) {
+                    builder.addPart(
+                        MultipartBody.Part.createFormData(
+                            "meeting_format",
+                            it.meetingFormat ?: ""
+                        )
+                    )
+                }
             }
-            builder = builder.addPart(stringPart)
-
-            if(request.groupType.equals("support", true)){
-                stringPart = MultipartBody.Part.createFormData("tag_id", request.tagId.toString())
-                builder = builder.addPart(stringPart)
-            }
-
-            request.days?.forEach {
-                stringPart = MultipartBody.Part.createFormData("wdays[]", it.toString())
-                builder = builder.addPart(stringPart)
-            }
-
-            stringPart = MultipartBody.Part.createFormData(
-                "meetings_count",
-                Gson().toJson(request.meetingsCount)
-            )
-            builder = builder.addPart(stringPart)
-
-            stringPart = MultipartBody.Part.createFormData("price", request.price.toString())
-            builder = builder.addPart(stringPart)
-
-
-            request.participants?.forEach {
-                stringPart = MultipartBody.Part.createFormData("participants[]", it)
-                builder = builder.addPart(stringPart)
-            }
-
-            val filePart = MultipartBody.Part.createFormData(
-                "image", file.name, RequestBody.create(
-                    "image/*".toMediaTypeOrNull(), file
-                )
-            )
-            stringPart = MultipartBody.Part.createFormData("meeting_format", request.meetingFormat?: "")
-            builder = builder.addPart(stringPart)
-
-            builder = builder.addPart(filePart)
-
             api.updateGroupAsync(id, builder.build().parts)
         }, ErrorsListResponse::class.java)
     }
@@ -255,6 +280,13 @@ internal class GroupRepository(
             )},
             ErrorsListResponse::class.java
         )
+    }
+
+    companion object {
+        const val MASTER_MIND = "master_mind"
+        const val INDIVIDUAL = "individual"
+        const val SUPPORT = "support"
+        const val WEBINAR = "webinar"
     }
 }
 
