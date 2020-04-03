@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.create_group.master_mind.group
 
-import android.widget.EditText
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -10,6 +9,7 @@ import com.doneit.ascend.presentation.main.create_group.common.IClickListener
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
+import com.google.android.material.textfield.TextInputEditText
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface CreateGroupContract {
@@ -36,6 +36,6 @@ interface CreateGroupContract {
         fun chooseStartDateTouch()
         fun addMember(groupType: GroupType)
         fun inviteToGroup(participants: List<String>)
-        fun onPriceClick(editor: EditText)
+        fun onPriceClick(editor: TextInputEditText)
     }
 }

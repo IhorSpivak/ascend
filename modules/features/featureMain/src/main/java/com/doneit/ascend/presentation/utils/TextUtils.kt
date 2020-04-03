@@ -70,7 +70,7 @@ fun String.isValidMeetingsNumber(): Boolean {
 }
 
 fun String.isValidPrice(): Boolean {
-    val r = Regex("^\\d{1,4}(\\.\\d{1,4})?\$")
+    val r = Regex("^\\d{1,6}(\\.\\d{1,4})?\$")
     return this.matches(r)
 }
 

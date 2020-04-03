@@ -85,6 +85,14 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             mmDelete.setOnClickListener {
                 currentDialog = createDeleteDialog()
             }
+            mmCancel.setOnClickListener {
+                currentDialog = createCancelDialog()
+                currentDialog?.show()
+            }
+            mmCancel2.setOnClickListener {
+                currentDialog = createCancelDialog()
+                currentDialog?.show()
+            }
             indDelete.setOnClickListener {
                 currentDialog = createDeleteDialog()
             }

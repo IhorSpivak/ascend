@@ -25,7 +25,6 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import kotlin.random.Random
 
 class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
@@ -78,9 +77,17 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             viewModel.chooseMeetingCountTouch()
         }
 
-        binding.price.editText.setOnClickListener {
-            scroll.scrollTo(0, chooseSchedule.bottom)
-            viewModel.onPriceClick(price.editText)
+        binding.price.editText.apply {
+            setOnFocusChangeListener { view, b ->
+                if (b){
+                    scroll.scrollTo(0, chooseSchedule.top)
+                    viewModel.onPriceClick(price.editText)
+                }
+            }
+            price.editText.setOnClickListener {
+                scroll.scrollTo(0, chooseSchedule.top)
+                viewModel.onPriceClick(price.editText)
+            }
         }
 
         binding.placeholderDash.setOnClickListener {

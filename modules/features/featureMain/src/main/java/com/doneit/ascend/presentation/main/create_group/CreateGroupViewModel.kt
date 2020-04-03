@@ -1,8 +1,10 @@
 package com.doneit.ascend.presentation.main.create_group
 
 import android.icu.text.TimeZoneFormat
-import android.widget.EditText
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -18,6 +20,7 @@ import com.doneit.ascend.presentation.models.group.toEntity
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
+import com.google.android.material.textfield.TextInputEditText
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
 import java.util.*
@@ -485,7 +488,7 @@ class CreateGroupViewModel(
         navigation.postValue(CreateMMGroupContract.Navigation.TO_INDIVIDUAL)
     }
 
-    override fun onPriceClick(editor: EditText) {
+    override fun onPriceClick(editor: TextInputEditText) {
         localRouter.navigateToPricePicker(editor)
     }
 

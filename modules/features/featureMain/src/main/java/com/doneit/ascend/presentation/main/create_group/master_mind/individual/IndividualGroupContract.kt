@@ -1,15 +1,13 @@
 package com.doneit.ascend.presentation.main.create_group.master_mind.individual
 
-import android.widget.EditText
 import androidx.lifecycle.LiveData
-import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.group.GroupTypeParticipants
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
+import com.google.android.material.textfield.TextInputEditText
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface IndividualGroupContract {
@@ -36,6 +34,6 @@ interface IndividualGroupContract {
         fun chooseStartDateTouch()
         fun addMember(groupType: GroupType)
         fun inviteToGroup(participants: List<String>)
-        fun onPriceClick(editor: EditText)
+        fun onPriceClick(editor: TextInputEditText)
     }
 }

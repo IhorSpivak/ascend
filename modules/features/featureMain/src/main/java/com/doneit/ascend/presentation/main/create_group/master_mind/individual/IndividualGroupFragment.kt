@@ -72,10 +72,17 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
             icEdit.setOnClickListener {
                 takeImageIfHasPermissions()
             }
-            price.editText.setOnClickListener {
-                it.isFocusable = true
-                scroll.scrollTo(0, numberOfMeetings.top)
-                viewModel.onPriceClick(price.editText)
+            price.editText.apply {
+                setOnFocusChangeListener { view, b ->
+                    if (b){
+                        scroll.scrollTo(0, numberOfMeetings.top)
+                        viewModel.onPriceClick(price.editText)
+                    }
+                }
+                price.editText.setOnClickListener {
+                    scroll.scrollTo(0, numberOfMeetings.top)
+                    viewModel.onPriceClick(price.editText)
+                }
             }
         }
 

@@ -2,10 +2,8 @@ package com.doneit.ascend.presentation.main.create_group.price_picker
 
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.text.set
@@ -14,15 +12,18 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentPricePickerBinding
 import com.doneit.ascend.presentation.models.GroupType
-import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.redmadrobot.inputmask.MaskedTextChangedListener
+import com.doneit.ascend.presentation.utils.extensions.focusRequest
+import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.template_card_field.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import java.text.DecimalFormat
+import java.text.NumberFormat
 
 class PricePickerFragment(
-    val editor: EditText
+    private val editor: TextInputEditText
 ) : BaseFragment<FragmentPricePickerBinding>() {
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<PricePickerContract.ViewModel>() with provider {
@@ -33,11 +34,7 @@ class PricePickerFragment(
     override val viewModel: PricePickerContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        editor.apply {
-            isPressed = true
-            isActivated = true
-            isCursorVisible = true
-        }
+        //editor.addTextChangedListener(textChanger)
         binding.apply {
             background = when(viewModel.createGroupModel.groupType){
                 GroupType.SUPPORT -> resources.getColor(R.color.support_color)
@@ -50,15 +47,16 @@ class PricePickerFragment(
                 viewModel.createGroupModel.price.observableField.get().let {
                     if (it!!.isNotEmpty()){
                         editor.text.apply {
-                            clear()
-                            append(it)
+                            this?.clear()
+                            this?.append(it)
                         }
                         viewModel.backClick()
                     }else{
-                        editor.text.clear()
+                        editor.text?.clear()
                         viewModel.backClick()
                     }
                 }
+                editor.clearFocus()
             }
 
             btnDone.setOnClickListener {
@@ -82,18 +80,38 @@ class PricePickerFragment(
     private val clickHandle = View.OnClickListener {
         if (it.id == R.id.key_backspace) {
             editor.text.apply {
-                length.let {length ->
-                    if (length > 0){
-                        this.delete(length-1, length)
+                this?.length.let {length ->
+                    if (length!! > 0){
+                        this?.delete(length-1, length)
                     }
                 }
             }
         } else {
-            editor.text.append((it as TextView).text)
+            editor.text?.append((it as TextView).text)
         }
     }
 
+    /*private val textChanger = object : TextWatcher{
+        private var editing = false
+        override fun afterTextChanged(p0: Editable?) {
+            if (!editing) {
+                editing = true
+                p0?.replace(0,p0.length, CURRENCY_FORMAT.format(p0.toString().toDouble()).drop(1))
+                editing = false
+            }
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            //empty
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            //empty
+        }
+    }*/
+
     companion object {
+        private val CURRENCY_FORMAT = NumberFormat.getCurrencyInstance()
         private const val PRICE_MASK = "[0999]{.}[09]"
     }
 }

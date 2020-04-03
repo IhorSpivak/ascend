@@ -180,7 +180,8 @@
                 app:hasCursor="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_price}"
-                app:tint="@{@color/master_mind_color}" />
+                app:tint="@{@color/master_mind_color}"
+                app:text="@{model.createGroupModel.price.observableField}"/>
 
             <com.doneit.ascend.presentation.views.MultilineEditWithError
                 android:id="@+id/description"

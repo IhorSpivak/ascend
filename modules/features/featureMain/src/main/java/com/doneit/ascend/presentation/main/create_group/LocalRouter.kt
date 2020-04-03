@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.create_group
 
 import android.os.Bundle
-import android.widget.EditText
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberFragment
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
@@ -13,8 +12,8 @@ import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMe
 import com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerFragment
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.extensions.add
-import com.doneit.ascend.presentation.utils.extensions.addWithBackStack
 import com.doneit.ascend.presentation.utils.extensions.replace
+import com.google.android.material.textfield.TextInputEditText
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class LocalRouter(
@@ -33,7 +32,7 @@ class LocalRouter(
         }
     }
 
-    override fun navigateToPricePicker(editor: EditText) {
+    override fun navigateToPricePicker(editor: TextInputEditText) {
         hostFragment.childFragmentManager.add(containerId,  PricePickerFragment(editor))
     }
 
