@@ -17,6 +17,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toCreateGroupRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
+import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toUpdateGroupRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.boundaries.GroupBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.data_source.UserDataSourceFactory
@@ -65,13 +66,13 @@ internal class GroupGateway(
 
     override suspend fun updateGroup(
         id: Long,
-        groupDTO: CreateGroupDTO
+        groupDTO: UpdateGroupDTO
     ): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
             remote.updateGroup(id,
                 groupDTO.imagePath.let{
                     if (it != null){ File(it) } else {null}},
-                groupDTO.toCreateGroupRequest()
+                groupDTO.toUpdateGroupRequest()
             )
         }.toResponseEntity(
             {

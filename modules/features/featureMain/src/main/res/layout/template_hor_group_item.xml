@@ -354,7 +354,7 @@
                     android:text="@string/join_to_discussion"
                     android:textAllCaps="true"
                     android:textSize="24sp"
-                    android:visibility="@{item.owner.id == user.id ? (item.inProgress &amp;&amp; item.status == GroupStatus.STARTED) : ((item.inProgress || item.starting) &amp;&amp; item.subscribed &amp;&amp; item.status != GroupStatus.CANCELLED)}" />
+                    android:visibility="@{item.owner.id == user.id ? (item.inProgress &amp;&amp; item.status == GroupStatus.STARTED) : ((item.inProgress || item.starting) &amp;&amp; item.subscribed &amp;&amp; item.status != GroupStatus.CANCELLED &amp;&amp; item.status != GroupStatus.ENDED)}" />
 
                 <Button
                     android:id="@+id/btnStart"

@@ -12,7 +12,7 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 interface IGroupGateway {
     suspend fun createGroup(groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>>
 
-    suspend fun updateGroup(id: Long, groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>>
+    suspend fun updateGroup(id: Long, groupDTO: UpdateGroupDTO): ResponseEntity<GroupEntity, List<String>>
 
     suspend fun getGroupsList(groupListModel: GroupListDTO): ResponseEntity<List<GroupEntity>, List<String>>
 

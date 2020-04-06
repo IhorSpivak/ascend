@@ -14,27 +14,21 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun Context.copyToStorage(bitmap: Bitmap): String{
-    /*val values = ContentValues()
-    val name = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date()) + ".jpg"
-    values.put(MediaStore.Images.Media.TITLE, name);
-    values.put(MediaStore.Images.Media.DISPLAY_NAME, name);
-    values.put(MediaStore.Images.Media.DESCRIPTION, "group_image");
-    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-    values.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis() / 1000);*/
+const val TEMP_IMAGE_NAME = "temp.jpeg"
 
-    try {
-        val imageFile = this.createImageUri()
+fun Context.copyToStorage(bitmap: Bitmap): String{
+    return try {
+        val imageFile = this.createImageFile()
         val outputStream = FileOutputStream(imageFile)
         try {
             bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, outputStream)
-            return imageFile.absolutePath
+            imageFile.absolutePath
         }finally {
             outputStream.flush()
             outputStream.close()
         }
     }catch (e: IOException){
-        return ""
+        ""
     }
 }
 suspend fun Activity.copyCompressed(source: Uri, destinationPath: String): String {
@@ -80,6 +74,31 @@ suspend fun Activity.copyCompressed(source: Uri, destinationPath: String): Strin
     }
 
     return outFile.path
+}
+
+fun Context.copyImageFromSource(source: Uri): String{
+    return try {
+        contentResolver.openInputStream(source).let {inputStream ->
+            BitmapFactory.decodeStream(inputStream).let {bitmap ->
+                val imageFile = this.createImageFile()
+                val outputStream = FileOutputStream(imageFile)
+                try {
+                    bitmap.rotateImageIfRequired(externalCacheDir?.absolutePath + "/" + TEMP_IMAGE_NAME).let {
+                        it.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, outputStream)
+                        imageFile.absolutePath
+                    }
+                }finally {
+                    inputStream?.close()
+                    outputStream.apply {
+                        flush()
+                        close()
+                    }
+                }
+            }
+        }
+    }catch (e: IOException){
+        ""
+    }
 }
 
 fun Context.copyFile(source: Uri, destination: Uri): Uri {
@@ -132,7 +151,7 @@ private fun rotateImage(img: Bitmap, degree: Int): Bitmap {
 }
 
 fun Context.createTempPhotoUri(): Uri {
-    return createTempFile("temp.jpeg")
+    return createTempFile(TEMP_IMAGE_NAME)
 }
 
 fun Context.createCropPhotoUri(): Uri {
@@ -164,7 +183,7 @@ private fun Context.createTempFile(name: String): Uri {
 }
 
 @Throws(IOException::class)
-private fun Context.createImageUri(): File {
+private fun Context.createImageFile(): File {
     // Create an image file name
     val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
     val storageDir: File = File(externalCacheDir!!.path)

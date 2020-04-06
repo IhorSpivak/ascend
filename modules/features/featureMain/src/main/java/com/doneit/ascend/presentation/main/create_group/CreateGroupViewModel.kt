@@ -17,6 +17,7 @@ import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.group.toEntity
+import com.doneit.ascend.presentation.models.group.toUpdateEntity
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -195,7 +196,7 @@ class CreateGroupViewModel(
             canComplete.postValue(true)
 
             if (requestEntity.isSuccessful) {
-                router.navigateToDetails(requestEntity.successModel!!)
+                router.navigateToDetailsNoBackStack(requestEntity.successModel!!)
             } else {
                 if (requestEntity.errorModel!!.isNotEmpty()) {
                     showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
@@ -388,6 +389,8 @@ class CreateGroupViewModel(
         if(selectedMembers.remove(member)){
             members.postValue(selectedMembers.toMutableList())
         }
+        deletedMembers.add(member)
+        membersToDelete.postValue(deletedMembers.toMutableList())
     }
 
     override fun chooseMeetingCountTouch() {
@@ -395,21 +398,23 @@ class CreateGroupViewModel(
     }
 
     override val members: MutableLiveData<MutableList<AttendeeEntity>> = MutableLiveData()
+    override val membersToDelete: MutableLiveData<MutableList<AttendeeEntity>>  = MutableLiveData()
+    override val deletedMembers: MutableList<AttendeeEntity> = mutableListOf()
 
-    override fun updateGroup(id: Long) {
+    override fun updateGroup(group: GroupEntity) {
         canComplete.postValue(false)
 
         viewModelScope.launch {
-            val requestEntity =
-                groupUseCase.updateGroup(id, createGroupModel.toEntity())
-
-            canComplete.postValue(true)
-
-            if (requestEntity.isSuccessful) {
-                router.navigateToDetails(requestEntity.successModel!!)
-            } else {
-                if (requestEntity.errorModel!!.isNotEmpty()) {
-                    showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
+            group.let {group ->
+                groupUseCase.updateGroup(group.id, createGroupModel.toUpdateEntity(group.attendees?.map { it.email?:"" }?: emptyList())).let { response ->
+                    canComplete.postValue(true)
+                    if (response.isSuccessful) {
+                        router.navigateToDetailsNoBackStack(response.successModel!!)
+                    } else {
+                        if (response.errorModel!!.isNotEmpty()) {
+                            showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+                        }
+                    }
                 }
             }
         }

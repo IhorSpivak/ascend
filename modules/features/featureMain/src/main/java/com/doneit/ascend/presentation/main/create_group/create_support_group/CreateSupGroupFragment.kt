@@ -161,7 +161,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
         if (group != null){
             binding.btnComplete.apply {
                 text = getString(R.string.btn_save_action)
-                setOnClickListener { viewModel.updateGroup(group!!.id) }
+                setOnClickListener { viewModel.updateGroup(group!!) }
             }
             viewModel.createGroupModel.isPrivate.set(group!!.isPrivate)
             viewModel.createGroupModel.apply {
@@ -259,8 +259,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
                     if (data?.data != null) {
-                        val galleryPhotoUri = context!!.copyFile(data.data!!, tempPhotoUri)
-                        handleImageURI(galleryPhotoUri)
+                        handleImageURI(context!!.copyFile(data.data!!, tempPhotoUri))
                     } else {
                         handleImageURI(tempPhotoUri)
                     }
@@ -270,11 +269,10 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
 
     private fun handleImageURI(sourcePath: Uri) {
         GlobalScope.launch {
-            val compressed = activity!!.copyCompressed(sourcePath, compressedPhotoPath)
-
+            //val compressed = activity!!.copyCompressed(sourcePath, compressedPhotoPath)
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
-                viewModel.createGroupModel.image.observableField.set(compressed)
+                viewModel.createGroupModel.image.observableField.set(context?.copyImageFromSource(sourcePath))
             }
         }
     }

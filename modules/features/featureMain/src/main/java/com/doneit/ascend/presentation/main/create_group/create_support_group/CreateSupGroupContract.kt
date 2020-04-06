@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.create_group.create_support_group
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedViewModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.common.IClickListener
@@ -25,7 +26,7 @@ interface CreateSupGroupContract {
         fun addNewParticipant()
         fun removeMember(member: AttendeeEntity)
         fun completeClick()
-        fun updateGroup(id: Long)
+        fun updateGroup(group: GroupEntity)
         fun backClick()
         fun changeSchedule()
         fun chooseScheduleTouch()

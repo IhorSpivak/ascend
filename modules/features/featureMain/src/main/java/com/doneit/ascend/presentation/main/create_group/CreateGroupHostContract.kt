@@ -34,6 +34,7 @@ interface CreateGroupHostContract {
     interface Router {
         fun onBack()
         fun navigateToDetails(group: GroupEntity)
+        fun navigateToDetailsNoBackStack(group: GroupEntity)
     }
 
     interface LocalRouter {

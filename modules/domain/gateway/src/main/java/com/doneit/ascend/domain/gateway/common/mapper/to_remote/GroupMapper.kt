@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.gateway.common.applyDaysOffset
 import com.doneit.ascend.domain.gateway.common.getDayOffset
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
@@ -16,6 +17,24 @@ fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
         groupType,
         price?.toPrice(),
         participants,
+        days?.applyDaysOffset(dayOffset),
+        meetingsCount,
+        meetingFormat,
+        privacy,
+        tags
+    )
+}
+fun UpdateGroupDTO.toUpdateGroupRequest(): UpdateGroupRequest {
+    val dayOffset = startTime?.getDayOffset()?: 0
+
+    return UpdateGroupRequest(
+        name,
+        description,
+        startTime?.toRemoteString(),
+        groupType,
+        price?.toPrice(),
+        participants,
+        participantsToDelete,
         days?.applyDaysOffset(dayOffset),
         meetingsCount,
         meetingFormat,

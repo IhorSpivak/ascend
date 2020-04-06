@@ -67,6 +67,14 @@ internal class GroupRepository(
                     )
                 )
                 addPart(MultipartBody.Part.createFormData("price", request.price.toString()))
+                request.participants?.forEach { email ->
+                    addPart(
+                        MultipartBody.Part.createFormData(
+                            "participants[]",
+                            email
+                        )
+                    )
+                }
                 addPart(
                     MultipartBody.Part.createFormData(
                         "image",
@@ -88,7 +96,7 @@ internal class GroupRepository(
     override suspend fun updateGroup(
         id: Long,
         file: File?,
-        request: CreateGroupRequest
+        request: UpdateGroupRequest
     ): RemoteResponse<GroupResponse, ErrorsListResponse> {
         return execute({
 
@@ -153,15 +161,21 @@ internal class GroupRepository(
                 if (it.price != null) {
                     builder.addPart(MultipartBody.Part.createFormData("price", it.price.toString()))
                 }
-                if (it.participants != null) {
-                    it.participants.forEach { email ->
-                        builder = builder.addPart(
-                            MultipartBody.Part.createFormData(
-                                "participants[]",
-                                email
-                            )
+                it.participants?.forEach { email ->
+                    builder.addPart(
+                        MultipartBody.Part.createFormData(
+                            "participants[]",
+                            email
                         )
-                    }
+                    )
+                }
+                it.removedParticipants?.forEach { email ->
+                    builder.addPart(
+                        MultipartBody.Part.createFormData(
+                            "removed_participants[]",
+                            email
+                        )
+                    )
                 }
                 if (file != null) {
                     builder.addPart(

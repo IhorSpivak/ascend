@@ -60,8 +60,13 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
             handleNavigation(it)
         })
         viewModel.members.observe(this, Observer {
-            viewModel.createGroupModel.participants.set(it.map {
-                it.email?: ""
+            viewModel.createGroupModel.participants.set(it.map {attendee ->
+                attendee.email?: ""
+            })
+        })
+        viewModel.membersToDelete.observe(this, Observer {
+            viewModel.createGroupModel.participantsToDelete.set(it.map {attendee ->
+                attendee.email?: ""
             })
         })
 
@@ -81,7 +86,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 setOnClickListener {
                     when (what) {
                         GroupAction.DUPLICATE.toString() -> viewModel.completeClick()
-                        GroupAction.EDIT.toString() -> viewModel.updateGroup(group!!.id)
+                        GroupAction.EDIT.toString() -> viewModel.updateGroup(group!!)
                     }
                 }
             }
@@ -127,8 +132,6 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                         }
 
                     })
-
-                //image.observableField.set(group!!.image!!.url)
             }
             viewModel.apply{
                 members.postValue(group!!.attendees?.toMutableList())

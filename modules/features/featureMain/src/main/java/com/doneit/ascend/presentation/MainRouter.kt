@@ -158,6 +158,10 @@ class MainRouter(
         activity.supportFragmentManager.popBackStack()
         replaceFullWithMainUpdate(GroupInfoFragment.newInstance(group.id))
     }
+    override fun navigateToDetailsNoBackStack(group: GroupEntity) {
+        activity.supportFragmentManager.popBackStack()
+        replaceFullNoBackStack(GroupInfoFragment.newInstance(group.id))
+    }
 
     override fun navigateToLogin() {
         appRouter.goToLogin()
@@ -438,6 +442,12 @@ class MainRouter(
             .replace(containerId, Fragment())//in order to force fragment's view recreation
             .replace(containerIdFull, fragment, fragment::class.java.simpleName)
             .addToBackStack(fragment::class.java.simpleName)
+            .commit()
+    }
+    private fun replaceFullNoBackStack(fragment: Fragment) {
+        activity.supportFragmentManager.beginTransaction()
+            .replace(containerId, Fragment())//in order to force fragment's view recreation
+            .replace(containerIdFull, fragment, fragment::class.java.simpleName)
             .commit()
     }
 }

@@ -165,11 +165,9 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
     private fun handleImageURI(sourcePath: Uri) {
         GlobalScope.launch {
-            val compressed = activity!!.copyCompressed(sourcePath, compressedPhotoPath)
-
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
-                viewModel.createGroupModel.image.observableField.set(compressed)
+                viewModel.createGroupModel.image.observableField.set(context?.copyImageFromSource(sourcePath))
             }
         }
     }

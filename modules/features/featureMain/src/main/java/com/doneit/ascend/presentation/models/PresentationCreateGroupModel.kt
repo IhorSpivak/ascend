@@ -20,6 +20,7 @@ class PresentationCreateGroupModel(
     var description: ValidatableField = ValidatableField(),
     var image: ValidatableField = ValidatableField(),
     var participants: ObservableField<List<String>> = ObservableField(),
+    var participantsToDelete: ObservableField<List<String>> = ObservableField(),
     var meetingFormat: ValidatableField = ValidatableField(),
     var tags: Int = 0,
     var isPrivate: ObservableField<Boolean> = ObservableField(false),
