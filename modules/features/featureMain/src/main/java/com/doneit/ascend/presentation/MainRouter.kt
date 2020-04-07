@@ -445,9 +445,11 @@ class MainRouter(
             .commit()
     }
     private fun replaceFullNoBackStack(fragment: Fragment) {
+        activity.supportFragmentManager.popBackStack()
         activity.supportFragmentManager.beginTransaction()
             .replace(containerId, Fragment())//in order to force fragment's view recreation
             .replace(containerIdFull, fragment, fragment::class.java.simpleName)
+            .addToBackStack(fragment::class.java.simpleName)
             .commit()
     }
 }
