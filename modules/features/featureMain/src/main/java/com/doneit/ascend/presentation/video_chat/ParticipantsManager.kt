@@ -65,7 +65,6 @@ class ParticipantsManager {
             resultList.removeAt(index)
             resultList.add(index, participant)
             _participants.value = resultList
-            //_participantToUpdate.value = participant
         }
     }
 
@@ -91,9 +90,6 @@ class ParticipantsManager {
             updateParticipant(it.copy(
                 isHandRisen = participant.isHandRisen
             ))
-            /*updateParticipant(it.apply {
-                isHandRisen = participant.isHandRisen
-            })*/
         }
     }
 
@@ -102,9 +98,6 @@ class ParticipantsManager {
             updateParticipant(it.copy(
                 isMuted = true
             ))
-            /*updateParticipant(it.apply {
-                isMuted = true
-            })*/
         }
     }
 
@@ -113,9 +106,6 @@ class ParticipantsManager {
             updateParticipant(it.copy(
                 isMuted = false
             ))
-            /*updateParticipant(it.apply {
-                isMuted = false
-            })*/
         }
     }
 

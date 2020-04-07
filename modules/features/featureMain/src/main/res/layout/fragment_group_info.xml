@@ -493,7 +493,8 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/ind_duplicate">
+                            app:layout_constraintEnd_toStartOf="@id/ind_duplicate"
+                            android:visibility="@{model.group.groupType == GroupType.INDIVIDUAL &amp;&amp; (model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE)}">
                             <Button
                                 android:id="@+id/ind_delete"
                                 android:layout_width="0dp"

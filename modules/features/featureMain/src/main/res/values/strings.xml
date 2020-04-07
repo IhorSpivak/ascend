@@ -502,4 +502,8 @@
     <string name="number_nine">9</string>
     <string name="btn_clear">.</string>
     <string name="btn_backspace">Back</string>
+
+    <!--Image dialog-->
+    <string name="take_photo">Take A Photo</string>
+    <string name="take_gallery">Select From Gallery</string>
 </resources>

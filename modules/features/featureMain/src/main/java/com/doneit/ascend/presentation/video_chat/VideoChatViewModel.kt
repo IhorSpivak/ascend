@@ -140,7 +140,6 @@ class VideoChatViewModel(
                 if (user.userId != groupInfo.value?.owner?.id.toString()
                     && user.userId != currentUserId
                 ) {
-                    //todo maybe add if() statement in case user is owner
                     participantsManager.addParticipant(user)
                 }
             }

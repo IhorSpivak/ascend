@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.create_group.create_support_group
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.SpinnerAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
@@ -21,6 +23,8 @@ import com.bumptech.glide.request.transition.Transition
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
+import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
+import com.doneit.ascend.presentation.dialog.ChooseImageDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
@@ -57,6 +61,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
     private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
     private var group: GroupEntity? = null
+    private var tempUri: Uri? = null
     private var what: String? = null
 
     private val adapter: ParticipantAdapter by lazy {
@@ -122,11 +127,11 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             }
 
             placeholderDash.setOnClickListener {
-                pickFromGallery()
+                createImageBottomDialog().show(childFragmentManager, null)
             }
 
             icEdit.setOnClickListener {
-                pickFromGallery()
+                createImageBottomDialog().show(childFragmentManager, null)
             }
 
             chooseSchedule.multilineEditText.setOnClickListener {
@@ -226,6 +231,53 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
         }
     }
 
+    private fun selectFromGallery() {
+        hideKeyboard()
+        EzPermission.with(context!!)
+            .permissions(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            )
+            .request { granted, _, _ ->
+                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    val galleryIntent =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    galleryIntent.type = "image/*"
+                    startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE)
+                }
+            }
+    }
+
+    private fun takeAPhoto() {
+        hideKeyboard()
+        EzPermission.with(context!!)
+            .permissions(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            )
+            .request { granted, _, _ ->
+                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    val content = ContentValues().apply {
+                        put(
+                            MediaStore.Images.Media.TITLE,
+                            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
+                        )
+                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                        put(MediaStore.Images.Media.DESCRIPTION, "group_image")
+                    }
+                    tempUri = activity?.contentResolver?.insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        content
+                    )
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
+                    startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
+                }
+            }
+    }
+
     private fun pickFromGallery() {
         hideKeyboard()
         EzPermission.with(context!!)
@@ -241,7 +293,19 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                     galleryIntent.type = "image/*"
 
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempPhotoUri)
+                    val content = ContentValues().apply {
+                        put(
+                            MediaStore.Images.Media.TITLE,
+                            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
+                        )
+                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                        put(MediaStore.Images.Media.DESCRIPTION, "group_image")
+                    }
+                    tempUri = activity?.contentResolver?.insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        content
+                    )
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
 
                     val chooser =
                         Intent.createChooser(galleryIntent, "Select an App to choose an Image")
@@ -258,11 +322,10 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
         if (resultCode == Activity.RESULT_OK)
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
-                    if (data?.data != null) {
-                        handleImageURI(context!!.copyFile(data.data!!, tempPhotoUri))
-                    } else {
-                        handleImageURI(tempPhotoUri)
-                    }
+                    handleImageURI(data?.data!!)
+                }
+                PHOTO_REQUEST_CODE -> {
+                    handleImageURI(tempUri!!)
                 }
             }
     }
@@ -272,7 +335,16 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             //val compressed = activity!!.copyCompressed(sourcePath, compressedPhotoPath)
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
-                viewModel.createGroupModel.image.observableField.set(context?.copyImageFromSource(sourcePath))
+                viewModel.createGroupModel.image.observableField.set(
+                    activity!!.getImagePath(
+                        sourcePath
+                    ).let {
+                        if (it.isEmpty()) {
+                            context!!.copyToStorage(sourcePath)
+                        } else {
+                            it
+                        }
+                    })
             }
         }
     }
@@ -302,7 +374,22 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
         }
     }
 
+    private fun createImageDialog(): AlertDialog {
+        return ChooseImageDialog.create(
+            context!!,
+            { { takeAPhoto() } },
+            { selectFromGallery() }
+        )
+    }
+    private fun createImageBottomDialog(): ChooseImageBottomDialog {
+        return ChooseImageBottomDialog.create(
+            { takeAPhoto() },
+            { selectFromGallery() }
+        )
+    }
+
     companion object {
         private const val GALLERY_REQUEST_CODE = 42
+        private const val PHOTO_REQUEST_CODE = 43
     }
 }

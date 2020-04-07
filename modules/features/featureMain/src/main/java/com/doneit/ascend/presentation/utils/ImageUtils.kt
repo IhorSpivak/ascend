@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
+import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
@@ -30,6 +31,26 @@ fun Context.copyToStorage(bitmap: Bitmap): String{
     }catch (e: IOException){
         ""
     }
+}
+
+fun Context.copyToStorage(uri: Uri): String{
+        contentResolver.openInputStream(uri).use { inputStream ->
+            BitmapFactory.decodeStream(inputStream).let { bitmap ->
+                val imageFile = this.createImageFile()
+                val outputStream = FileOutputStream(imageFile)
+                try {
+                    bitmap.compress(
+                        Bitmap.CompressFormat.JPEG,
+                        Constants.COMPRESSION_QUALITY,
+                        outputStream
+                    )
+                    return imageFile.absolutePath
+                } finally {
+                    outputStream.flush()
+                    outputStream.close()
+                }
+            }
+        }
 }
 suspend fun Activity.copyCompressed(source: Uri, destinationPath: String): String {
     var input = contentResolver.openInputStream(source)
@@ -83,7 +104,8 @@ fun Context.copyImageFromSource(source: Uri): String{
                 val imageFile = this.createImageFile()
                 val outputStream = FileOutputStream(imageFile)
                 try {
-                    bitmap.rotateImageIfRequired(externalCacheDir?.absolutePath + "/" + TEMP_IMAGE_NAME).let {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, outputStream)
+                    bitmap.rotateImageIfRequired(imageFile.absolutePath).let {
                         it.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, outputStream)
                         imageFile.absolutePath
                     }
@@ -192,4 +214,10 @@ private fun Context.createImageFile(): File {
         ".jpg",
         storageDir
     )
+}
+fun Activity.getImagePath(uri: Uri): String{
+    contentResolver.query(uri, null, null, null, null).use { cursor ->
+        cursor?.moveToFirst()
+        return cursor?.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))?: ""
+    }
 }

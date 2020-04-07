@@ -10,7 +10,6 @@ import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityVideoChatBinding
 import com.doneit.ascend.presentation.utils.extensions.visible
-import com.doneit.ascend.presentation.video_chat.common.ChatParticipantListAdapter
 import com.doneit.ascend.presentation.video_chat.common.ChatParticipantsAdapter
 import kotlinx.android.synthetic.main.activity_video_chat.*
 import org.kodein.di.Kodein
