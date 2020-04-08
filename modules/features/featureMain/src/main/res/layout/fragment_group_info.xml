@@ -254,7 +254,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
                         android:enabled="false"
-                        android:visibility="@{model.isOwner &amp;&amp; group.status == GroupStatus.ENDED}"
+                        android:visibility="@{group.status == GroupStatus.ENDED}"
                         app:layout_constraintTop_toBottomOf="@id/brMaster" />
                     <Button
                         android:id="@+id/bntCanceled"

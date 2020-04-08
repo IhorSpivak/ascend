@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.core.view.children
-import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentNumberOfMeetingsBinding
-import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import kotlinx.android.synthetic.main.fragment_notes.view.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -30,6 +27,7 @@ class NumberOfMeetingsFragment: BaseFragment<FragmentNumberOfMeetingsBinding>() 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
+            viewModel.meetingsCountOk.postValue(choosenCount > 0)
             viewModel.apply {
                 if (createGroupModel.numberOfMeetings.observableField.get().toString().isNotEmpty()){
                     choosenCount = createGroupModel.numberOfMeetings.observableField.get().toString().toInt()
@@ -49,6 +47,7 @@ class NumberOfMeetingsFragment: BaseFragment<FragmentNumberOfMeetingsBinding>() 
             radioGroupBottom.setOnCheckedChangeListener(bottomListener)
             btnOk.setOnClickListener {
                 viewModel.createGroupModel.numberOfMeetings.observableField.set(choosenCount.toString())
+                viewModel.themesOfMeeting.postValue(choosenCount)
                 fragmentManager?.popBackStack()
             }
         }

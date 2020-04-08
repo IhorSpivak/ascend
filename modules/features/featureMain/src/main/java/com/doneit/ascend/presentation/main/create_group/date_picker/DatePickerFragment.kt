@@ -32,7 +32,7 @@ class DatePickerFragment : BaseFragment<FragmentDatePickerBinding>() {
                 GroupType.SUPPORT -> resources.getColor(R.color.support_color)
                 GroupType.INDIVIDUAL -> resources.getColor(R.color.background_dimmed)
                 GroupType.MASTER_MIND -> resources.getColor(R.color.background_dimmed)
-                GroupType.WEBINAR -> resources.getColor(R.color.background_dimmed)
+                GroupType.WEBINAR -> resources.getColor(R.color.red_webinar_color)
                 else -> resources.getColor(R.color.support_color)
             }
             executePendingBindings()

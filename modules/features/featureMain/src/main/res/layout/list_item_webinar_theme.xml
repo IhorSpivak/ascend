@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarContract.ViewModel" />
+        <variable
+            name="position"
+            type="Integer" />
+        <import type="android.text.InputType" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.doneit.ascend.presentation.views.MultilineEditWithError
+            android:id="@+id/theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/create_group_horizontal_margin"
+            android:layout_marginTop="@dimen/create_group_top_margin"
+            android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+            app:error="@{model.createGroupModel.themesOfMeeting.get(position).observableError}"
+            app:hint="@{@string/create_webinar_theme_hint(position + 1)}"
+            app:layout_constraintEnd_toStartOf="@id/remove"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:maxLength="@{64}"
+            app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
+            app:saveState="@{false}"
+            app:src="@{@drawable/ic_webinar_theme}"
+            app:tint="@{@color/red_webinar_color}"
+            app:text="@={model.createGroupModel.themesOfMeeting.get(position).observableField}" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/remove"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="18dp"
+            android:background="@drawable/remove_round_background"
+            android:src="@drawable/ic_minus"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            app:layout_constraintTop_toTopOf="@id/theme"
+            app:layout_constraintBottom_toBottomOf="@id/theme"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

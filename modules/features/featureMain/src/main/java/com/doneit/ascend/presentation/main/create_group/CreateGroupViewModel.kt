@@ -290,6 +290,7 @@ class CreateGroupViewModel(
             createGroupModel.groupType == GroupType.SUPPORT -> canCreateSupport()
             createGroupModel.isPrivate.getNotNull() -> canCreateMMGroup()
             createGroupModel.isPrivate.getNotNull().not() -> canCreateMMIndividual()
+            createGroupModel.groupType == GroupType.WEBINAR -> canCreateWebinar()
             else -> canCreateMMIndividual()
         }
         canComplete.postValue(isValid)
@@ -329,6 +330,21 @@ class CreateGroupViewModel(
     }
 
     private fun canCreateMMIndividual(): Boolean {
+        var isFormValid = true
+
+        isFormValid = isFormValid and createGroupModel.name.isValid
+        isFormValid = isFormValid and
+                createGroupModel.scheduleTime.observableField.getNotNull().isNotEmpty() and
+                createGroupModel.scheduleDays.isNotEmpty()
+        isFormValid = isFormValid and createGroupModel.numberOfMeetings.isValid
+        isFormValid = isFormValid and createGroupModel.startDate.isValid
+        isFormValid = isFormValid and createGroupModel.price.isValid
+        isFormValid = isFormValid and createGroupModel.description.isValid
+        isFormValid = isFormValid and createGroupModel.image.isValid
+
+        return isFormValid
+    }
+    private fun canCreateWebinar(): Boolean {
         var isFormValid = true
 
         isFormValid = isFormValid and createGroupModel.name.isValid
@@ -492,6 +508,10 @@ class CreateGroupViewModel(
     override fun onIndividualSelected() {
         navigation.postValue(CreateMMGroupContract.Navigation.TO_INDIVIDUAL)
     }
+
+    override val themesOfMeeting: MutableLiveData<Int> = MutableLiveData()
+    override val newScheduleItem: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData(mutableListOf(ValidatableField()))
+    override val themes: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData(mutableListOf())
 
     override fun onPriceClick(editor: TextInputEditText) {
         localRouter.navigateToPricePicker(editor)

@@ -84,7 +84,7 @@ class GroupInfoViewModel(
     private fun updateButtonsState(user: UserEntity, details: GroupEntity) {
         details.apply {
             btnJoinedVisible.postValue(subscribed)
-            btnJoinVisible.postValue((inProgress || isStarting) && subscribed!! && status != GroupStatus.CANCELLED)
+            btnJoinVisible.postValue((inProgress || isStarting) && subscribed!! && status != GroupStatus.CANCELLED && status != GroupStatus.ENDED)
             isEditable.postValue(status != GroupStatus.ENDED)
             starting.postValue(status == GroupStatus.ACTIVE)
             btnStartVisible.postValue(status != GroupStatus.STARTED)

@@ -78,6 +78,10 @@ fun String.isDescriptionValid(): Boolean {
     val r = Regex("^[a-zA-Z0-9\\s_.]{2,1000}\$")
     return this.matches(r)
 }
+fun String.isThemeValid(): Boolean {
+    val r = Regex("^[a-zA-Z0-9\\s_.]{2,64}\$")
+    return this.matches(r)
+}
 
 fun String.isValidEmail(): Boolean {
     return Patterns.EMAIL_ADDRESS.matcher(this).matches() && this.length <= 48

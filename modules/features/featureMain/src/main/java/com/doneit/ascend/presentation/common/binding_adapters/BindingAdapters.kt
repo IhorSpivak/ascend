@@ -1,11 +1,12 @@
 package com.doneit.ascend.presentation.common.binding_adapters
 
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.Button
+import android.widget.RadioButton
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.text.HtmlCompat
@@ -13,20 +14,16 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.Request
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.target.SizeReadyCallback
-import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.SearchEntity
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
 import com.doneit.ascend.presentation.main.home.daily.common.groups.GroupAdapter
 import com.doneit.ascend.presentation.main.search.common.SearchAdapter
+import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.group.GroupListWithUser
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
-import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter
 
 @BindingAdapter("app:html")
@@ -224,4 +221,37 @@ fun setVisibilityByData(
     data: String?
 ) {
     view.visibility = if (data.isNullOrEmpty()) View.GONE else View.VISIBLE
+}
+
+@BindingAdapter("app:setDayBackground")
+fun RadioButton.setDayBackground(groupType: GroupType) {
+    background = when(groupType){
+        GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.day_button_selector)
+        GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.day_button_selector)
+        GroupType.WEBINAR -> resources.getDrawable(R.drawable.day_button_selector_webinar)
+        GroupType.SUPPORT -> resources.getDrawable(R.drawable.day_button_selector_support)
+        else -> resources.getDrawable(R.drawable.day_button_selector)
+    }
+}
+
+@BindingAdapter("app:setDayBackground")
+fun ToggleButton.setDayBackground(groupType: GroupType) {
+    background = when(groupType){
+        GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.day_button_selector)
+        GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.day_button_selector)
+        GroupType.WEBINAR -> resources.getDrawable(R.drawable.day_button_selector_webinar)
+        GroupType.SUPPORT -> resources.getDrawable(R.drawable.day_button_selector_support)
+        else -> resources.getDrawable(R.drawable.day_button_selector)
+    }
+}
+
+@BindingAdapter("app:setOkBackground")
+fun Button.setOkBackground(groupType: GroupType) {
+    background = when(groupType){
+        GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.button_ok_selector)
+        GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.button_ok_selector)
+        GroupType.WEBINAR -> resources.getDrawable(R.drawable.button_ok_selector_webinar)
+        GroupType.SUPPORT -> resources.getDrawable(R.drawable.button_ok_selector_support)
+        else -> resources.getDrawable(R.drawable.button_ok_selector)
+    }
 }

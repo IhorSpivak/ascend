@@ -8,10 +8,6 @@
              name="model"
             type="com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarContract.ViewModel" />
 
-         <!--<variable
-             name="adapter"
-             type=""/>-->
-
         <import type="android.text.InputType" />
 
         <import type="android.view.View" />
@@ -49,6 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:onClick="@{() -> model.backClick()}"
                         android:text="@string/create_webinar_cancel"
                         android:textColor="@color/light_gray_8f"
                         android:textSize="17sp"
@@ -73,8 +70,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
+                        android:enabled="@{model.canComplete}"
                         android:text="@string/create_webinar_complete"
-                        android:textColor="@color/green_font_color"
+                        android:textColor="@color/button_text_color_selector"
                         android:textSize="17sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -84,9 +82,9 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:fillViewport="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -124,37 +122,83 @@
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
                     android:layout_marginTop="@dimen/create_group_top_margin"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                    app:digits="@{@string/allow_number_digits}"
                     app:error="@{model.createGroupModel.price.observableError}"
                     app:hint="@{@string/price}"
-                    app:inputType="@{InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/webinar_name"
                     app:maxLength="@{7}"
+                    app:hasCursor="@{true}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_price}"
                     app:text="@={model.createGroupModel.price.observableField}"
                     app:tint="@{@color/red_webinar_color}" />
 
-                <com.doneit.ascend.presentation.views.MultilineEditWithError
-                    android:id="@+id/chooseSchedule"
+                <com.doneit.ascend.presentation.views.EditWithError
+                    android:id="@+id/startDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
                     android:layout_marginTop="@dimen/create_group_top_margin"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                    app:error="@{model.createGroupModel.scheduleTime.observableError}"
-                    app:hint="@{@string/create_webinar_date_and_time}"
+                    app:digits="@{@string/allow_date_digits}"
+                    app:error="@{model.createGroupModel.startDate.observableError}"
+                    app:hint="@{@string/start_date}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/webinar_price"
                     app:noFocusable="@{true}"
                     app:saveState="@{false}"
-                    app:src="@{@drawable/ic_schedule}"
-                    app:text="@{model.createGroupModel.scheduleTime.observableField}"
-                    app:tint="@{@color/red_webinar_color}" />
+                    app:src="@{@drawable/ic_favorite_date}"
+                    app:tint="@{@color/red_webinar_color}"
+                    app:text="@{model.createGroupModel.startDate.observableField}" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/timeSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:isScrollContainer="false"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/startDate"
+                    app:layout_constraintBottom_toTopOf="@id/numberOfMeetings"
+                    tools:listitem="@layout/list_item_webinar_theme"/>
+
+                <com.doneit.ascend.presentation.views.EditWithError
+                    android:id="@+id/numberOfMeetings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="@dimen/create_group_top_margin"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:error="@{model.createGroupModel.numberOfMeetings.observableError}"
+                    app:hint="@{@string/number_of_meetings}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/timeSchedule"
+                    app:noFocusable="@{true}"
+                    app:saveState="@{false}"
+                    app:src="@{@drawable/ic_hand_number}"
+                    app:tint="@{@color/red_webinar_color}"
+                    app:text="@={model.createGroupModel.numberOfMeetings.observableField}" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/webinar_themes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:isScrollContainer="false"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/numberOfMeetings"
+                    app:layout_constraintBottom_toTopOf="@id/description"
+                    tools:listitem="@layout/list_item_webinar_theme"/>
                 <com.doneit.ascend.presentation.views.MultilineEditWithError
                     android:id="@+id/description"
                     android:layout_width="match_parent"
@@ -167,7 +211,7 @@
                     app:hint="@{@string/create_webinar_group_description}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chooseSchedule"
+                    app:layout_constraintTop_toBottomOf="@+id/webinar_themes"
                     app:maxLength="@{1000}"
                     app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                     app:saveState="@{false}"
@@ -211,6 +255,42 @@
                     app:layout_constraintStart_toStartOf="@id/dash_rectangle_background"
                     app:layout_constraintTop_toBottomOf="@id/image_view_upload_image_group" />
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:clipToPadding="false"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="0dp"
+                    android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description" >
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerCrop"
+                        app:path="@{model.createGroupModel.image.observableField}"/>
+                </androidx.cardview.widget.CardView>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icEdit"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ic_edit_round"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_pen"
+                    android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="@+id/dash_rectangle_background"
+                    app:layout_constraintTop_toTopOf="@+id/dash_rectangle_background" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_view_invite_members"
                     style="@style/TextNormal"
@@ -223,54 +303,63 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/dash_rectangle_background" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="24dp"
+                    android:layout_marginBottom="32dp"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_view_invite_members">
+                    app:layout_constraintTop_toBottomOf="@id/text_view_invite_members"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/add_member_template_round"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/ic_dash_round"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/add_member_template_plus"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/add_member_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_member_plus"
-                        android:tint="@color/light_gray_b1bf"
-                        app:layout_constraintBottom_toBottomOf="@id/add_member_template_round"
-                        app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
-                        app:layout_constraintStart_toStartOf="@id/add_member_template_round"
-                        app:layout_constraintTop_toTopOf="@id/add_member_template_round" />
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text_view_add_member"
-                        style="@style/TextNormal"
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="32dp"
-                        android:ellipsize="end"
-                        android:gravity="center_horizontal|top"
-                        android:lines="2"
-                        android:text="@string/create_webinar_add_member"
-                        android:textSize="12sp"
-                        android:fontFamily="@font/red_hat_font"
-                        android:textColor="@color/light_gray_b1bf"
-                        app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
-                        app:layout_constraintStart_toStartOf="@+id/add_member_template_round"
-                        app:layout_constraintTop_toBottomOf="@id/add_member_template_round" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/add_member_template_round"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:background="@drawable/ic_dash_round"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/add_member_template_plus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_member_plus"
+                            android:tint="@color/light_gray_b1bf"
+                            app:layout_constraintBottom_toBottomOf="@id/add_member_template_round"
+                            app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
+                            app:layout_constraintStart_toStartOf="@id/add_member_template_round"
+                            app:layout_constraintTop_toTopOf="@id/add_member_template_round" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/text_view_add_member"
+                            style="@style/TextNormal"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="8dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/red_hat_font"
+                            android:gravity="center_horizontal|top"
+                            android:lines="2"
+                            android:text="@string/create_webinar_add_member"
+                            android:textColor="@color/light_gray_b1bf"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
+                            app:layout_constraintStart_toStartOf="@+id/add_member_template_round"
+                            app:layout_constraintTop_toBottomOf="@id/add_member_template_round" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_added_members"
@@ -278,19 +367,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:orientation="horizontal"
-
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
-                        app:layout_constraintStart_toEndOf="@+id/add_member_template_round"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/add_member_container"
                         app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintVertical_bias="0"
-                        tools:listitem="@layout/template_follower_item" />
-                    <!--android:visibility="@{hasMasterMinds}"-->
-
+                        tools:listitem="@layout/attendee_list_item" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+                </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

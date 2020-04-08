@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aigestudio="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/transparent">
     <data>
 
         <variable
-            name="background"
-            type="android.graphics.drawable.Drawable" />
-        <variable
-            name="buttonOkBackground"
-            type="android.graphics.drawable.Drawable" />
+            name="fragment"
+            type="com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsFragment" />
 
         <variable
             name="model"
@@ -32,15 +29,15 @@
             android:paddingEnd="39dp"
             android:gravity="center"
             android:paddingTop="20dp"
-            aigestudio:layout_constraintBottom_toTopOf="@id/radio_group_bottom"
-            aigestudio:layout_constraintEnd_toEndOf="parent"
-            aigestudio:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/radio_group_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:background="@android:color/white">
 
             <RadioButton
                 android:id="@+id/radioButton1"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -49,7 +46,7 @@
             <RadioButton
                 android:id="@+id/radioButton2"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -58,7 +55,7 @@
             <RadioButton
                 android:id="@+id/radioButton3"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"                android:layout_width="40dp"
+                app:setDayBackground="@{model.createGroupModel.groupType}"                android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:text="3" />
@@ -66,7 +63,7 @@
             <RadioButton
                 android:id="@+id/radioButton4"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -75,7 +72,7 @@
             <RadioButton
                 android:id="@+id/radioButton5"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -84,7 +81,7 @@
             <RadioButton
                 android:id="@+id/radioButton6"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -100,15 +97,15 @@
                 android:paddingStart="39dp"
                 android:paddingEnd="39dp"
                 android:gravity="center"
-                aigestudio:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                aigestudio:layout_constraintEnd_toEndOf="parent"
-                aigestudio:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:background="@android:color/white">
 
             <RadioButton
                 android:id="@+id/radioButton7"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -117,7 +114,7 @@
             <RadioButton
                 android:id="@+id/radioButton8"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -126,7 +123,7 @@
             <RadioButton
                 android:id="@+id/radioButton9"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -135,7 +132,7 @@
             <RadioButton
                 android:id="@+id/radioButton10"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -144,7 +141,7 @@
             <RadioButton
                 android:id="@+id/radioButton11"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -153,7 +150,7 @@
             <RadioButton
                 android:id="@+id/radioButton12"
                 style="@style/MeetingCountRadioButton"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/day_button_selector_support : @drawable/day_button_selector}"
+                app:setDayBackground="@{model.createGroupModel.groupType}"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -167,9 +164,9 @@
             android:paddingStart="47dp"
             android:paddingEnd="47dp"
             android:background="@android:color/white"
-            aigestudio:layout_constraintBottom_toBottomOf="parent"
-            aigestudio:layout_constraintEnd_toEndOf="parent"
-            aigestudio:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <Button
                 android:id="@+id/btnCancel"
@@ -183,10 +180,10 @@
                 android:text="@string/btn_cancel"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
-                aigestudio:layout_constraintStart_toStartOf="parent"
-                aigestudio:layout_constraintTop_toTopOf="parent"
-                aigestudio:layout_constraintEnd_toStartOf="@id/btnOk"
-                aigestudio:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnOk"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <Button
                 android:id="@+id/btnOk"
@@ -196,15 +193,15 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="24dp"
-                android:background="@{model.createGroupModel.groupType == GroupType.SUPPORT ? @drawable/button_ok_selector_support : @drawable/button_ok_selector}"
+                app:setOkBackground="@{model.createGroupModel.groupType}"
                 android:enabled="@{model.meetingsCountOk}"
                 android:text="@string/ok"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
-                aigestudio:layout_constraintEnd_toEndOf="parent"
-                aigestudio:layout_constraintTop_toTopOf="parent"
-                aigestudio:layout_constraintStart_toEndOf="@id/btnCancel"
-                aigestudio:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnCancel"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,7 +24,7 @@
 
     <!--Home Tabs-->
     <string name="daily">Daily</string>
-    <string name="webinars">Webinars</string>
+    <string name="webinars">Webinar</string>
     <string name="groups">Groups</string>
     <string name="master_mind">MasterMind</string>
     <string name="master_mind_group">MasterMind Group</string>
@@ -87,6 +87,7 @@
     <string name="error_number_of_meetings">The Number Of Meetings can contain from 1 till 4 digits</string>
     <string name="error_number_of_meetings_count">Schedule does not match the number of meetings</string>
     <string name="error_description">The Group Description from 2 till 1000 symbols</string>
+    <string name="error_theme">The Theme Of Meeting from 2 till 64 symbols</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_cancel_spaced">Cancel&#160;&#160;</string>
     <string name="btn_complete">Complete</string>
@@ -478,6 +479,7 @@
     <string name="create_webinar_upload_group_image">Upload Group Image</string>
     <string name="create_webinar_invite">Invite members</string>
     <string name="create_webinar_add_member">Add\nMember</string>
+    <string name="create_webinar_theme_hint">Theme of meeting %d</string>
 
     <!--MM Groups-->
     <string name="mm_name_groups">%s Groups</string>

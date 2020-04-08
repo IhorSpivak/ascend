@@ -24,7 +24,7 @@ class GroupViewHolder(
                 GroupType.MASTER_MIND -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)
                 GroupType.INDIVIDUAL -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)
                 GroupType.SUPPORT -> tvGroupType.text = root.context.resources.getString(R.string.support_group)
-                GroupType.WEBINARS -> tvGroupType.text = root.context.resources.getString(R.string.webinars)
+                GroupType.WEBINAR -> tvGroupType.text = root.context.resources.getString(R.string.webinars)
             }
             btnStartGroup.setOnClickListener {
                 onButtonClick.invoke(item)

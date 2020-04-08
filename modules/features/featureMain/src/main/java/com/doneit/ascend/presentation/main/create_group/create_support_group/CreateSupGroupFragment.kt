@@ -144,14 +144,11 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                 viewModel.chooseStartDateTouch()
             }
         }
-
-        viewModel.members.observe(this, Observer {
-            membersAdapter.submitList(it)
-        })
         viewModel.members.observe(this, Observer {
             viewModel.createGroupModel.participants.set(it.map {
                 it.email!!
             })
+            membersAdapter.submitList(it)
         })
 
         viewModel.clearReservationSeat.observe(this) {
