@@ -46,8 +46,7 @@ class NumberOfMeetingsFragment: BaseFragment<FragmentNumberOfMeetingsBinding>() 
             radioGroupTop.setOnCheckedChangeListener(topListener)
             radioGroupBottom.setOnCheckedChangeListener(bottomListener)
             btnOk.setOnClickListener {
-                viewModel.createGroupModel.numberOfMeetings.observableField.set(choosenCount.toString())
-                viewModel.themesOfMeeting.postValue(choosenCount)
+                viewModel.updateNumberOfMeeting(choosenCount)
                 fragmentManager?.popBackStack()
             }
         }

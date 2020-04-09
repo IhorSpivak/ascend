@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.create_group
 
-import android.icu.text.TimeZoneFormat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
@@ -219,6 +218,11 @@ class CreateGroupViewModel(
     override fun chooseScheduleTouch(position: Int) {
         updateCanOk()
         localRouter.navigateToWebinarCalendarPiker(position)
+    }
+
+    override fun onSelectStartDate() {
+        updateCanOk()
+        localRouter.navigateToWebinarDatePiker()
     }
 
     override fun chooseStartDateTouch() {
@@ -604,6 +608,31 @@ class CreateGroupViewModel(
         createGroupModel.numberOfMeetings.observableField.set(count)
     }
 
+    override fun updateNumberOfMeeting(count: Int) {
+        themesOfMeeting.postValue(count)
+        createGroupModel.numberOfMeetings.observableField.set(count.toString())
+        val size = createGroupModel.themesOfMeeting.size
+        when{
+            size == 0 -> {
+                for (i in 1..count) {
+                    createGroupModel.themesOfMeeting.add(ValidatableField())
+                }
+            }
+            size > count ->{
+                for (i in count..size) {
+                    createGroupModel.themesOfMeeting.removeAt(i-1)
+                }
+            }
+            size < count ->{
+                val range = count - size
+                for (i in 1..range) {
+                    createGroupModel.themesOfMeeting.add(ValidatableField())
+                }
+            }
+        }
+        themes.postValue(createGroupModel.themesOfMeeting)
+    }
+
     override val priceOk = MutableLiveData<Boolean>(false)
 
     override fun okPriceClick(price: String) {
@@ -612,6 +641,15 @@ class CreateGroupViewModel(
     }
 
     override fun setPrice(price: String) {
+    }
+
+    override fun cancelDateSelection() {
+        localRouter.onBack()
+    }
+
+    override fun okDateSelection(date: Calendar) {
+        createGroupModel.actualStartTime.time = date.time
+        createGroupModel.startDate.observableField.set("dd MMMM yyyy".toDefaultFormatter().format(date.time))
     }
 
     private fun String.toHours(): Int {

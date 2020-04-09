@@ -23,8 +23,6 @@ class CancelDialog {
                 null,
                 false
             )
-            val mDialogView =
-                LayoutInflater.from(context).inflate(R.layout.cancel_dialog, null, false)
 
             val dialog = AlertDialog.Builder(context, R.style.AppThemeAlertDialog)
                 .setCancelable(false)

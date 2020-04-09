@@ -146,6 +146,7 @@
                 app:picker_displayMonthNumbers="false"
                 app:picker_curved="true"
                 app:picker_cyclic="true"
+                app:picker_selectorColor="@android:color/transparent"
                 app:picker_visibleItemCount="7" />
 
             <LinearLayout

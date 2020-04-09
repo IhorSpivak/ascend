@@ -14,5 +14,6 @@ interface NumberOfMeetingsContract {
         fun backClick()
         fun okMeetingCountClick()
         fun setMeetingCount(count: String)
+        fun updateNumberOfMeeting(count: Int)
     }
 }

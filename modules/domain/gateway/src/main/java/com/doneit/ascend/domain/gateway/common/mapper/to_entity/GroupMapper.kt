@@ -69,7 +69,7 @@ fun GroupResponse.toEntity(): GroupEntity {
         blocked,
         participantsCount,
         invitesCount,
-        daysOfWeek.applyDaysOffset(dayOffset).map { it.toCalendarDay() },
+        getDays(daysOfWeek, dayOffset),
         note?.toEntity(),
         meetingFormat,
         tag?.toEntity(),
@@ -77,6 +77,9 @@ fun GroupResponse.toEntity(): GroupEntity {
         private,
         pastMeetingsCount
     )
+}
+private fun getDays(list: List<Int>?, dayOffset: Int): List<CalendarDayEntity>{
+    return list?.applyDaysOffset(dayOffset)?.map { it.toCalendarDay() } ?: listOf(CalendarDayEntity.SUNDAY)
 }
 
 fun NoteResponse.toEntity(): NoteEntity {

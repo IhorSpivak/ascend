@@ -1,12 +1,13 @@
 package com.doneit.ascend.presentation.main.group_info
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
-import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.dto.CancelGroupDTO
+import com.doneit.ascend.domain.entity.dto.PaymentType
+import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
@@ -17,12 +18,9 @@ import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCas
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCardModel
-import com.doneit.ascend.presentation.models.group.toEntity
 import com.doneit.ascend.presentation.models.group.toUpdatePrivacyGroupDTO
 import com.doneit.ascend.presentation.models.toPresentation
-import com.doneit.ascend.presentation.utils.ButtonType
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
-import com.doneit.ascend.presentation.utils.getButtonType
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch

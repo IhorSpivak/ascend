@@ -29,6 +29,7 @@ class ThemeViewHolder(
             }
             remove.setOnClickListener {
                 viewModel.themes.value?.let {
+
                     viewModel.themes.postValue(it.apply { removeAt(position) })
                     viewModel.createGroupModel.numberOfMeetings.observableField.set(it.size.toString())
                 }

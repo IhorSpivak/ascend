@@ -7,6 +7,7 @@ import com.doneit.ascend.presentation.main.create_group.calendar_picker.Calendar
 import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.WebinarCalendarPickerFragment
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
+import com.doneit.ascend.presentation.main.create_group.date_picker.WebinarDatePickerFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarFragment
 import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsFragment
@@ -89,6 +90,10 @@ class LocalRouter(
 
     override fun navigateToWebinarCalendarPiker(position: Int) {
         hostFragment.childFragmentManager.add(containerId,  WebinarCalendarPickerFragment(position))
+    }
+
+    override fun navigateToWebinarDatePiker() {
+        hostFragment.childFragmentManager.add(containerId,  WebinarDatePickerFragment())
     }
 
     override fun navigateToDatePicker() {

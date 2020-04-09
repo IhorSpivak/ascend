@@ -23,7 +23,7 @@ data class GroupLocal(
     val blocked: Boolean?,
     @ColumnInfo(name = "participants_count") val participantsCount: Int?,
     val invitesCount: Int?,
-    @ColumnInfo(name = "days_of_week") val daysOfWeek: List<Int>?,
+    @ColumnInfo(name = "days_of_week") var daysOfWeek: List<Int>,
     @Embedded(prefix = "notes") val note: NoteLocal?,
     @ColumnInfo(name = "meeting_format") val meetingFormat: String?,
     @Embedded(prefix = "tag") val tag: TagLocal?,

@@ -25,7 +25,7 @@ class GroupEntity(
     val blocked: Boolean?,
     val participantsCount: Int?,
     val invitesCount: Int?,
-    val daysOfWeek: List<CalendarDayEntity>?,
+    var daysOfWeek: List<CalendarDayEntity>,
     val note: NoteEntity?,
     val meetingFormat: String?,
     val tag: TagEntity?,
@@ -48,71 +48,12 @@ class GroupEntity(
         }
 
     val inProgress: Boolean
-        get() {//todo refactor  --wtf?
-            /*var res = false
-
-            if (startTime != null && daysOfWeek != null) {
-
-                if (passedCount < meetingsCount ?: 0) {
-                    val startDate = getDefaultCalendar()
-                    startDate.time = startTime
-                    val currentDate = getDefaultCalendar()
-
-                    val dayIndex = currentDate.get(Calendar.DAY_OF_WEEK) - 1
-                    val day = CalendarDayEntity.values()[dayIndex]
-                    if (daysOfWeek.contains(day)) {
-                        startDate.set(Calendar.YEAR, 0)
-                        startDate.set(Calendar.MONTH, 0)
-                        startDate.set(Calendar.DAY_OF_MONTH, 0)
-
-                        currentDate.set(Calendar.YEAR, 0)
-                        currentDate.set(Calendar.MONTH, 0)
-                        currentDate.set(Calendar.DAY_OF_MONTH, 0)
-
-                        if (currentDate.after(startDate) and currentDate.before(
-                                startDate.plus(
-                                    PROGRESS_DURATION
-                                )
-                            )
-                        ) {
-                            res = true
-                        }
-                    }
-                }
-            }*/
-
+        get() {
             return (getDefaultCalendar().timeInMillis - startTime!!.time) in 0..PROGRESS_DURATION
         }
 
     val isStarting: Boolean
-        get() {//todo refactor
-            /*var res = false
-            if (startTime != null && daysOfWeek != null) {
-                if (passedCount < meetingsCount ?: 0) {
-                    val startDate = getDefaultCalendar()
-                    startDate.time = startTime
-                    val currentDate = getDefaultCalendar()
-
-                    val dayIndex = currentDate.get(Calendar.DAY_OF_WEEK) - 1
-                    val day = CalendarDayEntity.values()[dayIndex]
-                    if (daysOfWeek.contains(day)) {
-                        startDate.set(Calendar.YEAR, 0)
-                        startDate.set(Calendar.MONTH, 0)
-                        startDate.set(Calendar.DAY_OF_MONTH, 0)
-
-                        currentDate.set(Calendar.YEAR, 0)
-                        currentDate.set(Calendar.MONTH, 0)
-                        currentDate.set(Calendar.DAY_OF_MONTH, 0)
-
-                        if (currentDate.after(startDate.plus(-1 * UPCOMING_INTERVAL))
-                            and currentDate.before(startDate.plus(UPCOMING_INTERVAL))
-                        ) {
-                            res = true
-                        }
-                    }
-                }
-            }
-*/
+        get() {
             return (startTime!!.time - getDefaultCalendar().timeInMillis) < UPCOMING_INTERVAL && participantsCount!! > 0
         }
 

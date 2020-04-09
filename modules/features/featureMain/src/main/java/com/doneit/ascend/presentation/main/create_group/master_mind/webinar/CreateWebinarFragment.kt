@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
@@ -34,7 +33,6 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, CreateGroupArgs>(){
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
@@ -84,7 +82,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 viewModel.completeClick()
             }
             startDate.editText.setOnClickListener {
-                viewModel.chooseStartDateTouch()
+                viewModel.onSelectStartDate()
             }
             chooseSchedule.multilineEditText.setOnClickListener {
                 viewModel.chooseScheduleTouch()
@@ -141,42 +139,10 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         viewModel.newScheduleItem.observe(this, androidx.lifecycle.Observer {
             viewModel.createGroupModel.webinarSchedule = it
             timeAdapter.data = it
-            binding.scroll.invalidate()
-            binding.scroll.requestLayout()
         })
 
         viewModel.themes.observe(this, androidx.lifecycle.Observer {
-            viewModel.createGroupModel.themesOfMeeting = it
             themeAdapter.data = it
-        })
-        viewModel.themesOfMeeting.observe(this, androidx.lifecycle.Observer { count ->
-            viewModel.createGroupModel.themesOfMeeting.apply {
-                when {
-                    size == 0 -> {
-                        addAll(ArrayList<ValidatableField>().apply {
-                            for (i in 1..count) {
-                                this.add(ValidatableField())
-                            }
-                        })
-                    }
-                    size > count -> {
-                        val range = viewModel.createGroupModel.themesOfMeeting.size - count
-                        viewModel.createGroupModel.themesOfMeeting = this.dropLast(range).toMutableList()
-                    }
-                    size < count -> {
-                        addAll(ArrayList<ValidatableField>().apply {
-                            val range = count - viewModel.createGroupModel.themesOfMeeting.size
-                            for (i in 1..range) {
-                                this.add(ValidatableField())
-                            }
-                        })
-                    }
-
-                }
-            }
-            viewModel.themes.postValue(viewModel.createGroupModel.themesOfMeeting)
-            binding.scroll.invalidate()
-            binding.scroll.requestLayout()
         })
     }
 
