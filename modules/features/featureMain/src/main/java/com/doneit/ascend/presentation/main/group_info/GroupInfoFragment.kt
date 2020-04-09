@@ -100,8 +100,15 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 currentDialog = createCancelDialog()
                 currentDialog?.show()
             }
+            webinarCancel.setOnClickListener {
+                currentDialog = createCancelDialog()
+                currentDialog?.show()
+            }
             indDelete.setOnClickListener {
                 currentDialog = createDeleteDialog()
+            }
+            webinarDelete.setOnClickListener {
+                currentDialog = createDeleteWebinarDialog()
             }
             indCancel.setOnClickListener {
                 currentDialog = createCancelDialog()
@@ -156,7 +163,8 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
 
     private fun createCancelDialog(): AlertDialog{
         return CancelDialog.create(
-            context!!
+            context!!,
+            viewModel.group.value!!.groupType!!
         ) {
             viewModel.cancelGroup(it)
             currentDialog?.dismiss()
@@ -196,6 +204,21 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             context!!,
             getString(R.string.delete_this_group),
             R.string.delete_content,
+            R.string.btn_delete,
+            R.string.btn_negative
+        ) {
+            currentDialog?.dismiss()
+            when (it) {
+                QuestionButtonType.POSITIVE -> viewModel.deleteGroup()
+            }
+        }
+    }
+
+    private fun createDeleteWebinarDialog(): AlertDialog{
+        return DeleteDialog.create(
+            context!!,
+            getString(R.string.delete_this_webinar),
+            R.string.delete_content_webinar,
             R.string.btn_delete,
             R.string.btn_negative
         ) {

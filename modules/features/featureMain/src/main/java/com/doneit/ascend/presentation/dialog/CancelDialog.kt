@@ -6,13 +6,16 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.CancelDialogBinding
+
 
 class CancelDialog {
     companion object {
         fun create(
             context: Context,
+            groupType: GroupType,
             call: ((String) -> Unit)
         ): AlertDialog {
 
@@ -29,6 +32,7 @@ class CancelDialog {
                 .create()
 
             binding.apply {
+                this.groupType = groupType
                 btnPositive.setOnClickListener {
                     call.invoke(tvEditText.text.toString())
                 }

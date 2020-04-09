@@ -680,7 +680,7 @@
                                     app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintBottom_toBottomOf="parent"
-                                    app:setVisibility="@{model.group.groupType == GroupType.INDIVIDUAL &amp;&amp; (model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE) &amp;&amp; group.participantsCount != 0}" />
+                                    app:setVisibility="@{(model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE) &amp;&amp; group.participantsCount != 0}" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <Button

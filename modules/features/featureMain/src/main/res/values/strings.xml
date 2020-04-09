@@ -209,6 +209,7 @@
     <string name="btn_delete">Yes, delete</string>
     <string name="btn_leave">Yes, Leave</string>
     <string name="delete_content">If you delete a group, it cannot be restored and all funds will be returned to the participants.</string>
+    <string name="delete_content_webinar">If you delete a webinar, it cannot be restored and all funds will be returned to the participants.</string>
     <string name="leave_content">If you leave,\n You can\'t join this group again.</string>
     <string name="btn_send">Send</string>
     <string name="enter_reason">Enter a reason</string>
@@ -224,6 +225,7 @@
     <string name="set_rating">Set Rating</string>
 
     <string name="delete_this_group">Delete this group?</string>
+    <string name="delete_this_webinar">Delete this webinar?</string>
     <string name="leave_this_group_question">You really want to leave?</string>
     <string name="make_closed_title">Make this group closed?</string>
     <string name="make_closed_description">If you close the group, new users will not be able to find it in the group list.</string>

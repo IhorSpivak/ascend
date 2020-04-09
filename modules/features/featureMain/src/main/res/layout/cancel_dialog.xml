@@ -4,8 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="groupType"
+            type="com.doneit.ascend.domain.entity.group.GroupType" />
 
         <import type="android.text.InputType" />
+        <import type="com.doneit.ascend.domain.entity.group.GroupType" />
 
     </data>
 
@@ -26,7 +30,7 @@
             android:layout_marginEnd="37dp"
             android:gravity="center"
             android:lineSpacingExtra="0sp"
-            android:text="@string/action_cancel"
+            android:text="@{groupType == GroupType.WEBINAR? @string/action_cancel_webinar : @string/action_cancel}"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
