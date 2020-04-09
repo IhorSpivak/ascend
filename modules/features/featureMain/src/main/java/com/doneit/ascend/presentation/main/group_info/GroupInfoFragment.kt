@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
 import com.doneit.ascend.presentation.main.group_info.common.InvitedParticipantAdapter
+import com.doneit.ascend.presentation.main.group_info.common.WebinarThemeAdapter
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
@@ -35,6 +36,10 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         InvitedParticipantAdapter()
     }
 
+    private val webinarThemeAdapter: WebinarThemeAdapter by lazy {
+        WebinarThemeAdapter(viewModel.group.value!!)
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
@@ -46,6 +51,8 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 tvName.text = group.name
                 tvStartDate.text = group.startTime?.toDayMonthYear()
                 isAttended = false
+                rvWebinarThemes.adapter = webinarThemeAdapter
+                webinarThemeAdapter.submitList(listOf("test 1", "test 2"))
             }
             val builder = StringBuilder()
 

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
@@ -23,6 +24,7 @@ import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.getImagePath
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
+import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -74,13 +76,32 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         binding.apply {
             model = viewModel
             recyclerViewAddedMembers.adapter = membersAdapter
-            webinarThemes.adapter = themeAdapter
+            webinarThemes.apply{
+                adapter = themeAdapter
+            }
             timeSchedule.adapter = timeAdapter
             buttonComplete.setOnClickListener {
                 viewModel.completeClick()
             }
             startDate.editText.setOnClickListener {
                 viewModel.chooseStartDateTouch()
+            }
+            chooseSchedule.multilineEditText.setOnClickListener {
+                viewModel.chooseScheduleTouch()
+            }
+            remove.setOnClickListener {
+                viewModel.newScheduleItem.value?.let {
+                    if (it.size == 0){
+                        viewModel.chooseScheduleTouch()
+                    }else{
+                        viewModel.newScheduleItem.postValue(it.apply { removeAt(0) })
+                    }
+                }
+            }
+            add.setOnClickListener {
+                viewModel.newScheduleItem.value?.let {
+                    viewModel.newScheduleItem.postValue(it.apply { add(ValidatableField()) })
+                }
             }
 
             dashRectangleBackground.setOnClickListener {

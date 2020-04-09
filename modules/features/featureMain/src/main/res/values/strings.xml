@@ -168,7 +168,9 @@
     <string name="december">December</string>
     <string name="join_to_discussion">Join to discussion</string>
     <string name="start_group">Start group</string>
+    <string name="start_webinar">Start Webinar</string>
     <string name="ended_group">Group Ended</string>
+    <string name="ended_webinar">Webinar Ended</string>
 
     <string name="my_daily_group_list">My Daily Groups List</string>
     <string name="group_list">Groups List</string>
@@ -346,7 +348,9 @@
     <string name="hint_enter_display_name">Enter display name</string>
     <string name="hint_enter_short_description">Enter short description</string>
     <string name="action_cancel">Cancel Group</string>
+    <string name="action_cancel_webinar">Cancel Webinar</string>
     <string name="group_cancelled">Group Cancelled</string>
+    <string name="webinar_cancelled">Webinar Cancelled</string>
     <string name="action_cancel_description">Enter a reason</string>
     <string name="action_cancel_hint">Reason</string>
     <string name="action_cancel_btn_done">Done</string>

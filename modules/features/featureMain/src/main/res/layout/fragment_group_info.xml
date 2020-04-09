@@ -207,7 +207,7 @@
                         android:layout_marginEnd="20dp"
                         android:background="@drawable/start_group_button_states"
                         android:onClick="@{(v) -> model.startGroup()}"
-                        android:text="@string/start_group"
+                        android:text="@{model.group.groupType == GroupType.WEBINAR? @string/start_webinar : @string/start_group}"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
@@ -249,7 +249,7 @@
                         android:layout_marginTop="18dp"
                         android:layout_marginEnd="20dp"
                         android:background="@drawable/start_group_button_states"
-                        android:text="@string/ended_group"
+                        android:text="@{model.group.groupType == GroupType.WEBINAR? @string/ended_webinar : @string/ended_group}"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
@@ -263,7 +263,7 @@
                         android:layout_marginTop="18dp"
                         android:layout_marginEnd="20dp"
                         android:background="@drawable/start_group_button_states"
-                        android:text="@string/group_cancelled"
+                        android:text="@{model.group.groupType == GroupType.WEBINAR? @string/webinar_cancelled : @string/group_cancelled}"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
@@ -626,6 +626,94 @@
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/webinar_group_buttons_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="20dp"
+                            android:paddingEnd="20dp"
+                            android:background="@drawable/mm_panel_buttons_container_background"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:visibility="@{model.group.groupType == GroupType.WEBINAR}">
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/webinar_delete_cancel"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/webinar_duplicate"
+                                android:visibility="@{(model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE)}">
+                                <Button
+                                    android:id="@+id/webinar_delete"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="12dp"
+                                    android:background="@drawable/mm_delete_background"
+                                    android:text="@string/mm_delete_group"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/red_hat_font"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:setVisibility="@{model.btnDeleteVisible}" />
+
+                                <Button
+                                    android:id="@+id/webinar_cancel"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="12dp"
+                                    android:background="@drawable/mm_cancel_background"
+                                    android:text="@string/cancel_group"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/red_hat_font"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:setVisibility="@{model.group.groupType == GroupType.INDIVIDUAL &amp;&amp; (model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE) &amp;&amp; group.participantsCount != 0}" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <Button
+                                android:id="@+id/webinar_duplicate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/mm_duplicate_background"
+                                android:text="@string/duplicate_group"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/red_hat_font"
+                                android:onClick="@{() -> model.onDuplicateClick(group)}"
+                                app:layout_constraintEnd_toStartOf="@id/webinar_edit"
+                                app:layout_constraintStart_toEndOf="@id/webinar_delete_cancel"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <Button
+                                android:id="@+id/webinar_edit"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:background="@drawable/mm_edit_background"
+                                android:text="@string/edit_group"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/red_hat_font"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:onClick="@{() -> model.onEditClick(group)}"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/webinar_duplicate"
+                                android:visibility="@{model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE}" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -690,7 +778,7 @@
                         app:layout_constraintStart_toStartOf="@id/icCalendar"
                         app:layout_constraintTop_toBottomOf="@id/brInfo">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/tvMMGContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -754,7 +842,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/tvSGContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -808,6 +896,34 @@
                             app:layout_constraintTop_toTopOf="parent"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/tvWGContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/webinar_type_background"
+                            android:orientation="horizontal"
+                            android:paddingStart="4dp"
+                            android:paddingEnd="4dp"
+                            android:visibility="@{model.group.groupType == GroupType.WEBINAR, default=gone}"
+                            app:layout_constraintBottom_toTopOf="@id/support_tag"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <TextView
+                                android:id="@+id/tvWebinarMarkerType"
+                                style="@style/TextNormal.White"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/webinar_type_background"
+                                android:padding="4dp"
+                                android:text="@string/webinars"
+                                android:textSize="12sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
                         <TextView
                             android:id="@+id/support_tag"
                             android:layout_width="wrap_content"
@@ -830,63 +946,86 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="24dp"
                         android:paddingBottom="24dp"
                         android:text="@{model.group.description}"
                         app:layout_constraintTop_toBottomOf="@id/group_type_container"/>
-
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/attendees_container"
+                        android:id="@+id/attendees_and_themes_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="64dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:paddingBottom="16dp"
-                        android:paddingTop="16dp"
-                        android:background="@drawable/bg_white_bordered"
-                        android:visibility="@{(model.group.groupType != GroupType.INDIVIDUAL &amp;&amp; model.isOwner()) || model.group.groupType == GroupType.SUPPORT}"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/description">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/ic_attendees_icon"
-                            android:layout_width="wrap_content"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_webinar_themes"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:src="@drawable/ic_attendees"
+                            android:layout_marginTop="16dp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            android:nestedScrollingEnabled="false"
+                            android:isScrollContainer="false"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
-
-                        <TextView
-                            android:id="@+id/attendees_count"
-                            style="@style/TextNormal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            app:html="@{model.group.participantsCount > 0 ? @string/attendees(model.group.participantsCount) : @string/no_attendees}"
-                            tools:text="12 Attendees"
-                            app:layout_constraintStart_toEndOf="@id/ic_attendees_icon"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
-
-                        <TextView
-                            android:id="@+id/view_attendees"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:fontFamily="@font/red_hat_font"
-                            android:textSize="16sp"
-                            android:text="@string/view_attendees"
-                            android:visibility="@{model.isOwner()}"
-                            android:textColor="@color/green_font_color"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintBottom_toTopOf="@id/attendees_container"
+                            android:visibility="@{model.group.groupType == GroupType.WEBINAR}"/>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/attendees_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="16dp"
+                            android:paddingBottom="16dp"
+                            android:paddingTop="16dp"
+                            android:background="@drawable/bg_white_bordered"
+                            android:visibility="@{(model.group.groupType != GroupType.INDIVIDUAL &amp;&amp; model.isOwner()) || model.group.groupType == GroupType.SUPPORT}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/rv_webinar_themes">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/ic_attendees_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:src="@drawable/ic_attendees"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
+
+                            <TextView
+                                android:id="@+id/attendees_count"
+                                style="@style/TextNormal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                app:html="@{model.group.participantsCount > 0 ? @string/attendees(model.group.participantsCount) : @string/no_attendees}"
+                                tools:text="12 Attendees"
+                                app:layout_constraintStart_toEndOf="@id/ic_attendees_icon"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
+
+                            <TextView
+                                android:id="@+id/view_attendees"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:fontFamily="@font/red_hat_font"
+                                android:textSize="16sp"
+                                android:text="@string/view_attendees"
+                                android:visibility="@{model.isOwner()}"
+                                android:textColor="@color/green_font_color"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_attendees"

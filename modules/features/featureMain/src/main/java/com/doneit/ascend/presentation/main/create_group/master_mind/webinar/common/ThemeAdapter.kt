@@ -15,7 +15,7 @@ class ThemeAdapter(
         notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThemeViewHolder {
-        return ThemeViewHolder.create(parent)
+        return ThemeViewHolder.create(parent).apply { setIsRecyclable(false) }
     }
 
     override fun onBindViewHolder(holder: ThemeViewHolder, position: Int) {

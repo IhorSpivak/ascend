@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberFragment
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
+import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.WebinarCalendarPickerFragment
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupFragment
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupFragment
@@ -84,6 +85,10 @@ class LocalRouter(
 
     override fun navigateToCalendarPiker() {
         hostFragment.childFragmentManager.add(containerId,  CalendarPickerFragment())
+    }
+
+    override fun navigateToWebinarCalendarPiker(position: Int) {
+        hostFragment.childFragmentManager.add(containerId,  WebinarCalendarPickerFragment(position))
     }
 
     override fun navigateToDatePicker() {

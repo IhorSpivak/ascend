@@ -110,16 +110,6 @@ class CreateGroupViewModel(
             result
         }
 
-        /*createGroupModel.tags.validator = { s ->
-            val result = ValidationResult()
-
-            if (createGroupModel.groupType == GroupType.SUPPORT && s.isBlank()) {
-                result.isSucceed = false
-            }
-
-            result
-        }*/
-
         createGroupModel.description.validator = { s ->
             val result = ValidationResult()
 
@@ -226,6 +216,11 @@ class CreateGroupViewModel(
         localRouter.navigateToCalendarPiker()
     }
 
+    override fun chooseScheduleTouch(position: Int) {
+        updateCanOk()
+        localRouter.navigateToWebinarCalendarPiker(position)
+    }
+
     override fun chooseStartDateTouch() {
         localRouter.navigateToDatePicker()
     }
@@ -235,6 +230,9 @@ class CreateGroupViewModel(
         setMinutes(minutes)
         setTimeType(timeType)
         changeSchedule()
+        backClick()
+    }
+    override fun okWebinarTimeClick(selectedDay: Int, date: Calendar, position: Int) {
         backClick()
     }
 
@@ -510,7 +508,7 @@ class CreateGroupViewModel(
     }
 
     override val themesOfMeeting: MutableLiveData<Int> = MutableLiveData()
-    override val newScheduleItem: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData(mutableListOf(ValidatableField()))
+    override val newScheduleItem: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData(mutableListOf())
     override val themes: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData(mutableListOf())
 
     override fun onPriceClick(editor: TextInputEditText) {
@@ -522,30 +520,6 @@ class CreateGroupViewModel(
     }
 
     override fun inviteToGroup(participants: List<String>) {
-
-    }
-
-    override fun setType(type: TimeZoneFormat.TimeType) {
-
-    }
-
-    override fun getType() {
-
-    }
-
-    override fun setMinute(minute: Short) {
-
-    }
-
-    override fun getMinute() {
-
-    }
-
-    override fun setHour(hour: Short) {
-
-    }
-
-    override fun getHour() {
 
     }
 

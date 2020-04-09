@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.main.create_group
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMemberViewModel
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
-import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.CalendarWithTimePickerContact
+import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.WebinarCalendarPickerContact
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerContract
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupContract
@@ -23,7 +23,7 @@ interface CreateGroupHostContract {
         CreateMMGroupContract.ViewModel,
         IndividualGroupContract.ViewModel,
         CreateWebinarContract.ViewModel,
-        CalendarWithTimePickerContact.ViewModel,
+        WebinarCalendarPickerContact.ViewModel,
         AddMemberViewModel,
         NumberOfMeetingsContract.ViewModel,
         PricePickerContract.ViewModel{
@@ -42,6 +42,7 @@ interface CreateGroupHostContract {
         fun navigateToCreateSupGroup(args: CreateGroupArgs, group: GroupEntity?, what: String?)
         fun navigateToCreateWebinar(args: CreateGroupArgs)
         fun navigateToCalendarPiker()
+        fun navigateToWebinarCalendarPiker(position: Int)
         fun navigateToDatePicker()
         fun navigateToMeetingCount()
         fun navigateToAddMember(groupType: GroupType)

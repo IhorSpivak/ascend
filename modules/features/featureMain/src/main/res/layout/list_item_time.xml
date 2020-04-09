@@ -35,7 +35,7 @@
             app:saveState="@{false}"
             app:src="@{@drawable/ic_schedule}"
             app:tint="@{@color/red_webinar_color}"
-            app:text="@{model.createGroupModel.scheduleTime.observableField}" />
+            app:text="@{model.createGroupModel.webinarSchedule.get(position).observableField}" />
 
 
         <androidx.appcompat.widget.AppCompatImageView

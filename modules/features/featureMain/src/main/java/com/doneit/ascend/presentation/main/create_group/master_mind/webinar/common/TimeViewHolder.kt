@@ -28,7 +28,7 @@ class TimeViewHolder(
                 }
             }
             chooseSchedule.multilineEditText.setOnClickListener {
-                viewModel.chooseScheduleTouch()
+                viewModel.chooseScheduleTouch(position)
             }
         }
     }
