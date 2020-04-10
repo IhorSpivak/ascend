@@ -157,11 +157,10 @@
                         style="@style/TextNormal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
                         android:visibility="@{model.group.groupType != GroupType.SUPPORT}"
-                        app:html="@{@string/group_price(model.group.price)}"
+                        app:html="@{model.group.price == 0f ? @string/free : @string/group_price(model.group.price)}"
                         app:layout_constraintEnd_toEndOf="@id/tvMeetings"
-                        app:layout_constraintStart_toStartOf="@id/tvMeetings"
+                        app:layout_constraintHorizontal_bias="0.487"
                         app:layout_constraintTop_toBottomOf="@id/tvMeetings"
                         tools:text="@string/group_price" />
 
@@ -282,12 +281,25 @@
                         android:textColor="@color/default_font_color"
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
                         app:setVisibility="@{model.btnJoinVisible}" />
+                    <TextView
+                        android:id="@+id/user_banned_message"
+                        style="@style/TextNormal.White"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#FF2D55"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/error_group_user_banned"
+                        android:visibility="@{model.group.blocked, default = gone}"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster"
+                        app:layout_constraintBottom_toTopOf="@id/mm_panel_buttons_container"/>
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/buttonsBarrier"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe, btnLeaveThisGroup, btnGroupEnded, bntCanceled" />
+                        app:constraint_referenced_ids="btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe, btnLeaveThisGroup, btnGroupEnded, bntCanceled, user_banned_message" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/mm_panel_buttons_container"
@@ -759,7 +771,6 @@
                         android:layout_marginStart="8dp"
                         android:textColor="@color/light_gray_8f"
                         android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="@id/icSchedule"
                         app:layout_constraintStart_toEndOf="@id/icSchedule"
                         app:layout_constraintTop_toTopOf="@id/icSchedule"
                         tools:text="Mon, Tue 13:00 pm" />
@@ -769,14 +780,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="icCalendar,tvStartDate,icSchedule,tvSchedule" />
+                        app:constraint_referenced_ids="icCalendar, tvStartDate, icSchedule, tvSchedule, group_type_container" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/group_type_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="@id/icCalendar"
-                        app:layout_constraintTop_toBottomOf="@id/brInfo">
+                        app:layout_constraintTop_toBottomOf="@id/tvStartDate">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/tvMMGContainer"
@@ -946,9 +957,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginTop="16dp"
-                        android:paddingBottom="24dp"
                         android:text="@{model.group.description}"
-                        app:layout_constraintTop_toBottomOf="@id/group_type_container"/>
+                        app:layout_constraintTop_toBottomOf="@id/brInfo"/>
+
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/attendees_and_themes_container"
                         android:layout_width="match_parent"
@@ -956,32 +968,34 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/description">
+                        app:layout_constraintTop_toBottomOf="@id/description"
+                        app:layout_constraintVertical_bias="1.0"
+                        tools:layout_editor_absoluteX="0dp">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_webinar_themes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            android:nestedScrollingEnabled="false"
                             android:isScrollContainer="false"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            android:nestedScrollingEnabled="false"
+                            android:visibility="@{model.group.groupType == GroupType.WEBINAR}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintBottom_toTopOf="@id/attendees_container"
-                            android:visibility="@{model.group.groupType == GroupType.WEBINAR}"/>
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/attendees_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
-                            android:layout_marginEnd="20dp"
                             android:layout_marginTop="16dp"
-                            android:paddingBottom="16dp"
-                            android:paddingTop="16dp"
+                            android:layout_marginEnd="20dp"
                             android:background="@drawable/bg_white_bordered"
-                            android:visibility="@{(model.group.groupType != GroupType.INDIVIDUAL &amp;&amp; model.isOwner()) || model.group.groupType == GroupType.SUPPORT}"
+                            android:paddingTop="16dp"
+                            android:paddingBottom="16dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/rv_webinar_themes">
 
@@ -991,9 +1005,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
                                 android:src="@drawable/ic_attendees"
+                                app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
                                 android:id="@+id/attendees_count"
@@ -1002,10 +1016,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
                                 app:html="@{model.group.participantsCount > 0 ? @string/attendees(model.group.participantsCount) : @string/no_attendees}"
-                                tools:text="12 Attendees"
+                                app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/ic_attendees_icon"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
+                                tools:text="12 Attendees" />
 
                             <TextView
                                 android:id="@+id/view_attendees"
@@ -1013,19 +1027,17 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="16dp"
                                 android:fontFamily="@font/red_hat_font"
-                                android:textSize="16sp"
                                 android:text="@string/view_attendees"
-                                android:visibility="@{model.isOwner()}"
                                 android:textColor="@color/green_font_color"
+                                android:textSize="16sp"
+                                android:visibility="@{model.isOwner()}"
+                                app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent"/>
+                                app:layout_constraintTop_toTopOf="parent" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view_attendees"

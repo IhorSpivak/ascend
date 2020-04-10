@@ -39,5 +39,7 @@ interface CreateWebinarContract {
         fun addMember(groupType: GroupType)
         fun onPriceClick(editor: TextInputEditText)
         fun chooseMeetingCountTouch()
+        fun updateListOfTimes(position: Int, remove: Boolean)
+        fun updateListOfTimes(remove: Boolean)
     }
 }

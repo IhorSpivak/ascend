@@ -58,8 +58,6 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
 
     override val viewModel: CreateSupGroupContract.ViewModel by instance()
 
-    private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
-    private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
     private var group: GroupEntity? = null
     private var tempUri: Uri? = null
     private var what: String? = null
@@ -275,45 +273,6 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             }
     }
 
-    private fun pickFromGallery() {
-        hideKeyboard()
-        EzPermission.with(context!!)
-            .permissions(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            )
-            .request { granted, _, _ ->
-                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-                    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    galleryIntent.type = "image/*"
-
-                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val content = ContentValues().apply {
-                        put(
-                            MediaStore.Images.Media.TITLE,
-                            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
-                        )
-                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                        put(MediaStore.Images.Media.DESCRIPTION, "group_image")
-                    }
-                    tempUri = activity?.contentResolver?.insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        content
-                    )
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-
-                    val chooser =
-                        Intent.createChooser(galleryIntent, "Select an App to choose an Image")
-                    chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
-
-                    startActivityForResult(chooser, GALLERY_REQUEST_CODE)
-                }
-            }
-    }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK)
@@ -329,7 +288,6 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
 
     private fun handleImageURI(sourcePath: Uri) {
         GlobalScope.launch {
-            //val compressed = activity!!.copyCompressed(sourcePath, compressedPhotoPath)
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
                 viewModel.createGroupModel.image.observableField.set(
@@ -371,13 +329,6 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
         }
     }
 
-    private fun createImageDialog(): AlertDialog {
-        return ChooseImageDialog.create(
-            context!!,
-            { { takeAPhoto() } },
-            { selectFromGallery() }
-        )
-    }
     private fun createImageBottomDialog(): ChooseImageBottomDialog {
         return ChooseImageBottomDialog.create(
             { takeAPhoto() },

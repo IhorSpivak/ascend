@@ -72,13 +72,16 @@ class LocalRouter(
         hostFragment.childFragmentManager.replace(containerId, fragment)
     }
 
-    override fun navigateToCreateWebinar(args: CreateGroupArgs) {
+    override fun navigateToCreateWebinar(args: CreateGroupArgs, group: GroupEntity?, what: String?) {
         val fragment = CreateWebinarFragment()
         fragment.arguments = Bundle().apply {
             putParcelable(
                 com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment.KEY_ARGS,
                 args
             )
+            if (group != null){
+                putParcelable(what, group)
+            }
         }
 
         hostFragment.childFragmentManager.replace(containerId, fragment)

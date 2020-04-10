@@ -18,6 +18,11 @@ class GroupHorViewHolder(
             this.item = item
             community = user?.community
             this.user = user
+            theme = if (item.passedCount == item.meetingsCount){
+                item.themes[item.passedCount -1]
+            }else{
+                item.themes[item.passedCount]
+            }
         }
         if(user == null) {
             hideButtons()

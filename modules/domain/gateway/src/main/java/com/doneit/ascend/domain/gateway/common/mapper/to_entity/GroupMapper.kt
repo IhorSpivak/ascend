@@ -14,6 +14,7 @@ import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
 import com.doneit.ascend.source.storage.remote.data.response.TagResponse
 import com.doneit.ascend.source.storage.remote.data.response.ThumbnailResponse
 import com.doneit.ascend.source.storage.remote.data.response.group.*
+import java.util.*
 
 fun ThumbnailResponse.toEntity(): ThumbnailEntity {
     return ThumbnailEntity(
@@ -75,7 +76,9 @@ fun GroupResponse.toEntity(): GroupEntity {
         tag?.toEntity(),
         invites?.map { it.toEntity() },
         private,
-        pastMeetingsCount
+        pastMeetingsCount,
+        dates?.map { it.toDate()!! }?: listOf(Date(getDefaultCalendar().timeInMillis)),
+        themes?: listOf("empty")
     )
 }
 private fun getDays(list: List<Int>?, dayOffset: Int): List<CalendarDayEntity>{
@@ -160,7 +163,9 @@ fun GroupLocal.toEntity(): GroupEntity {
         meetingFormat,
         tag?.toEntity(), emptyList(),
         isPrivate,
-        pastMeetingsCount
+        pastMeetingsCount,
+        dates.map { Date(it) },
+        themes
     )
 }
 

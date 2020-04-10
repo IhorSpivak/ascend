@@ -45,29 +45,27 @@
                 <Button
                     android:id="@+id/btnDone"
                     style="@style/AppTheme.Button"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/btnCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@{background}"
                     android:text="@string/btn_done"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/btnCancel"
                     style="@style/AppTheme.Button"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/btnDone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@{background}"
                     android:onClick="@{() -> model.cancelDateSelection()}"
                     android:text="@string/btn_cancel"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker

@@ -10,6 +10,10 @@
         <variable
             name="position"
             type="Integer" />
+
+        <variable
+            name="passed"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +33,7 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_margin="10dp"
-            android:background="@drawable/webinar_theme_check"
+            android:background="@{passed ? @drawable/theme_passed_icon : @drawable/webinar_theme_check}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/theme_text"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="@{group.groupType.toString()}"
+            android:text="@{group.themes[position]}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/checked"

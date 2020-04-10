@@ -19,6 +19,8 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 internal class GroupRepository(
     gson: Gson,
@@ -50,6 +52,22 @@ internal class GroupRepository(
                         )
                     }
                     WEBINAR -> {
+                        request.dates?.forEach { time ->
+                            addPart(
+                                MultipartBody.Part.createFormData(
+                                    "times[]",
+                                    time
+                                )
+                            )
+                        }
+                        request.themes?.forEach { theme ->
+                            addPart(
+                                MultipartBody.Part.createFormData(
+                                    "themes[]",
+                                    theme
+                                )
+                            )
+                        }
                     }
                 }
                 if (request.private!!) {

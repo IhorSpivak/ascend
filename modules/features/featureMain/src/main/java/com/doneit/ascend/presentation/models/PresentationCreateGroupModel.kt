@@ -39,8 +39,8 @@ class PresentationCreateGroupModel(
     var themesOfMeeting: MutableList<ValidatableField> = mutableListOf(),
     var webinarSchedule: MutableList<ValidatableField> = mutableListOf(),
     var timeList: MutableList<Calendar> = mutableListOf(),
-    var groupStartDay: ValidatableField = ValidatableField(),
-    var actualStartTime: Calendar = getDefaultCalendar()
+    var actualStartTime: Calendar = getDefaultCalendar(),
+    var weekDays: MutableList<Int> = mutableListOf()
 ) {
     init {
         val currentDate = getDefaultCalendar()

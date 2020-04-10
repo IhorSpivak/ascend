@@ -100,11 +100,31 @@ class GroupInfoViewModel(
     }
 
     override fun subscribe(card: PresentationCardModel) {
+        showProgress(true)
         viewModelScope.launch {
             val requestModel = SubscribeGroupDTO(
                 group.value!!.id,
                 card.id,
                 PaymentType.CARD
+            )
+            val result = groupUseCase.subscribe(requestModel)
+
+            if (result.isSuccessful) {
+                showProgress(false)
+                loadData(group.value!!.id)
+            } else {
+                showProgress(false)
+                showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+            }
+        }
+    }
+
+    override fun subscribe() {
+        viewModelScope.launch {
+            val requestModel = SubscribeGroupDTO(
+                group.value!!.id,
+                null,
+                null
             )
             val result = groupUseCase.subscribe(requestModel)
 
@@ -132,7 +152,11 @@ class GroupInfoViewModel(
         viewModelScope.launch {
             val res = groupUseCase.leaveGroup(group.value?.id ?: return@launch)
             if (res.isSuccessful) {
-                router.onBack()
+                if (group.value!!.groupType != GroupType.WEBINAR) {
+                    router.onBack()
+                }else{
+                    loadData(group.value!!.id)
+                }
             }else {
                 showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
             }

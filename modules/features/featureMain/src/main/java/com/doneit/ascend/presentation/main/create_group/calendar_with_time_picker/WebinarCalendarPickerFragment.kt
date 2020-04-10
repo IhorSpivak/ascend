@@ -1,10 +1,10 @@
 package com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker
 
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.widget.RadioButton
 import androidx.core.view.children
 import com.doneit.ascend.domain.entity.CalendarDayEntity
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentWebinarCalendarPickerBinding
@@ -25,23 +25,29 @@ class WebinarCalendarPickerFragment(
         }
     }
     override val viewModel: WebinarCalendarPickerContact.ViewModel by instance()
-    private var selectedDay: CalendarDayEntity? = null
-    private var selectedDate: Calendar = Calendar.getInstance()
+    private var selectedDay: Int = -1
+    private var selectedDate: Calendar = getDefaultCalendar()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
             btnOk.setOnClickListener {
-                val builder = StringBuilder()
-                builder.append("${selectedDay.toString().take(3)}, ")
-                if (DateFormat.is24HourFormat(context)){
-                    builder.append(" ${selectedDate.get(Calendar.HOUR_OF_DAY)}:${selectedDate.get(Calendar.MINUTE)}")
-                }else{
-                    builder.append(" ${selectedDate.get(Calendar.HOUR)}:${selectedDate.get(Calendar.MINUTE)} ${selectedDate.get(Calendar.AM_PM)}")
+                viewModel.okWebinarTimeClick(selectedDay, selectedDate, position)
+            }
+            if (position < 0) {
+                viewModel.createGroupModel.startDate.observableField.let {
+                    if (it.get()!!.isNotEmpty()){
+                        newWheelPicker.setDefaultDate(viewModel.createGroupModel.actualStartTime.time)
+                    }
                 }
-                viewModel.createGroupModel.selectedDays.add(selectedDay!!)
-                viewModel.createGroupModel.webinarSchedule[position].observableField.set(builder.toString())
-                viewModel.okWebinarTimeClick(0, selectedDate, position)
+            }else{
+                viewModel.createGroupModel.webinarSchedule.getOrNull(position)?.let {
+                    if (it.observableField.get()!!.isNotEmpty()) {
+                        viewModel.createGroupModel.timeList[position].time.let { date ->
+                            newWheelPicker.setDefaultDate(date)
+                        }
+                    }
+                }
             }
             newWheelPicker.addOnDateChangedListener(object : SingleDateAndTimePicker.OnDateChangedListener{
                 override fun onDateChanged(displayed: String?, date: Date?) {
@@ -50,22 +56,22 @@ class WebinarCalendarPickerFragment(
             })
         }
         binding.executePendingBindings()
-
-        viewModel.createGroupModel.getStartTimeDay()?.let {
-            //this day mustn't be unselected
-            val dayView = getCorrespondingButton(it)
-            dayView?.isChecked = true
-            dayView?.isEnabled = false
-        }
-        viewModel.createGroupModel.selectedDays.forEach {
-            getCorrespondingButton(it)?.isChecked = true
-            binding.radioGroupTop.isEnabled
+        if (position< 0){
+            viewModel.createGroupModel.getStartTimeDay()?.let {
+                //this day mustn't be unselected
+                selectedDay = it.ordinal + 1
+                val dayView = getCorrespondingButton(it)
+                dayView?.isChecked = true
+                dayView?.isEnabled = false
+            }
+            viewModel.createGroupModel.selectedDays.forEach {
+                getCorrespondingButton(it)?.isChecked = true
+                binding.radioGroupTop.isEnabled
+            }
         }
 
         binding.radioGroupTop.setOnCheckedChangeListener { radioGroup, i ->
-            radioGroup.indexOfChild(binding.root.findViewById<RadioButton>(i)).let {
-                selectedDay = CalendarDayEntity.values()[it]
-            }
+            selectedDay = radioGroup.indexOfChild(binding.root.findViewById<RadioButton>(i)) + 1
         }
         hideKeyboard()
     }

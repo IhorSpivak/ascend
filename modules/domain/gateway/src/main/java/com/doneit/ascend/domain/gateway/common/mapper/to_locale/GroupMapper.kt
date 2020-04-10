@@ -41,7 +41,9 @@ fun GroupEntity.toLocal(): GroupLocal {
         note?.toLocale(),
         meetingFormat,
         tag?.toLocal(),
-        isPrivate
+        isPrivate,
+        dates?.map { it.time },
+        themes
     )
 }
 

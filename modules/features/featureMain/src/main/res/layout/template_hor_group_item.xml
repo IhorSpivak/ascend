@@ -25,6 +25,10 @@
             name="user"
             type="com.doneit.ascend.domain.entity.user.UserEntity" />
 
+        <variable
+            name="theme"
+            type="String" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -146,20 +150,6 @@
                 app:layout_constraintStart_toEndOf="@+id/ivOwnerImage"
                 app:layout_constraintTop_toTopOf="@+id/ivOwnerImage" />
 
-            <TextView
-                android:id="@+id/tvWebinarMarker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:padding="4dp"
-                style="@style/TextNormal.White"
-                android:textSize="12sp"
-                android:text="@string/webinars"
-                android:visibility="@{item.groupType == GroupType.WEBINAR, default = gone}"
-                app:layout_constraintTop_toBottomOf="@id/ownerName"
-                app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
-                android:background="@drawable/bg_r4_4b39"/>
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/group_type_container"
                 android:layout_width="wrap_content"
@@ -263,6 +253,34 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
+                    android:id="@+id/tvWebinarMarker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:padding="4dp"
+                    style="@style/TextNormal.White"
+                    android:textSize="12sp"
+                    android:text="@string/webinars"
+                    android:visibility="@{item.groupType == GroupType.WEBINAR, default = gone}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:background="@drawable/bg_r4_4b39"/>
+                <TextView
+                    android:id="@+id/meetings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:padding="4dp"
+                    style="@style/TextNormal"
+                    android:textSize="12sp"
+                    app:text="@{@string/meetings_count_with_theme(item.pastMeetingsCount, item.meetingsCount, theme)}"
+                    android:visibility="@{item.groupType == GroupType.WEBINAR, default = gone}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvWebinarMarker"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
                     android:id="@+id/support_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -276,54 +294,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--<LinearLayout
-                android:id="@+id/tvSupportMarkerContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/ownerName"
-                app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
-                android:background="@drawable/bg_r4_9dc0"
-                android:visibility="@{item.groupType == GroupType.SUPPORT, default=gone}">
-
-                <TextView
-                    android:id="@+id/tvSupportMarker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    style="@style/TextNormal.White"
-                    android:textSize="12sp"
-                    android:text="@string/support_group"
-                    app:layout_constraintTop_toBottomOf="@id/ownerName"
-                    app:layout_constraintStart_toStartOf="@id/ivOwnerImage" />
-
-                <TextView
-                    android:id="@+id/tvSupportMarkerType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    style="@style/TextNormal.Blue"
-                    android:textSize="12sp"
-                    android:text="@{@string/support_group_type(item.meetingFormat)}"
-                    app:layout_constraintTop_toBottomOf="@id/ownerName"
-                    app:layout_constraintStart_toEndOf="@id/tvSupportMarker"/>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvMasterMindMarker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:padding="4dp"
-                style="@style/TextNormal.White"
-                android:textSize="12sp"
-                android:text="@string/master_mind_group"
-                android:visibility="@{item.groupType == GroupType.MASTER_MIND, default = gone}"
-                app:layout_constraintTop_toBottomOf="@id/ownerName"
-                app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
-                android:background="@drawable/bg_r4_519f"/>-->
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/brMarkers"
@@ -366,7 +336,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/button_start_background"
-                    android:text="@string/start_group"
+                    android:text="@{item.groupType == GroupType.WEBINAR? @string/start_webinar : @string/start_group}"
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"

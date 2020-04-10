@@ -5,6 +5,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.doneit.ascend.source.storage.local.data.*
 import com.doneit.ascend.source.storage.local.data.converters.ListIntConverter
+import com.doneit.ascend.source.storage.local.data.converters.ListLongConverter
+import com.doneit.ascend.source.storage.local.data.converters.ListStringConverter
 import com.doneit.ascend.source.storage.local.data.first_time_login.AnswerOptionLocal
 import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionItemLocal
 import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionListLocal
@@ -37,7 +39,7 @@ import com.doneit.ascend.source.storage.local.repository.user.UserDao
     ],
     version = 2//todo move down
 )
-@TypeConverters(ListIntConverter::class)
+@TypeConverters(ListIntConverter::class, ListStringConverter::class, ListLongConverter::class)
 internal abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun questionDao(): QuestionDao

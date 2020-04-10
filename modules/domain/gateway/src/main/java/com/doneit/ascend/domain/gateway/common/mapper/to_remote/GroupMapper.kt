@@ -5,10 +5,12 @@ import com.doneit.ascend.domain.gateway.common.applyDaysOffset
 import com.doneit.ascend.domain.gateway.common.getDayOffset
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
     val dayOffset = startTime?.getDayOffset()?: 0
-
+    val timeList = dates?.map { getTimeFormat().format(it) }?.toMutableList()?.apply { add(getTimeFormat().format(startTime)) }
     return CreateGroupRequest(
         name,
         description,
@@ -20,7 +22,9 @@ fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
         meetingsCount,
         meetingFormat,
         privacy,
-        tags
+        tags,
+        timeList,
+        themes
     )
 }
 fun UpdateGroupDTO.toUpdateGroupRequest(): UpdateGroupRequest {
@@ -81,7 +85,7 @@ fun GroupListDTO.toRequest(currPage: Int): GroupListRequest {
 fun SubscribeGroupDTO.toRequest(): SubscribeGroupRequest {
     return SubscribeGroupRequest(
         paymentSourceId,
-        paymentSourceType.toString()
+        paymentSourceType?.toString()
     )
 }
 
@@ -112,4 +116,7 @@ fun InviteToGroupDTO.toRequest(): InviteToGroupRequest {
     return InviteToGroupRequest(
         participants
     )
+}
+fun getTimeFormat(): SimpleDateFormat{
+    return SimpleDateFormat("HH:mm", Locale.getDefault())
 }

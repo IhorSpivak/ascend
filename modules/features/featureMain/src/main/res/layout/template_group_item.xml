@@ -5,6 +5,7 @@
 
     <data>
         <import type="com.doneit.ascend.domain.entity.group.GroupStatus"/>
+        <import type="com.doneit.ascend.domain.entity.group.GroupType"/>
         <variable
             name="item"
             type="com.doneit.ascend.domain.entity.group.GroupEntity" />
@@ -19,6 +20,9 @@
         <variable
             name="showStartButton"
             type="Boolean" />
+        <variable
+            name="theme"
+            type="String"/>
 
     </data>
 
@@ -49,8 +53,10 @@
 
                 app:layout_constraintBottom_toBottomOf="@id/image"
                 app:layout_constraintEnd_toEndOf="@id/image"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@id/image"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvName"
@@ -79,6 +85,20 @@
                 android:textSize="10sp"
                 app:layout_constraintTop_toBottomOf="@id/tvName"
                 app:layout_constraintStart_toStartOf="parent"
+                tools:text="Ullamco sint proident est irure" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/webinar_theme"
+                style="@style/TextNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/light_gray_e9f0"
+                android:textSize="10sp"
+                app:text="@{@string/meetings_count_with_theme(item.pastMeetingsCount, item.meetingsCount, theme)}"
+                android:visibility="@{item.groupType == GroupType.WEBINAR, default = gone}"
+                app:layout_constraintTop_toTopOf="@id/tvGroupType"
+                app:layout_constraintStart_toEndOf="@id/tvGroupType"
                 tools:text="Ullamco sint proident est irure" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -193,7 +213,7 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/button_start_background"
                     android:gravity="center"
-                    android:text="@string/start_group"
+                    android:text="@{item.groupType == GroupType.WEBINAR? @string/start_webinar : @string/start_group}"
                     android:textAllCaps="true"
                     style="@style/TextNormal"
                     android:textColor="@android:color/white"

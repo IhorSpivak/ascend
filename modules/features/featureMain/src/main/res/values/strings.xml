@@ -59,6 +59,7 @@
     <string name="create_create">Create</string>
     <string name="action_mm_group">%s MM Group</string>
     <string name="action_support_group">%s Support Group</string>
+    <string name="action_webinar">%s Webinar</string>
     <string name="private_group">Private Group</string>
     <string name="public_group">Public Group</string>
     <string name="group_name">Group Name</string>
@@ -184,6 +185,7 @@
 
     <!--Group Info-->
     <string name="meetings_count">&lt;b>%d/%d&lt;/b> Meetings</string>
+    <string name="meetings_count_with_theme">%d/%d %s</string>
     <string name="group_price">&lt;b>%.2f&lt;/b> USD</string>
     <string name="subscribe">ATTEND</string>
     <string name="subscribed">ATTENDED</string>
@@ -192,12 +194,14 @@
     <string name="attendees">&lt;b>%d&lt;/b> Attendees</string>
     <string name="no_attendees">No attendees yet</string>
     <string name="error_group_user_removed">You are removed from group</string>
+    <string name="error_group_user_banned">You have been banned by the webinar\norganizer and cannot join.</string>
     <string name="duplicate_group">Duplicate</string>
     <string name="cancel_group">Cancel</string>
     <string name="edit_group">Edit</string>
     <string name="mm_delete_group">Delete</string>
     <string name="mm_open">Make Opened</string>
     <string name="mm_close">Make Closed</string>
+    <string name="free">FREE</string>
 
     <!--MasterMind Tab-->
     <string name="tab_all">All</string>
@@ -486,6 +490,7 @@
     <string name="create_webinar_invite">Invite members</string>
     <string name="create_webinar_add_member">Add\nMember</string>
     <string name="create_webinar_theme_hint">Theme of meeting %d</string>
+    <string name="create_webinar_default_price">0.00</string>
 
     <!--MM Groups-->
     <string name="mm_name_groups">%s Groups</string>

@@ -10,7 +10,24 @@ import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.utils.getNotNull
 import java.util.*
-
+fun PresentationCreateGroupModel.toWebinarEntity(): CreateGroupDTO {
+    return CreateGroupDTO(
+        name.observableField.getNotNull(),
+        description.observableField.getNotNull(),
+        actualStartTime.time,
+        groupType?.toString() ?: "",
+        price.observableField.get()?.toFloatS(),
+        image.observableField.getNotNull(),
+        participants.get(),
+        scheduleDays.toDays(),
+        numberOfMeetings.observableField.getNotNull().toInt(),
+        meetingFormat.observableField.get(),
+        isPrivate.get(),
+        tags,
+        timeList.map { it.time },
+        themesOfMeeting.map { it.observableField.get()!! }
+    )
+}
 fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
     val startTime =
         CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
@@ -32,7 +49,9 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
         Integer.parseInt(numberOfMeetings.observableField.getNotNull()),
         meetingFormat.observableField.get(),
         isPrivate.get(),
-        tags
+        tags,
+        null,
+        null
     )
 }
 

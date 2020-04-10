@@ -1,8 +1,10 @@
 package com.doneit.ascend.presentation.main.group_info
 
 import android.os.Bundle
+import android.text.format.DateFormat
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.dialog.*
 import com.doneit.ascend.presentation.dialog.common.CardsAdapter
 import com.doneit.ascend.presentation.main.R
@@ -12,6 +14,8 @@ import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
 import com.doneit.ascend.presentation.main.group_info.common.InvitedParticipantAdapter
 import com.doneit.ascend.presentation.main.group_info.common.WebinarThemeAdapter
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
+import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT
+import com.doneit.ascend.presentation.utils.extensions.TIME_24_FORMAT
 import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
 import com.doneit.ascend.presentation.utils.showDefaultError
@@ -40,6 +44,8 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         WebinarThemeAdapter(viewModel.group.value!!)
     }
 
+    private var isGroupFree: Boolean = false
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
@@ -52,7 +58,9 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 tvStartDate.text = group.startTime?.toDayMonthYear()
                 isAttended = false
                 rvWebinarThemes.adapter = webinarThemeAdapter
-                webinarThemeAdapter.submitList(listOf("test 1", "test 2"))
+            }
+            if (group.price ==  0f){
+                isGroupFree = true
             }
             val builder = StringBuilder()
 
@@ -69,6 +77,17 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                     }
                 }
                 builder.append(context!!.getTimeFormat().format(group.startTime))
+                if(group.groupType == GroupType.WEBINAR){
+                    builder.clear()
+                    if(DateFormat.is24HourFormat(context)){
+                        builder.append(TIME_24_FORMAT.format(group.startTime)+"\n")
+                        builder.append(group.dates.map { TIME_24_FORMAT.format(it)+"\n"}.joinToString("\n"))
+                    }else{
+                        builder.append(TIME_12_FORMAT.format(group.startTime)+"\n")
+                        builder.append(group.dates.map { TIME_12_FORMAT.format(it)+"\n"}.joinToString("\n"))
+                    }
+                    webinarThemeAdapter.submitList(group.themes)
+                }
                 binding.tvSchedule.text = builder.toString()
             }
             membersAdapter.submitList(group.attendees)
@@ -131,10 +150,14 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             }
 
             btnSubscribe.setOnClickListener {
-                currentDialog = SelectPaymentDialog.create(context!!, cardsAdapter) {
-                    viewModel.subscribe(it)
+                if (isGroupFree){
+                    viewModel.subscribe()
+                }else {
+                    currentDialog = SelectPaymentDialog.create(context!!, cardsAdapter) {
+                        viewModel.subscribe(it)
+                    }
+                    currentDialog?.show()
                 }
-                currentDialog?.show()
             }
 
             btnJoinToDisc.setOnClickListener {

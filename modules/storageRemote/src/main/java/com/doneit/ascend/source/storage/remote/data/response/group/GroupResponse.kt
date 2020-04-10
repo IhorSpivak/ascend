@@ -2,10 +2,10 @@ package com.doneit.ascend.source.storage.remote.data.response.group
 
 import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
 import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
-import com.doneit.ascend.source.storage.remote.data.response.SearchUserListResponse
 import com.doneit.ascend.source.storage.remote.data.response.TagResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.SearchUsersResponse
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class GroupResponse(
     @SerializedName("id") val id: Long,
@@ -31,5 +31,7 @@ data class GroupResponse(
     @SerializedName("meeting_format") val meetingFormat: String?,
     @SerializedName("invites") val invites: List<SearchUsersResponse>?,
     @SerializedName("private") val private: Boolean,
-    @SerializedName("past_meetings_count") val pastMeetingsCount: Int
+    @SerializedName("past_meetings_count") val pastMeetingsCount: Int,
+    @SerializedName("dates") val dates: List<String>?,
+    @SerializedName("themes") val themes: List<String>?
 )

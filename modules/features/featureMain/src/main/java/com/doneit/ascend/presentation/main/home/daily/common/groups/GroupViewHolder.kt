@@ -9,8 +9,6 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
 import com.doneit.ascend.presentation.main.databinding.TemplateGroupItemBinding
-import com.doneit.ascend.presentation.utils.ButtonType
-import com.doneit.ascend.presentation.utils.getButtonType
 
 class GroupViewHolder(
     private val binding: TemplateGroupItemBinding
@@ -20,6 +18,11 @@ class GroupViewHolder(
         binding.apply {
             this.item = item
             this.user = user
+            this.theme = if (item.passedCount == item.meetingsCount){
+                item.themes[item.passedCount -1]
+            }else{
+                item.themes[item.passedCount]
+            }
             when(item.groupType){
                 GroupType.MASTER_MIND -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)
                 GroupType.INDIVIDUAL -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)
@@ -33,29 +36,6 @@ class GroupViewHolder(
                 onButtonClick.invoke(item)
             }
         }
-
-/*
-        when(getButtonType(user!!, item)) {
-            ButtonType.START_GROUP -> {
-                binding.showStartButton = true
-                binding.btnStartGroup.setOnClickListener {
-                    onButtonClick.invoke(item)
-                }
-                binding.showJoinButton = false
-            }
-            ButtonType.JOIN_TO_DISCUSSION -> {
-                binding.showStartButton = false
-                binding.showJoinButton = true
-                binding.btnJoinToDisc.setOnClickListener {
-                    onButtonClick.invoke(item)
-                }
-            }
-            else -> {
-                binding.showJoinButton = false
-                binding.showStartButton = false
-            }
-        }
-*/
 
         binding.executePendingBindings()
     }

@@ -43,6 +43,9 @@ class WebinarDatePickerFragment: BaseFragment<FragmentWebinarDatePickerBinding>(
                 viewModel.okDateSelection(selectedDate)
             }
             newWheelPicker.selectDate(viewModel.createGroupModel.actualStartTime)
+            viewModel.createGroupModel.actualStartTime?.let {
+                newWheelPicker.setDefaultDate(it.time)
+            }
             newWheelPicker.addOnDateChangedListener(object : SingleDateAndTimePicker.OnDateChangedListener{
                 override fun onDateChanged(displayed: String?, date: Date?) {
                     selectedDate.time = date
