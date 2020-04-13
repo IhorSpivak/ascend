@@ -61,7 +61,10 @@ class CreateGroupViewModel(
 
             if (s.isValidGroupName().not()) {
                 result.isSucceed = false
-                result.errors.add(R.string.error_group_name)
+                when (createGroupModel.groupType) {
+                    GroupType.WEBINAR -> result.errors.add(R.string.error_webinar_name)
+                    else -> result.errors.add(R.string.error_group_name)
+                }
             }
 
             result

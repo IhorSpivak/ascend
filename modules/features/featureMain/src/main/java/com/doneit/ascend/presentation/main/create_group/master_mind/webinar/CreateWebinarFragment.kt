@@ -24,6 +24,8 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.comm
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateWebinarBinding
 import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT
+import com.doneit.ascend.presentation.utils.extensions.TIME_24_FORMAT
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.getImagePath
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
@@ -102,6 +104,11 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             }
             addMemberContainer.setOnClickListener {
                 viewModel.addMember(viewModel.createGroupModel.groupType!!)
+            }
+            scrollableContainer.setOnFocusChangeListener { v, b ->
+                if (b) {
+                    hideKeyboard()
+                }
             }
         }
         viewModel.members.observe(this, androidx.lifecycle.Observer {

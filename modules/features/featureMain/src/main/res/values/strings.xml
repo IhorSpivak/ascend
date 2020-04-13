@@ -482,7 +482,7 @@
     <string name="create_webinar_title">Create Webinar</string>
     <string name="create_webinar_cancel">Cancel</string>
     <string name="create_webinar_complete">Complete</string>
-    <string name="create_webinar_group_name">Group Name</string>
+    <string name="create_webinar_group_name">Webinar Name</string>
     <string name="create_webinar_date_and_time">Date&amp;Time</string>
     <string name="create_webinar_choose_schedule">Choose Schedule</string>
     <string name="create_webinar_group_description">Webinar Description</string>
@@ -491,6 +491,7 @@
     <string name="create_webinar_add_member">Add\nMember</string>
     <string name="create_webinar_theme_hint">Theme of meeting %d</string>
     <string name="create_webinar_default_price">0.00</string>
+    <string name="error_webinar_name">Please, enter the Webinar Name correctly</string>
 
     <!--MM Groups-->
     <string name="mm_name_groups">%s Groups</string>

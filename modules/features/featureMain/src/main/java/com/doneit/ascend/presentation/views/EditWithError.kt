@@ -74,6 +74,11 @@ import kotlinx.android.synthetic.main.view_edit_with_error.view.*
             attribute = "color",
             method = "setColor"
 
+        ),
+        BindingMethod(
+            type = EditWithError::class,
+            attribute = "imeOptions",
+            method = "setImeOptions"
         )
     ]
 )
@@ -216,6 +221,10 @@ class EditWithError @JvmOverloads constructor(
 
     fun setColor(color: Int){
         editText.setTextColor(color)
+    }
+
+    fun setImeOptions(key: Int){
+        editText.imeOptions = key
     }
 
     override fun getBaseline(): Int {
