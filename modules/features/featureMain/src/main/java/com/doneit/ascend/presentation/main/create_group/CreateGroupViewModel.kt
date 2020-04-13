@@ -1,9 +1,6 @@
 package com.doneit.ascend.presentation.main.create_group
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -54,6 +51,7 @@ class CreateGroupViewModel(
         get() = MutableLiveData()
 
     private val searchQuery = MutableLiveData<String>()
+    private val timeChooserState = MutableLiveData<Boolean>(false)
 
     init {
         createGroupModel.name.validator = { s ->
@@ -316,6 +314,10 @@ class CreateGroupViewModel(
         updateCanOk()
     }
 
+    override fun updateTimeChooserOk(state: Boolean) {
+        timeChooserState.postValue(state)
+    }
+
     override fun applyArguments(args: CreateGroupArgs) {
         createGroupModel.groupType = args.groupType
     }
@@ -468,11 +470,17 @@ class CreateGroupViewModel(
 
     override fun updateListOfTimes(position: Int, remove: Boolean) {
         if (remove) {
-            createGroupModel.webinarSchedule.removeAt(position)
-            createGroupModel.timeList.removeAt(position)
-            createGroupModel.scheduleDays.apply {
-                if (size >= position + 1){
-                    removeAt(position)
+            if (position == 0){
+                createGroupModel.webinarSchedule.dropLast(1)
+                createGroupModel.timeList.dropLast(1)
+                createGroupModel.scheduleDays.dropLast(1)
+            }else {
+                createGroupModel.webinarSchedule.removeAt(position)
+                createGroupModel.timeList.removeAt(position)
+                createGroupModel.scheduleDays.apply {
+                    if (size >= position + 1) {
+                        removeAt(position)
+                    }
                 }
             }
         } else {
@@ -541,6 +549,8 @@ class CreateGroupViewModel(
         members.postValue(group.attendees?.toMutableList())
         selectedMembers.addAll(group.attendees?: emptyList())
     }
+
+    override val canTimeChooserOk: LiveData<Boolean> = timeChooserState.switchMap { liveData { emit(it) } }
 
     override val members: MutableLiveData<MutableList<AttendeeEntity>> = MutableLiveData()
     override val membersToDelete: MutableLiveData<MutableList<AttendeeEntity>>  = MutableLiveData()

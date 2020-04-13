@@ -175,7 +175,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="24dp"
                     android:layout_weight="1"
-                    android:enabled="@{model.canOk}"
+                    android:enabled="@{model.canTimeChooserOk}"
                     android:text="@string/ok"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"

@@ -239,7 +239,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/webinar_themes"
                     app:layout_constraintBottom_toTopOf="@id/dash_rectangle_background"
-                    app:maxLength="@{1000}"
+                    app:maxLength="@{500}"
                     app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_description}"

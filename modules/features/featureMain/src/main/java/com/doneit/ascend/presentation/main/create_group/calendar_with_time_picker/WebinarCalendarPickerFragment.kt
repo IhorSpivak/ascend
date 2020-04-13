@@ -9,7 +9,6 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentWebinarCalendarPickerBinding
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -31,6 +30,7 @@ class WebinarCalendarPickerFragment(
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
+            viewModel.updateTimeChooserOk(false)
             btnOk.setOnClickListener {
                 viewModel.okWebinarTimeClick(selectedDay, selectedDate, position)
             }
@@ -49,11 +49,7 @@ class WebinarCalendarPickerFragment(
                     }
                 }
             }
-            newWheelPicker.addOnDateChangedListener(object : SingleDateAndTimePicker.OnDateChangedListener{
-                override fun onDateChanged(displayed: String?, date: Date?) {
-                    selectedDate.time = date
-                }
-            })
+            newWheelPicker.addOnDateChangedListener { displayed, date -> selectedDate.time = date }
         }
         binding.executePendingBindings()
         if (position == 0){
@@ -67,15 +63,23 @@ class WebinarCalendarPickerFragment(
                     }
                 }
                 dayView?.isChecked = true
+                viewModel.updateTimeChooserOk(true)
             }
             viewModel.createGroupModel.selectedDays.forEach {
                 getCorrespondingButton(it)?.isChecked = true
-                binding.radioGroupTop.isEnabled
+            }
+        }else{
+            viewModel.createGroupModel.timeList.getOrNull(position)?.let { date ->
+                (binding.radioGroupTop.children.elementAtOrNull(date.get(Calendar.DAY_OF_WEEK) - 1) as RadioButton?)?.apply {
+                    isEnabled = true
+                    viewModel.updateTimeChooserOk(true)
+                }
             }
         }
 
         binding.radioGroupTop.setOnCheckedChangeListener { radioGroup, i ->
             selectedDay = radioGroup.indexOfChild(binding.root.findViewById<RadioButton>(i)) + 1
+            viewModel.updateTimeChooserOk(true)
         }
         hideKeyboard()
     }

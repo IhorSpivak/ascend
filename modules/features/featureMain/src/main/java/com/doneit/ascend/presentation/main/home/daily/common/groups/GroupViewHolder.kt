@@ -18,10 +18,10 @@ class GroupViewHolder(
         binding.apply {
             this.item = item
             this.user = user
-            this.theme = if (item.passedCount == item.meetingsCount){
-                item.themes?.get(item.passedCount -1)
+            this.theme = if (item.pastMeetingsCount == item.meetingsCount){
+                item.pastMeetingsCount?.let { item.themes?.get(it - 1) }
             }else{
-                item.themes?.get(item.passedCount)
+                item.pastMeetingsCount?.let { item.themes?.get(it) }
             }
             when(item.groupType){
                 GroupType.MASTER_MIND -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)

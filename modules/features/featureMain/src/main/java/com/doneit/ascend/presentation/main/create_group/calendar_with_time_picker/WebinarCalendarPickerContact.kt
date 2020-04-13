@@ -8,7 +8,7 @@ import java.util.*
 
 interface WebinarCalendarPickerContact {
     interface ViewModel : BaseViewModel {
-        val canOk: LiveData<Boolean>
+        val canTimeChooserOk: LiveData<Boolean>
         val createGroupModel: PresentationCreateGroupModel
 
         fun backDateClick()
@@ -19,5 +19,6 @@ interface WebinarCalendarPickerContact {
         fun setMinutes(minutes: String)
         fun setTimeType(timeType: String)
         fun changeDayState(day: CalendarDayEntity, state: Boolean)
+        fun updateTimeChooserOk(state: Boolean)
     }
 }

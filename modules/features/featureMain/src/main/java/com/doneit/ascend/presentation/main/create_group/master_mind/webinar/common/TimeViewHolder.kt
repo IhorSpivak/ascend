@@ -17,13 +17,14 @@ class TimeViewHolder(
             this.position = position
             model = viewModel
             remove.setOnClickListener {
-                viewModel.newScheduleItem.value?.let {
+                viewModel.createGroupModel.webinarSchedule.let {
                     if (it.size == 1){
                         viewModel.chooseScheduleTouch(position)
                     }else{
                         viewModel.updateListOfTimes(position, true)
                     }
                 }
+
             }
             add.setOnClickListener {
                 viewModel.updateListOfTimes(position, false)

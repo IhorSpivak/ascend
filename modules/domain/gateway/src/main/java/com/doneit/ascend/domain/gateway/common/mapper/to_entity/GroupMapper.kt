@@ -48,7 +48,7 @@ fun TagResponse.toEntity(): TagEntity{
 }
 
 fun GroupResponse.toEntity(): GroupEntity {
-    val startT = startTime.toDate()!!
+    val startT = startTime.toDate()?: getDefaultCalendar().time
     val dayOffset = -1 * startT.getDayOffset()
 
     return GroupEntity(

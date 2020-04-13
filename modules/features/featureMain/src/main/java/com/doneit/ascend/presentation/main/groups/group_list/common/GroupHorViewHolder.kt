@@ -18,10 +18,10 @@ class GroupHorViewHolder(
             this.item = item
             community = user?.community
             this.user = user
-            theme = if (item.passedCount == item.meetingsCount){
-                item.themes?.get(item.passedCount -1)
+            theme = if (item.pastMeetingsCount == item.meetingsCount){
+                item.pastMeetingsCount?.let { item.themes?.get(it - 1) }
             }else{
-                item.themes?.get(item.passedCount)
+                item.pastMeetingsCount?.let { item.themes?.get(it) }
             }
         }
         if(user == null) {
