@@ -485,7 +485,7 @@
     <string name="create_webinar_group_name">Group Name</string>
     <string name="create_webinar_date_and_time">Date&amp;Time</string>
     <string name="create_webinar_choose_schedule">Choose Schedule</string>
-    <string name="create_webinar_group_description">Group Description</string>
+    <string name="create_webinar_group_description">Webinar Description</string>
     <string name="create_webinar_upload_group_image">Upload Group Image</string>
     <string name="create_webinar_invite">Invite members</string>
     <string name="create_webinar_add_member">Add\nMember</string>

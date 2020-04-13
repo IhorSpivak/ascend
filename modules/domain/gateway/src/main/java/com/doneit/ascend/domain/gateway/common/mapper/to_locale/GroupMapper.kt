@@ -42,7 +42,7 @@ fun GroupEntity.toLocal(): GroupLocal {
         meetingFormat,
         tag?.toLocal(),
         isPrivate,
-        dates?.map { it.time },
+        dates,
         themes
     )
 }

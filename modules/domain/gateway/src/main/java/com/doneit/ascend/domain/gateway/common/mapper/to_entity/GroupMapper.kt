@@ -77,8 +77,8 @@ fun GroupResponse.toEntity(): GroupEntity {
         invites?.map { it.toEntity() },
         private,
         pastMeetingsCount,
-        dates?.map { it.toDate()!! }?: listOf(Date(getDefaultCalendar().timeInMillis)),
-        themes?: listOf("empty")
+        dates,
+        themes
     )
 }
 private fun getDays(list: List<Int>?, dayOffset: Int): List<CalendarDayEntity>{
@@ -164,7 +164,7 @@ fun GroupLocal.toEntity(): GroupEntity {
         tag?.toEntity(), emptyList(),
         isPrivate,
         pastMeetingsCount,
-        dates.map { Date(it) },
+        dates,
         themes
     )
 }

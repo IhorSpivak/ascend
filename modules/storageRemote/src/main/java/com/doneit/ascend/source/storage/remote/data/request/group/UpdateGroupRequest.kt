@@ -14,5 +14,7 @@ data class UpdateGroupRequest(
     @SerializedName("meetings_count") val meetingsCount: Int?,
     @SerializedName("meeting_format") val meetingFormat: String?,
     @SerializedName("private") val private: Boolean?,
-    @SerializedName("tag_id") val tagId: Int?
+    @SerializedName("tag_id") val tagId: Int?,
+    @SerializedName("times") val times: List<String>?,
+    @SerializedName("themes") val themes: List<String>?
 )

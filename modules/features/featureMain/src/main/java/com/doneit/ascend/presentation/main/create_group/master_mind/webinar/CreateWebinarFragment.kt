@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.format.DateFormat
 import com.androidisland.ezpermission.EzPermission
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
@@ -25,10 +24,9 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.comm
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateWebinarBinding
 import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.copyToStorage
-import com.doneit.ascend.presentation.utils.extensions.*
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.getImagePath
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
-import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -92,22 +90,6 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             startDate.editText.setOnClickListener {
                 viewModel.onSelectStartDate()
             }
-            chooseSchedule.multilineEditText.setOnClickListener {
-                viewModel.chooseScheduleTouch(-1)
-            }
-            remove.setOnClickListener {
-                viewModel.newScheduleItem.value?.let {
-                    if (it.size == 0){
-                        viewModel.chooseScheduleTouch()
-                    }else{
-                        viewModel.updateListOfTimes(true)
-                    }
-                }
-            }
-            add.setOnClickListener {
-                viewModel.updateListOfTimes(false)
-            }
-
             dashRectangleBackground.setOnClickListener {
                 createImageBottomDialog().show(childFragmentManager, null)
             }
@@ -141,40 +123,19 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 text = getString(R.string.btn_save_action)
                 setOnClickListener { viewModel.updateGroup(group!!) }
             }
-            viewModel.createGroupModel.apply {
-                when(what){
-                    GroupAction.DUPLICATE.toString() ->{name.observableField.set(group!!.name.plus("(2)"))}
-                    GroupAction.EDIT.toString() ->{name.observableField.set(group!!.name)}
-                }
-                isPrivate.set(group!!.isPrivate)
-                numberOfMeetings.observableField.set(group!!.meetingsCount.toString())
-                description.observableField.set(group!!.description)
-                actualStartTime.time = group!!.startTime
-                groupType = com.doneit.ascend.presentation.models.GroupType.values()[group!!.groupType!!.ordinal]
-                startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy").format(actualStartTime.time))
-                selectedDays.addAll(group!!.daysOfWeek!!)
-                if (DateFormat.is24HourFormat(context)){
-                    scheduleTime.observableField.set(TIME_24_FORMAT.format(actualStartTime.time))
-                }else{
-                    scheduleTime.observableField.set(TIME_12_FORMAT.format(actualStartTime.time))
-                }
-                Glide.with(context!!)
-                    .asBitmap()
-                    .load(group!!.image!!.url)
-                    .into(object : SimpleTarget<Bitmap>(){
-                        override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: Transition<in Bitmap>?
-                        ) {
-                            image.observableField.set(context?.copyToStorage(resource))
-                        }
+            viewModel.updateFields(group!!, what!!)
+            Glide.with(context!!)
+                .asBitmap()
+                .load(group!!.image!!.url)
+                .into(object : SimpleTarget<Bitmap>(){
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        viewModel.createGroupModel.image.observableField.set(context?.copyToStorage(resource))
+                    }
 
-                    })
-            }
-            viewModel.apply{
-                members.postValue(group!!.attendees?.toMutableList())
-                selectedMembers.addAll(group!!.attendees?: emptyList())
-            }
+                })
         }else{
             binding.buttonComplete.setOnClickListener {
                 viewModel.completeClick()

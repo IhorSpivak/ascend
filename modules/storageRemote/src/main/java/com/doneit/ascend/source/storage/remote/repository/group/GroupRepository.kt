@@ -19,8 +19,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 internal class GroupRepository(
     gson: Gson,
@@ -52,7 +50,7 @@ internal class GroupRepository(
                         )
                     }
                     WEBINAR -> {
-                        request.dates?.forEach { time ->
+                        request.times?.forEach { time ->
                             addPart(
                                 MultipartBody.Part.createFormData(
                                     "times[]",
@@ -211,6 +209,26 @@ internal class GroupRepository(
                             it.meetingFormat ?: ""
                         )
                     )
+                }
+                it.times?.let {list ->
+                    list.forEach {time ->
+                        builder.addPart(
+                            MultipartBody.Part.createFormData(
+                                "times[]",
+                                time
+                            )
+                        )
+                    }
+                }
+                it.themes?.let {list ->
+                    list.forEach {theme ->
+                        builder.addPart(
+                            MultipartBody.Part.createFormData(
+                                "themes[]",
+                                theme
+                            )
+                        )
+                    }
                 }
             }
             api.updateGroupAsync(id, builder.build().parts)

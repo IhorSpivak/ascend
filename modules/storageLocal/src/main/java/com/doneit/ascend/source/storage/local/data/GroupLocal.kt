@@ -28,6 +28,6 @@ data class GroupLocal(
     @ColumnInfo(name = "meeting_format") val meetingFormat: String?,
     @Embedded(prefix = "tag") val tag: TagLocal?,
     val isPrivate: Boolean,
-    @ColumnInfo(name = "dates") var dates: List<Long>,
-    @ColumnInfo(name = "themes") var themes: List<String>
+    @ColumnInfo(name = "dates") var dates: List<String>?,
+    @ColumnInfo(name = "themes") var themes: List<String>?
 )

@@ -15,5 +15,7 @@ data class UpdateGroupDTO(
     val meetingsCount: Int?,
     val meetingFormat: String?,
     val privacy: Boolean?,
-    val tags: Int?
+    val tags: Int?,
+    val times: List<String>?,
+    val themes: List<String>?
 )

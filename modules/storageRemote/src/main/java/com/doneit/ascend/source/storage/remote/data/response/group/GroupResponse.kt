@@ -32,6 +32,6 @@ data class GroupResponse(
     @SerializedName("invites") val invites: List<SearchUsersResponse>?,
     @SerializedName("private") val private: Boolean,
     @SerializedName("past_meetings_count") val pastMeetingsCount: Int,
-    @SerializedName("dates") val dates: List<String>?,
+    @SerializedName("times") val dates: List<String>?,
     @SerializedName("themes") val themes: List<String>?
 )

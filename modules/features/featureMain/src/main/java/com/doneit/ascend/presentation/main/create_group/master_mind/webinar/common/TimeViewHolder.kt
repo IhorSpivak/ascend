@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarContract
 import com.doneit.ascend.presentation.main.databinding.ListItemTimeBinding
-import com.doneit.ascend.presentation.models.ValidatableField
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 
 class TimeViewHolder(
@@ -19,13 +18,15 @@ class TimeViewHolder(
             model = viewModel
             remove.setOnClickListener {
                 viewModel.newScheduleItem.value?.let {
-                    viewModel.newScheduleItem.postValue(it.apply { removeAt(position) })
+                    if (it.size == 1){
+                        viewModel.chooseScheduleTouch(position)
+                    }else{
+                        viewModel.updateListOfTimes(position, true)
+                    }
                 }
             }
             add.setOnClickListener {
-                viewModel.newScheduleItem.value?.let {
-                    viewModel.newScheduleItem.postValue(it.apply { add(ValidatableField()) })
-                }
+                viewModel.updateListOfTimes(position, false)
             }
             chooseSchedule.multilineEditText.setOnClickListener {
                 viewModel.chooseScheduleTouch(position)

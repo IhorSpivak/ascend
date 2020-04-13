@@ -17,13 +17,17 @@ import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.group.toEntity
 import com.doneit.ascend.presentation.models.group.toUpdateEntity
+import com.doneit.ascend.presentation.models.group.toUpdateWebinarEntity
 import com.doneit.ascend.presentation.models.group.toWebinarEntity
 import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT_DROP_DAY
+import com.doneit.ascend.presentation.utils.extensions.TIME_24_FORMAT_DROP_DAY
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.google.android.material.textfield.TextInputEditText
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateGroupViewModel(
@@ -181,7 +185,7 @@ class CreateGroupViewModel(
 
         viewModelScope.launch {
             val groupTypeRequest = if (createGroupModel.groupType == GroupType.WEBINAR) {
-                createGroupModel.toWebinarEntity()
+                createGroupModel.toWebinarEntity(calendarUtil.is24TimeFormat())
             } else {
                 createGroupModel.toEntity()
             }
@@ -243,7 +247,7 @@ class CreateGroupViewModel(
         backClick()
     }
     override fun okWebinarTimeClick(selectedDay: Int, date: Calendar, position: Int) {
-        if (position < 0) {
+        if (position == 0) {
             createGroupModel.scheduleDays.apply {
                 if (size == 0) {
                     add(CalendarDayEntity.values()[selectedDay - 1])
@@ -251,7 +255,7 @@ class CreateGroupViewModel(
                     set(0, CalendarDayEntity.values()[selectedDay - 1])
                 }
             }
-            createGroupModel.scheduleTime.observableField.apply {
+            createGroupModel.webinarSchedule[position].observableField.apply {
                 date.set(Calendar.DAY_OF_WEEK, selectedDay)
                 if (calendarUtil.is24TimeFormat()) {
                     set(TIME_24_FORMAT.format(date.time))
@@ -259,6 +263,7 @@ class CreateGroupViewModel(
                     set(TIME_12_FORMAT.format(date.time))
                 }
             }
+            createGroupModel.timeList[position].time = date.time
             createGroupModel.actualStartTime.apply {
                 set(Calendar.DAY_OF_WEEK, selectedDay)
                 set(Calendar.HOUR_OF_DAY, date.get(Calendar.HOUR_OF_DAY))
@@ -266,26 +271,14 @@ class CreateGroupViewModel(
             }
         } else {
             createGroupModel.scheduleDays.apply {
-                if (size == position + 1) {
+                if (size < position + 1) {
                     add(CalendarDayEntity.values()[selectedDay - 1])
                 } else {
-                    set(position + 1, CalendarDayEntity.values()[selectedDay - 1])
+                    set(position, CalendarDayEntity.values()[selectedDay - 1])
                 }
             }
             createGroupModel.webinarSchedule[position].observableField.apply {
                 date.set(Calendar.DAY_OF_WEEK, selectedDay)
-                createGroupModel.actualStartTime.apply {
-                    date.set(Calendar.YEAR, get(Calendar.YEAR))
-                    date.set(Calendar.MONTH, get(Calendar.MONTH))
-                    get(Calendar.DAY_OF_WEEK).let {
-                        if (it < selectedDay) {
-                            date.set(
-                                Calendar.DAY_OF_YEAR,
-                                get(Calendar.DAY_OF_YEAR) + (8 - selectedDay)
-                            )
-                        }
-                    }
-                }
                 createGroupModel.timeList[position].time = date.time
                 if (calendarUtil.is24TimeFormat()) {
                     set(TIME_24_FORMAT.format(date.time))
@@ -408,7 +401,7 @@ class CreateGroupViewModel(
 
         isFormValid = isFormValid and createGroupModel.name.isValid
         isFormValid = isFormValid and
-                createGroupModel.scheduleTime.observableField.getNotNull().isNotEmpty()
+                createGroupModel.webinarSchedule[0].observableField.getNotNull().isNotEmpty()
         isFormValid = isFormValid and createGroupModel.numberOfMeetings.isValid
         isFormValid = isFormValid and createGroupModel.startDate.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
@@ -474,6 +467,11 @@ class CreateGroupViewModel(
         if (remove) {
             createGroupModel.webinarSchedule.removeAt(position)
             createGroupModel.timeList.removeAt(position)
+            createGroupModel.scheduleDays.apply {
+                if (size >= position + 1){
+                    removeAt(position)
+                }
+            }
         } else {
             createGroupModel.webinarSchedule.add(ValidatableField())
             createGroupModel.timeList.add(getDefaultCalendar())
@@ -492,6 +490,55 @@ class CreateGroupViewModel(
         newScheduleItem.postValue(createGroupModel.webinarSchedule)
     }
 
+    override fun updateFields(group: GroupEntity, what: String) {
+        createGroupModel.apply {
+            when(what){
+                GroupAction.DUPLICATE.toString() ->{name.observableField.set(group.name.plus("(2)"))}
+                GroupAction.EDIT.toString() ->{name.observableField.set(group.name)}
+            }
+            isPrivate.set(group.isPrivate)
+            numberOfMeetings.observableField.set(group.meetingsCount.toString())
+            description.observableField.set(group.description)
+            actualStartTime.time = group.startTime
+            groupType = GroupType.values()[group.groupType!!.ordinal]
+            startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy").format(actualStartTime.time))
+            scheduleDays.addAll(group.daysOfWeek)
+            scheduleDays.forEachIndexed { index, day ->
+                if (index != 0) {
+                    webinarSchedule.add(ValidatableField())
+                    timeList.add(getDefaultCalendar())
+                }
+                timeList[index].apply {
+                    if (calendarUtil.is24TimeFormat()){
+                        group.dates?.get(index).let {
+                            time = TIME_24_FORMAT_DROP_DAY.parse(it)
+                        }
+                        set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
+                        webinarSchedule[index].observableField.set(TIME_24_FORMAT.format(timeList[index].time))
+                    }else{
+                        group.dates?.get(index).let {
+                            time = TIME_12_FORMAT_DROP_DAY.parse(it)
+                        }
+                        set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
+                        webinarSchedule[index].observableField.set(TIME_12_FORMAT.format(timeList[index].time))
+                    }
+                }
+            }
+            newScheduleItem.postValue(webinarSchedule)
+            themesOfMeeting
+            group.themes?.let {
+                themesOfMeeting = it.map {theme ->
+                    ValidatableField().apply {
+                        observableField.set(theme)
+                    }
+                }.toMutableList()
+            }
+            themes.postValue(themesOfMeeting)
+        }
+        members.postValue(group.attendees?.toMutableList())
+        selectedMembers.addAll(group.attendees?: emptyList())
+    }
+
     override val members: MutableLiveData<MutableList<AttendeeEntity>> = MutableLiveData()
     override val membersToDelete: MutableLiveData<MutableList<AttendeeEntity>>  = MutableLiveData()
     override val deletedMembers: MutableList<AttendeeEntity> = mutableListOf()
@@ -501,7 +548,12 @@ class CreateGroupViewModel(
 
         viewModelScope.launch {
             group.let {group ->
-                groupUseCase.updateGroup(group.id, createGroupModel.toUpdateEntity(group.attendees?.map { it.email?:"" }?: emptyList())).let { response ->
+                val groupTypeRequest = if (createGroupModel.groupType == GroupType.WEBINAR) {
+                    createGroupModel.toUpdateWebinarEntity(group.attendees?.map { it.email?:"" }?: emptyList(), calendarUtil.is24TimeFormat())
+                } else {
+                    createGroupModel.toUpdateEntity(group.attendees?.map { it.email?:"" }?: emptyList())
+                }
+                groupUseCase.updateGroup(group.id, groupTypeRequest).let { response ->
                     canComplete.postValue(true)
                     if (response.isSuccessful) {
                         router.navigateToDetailsNoBackStack(response.successModel!!)
@@ -589,8 +641,10 @@ class CreateGroupViewModel(
     }
 
     override val themesOfMeeting: MutableLiveData<Int> = MutableLiveData()
-    override val newScheduleItem: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData(mutableListOf())
-    override val themes: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData(mutableListOf())
+    override val newScheduleItem: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData(mutableListOf(
+        ValidatableField()
+    ))
+    override val themes: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData()
 
     override fun onPriceClick(editor: TextInputEditText) {
         localRouter.navigateToPricePicker(editor)

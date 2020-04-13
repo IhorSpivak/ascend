@@ -34,7 +34,7 @@ class WebinarCalendarPickerFragment(
             btnOk.setOnClickListener {
                 viewModel.okWebinarTimeClick(selectedDay, selectedDate, position)
             }
-            if (position < 0) {
+            if (position == 0) {
                 viewModel.createGroupModel.startDate.observableField.let {
                     if (it.get()!!.isNotEmpty()){
                         newWheelPicker.setDefaultDate(viewModel.createGroupModel.actualStartTime.time)
@@ -56,13 +56,17 @@ class WebinarCalendarPickerFragment(
             })
         }
         binding.executePendingBindings()
-        if (position< 0){
+        if (position == 0){
             viewModel.createGroupModel.getStartTimeDay()?.let {
                 //this day mustn't be unselected
                 selectedDay = it.ordinal + 1
                 val dayView = getCorrespondingButton(it)
+                binding.radioGroupTop.children.forEach {
+                    (it as RadioButton).apply {
+                        isEnabled = false
+                    }
+                }
                 dayView?.isChecked = true
-                dayView?.isEnabled = false
             }
             viewModel.createGroupModel.selectedDays.forEach {
                 getCorrespondingButton(it)?.isChecked = true

@@ -6,14 +6,14 @@ class ListStringConverter {
     companion object{
         @TypeConverter
         @JvmStatic
-        fun fromString(list: List<String>): String{
-            return list.joinToString(separator = ",")
+        fun fromString(list: List<String>?): String?{
+            return list?.joinToString(separator = ",")
         }
 
         @TypeConverter
         @JvmStatic
-        fun toString(s: String): List<String>{
-            return s.split(",")
+        fun toString(s: String?): List<String>?{
+            return s?.split(",")
         }
     }
 }

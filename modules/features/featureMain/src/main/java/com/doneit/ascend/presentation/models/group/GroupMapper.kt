@@ -8,9 +8,12 @@ import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
+import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT_DROP_DAY
+import com.doneit.ascend.presentation.utils.extensions.TIME_24_FORMAT_DROP_DAY
 import com.doneit.ascend.presentation.utils.getNotNull
 import java.util.*
-fun PresentationCreateGroupModel.toWebinarEntity(): CreateGroupDTO {
+
+fun PresentationCreateGroupModel.toWebinarEntity(is24TimeFormat: Boolean): CreateGroupDTO {
     return CreateGroupDTO(
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
@@ -24,7 +27,46 @@ fun PresentationCreateGroupModel.toWebinarEntity(): CreateGroupDTO {
         meetingFormat.observableField.get(),
         isPrivate.get(),
         tags,
-        timeList.map { it.time },
+        timeList.map {
+            if (is24TimeFormat) {
+                TIME_24_FORMAT_DROP_DAY.format(it.time)
+            } else {
+                TIME_12_FORMAT_DROP_DAY.format(it.time)
+            }
+        },
+        themesOfMeeting.map { it.observableField.get()!! }
+    )
+}
+
+fun PresentationCreateGroupModel.toUpdateWebinarEntity(invitedMembers: List<String>, is24TimeFormat: Boolean): UpdateGroupDTO {
+    val emails = mutableListOf<String>()
+    participants.get()?.let {
+        emails.addAll(it.toMutableList())
+    }
+    invitedMembers.forEach {
+        emails.remove(it)
+    }
+    return UpdateGroupDTO(
+        name.observableField.getNotNull(),
+        description.observableField.getNotNull(),
+        actualStartTime.time,
+        groupType?.toString() ?: "",
+        price.observableField.get()?.toFloatS(),
+        image.observableField.getNotNull(),
+        emails,
+        participantsToDelete.get(),
+        scheduleDays.toDays(),
+        numberOfMeetings.observableField.getNotNull().toInt(),
+        meetingFormat.observableField.get(),
+        isPrivate.get(),
+        tags,
+        timeList.map {
+            if (is24TimeFormat) {
+                TIME_24_FORMAT_DROP_DAY.format(it.time)
+            } else {
+                TIME_12_FORMAT_DROP_DAY.format(it.time)
+            }
+        },
         themesOfMeeting.map { it.observableField.get()!! }
     )
 }
@@ -82,7 +124,9 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
         Integer.parseInt(numberOfMeetings.observableField.getNotNull()),
         meetingFormat.observableField.get(),
         isPrivate.get(),
-        tags
+        tags,
+        null,
+        null
     )
 }
 
@@ -100,6 +144,8 @@ fun GroupEntity.toUpdatePrivacyGroupDTO(isPrivate: Boolean): UpdateGroupDTO {
         null,
         null,
         isPrivate,
+        null,
+        null,
         null
     )
 }

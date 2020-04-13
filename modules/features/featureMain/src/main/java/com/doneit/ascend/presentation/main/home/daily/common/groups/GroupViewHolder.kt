@@ -19,9 +19,9 @@ class GroupViewHolder(
             this.item = item
             this.user = user
             this.theme = if (item.passedCount == item.meetingsCount){
-                item.themes[item.passedCount -1]
+                item.themes?.get(item.passedCount -1)
             }else{
-                item.themes[item.passedCount]
+                item.themes?.get(item.passedCount)
             }
             when(item.groupType){
                 GroupType.MASTER_MIND -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)

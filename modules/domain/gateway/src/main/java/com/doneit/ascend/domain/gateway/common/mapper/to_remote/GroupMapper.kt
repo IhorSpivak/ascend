@@ -10,7 +10,7 @@ import java.util.*
 
 fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
     val dayOffset = startTime?.getDayOffset()?: 0
-    val timeList = dates?.map { getTimeFormat().format(it) }?.toMutableList()?.apply { add(getTimeFormat().format(startTime)) }
+    //val timeList = dates?.map { getTimeFormat().format(it) }?.toMutableList()?.apply { add(getTimeFormat().format(startTime)) }
     return CreateGroupRequest(
         name,
         description,
@@ -23,7 +23,7 @@ fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
         meetingFormat,
         privacy,
         tags,
-        timeList,
+        dates,
         themes
     )
 }
@@ -42,7 +42,9 @@ fun UpdateGroupDTO.toUpdateGroupRequest(): UpdateGroupRequest {
         meetingsCount,
         meetingFormat,
         privacy,
-        tags
+        tags,
+        times,
+        themes
     )
 }
 

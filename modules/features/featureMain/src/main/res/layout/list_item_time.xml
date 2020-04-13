@@ -42,7 +42,6 @@
             android:id="@+id/add"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginStart="18dp"
             android:background="@drawable/add_round_background"
             android:src="@drawable/ic_add_time"
             app:layout_constraintEnd_toStartOf="@id/remove"
@@ -50,7 +49,8 @@
             android:paddingEnd="8dp"
             app:layout_constraintTop_toTopOf="@id/chooseSchedule"
             app:layout_constraintStart_toEndOf="@id/chooseSchedule"
-            app:layout_constraintBottom_toBottomOf="@id/chooseSchedule"/>
+            app:layout_constraintBottom_toBottomOf="@id/chooseSchedule"
+            android:visibility="@{!model.createGroupModel.webinarSchedule.get(position).observableField.empty}"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/remove"
@@ -64,7 +64,8 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             app:layout_constraintTop_toTopOf="@id/chooseSchedule"
-            app:layout_constraintBottom_toBottomOf="@id/chooseSchedule"/>
+            app:layout_constraintBottom_toBottomOf="@id/chooseSchedule"
+            android:visibility="@{!model.createGroupModel.webinarSchedule.get(position).observableField.empty}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

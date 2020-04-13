@@ -15,6 +15,6 @@ data class CreateGroupDTO(
     val meetingFormat: String?,
     val privacy: Boolean?,
     val tags: Int?,
-    val dates: List<Date>?,
+    val dates: List<String>?,
     val themes: List<String>?
 )

@@ -36,7 +36,8 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -174,55 +175,6 @@
                     app:tint="@{@color/red_webinar_color}"
                     app:text="@{model.createGroupModel.startDate.observableField}" />
 
-                <com.doneit.ascend.presentation.views.MultilineEditWithError
-                    android:id="@+id/chooseSchedule"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                    android:layout_marginTop="@dimen/create_group_top_margin"
-                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                    app:error="@{model.createGroupModel.scheduleTime.observableError}"
-                    app:hint="@{@string/choose_schedule}"
-                    app:layout_constraintEnd_toStartOf="@id/add"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/startDate"
-                    app:noFocusable="@{true}"
-                    app:saveState="@{false}"
-                    app:src="@{@drawable/ic_schedule}"
-                    app:tint="@{@color/red_webinar_color}"
-                    app:text="@{model.createGroupModel.scheduleTime.observableField}" />
-
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/add"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="18dp"
-                    android:background="@drawable/add_round_background"
-                    android:src="@drawable/ic_add_time"
-                    app:layout_constraintEnd_toStartOf="@id/remove"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    app:layout_constraintTop_toTopOf="@id/chooseSchedule"
-                    app:layout_constraintStart_toEndOf="@id/chooseSchedule"
-                    app:layout_constraintBottom_toBottomOf="@id/chooseSchedule"
-                    android:visibility="@{!model.createGroupModel.scheduleTime.observableField.empty}"/>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/remove"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                    android:background="@drawable/remove_round_background"
-                    android:src="@drawable/ic_minus"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/add"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    app:layout_constraintTop_toTopOf="@id/chooseSchedule"
-                    app:layout_constraintBottom_toBottomOf="@id/chooseSchedule"
-                    android:visibility="@{!model.createGroupModel.scheduleTime.observableField.empty}"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/timeSchedule"
                     android:layout_width="match_parent"
@@ -233,9 +185,9 @@
                     android:nestedScrollingEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chooseSchedule"
+                    app:layout_constraintTop_toBottomOf="@+id/startDate"
                     app:layout_constraintBottom_toTopOf="@id/numberOfMeetings"
-                    tools:listitem="@layout/list_item_webinar_theme"/>
+                    tools:listitem="@layout/list_item_time"/>
 
                 <com.doneit.ascend.presentation.views.EditWithError
                     android:id="@+id/numberOfMeetings"

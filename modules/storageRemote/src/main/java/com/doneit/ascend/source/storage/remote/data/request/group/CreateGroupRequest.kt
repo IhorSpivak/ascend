@@ -14,6 +14,6 @@ data class CreateGroupRequest(
     @SerializedName("meeting_format") val meetingFormat: String?,
     @SerializedName("private") val private: Boolean?,
     @SerializedName("tag_id") val tagId: Int?,
-    @SerializedName("times") val dates: List<String>?,
+    @SerializedName("times") val times: List<String>?,
     @SerializedName("themes") val themes: List<String>?
 )

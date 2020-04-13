@@ -14,10 +14,7 @@ import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
 import com.doneit.ascend.presentation.main.group_info.common.InvitedParticipantAdapter
 import com.doneit.ascend.presentation.main.group_info.common.WebinarThemeAdapter
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
-import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT
-import com.doneit.ascend.presentation.utils.extensions.TIME_24_FORMAT
-import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
-import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
+import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
 
@@ -80,11 +77,13 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 if(group.groupType == GroupType.WEBINAR){
                     builder.clear()
                     if(DateFormat.is24HourFormat(context)){
-                        builder.append(TIME_24_FORMAT.format(group.startTime)+"\n")
-                        builder.append(group.dates.map { TIME_24_FORMAT.format(it)+"\n"}.joinToString("\n"))
+                        group.daysOfWeek.forEachIndexed { index, day ->
+                        builder.append(day.toString().take(3) + ", " + group.dates?.get(index)+"\n")
+                        }
                     }else{
-                        builder.append(TIME_12_FORMAT.format(group.startTime)+"\n")
-                        builder.append(group.dates.map { TIME_12_FORMAT.format(it)+"\n"}.joinToString("\n"))
+                        group.daysOfWeek.forEachIndexed { index, day ->
+                            builder.append(day.toString().take(3) + ", " + group.dates?.get(index)+"\n")
+                        }
                     }
                     webinarThemeAdapter.submitList(group.themes)
                 }

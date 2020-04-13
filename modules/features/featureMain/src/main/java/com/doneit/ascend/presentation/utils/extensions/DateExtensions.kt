@@ -117,6 +117,8 @@ fun Context.getTimeType(): String{
     val START_TIME_FORMATTER = "dd MMMM yyyy".toDefaultFormatter()
     val TIME_24_FORMAT = "EEE, HH:mm".toDefaultFormatter()
     val TIME_12_FORMAT = "EEE, hh:mm a".toDefaultFormatter()
+    val TIME_24_FORMAT_DROP_DAY = "HH:mm".toDefaultFormatter()
+    val TIME_12_FORMAT_DROP_DAY = "hh:mm a".toDefaultFormatter()
     val WEEK_ONLY_FORMAT = "EEE".toDefaultFormatter()
     val HOUR_12_ONLY_FORMAT = "hh:mm a".toDefaultFormatter()
     val HOUR_24_ONLY_FORMAT = "HH:mm".toDefaultFormatter()

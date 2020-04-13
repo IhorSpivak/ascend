@@ -112,6 +112,38 @@ fun String.isValidStrartDate(): Boolean {
     return res
 }
 
+fun String.isValidStartDate(): Boolean {
+    var res = false
+
+    try {
+        val date = ("dd MMMM yyyy".toDefaultFormatter().parse(this).time / 1000) % 60
+        val today = (getDefaultCalendar().time.time / 1000) % DAYS_MOD
+
+        if(date >= today) {
+            res = true
+        }
+    } catch (e: ParseException) {
+        e.printStackTrace()
+    }
+
+    return res
+}
+fun String.isValidActualTime(): Boolean {
+    var res = false
+    try {
+        val date = ("dd MMMM yyyy".toDefaultFormatter().parse(this).time / 1000) % DAYS_MOD
+        val today = (getDefaultCalendar().time.time / 1000) % DAYS_MOD
+
+        if(date >= today) {
+            res = true
+        }
+    } catch (e: ParseException) {
+        e.printStackTrace()
+    }
+
+    return res
+}
+
 fun getLocation(city: String, country: String) : String {
     return "$city, $country"
 }
@@ -130,3 +162,4 @@ fun String.toLocationModel(): LocationModel {
 
     return location
 }
+const val DAYS_MOD = 86400
