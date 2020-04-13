@@ -14,6 +14,8 @@
 
         <import type="android.text.InputType" />
 
+        <import type="android.view.inputmethod.EditorInfo" />
+
         <import type="android.view.View" />
     </data>
 
@@ -99,6 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
+                android:clickable="true"
                 android:focusableInTouchMode="true">
 
                 <com.doneit.ascend.presentation.views.EditWithError
@@ -113,8 +116,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:maxLength="@{64}"
+                    app:maxLength="@{32}"
                     app:saveState="@{false}"
+                    app:imeOptions="@{EditorInfo.IME_ACTION_DONE}"
                     app:src="@{@drawable/ic_header}"
                     app:text="@={model.createGroupModel.name.observableField}"
                     app:tint="@{@color/red_webinar_color}" />
