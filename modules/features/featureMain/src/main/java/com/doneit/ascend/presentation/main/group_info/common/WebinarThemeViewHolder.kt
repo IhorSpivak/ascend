@@ -17,7 +17,7 @@ class WebinarThemeViewHolder(
         binding.apply {
             group = groupEntity
             this.position = position
-            passed = groupEntity.passedCount > position
+            passed = (groupEntity.pastMeetingsCount!! > position)
         }
     }
     companion object{

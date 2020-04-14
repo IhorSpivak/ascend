@@ -8,11 +8,17 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.KeyEvent
+import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
+import androidx.core.view.forEach
 import com.androidisland.ezpermission.EzPermission
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
@@ -26,6 +32,7 @@ import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
+import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -47,7 +54,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
 
     private var group: GroupEntity? = null
     private var tempUri: Uri? = null
-    private var what: String? = null
+    private var what: GroupAction? = null
 
     private val membersAdapter: InvitedMembersAdapter by lazy {
         InvitedMembersAdapter {
@@ -56,11 +63,11 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
     }
 
     private val themeAdapter: ThemeAdapter by lazy {
-        ThemeAdapter(viewModel)
+        ThemeAdapter(viewModel, group, what)
     }
 
     private val timeAdapter: TimeAdapter by lazy {
-        TimeAdapter(viewModel)
+        TimeAdapter(viewModel, group, what)
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -68,7 +75,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             if (arguments!!.containsKey(it.toString())) {
                 group = arguments!!.getParcelable(it.toString())
                 if (group != null) {
-                    what = it.toString()
+                    what = it
                 }
             }
         }
@@ -87,7 +94,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             actionTitle = if (what == null){
                 getString(R.string.create_create)
             }else{
-                what!!.capitalize()
+                what?.toString()?.capitalize()
             }
             recyclerViewAddedMembers.adapter = membersAdapter
             webinarThemes.apply{
@@ -106,11 +113,20 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 createImageBottomDialog().show(childFragmentManager, null)
             }
             numberOfMeetings.editText.setOnClickListener {
-                viewModel.chooseMeetingCountTouch()
+                viewModel.chooseMeetingCountTouch(group, what)
             }
             addMemberContainer.setOnClickListener {
                 viewModel.addMember(viewModel.createGroupModel.groupType!!)
             }
+            description.multilineEditText.setOnEditorActionListener(object : TextView.OnEditorActionListener{
+                override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
+                    if (p1 == EditorInfo.IME_ACTION_DONE) {
+                        hideKeyboard()
+                        return true
+                    }
+                    return false
+                }
+            })
             scrollableContainer.setOnFocusChangeListener { v, b ->
                 if (b) {
                     hideKeyboard()
@@ -134,9 +150,20 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         if (group != null){
             binding.buttonComplete.apply {
                 text = getString(R.string.btn_save_action)
-                setOnClickListener { viewModel.updateGroup(group!!) }
+                setOnClickListener {
+                    when (what) {
+                        GroupAction.DUPLICATE -> viewModel.completeClick()
+                        GroupAction.EDIT -> viewModel.updateGroup(group!!)
+                    }
+                }
             }
-            viewModel.updateFields(group!!, what!!)
+            viewModel.updateFields(group!!, what!!.toString())
+            if (group!!.pastMeetingsCount!! > 0 && what == GroupAction.EDIT){
+                binding.apply {
+                    startDate.editText.setOnClickListener {  }
+                    startDate.setColor(resources.getColor(R.color.light_gray_b1bf))
+                }
+            }
             Glide.with(context!!)
                 .asBitmap()
                 .load(group!!.image!!.url)

@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.main.create_group.common.IClickListener
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.utils.GroupAction
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface CreateSupGroupContract {
@@ -31,7 +32,7 @@ interface CreateSupGroupContract {
         fun changeSchedule()
         fun chooseScheduleTouch()
         fun chooseStartDateTouch()
-        fun chooseMeetingCountTouch()
+        fun chooseMeetingCountTouch(group: GroupEntity?, what: GroupAction?)
         fun addMember(groupType: GroupType)
     }
 }

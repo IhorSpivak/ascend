@@ -14,9 +14,13 @@ import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
 import com.doneit.ascend.presentation.main.group_info.common.InvitedParticipantAdapter
 import com.doneit.ascend.presentation.main.group_info.common.WebinarThemeAdapter
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
-import com.doneit.ascend.presentation.utils.extensions.*
+import com.doneit.ascend.presentation.utils.extensions.HOUR_24_ONLY_FORMAT
+import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
+import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
+import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
+import java.util.*
 
 class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
 
@@ -78,11 +82,17 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                     builder.clear()
                     if(DateFormat.is24HourFormat(context)){
                         group.daysOfWeek.forEachIndexed { index, day ->
-                        builder.append(day.toString().take(3) + ", " + group.dates?.get(index)+"\n")
+                            group.dates?.get(index)?.let {
+                                val time =  HOUR_24_ONLY_FORMAT.parse(it)
+                                builder.append(day.toString().take(3) + ", " + "HH:mm".toDefaultFormatter().format(time)+"\n")
+                            }
                         }
                     }else{
                         group.daysOfWeek.forEachIndexed { index, day ->
-                            builder.append(day.toString().take(3) + ", " + group.dates?.get(index)+"\n")
+                            group.dates?.get(index)?.let {
+                                val time =  HOUR_24_ONLY_FORMAT.apply{ timeZone = TimeZone.getTimeZone("GMT") }.parse(it)
+                                builder.append(day.toString().take(3) + ", " + "hh:mm a".toDefaultFormatter().format(time)+"\n")
+                            }
                         }
                     }
                     webinarThemeAdapter.submitList(group.themes)

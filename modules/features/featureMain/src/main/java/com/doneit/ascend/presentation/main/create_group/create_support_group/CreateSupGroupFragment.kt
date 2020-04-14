@@ -117,7 +117,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
 
             numberOfMeetings.editText.setOnClickListener {
                 mainContainer.requestFocus()
-                viewModel.chooseMeetingCountTouch()
+                viewModel.chooseMeetingCountTouch(group, null)
             }
 
             isPrivate.setOnCheckedChangeListener { compoundButton, b ->

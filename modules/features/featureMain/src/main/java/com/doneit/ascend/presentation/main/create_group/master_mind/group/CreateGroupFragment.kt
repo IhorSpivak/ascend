@@ -80,7 +80,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
         binding.numberOfMeetings.editText.setOnClickListener {
             binding.mainContainer.requestFocus()
-            viewModel.chooseMeetingCountTouch()
+            viewModel.chooseMeetingCountTouch(null, null)
         }
 
         binding.price.editText.apply {

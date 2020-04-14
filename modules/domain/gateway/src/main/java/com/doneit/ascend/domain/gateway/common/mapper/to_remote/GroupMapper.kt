@@ -10,7 +10,7 @@ import java.util.*
 
 fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
     val dayOffset = startTime?.getDayOffset()?: 0
-    //val timeList = dates?.map { getTimeFormat().format(it) }?.toMutableList()?.apply { add(getTimeFormat().format(startTime)) }
+
     return CreateGroupRequest(
         name,
         description,

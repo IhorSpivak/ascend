@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.main.create_group.common.IClickListener
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.utils.GroupAction
 import com.google.android.material.textfield.TextInputEditText
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
@@ -38,7 +39,7 @@ interface CreateWebinarContract {
         fun onSelectStartDate()
         fun addMember(groupType: GroupType)
         fun onPriceClick(editor: TextInputEditText)
-        fun chooseMeetingCountTouch()
+        fun chooseMeetingCountTouch(group: GroupEntity?, what: GroupAction?)
         fun updateListOfTimes(position: Int, remove: Boolean)
         fun updateListOfTimes(remove: Boolean)
         fun updateFields(group: GroupEntity, what: String)

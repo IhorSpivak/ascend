@@ -17,8 +17,6 @@ import com.doneit.ascend.presentation.models.group.toUpdateEntity
 import com.doneit.ascend.presentation.models.group.toUpdateWebinarEntity
 import com.doneit.ascend.presentation.models.group.toWebinarEntity
 import com.doneit.ascend.presentation.utils.*
-import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT_DROP_DAY
-import com.doneit.ascend.presentation.utils.extensions.TIME_24_FORMAT_DROP_DAY
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.google.android.material.textfield.TextInputEditText
@@ -464,8 +462,8 @@ class CreateGroupViewModel(
         membersToDelete.postValue(deletedMembers.toMutableList())
     }
 
-    override fun chooseMeetingCountTouch() {
-        localRouter.navigateToMeetingCount()
+    override fun chooseMeetingCountTouch(group: GroupEntity?, what: GroupAction?) {
+        localRouter.navigateToMeetingCount(group, what)
     }
 
     override fun updateListOfTimes(position: Int, remove: Boolean) {
@@ -522,13 +520,13 @@ class CreateGroupViewModel(
                 timeList[index].apply {
                     if (calendarUtil.is24TimeFormat()){
                         group.dates?.get(index).let {
-                            time = TIME_24_FORMAT_DROP_DAY.parse(it)
+                            time = HOUR_24_ONLY_FORMAT.parse(it)
                         }
                         set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
                         webinarSchedule[index].observableField.set(TIME_24_FORMAT.format(timeList[index].time))
                     }else{
                         group.dates?.get(index).let {
-                            time = TIME_12_FORMAT_DROP_DAY.parse(it)
+                            time = HOUR_24_ONLY_FORMAT.parse(it)
                         }
                         set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
                         webinarSchedule[index].observableField.set(TIME_12_FORMAT.format(timeList[index].time))
@@ -562,7 +560,7 @@ class CreateGroupViewModel(
         viewModelScope.launch {
             group.let {group ->
                 val groupTypeRequest = if (createGroupModel.groupType == GroupType.WEBINAR) {
-                    createGroupModel.toUpdateWebinarEntity(group.attendees?.map { it.email?:"" }?: emptyList(), calendarUtil.is24TimeFormat())
+                    createGroupModel.toUpdateWebinarEntity(group)
                 } else {
                     createGroupModel.toUpdateEntity(group.attendees?.map { it.email?:"" }?: emptyList())
                 }
@@ -808,6 +806,6 @@ class CreateGroupViewModel(
         val TIME_12_FORMAT = "EEE, hh:mm a".toDefaultFormatter()
         val WEEK_ONLY_FORMAT = "EEE".toDefaultFormatter()
         val HOUR_12_ONLY_FORMAT = "hh:mm a".toDefaultFormatter()
-        val HOUR_24_ONLY_FORMAT = "HH:mm".toDefaultFormatter()
+        val HOUR_24_ONLY_FORMAT = "HH:mm".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }
     }
 }

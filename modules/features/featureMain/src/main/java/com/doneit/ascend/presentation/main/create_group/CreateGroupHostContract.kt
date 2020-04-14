@@ -14,6 +14,7 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.Crea
 import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsContract
 import com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerContract
 import com.doneit.ascend.presentation.models.GroupType
+import com.doneit.ascend.presentation.utils.GroupAction
 import com.google.android.material.textfield.TextInputEditText
 
 interface CreateGroupHostContract {
@@ -47,7 +48,7 @@ interface CreateGroupHostContract {
         fun navigateToWebinarCalendarPiker(position: Int)
         fun navigateToWebinarDatePiker()
         fun navigateToDatePicker()
-        fun navigateToMeetingCount()
+        fun navigateToMeetingCount(group: GroupEntity?, what: GroupAction?)
         fun navigateToAddMember(groupType: GroupType)
         fun onBack(): Boolean
         fun navigateToPricePicker(editor: TextInputEditText)

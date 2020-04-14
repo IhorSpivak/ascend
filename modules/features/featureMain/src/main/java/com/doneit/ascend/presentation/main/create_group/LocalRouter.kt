@@ -13,6 +13,7 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.Crea
 import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsFragment
 import com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerFragment
 import com.doneit.ascend.presentation.models.GroupType
+import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.google.android.material.textfield.TextInputEditText
@@ -103,8 +104,8 @@ class LocalRouter(
         hostFragment.childFragmentManager.add(containerId, DatePickerFragment())
     }
 
-    override fun navigateToMeetingCount() {
-        hostFragment.childFragmentManager.add(containerId,  NumberOfMeetingsFragment())    }
+    override fun navigateToMeetingCount(group: GroupEntity?, what: GroupAction?) {
+        hostFragment.childFragmentManager.add(containerId,  NumberOfMeetingsFragment(group, what))    }
 
     override fun navigateToAddMember(groupType: GroupType) {
         hostFragment.childFragmentManager.add(containerId,  AddMemberFragment.getInstance(groupType))

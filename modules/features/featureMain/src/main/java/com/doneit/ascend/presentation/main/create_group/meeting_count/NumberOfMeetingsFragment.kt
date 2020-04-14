@@ -4,16 +4,21 @@ import android.os.Bundle
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.core.view.children
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentNumberOfMeetingsBinding
+import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-class NumberOfMeetingsFragment: BaseFragment<FragmentNumberOfMeetingsBinding>() {
+class NumberOfMeetingsFragment(
+    private val group: GroupEntity?,
+    private val what: GroupAction?
+): BaseFragment<FragmentNumberOfMeetingsBinding>() {
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<NumberOfMeetingsContract.ViewModel>() with provider {
             instance<CreateGroupHostContract.ViewModel>()
@@ -37,10 +42,24 @@ class NumberOfMeetingsFragment: BaseFragment<FragmentNumberOfMeetingsBinding>() 
                 if ((it as RadioButton).text == choosenCount.toString()){
                     radioGroupBottom.check(it.id)
                 }
+                group?.let {group ->
+                    if (group.pastMeetingsCount!! > 0 && what == GroupAction.EDIT){
+                        if ((it as RadioButton).text.toString().toInt() <= group.pastMeetingsCount!!){
+                            it.isEnabled = false
+                        }
+                    }
+                }
             }
             radioGroupTop.children.forEach {
                 if ((it as RadioButton).text == choosenCount.toString()){
                     radioGroupTop.check(it.id)
+                }
+                group?.let {group ->
+                    if (group.pastMeetingsCount!! > 0 && what == GroupAction.EDIT){
+                        if ((it as RadioButton).text.toString().toInt() <= group.pastMeetingsCount!!){
+                            it.isEnabled = false
+                        }
+                    }
                 }
             }
             radioGroupTop.setOnCheckedChangeListener(topListener)

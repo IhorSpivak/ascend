@@ -8,7 +8,6 @@ import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
-import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT_DROP_DAY
 import com.doneit.ascend.presentation.utils.extensions.TIME_24_FORMAT_DROP_DAY
 import com.doneit.ascend.presentation.utils.getNotNull
 import java.util.*
@@ -28,28 +27,29 @@ fun PresentationCreateGroupModel.toWebinarEntity(is24TimeFormat: Boolean): Creat
         isPrivate.get(),
         tags,
         timeList.map {
-            if (is24TimeFormat) {
-                TIME_24_FORMAT_DROP_DAY.format(it.time)
-            } else {
-                TIME_12_FORMAT_DROP_DAY.format(it.time)
-            }
+            TIME_24_FORMAT_DROP_DAY.apply { timeZone = TimeZone.getTimeZone("GMT") }.format(it.time)
         },
         themesOfMeeting.map { it.observableField.get()!! }
     )
 }
 
-fun PresentationCreateGroupModel.toUpdateWebinarEntity(invitedMembers: List<String>, is24TimeFormat: Boolean): UpdateGroupDTO {
+fun PresentationCreateGroupModel.toUpdateWebinarEntity(group: GroupEntity): UpdateGroupDTO {
+
     val emails = mutableListOf<String>()
     participants.get()?.let {
         emails.addAll(it.toMutableList())
     }
-    invitedMembers.forEach {
+    (group.attendees?.map { it.email ?: "" } ?: emptyList()).forEach {
         emails.remove(it)
     }
     return UpdateGroupDTO(
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
-        actualStartTime.time,
+        /*if (group.pastMeetingsCount!! > 0) {
+            null
+        } else {
+            actualStartTime.time
+        }*/actualStartTime.time, //delete commented if works fine
         groupType?.toString() ?: "",
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
@@ -61,11 +61,7 @@ fun PresentationCreateGroupModel.toUpdateWebinarEntity(invitedMembers: List<Stri
         isPrivate.get(),
         tags,
         timeList.map {
-            if (is24TimeFormat) {
-                TIME_24_FORMAT_DROP_DAY.format(it.time)
-            } else {
-                TIME_12_FORMAT_DROP_DAY.format(it.time)
-            }
+            TIME_24_FORMAT_DROP_DAY.apply { timeZone = TimeZone.getTimeZone("GMT") }.format(it.time)
         },
         themesOfMeeting.map { it.observableField.get()!! }
     )

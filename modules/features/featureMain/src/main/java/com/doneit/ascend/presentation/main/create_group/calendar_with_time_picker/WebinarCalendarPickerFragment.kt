@@ -69,9 +69,10 @@ class WebinarCalendarPickerFragment(
                 getCorrespondingButton(it)?.isChecked = true
             }
         }else{
-            viewModel.createGroupModel.timeList.getOrNull(position)?.let { date ->
-                (binding.radioGroupTop.children.elementAtOrNull(date.get(Calendar.DAY_OF_WEEK) - 1) as RadioButton?)?.apply {
-                    isEnabled = true
+            viewModel.createGroupModel.scheduleDays.getOrNull(position)?.let { day ->
+                (binding.radioGroupTop.children.elementAtOrNull(day.ordinal) as RadioButton?)?.apply {
+                    isChecked = true
+                    selectedDay = day.ordinal + 1
                     viewModel.updateTimeChooserOk(true)
                 }
             }

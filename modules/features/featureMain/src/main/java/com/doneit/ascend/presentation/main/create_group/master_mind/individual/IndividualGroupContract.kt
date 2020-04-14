@@ -7,6 +7,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.utils.GroupAction
 import com.google.android.material.textfield.TextInputEditText
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
@@ -30,7 +31,7 @@ interface IndividualGroupContract {
         fun completeClick()
         fun backClick()
         fun chooseScheduleTouch()
-        fun chooseMeetingCountTouch()
+        fun chooseMeetingCountTouch(group: GroupEntity?, what: GroupAction?)
         fun chooseStartDateTouch()
         fun addMember(groupType: GroupType)
         fun inviteToGroup(participants: List<String>)

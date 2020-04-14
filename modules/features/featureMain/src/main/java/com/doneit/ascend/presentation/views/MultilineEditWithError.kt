@@ -176,6 +176,11 @@ class MultilineEditWithError @JvmOverloads constructor(
             InputFilter.LengthFilter(length)
         )
     }
+    fun setIME(length: Int) {
+        multilineEditText.filters = arrayOf<InputFilter>(
+            InputFilter.LengthFilter(length)
+        )
+    }
 
     override fun getBaseline(): Int {
         return textLayout.baseline

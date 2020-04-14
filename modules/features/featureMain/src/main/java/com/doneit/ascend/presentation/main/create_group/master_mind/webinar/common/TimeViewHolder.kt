@@ -4,15 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarContract
 import com.doneit.ascend.presentation.main.databinding.ListItemTimeBinding
+import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.utils.GroupAction
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 
 class TimeViewHolder(
     private val binding: ListItemTimeBinding
 ): RecyclerView.ViewHolder(binding.root) {
-    fun bind(position: Int, viewModel: CreateWebinarContract.ViewModel){
+    fun bind(position: Int, viewModel: CreateWebinarContract.ViewModel, group: GroupEntity?, action: GroupAction?){
         binding.apply {
             this.position = position
             model = viewModel
@@ -31,6 +35,17 @@ class TimeViewHolder(
             }
             chooseSchedule.multilineEditText.setOnClickListener {
                 viewModel.chooseScheduleTouch(position)
+            }
+            group?.let {
+                if (it.pastMeetingsCount!! > 0 && action == GroupAction.EDIT){
+                    if (position == 0){
+                        chooseSchedule.apply {
+                            multilineEditText.setOnClickListener {}
+                            multilineEditText.setTextColor(root.context.resources.getColor(R.color.light_gray_b1bf))
+                        }
+                        remove.setOnClickListener {}
+                    }
+                }
             }
         }
     }

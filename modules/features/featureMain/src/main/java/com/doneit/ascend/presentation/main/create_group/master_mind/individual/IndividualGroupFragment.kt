@@ -68,7 +68,7 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
 
             numberOfMeetings.editText.setOnClickListener {
                 mainContainer.requestFocus()
-                viewModel.chooseMeetingCountTouch()
+                viewModel.chooseMeetingCountTouch(null, null)
             }
 
             duration.isClickable = false

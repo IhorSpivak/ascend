@@ -56,7 +56,7 @@ class GroupEntity(
 
     val isStarting: Boolean
         get() {
-            return (startTime!!.time - getDefaultCalendar().timeInMillis) < UPCOMING_INTERVAL && participantsCount!! > 0
+            return (startTime!!.time - getDefaultCalendar().timeInMillis) < UPCOMING_INTERVAL
         }
 
     private fun Calendar.plus(interval: Long): Calendar {

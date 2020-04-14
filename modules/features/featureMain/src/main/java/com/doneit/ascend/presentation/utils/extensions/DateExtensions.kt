@@ -120,5 +120,5 @@ fun Context.getTimeType(): String{
     val TIME_24_FORMAT_DROP_DAY = "HH:mm".toDefaultFormatter()
     val TIME_12_FORMAT_DROP_DAY = "hh:mm a".toDefaultFormatter()
     val WEEK_ONLY_FORMAT = "EEE".toDefaultFormatter()
-    val HOUR_12_ONLY_FORMAT = "hh:mm a".toDefaultFormatter()
-    val HOUR_24_ONLY_FORMAT = "HH:mm".toDefaultFormatter()
+    val HOUR_12_ONLY_FORMAT = "hh:mm a".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }
+    val HOUR_24_ONLY_FORMAT = "HH:mm".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }
