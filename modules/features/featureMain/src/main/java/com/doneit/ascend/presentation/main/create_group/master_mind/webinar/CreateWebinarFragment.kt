@@ -7,10 +7,12 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.core.content.FileProvider
 import com.androidisland.ezpermission.EzPermission
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
@@ -40,6 +42,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -55,6 +58,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
     private var group: GroupEntity? = null
     private var tempUri: Uri? = null
     private var what: GroupAction? = null
+    private var currentPhotoPath: String? = null
 
     private val membersAdapter: InvitedMembersAdapter by lazy {
         InvitedMembersAdapter {
@@ -214,20 +218,36 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             .request { granted, _, _ ->
                 if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(Manifest.permission.CAMERA)) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val content = ContentValues().apply {
+                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
+                        File.createTempFile(
+                            "JPEG_${timeStamp}_",
+                            ".jpg",
+                            it /* directory */
+                        ).apply {
+                            currentPhotoPath = absolutePath
+                        }.also {file ->
+                            FileProvider.getUriForFile(context!!, "com.doneit.ascend.fileprovider", file)?.also {
+                                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
+                                startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
+                            }
+                        }
+                    }
+                    /*val content = ContentValues().apply {
                         put(
                             MediaStore.Images.Media.TITLE,
                             "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
                         )
                         put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
                         put(MediaStore.Images.Media.DESCRIPTION, "group_image")
-                    }
-                    tempUri = activity?.contentResolver?.insert(
+                    }*/
+
+                    /*tempUri = activity?.contentResolver?.insert(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         content
-                    )
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-                    startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
+                    )*/
+                    //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
+                    //startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
                 }
             }
     }
@@ -240,7 +260,9 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                     handleImageURI(data?.data!!)
                 }
                 PHOTO_REQUEST_CODE -> {
-                    handleImageURI(tempUri!!)
+                    currentPhotoPath?.let {
+                        handlePhoto(it)
+                    }
                 }
             }
     }
@@ -259,6 +281,15 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                             it
                         }
                     })
+            }
+        }
+    }
+
+    private fun handlePhoto(sourcePath: String) {
+        GlobalScope.launch {
+            launch(Dispatchers.Main) {
+                viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
+                viewModel.createGroupModel.image.observableField.set(sourcePath)
             }
         }
     }

@@ -160,7 +160,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                     }
                 }
                 viewModel.createGroupModel.groupType = com.doneit.ascend.presentation.models.GroupType.INDIVIDUAL
-                IndividualGroupFragment()
+                IndividualGroupFragment(group)
             }
         }
 

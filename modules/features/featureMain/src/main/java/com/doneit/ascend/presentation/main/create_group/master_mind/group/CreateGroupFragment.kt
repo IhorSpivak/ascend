@@ -6,7 +6,9 @@ import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
@@ -14,6 +16,7 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
+import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
@@ -27,6 +30,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,6 +43,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
     }
 
     private var tempUri: Uri? = null
+    private var currentPhotoPath: String? = null
     override val viewModel: CreateGroupContract.ViewModel by instance()
 
     private val adapter: ParticipantAdapter by lazy {
@@ -160,7 +165,24 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             .request { granted, _, _ ->
                 if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(Manifest.permission.CAMERA)) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val content = ContentValues().apply {
+                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
+                        File.createTempFile(
+                            "JPEG_${timeStamp}_",
+                            ".jpg",
+                            it /* directory */
+                        ).apply {
+                            currentPhotoPath = absolutePath
+                        }.also {file ->
+                            FileProvider.getUriForFile(context!!, "com.doneit.ascend.fileprovider", file)?.also {
+                                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
+                                startActivityForResult(cameraIntent,
+                                    PHOTO_REQUEST_CODE
+                                )
+                            }
+                        }
+                    }
+                    /*val content = ContentValues().apply {
                         put(
                             MediaStore.Images.Media.TITLE,
                             "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
@@ -173,49 +195,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                         content
                     )
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-                    startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
-                }
-            }
-    }
-
-
-    //todo delete this after QA
-    private fun pickFromGallery() {
-        hideKeyboard()
-        EzPermission.with(context!!)
-            .permissions(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            )
-            .request { granted, _, _ ->
-                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-                    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    galleryIntent.type = "image/*"
-
-                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val content = ContentValues().apply {
-                        put(
-                            MediaStore.Images.Media.TITLE,
-                            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
-                        )
-                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                        put(MediaStore.Images.Media.DESCRIPTION, "group_image")
-                    }
-                    tempUri = activity?.contentResolver?.insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        content
-                    )
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-
-                    val chooser =
-                        Intent.createChooser(galleryIntent, "Select an App to choose an Image")
-                    chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(cameraIntent))
-
-                    startActivityForResult(chooser,
-                        GALLERY_REQUEST_CODE
-                    )
+                    startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)*/
                 }
             }
     }
@@ -228,7 +208,9 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                     handleImageURI(data?.data!!)
                 }
                 PHOTO_REQUEST_CODE -> {
-                    handleImageURI(tempUri!!)
+                    currentPhotoPath?.let {
+                        handlePhoto(it)
+                    }
                 }
             }
     }
@@ -251,6 +233,14 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
     }
 
+    private fun handlePhoto(sourcePath: String) {
+        GlobalScope.launch {
+            launch(Dispatchers.Main) {
+                viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
+                viewModel.createGroupModel.image.observableField.set(sourcePath)
+            }
+        }
+    }
     private fun createImageBottomDialog(): ChooseImageBottomDialog {
         return ChooseImageBottomDialog.create(
             { takeAPhoto() },

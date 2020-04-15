@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.MotionEvent
 import android.view.View
@@ -14,6 +15,7 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.SpinnerAdapter
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
 import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
@@ -45,6 +47,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -61,6 +64,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
     private var group: GroupEntity? = null
     private var tempUri: Uri? = null
     private var what: String? = null
+    private var currentPhotoPath: String? = null
 
     private val adapter: ParticipantAdapter by lazy {
         ParticipantAdapter(mutableListOf(), viewModel)
@@ -257,7 +261,22 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             .request { granted, _, _ ->
                 if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(Manifest.permission.CAMERA)) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val content = ContentValues().apply {
+                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
+                        File.createTempFile(
+                            "JPEG_${timeStamp}_",
+                            ".jpg",
+                            it /* directory */
+                        ).apply {
+                            currentPhotoPath = absolutePath
+                        }.also {file ->
+                            FileProvider.getUriForFile(context!!, "com.doneit.ascend.fileprovider", file)?.also {
+                                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
+                                startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
+                            }
+                        }
+                    }
+                    /*val content = ContentValues().apply {
                         put(
                             MediaStore.Images.Media.TITLE,
                             "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
@@ -270,7 +289,7 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                         content
                     )
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-                    startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
+                    startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)*/
                 }
             }
     }
@@ -283,7 +302,9 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                     handleImageURI(data?.data!!)
                 }
                 PHOTO_REQUEST_CODE -> {
-                    handleImageURI(tempUri!!)
+                    currentPhotoPath?.let {
+                        handlePhoto(it)
+                    }
                 }
             }
     }
@@ -302,6 +323,15 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                             it
                         }
                     })
+            }
+        }
+    }
+
+    private fun handlePhoto(sourcePath: String) {
+        GlobalScope.launch {
+            launch(Dispatchers.Main) {
+                viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
+                viewModel.createGroupModel.image.observableField.set(sourcePath)
             }
         }
     }
