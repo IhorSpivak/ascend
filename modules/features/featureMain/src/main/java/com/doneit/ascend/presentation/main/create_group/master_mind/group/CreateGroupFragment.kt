@@ -161,7 +161,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                 Manifest.permission.CAMERA
             )
             .request { granted, _, _ ->
-                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(Manifest.permission.CAMERA)) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     val content = ContentValues().apply {
                         put(
