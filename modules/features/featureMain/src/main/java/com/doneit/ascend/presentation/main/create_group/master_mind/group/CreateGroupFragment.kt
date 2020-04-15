@@ -38,9 +38,6 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
     }
 
-    //todo delete this after QA
-    //private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
-    //private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
     private var tempUri: Uri? = null
     override val viewModel: CreateGroupContract.ViewModel by instance()
 
