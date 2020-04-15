@@ -34,6 +34,7 @@ class TimeViewHolder(
                 viewModel.updateListOfTimes(position, false)
             }
             chooseSchedule.multilineEditText.setOnClickListener {
+                mainContainer.requestFocus()
                 viewModel.chooseScheduleTouch(position)
             }
             group?.let {

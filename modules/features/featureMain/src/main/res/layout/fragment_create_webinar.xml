@@ -25,6 +25,7 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
         android:clickable="true"
+        android:focusableInTouchMode="true"
         android:focusable="true">
 
         <com.google.android.material.appbar.AppBarLayout

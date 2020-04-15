@@ -102,21 +102,26 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             timeSchedule.adapter = timeAdapter
 
             startDate.editText.setOnClickListener {
+                scrollableContainer.requestFocus()
                 viewModel.onSelectStartDate()
             }
             dashRectangleBackground.setOnClickListener {
                 hideKeyboard()
+                scrollableContainer.requestFocus()
                 createImageBottomDialog().show(childFragmentManager, null)
             }
 
             icEdit.setOnClickListener {
                 hideKeyboard()
+                scrollableContainer.requestFocus()
                 createImageBottomDialog().show(childFragmentManager, null)
             }
             numberOfMeetings.editText.setOnClickListener {
+                scrollableContainer.requestFocus()
                 viewModel.chooseMeetingCountTouch(group, what)
             }
             addMemberContainer.setOnClickListener {
+                scrollableContainer.requestFocus()
                 viewModel.addMember(viewModel.createGroupModel.groupType!!)
             }
             description.multilineEditText.setOnEditorActionListener(object : TextView.OnEditorActionListener{

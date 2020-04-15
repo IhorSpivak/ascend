@@ -16,8 +16,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
         <com.doneit.ascend.presentation.views.MultilineEditWithError
             android:id="@+id/theme"
             android:layout_width="match_parent"
