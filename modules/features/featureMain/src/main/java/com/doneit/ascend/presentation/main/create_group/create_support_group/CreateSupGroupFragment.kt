@@ -125,10 +125,12 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             }
 
             placeholderDash.setOnClickListener {
+                hideKeyboard()
                 createImageBottomDialog().show(childFragmentManager, null)
             }
 
             icEdit.setOnClickListener {
+                hideKeyboard()
                 createImageBottomDialog().show(childFragmentManager, null)
             }
 
