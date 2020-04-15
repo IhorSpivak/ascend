@@ -106,10 +106,12 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 viewModel.onSelectStartDate()
             }
             dashRectangleBackground.setOnClickListener {
+                hideKeyboard()
                 createImageBottomDialog().show(childFragmentManager, null)
             }
 
             icEdit.setOnClickListener {
+                hideKeyboard()
                 createImageBottomDialog().show(childFragmentManager, null)
             }
             numberOfMeetings.editText.setOnClickListener {

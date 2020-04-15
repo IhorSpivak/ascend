@@ -45,11 +45,7 @@ fun PresentationCreateGroupModel.toUpdateWebinarEntity(group: GroupEntity): Upda
     return UpdateGroupDTO(
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
-        /*if (group.pastMeetingsCount!! > 0) {
-            null
-        } else {
-            actualStartTime.time
-        }*/actualStartTime.time, //delete commented if works fine
+        actualStartTime.time,
         groupType?.toString() ?: "",
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),

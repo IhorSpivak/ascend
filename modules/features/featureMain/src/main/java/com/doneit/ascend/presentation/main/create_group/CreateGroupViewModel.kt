@@ -534,7 +534,6 @@ class CreateGroupViewModel(
                 }
             }
             newScheduleItem.postValue(webinarSchedule)
-            themesOfMeeting
             group.themes?.let {
                 themesOfMeeting = it.map {theme ->
                     ValidatableField().apply {

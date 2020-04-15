@@ -74,10 +74,12 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
             duration.isClickable = false
 
             dashRectangleBackground.setOnClickListener {
+                hideKeyboard()
                 createImageBottomDialog().show(childFragmentManager, null)
             }
 
             icEdit.setOnClickListener {
+                hideKeyboard()
                 createImageBottomDialog().show(childFragmentManager, null)
             }
             price.editText.apply {
@@ -90,6 +92,11 @@ class IndividualGroupFragment : BaseFragment<FragmentCreateIndividualGroupBindin
                 price.editText.setOnClickListener {
                     scroll.scrollTo(0, numberOfMeetings.top)
                     viewModel.onPriceClick(price.editText)
+                }
+            }
+            scroll.setOnFocusChangeListener { v, b ->
+                if (b) {
+                    hideKeyboard()
                 }
             }
         }

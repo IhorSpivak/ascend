@@ -59,6 +59,12 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         binding.apply {
             adapter = adapter
             recyclerViewAddedMembers.adapter = membersAdapter
+            scroll.setOnFocusChangeListener { v, b ->
+                if (b) {
+                    hideKeyboard()
+                }
+            }
+
         }
 
         viewModel.changeGroup.observe(this, Observer {
@@ -97,10 +103,12 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
 
         binding.placeholderDash.setOnClickListener {
+            hideKeyboard()
             createImageBottomDialog().show(childFragmentManager, null)
         }
 
         binding.icEdit.setOnClickListener {
+            hideKeyboard()
             createImageBottomDialog().show(childFragmentManager, null)
         }
 
