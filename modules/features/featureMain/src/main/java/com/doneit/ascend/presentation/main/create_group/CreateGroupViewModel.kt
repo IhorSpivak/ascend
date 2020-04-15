@@ -704,10 +704,11 @@ class CreateGroupViewModel(
 
     override fun onAdd(member: AttendeeEntity) {
         selectedMembers.add(member)
-        if(createGroupModel.groupType == GroupType.INDIVIDUAL){
-            canAddMembers.postValue(selectedMembers.size < 1)
-        }else{
-            canAddMembers.postValue(selectedMembers.size < Constants.MAX_MEMBERS_COUNT)
+        when(createGroupModel.groupType){
+            GroupType.INDIVIDUAL -> canAddMembers.postValue((attendees.value?.size?: 0) < 1)
+            GroupType.MASTER_MIND -> canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 50)
+            GroupType.WEBINAR -> canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 3)
+            GroupType.SUPPORT -> canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 50)
         }
     }
 
@@ -716,10 +717,11 @@ class CreateGroupViewModel(
             it.email == member.email
         }
         selectedMembers.remove(itemToDelete)
-        if(createGroupModel.groupType == GroupType.INDIVIDUAL){
-            canAddMembers.postValue(selectedMembers.size <= 1)
-        }else{
-            canAddMembers.postValue(selectedMembers.size < Constants.MAX_MEMBERS_COUNT)
+        when(createGroupModel.groupType){
+            GroupType.INDIVIDUAL -> canAddMembers.postValue((attendees.value?.size?: 0) < 1)
+            GroupType.MASTER_MIND -> canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 50)
+            GroupType.WEBINAR -> canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 3)
+            GroupType.SUPPORT -> canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 50)
         }
     }
 
@@ -760,8 +762,8 @@ class CreateGroupViewModel(
                 }
             }
             size > count ->{
-                for (i in count until size) {
-                    createGroupModel.themesOfMeeting.removeAt(i-1)
+                for (i in count  until size ) {
+                    createGroupModel.themesOfMeeting.removeAt(createGroupModel.themesOfMeeting.size - 1)
                 }
             }
             size < count ->{

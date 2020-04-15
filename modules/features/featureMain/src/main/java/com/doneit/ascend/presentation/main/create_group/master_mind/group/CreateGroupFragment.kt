@@ -237,7 +237,9 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         GlobalScope.launch {
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
-                viewModel.createGroupModel.image.observableField.set(sourcePath)
+                viewModel.createGroupModel.image.observableField.set(
+                    activity!!.checkImage(sourcePath)
+                )
             }
         }
     }

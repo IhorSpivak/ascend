@@ -10,7 +10,7 @@ data class MasterMindResponse(
     @SerializedName("description") val description: String,
     @SerializedName("bio") val bio: String,
     @SerializedName("rating") val rating: Float,
-    @SerializedName("image") val image: ImageResponse,
+    @SerializedName("image") val image: ImageResponse?,
     @SerializedName("followed") val followed: Boolean,
     @SerializedName("rated") val rated: Boolean,
     @SerializedName("allow_rating") val allowRating: Boolean,

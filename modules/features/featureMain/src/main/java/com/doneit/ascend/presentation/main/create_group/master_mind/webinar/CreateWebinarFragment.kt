@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.main.create_group.master_mind.webinar
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -28,11 +27,8 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.comm
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.TimeAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateWebinarBinding
 import com.doneit.ascend.presentation.models.ValidationResult
-import com.doneit.ascend.presentation.utils.GroupAction
-import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.doneit.ascend.presentation.utils.getImagePath
-import com.doneit.ascend.presentation.utils.isWebinarDescriptionValid
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -56,7 +52,6 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
     override val viewModel: CreateWebinarContract.ViewModel by instance()
 
     private var group: GroupEntity? = null
-    private var tempUri: Uri? = null
     private var what: GroupAction? = null
     private var currentPhotoPath: String? = null
 
@@ -164,9 +159,10 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 }
             }
             viewModel.updateFields(group!!, what!!.toString())
-            if (group!!.pastMeetingsCount!! > 0 && what == GroupAction.EDIT){
+            if ((group!!.pastMeetingsCount!! > 0 && what == GroupAction.EDIT)
+                || (group!!.isStarting && group!!.participantsCount!! > 0)){
                 binding.apply {
-                    startDate.editText.setOnClickListener {  }
+                    startDate.editText.setOnClickListener { }
                     startDate.setColor(resources.getColor(R.color.light_gray_b1bf))
                 }
             }
@@ -227,27 +223,12 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                         ).apply {
                             currentPhotoPath = absolutePath
                         }.also {file ->
-                            FileProvider.getUriForFile(context!!, "com.doneit.ascend.fileprovider", file)?.also {
+                           FileProvider.getUriForFile(context!!, "com.doneit.ascend.fileprovider", file)?.also {
                                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
                                 startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
                             }
                         }
                     }
-                    /*val content = ContentValues().apply {
-                        put(
-                            MediaStore.Images.Media.TITLE,
-                            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
-                        )
-                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                        put(MediaStore.Images.Media.DESCRIPTION, "group_image")
-                    }*/
-
-                    /*tempUri = activity?.contentResolver?.insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        content
-                    )*/
-                    //cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-                    //startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
                 }
             }
     }
@@ -289,7 +270,9 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         GlobalScope.launch {
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
-                viewModel.createGroupModel.image.observableField.set(sourcePath)
+                viewModel.createGroupModel.image.observableField.set(
+                    activity!!.checkImage(sourcePath)
+                )
             }
         }
     }

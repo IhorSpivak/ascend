@@ -41,7 +41,7 @@ fun Int.toMonthEntity(): MonthEntity {
 }
 
 fun Date.toDayMonthYear(): String {
-    return "dd MMM yyyy".toDefaultFormatter().getFormatted(this)
+    return SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH).getFormatted(this)
 }
 
 fun Date.toNotificationDate(): String {

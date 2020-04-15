@@ -285,15 +285,17 @@
                         android:id="@+id/user_banned_message"
                         style="@style/TextNormal.White"
                         android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:background="#FF2D55"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
                         android:text="@string/error_group_user_banned"
                         android:visibility="@{model.group.blocked, default = gone}"
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
-                        app:layout_constraintBottom_toTopOf="@id/mm_panel_buttons_container"/>
+                        app:layout_constraintBottom_toTopOf="@id/buttonsBarrier"/>
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/buttonsBarrier"
                         android:layout_width="wrap_content"

@@ -39,7 +39,7 @@ class ThemeViewHolder(
                 }
             }
             group?.let {
-                if (it.pastMeetingsCount!! > 0 && action == GroupAction.EDIT){
+                if ((it.pastMeetingsCount!! > 0 && action == GroupAction.EDIT) || (group.isStarting && group.participantsCount!! > 0)){
                     if (position == it.pastMeetingsCount!! - 1){
                         theme.multilineEditText.apply {
                             inputType = InputType.TYPE_NULL

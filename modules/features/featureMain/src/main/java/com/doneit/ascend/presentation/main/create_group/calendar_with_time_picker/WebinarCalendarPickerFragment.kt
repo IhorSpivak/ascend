@@ -52,6 +52,11 @@ class WebinarCalendarPickerFragment(
             newWheelPicker.addOnDateChangedListener { displayed, date -> selectedDate.time = date }
         }
         binding.executePendingBindings()
+        viewModel.createGroupModel.scheduleDays.forEachIndexed { index, day ->
+            (binding.radioGroupTop.children.elementAtOrNull(day.ordinal) as RadioButton?)?.apply {
+                isEnabled = false
+            }
+        }
         if (position == 0){
             viewModel.createGroupModel.getStartTimeDay()?.let {
                 //this day mustn't be unselected

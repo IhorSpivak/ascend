@@ -37,7 +37,7 @@ class TimeViewHolder(
                 viewModel.chooseScheduleTouch(position)
             }
             group?.let {
-                if (it.pastMeetingsCount!! > 0 && action == GroupAction.EDIT){
+                if ((it.pastMeetingsCount!! > 0 && action == GroupAction.EDIT) || (group.isStarting && group.participantsCount!! > 0)){
                     if (position == 0){
                         chooseSchedule.apply {
                             multilineEditText.setOnClickListener {}

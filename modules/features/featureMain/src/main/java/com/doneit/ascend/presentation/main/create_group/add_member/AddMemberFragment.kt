@@ -15,7 +15,6 @@ import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMem
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
 import com.doneit.ascend.presentation.models.GroupType
-import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import org.kodein.di.Kodein
@@ -51,12 +50,18 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
                 fragmentManager?.popBackStack()
             }
         })
-        if(arguments!!.getString(GROUP_TYPE) == GroupType.INDIVIDUAL.toString()) {
+        when(arguments!!.getString(GROUP_TYPE)){
+            GroupType.INDIVIDUAL.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 1)
+            GroupType.MASTER_MIND.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 50)
+            GroupType.WEBINAR.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 3)
+            GroupType.SUPPORT.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 50)
+        }
+        /*if(arguments!!.getString(GROUP_TYPE) == GroupType.INDIVIDUAL.toString()) {
             viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 1)
         }else{
             viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < Constants.MAX_MEMBERS_COUNT)
         }
-
+*/
         binding.apply {
             lifecycleOwner = this@AddMemberFragment
             root.apply {
@@ -139,7 +144,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
         fun getInstance(groupType: GroupType): AddMemberFragment{
             return AddMemberFragment().apply {
                 arguments = Bundle().apply {
-                    getString(GROUP_TYPE, groupType.toString())
+                    putString(GROUP_TYPE, groupType.toString())
                 }
             }
         }

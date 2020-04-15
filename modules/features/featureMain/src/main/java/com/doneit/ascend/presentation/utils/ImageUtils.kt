@@ -1,12 +1,15 @@
 package com.doneit.ascend.presentation.utils
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
+import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import java.io.File
@@ -31,6 +34,23 @@ fun Context.copyToStorage(bitmap: Bitmap): String{
     }catch (e: IOException){
         ""
     }
+}
+
+fun Activity.checkImage(path: String): String{
+    this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
+        File.createTempFile(
+            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}_",
+            ".jpg",
+            it /* directory */
+        ).apply {
+            val bitmap = BitmapFactory.decodeFile(path).rotateImageIfRequired(path)
+            FileOutputStream(absolutePath).also {
+                bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, it)
+            }
+            return  absolutePath
+        }
+    }
+    return ""
 }
 
 fun Context.copyToStorage(uri: Uri): String{
@@ -83,7 +103,7 @@ suspend fun Activity.copyCompressed(source: Uri, destinationPath: String): Strin
 
         FileOutputStream(outFile).use { out ->
             if(File(sourcePath).exists()){//todo comment this due to correct flow
-                bitmap = bitmap.rotateImageIfRequired(sourcePath)
+                //bitmap = bitmap.rotateImageIfRequired(sourcePath, contentResolver)
             }
             bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, out)
         }
@@ -97,7 +117,7 @@ suspend fun Activity.copyCompressed(source: Uri, destinationPath: String): Strin
     return outFile.path
 }
 
-fun Context.copyImageFromSource(source: Uri): String{
+/*fun Context.copyImageFromSource(source: Uri): String{
     return try {
         contentResolver.openInputStream(source).let {inputStream ->
             BitmapFactory.decodeStream(inputStream).let {bitmap ->
@@ -121,7 +141,7 @@ fun Context.copyImageFromSource(source: Uri): String{
     }catch (e: IOException){
         ""
     }
-}
+}*/
 
 fun Context.copyFile(source: Uri, destination: Uri): Uri {
     val input = contentResolver.openInputStream(source)
@@ -151,10 +171,8 @@ private fun copyEXIF(sourcePath: String, destinationPath: String) {
 }
 
 private fun Bitmap.rotateImageIfRequired(selectedImage: String): Bitmap {
-
     val ei = ExifInterface(selectedImage)
-    val orientation =
-        ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+    val orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
 
     return when (orientation) {
         ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(this, 90)
@@ -167,9 +185,7 @@ private fun Bitmap.rotateImageIfRequired(selectedImage: String): Bitmap {
 private fun rotateImage(img: Bitmap, degree: Int): Bitmap {
     val matrix = Matrix()
     matrix.postRotate(degree.toFloat())
-    val rotatedImg = Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
-    img.recycle()
-    return rotatedImg
+    return Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
 }
 
 fun Context.createTempPhotoUri(): Uri {
