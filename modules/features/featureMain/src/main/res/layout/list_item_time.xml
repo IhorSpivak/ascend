@@ -50,6 +50,7 @@
             app:layout_constraintEnd_toStartOf="@id/remove"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:clickable="@{model.createGroupModel.timeList.size() &lt; 7}"
             app:layout_constraintTop_toTopOf="@id/chooseSchedule"
             app:layout_constraintStart_toEndOf="@id/chooseSchedule"
             app:layout_constraintBottom_toBottomOf="@id/chooseSchedule"

@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemMemberBinding
-import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesContract
 
 class MemberViewHolder(
     private val binding: ListItemMemberBinding,
@@ -16,6 +15,7 @@ class MemberViewHolder(
     private val onRemove: (member: AttendeeEntity) -> Unit,
     val model: AddMemberViewModel
 ) : RecyclerView.ViewHolder(binding.root) {
+    private var isAttended = false
 
     fun bind(member: AttendeeEntity?){
         binding.apply {
@@ -23,16 +23,22 @@ class MemberViewHolder(
             modelView = model
             this.setSelection(false)
             model.selectedMembers.forEach {
-                if (it.email == member!!.email){
+                if ((it.email == member!!.email)){
                     this.setSelection(true)
+                }
+                if((it.id == member.id)){
+                    this.setSelection(true)
+                    isAttended = it.isAttended
                 }
             }
         }
         binding.apply {
             root.setOnClickListener {
                 if (it.isSelected){
-                    onRemove.invoke(member!!)
-                    this.swap()
+                    if (!isAttended) {
+                        onRemove.invoke(member!!)
+                        this.swap()
+                    }
                 }else{
                     if (model.canAddMembers.value!!) {
                         onAdd.invoke(member!!)

@@ -34,16 +34,21 @@ class WebinarCalendarPickerFragment(
             btnOk.setOnClickListener {
                 viewModel.okWebinarTimeClick(selectedDay, selectedDate, position)
             }
+            newWheelPicker.setCustomLocale(Locale.ENGLISH)
             if (position == 0) {
                 viewModel.createGroupModel.startDate.observableField.let {
                     if (it.get()!!.isNotEmpty()){
-                        newWheelPicker.setDefaultDate(viewModel.createGroupModel.actualStartTime.time)
+                        viewModel.createGroupModel.actualStartTime.time.let {
+                            selectedDate.time = it
+                            newWheelPicker.setDefaultDate(it)
+                        }
                     }
                 }
             }else{
                 viewModel.createGroupModel.webinarSchedule.getOrNull(position)?.let {
                     if (it.observableField.get()!!.isNotEmpty()) {
                         viewModel.createGroupModel.timeList[position].time.let { date ->
+                            selectedDate.time = date
                             newWheelPicker.setDefaultDate(date)
                         }
                     }
@@ -52,11 +57,6 @@ class WebinarCalendarPickerFragment(
             newWheelPicker.addOnDateChangedListener { displayed, date -> selectedDate.time = date }
         }
         binding.executePendingBindings()
-        viewModel.createGroupModel.scheduleDays.forEachIndexed { index, day ->
-            (binding.radioGroupTop.children.elementAtOrNull(day.ordinal) as RadioButton?)?.apply {
-                isEnabled = false
-            }
-        }
         if (position == 0){
             viewModel.createGroupModel.getStartTimeDay()?.let {
                 //this day mustn't be unselected
@@ -64,16 +64,24 @@ class WebinarCalendarPickerFragment(
                 val dayView = getCorrespondingButton(it)
                 binding.radioGroupTop.children.forEach {
                     (it as RadioButton).apply {
-                        isEnabled = false
+                        isClickable = false
                     }
                 }
                 dayView?.isChecked = true
                 viewModel.updateTimeChooserOk(true)
             }
-            viewModel.createGroupModel.selectedDays.forEach {
+            /*viewModel.createGroupModel.selectedDays.forEach {
                 getCorrespondingButton(it)?.isChecked = true
-            }
+            }*/
         }else{
+            viewModel.createGroupModel.scheduleDays.forEachIndexed { index, day ->
+                (binding.radioGroupTop.children.elementAtOrNull(day.ordinal) as RadioButton?)?.apply {
+                    if (index != position) {
+                        isEnabled = false
+                        setTextColor(context.resources.getColor(android.R.color.white))
+                    }
+                }
+            }
             viewModel.createGroupModel.scheduleDays.getOrNull(position)?.let { day ->
                 (binding.radioGroupTop.children.elementAtOrNull(day.ordinal) as RadioButton?)?.apply {
                     isChecked = true

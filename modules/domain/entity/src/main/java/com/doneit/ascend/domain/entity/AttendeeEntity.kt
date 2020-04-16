@@ -8,5 +8,6 @@ class AttendeeEntity(
     val id: Long,
     val fullName: String?,
     val email: String?,
-    val imageUrl: String?
+    val imageUrl: String?,
+    val isAttended: Boolean = false
 ) : Parcelable

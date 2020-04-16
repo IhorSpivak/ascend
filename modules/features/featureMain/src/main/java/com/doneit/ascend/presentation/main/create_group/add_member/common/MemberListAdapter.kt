@@ -3,9 +3,7 @@ package com.doneit.ascend.presentation.main.create_group.add_member.common
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.AttendeeEntity
-import com.doneit.ascend.presentation.main.create_group.master_mind.common.AttendeeViewHolder
 import com.doneit.ascend.presentation.main.group_info.attendees.common.AttendeeItemViewHolder
 
 class MemberListAdapter(

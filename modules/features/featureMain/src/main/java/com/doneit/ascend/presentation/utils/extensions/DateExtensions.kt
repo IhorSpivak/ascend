@@ -76,11 +76,11 @@ private fun SimpleDateFormat.getFormatted(date: Date): String {
 }
 
 fun String.toDefaultFormatter(): SimpleDateFormat {
-    return SimpleDateFormat(this, Locale.getDefault())
+    return SimpleDateFormat(this, Locale.ENGLISH)
 }
 
 fun String.toGMTFormatter(): SimpleDateFormat {
-    val formatter = SimpleDateFormat(this, Locale.getDefault())
+    val formatter = SimpleDateFormat(this, Locale.ENGLISH)
     formatter.timeZone = TimeZone.getTimeZone("GMT")
     return formatter
 }

@@ -34,7 +34,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:maxLength="@{64}"
+            app:maxLength="@{32}"
             app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
             app:saveState="@{false}"
             app:src="@{@drawable/ic_webinar_theme}"

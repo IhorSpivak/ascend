@@ -45,6 +45,7 @@ import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
 import com.doneit.ascend.presentation.main.home.master_mind.filter.FilterFragment
+import com.doneit.ascend.presentation.main.home.webinars.WebinarsContract
 import com.doneit.ascend.presentation.main.master_mind.MasterMindContract
 import com.doneit.ascend.presentation.main.master_mind.MasterMindFragment
 import com.doneit.ascend.presentation.main.master_mind.list.ListContract
@@ -137,7 +138,8 @@ class MainRouter(
     SpiritualActionListContract.Router,
     GoalsContract.Router,
     GoalsListContract.Router,
-    AttendeesContract.Router{
+    AttendeesContract.Router,
+    WebinarsContract.Router{
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }

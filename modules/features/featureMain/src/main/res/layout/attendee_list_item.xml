@@ -35,6 +35,20 @@
             android:background="@drawable/clear_member_button_background"
             android:scaleType="center"
             android:src="@drawable/ic_clear_member_button"
+            android:visibility="@{!attendee.attended}"
+            app:layout_constraintEnd_toEndOf="@+id/attendee_icon"
+            app:layout_constraintTop_toTopOf="@+id/attendee_icon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/member_attended"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/ic_added_member"
+            android:scaleType="center"
+            app:tint="@color/green_font_color"
+            android:visibility="@{attendee.attended}"
             app:layout_constraintEnd_toEndOf="@+id/attendee_icon"
             app:layout_constraintTop_toTopOf="@+id/attendee_icon" />
 

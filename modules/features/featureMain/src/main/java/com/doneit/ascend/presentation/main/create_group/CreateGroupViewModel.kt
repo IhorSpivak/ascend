@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGroupContract
+import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.Theme
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
@@ -456,10 +457,10 @@ class CreateGroupViewModel(
 
     override fun removeMember(member: AttendeeEntity) {
         if(selectedMembers.remove(member)){
-            members.postValue(selectedMembers.toMutableList())
+            members.postValue(selectedMembers)
+            deletedMembers.add(member)
+            membersToDelete.postValue(deletedMembers)
         }
-        deletedMembers.add(member)
-        membersToDelete.postValue(deletedMembers.toMutableList())
     }
 
     override fun chooseMeetingCountTouch(group: GroupEntity?, what: GroupAction?) {
@@ -469,9 +470,19 @@ class CreateGroupViewModel(
     override fun updateListOfTimes(position: Int, remove: Boolean) {
         if (remove) {
             if (position == 0){
-                createGroupModel.webinarSchedule.dropLast(1)
-                createGroupModel.timeList.dropLast(1)
-                createGroupModel.scheduleDays.dropLast(1)
+                createGroupModel.webinarSchedule.size.let {
+                    createGroupModel.webinarSchedule.removeAt(it - 1)
+                }
+                createGroupModel.timeList.size.let {
+                    if(it > 1) {
+                        createGroupModel.timeList.removeAt(it - 1)
+                    }
+                }
+                createGroupModel.scheduleDays.size.let {
+                    if(it > 1) {
+                        createGroupModel.scheduleDays.removeAt(it - 1)
+                    }
+                }
             }else {
                 createGroupModel.webinarSchedule.removeAt(position)
                 createGroupModel.timeList.removeAt(position)
@@ -497,6 +508,13 @@ class CreateGroupViewModel(
             createGroupModel.timeList.add(getDefaultCalendar())
         }
         newScheduleItem.postValue(createGroupModel.webinarSchedule)
+    }
+
+    override fun removeTheme(position: Int) {
+        createGroupModel.themesOfMeeting.removeAt(position)
+        themeList.removeAt(position)
+        themes.postValue(createGroupModel.themesOfMeeting)
+        createGroupModel.numberOfMeetings.observableField.set(createGroupModel.themesOfMeeting.size.toString())
     }
 
     override fun updateFields(group: GroupEntity, what: String) {
@@ -535,16 +553,45 @@ class CreateGroupViewModel(
             }
             newScheduleItem.postValue(webinarSchedule)
             group.themes?.let {
-                themesOfMeeting = it.map {theme ->
+                themesOfMeeting = it.mapIndexed { index, theme ->
                     ValidatableField().apply {
+                        themeList.add(Theme(index, theme))
                         observableField.set(theme)
                     }
+
                 }.toMutableList()
             }
             themes.postValue(themesOfMeeting)
         }
-        members.postValue(group.attendees?.toMutableList())
         selectedMembers.addAll(group.attendees?: emptyList())
+        members.postValue(selectedMembers.toMutableList())
+        if(group.participantsCount!! > 0){
+            loadParticipants(group.id, what)
+        }
+    }
+
+    override fun loadParticipants(groupId: Long, what: String) {
+        viewModelScope.launch {
+            groupUseCase.getParticipantList(groupId).also {
+                if (it.isSuccessful) {
+                    it.successModel?.let {
+                        when(what){
+                            GroupAction.DUPLICATE.toString() ->{
+                                it.forEach {
+                                    selectedMembers.add(AttendeeEntity(it.id, it.fullName, null, it.image?.url, false))
+                                }
+                            }
+                            GroupAction.EDIT.toString() ->{
+                                it.forEach {
+                                    selectedMembers.add(AttendeeEntity(it.id, it.fullName, null, it.image?.url, true))
+                                }
+                            }
+                        }
+                        members.postValue(selectedMembers)
+                    }
+                }
+            }
+        }
     }
 
     override val canTimeChooserOk: LiveData<Boolean> = timeChooserState.switchMap { liveData { emit(it) } }
@@ -655,6 +702,7 @@ class CreateGroupViewModel(
         ValidatableField()
     ))
     override val themes: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData()
+    override val themeList: MutableList<Theme> = mutableListOf()
 
     override fun onPriceClick(editor: TextInputEditText) {
         localRouter.navigateToPricePicker(editor)
@@ -759,17 +807,20 @@ class CreateGroupViewModel(
             size == 0 -> {
                 for (i in 1..count) {
                     createGroupModel.themesOfMeeting.add(ValidatableField())
+                    themeList.add(Theme(i-1, ""))
                 }
             }
             size > count ->{
                 for (i in count  until size ) {
                     createGroupModel.themesOfMeeting.removeAt(createGroupModel.themesOfMeeting.size - 1)
+                    themeList.removeAt(themeList.size - 1)
                 }
             }
             size < count ->{
                 val range = count - size
                 for (i in 1..range) {
                     createGroupModel.themesOfMeeting.add(ValidatableField())
+                    themeList.add(Theme(i-1, ""))
                 }
             }
         }
@@ -794,7 +845,12 @@ class CreateGroupViewModel(
         createGroupModel.actualStartTime.apply {
             set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH))
         }
-        createGroupModel.startDate.observableField.set("dd MMMM yyyy".toDefaultFormatter().format(date.time))
+        createGroupModel.startDate.observableField.set(
+            SimpleDateFormat(
+                "dd MMMM yyyy",
+                Locale.ENGLISH
+            ).format(date.time)
+        )
         localRouter.onBack()
     }
 

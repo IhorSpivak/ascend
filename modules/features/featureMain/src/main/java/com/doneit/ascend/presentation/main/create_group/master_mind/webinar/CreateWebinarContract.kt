@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedViewModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.common.IClickListener
+import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.Theme
 import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
@@ -26,6 +27,7 @@ interface CreateWebinarContract {
         val themesOfMeeting: MutableLiveData<Int>
         val newScheduleItem: MutableLiveData<MutableList<ValidatableField>>
         val themes: MutableLiveData<MutableList<ValidatableField>>
+        val themeList: MutableList<Theme>
 
         fun addNewParticipant()
         fun removeMember(member: AttendeeEntity)
@@ -41,7 +43,9 @@ interface CreateWebinarContract {
         fun onPriceClick(editor: TextInputEditText)
         fun chooseMeetingCountTouch(group: GroupEntity?, what: GroupAction?)
         fun updateListOfTimes(position: Int, remove: Boolean)
+        fun removeTheme(position: Int)
         fun updateListOfTimes(remove: Boolean)
         fun updateFields(group: GroupEntity, what: String)
+        fun loadParticipants(groupId: Long, what: String)
     }
 }

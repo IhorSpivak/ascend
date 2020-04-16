@@ -84,7 +84,7 @@ fun String.isWebinarDescriptionValid(): Boolean {
     return this.matches(r)
 }
 fun String.isThemeValid(): Boolean {
-    val r = Regex("^[a-zA-Z0-9\\s_.]{2,64}\$")
+    val r = Regex("^[a-zA-Z0-9\\s_.]{2,32}\$")
     return this.matches(r)
 }
 

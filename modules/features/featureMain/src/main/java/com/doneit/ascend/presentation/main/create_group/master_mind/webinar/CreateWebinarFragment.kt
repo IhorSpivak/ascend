@@ -12,6 +12,8 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.core.content.FileProvider
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.ezpermission.EzPermission
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
@@ -98,7 +100,9 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             recyclerViewAddedMembers.adapter = membersAdapter
             webinarThemes.apply{
                 adapter = themeAdapter
+                (layoutManager as LinearLayoutManager).initialPrefetchItemCount = 12
             }
+            (timeSchedule.layoutManager as LinearLayoutManager).initialPrefetchItemCount = 7
             timeSchedule.adapter = timeAdapter
 
             startDate.editText.setOnClickListener {
@@ -139,19 +143,21 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 }
             }
         }
-        viewModel.members.observe(this, androidx.lifecycle.Observer {
-            viewModel.createGroupModel.participants.set(it.map {
-                it.email!!
+        viewModel.members.observe(this, Observer {
+            membersAdapter.submitList(it.toMutableList())
+            viewModel.createGroupModel.participants.set(it.filter {attendee ->
+                !attendee.isAttended
+            }.map {attendee ->
+                attendee.email ?: ""
             })
-            membersAdapter.submitList(it)
         })
 
-        viewModel.newScheduleItem.observe(this, androidx.lifecycle.Observer {
+        viewModel.newScheduleItem.observe(this, Observer {
             timeAdapter.data = it
         })
 
-        viewModel.themes.observe(this, androidx.lifecycle.Observer {
-            themeAdapter.data = it
+        viewModel.themes.observe(this, Observer {
+            themeAdapter.data = viewModel.themeList
         })
         if (group != null){
             binding.buttonComplete.apply {
@@ -165,7 +171,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             }
             viewModel.updateFields(group!!, what!!.toString())
             if ((group!!.pastMeetingsCount!! > 0 && what == GroupAction.EDIT)
-                || (group!!.isStarting && group!!.participantsCount!! > 0)){
+                || (group!!.isStarting && group!!.participantsCount!! > 0 && what == GroupAction.EDIT)){
                 binding.apply {
                     startDate.editText.setOnClickListener { }
                     startDate.setColor(resources.getColor(R.color.light_gray_b1bf))

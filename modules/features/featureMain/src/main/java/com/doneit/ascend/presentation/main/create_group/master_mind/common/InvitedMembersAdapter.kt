@@ -19,11 +19,11 @@ class InvitedMembersAdapter(
 
     private class AttendeeDiffCallback: DiffUtil.ItemCallback<AttendeeEntity>(){
         override fun areItemsTheSame(oldItem: AttendeeEntity, newItem: AttendeeEntity): Boolean {
-            return newItem.id == oldItem.id
+            return newItem == oldItem
         }
 
         override fun areContentsTheSame(oldItem: AttendeeEntity, newItem: AttendeeEntity): Boolean {
-            return newItem.equals(oldItem)
+            return newItem.id == oldItem.id
         }
 
     }

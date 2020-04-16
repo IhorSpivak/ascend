@@ -13,7 +13,7 @@ class ThemeAdapter(
     private val what: GroupAction?
 ): RecyclerView.Adapter<ThemeViewHolder>() {
 
-    var data = mutableListOf<ValidatableField>()
+    var data = mutableListOf<Theme>()
     set(value) {
         field = value
         notifyDataSetChanged()

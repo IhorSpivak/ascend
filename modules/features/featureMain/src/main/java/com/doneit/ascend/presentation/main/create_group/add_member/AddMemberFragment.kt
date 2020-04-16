@@ -42,7 +42,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                viewModel.members.postValue(viewModel.selectedMembers.toMutableList())
+                viewModel.members.postValue(viewModel.selectedMembers)
                 binding.apply {
                     searchVis = false
                     inviteVis = false

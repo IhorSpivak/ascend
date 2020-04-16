@@ -60,8 +60,10 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
             handleNavigation(it)
         })
         viewModel.members.observe(this, Observer {
-            viewModel.createGroupModel.participants.set(it.map {attendee ->
-                attendee.email?: ""
+            viewModel.createGroupModel.participants.set(it.filter {attendee ->
+                !attendee.isAttended
+            }.map {attendee ->
+                attendee.email ?: ""
             })
         })
         viewModel.membersToDelete.observe(this, Observer {

@@ -31,6 +31,7 @@ class WebinarDatePickerFragment: BaseFragment<FragmentWebinarDatePickerBinding>(
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
+            newWheelPicker.setCustomLocale(Locale.ENGLISH)
             background = when(viewModel.createGroupModel.groupType){
                 GroupType.SUPPORT -> resources.getColor(R.color.support_color)
                 GroupType.INDIVIDUAL -> resources.getColor(R.color.background_dimmed)
@@ -44,6 +45,7 @@ class WebinarDatePickerFragment: BaseFragment<FragmentWebinarDatePickerBinding>(
             }
             newWheelPicker.selectDate(viewModel.createGroupModel.actualStartTime)
             viewModel.createGroupModel.actualStartTime?.let {
+                selectedDate.time = it.time
                 newWheelPicker.setDefaultDate(it.time)
             }
             newWheelPicker.addOnDateChangedListener(object : SingleDateAndTimePicker.OnDateChangedListener{
