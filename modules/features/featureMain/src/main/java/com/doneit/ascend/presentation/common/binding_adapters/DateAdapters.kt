@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.common.binding_adapters
 
-import android.text.format.DateFormat
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.doneit.ascend.presentation.utils.extensions.getTimeFormat

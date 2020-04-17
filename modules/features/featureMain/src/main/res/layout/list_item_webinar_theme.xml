@@ -13,6 +13,7 @@
         <import type="android.text.InputType" />
 
         <import type="android.view.View" />
+        <import type="android.view.inputmethod.EditorInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,6 +38,7 @@
             app:maxLength="@{32}"
             app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
             app:saveState="@{false}"
+            app:ime="@{EditorInfo.IME_ACTION_DONE}"
             app:src="@{@drawable/ic_webinar_theme}"
             app:tint="@{@color/red_webinar_color}"
             app:text="@={model.createGroupModel.themesOfMeeting.get(position).observableField}" />

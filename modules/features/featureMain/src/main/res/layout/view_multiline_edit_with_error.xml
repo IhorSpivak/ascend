@@ -37,7 +37,6 @@
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
             android:minLines="1"
-            android:imeOptions="actionDone"
             android:singleLine="false"
             android:isScrollContainer="false" />
     </com.google.android.material.textfield.TextInputLayout>

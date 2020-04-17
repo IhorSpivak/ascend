@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.util.AttributeSet
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
@@ -176,10 +177,8 @@ class MultilineEditWithError @JvmOverloads constructor(
             InputFilter.LengthFilter(length)
         )
     }
-    fun setIME(length: Int) {
-        multilineEditText.filters = arrayOf<InputFilter>(
-            InputFilter.LengthFilter(length)
-        )
+    fun setIme(code: Int) {
+        multilineEditText.imeOptions = code
     }
 
     override fun getBaseline(): Int {

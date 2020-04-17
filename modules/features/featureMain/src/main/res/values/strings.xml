@@ -89,7 +89,8 @@
     <string name="error_number_of_meetings_count">Schedule does not match the number of meetings</string>
     <string name="error_description">The Group Description from 2 till 1000 symbols</string>
     <string name="error_description_webinar">The Webinar Description from 2 till 500 symbols</string>
-    <string name="error_theme">The Theme Of Meeting from 2 till 64 symbols</string>
+    <string name="error_theme">Please, enter the Webinar Name correctly</string>
+    <string name="error_time">Please, enter the days correctly</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_cancel_spaced">Cancel&#160;&#160;</string>
     <string name="btn_complete">Complete</string>

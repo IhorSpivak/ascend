@@ -9,6 +9,7 @@ import android.text.style.StyleSpan
 import android.util.Patterns
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
+import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.models.LocationModel
@@ -86,6 +87,11 @@ fun String.isWebinarDescriptionValid(): Boolean {
 fun String.isThemeValid(): Boolean {
     val r = Regex("^[a-zA-Z0-9\\s_.]{2,32}\$")
     return this.matches(r)
+}
+
+fun String.isDayValid(dayList: List<CalendarDayEntity>): Boolean {
+
+    return dayList.map { it.ordinal }.toSet().size == dayList.size
 }
 
 fun String.isValidEmail(): Boolean {

@@ -223,7 +223,7 @@ private fun Context.createTempFile(name: String): Uri {
 @Throws(IOException::class)
 private fun Context.createImageFile(): File {
     // Create an image file name
-    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
     val storageDir: File = File(externalCacheDir!!.path)
     return File.createTempFile(
         "JPEG_${timeStamp}_",

@@ -410,6 +410,12 @@ class CreateGroupViewModel(
         isFormValid = isFormValid and createGroupModel.startDate.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
+        createGroupModel.themesOfMeeting.forEach {
+            isFormValid = isFormValid and it.isValid
+        }
+        createGroupModel.scheduleDays.let {
+            isFormValid = isFormValid and (it.map { it.ordinal }.toSet().size == it.size)
+        }
 
         return isFormValid
     }
@@ -472,15 +478,18 @@ class CreateGroupViewModel(
             if (position == 0){
                 createGroupModel.webinarSchedule.size.let {
                     createGroupModel.webinarSchedule.removeAt(it - 1)
+                    createGroupModel.numberOfMeetings.invalidate()
                 }
                 createGroupModel.timeList.size.let {
                     if(it > 1) {
                         createGroupModel.timeList.removeAt(it - 1)
+                        createGroupModel.numberOfMeetings.invalidate()
                     }
                 }
                 createGroupModel.scheduleDays.size.let {
                     if(it > 1) {
                         createGroupModel.scheduleDays.removeAt(it - 1)
+                        createGroupModel.numberOfMeetings.invalidate()
                     }
                 }
             }else {
@@ -491,10 +500,12 @@ class CreateGroupViewModel(
                         removeAt(position)
                     }
                 }
+                createGroupModel.numberOfMeetings.invalidate()
             }
         } else {
             createGroupModel.webinarSchedule.add(ValidatableField())
             createGroupModel.timeList.add(getDefaultCalendar())
+            createGroupModel.numberOfMeetings.invalidate()
         }
         newScheduleItem.postValue(createGroupModel.webinarSchedule)
     }
@@ -531,7 +542,7 @@ class CreateGroupViewModel(
             if (s.isValidMeetingsNumber().not()) {
                 result.isSucceed = false
                 result.errors.add(R.string.error_number_of_meetings)
-            } else if (s.toInt() < createGroupModel.scheduleDays.size) {
+            } else if (s.toInt() < createGroupModel.timeList.size) {
                 result.isSucceed = false
                 result.errors.add(R.string.error_number_of_meetings_count)
             }
@@ -615,6 +626,10 @@ class CreateGroupViewModel(
                 }
             }
         }
+    }
+
+    override fun getValidatorListener(): () -> Unit {
+        return {updateCanCreate()}
     }
 
     override val canTimeChooserOk: LiveData<Boolean> = timeChooserState.switchMap { liveData { emit(it) } }

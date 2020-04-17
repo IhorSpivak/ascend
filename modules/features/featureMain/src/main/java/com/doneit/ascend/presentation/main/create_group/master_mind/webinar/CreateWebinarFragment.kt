@@ -177,6 +177,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
                     ) {
+                        viewModel.createGroupModel.image.observableField.set(null)
                         viewModel.createGroupModel.image.observableField.set(context?.copyToStorage(resource))
                     }
 

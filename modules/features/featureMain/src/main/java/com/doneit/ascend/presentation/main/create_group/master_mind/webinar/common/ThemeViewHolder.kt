@@ -1,11 +1,10 @@
 package com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common
 
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.InverseBindingListener
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.R
@@ -24,13 +23,16 @@ class ThemeViewHolder(
         binding.apply {
             this.position = position
             model = viewModel
-            viewModel.createGroupModel.themesOfMeeting[position].validator = { s ->
-                val result = ValidationResult()
-                if (s.isThemeValid().not()) {
-                    result.isSucceed = false
-                    result.errors.add(R.string.error_theme)
+            viewModel.createGroupModel.themesOfMeeting[position].apply {
+                validator = { s ->
+                    val result = ValidationResult()
+                    if (s.isThemeValid().not()) {
+                        result.isSucceed = false
+                        result.errors.add(R.string.error_theme)
+                    }
+                    result
                 }
-                result
+                onFieldInvalidate = viewModel.getValidatorListener()
             }
             remove.setOnClickListener {
                 viewModel.removeTheme(position)

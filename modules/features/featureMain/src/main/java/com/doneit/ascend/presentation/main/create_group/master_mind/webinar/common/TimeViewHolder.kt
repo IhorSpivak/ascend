@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarContract
 import com.doneit.ascend.presentation.main.databinding.ListItemTimeBinding
-import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.utils.GroupAction
+import com.doneit.ascend.presentation.utils.isDayValid
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 
 class TimeViewHolder(
@@ -20,6 +20,16 @@ class TimeViewHolder(
         binding.apply {
             this.position = position
             model = viewModel
+            viewModel.createGroupModel.webinarSchedule[position].apply {
+                validator = {s->
+                    val result = ValidationResult()
+                    if (s.isDayValid(viewModel.createGroupModel.scheduleDays).not()) {
+                        result.isSucceed = false
+                    }
+                    result
+                }
+                onFieldInvalidate = viewModel.getValidatorListener()
+            }
             remove.setOnClickListener {
                 viewModel.createGroupModel.webinarSchedule.let {
                     if (it.size == 1){

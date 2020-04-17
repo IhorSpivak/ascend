@@ -56,12 +56,6 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             GroupType.WEBINAR.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 3)
             GroupType.SUPPORT.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 50)
         }
-        /*if(arguments!!.getString(GROUP_TYPE) == GroupType.INDIVIDUAL.toString()) {
-            viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 1)
-        }else{
-            viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < Constants.MAX_MEMBERS_COUNT)
-        }
-*/
         binding.apply {
             lifecycleOwner = this@AddMemberFragment
             root.apply {
@@ -79,7 +73,6 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             tvSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener{
                 override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
                     if (p1 == EditorInfo.IME_ACTION_SEARCH) {
-                        hideKeyboard()
                         return true
                     }
 

@@ -160,11 +160,11 @@ class MainRouter(
     }
 
     override fun navigateToChat(chatId: Long) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     override fun navigateToNewChat() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     override fun navigateToDetails(group: GroupEntity) {
