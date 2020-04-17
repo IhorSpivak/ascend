@@ -18,5 +18,6 @@ class GroupListDTO(
     val startDateFrom: Date? = null,
     val startDateTo: Date? = null,
     val daysOfWeen: List<Int>? = null,
-    val numberOfParticipants: GroupTypeParticipants? = null
+    val numberOfParticipants: GroupTypeParticipants? = null,
+    val community: String? = null
 ) : BasePagedDTO(page, perPage, sortColumn, sortType)

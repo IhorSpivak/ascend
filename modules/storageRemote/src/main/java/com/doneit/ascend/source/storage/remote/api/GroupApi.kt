@@ -35,7 +35,8 @@ interface GroupApi {
         @Query("status") status: String?,
         @Query("my_groups") myGroups: Boolean?,
         @Query("start_time_from") startTimeFrom: String?,
-        @Query("start_time_to") startTimeTo: String?
+        @Query("start_time_to") startTimeTo: String?,
+        @Query("community") community: String?
     ): Deferred<Response<GroupListResponse>>
 
     @GET("groups/{id}")

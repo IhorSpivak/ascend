@@ -41,7 +41,7 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         when(val model = getItem(position)) {
             is GroupEntity -> {
-                (holder as GroupHorViewHolder).bind(model, null, onButtonClick)
+                (holder as GroupHorViewHolder).bind(model, null, onButtonClick, null)
                 holder.itemView.setOnClickListener {
                     onGroupClick.invoke(model)
                 }

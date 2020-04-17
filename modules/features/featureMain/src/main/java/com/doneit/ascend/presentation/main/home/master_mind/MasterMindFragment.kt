@@ -26,7 +26,8 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
                 } else {
                     showDefaultError(getString(R.string.error_group_user_removed))
                 }
-            }
+            },
+            null
         )
     }
 

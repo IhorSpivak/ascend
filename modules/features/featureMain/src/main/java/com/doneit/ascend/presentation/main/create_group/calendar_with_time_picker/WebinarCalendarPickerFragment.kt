@@ -73,17 +73,31 @@ class WebinarCalendarPickerFragment(
         }
         binding.executePendingBindings()
         if (position == 0){
-            viewModel.createGroupModel.getStartTimeDay()?.let {
-                //this day mustn't be unselected
-                selectedDay = it.ordinal + 1
-                val dayView = getCorrespondingButton(it)
-                binding.radioGroupTop.children.forEach {
-                    (it as RadioButton).apply {
-                        isClickable = false
+            if (group == null) {
+                viewModel.createGroupModel.getStartTimeDay()?.let {
+                    //this day mustn't be unselected
+                    selectedDay = it.ordinal + 1
+                    val dayView = getCorrespondingButton(it)
+                    binding.radioGroupTop.children.forEach {
+                        (it as RadioButton).apply {
+                            isClickable = false
+                        }
                     }
+                    dayView?.isChecked = true
+                    viewModel.updateTimeChooserOk(true)
                 }
-                dayView?.isChecked = true
-                viewModel.updateTimeChooserOk(true)
+            } else {
+                viewModel.createGroupModel.scheduleDays[position].let {
+                    selectedDay = it.ordinal + 1
+                    val dayView = getCorrespondingButton(it)
+                    binding.radioGroupTop.children.forEach {
+                        (it as RadioButton).apply {
+                            isClickable = false
+                        }
+                    }
+                    dayView?.isChecked = true
+                    viewModel.updateTimeChooserOk(true)
+                }
             }
 
         }else{

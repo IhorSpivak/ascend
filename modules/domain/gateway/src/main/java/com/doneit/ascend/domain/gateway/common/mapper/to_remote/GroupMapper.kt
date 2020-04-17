@@ -64,7 +64,8 @@ fun GroupListDTO.toRequest(): GroupListRequest {
         groupStatus.toString(),
         myGroups,
         startDateFrom?.toRemoteString(),
-        startDateTo?.toRemoteString()
+        startDateTo?.toRemoteString(),
+        community
     )
 }
 
@@ -80,7 +81,8 @@ fun GroupListDTO.toRequest(currPage: Int): GroupListRequest {
         groupStatus.toString(),
         myGroups,
         startDateFrom?.toRemoteString(),
-        startDateTo?.toRemoteString()
+        startDateTo?.toRemoteString(),
+        community
     )
 }
 

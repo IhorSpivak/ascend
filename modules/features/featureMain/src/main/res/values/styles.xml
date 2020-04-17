@@ -297,6 +297,18 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
+    <style name="WebinarFilterRadioButton">
+        <item name="android:textColor">@color/pref_time_text_selector</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/red_hat_font</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
     <style name="keyboard_row">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

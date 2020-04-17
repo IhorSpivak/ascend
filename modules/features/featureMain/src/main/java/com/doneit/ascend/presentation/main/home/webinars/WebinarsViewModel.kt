@@ -1,18 +1,15 @@
 package com.doneit.ascend.presentation.main.home.webinars
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
+import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
-import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.groups.group_list.GroupListArgs
 import com.doneit.ascend.presentation.main.home.webinars.common.WebinarFilter
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 import com.vrgsoft.annotations.CreateFactory
@@ -25,15 +22,20 @@ import java.util.*
 class WebinarsViewModel (
     private val userUseCase: UserUseCase,
     private val groupUseCase: GroupUseCase,
-    private val masterMindUseCase: MasterMindUseCase,
     private val router: WebinarsContract.Router
 ): BaseViewModelImpl(), WebinarsContract.ViewModel {
 
     private lateinit var user: UserEntity
 
+    override val isRefreshing = MutableLiveData<Boolean>()
+    override val userLiveData = liveData {
+        emit(userUseCase.getUser()!!)
+    }
+
     private val groupListModel = MutableLiveData<GroupListDTO>()
 
     private val webinarFilterLiveData = MutableLiveData<HashMap<String, Boolean>>()
+
     private val webinarFilter = hashMapOf(
         WebinarFilter.RECOVERY.toString() to false,
         WebinarFilter.SUCCESS.toString() to false,
@@ -50,30 +52,27 @@ class WebinarsViewModel (
         }
     }
 
-    fun applyArguments(args: GroupListArgs) {
+    override fun updateFilter(filter: WebinarFilter) {
         viewModelScope.launch {
-            var groupType = args.groupType
-
-            if (groupType == GroupType.DAILY //according to requirement to display all created group on first tab,
-                || groupType == GroupType.MY_GROUPS
-            ) {
-                groupType = null
-            }
-
+            isRefreshing.postValue(true)
             val model = GroupListDTO(
                 perPage = 50,
-                sortType = args.sortType,
+                sortType = SortType.ASC,
                 sortColumn = GroupEntity.START_TIME_KEY,
-                userId = args.userId,
-                groupType = groupType,
-                groupStatus = args.status,
-                myGroups = args.isMyGroups
+                userId = null,
+                groupType = GroupType.WEBINAR,
+                groupStatus = GroupStatus.UPCOMING,
+                myGroups = null,
+                community = filter.toString()
             )
-
-            user = userUseCase.getUser()!!
-
             groupListModel.postValue(model)
+            webinarFilterLiveData.postValue(webinarFilter)
+            isRefreshing.postValue(false)
         }
+    }
+
+    override fun checkUser(user: UserEntity) {
+        this.user = user
     }
 
     override fun onGroupClick(model: GroupEntity) {

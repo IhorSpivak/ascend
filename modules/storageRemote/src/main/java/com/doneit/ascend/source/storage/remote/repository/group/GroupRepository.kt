@@ -248,7 +248,8 @@ internal class GroupRepository(
                 listRequest.status,
                 listRequest.myGroups,
                 listRequest.startTimeFrom,
-                listRequest.startTimeTo
+                listRequest.startTimeTo,
+                listRequest.community
             )
         }, ErrorsListResponse::class.java)
     }

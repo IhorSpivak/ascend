@@ -27,7 +27,8 @@ class GroupDailyListFragment : ArgumentedFragment<FragmentGroupsListDailyBinding
                 } else {
                     showDefaultError(getString(R.string.error_group_user_removed))
                 }
-            }
+            },
+            null
         )
     }
 

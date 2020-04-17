@@ -17,6 +17,7 @@ fun SearchDTO.toGroupRequest(page: Int): GroupListRequest {
         GroupStatus.UPCOMING.toString(),
         null,
         null,
+        null,
         null
     )
 }

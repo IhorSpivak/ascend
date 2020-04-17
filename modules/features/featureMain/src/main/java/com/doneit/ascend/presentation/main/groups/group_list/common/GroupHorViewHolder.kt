@@ -13,10 +13,14 @@ class GroupHorViewHolder(
     private val binding: TemplateHorGroupItemBinding
 ) : SearchViewHolder(binding.root) {
 
-    fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (GroupEntity) -> Unit) {
+    fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (GroupEntity) -> Unit, communityGroup: String?) {
         binding.apply {
             this.item = item
-            community = user?.community
+            if (communityGroup == null) {
+                community = user?.community
+            }else{
+                community = communityGroup
+            }
             this.user = user
             theme = if (item.pastMeetingsCount == item.meetingsCount){
                 item.pastMeetingsCount?.let { item.themes?.get(it - 1) }

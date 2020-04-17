@@ -8,7 +8,8 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 class GroupHorListAdapter(
     private var user: UserEntity? = null,
     private val onItemClick: (model: GroupEntity) -> Unit,
-    private val onButtonClick: (GroupEntity) -> Unit
+    private val onButtonClick: (GroupEntity) -> Unit,
+    private var community: String?
 ) : PagedListAdapter<GroupEntity, GroupHorViewHolder>(GroupDiffCallback()) {
 
     init {
@@ -20,7 +21,7 @@ class GroupHorListAdapter(
     }
 
     override fun onBindViewHolder(holder: GroupHorViewHolder, position: Int) {
-        holder.bind(getItem(position)!!, user, onButtonClick)
+        holder.bind(getItem(position)!!, user, onButtonClick, community)
         holder.itemView.setOnClickListener {
             onItemClick.invoke(getItem(position)!!)
         }
@@ -32,6 +33,11 @@ class GroupHorListAdapter(
 
     fun setUser(user: UserEntity) {
         this.user = user
+        notifyDataSetChanged()
+    }
+
+    fun setCommunity(community: String) {
+        this.community = community
         notifyDataSetChanged()
     }
 }
