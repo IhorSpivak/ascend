@@ -521,4 +521,9 @@
     <!--Image dialog-->
     <string name="take_photo">Take A Photo</string>
     <string name="take_gallery">Select From Gallery</string>
+
+    <!--My Chats-->
+    <string name="my_chats_title">My Chats</string>
+    <string name="new_chat">New Chat</string>
+    <string name="no_chats">No chats</string>
 </resources>

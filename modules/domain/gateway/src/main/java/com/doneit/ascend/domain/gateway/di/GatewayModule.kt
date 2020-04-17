@@ -109,5 +109,13 @@ object GatewayModule {
                 instance()
             )
         }
+
+        bind<IMyChatGateway>() with singleton {
+            MyChatGateway(
+                instance(),
+                instance(),
+                instance()
+            )
+        }
     }
 }
