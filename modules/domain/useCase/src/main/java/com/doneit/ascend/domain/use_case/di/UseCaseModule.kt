@@ -8,6 +8,8 @@ import com.doneit.ascend.domain.use_case.interactor.attachment.AttachmentInterac
 import com.doneit.ascend.domain.use_case.interactor.attachment.AttachmentUseCase
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsInteractor
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
+import com.doneit.ascend.domain.use_case.interactor.chats.ChatInteractor
+import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupInteractor
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindInteractor
@@ -99,6 +101,12 @@ object UseCaseModule {
 
         bind<AscensionUseCase>() with singleton {
             AscensionInteractor(
+                instance()
+            )
+        }
+
+        bind<ChatUseCase>() with singleton {
+            ChatInteractor(
                 instance()
             )
         }

@@ -48,6 +48,26 @@ fun Date.toNotificationDate(): String {
     return "MM.dd.yy hh:mm aa".toDefaultFormatter().getFormatted(this)
 }
 
+fun Date.toChatDate(context: Context): String {
+    val nowTime = Calendar.getInstance()
+    val neededTime = Calendar.getInstance()
+    neededTime.time = this
+
+    return if (neededTime[Calendar.YEAR] == nowTime[Calendar.YEAR]) {
+        return if (neededTime[Calendar.MONTH] == nowTime[Calendar.MONTH]) {
+            if (nowTime[Calendar.DATE] == neededTime[Calendar.DATE]) {
+                context.getTimeFormat().getFormatted(this)
+            } else {
+                "dd MMM".toDefaultFormatter().getFormatted(this)
+            }
+        } else {
+            "dd MMM".toDefaultFormatter().getFormatted(this)
+        }
+    } else {
+        "dd.MM.yyyy".toDefaultFormatter().getFormatted(this)
+    }
+}
+
 fun Date.toAttachmentDate(): String {
     return "dd.MM.yy hh:mm aa".toDefaultFormatter().getFormatted(this)
 }
@@ -85,21 +105,21 @@ fun String.toGMTFormatter(): SimpleDateFormat {
     return formatter
 }
 
-fun Context.getTimeFormat(): SimpleDateFormat{
-    return if (DateFormat.is24HourFormat(this)){
+fun Context.getTimeFormat(): SimpleDateFormat {
+    return if (DateFormat.is24HourFormat(this)) {
         "HH:mm".toDefaultFormatter()
-    }else{
+    } else {
         "hh:mm aa".toDefaultFormatter()
     }
 }
 
-fun Context.getHoursByTimeZone(): List<String>{
+fun Context.getHoursByTimeZone(): List<String> {
     val list = mutableListOf<String>()
-    if (DateFormat.is24HourFormat(this)){
+    if (DateFormat.is24HourFormat(this)) {
         for (n in 1..24) {
             list.add(n.toTimeString())
         }
-    }else{
+    } else {
         for (n in 1..12) {
             list.add(n.toTimeString())
         }
@@ -107,10 +127,10 @@ fun Context.getHoursByTimeZone(): List<String>{
     return list
 }
 
-fun Context.getTimeType(): String{
-    return if (DateFormat.is24HourFormat(this)){
+fun Context.getTimeType(): String {
+    return if (DateFormat.is24HourFormat(this)) {
         "24"
-    }else{
+    } else {
         "AM"
     }
 }

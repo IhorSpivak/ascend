@@ -527,4 +527,9 @@
     <string name="webinars_list_success">Success</string>
     <string name="webinars_list_family">Family</string>
     <string name="webinars_list_spiritual">Spiritual</string>
+
+    <!--My Chats-->
+    <string name="my_chats_title">My Chats</string>
+    <string name="new_chat">New Chat</string>
+    <string name="no_chats">No chats</string>
 </resources>

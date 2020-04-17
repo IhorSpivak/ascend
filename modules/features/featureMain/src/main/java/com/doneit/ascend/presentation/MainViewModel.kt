@@ -18,7 +18,15 @@ class MainViewModel(
         //TODO:
     }
 
+    override fun onChatClick() {
+        router.navigateToMyChats()
+    }
+
     override val hasUnread =
+        notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }
+
+    //TODO: change it to chatUseCase when it available:
+    override val hasUnreadMessages =
         notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }
     private var user: UserEntity? = null
 

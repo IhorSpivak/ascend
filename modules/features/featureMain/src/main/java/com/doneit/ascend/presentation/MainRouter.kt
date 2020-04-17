@@ -22,6 +22,8 @@ import com.doneit.ascend.presentation.main.ascension_plan.goals.list.GoalsListCo
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsContract
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsFragment
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.SpiritualActionListContract
+import com.doneit.ascend.presentation.main.chats.MyChatsContract
+import com.doneit.ascend.presentation.main.chats.MyChatsFragment
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
@@ -139,7 +141,8 @@ class MainRouter(
     GoalsContract.Router,
     GoalsListContract.Router,
     AttendeesContract.Router,
-    WebinarsContract.Router{
+    WebinarsContract.Router,
+    MyChatsContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }
@@ -156,10 +159,19 @@ class MainRouter(
         activity.supportFragmentManager.popBackStack()
     }
 
+    override fun navigateToChat(chatId: Long) {
+        TODO("Not yet implemented")
+    }
+
+    override fun navigateToNewChat() {
+        TODO("Not yet implemented")
+    }
+
     override fun navigateToDetails(group: GroupEntity) {
         activity.supportFragmentManager.popBackStack()
         replaceFullWithMainUpdate(GroupInfoFragment.newInstance(group.id))
     }
+
     override fun navigateToDetailsNoBackStack(group: GroupEntity) {
         activity.supportFragmentManager.popBackStack()
         replaceFullNoBackStack(GroupInfoFragment.newInstance(group.id))
@@ -167,6 +179,10 @@ class MainRouter(
 
     override fun navigateToLogin() {
         appRouter.goToLogin()
+    }
+
+    override fun navigateToMyChats() {
+        replaceFullWithMainUpdate(MyChatsFragment())
     }
 
     override fun navigateToTerms() {
@@ -222,7 +238,12 @@ class MainRouter(
         replaceFullWithMainUpdate(SelectGroupTypeFragment())
     }
 
-    override fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?, mmName: String?) {
+    override fun navigateToGroupList(
+        userId: Long?,
+        groupType: GroupType?,
+        isMyGroups: Boolean?,
+        mmName: String?
+    ) {
         val args =
             GroupsArg(userId, groupType, isMyGroups)
         activity.supportFragmentManager.replaceWithBackStack(
@@ -259,7 +280,8 @@ class MainRouter(
     }
 
     override fun navigateToEditGroup(group: GroupEntity) {
-        val type = com.doneit.ascend.presentation.models.GroupType.values().getOrNull(group.groupType!!.ordinal)
+        val type = com.doneit.ascend.presentation.models.GroupType.values()
+            .getOrNull(group.groupType!!.ordinal)
         val args = CreateGroupArgs(type!!)
         replaceFullWithMainUpdate(CreateGroupHostFragment().apply {
             arguments = Bundle().apply {
@@ -273,7 +295,8 @@ class MainRouter(
     }
 
     override fun navigateToDuplicateGroup(group: GroupEntity) {
-        val type = com.doneit.ascend.presentation.models.GroupType.values().getOrNull(group.groupType!!.ordinal)
+        val type = com.doneit.ascend.presentation.models.GroupType.values()
+            .getOrNull(group.groupType!!.ordinal)
         val args = CreateGroupArgs(type!!)
         replaceFullWithMainUpdate(CreateGroupHostFragment().apply {
             arguments = Bundle().apply {
@@ -424,7 +447,10 @@ class MainRouter(
     }
 
     override fun navigateToSpiritualActionSteps() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull,SpiritualActionStepsFragment())
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            SpiritualActionStepsFragment()
+        )
     }
 
     override fun navigateToMyGoals() {
@@ -432,7 +458,10 @@ class MainRouter(
     }
 
     override fun navigateToCreateSpiritualActionSteps() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, CreateSpiritualFragment())
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            CreateSpiritualFragment()
+        )
     }
 
     override fun navigateToCreateGoal() {
@@ -446,6 +475,7 @@ class MainRouter(
             .addToBackStack(fragment::class.java.simpleName)
             .commit()
     }
+
     private fun replaceFullNoBackStack(fragment: Fragment) {
         activity.supportFragmentManager.popBackStack()
         activity.supportFragmentManager.beginTransaction()
