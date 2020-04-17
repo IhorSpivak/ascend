@@ -5,6 +5,7 @@ import android.widget.RadioButton
 import androidx.core.view.children
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentWebinarCalendarPickerBinding
@@ -16,7 +17,8 @@ import org.kodein.di.generic.provider
 import java.util.*
 
 class WebinarCalendarPickerFragment(
-    private val position: Int
+    private val position: Int,
+    private val group: GroupEntity?
 ) : BaseFragment<FragmentWebinarCalendarPickerBinding>() {
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<WebinarCalendarPickerContact.ViewModel>() with provider {
@@ -38,9 +40,22 @@ class WebinarCalendarPickerFragment(
             if (position == 0) {
                 viewModel.createGroupModel.startDate.observableField.let {
                     if (it.get()!!.isNotEmpty()){
-                        viewModel.createGroupModel.actualStartTime.time.let {
-                            selectedDate.time = it
-                            newWheelPicker.setDefaultDate(it)
+                        if (group == null) {
+                            viewModel.createGroupModel.actualStartTime.time.let {
+                                selectedDate.time = it
+                                newWheelPicker.setDefaultDate(it)
+                            }
+                        }else{
+                            if(group.pastMeetingsCount!! > 0) {
+                                viewModel.createGroupModel.webinarSchedule.getOrNull(position)?.let {
+                                    if (it.observableField.get()!!.isNotEmpty()) {
+                                        viewModel.createGroupModel.timeList[position].time.let { date ->
+                                            selectedDate.time = date
+                                            newWheelPicker.setDefaultDate(date)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -70,9 +85,7 @@ class WebinarCalendarPickerFragment(
                 dayView?.isChecked = true
                 viewModel.updateTimeChooserOk(true)
             }
-            /*viewModel.createGroupModel.selectedDays.forEach {
-                getCorrespondingButton(it)?.isChecked = true
-            }*/
+
         }else{
             viewModel.createGroupModel.scheduleDays.forEachIndexed { index, day ->
                 (binding.radioGroupTop.children.elementAtOrNull(day.ordinal) as RadioButton?)?.apply {

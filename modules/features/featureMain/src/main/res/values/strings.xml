@@ -521,4 +521,10 @@
     <!--Image dialog-->
     <string name="take_photo">Take A Photo</string>
     <string name="take_gallery">Select From Gallery</string>
+
+    <!--Home Webinars list-->
+    <string name="webinars_list_recovery">Recovery</string>
+    <string name="webinars_list_success">Success</string>
+    <string name="webinars_list_family">Family</string>
+    <string name="webinars_list_spiritual">Spiritual</string>
 </resources>

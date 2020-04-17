@@ -36,7 +36,7 @@ interface CreateWebinarContract {
         fun backClick()
         fun changeSchedule()
         fun chooseScheduleTouch()
-        fun chooseScheduleTouch(position: Int)
+        fun chooseScheduleTouch(position: Int, group: GroupEntity?)
         fun chooseStartDateTouch()
         fun onSelectStartDate()
         fun addMember(groupType: GroupType)

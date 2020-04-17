@@ -23,7 +23,7 @@ class TimeViewHolder(
             remove.setOnClickListener {
                 viewModel.createGroupModel.webinarSchedule.let {
                     if (it.size == 1){
-                        viewModel.chooseScheduleTouch(position)
+                        viewModel.chooseScheduleTouch(position, group)
                     }else{
                         viewModel.updateListOfTimes(position, true)
                     }
@@ -35,7 +35,7 @@ class TimeViewHolder(
             }
             chooseSchedule.multilineEditText.setOnClickListener {
                 mainContainer.requestFocus()
-                viewModel.chooseScheduleTouch(position)
+                viewModel.chooseScheduleTouch(position, group)
             }
             group?.let {
                 if ((it.pastMeetingsCount!! > 0 && action == GroupAction.EDIT) || (group.isStarting && group.participantsCount!! > 0 && action == GroupAction.EDIT)){

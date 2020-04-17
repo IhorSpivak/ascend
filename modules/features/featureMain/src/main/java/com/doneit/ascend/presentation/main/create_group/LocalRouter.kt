@@ -92,8 +92,8 @@ class LocalRouter(
         hostFragment.childFragmentManager.add(containerId,  CalendarPickerFragment())
     }
 
-    override fun navigateToWebinarCalendarPiker(position: Int) {
-        hostFragment.childFragmentManager.add(containerId,  WebinarCalendarPickerFragment(position))
+    override fun navigateToWebinarCalendarPiker(position: Int, group: GroupEntity?) {
+        hostFragment.childFragmentManager.add(containerId,  WebinarCalendarPickerFragment(position, group))
     }
 
     override fun navigateToWebinarDatePiker() {

@@ -46,7 +46,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             setTitle(it?.community)
         })
 
-        binding.tlGroups.disableTab(1)
         binding.tlGroups.disableTab(2)
     }
 

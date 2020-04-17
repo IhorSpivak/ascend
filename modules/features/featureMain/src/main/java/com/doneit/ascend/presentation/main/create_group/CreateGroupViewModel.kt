@@ -225,9 +225,9 @@ class CreateGroupViewModel(
         localRouter.navigateToCalendarPiker()
     }
 
-    override fun chooseScheduleTouch(position: Int) {
+    override fun chooseScheduleTouch(position: Int, group: GroupEntity?) {
         updateCanOk()
-        localRouter.navigateToWebinarCalendarPiker(position)
+        localRouter.navigateToWebinarCalendarPiker(position, group)
     }
 
     override fun onSelectStartDate() {

@@ -45,7 +45,7 @@ interface CreateGroupHostContract {
         fun navigateToCreateSupGroup(args: CreateGroupArgs, group: GroupEntity?, what: String?)
         fun navigateToCreateWebinar(args: CreateGroupArgs, group: GroupEntity?, what: String?)
         fun navigateToCalendarPiker()
-        fun navigateToWebinarCalendarPiker(position: Int)
+        fun navigateToWebinarCalendarPiker(position: Int, group: GroupEntity?)
         fun navigateToWebinarDatePiker()
         fun navigateToDatePicker()
         fun navigateToMeetingCount(group: GroupEntity?, what: GroupAction?)
