@@ -118,7 +118,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
                 groupType = com.doneit.ascend.presentation.models.GroupType.values()[group!!.groupType!!.ordinal]
                 meetingFormat.observableField.set(group!!.meetingFormat?: "")
-                startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy").format(date))
+                startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(date))
                 selectedDays.addAll(group!!.daysOfWeek!!)
                 viewModel.changeSchedule()
                 image.observableField.set(null)

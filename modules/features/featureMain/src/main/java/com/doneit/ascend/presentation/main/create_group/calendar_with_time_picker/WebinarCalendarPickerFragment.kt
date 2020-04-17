@@ -40,23 +40,10 @@ class WebinarCalendarPickerFragment(
             if (position == 0) {
                 viewModel.createGroupModel.startDate.observableField.let {
                     if (it.get()!!.isNotEmpty()){
-                        if (group == null) {
                             viewModel.createGroupModel.actualStartTime.time.let {
                                 selectedDate.time = it
                                 newWheelPicker.setDefaultDate(it)
                             }
-                        }else{
-                            if(group.pastMeetingsCount!! > 0) {
-                                viewModel.createGroupModel.webinarSchedule.getOrNull(position)?.let {
-                                    if (it.observableField.get()!!.isNotEmpty()) {
-                                        viewModel.createGroupModel.timeList[position].time.let { date ->
-                                            selectedDate.time = date
-                                            newWheelPicker.setDefaultDate(date)
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }else{
@@ -73,33 +60,18 @@ class WebinarCalendarPickerFragment(
         }
         binding.executePendingBindings()
         if (position == 0){
-            if (group == null) {
-                viewModel.createGroupModel.getStartTimeDay()?.let {
-                    //this day mustn't be unselected
-                    selectedDay = it.ordinal + 1
-                    val dayView = getCorrespondingButton(it)
-                    binding.radioGroupTop.children.forEach {
-                        (it as RadioButton).apply {
-                            isClickable = false
-                        }
+            viewModel.createGroupModel.getStartTimeDay()?.let {
+                //this day mustn't be unselected
+                selectedDay = it.ordinal + 1
+                val dayView = getCorrespondingButton(it)
+                binding.radioGroupTop.children.forEach {
+                    (it as RadioButton).apply {
+                        isClickable = false
                     }
-                    dayView?.isChecked = true
-                    viewModel.updateTimeChooserOk(true)
                 }
-            } else {
-                viewModel.createGroupModel.scheduleDays[position].let {
-                    selectedDay = it.ordinal + 1
-                    val dayView = getCorrespondingButton(it)
-                    binding.radioGroupTop.children.forEach {
-                        (it as RadioButton).apply {
-                            isClickable = false
-                        }
-                    }
-                    dayView?.isChecked = true
-                    viewModel.updateTimeChooserOk(true)
-                }
+                dayView?.isChecked = true
+                viewModel.updateTimeChooserOk(true)
             }
-
         }else{
             viewModel.createGroupModel.scheduleDays.forEachIndexed { index, day ->
                 (binding.radioGroupTop.children.elementAtOrNull(day.ordinal) as RadioButton?)?.apply {

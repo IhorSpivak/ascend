@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun String.toDefaultFormatter(): SimpleDateFormat {
-    val formatter = SimpleDateFormat(this, Locale.getDefault())
+    val formatter = SimpleDateFormat(this, Locale.ENGLISH)
     formatter.timeZone = TimeZone.getTimeZone("GMT")
     return formatter
 }

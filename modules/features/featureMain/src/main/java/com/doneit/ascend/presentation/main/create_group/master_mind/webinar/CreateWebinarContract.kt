@@ -27,7 +27,6 @@ interface CreateWebinarContract {
         val themesOfMeeting: MutableLiveData<Int>
         val newScheduleItem: MutableLiveData<MutableList<ValidatableField>>
         val themes: MutableLiveData<MutableList<ValidatableField>>
-        val themeList: MutableList<Theme>
 
         fun addNewParticipant()
         fun removeMember(member: AttendeeEntity)
@@ -46,6 +45,7 @@ interface CreateWebinarContract {
         fun removeTheme(position: Int)
         fun updateListOfTimes(remove: Boolean)
         fun updateFields(group: GroupEntity, what: String)
+        fun updateFieldValidators()
         fun loadParticipants(groupId: Long, what: String)
     }
 }

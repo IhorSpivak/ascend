@@ -16,7 +16,7 @@ class GroupHorViewHolder(
     fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (GroupEntity) -> Unit, communityGroup: String?) {
         binding.apply {
             this.item = item
-            if (communityGroup == null) {
+            if (communityGroup == null || communityGroup.isEmpty()) {
                 community = user?.community
             }else{
                 community = communityGroup

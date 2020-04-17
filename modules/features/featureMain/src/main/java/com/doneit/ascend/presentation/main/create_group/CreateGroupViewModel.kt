@@ -106,7 +106,7 @@ class CreateGroupViewModel(
             if (s.isValidMeetingsNumber().not()) {
                 result.isSucceed = false
                 result.errors.add(R.string.error_number_of_meetings)
-            } else if (createGroupModel.scheduleDays.size > s.toInt()) {
+            } else if (createGroupModel.scheduleDays.size != s.toInt()) {
                 result.isSucceed = false
                 result.errors.add(R.string.error_number_of_meetings_count)
             }
@@ -512,9 +512,32 @@ class CreateGroupViewModel(
 
     override fun removeTheme(position: Int) {
         createGroupModel.themesOfMeeting.removeAt(position)
-        themeList.removeAt(position)
         themes.postValue(createGroupModel.themesOfMeeting)
         createGroupModel.numberOfMeetings.observableField.set(createGroupModel.themesOfMeeting.size.toString())
+    }
+    override fun updateFieldValidators() {
+        createGroupModel.description.validator = { s ->
+            ValidationResult().apply {
+                if (s.isWebinarDescriptionValid().not()) {
+                    isSucceed = false
+                    errors.add(R.string.error_description_webinar)
+                }
+            }
+        }
+
+        createGroupModel.numberOfMeetings.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isValidMeetingsNumber().not()) {
+                result.isSucceed = false
+                result.errors.add(R.string.error_number_of_meetings)
+            } else if (s.toInt() < createGroupModel.scheduleDays.size) {
+                result.isSucceed = false
+                result.errors.add(R.string.error_number_of_meetings_count)
+            }
+
+            result
+        }
     }
 
     override fun updateFields(group: GroupEntity, what: String) {
@@ -528,37 +551,37 @@ class CreateGroupViewModel(
             description.observableField.set(group.description)
             actualStartTime.time = group.startTime
             groupType = GroupType.values()[group.groupType!!.ordinal]
-            startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy").format(actualStartTime.time))
-            scheduleDays.addAll(group.daysOfWeek)
-            scheduleDays.forEachIndexed { index, day ->
-                if (index != 0) {
-                    webinarSchedule.add(ValidatableField())
-                    timeList.add(getDefaultCalendar())
-                }
-                timeList[index].apply {
-                    if (calendarUtil.is24TimeFormat()){
-                        group.dates?.get(index).let {
-                            time = HOUR_24_ONLY_FORMAT.parse(it)
+            if (what == GroupAction.EDIT.toString()){
+                startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(actualStartTime.time))
+                scheduleDays.addAll(group.daysOfWeek)
+                scheduleDays.forEachIndexed { index, day ->
+                    if (index != 0) {
+                        webinarSchedule.add(ValidatableField())
+                        timeList.add(getDefaultCalendar())
+                    }
+                    timeList[index].apply {
+                        if (calendarUtil.is24TimeFormat()){
+                            group.dates?.get(index).let {
+                                time = HOUR_24_ONLY_FORMAT.parse(it)
+                            }
+                            set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
+                            webinarSchedule[index].observableField.set(TIME_24_FORMAT.format(timeList[index].time))
+                        }else{
+                            group.dates?.get(index).let {
+                                time = HOUR_24_ONLY_FORMAT.parse(it)
+                            }
+                            set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
+                            webinarSchedule[index].observableField.set(TIME_12_FORMAT.format(timeList[index].time))
                         }
-                        set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
-                        webinarSchedule[index].observableField.set(TIME_24_FORMAT.format(timeList[index].time))
-                    }else{
-                        group.dates?.get(index).let {
-                            time = HOUR_24_ONLY_FORMAT.parse(it)
-                        }
-                        set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
-                        webinarSchedule[index].observableField.set(TIME_12_FORMAT.format(timeList[index].time))
                     }
                 }
+                newScheduleItem.postValue(webinarSchedule)
             }
-            newScheduleItem.postValue(webinarSchedule)
             group.themes?.let {
                 themesOfMeeting = it.mapIndexed { index, theme ->
                     ValidatableField().apply {
-                        themeList.add(Theme(index, theme))
                         observableField.set(theme)
                     }
-
                 }.toMutableList()
             }
             themes.postValue(themesOfMeeting)
@@ -702,7 +725,6 @@ class CreateGroupViewModel(
         ValidatableField()
     ))
     override val themes: MutableLiveData<MutableList<ValidatableField>> = MutableLiveData()
-    override val themeList: MutableList<Theme> = mutableListOf()
 
     override fun onPriceClick(editor: TextInputEditText) {
         localRouter.navigateToPricePicker(editor)
@@ -807,20 +829,17 @@ class CreateGroupViewModel(
             size == 0 -> {
                 for (i in 1..count) {
                     createGroupModel.themesOfMeeting.add(ValidatableField())
-                    themeList.add(Theme(i-1, ""))
                 }
             }
             size > count ->{
                 for (i in count  until size ) {
                     createGroupModel.themesOfMeeting.removeAt(createGroupModel.themesOfMeeting.size - 1)
-                    themeList.removeAt(themeList.size - 1)
                 }
             }
             size < count ->{
                 val range = count - size
                 for (i in 1..range) {
                     createGroupModel.themesOfMeeting.add(ValidatableField())
-                    themeList.add(Theme(i-1, ""))
                 }
             }
         }

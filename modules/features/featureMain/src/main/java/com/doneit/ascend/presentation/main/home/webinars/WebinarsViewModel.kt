@@ -58,10 +58,10 @@ class WebinarsViewModel (
             val model = GroupListDTO(
                 perPage = 50,
                 sortType = SortType.ASC,
-                sortColumn = GroupEntity.START_TIME_KEY,
+                sortColumn = null,
                 userId = null,
                 groupType = GroupType.WEBINAR,
-                groupStatus = GroupStatus.UPCOMING,
+                groupStatus = null,
                 myGroups = null,
                 community = filter.toString()
             )

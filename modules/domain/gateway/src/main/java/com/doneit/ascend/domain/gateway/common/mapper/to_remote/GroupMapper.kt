@@ -122,5 +122,5 @@ fun InviteToGroupDTO.toRequest(): InviteToGroupRequest {
     )
 }
 fun getTimeFormat(): SimpleDateFormat{
-    return SimpleDateFormat("HH:mm", Locale.getDefault())
+    return SimpleDateFormat("HH:mm", Locale.ENGLISH)
 }

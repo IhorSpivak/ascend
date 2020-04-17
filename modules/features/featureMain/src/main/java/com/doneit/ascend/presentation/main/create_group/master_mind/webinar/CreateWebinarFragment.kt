@@ -80,15 +80,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 }
             }
         }
-
-        viewModel.createGroupModel.description.validator = { s ->
-            ValidationResult().apply {
-                if (s.isWebinarDescriptionValid().not()) {
-                    isSucceed = false
-                    errors.add(R.string.error_description_webinar)
-                }
-            }
-        }
+        viewModel.updateFieldValidators()
 
         binding.apply {
             model = viewModel
@@ -147,7 +139,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             membersAdapter.submitList(it.toMutableList())
             viewModel.createGroupModel.participants.set(it.filter {attendee ->
                 !attendee.isAttended
-            }.map {attendee ->
+            }.filter { it.email != null && it.email.isNullOrBlank()}.map {attendee ->
                 attendee.email ?: ""
             })
         })
@@ -157,7 +149,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         })
 
         viewModel.themes.observe(this, Observer {
-            themeAdapter.data = viewModel.themeList
+            themeAdapter.data = it
         })
         if (group != null){
             binding.buttonComplete.apply {

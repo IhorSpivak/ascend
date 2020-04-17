@@ -41,7 +41,7 @@ class SpiritualActionStepViewHolder(
                 textViewSpiritualActionDone.text = if (this){
                     "Completed"
                 }else{
-                    SimpleDateFormat("dd MM yyyy", Locale.getDefault()).format(Date(item.deadline))
+                    SimpleDateFormat("dd MM yyyy", Locale.ENGLISH).format(Date(item.deadline))
                 }
             }
             buttonSpiritualActionInteraction.apply {

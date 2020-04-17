@@ -103,7 +103,7 @@ suspend fun Activity.copyCompressed(source: Uri, destinationPath: String): Strin
 
         FileOutputStream(outFile).use { out ->
             if(File(sourcePath).exists()){//todo comment this due to correct flow
-                //bitmap = bitmap.rotateImageIfRequired(sourcePath, contentResolver)
+                bitmap = bitmap.rotateImageIfRequired(sourcePath)
             }
             bitmap.compress(Bitmap.CompressFormat.JPEG, Constants.COMPRESSION_QUALITY, out)
         }
