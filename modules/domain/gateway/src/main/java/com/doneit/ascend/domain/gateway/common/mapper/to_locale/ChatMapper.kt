@@ -29,8 +29,8 @@ fun MessageEntity.toLocal(): MessageLocal {
         message,
         userId,
         edited,
-        createdAt?.toRemoteString(),
-        updatedAt?.toRemoteString(),
+        createdAt?.time,
+        updatedAt?.time,
         status.toString()
     )
 }

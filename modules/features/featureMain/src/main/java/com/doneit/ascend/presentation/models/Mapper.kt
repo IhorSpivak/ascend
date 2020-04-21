@@ -1,17 +1,23 @@
 package com.doneit.ascend.presentation.models
 
 import com.doneit.ascend.domain.entity.CardEntity
+import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketUserEntity
+import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.domain.entity.dto.ChangeEmailDTO
 import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
 import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
 import com.doneit.ascend.domain.entity.dto.CreateAttachmentDTO
 import com.doneit.ascend.presentation.models.group.ParticipantSourcePriority
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
+import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
 import com.twilio.video.RemoteParticipant
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun EditPhoneModel.toEntity(): ChangePhoneDTO {
     return ChangePhoneDTO(
@@ -115,4 +121,35 @@ fun CreateAttachmentFileModel.toEntity(): CreateAttachmentDTO {
         fileSize = size,
         private = isPrivate
     )
+}
+
+fun MessageSocketEntity.toEntity(): MessageEntity{
+    return MessageEntity(
+        id,
+        message?:"",
+        edited?: false,
+        userId,
+        createdAt!!.toDate(),
+        updatedAt!!.toDate(),
+        status!!.toMessageStatus()
+    )
+}
+
+fun String.toMessageStatus(): MessageStatus {
+    return when (this) {
+        "sent" -> MessageStatus.SENT
+        "delivered" -> MessageStatus.DELIVERED
+        "read" -> MessageStatus.READ
+        else -> MessageStatus.ALL
+    }
+}
+
+fun String.toDate(): Date? {
+    return Constants.REMOTE_DATE_FORMAT_FULL.toDefaultFormatter().parse(this)
+}
+
+fun String.toDefaultFormatter(): SimpleDateFormat {
+    val formatter = SimpleDateFormat(this, Locale.ENGLISH)
+    formatter.timeZone = TimeZone.getTimeZone("GMT")
+    return formatter
 }

@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.entity.chats
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Parcelize

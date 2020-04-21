@@ -2,6 +2,8 @@ package com.doneit.ascend.domain.gateway.di
 
 import com.doneit.ascend.domain.gateway.gateway.*
 import com.doneit.ascend.domain.use_case.gateway.*
+import com.doneit.ascend.source.storage.remote.repository.chats.socket.ChatSocketRepository
+import com.doneit.ascend.source.storage.remote.repository.chats.socket.IChatSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -109,11 +111,19 @@ object GatewayModule {
                 instance()
             )
         }
+        bind<IChatSocketRepository>() with singleton {
+            ChatSocketRepository(
+                instance()
+            )
+        }
 
         bind<IMyChatGateway>() with singleton {
             MyChatGateway(
                 instance(),
                 instance(),
+                instance(),
+                instance(),
+                instance(tag = "appPackageName"),
                 instance()
             )
         }

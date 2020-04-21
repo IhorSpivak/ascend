@@ -9,7 +9,7 @@ data class MessageLocal(
     val message: String,
     val userId: Long,
     val edited: Boolean,
-    val createdAt: String?,
-    val updatedAt: String?,
+    val createdAt: Long?,
+    val updatedAt: Long?,
     val status: String
 )

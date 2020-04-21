@@ -8,13 +8,16 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.group.NoteEntity
 import com.doneit.ascend.domain.gateway.common.applyDaysOffset
 import com.doneit.ascend.domain.gateway.common.getDayOffset
-import com.doneit.ascend.source.storage.local.data.*
+import com.doneit.ascend.source.storage.local.data.GroupLocal
+import com.doneit.ascend.source.storage.local.data.NoteLocal
+import com.doneit.ascend.source.storage.local.data.OwnerLocal
+import com.doneit.ascend.source.storage.local.data.TagLocal
 import com.doneit.ascend.source.storage.remote.data.response.ImageResponse
 import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
 import com.doneit.ascend.source.storage.remote.data.response.TagResponse
 import com.doneit.ascend.source.storage.remote.data.response.ThumbnailResponse
+import com.doneit.ascend.source.storage.remote.data.response.chat.ChatSocketEventMessage
 import com.doneit.ascend.source.storage.remote.data.response.group.*
-import java.util.*
 
 fun ThumbnailResponse.toEntity(): ThumbnailEntity {
     return ThumbnailEntity(
@@ -201,3 +204,16 @@ fun TagLocal.toEntity(): TagEntity{
         tag
     )
 }
+
+fun ChatSocketEventMessage.toEntity(): MessageSocketEntity{
+    return MessageSocketEntity(
+        id,
+        message,
+        status,
+        edited,
+        userId,
+        createdAt,
+        updatedAt
+    )
+}
+

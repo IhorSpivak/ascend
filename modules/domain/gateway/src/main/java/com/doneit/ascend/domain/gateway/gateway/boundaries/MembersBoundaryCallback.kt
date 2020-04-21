@@ -18,7 +18,7 @@ class MembersBoundaryCallback (
     override suspend fun fetchPage() {
         val response = remote.getMembers(chatId, memberListDTO.toRequest(pageIndexToLoad))
         if (response.isSuccessful) {
-            val model = response.successModel!!.messages?.map { it.toEntity() }
+            val model = response.successModel!!.users?.map { it.toEntity() }
 
             model?.let {
                 val loadedCount = model.size

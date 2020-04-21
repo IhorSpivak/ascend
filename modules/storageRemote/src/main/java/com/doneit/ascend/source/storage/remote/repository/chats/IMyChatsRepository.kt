@@ -1,9 +1,6 @@
 package com.doneit.ascend.source.storage.remote.repository.chats
 
-import com.doneit.ascend.source.storage.remote.data.request.CreateChatRequest
-import com.doneit.ascend.source.storage.remote.data.request.MemberListRequest
-import com.doneit.ascend.source.storage.remote.data.request.MessageListRequest
-import com.doneit.ascend.source.storage.remote.data.request.MyChatsListRequest
+import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.*
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
@@ -16,6 +13,8 @@ interface IMyChatsRepository {
     suspend fun getMembers(id: Long, request: MemberListRequest): RemoteResponse<MemberListResponse, ErrorsListResponse>
 
     suspend fun deleteChat(id: Long): RemoteResponse<OKResponse, ErrorsListResponse>
+
+    suspend fun sendMessage(request: MessageRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun leaveChat(id: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 

@@ -7,7 +7,7 @@ data class MemberResponse(
     val id: Long,
     @SerializedName("full_name")
     val fullName: String,
-    @SerializedName("id")
+    @SerializedName("online")
     val online: Boolean,
     @SerializedName("leaved")
     val leaved: Boolean,

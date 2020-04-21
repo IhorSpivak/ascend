@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.presentation.dialog.EditChatNameDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
@@ -23,7 +26,7 @@ class ChatFragment: BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCli
     private lateinit var chat: ChatEntity
 
     private val messagesAdapter: MessagesAdapter by lazy {
-        MessagesAdapter()
+        MessagesAdapter(null, null)
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -32,22 +35,51 @@ class ChatFragment: BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCli
             menu.setOnClickListener {
                 showMenu(it)
             }
+            btnBack.setOnClickListener {
+                viewModel.onBackPressed()
+            }
+            send.setOnClickListener {
+                if(message.text.toString().isNotBlank()) {
+                    viewModel.sendMessage(chat.id, message.text.toString())
+                    message.text.clear()
+                }
+            }
         }
         viewModel.user.observe(this, Observer {
             user = it
+            messagesAdapter.updateUser(it)
         })
         viewModel.members.observe(this, Observer {
-
+            if (chat.membersCount > 2){
+                binding.apply {
+                    chatName = chat.title
+                    url = chat.image?.url
+                    statusOrCount = resources.getString(R.string.chats_member_count, chat.membersCount)
+                }
+            }else{
+                binding.apply {
+                    it.firstOrNull{it.id != user.id}?.let {
+                        chatName = it.fullName
+                        url = it.image?.url
+                        if (it.online) {
+                            statusOrCount = resources.getString(R.string.chats_member_online)
+                        }
+                    }
+                }
+            }
+            messagesAdapter.updateMembers(it)
+            viewModel.applyData(chat)
         })
         viewModel.messages.observe(this, Observer {
             messagesAdapter.submitList(it)
+            (binding.messageList.layoutManager as LinearLayoutManager).scrollToPosition(it.size - 1)
         })
     }
 
     override fun onResume() {
         super.onResume()
         arguments?.getParcelable<ChatEntity>(CHAT_KEY)?.let {
-            viewModel.applyData(it)
+            viewModel.loadMembers(it)
             chat = it
         }
     }
@@ -83,12 +115,22 @@ class ChatFragment: BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCli
             R.id.ru_leave ->{true}
             R.id.ru_report ->{true}
             R.id.mm_delete_chat ->{true}
-            R.id.mm_edit_chat ->{true}
+            R.id.mm_edit_chat ->{
+                createEditNameDialog().show()
+                true
+            }
             R.id.mm_invite_to_chat ->{true}
             R.id.mm_report_user ->{true}
             R.id.mm_delete_group_chat ->{true}
             R.id.mm_block_user ->{true}
             else -> false
+        }
+    }
+    private fun createEditNameDialog(): AlertDialog {
+        return EditChatNameDialog.create(
+            context!!
+        ) {
+            viewModel.updateChatName(chat.id, it)
         }
     }
 }

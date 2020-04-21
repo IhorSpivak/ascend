@@ -1,10 +1,7 @@
 package com.doneit.ascend.source.storage.remote.repository.chats
 
 import com.doneit.ascend.source.storage.remote.api.ChatApi
-import com.doneit.ascend.source.storage.remote.data.request.CreateChatRequest
-import com.doneit.ascend.source.storage.remote.data.request.MemberListRequest
-import com.doneit.ascend.source.storage.remote.data.request.MessageListRequest
-import com.doneit.ascend.source.storage.remote.data.request.MyChatsListRequest
+import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.*
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
@@ -73,6 +70,10 @@ internal class MyChatsRepository(
 
     override suspend fun deleteChat(id: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.deleteChatAsync(id) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun sendMessage(request: MessageRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.sendMessageAsync(request.id, request.message) }, ErrorsListResponse::class.java)
     }
 
     override suspend fun leaveChat(id: Long): RemoteResponse<OKResponse, ErrorsListResponse> {

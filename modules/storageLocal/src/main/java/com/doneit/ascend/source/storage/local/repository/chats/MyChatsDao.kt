@@ -13,7 +13,7 @@ interface MyChatsDao {
     @Query("SELECT * FROM chat ORDER BY updatedAt ASC")
     fun getAll(): DataSource.Factory<Int, ChatLocal>
 
-    @Query("SELECT * FROM messages ORDER BY updatedAt ASC")
+    @Query("SELECT * FROM messages ORDER BY updatedAt DESC")
     fun getAllMessages(): DataSource.Factory<Int, MessageLocal>
 
     @Query("SELECT * FROM members ORDER BY fullName ASC")

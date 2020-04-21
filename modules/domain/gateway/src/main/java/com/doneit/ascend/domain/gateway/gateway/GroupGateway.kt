@@ -143,32 +143,6 @@ internal class GroupGateway(
         }
 
         return res
-        /*val localGroup = groupLocal.getGroupById(groupId)
-        if (localGroup != null) {
-
-            return ResponseEntity(
-                true,
-                localGroup.toEntity(),
-                null
-            )
-        } else {
-            val res = executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
-                {
-                    it?.toEntity()
-                },
-                {
-                    it?.errors
-                }
-            )
-
-            if (res.isSuccessful) {
-                GlobalScope.launch(Dispatchers.IO) {
-                    groupLocal.insertAll(listOf(res.successModel!!.toLocal()))
-                }
-            }
-
-            return res
-        }*/
     }
 
     override fun getGroupDetailsLive(groupId: Long) = liveData<GroupEntity?> {

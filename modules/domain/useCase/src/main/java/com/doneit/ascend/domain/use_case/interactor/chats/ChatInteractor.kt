@@ -6,10 +6,7 @@ import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.ChatListDTO
-import com.doneit.ascend.domain.entity.dto.CreateChatDTO
-import com.doneit.ascend.domain.entity.dto.MemberListDTO
-import com.doneit.ascend.domain.entity.dto.MessageListDTO
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.use_case.gateway.IMyChatGateway
 
 class ChatInteractor(
@@ -33,6 +30,10 @@ class ChatInteractor(
 
     override suspend fun delete(id: Long): ResponseEntity<Unit, List<String>> {
         return chatGateway.delete(id)
+    }
+
+    override suspend fun sendMessage(request: MessageDTO): ResponseEntity<Unit, List<String>> {
+        return chatGateway.sendMessage(request)
     }
 
     override suspend fun leave(id: Long): ResponseEntity<Unit, List<String>> {

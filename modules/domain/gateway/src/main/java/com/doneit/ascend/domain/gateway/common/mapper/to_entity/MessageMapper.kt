@@ -4,6 +4,7 @@ import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
 import com.doneit.ascend.source.storage.remote.data.response.MessageResponse
+import java.util.*
 
 fun MessageResponse.toEntity(): MessageEntity {
     return MessageEntity(
@@ -23,8 +24,8 @@ fun MessageLocal.toEntity(): MessageEntity {
         message,
         edited,
         userId,
-        createdAt?.toDate(),
-        updatedAt?.toDate(),
+        createdAt?.let{ Date(it) },
+        updatedAt?.let{Date(it)},
         status = status.toMessageStatus()
     )
 }

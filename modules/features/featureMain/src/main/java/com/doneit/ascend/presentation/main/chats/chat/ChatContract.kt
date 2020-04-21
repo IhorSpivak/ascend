@@ -15,7 +15,10 @@ interface ChatContract {
         val members: LiveData<PagedList<MemberEntity>>
 
         fun applyData(chat: ChatEntity)
+        fun loadMembers(chat: ChatEntity)
         fun onBackPressed()
+        fun updateChatName(chatId: Long, newName: String)
+        fun sendMessage(id: Long, message: String)
     }
 
     interface Router {

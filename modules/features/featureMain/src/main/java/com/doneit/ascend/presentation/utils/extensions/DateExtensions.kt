@@ -134,7 +134,7 @@ fun Context.getTimeType(): String {
         "AM"
     }
 }
-    val START_TIME_FORMATTER = "dd MMMM yyyy".toDefaultFormatter()
+    val START_TIME_FORMATTER = "dd MMMM yyyy".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }
     val TIME_24_FORMAT = "EEE, HH:mm".toDefaultFormatter()
     val TIME_12_FORMAT = "EEE, hh:mm a".toDefaultFormatter()
     val TIME_24_FORMAT_DROP_DAY = "HH:mm".toDefaultFormatter()

@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.utils
 
 object Constants {
 
+    const val REMOTE_DATE_FORMAT_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
     const val AWS_BUCKET: String = "bucket-ascend"
     const val AWS_REGION: String = "us-east-1"
     const val COGNITO_POOL_REGION: String = "us-east-1"

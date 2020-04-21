@@ -6,10 +6,7 @@ import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
-import com.doneit.ascend.domain.entity.dto.ChatListDTO
-import com.doneit.ascend.domain.entity.dto.CreateChatDTO
-import com.doneit.ascend.domain.entity.dto.MemberListDTO
-import com.doneit.ascend.domain.entity.dto.MessageListDTO
+import com.doneit.ascend.domain.entity.dto.*
 
 interface ChatUseCase {
     fun getMyChatList(request: ChatListDTO): LiveData<PagedList<ChatEntity>>
@@ -17,6 +14,7 @@ interface ChatUseCase {
     fun getMemberList(chatId: Long, request: MemberListDTO): LiveData<PagedList<MemberEntity>>
     suspend fun createChat(createChatDTO: CreateChatDTO): ResponseEntity<ChatEntity, List<String>>
     suspend fun delete(id: Long): ResponseEntity<Unit, List<String>>
+    suspend fun sendMessage(request: MessageDTO): ResponseEntity<Unit, List<String>>
     suspend fun leave(id: Long): ResponseEntity<Unit, List<String>>
 
 }

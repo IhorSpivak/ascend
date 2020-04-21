@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="name"
+            name="chatName"
             type="String" />
 
         <variable
@@ -14,7 +14,7 @@
             type="String" />
 
         <variable
-            name="status"
+            name="statusOrCount"
             type="String" />
 
         <variable
@@ -62,7 +62,6 @@
                         android:src="@drawable/ic_back"
                         android:tint="@color/light_gray_8f"
                         android:visibility="visible"
-                        android:onClick="@{() -> model.onBackPressed()}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +77,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/btnBack"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:name="@{name}"
+                        app:name="@{chatName}"
                         app:url="@{url}" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -89,7 +88,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/red_hat_font"
                         android:gravity="center_horizontal|top"
-                        android:text="@{name}"
+                        android:text="@{chatName}"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toTopOf="@id/status"
                         app:layout_constraintStart_toEndOf="@id/image"
@@ -105,7 +104,7 @@
                         android:fontFamily="@font/red_hat_font"
                         android:gravity="center_horizontal|top"
                         android:textSize="12sp"
-                        android:text="@{status}"
+                        android:text="@{statusOrCount}"
                         app:layout_constraintBottom_toBottomOf="@id/image"
                         app:layout_constraintStart_toEndOf="@id/image"
                         app:layout_constraintTop_toBottomOf="@id/name"
@@ -151,6 +150,7 @@
             android:layout_marginEnd="40dp"
             android:layout_marginStart="20dp"
             android:hint="@string/chats_enter_text_hint"
+            android:background="@android:color/transparent"
             app:layout_constraintTop_toBottomOf="@id/messageList"
             app:layout_constraintEnd_toStartOf="@id/send"
             app:layout_constraintStart_toStartOf="parent"
@@ -159,12 +159,13 @@
             android:id="@+id/send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+
             android:layout_marginEnd="20dp"
             android:src="@drawable/ic_send"
             android:text="@string/new_chat"
             android:tint="@color/light_gray_8f"
             android:background="@android:color/white"
+            app:layout_constraintTop_toTopOf="@id/message"
             app:layout_constraintBottom_toBottomOf="@id/message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/message"/>

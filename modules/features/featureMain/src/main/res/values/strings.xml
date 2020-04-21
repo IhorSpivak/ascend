@@ -553,4 +553,6 @@
     <string name="chats_dialog_edit_name_title">Edit Chat Name</string>
     <string name="chats_dialog_edit_name_cancel">Cancel</string>
     <string name="chats_dialog_edit_name_save">Save</string>
+    <string name="chats_member_count">%d members</string>
+    <string name="chats_member_online">online</string>
 </resources>

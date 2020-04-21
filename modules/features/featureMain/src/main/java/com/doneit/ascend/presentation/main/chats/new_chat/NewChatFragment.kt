@@ -9,7 +9,6 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.chats.new_chat.common.ChatMemberAdapter
-import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberListAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentNewChatBinding
 import org.kodein.di.Kodein
 import org.kodein.di.direct

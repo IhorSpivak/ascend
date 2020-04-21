@@ -1,13 +1,7 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
-import com.doneit.ascend.domain.entity.dto.ChatListDTO
-import com.doneit.ascend.domain.entity.dto.CreateChatDTO
-import com.doneit.ascend.domain.entity.dto.MemberListDTO
-import com.doneit.ascend.domain.entity.dto.MessageListDTO
-import com.doneit.ascend.source.storage.remote.data.request.CreateChatRequest
-import com.doneit.ascend.source.storage.remote.data.request.MemberListRequest
-import com.doneit.ascend.source.storage.remote.data.request.MessageListRequest
-import com.doneit.ascend.source.storage.remote.data.request.MyChatsListRequest
+import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.source.storage.remote.data.request.*
 
 fun ChatListDTO.toRequest(): MyChatsListRequest {
     return MyChatsListRequest(
@@ -69,5 +63,12 @@ fun MemberListDTO.toRequest(page: Int): MemberListRequest{
         sortType?.toString(),
         fullName,
         online?.let { if(it){1}else{0} }
+    )
+}
+
+fun MessageDTO.toRequest(): MessageRequest{
+    return MessageRequest(
+        id,
+        message
     )
 }
