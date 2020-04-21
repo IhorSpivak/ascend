@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.main.chats
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.chats.ChatEntity
@@ -13,22 +15,26 @@ import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch
 
+
 @CreateFactory
 @ViewModelDiModule
 class MyChatsViewModel(
     private val router: MyChatsContract.Router,
     private val chatUseCase: ChatUseCase
 ) : BaseViewModelImpl(), MyChatsContract.ViewModel {
-    override val chats: LiveData<PagedList<ChatEntity>>
+    override lateinit var chats: LiveData<PagedList<ChatEntity>>
+    override val filterTextAll: MutableLiveData<String> = MutableLiveData("")
 
     init {
-        val requestModel = ChatListDTO(
-            perPage = 10,
-            sortColumn = "last_message",
-            sortType = SortType.DESC
-        )
-
-        chats = chatUseCase.getMyChatList(requestModel)
+        chats = Transformations.switchMap(filterTextAll) { query ->
+            val model = ChatListDTO(
+                perPage = 10,
+                sortColumn = "last_message",
+                sortType = SortType.DESC,
+                title = query
+            )
+            return@switchMap chatUseCase.getMyChatListLive(model)
+        }
     }
 
     override fun onBackPressed() {
@@ -52,5 +58,4 @@ class MyChatsViewModel(
             }
         }
     }
-
 }

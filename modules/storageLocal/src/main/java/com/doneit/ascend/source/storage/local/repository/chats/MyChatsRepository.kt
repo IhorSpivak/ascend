@@ -9,8 +9,12 @@ import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
 class MyChatsRepository(
     private val dao: MyChatsDao
 ) : IMyChatsRepository {
-    override fun getList(): DataSource.Factory<Int, ChatLocal> {
-        return dao.getAll()
+    override fun getList(title: String?): DataSource.Factory<Int, ChatLocal> {
+        return if (title.isNullOrEmpty()) {
+            dao.getAll()
+        } else {
+            dao.getAllChatByTitle("%$title%")
+        }
     }
 
     override fun getListLive(): LiveData<List<ChatLocal>> {

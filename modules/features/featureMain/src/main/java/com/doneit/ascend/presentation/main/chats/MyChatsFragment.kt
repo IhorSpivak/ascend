@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.main.chats
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.chats.common.MyChatsAdapter
@@ -38,6 +40,17 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
         viewModel.chats.observe(viewLifecycleOwner, Observer {
             emptyList.visible(it.isNullOrEmpty())
             adapter.submitList(it)
+        })
+        binding.tvSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+                viewModel.filterTextAll.value = p0.toString()
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
         })
     }
 }

@@ -16,5 +16,5 @@ data class ChatLocal(
     val chatOwnerId: Long,
     val title: String,
     @Embedded(prefix = "img") val image: ImageLocal?,
-    @Embedded(prefix = "message") val lastMessage: MessageLocal?
+    @Embedded(prefix = "last_message_") val lastMessage: MessageLocal?
 )

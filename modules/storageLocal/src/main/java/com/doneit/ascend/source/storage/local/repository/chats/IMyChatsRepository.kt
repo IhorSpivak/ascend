@@ -7,7 +7,7 @@ import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
 import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
 
 interface IMyChatsRepository {
-    fun getList(): DataSource.Factory<Int, ChatLocal>
+    fun getList(title: String?): DataSource.Factory<Int, ChatLocal>
     fun getListLive(): LiveData<List<ChatLocal>>
     fun getMessageList(): DataSource.Factory<Int, MessageLocal>
     fun getMessageListLive(): LiveData<List<MessageLocal>>

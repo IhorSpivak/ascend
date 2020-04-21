@@ -9,7 +9,7 @@ import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 
 interface ChatUseCase {
-    fun getMyChatList(request: ChatListDTO): LiveData<PagedList<ChatEntity>>
+    fun getMyChatListLive(request: ChatListDTO): LiveData<PagedList<ChatEntity>>
     fun getMessageList(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>>
     fun getMemberList(chatId: Long, request: MemberListDTO): LiveData<PagedList<MemberEntity>>
     suspend fun createChat(createChatDTO: CreateChatDTO): ResponseEntity<ChatEntity, List<String>>

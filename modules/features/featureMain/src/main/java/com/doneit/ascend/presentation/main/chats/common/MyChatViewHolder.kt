@@ -27,7 +27,7 @@ class MyChatViewHolder(
     ) {
         binding.item = item
         itemView.isClickable = true
-        binding.date = item.createdAt?.toChatDate(itemView.context)
+        binding.date = item.lastMessage?.updatedAt?.toChatDate(itemView.context)
         binding.ibDelete.setOnClickListener {
             onDeleteListener.invoke(item.id)
         }
