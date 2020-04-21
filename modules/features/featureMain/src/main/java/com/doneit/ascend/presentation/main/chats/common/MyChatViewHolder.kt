@@ -23,7 +23,7 @@ class MyChatViewHolder(
     fun bind(
         item: ChatEntity,
         onDeleteListener: (id: Long) -> Unit,
-        onClickListener: (id: Long) -> Unit
+        onClickListener: (chat: ChatEntity) -> Unit
     ) {
         binding.item = item
         itemView.isClickable = true
@@ -52,7 +52,7 @@ class MyChatViewHolder(
                 if (abs(lastX - motionEvent.rawX) < MOVEMENT_DELTA
                     && abs(lastY - motionEvent.rawY) < MOVEMENT_DELTA
                 ) {
-                    onClickListener.invoke(item.id)
+                    onClickListener.invoke(item)
                     status = true
                 }
             }

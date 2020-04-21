@@ -20,4 +20,15 @@
     <dimen name="payments_list_top_padding">16dp</dimen>
 
     <dimen name="dialog_margin">16dp</dimen>
+
+    <!--New Chat-->
+    <dimen name="new_chat_default_margin">20dp</dimen>
+    <dimen name="new_chat_title_top_margin">50dp</dimen>
+    <dimen name="new_chat_title_bottom_margin">20dp</dimen>
+    <dimen name="new_chat_title_start_margin">20dp</dimen>
+    <dimen name="new_chat_member_count_top_margin">16dp</dimen>
+    <dimen name="new_chat_member_list_top_margin">8dp</dimen>
+    <dimen name="new_chat_add_member_top_margin">16dp</dimen>
+    <dimen name="new_chat_add_member_start_margin">8dp</dimen>
+    <dimen name="new_chat_add_member_bottom_margin">20dp</dimen>
 </resources>

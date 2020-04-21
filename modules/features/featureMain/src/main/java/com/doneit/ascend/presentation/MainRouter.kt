@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ascension.goal.GoalEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
@@ -24,6 +25,11 @@ import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.SpiritualActionListContract
 import com.doneit.ascend.presentation.main.chats.MyChatsContract
 import com.doneit.ascend.presentation.main.chats.MyChatsFragment
+import com.doneit.ascend.presentation.main.chats.chat.ChatContract
+import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
+import com.doneit.ascend.presentation.main.chats.new_chat.NewChatContract
+import com.doneit.ascend.presentation.main.chats.new_chat.NewChatFragment
+import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberFragment
 import com.doneit.ascend.presentation.main.common.BottomNavigationChangeListener
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
@@ -142,7 +148,9 @@ class MainRouter(
     GoalsListContract.Router,
     AttendeesContract.Router,
     WebinarsContract.Router,
-    MyChatsContract.Router {
+    MyChatsContract.Router,
+    NewChatContract.Router,
+    ChatContract.Router{
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }
@@ -159,12 +167,16 @@ class MainRouter(
         activity.supportFragmentManager.popBackStack()
     }
 
-    override fun navigateToChat(chatId: Long) {
-        //TODO("Not yet implemented")
+    override fun navigateToChat(chat: ChatEntity) {
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chat))
     }
 
     override fun navigateToNewChat() {
-        //TODO("Not yet implemented")
+        replaceFullWithMainUpdate(NewChatFragment())
+    }
+
+    override fun navigateToAddChatMember() {
+        activity.supportFragmentManager.addWithBackStack(containerIdFull,AddMemberFragment())
     }
 
     override fun navigateToDetails(group: GroupEntity) {

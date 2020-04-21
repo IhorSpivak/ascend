@@ -5,14 +5,20 @@ import androidx.lifecycle.liveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.ChatListDTO
 import com.doneit.ascend.domain.entity.dto.CreateChatDTO
+import com.doneit.ascend.domain.entity.dto.MemberListDTO
+import com.doneit.ascend.domain.entity.dto.MessageListDTO
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
+import com.doneit.ascend.domain.gateway.gateway.boundaries.MembersBoundaryCallback
+import com.doneit.ascend.domain.gateway.gateway.boundaries.MessagesBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MyChatsBoundaryCallback
 import com.doneit.ascend.domain.use_case.gateway.IMyChatGateway
 import com.doneit.ascend.source.storage.remote.repository.chats.IMyChatsRepository
@@ -49,6 +55,63 @@ class MyChatGateway(
 
             boundary.loadInitial()
         }
+
+    override fun getMessages(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>>  =
+        liveData<PagedList<MessageEntity>> {
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPageSize(request.perPage ?: 10)
+                .build()
+            val factory = local.getMessageList().map { it.toEntity() }
+
+            val boundary = MessagesBoundaryCallback(
+                GlobalScope,
+                local,
+                remote,
+                request,
+                chatId
+            )
+
+            emitSource(
+                LivePagedListBuilder<Int, MessageEntity>(factory, config)
+                    .setFetchExecutor(Executors.newSingleThreadExecutor())
+                    .setBoundaryCallback(boundary)
+                    .build()
+            )
+
+            boundary.loadInitial()
+        }
+
+    override fun getMembers(
+        chatId: Long,
+        request: MemberListDTO
+    ): LiveData<PagedList<MemberEntity>>  =
+        liveData<PagedList<MemberEntity>> {
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPageSize(request.perPage ?: 10)
+                .build()
+            val factory = local.getMemberList().map { it.toEntity() }
+
+            val boundary = MembersBoundaryCallback(
+                GlobalScope,
+                local,
+                remote,
+                request,
+                chatId
+            )
+
+            emitSource(
+                LivePagedListBuilder<Int, MemberEntity>(factory, config)
+                    .setFetchExecutor(Executors.newSingleThreadExecutor())
+                    .setBoundaryCallback(boundary)
+                    .build()
+            )
+
+            boundary.loadInitial()
+        }
+
+
 
     override suspend fun delete(id: Long): ResponseEntity<Unit, List<String>> {
         val result = executeRemote { remote.deleteChat(id) }.toResponseEntity(

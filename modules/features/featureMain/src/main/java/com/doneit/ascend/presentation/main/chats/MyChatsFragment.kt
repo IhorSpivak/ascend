@@ -30,6 +30,9 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
                 viewModel.onBackPressed()
             }
             rvChats.adapter = adapter
+            tvNewChat.setOnClickListener {
+                viewModel.onNewChatPressed()
+            }
         }
 
         viewModel.chats.observe(viewLifecycleOwner, Observer {

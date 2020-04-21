@@ -11,13 +11,13 @@ interface MyChatsContract {
 
         fun onBackPressed()
         fun onNewChatPressed()
-        fun onChatPressed(chatId: Long)
+        fun onChatPressed(chat: ChatEntity)
         fun onDelete(chatId: Long)
     }
 
     interface Router {
         fun onBack()
-        fun navigateToChat(chatId: Long)
+        fun navigateToChat(chat: ChatEntity)
         fun navigateToNewChat()
     }
 }

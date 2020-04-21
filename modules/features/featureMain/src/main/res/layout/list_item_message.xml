@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="memberEntity"
+            type="com.doneit.ascend.domain.entity.chats.MemberEntity" />
+
+        <variable
+            name="messageEntity"
+            type="com.doneit.ascend.domain.entity.chats.MessageEntity" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="22 march 2020" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/member_message_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/time">
+
+            <com.doneit.ascend.presentation.views.MasterMindIcon
+                android:id="@+id/user_image"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:name="@{memberEntity.fullName}"
+                app:url="@{memberEntity.image.thumbnail.url}" />
+
+            <ImageView
+                android:id="@+id/isOnline"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/green_chat_status"
+                app:layout_constraintEnd_toEndOf="@id/user_image"
+                app:layout_constraintTop_toTopOf="@id/user_image" />
+
+            <TextView
+                android:id="@+id/corner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/ic_message_corner"
+                app:layout_constraintStart_toEndOf="@id/user_image"
+                app:layout_constraintTop_toTopOf="@id/user_image"
+                app:tint="@color/colorAccent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/message_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:background="@drawable/message_background"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/user_image">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/light_gray_8f"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@{memberEntity.fullName}" />
+
+                <TextView
+                    android:id="@+id/message"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    tools:text="@{messageEntity.message}" />
+
+                <TextView
+                    android:id="@+id/message_time"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/my_corner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/ic_my_message_corner"
+            android:visibility="@{messageEntity.userId != memberEntity.id, default = gone}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/my_message_container"
+            app:tint="@color/colorAccent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/my_message_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/message_background_owner"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/time">
+
+            <TextView
+                android:id="@+id/my_name"
+                style="@style/TextNormal.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chats_you"
+                android:textColor="@color/light_gray_8f"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Theresa Cooper" />
+
+            <TextView
+                android:id="@+id/my_message"
+                style="@style/TextNormal.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/my_name"
+                tools:text="@{messageEntity.message}" />
+
+            <TextView
+                android:id="@+id/my_message_time"
+                style="@style/TextNormal.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/my_name"
+                app:layout_constraintEnd_toStartOf="@id/my_message_status"
+                tools:text="10:07" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/my_message_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="6dp"
+                android:src="@drawable/ic_readed_label"
+                app:layout_constraintBottom_toBottomOf="@id/my_message_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

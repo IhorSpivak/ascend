@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mm_invite_to_chat"
+        android:title="@string/chats_mm_invite_user">
+    </item>
+
+    <item
+        android:id="@+id/mm_edit_chat"
+        android:title="@string/chats_mm_edit_chat_name">
+    </item>
+
+    <item
+        android:id="@+id/mm_delete_group_chat"
+        android:title="@string/chats_mm_delete_chat">
+    </item>
+</menu>

@@ -65,6 +65,11 @@ fun String.isValidGroupName(): Boolean {
     return this.matches(r)
 }
 
+fun String.isValidChatTitle(): Boolean {
+    val r = Regex("^[a-zA-Z0-9\\s._-]{2,32}\$")
+    return this.matches(r)
+}
+
 fun String.isValidMeetingsNumber(): Boolean {
     val r = Regex("^\\d{1,4}\$")
     return this.matches(r)

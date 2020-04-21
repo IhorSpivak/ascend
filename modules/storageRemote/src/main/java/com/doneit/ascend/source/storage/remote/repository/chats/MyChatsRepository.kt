@@ -2,10 +2,10 @@ package com.doneit.ascend.source.storage.remote.repository.chats
 
 import com.doneit.ascend.source.storage.remote.api.ChatApi
 import com.doneit.ascend.source.storage.remote.data.request.CreateChatRequest
+import com.doneit.ascend.source.storage.remote.data.request.MemberListRequest
+import com.doneit.ascend.source.storage.remote.data.request.MessageListRequest
 import com.doneit.ascend.source.storage.remote.data.request.MyChatsListRequest
-import com.doneit.ascend.source.storage.remote.data.response.ChatResponse
-import com.doneit.ascend.source.storage.remote.data.response.MyChatsListResponse
-import com.doneit.ascend.source.storage.remote.data.response.OKResponse
+import com.doneit.ascend.source.storage.remote.data.response.*
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
@@ -27,6 +27,46 @@ internal class MyChatsRepository(
                 request.createdAtTo,
                 request.updatedAtFrom,
                 request.updatedAtTo
+            )
+        }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun getMessages(
+        id: Long,
+        request: MessageListRequest
+    ): RemoteResponse<MessagesListResponse, ErrorsListResponse> {
+        return execute({
+            api.getChatMessagesAsync(
+                id,
+                request.page,
+                request.perPage,
+                request.sortColumn,
+                request.sortType,
+                request.message,
+                request.status,
+                request.userId,
+                request.edited,
+                request.createdAtFrom,
+                request.createdAtTo,
+                request.updatedAtFrom,
+                request.updatedAtTo
+            )
+        }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun getMembers(
+        id: Long,
+        request: MemberListRequest
+    ): RemoteResponse<MemberListResponse, ErrorsListResponse> {
+        return execute({
+            api.getChatMembersAsync(
+                id,
+                request.page,
+                request.perPage,
+                request.sortColumn,
+                request.sortType,
+                request.fullName,
+                request.online
             )
         }, ErrorsListResponse::class.java)
     }

@@ -2,9 +2,7 @@ package com.doneit.ascend.source.storage.remote.api
 
 
 import com.doneit.ascend.source.storage.remote.data.request.CreateChatRequest
-import com.doneit.ascend.source.storage.remote.data.response.ChatResponse
-import com.doneit.ascend.source.storage.remote.data.response.MyChatsListResponse
-import com.doneit.ascend.source.storage.remote.data.response.OKResponse
+import com.doneit.ascend.source.storage.remote.data.response.*
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.*
@@ -39,16 +37,33 @@ interface ChatApi {
         @Query("message") message: String
     ): Deferred<Response<OKResponse>>
 
+    @GET("chats/{id}/members")
+    fun getChatMembersAsync(
+        @Path("id") id: Long,
+        @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?,
+        @Query("sort_column") sortColumn: String?,
+        @Query("sort_type") sortType: String?,
+        @Query("full_name") fullName: String?,
+        @Query("online") online: Int?
+    ): Deferred<Response<MemberListResponse>>
 
-    //TODO:
-    //@GET("chats/{id}/members")
-    //fun getChatMembersAsync(@Path("id") id: Long)
-
-    //TODO: add queries
     @GET("chats/{id}/messages")
     fun getChatMessagesAsync(
-        @Path("id") id: Long
-    ): Deferred<Response<MyChatsListResponse>>
+        @Path("id") id: Long,
+        @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?,
+        @Query("sort_column") sortColumn: String?,
+        @Query("sort_type") sortType: String?,
+        @Query("message") message: String?,
+        @Query("status") status: String?,
+        @Query("user_id") userId: String?,
+        @Query("edited") edited: Int?,
+        @Query("created_at_from") createdAtFrom: String?,
+        @Query("created_at_to") createdAtTo: String?,
+        @Query("updated_at_from") updatedAtFrom: String?,
+        @Query("updated_at_to") updatedAtTo: String?
+    ): Deferred<Response<MessagesListResponse>>
 
     @DELETE("chats/{id}")
     fun deleteChatAsync(@Path("id") id: Long): Deferred<Response<OKResponse>>

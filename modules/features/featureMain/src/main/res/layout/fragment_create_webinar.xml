@@ -122,9 +122,7 @@
                     app:maxLength="@{32}"
                     app:saveState="@{false}"
                     app:imeOptions="@{EditorInfo.IME_ACTION_DONE}"
-                    app:src="@{@drawable/ic_header}"
-                    app:text="@={model.createGroupModel.name.observableField}"
-                    app:tint="@{@color/red_webinar_color}" />
+                    app:text="@={model.createGroupModel.name.observableField}"/>
 
                 <com.doneit.ascend.presentation.views.EditWithError
                     android:id="@+id/webinar_price"

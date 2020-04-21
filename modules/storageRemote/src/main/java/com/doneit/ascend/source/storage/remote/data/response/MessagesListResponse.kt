@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 class MessagesListResponse(
     count: Int,
-    @SerializedName("messages") val chats: List<MessageResponse>?
+    @SerializedName("messages") val messages: List<MessageResponse>?
 ) : PagedResponse(count)
