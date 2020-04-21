@@ -21,8 +21,8 @@ class MyChatsRepository(
         return dao.getAllLive()
     }
 
-    override fun getMessageList(): DataSource.Factory<Int, MessageLocal> {
-        return dao.getAllMessages()
+    override fun getMessageList(chatId: Long): DataSource.Factory<Int, MessageLocal> {
+        return dao.getAllMessages(chatId)
     }
 
     override fun getMessageListLive(): LiveData<List<MessageLocal>> {

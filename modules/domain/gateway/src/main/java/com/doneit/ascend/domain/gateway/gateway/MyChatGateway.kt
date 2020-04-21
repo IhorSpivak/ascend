@@ -67,7 +67,7 @@ class MyChatGateway(
                 .setEnablePlaceholders(false)
                 .setPageSize(request.perPage ?: 10)
                 .build()
-            val factory = local.getMessageList().map { it.toEntity() }
+            val factory = local.getMessageList(chatId).map { it.toEntity() }
 
             val boundary = MessagesBoundaryCallback(
                 GlobalScope,

@@ -19,11 +19,11 @@ fun ChatEntity.toLocal(): ChatLocal {
         chatOwnerId,
         title,
         image?.toLocal(),
-        lastMessage?.toLocal()
+        lastMessage?.toLocal(id)
     )
 }
 
-fun MessageEntity.toLocal(): MessageLocal {
+fun MessageEntity.toLocal(chatId: Long): MessageLocal {
     return MessageLocal(
         id,
         message,
@@ -31,7 +31,8 @@ fun MessageEntity.toLocal(): MessageLocal {
         edited,
         createdAt?.time,
         updatedAt?.time,
-        status.toString()
+        status.toString(),
+        chatId
     )
 }
 
