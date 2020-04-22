@@ -15,7 +15,6 @@ import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMem
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
 import com.doneit.ascend.presentation.models.GroupType
-import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind

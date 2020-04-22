@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.models.LocationModel
+import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.views.SmsCodeView
 import java.text.ParseException
@@ -73,6 +74,16 @@ fun String.isValidChatTitle(): Boolean {
 fun String.isValidMeetingsNumber(): Boolean {
     val r = Regex("^\\d{1,4}\$")
     return this.matches(r)
+}
+
+fun isValidValidatableList(list: List<ValidatableField>): Boolean {
+    var result = true
+    list.forEach {
+        if (it.observableField.get()!!.isBlank()){
+            result = false
+        }
+    }
+    return result
 }
 
 fun String.isValidPrice(): Boolean {

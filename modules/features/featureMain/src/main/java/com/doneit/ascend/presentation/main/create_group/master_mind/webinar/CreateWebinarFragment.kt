@@ -28,9 +28,11 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.common.Invit
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.ThemeAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.TimeAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateWebinarBinding
-import com.doneit.ascend.presentation.models.ValidationResult
-import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.GroupAction
+import com.doneit.ascend.presentation.utils.checkImage
+import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.getImagePath
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -137,11 +139,28 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         }
         viewModel.members.observe(this, Observer {
             membersAdapter.submitList(it.toMutableList())
-            viewModel.createGroupModel.participants.set(it.filter {attendee ->
-                !attendee.isAttended
-            }.filter { it.email != null && it.email.isNullOrBlank()}.map {attendee ->
-                attendee.email ?: ""
-            })
+            if (what == null) {
+                viewModel.createGroupModel.participants.set(it.filter { attendee ->
+                    !attendee.isAttended
+                }.filter { it.email != null && it.email.isNullOrBlank() }.map { attendee ->
+                    attendee.email!!
+                })
+            } else {
+                if (what == GroupAction.DUPLICATE) {
+                    it.filter {attendee ->
+                        attendee.email != null && attendee.email!!.isNotBlank()
+                    }.map { attendee ->
+                        attendee.email!!
+                    }.let { list -> viewModel.createGroupModel.participants.set(list)}
+                } else {
+                    it.filter { attendee ->
+                        !attendee.isAttended
+                    }.filter { it.email != null && it.email.isNullOrBlank() }.map { attendee ->
+                        attendee.email!!
+                    }.let { list -> viewModel.createGroupModel.participants.set(list)}
+                }
+            }
+
         })
 
         viewModel.newScheduleItem.observe(this, Observer {

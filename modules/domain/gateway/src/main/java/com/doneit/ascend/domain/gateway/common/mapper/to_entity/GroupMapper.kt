@@ -130,6 +130,7 @@ private fun Int.toCalendarDay(): CalendarDayEntity {
 fun ParticipantResponse.toEntity(): ParticipantEntity {
     return ParticipantEntity(
         id,
+        email,
         fullName,
         image?.toEntity(),
         isHandRisen,

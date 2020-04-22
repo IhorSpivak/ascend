@@ -10,7 +10,9 @@ import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.dto.InviteToGroupDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
+import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
@@ -21,10 +23,19 @@ import kotlinx.coroutines.launch
 @ViewModelDiModule
 class AttendeesViewModel (
     private val groupUseCase: GroupUseCase,
+    private val userUseCase: UserUseCase,
     private val router: AttendeesContract.Router
 ) : BaseViewModelImpl(), AttendeesContract.ViewModel {
-    override val users: MutableLiveData<List<ParticipantEntity>> = MutableLiveData()
 
+    private lateinit var currentUser: UserEntity
+
+    init {
+        viewModelScope.launch {
+            currentUser = userUseCase.getUser()!!
+        }
+    }
+
+    override val users: MutableLiveData<List<ParticipantEntity>> = MutableLiveData()
     override val group =  MutableLiveData<GroupEntity>()
     override val searchVisibility = MutableLiveData<Boolean>(false)
     override val inviteVisibility = MutableLiveData<Boolean>(false)
@@ -35,7 +46,7 @@ class AttendeesViewModel (
 
     override val searchResult: LiveData<PagedList<AttendeeEntity>>
         get() = searchQuery.switchMap {
-            groupUseCase.searchMembers(it)
+            groupUseCase.searchMembers(it, currentUser.id)
         }
     override val members = MutableLiveData<MutableList<AttendeeEntity>>()
     override val canAddMembers = MutableLiveData<Boolean>()

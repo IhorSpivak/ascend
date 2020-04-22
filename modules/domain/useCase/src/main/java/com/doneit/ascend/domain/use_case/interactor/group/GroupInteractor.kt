@@ -92,8 +92,8 @@ internal class GroupInteractor(
         return groupGateway.inviteToGroup(dto)
     }
 
-    override fun searchMembers(query: String): LiveData<PagedList<AttendeeEntity>> {
-        return groupGateway.getMembersPaged(query)
+    override fun searchMembers(query: String, userId: Long): LiveData<PagedList<AttendeeEntity>> {
+        return groupGateway.getMembersPaged(query, userId)
     }
 
     override val messagesStream = groupGateway.messagesStream

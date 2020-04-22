@@ -42,7 +42,7 @@ interface IGroupGateway {
 
     suspend fun inviteToGroup(dto: InviteToGroupDTO): ResponseEntity<Unit, List<String>>
 
-    fun getMembersPaged(query: String): LiveData<PagedList<AttendeeEntity>>
+    fun getMembersPaged(query: String, userId: Long): LiveData<PagedList<AttendeeEntity>>
 
     val messagesStream: LiveData<SocketEventEntity>
 
