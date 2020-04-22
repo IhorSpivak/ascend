@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.entity.dto
 
 data class CreateChatDTO(
-    val title: String,
-    val members: List<Int>
+    val title: String? = null,
+    val members: List<Int>? = null
 )

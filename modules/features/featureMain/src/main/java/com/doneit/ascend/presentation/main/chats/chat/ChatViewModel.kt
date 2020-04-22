@@ -24,6 +24,8 @@ class ChatViewModel(
     private val userUseCase: UserUseCase,
     private val router: ChatContract.Router
 ) : BaseViewModelImpl(), ChatContract.ViewModel {
+
+    override val chatName: MutableLiveData<String> = MutableLiveData()
     private val chatModel: MutableLiveData<ChatEntity> = MutableLiveData()
     private val loadMembersModel: MutableLiveData<ChatEntity> = MutableLiveData()
     override val members: LiveData<PagedList<MemberEntity>> = loadMembersModel.switchMap {
@@ -34,6 +36,7 @@ class ChatViewModel(
             )
         )
     }
+
     override val user: LiveData<UserEntity> = liveData { emit(userUseCase.getUser()!!) }
 
     override val messages: LiveData<PagedList<MessageEntity>> = chatModel.switchMap {
@@ -58,13 +61,18 @@ class ChatViewModel(
     }
 
     override fun updateChatName(chatId: Long, newName: String) {
-
+        viewModelScope.launch {
+            val response = chatUseCase.updateChat(chatId, title = newName)
+            if (response.isSuccessful) {
+                chatName.postValue(response.successModel?.title)
+            }
+        }
     }
 
     override fun sendMessage(id: Long, message: String) {
-        viewModelScope.launch{
+        viewModelScope.launch {
             chatUseCase.sendMessage(MessageDTO(id, message))?.let {
-                if(it.isSuccessful){
+                if (it.isSuccessful) {
                     chatModel.value?.let {
                         chatModel.postValue(it)
                     }

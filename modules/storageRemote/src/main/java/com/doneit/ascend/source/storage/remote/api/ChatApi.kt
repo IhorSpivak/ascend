@@ -25,10 +25,11 @@ interface ChatApi {
     @POST("chats")
     fun createChatAsync(@Body request: CreateChatRequest): Deferred<Response<ChatResponse>>
 
-    @POST("chats/{id}")
+    @PUT("chats/{id}")
     fun updateChatAsync(
         @Path("id") id: Long,
-        @Body request: CreateChatRequest
+        @Query("title") title: String?,
+        @Query("chat_members") chatMembers: List<Int>?
     ): Deferred<Response<ChatResponse>>
 
     @POST("chats/{id}/message")

@@ -13,6 +13,7 @@ interface ChatContract {
         val user: LiveData<UserEntity>
         val messages: LiveData<PagedList<MessageEntity>>
         val members: LiveData<PagedList<MemberEntity>>
+        val chatName: LiveData<String>
 
         fun applyData(chat: ChatEntity)
         fun loadMembers(chat: ChatEntity)

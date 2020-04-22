@@ -22,6 +22,7 @@ interface IMyChatsRepository {
 
     suspend fun updateChat(
         id: Long,
-        request: CreateChatRequest
+        title: String?,
+        chatMembers: List<Int>?
     ): RemoteResponse<ChatResponse, ErrorsListResponse>
 }

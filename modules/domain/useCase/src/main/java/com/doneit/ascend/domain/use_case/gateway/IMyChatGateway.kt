@@ -26,7 +26,11 @@ interface IMyChatGateway {
 
     suspend fun createChat(createChatDTO: CreateChatDTO): ResponseEntity<ChatEntity, List<String>>
 
-    suspend fun updateChat(id: Long, createChatDTO: CreateChatDTO): ResponseEntity<ChatEntity, List<String>>
+    suspend fun updateChat(
+        id: Long,
+        title: String? = null,
+        chatMembers: List<Int>? = null
+    ): ResponseEntity<ChatEntity, List<String>>
 
     val messagesStream: LiveData<MessageSocketEntity>
 

@@ -49,6 +49,9 @@ class ChatFragment: BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCli
             user = it
             messagesAdapter.updateUser(it)
         })
+        viewModel.chatName.observe(viewLifecycleOwner, Observer {
+            binding.chatName = it
+        })
         viewModel.members.observe(this, Observer {
             if (chat.membersCount > 2){
                 binding.apply {
@@ -114,7 +117,10 @@ class ChatFragment: BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCli
         return when (p0!!.itemId) {
             R.id.ru_leave ->{true}
             R.id.ru_report ->{true}
-            R.id.mm_delete_chat ->{true}
+            R.id.mm_delete_chat -> {
+                
+                true
+            }
             R.id.mm_edit_chat ->{
                 createEditNameDialog().show()
                 true

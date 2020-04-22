@@ -61,7 +61,10 @@ class MyChatGateway(
             boundary.loadInitial()
         }
 
-    override fun getMessages(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>>  =
+    override fun getMessages(
+        chatId: Long,
+        request: MessageListDTO
+    ): LiveData<PagedList<MessageEntity>> =
         liveData<PagedList<MessageEntity>> {
             val config = PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
@@ -90,7 +93,7 @@ class MyChatGateway(
     override fun getMembers(
         chatId: Long,
         request: MemberListDTO
-    ): LiveData<PagedList<MemberEntity>>  =
+    ): LiveData<PagedList<MemberEntity>> =
         liveData<PagedList<MemberEntity>> {
             val config = PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
@@ -116,7 +119,10 @@ class MyChatGateway(
             boundary.loadInitial()
         }
 
-    override suspend fun getMemberList(chatId: Long, request: MemberListDTO): ResponseEntity<List<MemberEntity>, List<String>>{
+    override suspend fun getMemberList(
+        chatId: Long,
+        request: MemberListDTO
+    ): ResponseEntity<List<MemberEntity>, List<String>> {
         val result = executeRemote {
             remote.getMembers(chatId, request.toRequest(1))
         }.toResponseEntity(
@@ -204,12 +210,14 @@ class MyChatGateway(
 
     override suspend fun updateChat(
         id: Long,
-        createChatDTO: CreateChatDTO
+        title: String?,
+        chatMembers: List<Int>?
     ): ResponseEntity<ChatEntity, List<String>> {
         val result = executeRemote {
             remote.updateChat(
                 id,
-                createChatDTO.toRequest()
+                title,
+                chatMembers
             )
         }.toResponseEntity(
             {
