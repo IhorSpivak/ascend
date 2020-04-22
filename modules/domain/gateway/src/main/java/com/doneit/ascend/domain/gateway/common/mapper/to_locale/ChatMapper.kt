@@ -19,7 +19,8 @@ fun ChatEntity.toLocal(): ChatLocal {
         chatOwnerId,
         title,
         image?.toLocal(),
-        lastMessage?.toLocal(id)
+        lastMessage?.toLocal(id),
+        members?.map { it.toLocal() }
     )
 }
 
@@ -36,7 +37,7 @@ fun MessageEntity.toLocal(chatId: Long): MessageLocal {
     )
 }
 
-fun MemberEntity.toLocal(): MemberLocal{
+fun MemberEntity.toLocal(): MemberLocal {
     return MemberLocal(
         id,
         fullName,

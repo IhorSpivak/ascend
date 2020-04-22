@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.doneit.ascend.source.storage.local.data.ImageLocal
 
 @Entity(tableName = "members")
-data class MemberLocal (
+data class MemberLocal(
     @PrimaryKey val id: Long,
     val fullName: String,
     val online: Boolean,
