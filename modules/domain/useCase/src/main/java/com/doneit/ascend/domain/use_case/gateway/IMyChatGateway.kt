@@ -33,4 +33,5 @@ interface IMyChatGateway {
     fun connectToChannel(id: Long)
 
     fun disconnect()
+    fun insertMessage(message: MessageEntity, chatId: Long)
 }

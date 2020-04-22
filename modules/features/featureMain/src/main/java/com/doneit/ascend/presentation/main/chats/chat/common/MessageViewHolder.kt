@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.chats.common.MyChatViewHolder
@@ -16,6 +17,8 @@ import com.doneit.ascend.presentation.main.databinding.ListItemMessageBinding
 import com.doneit.ascend.presentation.utils.extensions.HOUR_12_ONLY_FORMAT
 import com.doneit.ascend.presentation.utils.extensions.HOUR_24_ONLY_FORMAT
 import com.doneit.ascend.presentation.utils.extensions.START_TIME_FORMATTER
+import com.doneit.ascend.presentation.utils.extensions.calculateDate
+import java.util.*
 import kotlin.math.abs
 
 class MessageViewHolder(
@@ -40,10 +43,19 @@ class MessageViewHolder(
             }else {
                 time.apply {
                     text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
-                    visibility = if ((messageEntity.createdAt!!.time - nextMessage.createdAt!!.time) > DAY_IN_MILLISECONDS) {
-                        View.VISIBLE
+                    corner.apply {
+                        if(messageEntity.userId == nextMessage.userId){
+                            binding.userImage.gone()
+                            binding.isOnline.gone()
+                            this.gone()
+                        }else {
+                            this.visible()
+                        }
+                    }
+                    if (calculateDate(messageEntity.createdAt!!, nextMessage.createdAt!!)) {
+                        this.visible()
                     } else {
-                        View.GONE
+                        this.gone()
                     }
                 }
             }
@@ -67,6 +79,12 @@ class MessageViewHolder(
 
             status
         }
+    }
+    private fun View.visible(){
+        this.visibility = View.VISIBLE
+    }
+    private fun View.gone(){
+        this.visibility = View.GONE
     }
 
     companion object {

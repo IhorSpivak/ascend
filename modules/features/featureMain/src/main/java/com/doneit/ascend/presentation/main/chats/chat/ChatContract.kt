@@ -16,6 +16,7 @@ interface ChatContract {
 
         fun applyData(chat: ChatEntity)
         fun loadMembers(chat: ChatEntity)
+        fun initMessageStream()
         fun onBackPressed()
         fun updateChatName(chatId: Long, newName: String)
         fun sendMessage(id: Long, message: String)

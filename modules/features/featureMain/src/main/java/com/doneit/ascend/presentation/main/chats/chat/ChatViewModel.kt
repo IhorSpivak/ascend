@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.chats.chat
 
 import androidx.lifecycle.*
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
@@ -13,6 +14,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.models.toEntity
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch
@@ -26,11 +28,14 @@ class ChatViewModel(
 ) : BaseViewModelImpl(), ChatContract.ViewModel {
     private val chatModel: MutableLiveData<ChatEntity> = MutableLiveData()
     private val loadMembersModel: MutableLiveData<ChatEntity> = MutableLiveData()
+    private val socketMessage = chatUseCase.messagesStream
+    private lateinit var observer: Observer<MessageSocketEntity>
     override val members: LiveData<PagedList<MemberEntity>> = loadMembersModel.switchMap {
         chatUseCase.getMemberList(
             it.id, MemberListDTO(
                 perPage = 50,
-                sortType = SortType.DESC
+                sortColumn = "created_at",
+                sortType = SortType.ASC
             )
         )
     }
@@ -46,11 +51,18 @@ class ChatViewModel(
     }
 
     override fun applyData(chat: ChatEntity) {
+        observer = getMessageObserver(chat.id)
+        initMessageStream()
+        chatUseCase.connectToChannel(chat.id)
         chatModel.postValue(chat)
     }
 
     override fun loadMembers(chat: ChatEntity) {
         loadMembersModel.postValue(chat)
+    }
+
+    override fun initMessageStream() {
+        socketMessage.observeForever(observer)
     }
 
     override fun onBackPressed() {
@@ -70,6 +82,18 @@ class ChatViewModel(
                     }
                 }
             }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        socketMessage.removeObserver(observer)
+    }
+
+    private fun getMessageObserver(chatId: Long):Observer<MessageSocketEntity>{
+        return Observer { socketEvent ->
+            val message = socketEvent.toEntity()
+            chatUseCase.insertMessage(message, chatId)
         }
     }
 }

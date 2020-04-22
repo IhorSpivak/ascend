@@ -134,6 +134,13 @@ fun Context.getTimeType(): String {
         "AM"
     }
 }
+
+fun calculateDate(currentMessageTime: Date, previousMessageTime: Date): Boolean {
+    val current = getDefaultCalendar().apply { time = currentMessageTime }
+    val previous = getDefaultCalendar().apply { time = previousMessageTime }
+    return ((current.get(Calendar.YEAR) * 365 + current.get(Calendar.DAY_OF_YEAR)) -
+            (previous.get(Calendar.YEAR) * 365 + previous.get(Calendar.DAY_OF_YEAR))) > 0
+}
     val START_TIME_FORMATTER = "dd MMMM yyyy".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }
     val TIME_24_FORMAT = "EEE, HH:mm".toDefaultFormatter()
     val TIME_12_FORMAT = "EEE, hh:mm a".toDefaultFormatter()
