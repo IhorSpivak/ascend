@@ -20,7 +20,7 @@ import com.doneit.ascend.domain.gateway.gateway.boundaries.MembersBoundaryCallba
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MessagesBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MyChatsBoundaryCallback
 import com.doneit.ascend.domain.use_case.gateway.IMyChatGateway
-import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCookies
+import com.doneit.ascend.source.storage.remote.data.request.group.ChatSocketCookies
 import com.doneit.ascend.source.storage.remote.repository.chats.IMyChatsRepository
 import com.doneit.ascend.source.storage.remote.repository.chats.socket.IChatSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
@@ -246,7 +246,7 @@ class MyChatGateway(
                 val account = accounts[0]
                 val token = accountManager.blockingGetAuthToken(account, "Bearer", false)
                 val cookies =
-                    GroupSocketCookies(
+                    ChatSocketCookies(
                         token,
                         id
                     )

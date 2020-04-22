@@ -2,7 +2,6 @@ package com.doneit.ascend.domain.use_case.interactor.chats
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity

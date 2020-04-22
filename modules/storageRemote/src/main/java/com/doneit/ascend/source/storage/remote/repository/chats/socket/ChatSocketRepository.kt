@@ -1,13 +1,9 @@
 package com.doneit.ascend.source.storage.remote.repository.chats.socket
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCookies
+import com.doneit.ascend.source.storage.remote.data.request.group.ChatSocketCookies
 import com.doneit.ascend.source.storage.remote.data.response.chat.ChatSocketEventMessage
 import com.doneit.ascend.source.storage.remote.data.response.chat.ChatSocketEventResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventMessage
-import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventResponse
-import com.doneit.ascend.source.storage.remote.repository.group.socket.GroupSocketRepository
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
@@ -21,7 +17,7 @@ class ChatSocketRepository(
 
     override val messagesStream = SingleLiveEvent<ChatSocketEventMessage>()
 
-    override fun connect(cookies: GroupSocketCookies) {
+    override fun connect(cookies: ChatSocketCookies) {
         val builder = OkHttpClient.Builder()
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
