@@ -48,9 +48,12 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
         p0.notification?.let {
-            sendNotification(it.title.orEmpty(), p0.data.getValue("group_id").toLong())
+            if (p0.data.containsKey(GROUP_KEY)) {
+                sendNotification(it.title.orEmpty(), p0.data.getValue(GROUP_KEY).toLong())
+                useCase.notificationReceived(p0.toEntity())
+            }
         }
-        useCase.notificationReceived(p0.toEntity())
+
     }
 
     override fun onNewToken(p0: String) {
@@ -87,5 +90,7 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
     companion object{
         private const val CHANNEL_NAME = "ascend_notification"
         private const val CHANNEL_ID = "ascend_n"
+        private const val GROUP_KEY = "group_id"
+        private const val MESSAGE_KEY = "message"
     }
 }

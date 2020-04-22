@@ -34,6 +34,7 @@ class CreateGroupHostFragment : BaseFragment<FragmentHostCreateGroupBinding>() {
                 instance(),
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }

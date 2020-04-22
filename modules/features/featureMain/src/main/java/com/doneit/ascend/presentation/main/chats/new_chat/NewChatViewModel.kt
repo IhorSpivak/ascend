@@ -3,8 +3,10 @@ package com.doneit.ascend.presentation.main.chats.new_chat
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
+import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCreateChatModel
@@ -17,10 +19,17 @@ class NewChatViewModel(
     private val router: NewChatContract.Router,
     private val localRouter: NewChatContract.LocalRouter,
     private val chatUseCase: ChatUseCase,
+    private val userUseCase: UserUseCase,
     private val groupUseCase: GroupUseCase
     ) : BaseViewModelImpl(),
     NewChatContract.ViewModel{
 
+    private lateinit var currentUser: UserEntity
+    init {
+        viewModelScope.launch {
+            currentUser = userUseCase.getUser()!!
+        }
+    }
     private val isCompletable: MutableLiveData<Boolean> = MutableLiveData(false)
     private val members: MutableLiveData<List<AttendeeEntity>> = MutableLiveData()
     private val memberList: MutableList<AttendeeEntity> = mutableListOf()
@@ -44,7 +53,7 @@ class NewChatViewModel(
 
     override val searchResult: LiveData<PagedList<AttendeeEntity>>
         get() = searchQuery.switchMap {
-            groupUseCase.searchMembers(it)
+            groupUseCase.searchMembers(it, currentUser.id)
         }
 
     init {

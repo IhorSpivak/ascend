@@ -99,8 +99,10 @@
                     android:textColor="@color/light_gray_8f"
                     android:textSize="12sp"
                     android:singleLine="true"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/message_time"
                     tools:text="@{memberEntity.fullName}" />
 
                 <TextView
@@ -110,8 +112,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:textSize="16sp"
+                    android:textAlignment="viewStart"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/user_name"
                     tools:text="@{messageEntity.message}" />
@@ -124,7 +126,7 @@
                     android:textSize="10sp"
                     android:text="@{sendTime}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="@id/user_name"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -183,8 +185,9 @@
             <TextView
                 android:id="@+id/my_name"
                 style="@style/TextNormal.White"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:text="@string/chats_you"
                 android:textColor="@color/light_gray_8f"
                 android:textSize="12sp"
@@ -201,8 +204,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:textSize="16sp"
+                android:textAlignment="viewStart"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/my_name"
                 tools:text="@{messageEntity.message}" />
@@ -217,7 +220,6 @@
                 android:text="@{sendTime}"
                 app:layout_constraintBottom_toBottomOf="@id/my_name"
                 app:layout_constraintEnd_toStartOf="@id/my_message_status"
-                app:layout_constraintStart_toEndOf="@id/my_name"
                 tools:text="10:07" />
 
             <androidx.appcompat.widget.AppCompatImageView

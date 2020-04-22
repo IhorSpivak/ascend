@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ParticipantResponse(
     @SerializedName("id") val id: Long,
+    @SerializedName("email") val email: String,
     @SerializedName("full_name") val fullName: String,
     @SerializedName("image") val image: ImageResponse?,
     @SerializedName("rise_a_hand") val isHandRisen: Boolean,

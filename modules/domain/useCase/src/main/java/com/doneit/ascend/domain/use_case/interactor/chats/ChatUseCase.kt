@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.use_case.interactor.chats
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
@@ -21,4 +22,9 @@ interface ChatUseCase {
         title: String? = null,
         chatMembers: List<Int>? = null
     ): ResponseEntity<ChatEntity, List<String>>
+
+    val messagesStream: LiveData<MessageSocketEntity>
+    fun connectToChannel(groupId: Long)
+    fun disconnect()
+    fun insertMessage(message: MessageEntity, chatId: Long)
 }

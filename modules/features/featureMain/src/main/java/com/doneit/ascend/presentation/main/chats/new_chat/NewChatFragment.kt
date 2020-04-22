@@ -33,6 +33,7 @@ class NewChatFragment: BaseFragment<FragmentNewChatBinding>() {
                 instance(),
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }

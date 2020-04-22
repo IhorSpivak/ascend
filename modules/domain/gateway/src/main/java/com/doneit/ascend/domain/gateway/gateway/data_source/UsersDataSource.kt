@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.dto.UserSearchDTO
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.source.storage.remote.data.request.SearchUserRequest
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
+import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -14,7 +15,8 @@ import kotlinx.coroutines.runBlocking
 class UsersDataSource(
     private val scope: CoroutineScope,
     private val remoteGroup: IGroupRepository,
-    private val searchQuery: String
+    private val searchQuery: String,
+    private val userId: Long
 ) : PageKeyedDataSource<Int, AttendeeEntity>() {
 
     private var loadCount: Int = 0
@@ -31,7 +33,7 @@ class UsersDataSource(
                     loadCount = count
                     loaded = users.size
                 }
-                callback.onResult(data.successModel?.users?.map {
+                callback.onResult(data.successModel?.users?.filter { it.id != userId }?.map {
                     it.toEntity() }?: emptyList(), null, 2)
             }
         }
@@ -42,7 +44,7 @@ class UsersDataSource(
             runBlocking {
                 val data = remoteGroup.searchUsers(searchQuery.toSearchRequest(1))
                 if (data.isSuccessful){
-                    callback.onResult(data.successModel?.users?.map { it.toEntity() }?: emptyList(), params.key.inc())
+                    callback.onResult(data.successModel?.users?.filter { it.id != userId }?.map { it.toEntity() }?: emptyList(), params.key.inc())
                 }
             }
         }

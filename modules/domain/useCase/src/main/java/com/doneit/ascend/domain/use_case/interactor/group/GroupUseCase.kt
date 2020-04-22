@@ -43,7 +43,7 @@ interface GroupUseCase {
 
     suspend fun inviteToGroup(dto: InviteToGroupDTO): ResponseEntity<Unit, List<String>>
 
-    fun searchMembers(query: String): LiveData<PagedList<AttendeeEntity>>
+    fun searchMembers(query: String, userId: Long): LiveData<PagedList<AttendeeEntity>>
 
     val messagesStream: LiveData<SocketEventEntity>
 

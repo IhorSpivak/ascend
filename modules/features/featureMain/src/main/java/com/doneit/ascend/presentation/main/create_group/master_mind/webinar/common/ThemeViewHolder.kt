@@ -4,7 +4,6 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.InverseBindingListener
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.R
@@ -39,7 +38,7 @@ class ThemeViewHolder(
             }
             group?.let {
                 if ((it.pastMeetingsCount!! > 0 && action == GroupAction.EDIT) || (group.isStarting && group.participantsCount!! > 0 && action == GroupAction.EDIT)){
-                    if (position == it.pastMeetingsCount!! - 1){
+                    if (position < it.pastMeetingsCount!! - 1) {
                         theme.multilineEditText.apply {
                             inputType = InputType.TYPE_NULL
                             isFocusable = false

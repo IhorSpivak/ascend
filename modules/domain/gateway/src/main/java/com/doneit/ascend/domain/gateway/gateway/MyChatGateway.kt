@@ -258,4 +258,10 @@ class MyChatGateway(
     override fun disconnect() {
         remoteSocket.disconnect()
     }
+
+    override fun insertMessage(message: MessageEntity, chatId: Long) {
+        GlobalScope.launch {
+            local.insertMessage(message.toLocal(chatId))
+        }
+    }
 }

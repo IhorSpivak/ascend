@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.use_case.interactor.chats
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
@@ -46,6 +47,20 @@ class ChatInteractor(
         chatMembers: List<Int>?
     ): ResponseEntity<ChatEntity, List<String>> {
         return chatGateway.updateChat(id, title, chatMembers)
+    }
+
+    override val messagesStream = chatGateway.messagesStream
+
+    override fun connectToChannel(groupId: Long) {
+        chatGateway.connectToChannel(groupId)
+    }
+
+    override fun disconnect() {
+        chatGateway.disconnect()
+    }
+
+    override fun insertMessage(message: MessageEntity, chatId: Long) {
+        chatGateway.insertMessage(message, chatId)
     }
 
 
