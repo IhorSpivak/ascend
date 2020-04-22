@@ -12,8 +12,8 @@ import com.doneit.ascend.domain.use_case.gateway.IMyChatGateway
 class ChatInteractor(
     private val chatGateway: IMyChatGateway
 ) : ChatUseCase {
-    override fun getMyChatList(request: ChatListDTO): LiveData<PagedList<ChatEntity>> {
-        return chatGateway.getMyChatList(request)
+    override fun getMyChatListLive(request: ChatListDTO): LiveData<PagedList<ChatEntity>> {
+        return chatGateway.getMyChatListLive(request)
     }
 
     override fun getMessageList(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>> {

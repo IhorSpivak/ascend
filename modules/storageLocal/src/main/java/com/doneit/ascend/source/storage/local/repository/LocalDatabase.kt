@@ -10,6 +10,7 @@ import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
 import com.doneit.ascend.source.storage.local.data.converters.ListIntConverter
 import com.doneit.ascend.source.storage.local.data.converters.ListLongConverter
 import com.doneit.ascend.source.storage.local.data.converters.ListStringConverter
+import com.doneit.ascend.source.storage.local.data.converters.MembersConverter
 import com.doneit.ascend.source.storage.local.data.first_time_login.AnswerOptionLocal
 import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionItemLocal
 import com.doneit.ascend.source.storage.local.data.first_time_login.QuestionListLocal
@@ -45,7 +46,12 @@ import com.doneit.ascend.source.storage.local.repository.user.UserDao
     ],
     version = 1
 )
-@TypeConverters(ListIntConverter::class, ListStringConverter::class, ListLongConverter::class)
+@TypeConverters(
+    ListIntConverter::class,
+    ListStringConverter::class,
+    ListLongConverter::class,
+    MembersConverter::class
+)
 internal abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun questionDao(): QuestionDao

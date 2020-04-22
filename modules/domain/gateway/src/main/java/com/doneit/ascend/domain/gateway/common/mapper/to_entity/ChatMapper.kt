@@ -15,7 +15,8 @@ fun ChatResponse.toEntity(): ChatEntity {
         unreadMessageCount = unreadMessageCount,
         chatOwnerId = chatOwnerId,
         image = image?.toEntity(),
-        lastMessage = lastMessage?.toEntity()
+        lastMessage = lastMessage?.toEntity(),
+        members = listOf()
     )
 }
 
@@ -30,6 +31,7 @@ fun ChatLocal.toEntity(): ChatEntity {
         unreadMessageCount,
         chatOwnerId,
         image?.toEntity(),
-        lastMessage?.toEntity()
+        lastMessage?.toEntity(),
+        members?.map { it.toEntity() }
     )
 }

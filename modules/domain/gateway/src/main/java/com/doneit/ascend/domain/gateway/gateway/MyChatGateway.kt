@@ -6,7 +6,6 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
@@ -27,7 +26,6 @@ import com.doneit.ascend.source.storage.remote.repository.chats.socket.IChatSock
 import com.vrgsoft.networkmanager.NetworkManager
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.util.concurrent.Executors
 
 class MyChatGateway(
@@ -38,13 +36,13 @@ class MyChatGateway(
     private val packageName: String,
     errors: NetworkManager
 ) : BaseGateway(errors), IMyChatGateway {
-    override fun getMyChatList(request: ChatListDTO): LiveData<PagedList<ChatEntity>> =
+    override fun getMyChatListLive(request: ChatListDTO): LiveData<PagedList<ChatEntity>> =
         liveData<PagedList<ChatEntity>> {
             val config = PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
                 .setPageSize(request.perPage ?: 10)
                 .build()
-            val factory = local.getList().map { it.toEntity() }
+            val factory = local.getList(request.title).map { it.toEntity() }
 
             val boundary = MyChatsBoundaryCallback(
                 GlobalScope,
@@ -69,7 +67,7 @@ class MyChatGateway(
                 .setEnablePlaceholders(false)
                 .setPageSize(request.perPage ?: 10)
                 .build()
-            val factory = local.getMessageList().map { it.toEntity() }
+            val factory = local.getMessageList(chatId).map { it.toEntity() }
 
             val boundary = MessagesBoundaryCallback(
                 GlobalScope,

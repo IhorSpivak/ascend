@@ -212,6 +212,7 @@ ext {
 
             [configuration: "implementation", dependency: kodein.generic],
             [configuration: "implementation", dependency: kodein.framework],
+            [configuration: "implementation", dependency: retrofit.gson],
     ]
 
     featureSplash = [

@@ -10,17 +10,20 @@ import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
 @Dao
 interface MyChatsDao {
 
-    @Query("SELECT * FROM chat ORDER BY updatedAt ASC")
+    @Query("SELECT * FROM chat ORDER BY last_message_updatedAt DESC, updatedAt DESC")
     fun getAll(): DataSource.Factory<Int, ChatLocal>
 
-    @Query("SELECT * FROM messages ORDER BY updatedAt DESC")
-    fun getAllMessages(): DataSource.Factory<Int, MessageLocal>
+    @Query("SELECT * FROM chat where title LIKE  :title order by last_message_updatedAt DESC, updatedAt DESC")
+    fun getAllChatByTitle(title: String): DataSource.Factory<Int, ChatLocal>
+
+    @Query("SELECT * FROM messages where chatId LIKE :chatId ORDER BY updatedAt ASC")
+    fun getAllMessages(chatId: Long): DataSource.Factory<Int, MessageLocal>
 
     @Query("SELECT * FROM members ORDER BY fullName ASC")
     fun getAllMembers(): DataSource.Factory<Int, MemberLocal>
 
     @Transaction
-    @Query("SELECT * FROM chat ORDER BY updatedAt DESC")
+    @Query("SELECT * FROM chat ORDER BY last_message_updatedAt DESC, updatedAt DESC")
     fun getAllLive(): LiveData<List<ChatLocal>>
 
     @Transaction

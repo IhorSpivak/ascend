@@ -16,5 +16,6 @@ data class ChatEntity(
     val unreadMessageCount: Int,
     val chatOwnerId: Long,
     val image: ImageEntity?,
-    val lastMessage: MessageEntity?
+    val lastMessage: MessageEntity?,
+    var members: List<MemberEntity>?
 ): Parcelable

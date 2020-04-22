@@ -8,7 +8,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.source.storage.local.repository.chats.IMyChatsRepository
 import kotlinx.coroutines.CoroutineScope
 
-class MessagesBoundaryCallback (
+class MessagesBoundaryCallback(
     scope: CoroutineScope,
     private val local: IMyChatsRepository,
     private val remote: com.doneit.ascend.source.storage.remote.repository.chats.IMyChatsRepository,
@@ -26,7 +26,7 @@ class MessagesBoundaryCallback (
 
                 receivedItems(loadedCount, remoteCount)
 
-                local.insertAllMessages(model.map { it.toLocal() })
+                local.insertAllMessages(model.map { it.toLocal(chatId) })
             }
         }
     }

@@ -11,5 +11,6 @@ data class MessageLocal(
     val edited: Boolean,
     val createdAt: Long?,
     val updatedAt: Long?,
-    val status: String
+    val status: String,
+    val chatId: Long
 )
