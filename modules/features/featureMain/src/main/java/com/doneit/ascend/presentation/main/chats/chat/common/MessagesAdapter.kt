@@ -1,14 +1,13 @@
 package com.doneit.ascend.presentation.main.chats.chat.common
 
 import android.view.ViewGroup
-import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 
 class MessagesAdapter(
-    var pagedList: PagedList<MemberEntity>?,
+    var pagedList: List<MemberEntity>?,
     var user: UserEntity?
 ) : PagedListAdapter<MessageEntity, MessageViewHolder>(MessageDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
@@ -31,7 +30,8 @@ class MessagesAdapter(
             }
         }
     }
-    fun updateMembers(members: PagedList<MemberEntity>){
+
+    fun updateMembers(members: List<MemberEntity>) {
         this.pagedList = members
         notifyDataSetChanged()
     }

@@ -4,9 +4,7 @@ import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
-import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
-import com.doneit.ascend.domain.entity.dto.MemberListDTO
 import com.doneit.ascend.domain.entity.dto.MessageDTO
 import com.doneit.ascend.domain.entity.dto.MessageListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
@@ -14,6 +12,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.models.chat.ChatWithUser
 import com.doneit.ascend.presentation.models.toEntity
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -28,22 +27,12 @@ class ChatViewModel(
 ) : BaseViewModelImpl(), ChatContract.ViewModel {
 
     override val chatName: MutableLiveData<String> = MutableLiveData()
-    private val chatModel: MutableLiveData<ChatEntity> = MutableLiveData()
+    override val chat: MediatorLiveData<ChatWithUser> = MediatorLiveData()
+    override val chatModel: MutableLiveData<ChatEntity> = MutableLiveData()
     private val loadMembersModel: MutableLiveData<ChatEntity> = MutableLiveData()
     private val socketMessage = chatUseCase.messagesStream
     private lateinit var observer: Observer<MessageSocketEntity>
-    override val members: LiveData<PagedList<MemberEntity>> = loadMembersModel.switchMap {
-        chatUseCase.getMemberList(
-            it.id, MemberListDTO(
-                perPage = 50,
-                sortColumn = "created_at",
-                sortType = SortType.ASC
-            )
-        )
-    }
-
-    override val user: LiveData<UserEntity> = liveData { emit(userUseCase.getUser()!!) }
-
+    override val user = userUseCase.getUserLive()
     override val messages: LiveData<PagedList<MessageEntity>> = chatModel.switchMap {
         chatUseCase.getMessageList(
             it.id, MessageListDTO(
@@ -53,15 +42,33 @@ class ChatViewModel(
         )
     }
 
-    override fun applyData(chat: ChatEntity) {
+    init {
+        chat.addSource(user) {
+            applyData(chatModel.value, it)
+        }
+
+        chat.addSource(chatModel) {
+            applyData(it, user.value)
+        }
+    }
+
+    override fun applyData(chatEntity: ChatEntity?, user: UserEntity?) {
+
+        if (chatEntity != null && user != null) {
+            chat.postValue(
+                ChatWithUser(
+                    chatEntity,
+                    user
+                )
+            )
+        }
+    }
+
+    override fun setChat(chat: ChatEntity) {
         observer = getMessageObserver(chat.id)
         initMessageStream()
         chatUseCase.connectToChannel(chat.id)
         chatModel.postValue(chat)
-    }
-
-    override fun loadMembers(chat: ChatEntity) {
-        loadMembersModel.postValue(chat)
     }
 
     override fun initMessageStream() {
@@ -72,18 +79,18 @@ class ChatViewModel(
         router.onBack()
     }
 
-    override fun updateChatName(chatId: Long, newName: String) {
+    override fun updateChatName(newName: String) {
         viewModelScope.launch {
-            val response = chatUseCase.updateChat(chatId, title = newName)
+            val response = chatUseCase.updateChat(chatModel.value!!.id, title = newName)
             if (response.isSuccessful) {
                 chatName.postValue(response.successModel?.title)
             }
         }
     }
 
-    override fun sendMessage(id: Long, message: String) {
+    override fun sendMessage(message: String) {
         viewModelScope.launch {
-            chatUseCase.sendMessage(MessageDTO(id, message))?.let {
+            chatUseCase.sendMessage(MessageDTO(chatModel.value!!.id, message))?.let {
                 if (it.isSuccessful) {
                     chatModel.value?.let {
                         chatModel.postValue(it)
@@ -98,7 +105,7 @@ class ChatViewModel(
         socketMessage.removeObserver(observer)
     }
 
-    private fun getMessageObserver(chatId: Long):Observer<MessageSocketEntity>{
+    private fun getMessageObserver(chatId: Long): Observer<MessageSocketEntity> {
         return Observer { socketEvent ->
             val message = socketEvent.toEntity()
             chatUseCase.insertMessage(message, chatId)
