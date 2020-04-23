@@ -23,7 +23,7 @@ interface IMyChatsRepository {
     suspend fun updateChat(
         id: Long,
         title: String?,
-        chatMembers: List<Int>?
+        chatMembers: List<Long>?
     ): RemoteResponse<ChatResponse, ErrorsListResponse>
 
     suspend fun blockUser(userId: Long): RemoteResponse<OKResponse, ErrorsListResponse>

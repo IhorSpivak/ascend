@@ -15,7 +15,7 @@ class ChatSocketRepository(
 ) : IChatSocketRepository {
     private var socket: WebSocket? = null
 
-    override val messagesStream = SingleLiveEvent<ChatSocketEventMessage>()
+    override val messagesStream = SingleLiveEvent<ChatSocketEventMessage?>()
 
     override fun connect(cookies: ChatSocketCookies) {
         val builder = OkHttpClient.Builder()
@@ -38,6 +38,7 @@ class ChatSocketRepository(
     }
 
     override fun disconnect() {
+        messagesStream.value = null
         socket?.close(1000, "")
     }
 

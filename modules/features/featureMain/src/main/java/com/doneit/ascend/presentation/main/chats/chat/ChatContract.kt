@@ -7,10 +7,11 @@ import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberContract
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 
 interface ChatContract {
-    interface ViewModel : BaseViewModel {
+    interface ViewModel : BaseViewModel, AddMemberContract.ViewModel {
         val user: LiveData<UserEntity?>
         val messages: LiveData<PagedList<MessageEntity>>
         val chatModel: LiveData<ChatEntity>
@@ -20,9 +21,9 @@ interface ChatContract {
         fun applyData(chat: ChatEntity?, user: UserEntity? = null)
         fun setChat(chat: ChatEntity)
         fun initMessageStream()
-        fun onBackPressed()
         fun updateChatName(newName: String)
         fun sendMessage(message: String)
+        fun inviteUser()
         fun onBlockUserClick(userId: Long)
         fun onUnblockUserClick(userId: Long)
         fun onDelete(message: MessageEntity)
@@ -30,5 +31,10 @@ interface ChatContract {
 
     interface Router {
         fun onBack()
+    }
+
+    interface LocalRouter {
+        fun onBack()
+        fun navigateToInviteChatMember()
     }
 }

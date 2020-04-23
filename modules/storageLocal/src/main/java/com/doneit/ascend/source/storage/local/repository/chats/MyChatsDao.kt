@@ -17,7 +17,7 @@ interface MyChatsDao {
     @Query("SELECT * FROM chat where title LIKE  :title order by last_message_updatedAt DESC, updatedAt DESC")
     fun getAllChatByTitle(title: String): DataSource.Factory<Int, ChatLocal>
 
-    @Query("SELECT * FROM messages where chatId LIKE :chatId ORDER BY updatedAt DESC")
+    @Query("SELECT * FROM messages where chatId LIKE :chatId ORDER BY createdAt DESC")
     fun getAllMessages(chatId: Long): DataSource.Factory<Int, MessageLocal>
 
     @Query("SELECT * FROM members ORDER BY fullName ASC")
@@ -32,7 +32,7 @@ interface MyChatsDao {
     fun getAllMembersLive(): LiveData<List<MemberLocal>>
 
     @Transaction
-    @Query("SELECT * FROM messages ORDER BY updatedAt DESC")
+    @Query("SELECT * FROM messages ORDER BY createdAt DESC")
     fun getAllMessagesLive(): LiveData<List<MessageLocal>>
 
     @Transaction

@@ -213,7 +213,7 @@ class MyChatGateway(
     override suspend fun updateChat(
         id: Long,
         title: String?,
-        chatMembers: List<Int>?
+        chatMembers: List<Long>?
     ): ResponseEntity<ChatEntity, List<String>> {
         val result = executeRemote {
             remote.updateChat(
@@ -237,7 +237,7 @@ class MyChatGateway(
         return result
     }
 
-    override val messagesStream = remoteSocket.messagesStream.map { it.toEntity() }
+    override val messagesStream = remoteSocket.messagesStream.map { it?.toEntity() }
 
     override fun connectToChannel(id: Long) {
         GlobalScope.launch {

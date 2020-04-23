@@ -5,7 +5,7 @@ import com.doneit.ascend.source.storage.remote.data.request.group.ChatSocketCook
 import com.doneit.ascend.source.storage.remote.data.response.chat.ChatSocketEventMessage
 
 interface IChatSocketRepository {
-    val messagesStream: LiveData<ChatSocketEventMessage>
+    val messagesStream: LiveData<ChatSocketEventMessage?>
 
     fun connect(cookies: ChatSocketCookies)
 

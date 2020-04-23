@@ -27,10 +27,10 @@ interface ChatUseCase {
     suspend fun updateChat(
         id: Long,
         title: String? = null,
-        chatMembers: List<Int>? = null
+        chatMembers: List<Long>? = null
     ): ResponseEntity<ChatEntity, List<String>>
 
-    val messagesStream: LiveData<MessageSocketEntity>
+    val messagesStream: LiveData<MessageSocketEntity?>
     fun connectToChannel(groupId: Long)
     fun disconnect()
     fun insertMessage(message: MessageEntity, chatId: Long)

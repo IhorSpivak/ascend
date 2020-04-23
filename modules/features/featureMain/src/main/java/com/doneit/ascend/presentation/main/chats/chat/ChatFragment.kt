@@ -6,20 +6,56 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
 import com.doneit.ascend.presentation.dialog.EditChatNameDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
+import org.kodein.di.Kodein
+import org.kodein.di.direct
+import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
+import org.kodein.di.generic.provider
+import org.kodein.di.generic.singleton
 
 
 class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemClickListener {
 
-    override val viewModelModule = ChatViewModelModule.get(this)
+    override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
+        bind<ViewModelProvider.Factory>(tag = ChatFragment::class.java.simpleName) with singleton {
+            CommonViewModelFactory(
+                kodein.direct
+            )
+        }
+
+        bind<ChatLocalRouter>() with provider {
+            ChatLocalRouter(
+                this@ChatFragment,
+                instance()
+            )
+        }
+        bind<ViewModel>(tag = ChatViewModel::class.java.simpleName) with provider {
+            ChatViewModel(
+                instance(),
+                instance(),
+                instance(),
+                instance(),
+                instance()
+            )
+        }
+
+        bind<ChatContract.ViewModel>() with provider {
+            vm<ChatViewModel>(
+                instance(tag = ChatFragment::class.java.simpleName)
+            )
+        }
+    }
     override val viewModel: ChatContract.ViewModel by instance()
 
     private var menuResId: Int = -1
@@ -145,7 +181,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 true
             }
             R.id.mm_delete_chat -> {
-
                 true
             }
             R.id.mm_edit_chat -> {
@@ -153,6 +188,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 true
             }
             R.id.mm_invite_to_chat -> {
+                viewModel.inviteUser()
                 true
             }
             R.id.mm_report_user -> {
@@ -162,7 +198,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 true
             }
             R.id.mm_block_user -> {
-                context?.let {context->
+                context?.let { context ->
                     messagesAdapter.user?.let {user ->
                         messagesAdapter.pagedList?.let {list ->
                             list.firstOrNull{it.id != user.id}?.let {
@@ -208,4 +244,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             viewModel.updateChatName(it)
         }
     }
+
+    fun getContainerId() = R.id.new_chat_container
 }

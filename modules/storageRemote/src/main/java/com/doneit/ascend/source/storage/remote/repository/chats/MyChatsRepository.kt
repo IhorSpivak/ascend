@@ -87,7 +87,7 @@ internal class MyChatsRepository(
     override suspend fun updateChat(
         id: Long,
         title: String?,
-        chatMembers: List<Int>?
+        chatMembers: List<Long>?
     ): RemoteResponse<ChatResponse, ErrorsListResponse> {
         return execute(
             { api.updateChatAsync(id, title, chatMembers) },

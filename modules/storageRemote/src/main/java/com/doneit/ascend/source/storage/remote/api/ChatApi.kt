@@ -29,7 +29,7 @@ interface ChatApi {
     fun updateChatAsync(
         @Path("id") id: Long,
         @Query("title") title: String?,
-        @Query("chat_members") chatMembers: List<Int>?
+        @Query("chat_members") chatMembers: List<Long>?
     ): Deferred<Response<ChatResponse>>
 
     @POST("chats/{id}/message")

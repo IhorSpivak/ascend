@@ -36,6 +36,7 @@ class MessageViewHolder(
             }
             if (nextMessage == null){
                 time.text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
+                time.visible()
             }else {
                 time.apply {
                     text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)

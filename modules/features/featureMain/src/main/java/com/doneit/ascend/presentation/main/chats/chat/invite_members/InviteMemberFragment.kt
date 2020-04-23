@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.chats.new_chat.add_members
+package com.doneit.ascend.presentation.main.chats.chat.invite_members
 
 import android.os.Bundle
 import android.text.Editable
@@ -8,7 +8,8 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.chats.new_chat.NewChatContract
+import com.doneit.ascend.presentation.main.chats.chat.ChatContract
+import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberContract
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.common.ChatMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
@@ -18,26 +19,26 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
+class InviteMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<AddMemberContract.ViewModel>() with provider {
-            instance<NewChatContract.ViewModel>()
+            instance<ChatContract.ViewModel>()
         }
     }
     override val viewModel: AddMemberContract.ViewModel by instance()
 
     private val memberAdapter: ChatMembersAdapter by lazy {
         ChatMembersAdapter(
-            {viewModel.onAddMember(it) },
-            {viewModel.onRemoveMember(it)},
+            { viewModel.onAddMember(it) },
+            { viewModel.onRemoveMember(it) },
             viewModel
         )
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
-            lifecycleOwner = this@AddMemberFragment
+            lifecycleOwner = this@InviteMemberFragment
             root.apply {
                 isFocusableInTouchMode = true
                 requestFocus()
@@ -52,7 +53,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             searchVis = false
             inviteVis = false
             rvMembers.adapter = memberAdapter
-            tvSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener{
+            tvSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
                 override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
                     if (p1 == EditorInfo.IME_ACTION_SEARCH) {
                         return true
@@ -66,7 +67,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
                 hideKeyboard()
                 searchVis = false
             }
-            binding.tvSearch.addTextChangedListener(object: TextWatcher {
+            binding.tvSearch.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
                     viewModel.onQueryTextChange(p0.toString())
                 }

@@ -44,7 +44,7 @@ class ChatInteractor(
     override suspend fun updateChat(
         id: Long,
         title: String?,
-        chatMembers: List<Int>?
+        chatMembers: List<Long>?
     ): ResponseEntity<ChatEntity, List<String>> {
         return chatGateway.updateChat(id, title, chatMembers)
     }

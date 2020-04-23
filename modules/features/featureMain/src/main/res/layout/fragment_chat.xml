@@ -26,108 +26,115 @@
             type="com.doneit.ascend.presentation.main.chats.chat.ChatContract.ViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
+    <FrameLayout
+        android:id="@+id/new_chat_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         android:clickable="true"
         android:focusable="true">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/searchBar"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:focusable="true">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/searchToolbar"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/searchBar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/searchToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btnBack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:background="@android:color/transparent"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_back"
-                        android:tint="@color/light_gray_8f"
-                        android:visibility="visible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/btnBack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@android:color/transparent"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_back"
+                            android:tint="@color/light_gray_8f"
+                            android:visibility="visible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <com.doneit.ascend.presentation.views.MasterMindIcon
-                        android:id="@+id/image"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/btnBack"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:name="@{chatName}"
-                        app:url="@{url}" />
+                        <com.doneit.ascend.presentation.views.MasterMindIcon
+                            android:id="@+id/image"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/btnBack"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:name="@{chatName}"
+                            app:url="@{url}" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/red_hat_font"
-                        android:gravity="center_horizontal|top"
-                        android:text="@{chatName}"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toTopOf="@id/status"
-                        app:layout_constraintStart_toEndOf="@id/image"
-                        app:layout_constraintTop_toTopOf="@id/image"
-                        tools:text="Name " />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/red_hat_font"
+                            android:gravity="center_horizontal|top"
+                            android:text="@{chatName}"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toTopOf="@id/status"
+                            app:layout_constraintStart_toEndOf="@id/image"
+                            app:layout_constraintTop_toTopOf="@id/image"
+                            tools:text="Name " />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/red_hat_font"
-                        android:gravity="center_horizontal|top"
-                        android:textSize="12sp"
-                        android:text="@{statusOrCount}"
-                        app:layout_constraintBottom_toBottomOf="@id/image"
-                        app:layout_constraintStart_toEndOf="@id/image"
-                        app:layout_constraintTop_toBottomOf="@id/name"
-                        tools:text="Name Name" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/red_hat_font"
+                            android:gravity="center_horizontal|top"
+                            android:text="@{statusOrCount}"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toBottomOf="@id/image"
+                            app:layout_constraintStart_toEndOf="@id/image"
+                            app:layout_constraintTop_toBottomOf="@id/name"
+                            tools:text="Name Name" />
 
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/menu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:padding="8dp"
-                        android:src="@drawable/ic_more_vert"
-                        android:tint="@color/light_gray_8f"
-                        android:background="@android:color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/menu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@android:color/white"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_more_vert"
+                            android:tint="@color/light_gray_8f"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/messageList"
@@ -142,33 +149,35 @@
             tools:listitem="@layout/list_item_message"
             android:background="#ffffff"/>
 
-        <EditText
-            android:id="@+id/message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="20dp"
-            android:hint="@string/chats_enter_text_hint"
-            android:background="@android:color/transparent"
-            app:layout_constraintTop_toBottomOf="@id/messageList"
-            app:layout_constraintEnd_toStartOf="@id/send"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            <EditText
+                android:id="@+id/message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="20dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/chats_enter_text_hint"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/send"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/messageList" />
 
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_send"
-            android:text="@string/new_chat"
-            android:tint="@color/light_gray_8f"
-            android:background="@android:color/white"
-            app:layout_constraintTop_toTopOf="@id/message"
-            app:layout_constraintBottom_toBottomOf="@id/message"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/message"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/white"
+                android:src="@drawable/ic_send"
+                android:text="@string/new_chat"
+                android:tint="@color/light_gray_8f"
+                app:layout_constraintBottom_toBottomOf="@id/message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/message"
+                app:layout_constraintTop_toTopOf="@id/message" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>
