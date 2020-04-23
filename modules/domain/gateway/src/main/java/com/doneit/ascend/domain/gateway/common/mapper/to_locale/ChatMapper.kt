@@ -1,9 +1,11 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_locale
 
+import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRemoteString
+import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
 import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
 import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
 import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
@@ -15,6 +17,7 @@ fun ChatEntity.toLocal(): ChatLocal {
         createdAt?.toRemoteString(),
         updatedAt?.toRemoteString(),
         online,
+        blocked,
         unreadMessageCount,
         chatOwnerId,
         title,
@@ -43,6 +46,14 @@ fun MemberEntity.toLocal(): MemberLocal {
         fullName,
         online,
         leaved,
+        image?.toLocal()
+    )
+}
+
+fun BlockedUserEntity.toLocal(): BlockedUserLocal{
+    return BlockedUserLocal(
+        id,
+        fullName,
         image?.toLocal()
     )
 }

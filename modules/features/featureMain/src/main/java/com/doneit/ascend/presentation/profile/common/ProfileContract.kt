@@ -37,6 +37,7 @@ interface ProfileContract {
         fun onEditEmailClick()
         fun onNotificationSettingsClick()
         fun onPaymentsClick(isMasterMind: Boolean)
+        fun onBlockedUsersClick()
     }
 
     interface Router : EditBioContract.Router, MMProfileContract.Router, UserProfileContract.Router {
@@ -58,5 +59,6 @@ interface ProfileContract {
         fun navigateToEditEmail()
         fun navigateToNotificationSettings()
         fun navigateToPayments(isMasterMind: Boolean)
+        fun navigateToBlockedUsers()
     }
 }

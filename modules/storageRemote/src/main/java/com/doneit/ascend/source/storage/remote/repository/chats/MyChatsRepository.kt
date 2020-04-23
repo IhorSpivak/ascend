@@ -95,4 +95,27 @@ internal class MyChatsRepository(
         )
     }
 
+    override suspend fun blockUser(userId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.blockUserAsync(userId) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun unblockUser(userId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.unblockUserAsync(userId) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun getBlockedUsers(request: BlockedUsersRequest): RemoteResponse<BlockedUsersResponse, ErrorsListResponse> {
+        return execute({
+            api.getBlockedUsersAsync(
+                request.page,
+                request.perPage,
+                request.sortColumn,
+                request.sortType,
+                request.fullName
+            )
+        }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun deleteMessage(messageId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.deleteMessageAsync(messageId) }, ErrorsListResponse::class.java)
+    }
 }

@@ -13,6 +13,7 @@ data class ChatEntity(
     val createdAt: Date?,
     val updatedAt: Date?,
     val online: Boolean,
+    val blocked: Boolean,
     val unreadMessageCount: Int,
     val chatOwnerId: Long,
     val image: ImageEntity?,

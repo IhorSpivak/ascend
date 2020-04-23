@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.presentation.main.chats.common.AttendeeDiffCallback
 
 class ChatMemberAdapter(
     private val onDeleteMember: (AttendeeEntity) -> Unit
@@ -16,16 +17,4 @@ class ChatMemberAdapter(
     override fun onBindViewHolder(holder: ChatMemberViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
-    private class AttendeeDiffCallback: DiffUtil.ItemCallback<AttendeeEntity>(){
-        override fun areItemsTheSame(oldItem: AttendeeEntity, newItem: AttendeeEntity): Boolean {
-            return newItem.id == oldItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: AttendeeEntity, newItem: AttendeeEntity): Boolean {
-            return newItem.equals(oldItem)
-        }
-
-    }
-
 }

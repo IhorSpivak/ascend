@@ -538,6 +538,10 @@
     <string name="new_chat_add_members">Add More</string>
     <string name="new_chat_title_hint">Chat Title</string>
 
+
+    <!--Blocked Users-->
+    <string name="blocked_users_title">Blocked Users</string>
+
     <!--Chats-->
     <string name="chats_typing">typing…</string>
     <string name="chats_enter_text_hint">Enter your message here…</string>
@@ -545,9 +549,18 @@
     <string name="chats_you">You</string>
     <string name="chats_mm_delete">Delete Chat</string>
     <string name="chats_mm_block">Block User</string>
+    <string name="chats_mm_block_button">Block</string>
+    <string name="chats_mm_block_cancel">Cancel</string>
+    <string name="chats_mm_block_description">If you block a user from sending you messages and you do not see messages in shared groups</string>
+    <string name="chats_mm_unblock">Unblock User</string>
+    <string name="chats_mm_unblock_button">Unblock</string>
+    <string name="chats_mm_unblock_cancel">Cancel</string>
+    <string name="chats_mm_unblock_description">Are you sure you want to unblock this user?</string>
     <string name="chats_mm_report">Report User</string>
     <string name="chats_ru_leave">Leave this chat group</string>
-    <string name="chats_ru_report">Report</string>
+    <string name="chats_ru_report">Report User</string>
+    <string name="chats_ru_report_single">Report</string>
+    <string name="chats_ru_kick">Kick User</string>
     <string name="chats_mm_invite_user">Invite User</string>
     <string name="chats_mm_edit_chat_name">Edit Chat Name</string>
     <string name="chats_mm_delete_chat">Delete Chat</string>

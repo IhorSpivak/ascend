@@ -3,6 +3,7 @@ package com.doneit.ascend.domain.use_case.interactor.chats
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MessageSocketEntity
+import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
@@ -33,4 +34,10 @@ interface ChatUseCase {
     fun connectToChannel(groupId: Long)
     fun disconnect()
     fun insertMessage(message: MessageEntity, chatId: Long)
+    suspend fun removeMessageRemote(messageId: Long): ResponseEntity<Unit, List<String>>
+    fun removeMessageLocal(message: MessageEntity)
+    fun removeBlockedUser(user: BlockedUserEntity)
+    suspend fun unblockUser(userId: Long): ResponseEntity<Unit, List<String>>
+    suspend fun blockUser(userId: Long): ResponseEntity<Unit, List<String>>
+    fun getBlockedUsers(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>>
 }

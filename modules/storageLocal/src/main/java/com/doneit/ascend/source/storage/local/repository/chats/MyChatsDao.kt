@@ -3,6 +3,7 @@ package com.doneit.ascend.source.storage.local.repository.chats
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
+import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
 import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
 import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
 import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
@@ -81,4 +82,23 @@ interface MyChatsDao {
     @Transaction
     @Query("DELETE FROM members")
     suspend fun removeAllMembers()
+
+    @Query("SELECT * FROM blocked_users ORDER BY fullName ASC")
+    fun getAllBlockedUsers(): DataSource.Factory<Int, BlockedUserLocal>
+
+    @Transaction
+    @Query("DELETE FROM blocked_users")
+    suspend fun removeAllBlockedUsers()
+
+    @Transaction
+    @Query("DELETE FROM blocked_users WHERE id = :id")
+    suspend fun removeBlockedUser(id: Long)
+
+    @Transaction
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllBlockedUsers(users: List<BlockedUserLocal>)
+
+    @Transaction
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBlockedUser(user: BlockedUserLocal)
 }

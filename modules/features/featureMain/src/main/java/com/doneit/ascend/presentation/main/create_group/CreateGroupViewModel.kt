@@ -277,6 +277,9 @@ class CreateGroupViewModel(
                 createGroupModel.startDate.observableField.set("")
                 createGroupModel.startDate.observableField.set(it)
             }
+            createGroupModel.numberOfMeetings.observableField.get()?.let {
+                resetNumberOfMeeting(it)
+            }
         } else {
             createGroupModel.scheduleDays.apply {
                 if (size < position + 1) {

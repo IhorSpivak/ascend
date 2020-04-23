@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.doneit.ascend.source.storage.local.data.*
+import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
 import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
 import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
 import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
@@ -42,7 +43,8 @@ import com.doneit.ascend.source.storage.local.repository.user.UserDao
         ChatLocal::class,
         MessageLocal::class,
         TagLocal::class,
-        MemberLocal::class
+        MemberLocal::class,
+        BlockedUserLocal::class
     ],
     version = 1
 )

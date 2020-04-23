@@ -3,6 +3,7 @@ package com.doneit.ascend.domain.use_case.gateway
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MessageSocketEntity
+import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
@@ -38,4 +39,10 @@ interface IMyChatGateway {
 
     fun disconnect()
     fun insertMessage(message: MessageEntity, chatId: Long)
+    fun removeMessageLocal(message: MessageEntity)
+    fun removeBlockedUser(userEntity: BlockedUserEntity)
+    suspend fun blockUser(userId:Long): ResponseEntity<Unit, List<String>>
+    suspend fun removeMessageRemote(messageId:Long): ResponseEntity<Unit, List<String>>
+    suspend fun unblockUser(userId:Long): ResponseEntity<Unit, List<String>>
+    fun getBlockedUsersLive(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>>
 }

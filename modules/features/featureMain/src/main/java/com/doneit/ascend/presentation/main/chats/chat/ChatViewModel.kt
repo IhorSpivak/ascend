@@ -100,6 +100,35 @@ class ChatViewModel(
         }
     }
 
+    override fun onBlockUserClick(userId: Long) {
+        viewModelScope.launch {
+            chatUseCase.blockUser(userId).let {
+                if (it.isSuccessful){
+                    router.onBack()
+                }
+            }
+        }
+    }
+    override fun onUnblockUserClick(userId: Long) {
+        viewModelScope.launch {
+            chatUseCase.unblockUser(userId).let {
+                if (it.isSuccessful){
+                    router.onBack()
+                }
+            }
+        }
+    }
+
+    override fun onDelete(message: MessageEntity) {
+        viewModelScope.launch {
+            chatUseCase.removeMessageRemote(message.id).let {
+                if (it.isSuccessful){
+                    chatUseCase.removeMessageLocal(message)
+                }
+            }
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         socketMessage.removeObserver(observer)

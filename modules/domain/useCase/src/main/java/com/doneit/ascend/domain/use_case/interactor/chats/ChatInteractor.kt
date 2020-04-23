@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.use_case.interactor.chats
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
@@ -62,5 +63,27 @@ class ChatInteractor(
         chatGateway.insertMessage(message, chatId)
     }
 
+    override suspend fun removeMessageRemote(messageId: Long): ResponseEntity<Unit, List<String>> {
+        return chatGateway.removeMessageRemote(messageId)
+    }
 
+    override fun removeMessageLocal(message: MessageEntity) {
+        chatGateway.removeMessageLocal(message)
+    }
+
+    override fun removeBlockedUser(user: BlockedUserEntity) {
+        chatGateway.removeBlockedUser(user)
+    }
+
+    override suspend fun unblockUser(userId: Long): ResponseEntity<Unit, List<String>> {
+        return chatGateway.unblockUser(userId)
+    }
+
+    override suspend fun blockUser(userId: Long): ResponseEntity<Unit, List<String>> {
+        return chatGateway.blockUser(userId)
+    }
+
+    override fun getBlockedUsers(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>> {
+        return chatGateway.getBlockedUsersLive(blockedUsersDTO)
+    }
 }

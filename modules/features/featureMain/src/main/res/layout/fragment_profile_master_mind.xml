@@ -292,6 +292,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/notSettings" />
 
             <include
+                android:id="@+id/blockedUsers"
+                layout="@layout/template_blocked_users"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                app:fieldName="@{@string/blocked_users_title}"
+                app:fieldValue="@{@string/empty}"
+                app:iconRes="@{@drawable/ic_blocked_users}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/paymentPortal" />
+
+            <include
                 android:id="@+id/contactSupport"
                 layout="@layout/template_profile_field"
                 android:layout_width="match_parent"
@@ -304,7 +319,7 @@
                 app:iconRes="@{@drawable/ic_contact_support}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/paymentPortal" />
+                app:layout_constraintTop_toBottomOf="@+id/blockedUsers" />
 
             <Button
                 android:id="@+id/btnLogout"

@@ -72,3 +72,13 @@ fun MessageDTO.toRequest(): MessageRequest{
         message
     )
 }
+
+fun BlockedUsersDTO.toRequest(page: Int): BlockedUsersRequest{
+    return BlockedUsersRequest(
+        page,
+        perPage,
+        sortColumn,
+        sortType?.toString(),
+        fullName
+    )
+}

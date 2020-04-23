@@ -8,10 +8,11 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 
 class MessagesAdapter(
     var pagedList: List<MemberEntity>?,
-    var user: UserEntity?
+    var user: UserEntity?,
+    private val onButtonClick:(message: MessageEntity) -> Unit
 ) : PagedListAdapter<MessageEntity, MessageViewHolder>(MessageDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        return MessageViewHolder.create(parent)
+        return MessageViewHolder.create(parent, onButtonClick)
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {

@@ -6,6 +6,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
@@ -16,6 +17,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
+import com.doneit.ascend.domain.gateway.gateway.boundaries.BlockedUsersBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MembersBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MessagesBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MyChatsBoundaryCallback
@@ -264,4 +266,74 @@ class MyChatGateway(
             local.insertMessage(message.toLocal(chatId))
         }
     }
+
+    override fun removeMessageLocal(message: MessageEntity) {
+        GlobalScope.launch {
+            local.removeMessage(message.id)
+        }
+    }
+
+    override fun removeBlockedUser(userEntity: BlockedUserEntity) {
+        GlobalScope.launch {
+            local.removeBlockedUser(userEntity.id)
+        }
+    }
+
+    override suspend fun blockUser(userId: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.blockUser(userId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun removeMessageRemote(messageId: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.deleteMessage(messageId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun unblockUser(userId: Long): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.unblockUser(userId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override fun getBlockedUsersLive(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>> =
+        liveData<PagedList<BlockedUserEntity>> {
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPageSize(blockedUsersDTO.perPage ?: 50)
+                .build()
+            val factory = local.getBlockedUsersLive().map { it.toEntity() }
+
+            val boundary = BlockedUsersBoundaryCallback(
+                GlobalScope,
+                local,
+                remote,
+                blockedUsersDTO
+            )
+
+            emitSource(
+                LivePagedListBuilder<Int, BlockedUserEntity>(factory, config)
+                    .setFetchExecutor(Executors.newSingleThreadExecutor())
+                    .setBoundaryCallback(boundary)
+                    .build()
+            )
+
+            boundary.loadInitial()
+        }
 }

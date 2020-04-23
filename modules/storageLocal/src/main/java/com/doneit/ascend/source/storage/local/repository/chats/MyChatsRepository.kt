@@ -2,6 +2,7 @@ package com.doneit.ascend.source.storage.local.repository.chats
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
+import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
 import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
 import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
 import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
@@ -37,6 +38,10 @@ class MyChatsRepository(
         return dao.getAllMembersLive()
     }
 
+    override fun getBlockedUsersLive(): DataSource.Factory<Int, BlockedUserLocal> {
+        return dao.getAllBlockedUsers()
+    }
+
     override suspend fun insert(chat: ChatLocal) {
         dao.insert(chat)
     }
@@ -67,6 +72,22 @@ class MyChatsRepository(
 
     override suspend fun removeAll() {
         dao.removeAll()
+    }
+
+    override suspend fun insertBlockedUser(blockedUserLocal: BlockedUserLocal) {
+        dao.insertBlockedUser(blockedUserLocal)
+    }
+
+    override suspend fun insertAllBlockedUsers(blockedUsers: List<BlockedUserLocal>) {
+        dao.insertAllBlockedUsers(blockedUsers)
+    }
+
+    override suspend fun removeBlockedUser(id: Long) {
+        dao.removeBlockedUser(id)
+    }
+
+    override suspend fun removeAllBlockedUsers() {
+        dao.removeAllBlockedUsers()
     }
 
     override suspend fun removeMessage(id: Long) {

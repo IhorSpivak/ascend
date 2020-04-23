@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ru_kick"
+        android:title="@string/chats_ru_kick">
+    </item>
+
+    <item
+        android:id="@+id/ru_report_single"
+        android:title="@string/chats_ru_report_single">
+    </item>
+</menu>

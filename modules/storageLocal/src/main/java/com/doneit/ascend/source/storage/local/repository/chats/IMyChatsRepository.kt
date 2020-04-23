@@ -2,6 +2,7 @@ package com.doneit.ascend.source.storage.local.repository.chats
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
+import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
 import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
 import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
 import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
@@ -13,6 +14,7 @@ interface IMyChatsRepository {
     fun getMessageListLive(): LiveData<List<MessageLocal>>
     fun getMemberList(): DataSource.Factory<Int, MemberLocal>
     fun getMemberListLive(): LiveData<List<MemberLocal>>
+    fun getBlockedUsersLive(): DataSource.Factory<Int, BlockedUserLocal>
     suspend fun insert(chat: ChatLocal)
     suspend fun insertAll(chats: List<ChatLocal>)
     suspend fun insertMessage(message: MessageLocal)
@@ -21,6 +23,10 @@ interface IMyChatsRepository {
     suspend fun insertAllMembers(members: List<MemberLocal>)
     suspend fun remove(id: Long)
     suspend fun removeAll()
+    suspend fun insertBlockedUser(blockedUserLocal: BlockedUserLocal)
+    suspend fun insertAllBlockedUsers(blockedUsers: List<BlockedUserLocal>)
+    suspend fun removeBlockedUser(id: Long)
+    suspend fun removeAllBlockedUsers()
     suspend fun removeMessage(id: Long)
     suspend fun removeAllMessage()
     suspend fun removeMember(id: Long)

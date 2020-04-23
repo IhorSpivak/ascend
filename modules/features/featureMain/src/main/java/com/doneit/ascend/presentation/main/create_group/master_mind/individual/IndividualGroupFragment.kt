@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.main.create_group.master_mind.individual
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -20,10 +19,12 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostFragment
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
-import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualGroupBinding
-import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.checkImage
+import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.getImagePath
+import com.doneit.ascend.presentation.utils.showErrorDialog
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers

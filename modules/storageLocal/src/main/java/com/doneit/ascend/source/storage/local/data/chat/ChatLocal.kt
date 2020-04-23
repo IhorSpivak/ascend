@@ -14,6 +14,7 @@ data class ChatLocal(
     val createdAt: String?,
     val updatedAt: String?,
     val online: Boolean,
+    val blocked: Boolean,
     val unreadMessageCount: Int,
     val chatOwnerId: Long,
     val title: String,

@@ -86,7 +86,25 @@ interface ChatApi {
 
     @DELETE("messages/{id}")
     fun deleteMessageAsync(
-        @Path("id") id: Long,
-        @Query("message") message: String
+        @Path("id") id: Long
+    ): Deferred<Response<OKResponse>>
+
+    @GET("black_list")
+    fun getBlockedUsersAsync(
+        @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?,
+        @Query("sort_column") sortColumn: String?,
+        @Query("sort_type") sortType: String?,
+        @Query("full_name") fullName: String?
+    ): Deferred<Response<BlockedUsersResponse>>
+
+    @POST("users/{id}/block")
+    fun blockUserAsync(
+        @Path("id") id: Long
+    ): Deferred<Response<OKResponse>>
+
+    @DELETE("users/{id}/unblock")
+    fun unblockUserAsync(
+        @Path("id") id: Long
     ): Deferred<Response<OKResponse>>
 }

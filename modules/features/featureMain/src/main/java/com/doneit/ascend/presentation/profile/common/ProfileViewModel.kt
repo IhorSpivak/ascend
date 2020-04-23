@@ -300,6 +300,10 @@ class ProfileViewModel(
         router.navigateToPayments(isMasterMind)
     }
 
+    override fun onBlockedUsersClick() {
+        router.navigateToBlockedUsers()
+    }
+
     override fun onCleared() {
         userLocal.removeObserver(userObserver)
         super.onCleared()

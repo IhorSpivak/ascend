@@ -126,6 +126,9 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                 viewModel.onPaymentsClick(it.isMasterMind)
             }
         }
+        blockedUsers.setOnClickListener {
+            viewModel.onBlockedUsersClick()
+        }
 
         contactSupport.setOnClickListener {
             activity!!.sendEmail(Constants.SUPPORT_EMAIL)

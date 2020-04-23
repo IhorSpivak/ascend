@@ -233,6 +233,16 @@ fun RadioButton.setDayBackground(groupType: GroupType) {
         else -> resources.getDrawable(R.drawable.day_button_selector)
     }
 }
+@BindingAdapter("app:setCountBackground")
+fun RadioButton.setCountBackground(groupType: GroupType) {
+    background = when(groupType){
+        GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.day_button_selector)
+        GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.day_button_selector)
+        GroupType.WEBINAR -> resources.getDrawable(R.drawable.number_button_selector_webinar)
+        GroupType.SUPPORT -> resources.getDrawable(R.drawable.day_button_selector_support)
+        else -> resources.getDrawable(R.drawable.day_button_selector)
+    }
+}
 
 @BindingAdapter("app:setDayBackground")
 fun ToggleButton.setDayBackground(groupType: GroupType) {

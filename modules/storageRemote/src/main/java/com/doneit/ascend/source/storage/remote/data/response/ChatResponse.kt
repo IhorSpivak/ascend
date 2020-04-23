@@ -14,6 +14,7 @@ data class ChatResponse(
     @SerializedName("updated_at")
     val updatedAt: String,
     val online: Boolean,
+    val blocked: Boolean,
     @SerializedName("unread_message_count")
     val unreadMessageCount: Int,
     @SerializedName("user_id")

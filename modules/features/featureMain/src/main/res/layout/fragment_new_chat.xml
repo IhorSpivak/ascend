@@ -55,7 +55,6 @@
                             android:text="@string/create_webinar_cancel"
                             android:textColor="@color/light_gray_8f"
                             android:textSize="17sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toTopOf="@id/new_chat_name"/>

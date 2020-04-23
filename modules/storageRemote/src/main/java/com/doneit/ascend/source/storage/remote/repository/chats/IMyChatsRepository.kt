@@ -25,4 +25,9 @@ interface IMyChatsRepository {
         title: String?,
         chatMembers: List<Int>?
     ): RemoteResponse<ChatResponse, ErrorsListResponse>
+
+    suspend fun blockUser(userId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
+    suspend fun unblockUser(userId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
+    suspend fun getBlockedUsers(request: BlockedUsersRequest): RemoteResponse<BlockedUsersResponse, ErrorsListResponse>
+    suspend fun deleteMessage(messageId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 }

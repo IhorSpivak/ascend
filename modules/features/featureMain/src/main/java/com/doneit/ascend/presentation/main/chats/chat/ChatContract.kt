@@ -23,6 +23,9 @@ interface ChatContract {
         fun onBackPressed()
         fun updateChatName(newName: String)
         fun sendMessage(message: String)
+        fun onBlockUserClick(userId: Long)
+        fun onUnblockUserClick(userId: Long)
+        fun onDelete(message: MessageEntity)
     }
 
     interface Router {
