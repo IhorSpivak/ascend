@@ -46,7 +46,8 @@
             android:layout_marginTop="16dp"
             android:visibility="@{messageEntity.userId != user.id, default = gone}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/time">
+            app:layout_constraintTop_toBottomOf="@id/time"
+            tools:visibility="visible">
 
             <com.doneit.ascend.presentation.views.MasterMindIcon
                 android:id="@+id/user_image"
@@ -66,44 +67,51 @@
                 android:background="@drawable/green_chat_status"
                 android:visibility="@{memberEntity.online, default = gone}"
                 app:layout_constraintEnd_toEndOf="@id/user_image"
-                app:layout_constraintTop_toTopOf="@id/user_image" />
+                app:layout_constraintTop_toTopOf="@id/user_image"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/corner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="40dp"
                 android:background="@drawable/ic_message_corner"
-                app:layout_constraintStart_toEndOf="@id/user_image"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/user_image"
                 app:tint="@color/colorAccent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginEnd="6dp"
                 android:id="@+id/message_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="48dp"
+                app:layout_constrainedWidth="true"
                 android:background="@drawable/message_background"
                 android:paddingStart="16dp"
                 android:paddingTop="8dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/user_image">
 
                 <TextView
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:id="@+id/user_name"
                     style="@style/TextNormal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/light_gray_8f"
                     android:textSize="12sp"
-                    android:singleLine="true"
-                    android:layout_marginEnd="10dp"
+                    tools:text="@tools:sample/lorem/random"
+                    app:layout_constraintEnd_toStartOf="@id/message_time"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/message_time"
-                    tools:text="@{memberEntity.fullName}" />
+                    android:text="@{memberEntity.fullName}" />
 
                 <TextView
                     android:id="@+id/message"
@@ -111,22 +119,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:textSize="16sp"
                     android:textAlignment="viewStart"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    tools:text="@tools:sample/lorem/random"
                     app:layout_constraintTop_toBottomOf="@id/user_name"
-                    tools:text="@{messageEntity.message}" />
+                    android:text="@{messageEntity.message}" />
 
                 <TextView
                     android:id="@+id/message_time"
                     style="@style/TextNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
                     android:text="@{sendTime}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/user_name"/>
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@id/user_name"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -134,13 +143,14 @@
 
         <com.daimajia.swipe.SwipeLayout
             android:id="@+id/itemLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="6dp"
             android:visibility="@{messageEntity.userId == user.id, default = gone}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/time">
+            app:layout_constraintTop_toBottomOf="@id/time"
+            tools:visibility="gone">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ibDelete"
@@ -153,9 +163,10 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/my_message_container"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{messageEntity.userId == user.id, default = gone}">
+                android:visibility="@{messageEntity.userId == user.id, default = gone}"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/my_corner"
@@ -166,74 +177,80 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/colorAccent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/my_message_rectangle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="14dp"
-            android:background="@drawable/message_background_owner"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="16dp"
-            android:paddingBottom="8dp"
-            android:visibility="@{messageEntity.userId == user.id, default = gone}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/my_message_rectangle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginEnd="14dp"
+                    android:background="@drawable/message_background_owner"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:visibility="@{messageEntity.userId == user.id, default = gone}"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible">
 
-            <TextView
-                android:id="@+id/my_name"
-                style="@style/TextNormal.White"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:text="@string/chats_you"
-                android:textColor="@color/light_gray_8f"
-                android:textSize="12sp"
-                android:singleLine="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/my_message_time"
-                tools:text="Theresa Cooper" />
+                    <TextView
+                        android:id="@+id/my_name"
+                        style="@style/TextNormal.White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:singleLine="true"
+                        android:text="@string/chats_you"
+                        android:textColor="@color/light_gray_8f"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@id/my_message_time"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Theresa Cooper" />
 
-            <TextView
-                android:id="@+id/my_message"
-                style="@style/TextNormal.White"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textSize="16sp"
-                android:textAlignment="viewStart"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/my_name"
-                tools:text="@{messageEntity.message}" />
+                    <TextView
+                        android:id="@+id/my_message"
+                        style="@style/TextNormal.White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@{messageEntity.message}"
+                        android:textAlignment="viewStart"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/my_name"
+                        tools:text="@tools:sample/lorem/random" />
 
-            <TextView
-                android:id="@+id/my_message_time"
-                style="@style/TextNormal.White"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:textSize="10sp"
-                android:text="@{sendTime}"
-                app:layout_constraintBottom_toBottomOf="@id/my_name"
-                app:layout_constraintEnd_toStartOf="@id/my_message_status"
-                tools:text="10:07" />
+                    <TextView
+                        android:id="@+id/my_message_time"
+                        style="@style/TextNormal.White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:text="@{sendTime}"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="@id/my_name"
+                        app:layout_constraintEnd_toStartOf="@id/my_message_status"
+                        tools:text="10:07" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/my_message_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="6dp"
-                android:src="@{messageEntity.status == MessageStatus.READ? @drawable/ic_readed_label : @drawable/ic_not_readed_label}"
-                app:layout_constraintBottom_toBottomOf="@id/my_message_time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/my_message_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@{messageEntity.status == MessageStatus.READ? @drawable/ic_readed_label : @drawable/ic_not_readed_label}"
+                        app:layout_constraintBottom_toBottomOf="@id/my_message_time"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.daimajia.swipe.SwipeLayout>
 
