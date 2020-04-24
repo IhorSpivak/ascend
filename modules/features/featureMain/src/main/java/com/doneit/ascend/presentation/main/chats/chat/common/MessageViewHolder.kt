@@ -19,9 +19,14 @@ import com.doneit.ascend.presentation.utils.extensions.calculateDate
 class MessageViewHolder(
     private val binding: ListItemMessageBinding,
     private val onDeleteClick: (message: MessageEntity) -> Unit
-): RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(messageEntity: MessageEntity, member: MemberEntity, user: UserEntity, nextMessage: MessageEntity?){
+    fun bind(
+        messageEntity: MessageEntity,
+        member: MemberEntity,
+        user: UserEntity,
+        nextMessage: MessageEntity?
+    ) {
         binding.apply {
             this.memberEntity = member
             this.messageEntity = messageEntity
@@ -29,23 +34,28 @@ class MessageViewHolder(
             ibDelete.setOnClickListener {
                 onDeleteClick.invoke(messageEntity)
             }
-            if(DateFormat.is24HourFormat(root.context)){
+            if (DateFormat.is24HourFormat(root.context)) {
                 this.sendTime = HOUR_24_ONLY_FORMAT.format(messageEntity.createdAt!!)
-            }else{
+            } else {
                 this.sendTime = HOUR_12_ONLY_FORMAT.format(messageEntity.createdAt!!)
             }
-            if (nextMessage == null){
+            if (nextMessage == null) {
                 time.text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
                 time.visible()
-            }else {
+                corner.visible()
+                userImage.visible()
+                isOnline.visible()
+            } else {
                 time.apply {
                     text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
                     corner.apply {
-                        if(messageEntity.userId == nextMessage.userId){
-                            binding.userImage.gone()
-                            binding.isOnline.gone()
+                        if (messageEntity.userId == nextMessage.userId) {
+                            userImage.gone()
+                            isOnline.gone()
                             this.gone()
-                        }else {
+                        } else {
+                            userImage.visible()
+                            isOnline.visible()
                             this.visible()
                         }
                     }
@@ -59,10 +69,12 @@ class MessageViewHolder(
 
         }
     }
-    private fun View.visible(){
+
+    private fun View.visible() {
         this.visibility = View.VISIBLE
     }
-    private fun View.gone(){
+
+    private fun View.gone() {
         this.visibility = View.GONE
     }
 
