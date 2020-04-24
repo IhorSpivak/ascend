@@ -14,6 +14,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.invisible
+import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ListItemMessageBinding
 import com.doneit.ascend.presentation.utils.extensions.START_TIME_FORMATTER
 import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT_DROP_DAY
@@ -87,7 +88,6 @@ class MessageViewHolder(
         }
         when(messageEntity.type){
             MessageType.INVITE -> {
-
                 setSystemMessage(binding.root.context.resources.getString(R.string.invite_message, user.displayName, member.fullName))
             }
             MessageType.LEAVE -> {

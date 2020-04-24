@@ -99,16 +99,15 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                     url = it.chat.image?.url
                     statusOrCount =
                         resources.getString(R.string.chats_member_count, it.chat.membersCount)
-                }
-            } else {
-                binding.apply {
-                    it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
-                        url = it.image?.url
-                        if (it.online) {
-                            statusOrCount = resources.getString(R.string.chats_member_online)
+                } else {
+                    binding.apply {
+                        it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
+                            url = it.image?.url
+                            if (it.online) {
+                                statusOrCount = resources.getString(R.string.chats_member_online)
+                            }
                         }
                     }
-
                 }
             }
             //set type of menu
