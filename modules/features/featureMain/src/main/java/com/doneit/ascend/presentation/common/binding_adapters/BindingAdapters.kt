@@ -83,6 +83,15 @@ fun setImage(view: AppCompatImageView, url: String?, placeholder: Drawable?) {
         .into(view)
 }
 
+@BindingAdapter("app:setCircleImage", "app:circlePlaceholder", requireAll = false)
+fun setCircleImage(view: AppCompatImageView, url: String?, placeholder: Drawable?) {
+    Glide.with(view)
+        .load(placeholder)
+        .circleCrop()
+        .placeholder(placeholder)
+        .into(view)
+}
+
 @BindingAdapter("app:setAdapter", "app:setAdapterData", requireAll = false)
 fun setAdapter(
     view: androidx.recyclerview.widget.RecyclerView,

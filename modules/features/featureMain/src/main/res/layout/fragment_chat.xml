@@ -22,6 +22,10 @@
             type="com.doneit.ascend.domain.entity.chats.MessageEntity" />
 
         <variable
+            name="chat"
+            type="com.doneit.ascend.domain.entity.chats.ChatEntity" />
+
+        <variable
             name="model"
             type="com.doneit.ascend.presentation.main.chats.chat.ChatContract.ViewModel" />
     </data>
@@ -87,6 +91,19 @@
                             app:name="@{chatName}"
                             app:url="@{url}" />
 
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/group_placeholder"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:src="@drawable/ic_group_placeholder"
+                            android:visibility="@{chat.members.size() != 2, default = invisible}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/btnBack"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/name"
                             android:layout_width="wrap_content"
@@ -136,18 +153,18 @@
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/messageList"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="10dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:stackFromEnd="false"
-            app:reverseLayout="true"
-            app:layout_constraintBottom_toTopOf="@id/message"
-            app:layout_constraintTop_toBottomOf="@id/searchBar"
-            tools:listitem="@layout/list_item_message"
-            android:background="#ffffff"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/messageList"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="10dp"
+                android:background="#ffffff"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@id/message"
+                app:layout_constraintTop_toBottomOf="@id/searchBar"
+                app:reverseLayout="true"
+                app:stackFromEnd="false"
+                tools:listitem="@layout/list_item_message" />
 
             <EditText
                 android:id="@+id/message"

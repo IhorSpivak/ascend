@@ -60,7 +60,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
     private var menuResId: Int = -1
     private val messagesAdapter: MessagesAdapter by lazy {
-        MessagesAdapter(null, null){viewModel.onDelete(it)}
+        MessagesAdapter(null, null) { viewModel.onDelete(it) }
     }
 
 
@@ -85,42 +85,41 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             binding.chatName = it
         })
         viewModel.chat.observe(this, Observer {
-            if (it.chat.membersCount > 2) {
-                binding.apply {
-                    chatName = it.chat.title
+            binding.apply {
+                chatName = it.chat.title
+                chat = it.chat
+                if (it.chat.membersCount > 2) {
                     url = it.chat.image?.url
                     statusOrCount =
                         resources.getString(R.string.chats_member_count, it.chat.membersCount)
-                }
-            } else {
-                binding.apply {
+
+                } else {
                     it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
-                        chatName = it.fullName
                         url = it.image?.url
                         if (it.online) {
                             statusOrCount = resources.getString(R.string.chats_member_online)
                         }
                     }
-                }
 
+                }
             }
             //set type of menu
-            when(it.chat.chatOwnerId){
-                it.user.id ->{
+            when (it.chat.chatOwnerId) {
+                it.user.id -> {
                     if (it.chat.membersCount > 2) {
                         menuResId = R.menu.chat_mm_group_menu
-                    }else{
-                        menuResId = if (it.chat.blocked){
+                    } else {
+                        menuResId = if (it.chat.blocked) {
                             R.menu.chat_mm_menu_unblock
-                        }else{
+                        } else {
                             R.menu.chat_mm_menu
                         }
                     }
                 }
-                else->{
+                else -> {
                     menuResId = if (it.chat.membersCount > 2) {
                         R.menu.chat_ru_group_menu
-                    }else{
+                    } else {
                         R.menu.chat_ru_menu
                     }
                 }
@@ -163,7 +162,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     }
 
     private fun showMenu(v: View) {
-        if (menuResId > 0){
+        if (menuResId > 0) {
             getMenu(v).apply { inflate(menuResId) }.show()
         }
     }
@@ -199,16 +198,16 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             }
             R.id.mm_block_user -> {
                 context?.let { context ->
-                    messagesAdapter.user?.let {user ->
-                        messagesAdapter.pagedList?.let {list ->
-                            list.firstOrNull{it.id != user.id}?.let {
+                    messagesAdapter.user?.let { user ->
+                        messagesAdapter.pagedList?.let { list ->
+                            list.firstOrNull { it.id != user.id }?.let {
                                 BlockUserDialog.create(
                                     context,
                                     getString(R.string.chats_mm_block),
                                     getString(R.string.chats_mm_block_description),
                                     getString(R.string.chats_mm_block_button),
                                     getString(R.string.chats_mm_block_cancel)
-                                ){viewModel.onBlockUserClick(it.id)}.show()
+                                ) { viewModel.onBlockUserClick(it.id) }.show()
                             }
                         }
                     }
@@ -216,17 +215,17 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 true
             }
             R.id.mm_unblock_user -> {
-                context?.let {context->
-                    messagesAdapter.user?.let {user ->
-                        messagesAdapter.pagedList?.let {list ->
-                            list.firstOrNull{it.id != user.id}?.let {
+                context?.let { context ->
+                    messagesAdapter.user?.let { user ->
+                        messagesAdapter.pagedList?.let { list ->
+                            list.firstOrNull { it.id != user.id }?.let {
                                 BlockUserDialog.create(
                                     context,
                                     getString(R.string.chats_mm_unblock),
                                     getString(R.string.chats_mm_unblock_description),
                                     getString(R.string.chats_mm_unblock_button),
                                     getString(R.string.chats_mm_unblock_cancel)
-                                ){viewModel.onUnblockUserClick(it.id)}.show()
+                                ) { viewModel.onUnblockUserClick(it.id) }.show()
                             }
                         }
                     }

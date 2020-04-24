@@ -124,6 +124,7 @@ object GatewayModule {
                 instance(),
                 instance(),
                 instance(tag = "appPackageName"),
+                instance(),
                 instance()
             )
         }

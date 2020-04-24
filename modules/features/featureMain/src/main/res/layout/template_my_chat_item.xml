@@ -39,10 +39,20 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/ic_group_placeholder"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:urlCached="@{item.image.thumbnail.url}" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/group_placeholder"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_group_placeholder"
+                android:visibility="@{item.members.size() != 2, default = invisible}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/onlineStatus"

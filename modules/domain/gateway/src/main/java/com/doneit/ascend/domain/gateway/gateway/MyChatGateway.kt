@@ -22,6 +22,7 @@ import com.doneit.ascend.domain.gateway.gateway.boundaries.MembersBoundaryCallba
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MessagesBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MyChatsBoundaryCallback
 import com.doneit.ascend.domain.use_case.gateway.IMyChatGateway
+import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.source.storage.remote.data.request.group.ChatSocketCookies
 import com.doneit.ascend.source.storage.remote.repository.chats.IMyChatsRepository
 import com.doneit.ascend.source.storage.remote.repository.chats.socket.IChatSocketRepository
@@ -36,6 +37,7 @@ class MyChatGateway(
     private val remoteSocket: IChatSocketRepository,
     private val accountManager: AccountManager,
     private val packageName: String,
+    private val userUseCase: UserUseCase,
     errors: NetworkManager
 ) : BaseGateway(errors), IMyChatGateway {
     override fun getMyChatListLive(request: ChatListDTO): LiveData<PagedList<ChatEntity>> =
@@ -50,7 +52,8 @@ class MyChatGateway(
                 GlobalScope,
                 local,
                 remote,
-                request
+                request,
+                userUseCase
             )
 
             emitSource(

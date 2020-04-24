@@ -63,7 +63,8 @@ ext {
             phoneCodes      : "com.github.joielechong:countrycodepicker:2.4.1",
             stripe          : "com.stripe:stripe-android:12.8.2",
             twilio          : "com.twilio:video-android:5.1.0",
-            pickit          : "com.github.HBiSoft:PickiT:0.1.9"
+            pickit          : "com.github.HBiSoft:PickiT:0.1.9",
+            circleImageView : "de.hdodenhof:circleimageview:3.1.0"
     ]
 
     def kodein = [
@@ -303,6 +304,7 @@ ext {
             [configuration: "implementation", dependency: other.pickit],
             [configuration: "implementation", dependency: amazonaws.sdk],
             [configuration: "implementation", dependency: amazonaws.s3],
+            [configuration: "implementation", dependency: other.circleImageView]
     ]
 
     entityModule = [
