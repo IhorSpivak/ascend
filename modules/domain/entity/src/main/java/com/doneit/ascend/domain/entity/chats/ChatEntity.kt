@@ -8,7 +8,7 @@ import java.util.*
 @Parcelize
 data class ChatEntity(
     val id: Long,
-    val title: String,
+    var title: String,
     val membersCount: Int,
     val createdAt: Date?,
     val updatedAt: Date?,

@@ -92,9 +92,10 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 resources.getString(R.string.chats_member_count, it)
         })
         viewModel.chat.observe(this, Observer {
-            if (it.chat.membersCount > 2) {
-                binding.apply {
-                    chatName = it.chat.title
+            binding.apply {
+                chatName = it.chat.title
+                chat = it.chat
+                if (it.chat.membersCount > 2) {
                     url = it.chat.image?.url
                     statusOrCount =
                         resources.getString(R.string.chats_member_count, it.chat.membersCount)
@@ -102,14 +103,13 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             } else {
                 binding.apply {
                     it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
-                        chatName = it.fullName
                         url = it.image?.url
                         if (it.online) {
                             statusOrCount = resources.getString(R.string.chats_member_online)
                         }
                     }
-                }
 
+                }
             }
             //set type of menu
             when(it.chat.chatOwnerId){
@@ -119,15 +119,15 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                     }else{
                         if (it.chat.blocked){
                             R.menu.chat_mm_menu_unblock
-                        }else{
+                        } else {
                             R.menu.chat_mm_menu
                         }
                     }
                 }
-                else->{
+                else -> {
                     menuResId = if (it.chat.membersCount > 2) {
                         R.menu.chat_ru_group_menu
-                    }else{
+                    } else {
                         R.menu.chat_ru_menu
                     }
                 }
@@ -184,7 +184,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     }
 
     private fun showMenu(v: View) {
-        if (menuResId > 0){
+        if (menuResId > 0) {
             getMenu(v).apply { inflate(menuResId) }.show()
         }
     }

@@ -12,6 +12,8 @@ import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.common.gone
+import com.doneit.ascend.presentation.main.common.invisible
 import com.doneit.ascend.presentation.main.databinding.ListItemMessageBinding
 import com.doneit.ascend.presentation.utils.extensions.START_TIME_FORMATTER
 import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT_DROP_DAY
@@ -55,18 +57,23 @@ class MessageViewHolder(
             }else{
                 this.sendTime = TIME_12_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
             }
-            if (nextMessage == null){
+            if (nextMessage == null) {
                 time.text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
                 time.visible()
-            }else {
+                corner.visible()
+                userImage.visible()
+                isOnline.visible()
+            } else {
                 time.apply {
                     text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
                     corner.apply {
-                        if(messageEntity.userId == nextMessage.userId){
-                            binding.userImage.gone()
-                            binding.isOnline.gone()
+                        if (messageEntity.userId == nextMessage.userId) {
+                            userImage.invisible()
+                            isOnline.gone()
                             this.gone()
-                        }else {
+                        } else {
+                            userImage.visible()
+                            isOnline.visible()
                             this.visible()
                         }
                     }
@@ -95,12 +102,6 @@ class MessageViewHolder(
             memberMessageContainer.gone()
             time.text = message
         }
-    }
-    private fun View.visible(){
-        this.visibility = View.VISIBLE
-    }
-    private fun View.gone(){
-        this.visibility = View.GONE
     }
 
     companion object {

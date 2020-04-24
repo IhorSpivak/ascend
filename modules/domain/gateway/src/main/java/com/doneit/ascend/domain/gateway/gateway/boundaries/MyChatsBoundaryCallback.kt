@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.dto.MemberListDTO
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
+import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.source.storage.local.repository.chats.IMyChatsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
@@ -15,7 +16,8 @@ class MyChatsBoundaryCallback(
     scope: CoroutineScope,
     private val local: IMyChatsRepository,
     private val remote: com.doneit.ascend.source.storage.remote.repository.chats.IMyChatsRepository,
-    private val chatListModel: ChatListDTO
+    private val chatListModel: ChatListDTO,
+    private val userUseCase: UserUseCase
 ) : BaseBoundary<ChatEntity>(scope) {
 
 
@@ -37,6 +39,11 @@ class MyChatsBoundaryCallback(
                                 val memberModel =
                                     membersResponse.successModel!!.users?.map { it.toEntity() }
                                 it.members = memberModel
+                                if (it.membersCount == 2) {
+                                    val member =
+                                        it.members?.firstOrNull { it.id != userUseCase.getUser()?.id }
+                                    member?.let { member -> it.title = member.fullName }
+                                }
                             }
                         }
                     }

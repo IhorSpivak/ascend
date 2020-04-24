@@ -31,6 +31,7 @@ class MyChatViewHolder(
         binding.ibDelete.setOnClickListener {
             onDeleteListener.invoke(item.id)
         }
+
         itemView.message.text = item.lastMessage?.message
         val res = when (item.lastMessage?.status) {
             MessageStatus.SENT -> R.drawable.ic_unread_message
