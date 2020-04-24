@@ -9,6 +9,8 @@ data class MessageResponse(
     val message: String,
     @SerializedName("edited")
     val edited: Boolean?,
+    @SerializedName("message_type")
+    val messageType: String?,
     @SerializedName("user_id")
     val userId: Long,
     @SerializedName("created_at")

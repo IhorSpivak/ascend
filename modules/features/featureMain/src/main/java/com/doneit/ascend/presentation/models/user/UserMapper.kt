@@ -18,6 +18,7 @@ fun UserEntity.toPresentation(): PresentationUserModel {
         registrationType.toPresentation(),
         unansweredQuestionsCount,
         unreadNotificationsCount,
+        blockedUsersCount,
         image,
         displayName,
         description,

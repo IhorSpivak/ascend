@@ -18,6 +18,7 @@ data class UserEntity(
     val registrationType: RegistrationType,
     val unansweredQuestionsCount: Int,
     val unreadNotificationsCount: Int,
+    var blockedUsersCount: Int,
     val image: ImageEntity?,
     val displayName: String?,
     val description: String?,

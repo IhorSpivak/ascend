@@ -41,6 +41,7 @@ interface IMyChatGateway {
     fun insertMessage(message: MessageEntity, chatId: Long)
     fun removeMessageLocal(message: MessageEntity)
     fun removeBlockedUser(userEntity: BlockedUserEntity)
+    fun addBlockedUser(userEntity: BlockedUserEntity)
     suspend fun blockUser(userId:Long): ResponseEntity<Unit, List<String>>
     suspend fun removeMessageRemote(messageId:Long): ResponseEntity<Unit, List<String>>
     suspend fun unblockUser(userId:Long): ResponseEntity<Unit, List<String>>

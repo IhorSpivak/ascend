@@ -10,6 +10,7 @@ data class MessageEntity(
     val id: Long,
     val message: String,
     val edited: Boolean = false,
+    val type: MessageType,
     val userId: Long,
     val createdAt: Date?,
     val updatedAt: Date?,

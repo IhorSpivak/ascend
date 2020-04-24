@@ -10,9 +10,10 @@ class UserDataSourceFactory(
     private val scope: CoroutineScope,
     private val remoteGroup: IGroupRepository,
     private val searchQuery: String,
-    private val userId: Long
+    private val userId: Long,
+    private val memberList: List<AttendeeEntity>?
 ): DataSource.Factory<Int, AttendeeEntity> (){
     override fun create(): DataSource<Int, AttendeeEntity> {
-        return UsersDataSource(scope, remoteGroup, searchQuery, userId)
+        return UsersDataSource(scope, remoteGroup, searchQuery, userId, memberList)
     }
 }

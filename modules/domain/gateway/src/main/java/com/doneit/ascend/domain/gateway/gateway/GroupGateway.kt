@@ -234,8 +234,8 @@ internal class GroupGateway(
         )
     }
 
-    override fun getMembersPaged(query: String, userId: Long): LiveData<PagedList<AttendeeEntity>> {
-        return UserDataSourceFactory(GlobalScope, remote, query, userId).toLiveData(pageSize = 10, fetchExecutor = Executors.newSingleThreadExecutor())
+    override fun getMembersPaged(query: String, userId: Long, memberList: List<AttendeeEntity>?): LiveData<PagedList<AttendeeEntity>> {
+        return UserDataSourceFactory(GlobalScope, remote, query, userId, memberList).toLiveData(pageSize = 10, fetchExecutor = Executors.newSingleThreadExecutor())
     }
 
 

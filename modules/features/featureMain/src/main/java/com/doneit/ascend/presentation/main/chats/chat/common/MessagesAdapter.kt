@@ -1,30 +1,39 @@
 package com.doneit.ascend.presentation.main.chats.chat.common
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
-import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 
 class MessagesAdapter(
-    var pagedList: List<MemberEntity>?,
+    var chat: ChatEntity?,
     var user: UserEntity?,
-    private val onButtonClick:(message: MessageEntity) -> Unit
+    private val onButtonClick: (message: MessageEntity) -> Unit,
+    private val onImageClick: (v: View, id: Long) -> Unit
 ) : PagedListAdapter<MessageEntity, MessageViewHolder>(MessageDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        return MessageViewHolder.create(parent, onButtonClick)
+        return MessageViewHolder.create(parent, onButtonClick, onImageClick)
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         getItem(position)?.let {message ->
-            pagedList?.firstOrNull{
+            chat?.members?.firstOrNull {
                 it.id == message.userId
             }?.let {member ->
                 user?.let {user ->
                     if (position != (itemCount -1)) {
-                        holder.bind(message, member, user, getItem(position + 1))
+                        holder.bind(
+                            message,
+                            member,
+                            user,
+                            getItem(position + 1),
+                            chat!!
+
+                        )
                     }else{
-                        holder.bind(message, member, user, null)
+                        holder.bind(message, member, user, null, chat!!)
                     }
                 }
 
@@ -32,8 +41,8 @@ class MessagesAdapter(
         }
     }
 
-    fun updateMembers(members: List<MemberEntity>) {
-        this.pagedList = members
+    fun updateMembers(chat: ChatEntity) {
+        this.chat = chat
         notifyDataSetChanged()
     }
     fun updateUser(user: UserEntity){

@@ -90,7 +90,7 @@ internal class MyChatsRepository(
         chatMembers: List<Long>?
     ): RemoteResponse<ChatResponse, ErrorsListResponse> {
         return execute(
-            { api.updateChatAsync(id, title, chatMembers) },
+            { api.updateChatAsync(id, CreateChatRequest(title, chatMembers?.map { it.toInt() })) },
             ErrorsListResponse::class.java
         )
     }

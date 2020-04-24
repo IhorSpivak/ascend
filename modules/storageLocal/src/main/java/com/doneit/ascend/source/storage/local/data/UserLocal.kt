@@ -20,6 +20,7 @@ data class UserLocal(
     val registrationType: String,
     val unansweredQuestionsCount: Int,
     val unreadNotificationsCount: Int,
+    val blockedUsersCount: Int,
     @Embedded(prefix = "img") val image: ImageLocal?,
     val displayName: String?,
     val description: String?,

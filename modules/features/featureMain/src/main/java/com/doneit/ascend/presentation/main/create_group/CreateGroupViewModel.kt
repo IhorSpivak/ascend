@@ -805,7 +805,7 @@ class CreateGroupViewModel(
 
     override val searchResult: LiveData<PagedList<AttendeeEntity>>
         get() = searchQuery.switchMap {
-            groupUseCase.searchMembers(it, currentUser.id)
+            groupUseCase.searchMembers(it, currentUser.id, null)
         }
 
     override fun loadAttendees() {

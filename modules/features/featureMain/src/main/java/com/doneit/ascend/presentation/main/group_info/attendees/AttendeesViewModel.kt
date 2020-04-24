@@ -46,7 +46,7 @@ class AttendeesViewModel (
 
     override val searchResult: LiveData<PagedList<AttendeeEntity>>
         get() = searchQuery.switchMap {
-            groupUseCase.searchMembers(it, currentUser.id)
+            groupUseCase.searchMembers(it, currentUser.id, null)
         }
     override val members = MutableLiveData<MutableList<AttendeeEntity>>()
     override val canAddMembers = MutableLiveData<Boolean>()

@@ -212,6 +212,7 @@ fun ChatSocketEventMessage.toEntity(): MessageSocketEntity{
         message,
         status,
         edited,
+        messageType,
         userId,
         createdAt,
         updatedAt

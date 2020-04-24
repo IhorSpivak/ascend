@@ -18,6 +18,7 @@ data class PresentationUserModel(
     val registrationType: PresentationRegistrationType,
     val unansweredQuestionsCount: Int,
     val unreadNotificationsCount: Int,
+    val blockedUsersCount: Int,
     val image: ImageEntity?,
     val displayName: String?,
     val description: String?,
@@ -33,5 +34,9 @@ data class PresentationUserModel(
             return if (birthday == null) null else UserEntity.getAge(
                 birthday
             )
+        }
+    val blockedUserString: String
+        get() {
+            return blockedUsersCount.toString()
         }
 }

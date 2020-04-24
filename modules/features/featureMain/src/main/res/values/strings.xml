@@ -556,9 +556,17 @@
     <string name="chats_mm_unblock_button">Unblock</string>
     <string name="chats_mm_unblock_cancel">Cancel</string>
     <string name="chats_mm_unblock_description">Are you sure you want to unblock this user?</string>
+    <string name="chats_delete">Delete Chat</string>
+    <string name="chats_delete_button">Delete</string>
+    <string name="chats_delete_cancel">Cancel</string>
+    <string name="chats_delete_description">Are you sure you want to delete this chat?</string>
+    <string name="chats_leave">Leave Chat</string>
+    <string name="chats_leave_button">Leave</string>
+    <string name="chats_leave_cancel">Cancel</string>
+    <string name="chats_leave_description">Are you sure you want to leave this chat?</string>
     <string name="chats_mm_report">Report User</string>
-    <string name="chats_ru_leave">Leave this chat group</string>
-    <string name="chats_ru_report">Report User</string>
+    <string name="chats_ru_leave">Leave this chat</string>
+    <string name="chats_ru_report">Report</string>
     <string name="chats_ru_report_single">Report</string>
     <string name="chats_ru_kick">Kick User</string>
     <string name="chats_mm_invite_user">Invite User</string>
@@ -568,5 +576,7 @@
     <string name="chats_dialog_edit_name_cancel">Cancel</string>
     <string name="chats_dialog_edit_name_save">Save</string>
     <string name="chats_member_count">%d members</string>
+    <string name="invite_message"><b>1%s</b> invited <b>2%s</b></string>
+    <string name="leave_message"><b>%s</b> left this chat</string>
     <string name="chats_member_online">online</string>
 </resources>

@@ -3,20 +3,18 @@ package com.doneit.ascend.domain.gateway.gateway.data_source
 import android.util.Patterns
 import androidx.paging.PageKeyedDataSource
 import com.doneit.ascend.domain.entity.AttendeeEntity
-import com.doneit.ascend.domain.entity.dto.UserSearchDTO
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.source.storage.remote.data.request.SearchUserRequest
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
-import com.doneit.ascend.source.storage.remote.repository.user.IUserRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class UsersDataSource(
     private val scope: CoroutineScope,
     private val remoteGroup: IGroupRepository,
     private val searchQuery: String,
-    private val userId: Long
+    private val userId: Long,
+    private val memberList: List<AttendeeEntity>?
 ) : PageKeyedDataSource<Int, AttendeeEntity>() {
 
     private var loadCount: Int = 0
@@ -33,8 +31,21 @@ class UsersDataSource(
                     loadCount = count
                     loaded = users.size
                 }
-                callback.onResult(data.successModel?.users?.filter { it.id != userId }?.map {
-                    it.toEntity() }?: emptyList(), null, 2)
+                if (memberList == null) {
+                    callback.onResult(data.successModel?.users?.filter { it.id != userId }?.map {
+                        it.toEntity()
+                    } ?: emptyList(), null, 2)
+                } else {
+                    callback.onResult(data.successModel?.users?.filter {
+                        var result = true
+                        memberList.firstOrNull { member -> member.id == it.id }?.let {
+                            result = false
+                        }
+                        result
+                    }?.map {
+                        it.toEntity()
+                    } ?: emptyList(), null, 2)
+                }
             }
         }
     }
@@ -44,7 +55,20 @@ class UsersDataSource(
             runBlocking {
                 val data = remoteGroup.searchUsers(searchQuery.toSearchRequest(1))
                 if (data.isSuccessful){
-                    callback.onResult(data.successModel?.users?.filter { it.id != userId }?.map { it.toEntity() }?: emptyList(), params.key.inc())
+                    if (memberList == null) {
+                        callback.onResult(data.successModel?.users?.filter { it.id != userId }?.map { it.toEntity() }
+                            ?: emptyList(), params.key.inc())
+                    } else {
+                        callback.onResult(data.successModel?.users?.filter {
+                            var result = true
+                            memberList.firstOrNull { member -> member.id == it.id }
+                                ?.let {
+                                    result = false
+                                }
+                            result
+                        }?.map { it.toEntity() }
+                            ?: emptyList(), params.key.inc())
+                    }
                 }
             }
         }

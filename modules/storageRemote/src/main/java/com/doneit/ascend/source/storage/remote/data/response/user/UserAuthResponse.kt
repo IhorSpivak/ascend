@@ -16,6 +16,7 @@ data class UserAuthResponse(
     @SerializedName("invite_to_a_meeting") val inviteToMeeting: Boolean?,
     @SerializedName("unanswered_questions") val unansweredQuestions: List<Int>?,
     @SerializedName("unread_notifications_count") val unreadNotificationsCount: Int?,
+    @SerializedName("blocked_users_count") val blockedUsersCount: Int?,
     @SerializedName("visited_groups_count") val visitedGroupsCount: Int?,
     @SerializedName("image") val image: ImageResponse?,
     @SerializedName("display_name") val displayName: String?,

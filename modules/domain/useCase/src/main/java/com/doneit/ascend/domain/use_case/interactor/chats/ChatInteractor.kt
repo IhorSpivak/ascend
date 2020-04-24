@@ -75,6 +75,10 @@ class ChatInteractor(
         chatGateway.removeBlockedUser(user)
     }
 
+    override fun addBlockedUser(user: BlockedUserEntity) {
+        chatGateway.addBlockedUser(user)
+    }
+
     override suspend fun unblockUser(userId: Long): ResponseEntity<Unit, List<String>> {
         return chatGateway.unblockUser(userId)
     }

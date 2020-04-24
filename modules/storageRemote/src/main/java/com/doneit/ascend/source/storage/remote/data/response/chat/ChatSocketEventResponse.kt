@@ -11,6 +11,7 @@ data class ChatSocketEventMessage(
     @SerializedName("id") val id: Long,
     @SerializedName("message") val message: String?,
     @SerializedName("status") val status: String?,
+    @SerializedName("message_type") val messageType: String?,
     @SerializedName("edited") val edited: Boolean?,
     @SerializedName("user_id") val userId: Long,
     @SerializedName("created_at") val createdAt: String?,

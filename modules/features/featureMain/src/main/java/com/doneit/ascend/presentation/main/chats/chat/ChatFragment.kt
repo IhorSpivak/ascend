@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
 import com.doneit.ascend.presentation.dialog.EditChatNameDialog
+import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
@@ -58,9 +59,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     }
     override val viewModel: ChatContract.ViewModel by instance()
 
+    private var currentDialog: AlertDialog? = null
     private var menuResId: Int = -1
+    private var kickOrReportUserId: Long = -1
     private val messagesAdapter: MessagesAdapter by lazy {
-        MessagesAdapter(null, null){viewModel.onDelete(it)}
+        MessagesAdapter(null, null, {viewModel.onDelete(it)}, {view, id -> showMenuOnUserClick(view, id)})
     }
 
 
@@ -83,6 +86,10 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         }
         viewModel.chatName.observe(viewLifecycleOwner, Observer {
             binding.chatName = it
+        })
+        viewModel.membersCountGroup.observe(viewLifecycleOwner, Observer {
+            binding.statusOrCount =
+                resources.getString(R.string.chats_member_count, it)
         })
         viewModel.chat.observe(this, Observer {
             if (it.chat.membersCount > 2) {
@@ -107,10 +114,10 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             //set type of menu
             when(it.chat.chatOwnerId){
                 it.user.id ->{
-                    if (it.chat.membersCount > 2) {
-                        menuResId = R.menu.chat_mm_group_menu
+                    menuResId = if (it.chat.membersCount > 2) {
+                        R.menu.chat_mm_group_menu
                     }else{
-                        menuResId = if (it.chat.blocked){
+                        if (it.chat.blocked){
                             R.menu.chat_mm_menu_unblock
                         }else{
                             R.menu.chat_mm_menu
@@ -133,7 +140,21 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 }
             }
 
-            messagesAdapter.updateMembers(it.chat.members!!)
+            //check when user leaved group chat
+            if (it.chat.chatOwnerId != it.user.id){
+                if (it.chat.membersCount > 2) {
+                    it.chat.members?.firstOrNull {member -> member.id == it.user.id }?.let {
+                        if(it.leaved) {
+                            binding.apply {
+                                message.gone()
+                                send.gone()
+                            }
+                        }
+                    }
+                }
+            }
+
+            messagesAdapter.updateMembers(it.chat)
             messagesAdapter.updateUser(it.user)
             //viewModel.applyData(chat)
         })
@@ -168,6 +189,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         }
     }
 
+    private fun showMenuOnUserClick(v: View, id: Long) {
+        kickOrReportUserId = id
+        getMenu(v).apply { inflate(R.menu.on_user_click_menu) }.show()
+    }
+
     private fun getMenu(v: View): PopupMenu {
         return PopupMenu(context, v).apply { setOnMenuItemClickListener(this@ChatFragment) }
     }
@@ -175,12 +201,35 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     override fun onMenuItemClick(p0: MenuItem?): Boolean {
         return when (p0!!.itemId) {
             R.id.ru_leave -> {
+                context?.let {context->
+                    BlockUserDialog.create(
+                        context,
+                        getString(R.string.chats_leave),
+                        getString(R.string.chats_leave_description),
+                        getString(R.string.chats_leave_button),
+                        getString(R.string.chats_leave_cancel)
+                    ){ viewModel.onLeave()}.show()
+                }
                 true
             }
             R.id.ru_report -> {
+                reportOnOwner()
+                true
+            }
+            R.id.ru_report_group -> {
+                reportOnOwner()
                 true
             }
             R.id.mm_delete_chat -> {
+                context?.let {context->
+                    BlockUserDialog.create(
+                        context,
+                        getString(R.string.chats_delete),
+                        getString(R.string.chats_delete_description),
+                        getString(R.string.chats_delete_button),
+                        getString(R.string.chats_delete_cancel)
+                    ){ viewModel.onDeleteChat()}.show()
+                }
                 true
             }
             R.id.mm_edit_chat -> {
@@ -192,15 +241,57 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 true
             }
             R.id.mm_report_user -> {
+                context?.let {context->
+                    messagesAdapter.user?.let {user ->
+                        messagesAdapter.chat?.members?.let {list ->
+                            list.firstOrNull{it.id != user.id}?.let {member ->
+                                currentDialog = ReportAbuseDialog.create(
+                                    context
+                                ){
+                                    currentDialog?.dismiss()
+                                    viewModel.onReport(it, member.id)
+                                }
+                                currentDialog?.show()
+                            }
+                        }
+                    }
+                }
+                true
+            }
+            R.id.report_single -> {
+                if (kickOrReportUserId > 0){
+                    context?.let {context->
+                        currentDialog = ReportAbuseDialog.create(
+                            context
+                        ){
+                            currentDialog?.dismiss()
+                            viewModel.onReport(it, kickOrReportUserId)
+                        }
+                        currentDialog?.show()
+                    }
+                }
+                true
+            }
+            R.id.kick -> {
+
                 true
             }
             R.id.mm_delete_group_chat -> {
+                context?.let {context->
+                    BlockUserDialog.create(
+                        context,
+                        getString(R.string.chats_delete),
+                        getString(R.string.chats_delete_description),
+                        getString(R.string.chats_delete_button),
+                        getString(R.string.chats_delete_cancel)
+                    ){ viewModel.onDeleteChat()}.show()
+                }
                 true
             }
             R.id.mm_block_user -> {
                 context?.let { context ->
                     messagesAdapter.user?.let {user ->
-                        messagesAdapter.pagedList?.let {list ->
+                        messagesAdapter.chat?.members?.let {list ->
                             list.firstOrNull{it.id != user.id}?.let {
                                 BlockUserDialog.create(
                                     context,
@@ -208,7 +299,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                                     getString(R.string.chats_mm_block_description),
                                     getString(R.string.chats_mm_block_button),
                                     getString(R.string.chats_mm_block_cancel)
-                                ){viewModel.onBlockUserClick(it.id)}.show()
+                                ){viewModel.onBlockUserClick(it)}.show()
                             }
                         }
                     }
@@ -218,7 +309,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             R.id.mm_unblock_user -> {
                 context?.let {context->
                     messagesAdapter.user?.let {user ->
-                        messagesAdapter.pagedList?.let {list ->
+                        messagesAdapter.chat?.members?.let {list ->
                             list.firstOrNull{it.id != user.id}?.let {
                                 BlockUserDialog.create(
                                     context,
@@ -226,7 +317,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                                     getString(R.string.chats_mm_unblock_description),
                                     getString(R.string.chats_mm_unblock_button),
                                     getString(R.string.chats_mm_unblock_cancel)
-                                ){viewModel.onUnblockUserClick(it.id)}.show()
+                                ){viewModel.onUnblockUserClick(it)}.show()
                             }
                         }
                     }
@@ -234,6 +325,18 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 true
             }
             else -> false
+        }
+    }
+
+    private fun reportOnOwner(){
+        context?.let {context->
+            currentDialog = ReportAbuseDialog.create(
+                context
+            ){
+                currentDialog?.dismiss()
+                viewModel.onReportChatOwner(it)
+            }
+            currentDialog?.show()
         }
     }
 

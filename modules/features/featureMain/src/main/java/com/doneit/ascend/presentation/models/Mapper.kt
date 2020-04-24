@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketUserEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
+import com.doneit.ascend.domain.entity.chats.MessageType
 import com.doneit.ascend.domain.entity.dto.ChangeEmailDTO
 import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
 import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
@@ -128,6 +129,7 @@ fun MessageSocketEntity.toEntity(): MessageEntity{
         id,
         message?:"",
         edited?: false,
+        type?.toMessageType()?: MessageType.MESSAGE,
         userId,
         createdAt!!.toDate(),
         updatedAt!!.toDate(),
@@ -152,4 +154,12 @@ fun String.toDefaultFormatter(): SimpleDateFormat {
     val formatter = SimpleDateFormat(this, Locale.ENGLISH)
     formatter.timeZone = TimeZone.getTimeZone("GMT")
     return formatter
+}
+
+fun String.toMessageType(): MessageType{
+    return when{
+        this == MessageType.INVITE.toString() -> MessageType.INVITE
+        this == MessageType.LEAVE.toString() -> MessageType.LEAVE
+        else -> MessageType.MESSAGE
+    }
 }

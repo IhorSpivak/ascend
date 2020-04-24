@@ -37,6 +37,7 @@ interface ChatUseCase {
     suspend fun removeMessageRemote(messageId: Long): ResponseEntity<Unit, List<String>>
     fun removeMessageLocal(message: MessageEntity)
     fun removeBlockedUser(user: BlockedUserEntity)
+    fun addBlockedUser(user: BlockedUserEntity)
     suspend fun unblockUser(userId: Long): ResponseEntity<Unit, List<String>>
     suspend fun blockUser(userId: Long): ResponseEntity<Unit, List<String>>
     fun getBlockedUsers(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>>

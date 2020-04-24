@@ -6,22 +6,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.chats.MessageType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemMessageBinding
-import com.doneit.ascend.presentation.utils.extensions.HOUR_12_ONLY_FORMAT
-import com.doneit.ascend.presentation.utils.extensions.HOUR_24_ONLY_FORMAT
 import com.doneit.ascend.presentation.utils.extensions.START_TIME_FORMATTER
+import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT_DROP_DAY
+import com.doneit.ascend.presentation.utils.extensions.TIME_24_FORMAT_DROP_DAY
 import com.doneit.ascend.presentation.utils.extensions.calculateDate
 
 class MessageViewHolder(
     private val binding: ListItemMessageBinding,
-    private val onDeleteClick: (message: MessageEntity) -> Unit
+    private val onDeleteClick: (message: MessageEntity) -> Unit,
+    private val onMenuClick: (view: View, id: Long) -> Unit
 ): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(messageEntity: MessageEntity, member: MemberEntity, user: UserEntity, nextMessage: MessageEntity?){
+    fun bind(
+        messageEntity: MessageEntity,
+        member: MemberEntity,
+        user: UserEntity,
+        nextMessage: MessageEntity?,
+        chat: ChatEntity
+    ) {
         binding.apply {
             this.memberEntity = member
             this.messageEntity = messageEntity
@@ -29,10 +38,22 @@ class MessageViewHolder(
             ibDelete.setOnClickListener {
                 onDeleteClick.invoke(messageEntity)
             }
+            userImage.setOnLongClickListener {
+                if (chat.membersCount > 2) {
+                    if (chat.chatOwnerId == user.id) {
+                        onMenuClick(it, member.id)
+                        true
+                    }else{
+                        false
+                    }
+                } else {
+                    false
+                }
+            }
             if(DateFormat.is24HourFormat(root.context)){
-                this.sendTime = HOUR_24_ONLY_FORMAT.format(messageEntity.createdAt!!)
+                this.sendTime = TIME_24_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
             }else{
-                this.sendTime = HOUR_12_ONLY_FORMAT.format(messageEntity.createdAt!!)
+                this.sendTime = TIME_12_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
             }
             if (nextMessage == null){
                 time.text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
@@ -56,7 +77,23 @@ class MessageViewHolder(
                     }
                 }
             }
+        }
+        when(messageEntity.type){
+            MessageType.INVITE -> {
 
+                setSystemMessage(binding.root.context.resources.getString(R.string.invite_message, user.displayName, member.fullName))
+            }
+            MessageType.LEAVE -> {
+                setSystemMessage(binding.root.context.resources.getString(R.string.leave_message, member.fullName))
+            }
+        }
+    }
+    private fun setSystemMessage(message: String){
+        binding.apply {
+            this.user = null
+            itemLayout.gone()
+            memberMessageContainer.gone()
+            time.text = message
         }
     }
     private fun View.visible(){
@@ -69,7 +106,8 @@ class MessageViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onDeleteClick: (message: MessageEntity) -> Unit
+            onDeleteClick: (message: MessageEntity) -> Unit,
+            onMenuClick: (view: View, id: Long) -> Unit
         ): MessageViewHolder {
             val binding: ListItemMessageBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
@@ -77,7 +115,7 @@ class MessageViewHolder(
                 parent,
                 false
             )
-            return MessageViewHolder(binding, onDeleteClick)
+            return MessageViewHolder(binding, onDeleteClick, onMenuClick)
         }
     }
 }

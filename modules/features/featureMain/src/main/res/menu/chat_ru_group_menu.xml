@@ -6,7 +6,7 @@
     </item>
 
     <item
-        android:id="@+id/ru_report"
+        android:id="@+id/ru_report_group"
         android:title="@string/chats_ru_report">
     </item>
 </menu>

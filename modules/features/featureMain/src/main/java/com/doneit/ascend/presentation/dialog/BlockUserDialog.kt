@@ -24,7 +24,7 @@ class BlockUserDialog {
                 false
             )
             val dialog = AlertDialog.Builder(context, R.style.AppThemeAlertDialog)
-                .setCancelable(false)
+                .setCancelable(true)
                 .setView(binding.root)
                 .create()
 
@@ -38,6 +38,9 @@ class BlockUserDialog {
                     dialog.dismiss()
                 }
                 btnNegative.setOnClickListener {
+                    dialog.dismiss()
+                }
+                btnClose.setOnClickListener {
                     dialog.dismiss()
                 }
             }

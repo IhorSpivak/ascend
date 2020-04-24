@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common
 
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -38,11 +37,10 @@ class ThemeViewHolder(
             }
             group?.let {
                 if ((it.pastMeetingsCount!! > 0 && action == GroupAction.EDIT) || (group.isStarting && group.participantsCount!! > 0 && action == GroupAction.EDIT)){
-                    if (position < it.pastMeetingsCount!! - 1) {
-                        theme.multilineEditText.apply {
-                            inputType = InputType.TYPE_NULL
-                            isFocusable = false
-                            setTextColor(root.context.resources.getColor(R.color.light_gray_b1bf))
+                    if (position < (it.pastMeetingsCount!! - 1)) {
+                        theme.apply {
+                            multilineEditText.setOnClickListener {}
+                            multilineEditText.setTextColor(root.context.resources.getColor(R.color.light_gray_b1bf))
                         }
                         remove.setOnClickListener {}
                     }

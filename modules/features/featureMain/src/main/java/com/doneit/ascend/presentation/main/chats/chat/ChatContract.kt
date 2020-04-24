@@ -3,7 +3,9 @@ package com.doneit.ascend.presentation.main.chats.chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
@@ -16,6 +18,7 @@ interface ChatContract {
         val messages: LiveData<PagedList<MessageEntity>>
         val chatModel: LiveData<ChatEntity>
         val chatName: LiveData<String>
+        val membersCountGroup: LiveData<Int>
         val chat: MediatorLiveData<ChatWithUser>
 
         fun applyData(chat: ChatEntity?, user: UserEntity? = null)
@@ -24,9 +27,13 @@ interface ChatContract {
         fun updateChatName(newName: String)
         fun sendMessage(message: String)
         fun inviteUser()
-        fun onBlockUserClick(userId: Long)
-        fun onUnblockUserClick(userId: Long)
+        fun onBlockUserClick(member: MemberEntity)
+        fun onUnblockUserClick(member: MemberEntity)
         fun onDelete(message: MessageEntity)
+        fun onDeleteChat()
+        fun onReportChatOwner(content: String)
+        fun onReport(content: String, id: Long)
+        fun onLeave()
     }
 
     interface Router {

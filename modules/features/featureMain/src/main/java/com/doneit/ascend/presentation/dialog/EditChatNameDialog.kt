@@ -54,6 +54,9 @@ class EditChatNameDialog {
                 btnNegative.setOnClickListener {
                     dialog.dismiss()
                 }
+                btnClose.setOnClickListener {
+                    dialog.dismiss()
+                }
             }
             return dialog
         }

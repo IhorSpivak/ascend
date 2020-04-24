@@ -18,6 +18,7 @@ data class UserProfileResponse(
     @SerializedName("social_type") val socialType: String?,
     @SerializedName("unanswered_questions") val unansweredQuestions: List<Int>?,
     @SerializedName("unread_notifications_count") val unreadNotificationsCount: Int?,
+    @SerializedName("blocked_users_count") val blockedUsersCount: Int?,
     @SerializedName("visited_groups_count") val visitedGroupsCount: Int,
     @SerializedName("image") val image: ImageResponse?,
     @SerializedName("birthday") val birthday: String?,

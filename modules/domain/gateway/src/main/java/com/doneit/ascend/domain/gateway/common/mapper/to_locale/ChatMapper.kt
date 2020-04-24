@@ -33,6 +33,7 @@ fun MessageEntity.toLocal(chatId: Long): MessageLocal {
         message,
         userId,
         edited,
+        type.toString(),
         createdAt?.time,
         updatedAt?.time,
         status.toString(),
