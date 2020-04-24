@@ -34,58 +34,6 @@ class MessageViewHolder(
         nextMessage: MessageEntity?,
         chat: ChatEntity
     ) {
-        binding.apply {
-            this.memberEntity = member
-            this.messageEntity = messageEntity
-            this.user = user
-            ibDelete.setOnClickListener {
-                onDeleteClick.invoke(messageEntity)
-            }
-            userImage.setOnLongClickListener {
-                if (chat.membersCount > 2) {
-                    if (chat.chatOwnerId == user.id) {
-                        onMenuClick(it, member.id)
-                        true
-                    }else{
-                        false
-                    }
-                } else {
-                    false
-                }
-            }
-            if(DateFormat.is24HourFormat(root.context)){
-                this.sendTime = TIME_24_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
-            }else{
-                this.sendTime = TIME_12_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
-            }
-            if (nextMessage == null) {
-                time.text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
-                time.visible()
-                corner.visible()
-                userImage.visible()
-                isOnline.visible()
-            } else {
-                time.apply {
-                    text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
-                    corner.apply {
-                        if (messageEntity.userId == nextMessage.userId) {
-                            userImage.invisible()
-                            isOnline.gone()
-                            this.gone()
-                        } else {
-                            userImage.visible()
-                            isOnline.visible()
-                            this.visible()
-                        }
-                    }
-                    if (calculateDate(messageEntity.createdAt!!, nextMessage.createdAt!!)) {
-                        this.visible()
-                    } else {
-                        this.gone()
-                    }
-                }
-            }
-        }
         when(messageEntity.type){
             MessageType.INVITE -> {
                 setSystemMessage(binding.root.context.resources.getString(R.string.invite_message, user.displayName, member.fullName))
@@ -93,13 +41,68 @@ class MessageViewHolder(
             MessageType.LEAVE -> {
                 setSystemMessage(binding.root.context.resources.getString(R.string.leave_message, member.fullName))
             }
+            else -> {
+                binding.apply {
+                    this.memberEntity = member
+                    this.messageEntity = messageEntity
+                    this.user = user
+                    ibDelete.setOnClickListener {
+                        onDeleteClick.invoke(messageEntity)
+                    }
+                    userImage.setOnLongClickListener {
+                        if (chat.membersCount > 2) {
+                            if (chat.chatOwnerId == user.id) {
+                                onMenuClick(it, member.id)
+                                true
+                            }else{
+                                false
+                            }
+                        } else {
+                            false
+                        }
+                    }
+                    if(DateFormat.is24HourFormat(root.context)){
+                        this.sendTime = TIME_24_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
+                    }else{
+                        this.sendTime = TIME_12_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
+                    }
+                    if (nextMessage == null) {
+                        time.text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
+                        time.visible()
+                        corner.visible()
+                        userImage.visible()
+                        isOnline.visible()
+                    } else {
+                        time.apply {
+                            text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
+                            corner.apply {
+                                if (messageEntity.userId == nextMessage.userId) {
+                                    userImage.invisible()
+                                    isOnline.gone()
+                                    this.gone()
+                                } else {
+                                    userImage.visible()
+                                    isOnline.visible()
+                                    this.visible()
+                                }
+                            }
+                            if (calculateDate(messageEntity.createdAt!!, nextMessage.createdAt!!)) {
+                                this.visible()
+                            } else {
+                                this.gone()
+                            }
+                        }
+                    }
+                }
+            }
         }
+
     }
     private fun setSystemMessage(message: String){
         binding.apply {
-            this.user = null
             itemLayout.gone()
             memberMessageContainer.gone()
+            myMessageContainer.gone()
             time.text = message
         }
     }
