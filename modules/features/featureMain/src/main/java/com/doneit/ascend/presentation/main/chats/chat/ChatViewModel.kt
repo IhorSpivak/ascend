@@ -67,7 +67,8 @@ class ChatViewModel(
         chatUseCase.getMessageList(
             it.id, MessageListDTO(
                 perPage = 10,
-                sortType = SortType.DESC
+                sortColumn = "created_at",
+                sortType = SortType.ASC
             )
         )
     }

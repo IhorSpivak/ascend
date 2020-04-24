@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
 import com.doneit.ascend.presentation.dialog.EditChatNameDialog
