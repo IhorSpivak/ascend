@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.main.chats.chat.common
 
 import android.text.format.DateFormat
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,11 +9,10 @@ import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.common.gone
+import com.doneit.ascend.presentation.main.common.invisible
 import com.doneit.ascend.presentation.main.databinding.ListItemMessageBinding
-import com.doneit.ascend.presentation.utils.extensions.HOUR_12_ONLY_FORMAT
-import com.doneit.ascend.presentation.utils.extensions.HOUR_24_ONLY_FORMAT
-import com.doneit.ascend.presentation.utils.extensions.START_TIME_FORMATTER
-import com.doneit.ascend.presentation.utils.extensions.calculateDate
+import com.doneit.ascend.presentation.utils.extensions.*
 
 class MessageViewHolder(
     private val binding: ListItemMessageBinding,
@@ -50,7 +48,7 @@ class MessageViewHolder(
                     text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
                     corner.apply {
                         if (messageEntity.userId == nextMessage.userId) {
-                            userImage.gone()
+                            userImage.invisible()
                             isOnline.gone()
                             this.gone()
                         } else {
@@ -68,14 +66,6 @@ class MessageViewHolder(
             }
 
         }
-    }
-
-    private fun View.visible() {
-        this.visibility = View.VISIBLE
-    }
-
-    private fun View.gone() {
-        this.visibility = View.GONE
     }
 
     companion object {
