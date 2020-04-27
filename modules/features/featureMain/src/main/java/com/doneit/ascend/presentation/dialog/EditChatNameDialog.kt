@@ -49,7 +49,6 @@ class EditChatNameDialog {
                 validatableField.observableField.set(chatTitle)
                 btnPositive.setOnClickListener {
                     call.invoke(validatableField.observableField.get()!!)
-                    dialog.dismiss()
                 }
                 btnNegative.setOnClickListener {
                     dialog.dismiss()

@@ -33,6 +33,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
     private val _parentKodein: Kodein by closestKodein()
     var shownDialog: Dialog? = null
+    protected var hasConnection: Boolean = true
     override val kodein: Kodein = Kodein.lazy {
         extend(_parentKodein, true)
         with(parentFragment) {
@@ -53,7 +54,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     abstract val viewModel: BaseViewModel
 
     private var noConnectionDialog: ConnectionSnackbar? = null
-    private val connectionObserver: ConnectionObserver by lazy {
+    protected val connectionObserver: ConnectionObserver by lazy {
         ConnectionObserver(context!!)
     }
 
@@ -156,6 +157,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
         }
     }
     protected open fun onNetworkStateChanged(hasConnection: Boolean){
+        this.hasConnection = hasConnection
         if (hasConnection) {
             noConnectionDialog?.dismiss()
         } else {

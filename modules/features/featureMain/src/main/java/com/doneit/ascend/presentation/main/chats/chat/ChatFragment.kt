@@ -91,6 +91,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         }
         viewModel.chatName.observe(viewLifecycleOwner, Observer {
             binding.chatName = it
+            currentDialog?.dismiss()
         })
         viewModel.membersCountGroup.observe(viewLifecycleOwner, Observer {
             binding.statusOrCount =
@@ -241,7 +242,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 true
             }
             R.id.mm_edit_chat -> {
-                createEditNameDialog().show()
+                currentDialog = createEditNameDialog()
                 true
             }
             R.id.mm_invite_to_chat -> {
@@ -353,7 +354,10 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             requireContext(),
             viewModel.chat.value!!.chat.title
         ) {
-            viewModel.updateChatName(it)
+            if (hasConnection) {
+                viewModel.updateChatName(it)
+                currentDialog?.dismiss()
+            }
         }
     }
 
