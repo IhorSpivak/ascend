@@ -33,7 +33,7 @@
     <color name="support_color">#2E9DC0</color>
     <color name="support_light_color">#D5EBF2</color>
     <color name="master_mind_color">#4E519F</color>
-
+    <color name="clear_button_color">#43425D</color>
     <color name="dimmed_black">#8043425D</color>
     <color name="background_dimmed">#000</color>
     <color name="button_pink">#FE1E92</color>
