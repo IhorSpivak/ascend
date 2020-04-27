@@ -538,6 +538,7 @@
     <string name="new_chat_members_counter">%d/50 members</string>
     <string name="new_chat_add_members">Add More</string>
     <string name="new_chat_title_hint">Chat Title</string>
+    <string name="no_results">No Results</string>
 
 
     <!--Blocked Users-->

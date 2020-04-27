@@ -11,9 +11,12 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberContract
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.common.ChatMembersAdapter
+import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.showKeyboard
+import com.doneit.ascend.presentation.utils.extensions.visible
+import kotlinx.android.synthetic.main.fragment_my_chats.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -64,6 +67,7 @@ class InviteMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             clearSearch.setOnClickListener {
                 tvSearch.text.clear()
                 tvSearch.clearFocus()
+                emptyList.gone()
                 hideKeyboard()
                 searchVis = false
             }
@@ -85,6 +89,7 @@ class InviteMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             }
         }
         viewModel.searchResult.observe(this, Observer {
+            emptyList.visible(it.isEmpty() && tvSearch.text.isNotEmpty())
             memberAdapter.submitList(it)
             binding.searchVis = it.isNotEmpty()
         })
