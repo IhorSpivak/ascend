@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.presentation.main.R
@@ -40,7 +41,10 @@ class MyChatViewHolder(
             else -> 0
         }
         itemView.messageStatus.setImageResource(res)
-
+        Glide.with(itemView.groupPlaceholder)
+            .load(R.drawable.ic_group_placeholder)
+            .circleCrop()
+            .into(itemView.groupPlaceholder)
         itemView.setOnTouchListener { _, motionEvent ->
             var status = false
 

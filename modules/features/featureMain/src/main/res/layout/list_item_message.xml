@@ -43,10 +43,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:visibility="@{messageEntity.userId != user.id, default = invisible}"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/time"
-            tools:visibility="visible">
+            tools:visibility="invisible">
 
             <com.doneit.ascend.presentation.views.MasterMindIcon
                 android:id="@+id/user_image"
@@ -146,7 +146,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="6dp"
-            android:visibility="@{messageEntity.userId == user.id, default = gone}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/time"
             tools:visibility="gone">
@@ -164,7 +163,6 @@
                 android:id="@+id/my_message_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="@{messageEntity.userId == user.id, default = gone}"
                 tools:visibility="visible">
 
                 <TextView
@@ -187,7 +185,6 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="8dp"
-                    android:visibility="@{messageEntity.userId == user.id, default = gone}"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

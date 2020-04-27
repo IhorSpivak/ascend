@@ -42,7 +42,15 @@ class MessageViewHolder(
                 setSystemMessage(binding.root.context.resources.getString(R.string.leave_message, member.fullName))
             }
             else -> {
+
                 binding.apply {
+                    if (messageEntity.id == user.id) {
+                        itemLayout.gone()
+                        memberMessageContainer.visible()
+                    } else {
+                        itemLayout.visible()
+                        memberMessageContainer.invisible()
+                    }
                     this.memberEntity = member
                     this.messageEntity = messageEntity
                     this.user = user
@@ -102,7 +110,6 @@ class MessageViewHolder(
         binding.apply {
             itemLayout.gone()
             memberMessageContainer.gone()
-            myMessageContainer.gone()
             time.text = message
         }
     }

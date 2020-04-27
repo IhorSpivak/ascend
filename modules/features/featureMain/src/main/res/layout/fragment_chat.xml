@@ -91,14 +91,13 @@
                             app:name="@{chatName}"
                             app:url="@{url}" />
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/group_placeholder"
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/groupPlaceholder"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
-                            android:src="@drawable/ic_group_placeholder"
                             android:visibility="@{chat.members.size() != 2, default = invisible}"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@id/btnBack"
