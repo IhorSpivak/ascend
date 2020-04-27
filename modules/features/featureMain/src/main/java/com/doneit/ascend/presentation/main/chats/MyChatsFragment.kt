@@ -3,7 +3,10 @@ package com.doneit.ascend.presentation.main.chats
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import com.doneit.ascend.presentation.dialog.BlockUserDialog
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.chats.common.MyChatsAdapter
 import com.doneit.ascend.presentation.main.common.gone
@@ -17,12 +20,14 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
     override val viewModelModule = MyChatsViewModelModule.get(this)
     override val viewModel: MyChatsContract.ViewModel by instance()
 
+    private var currentDialog: AlertDialog? = null
+
     private val adapter: MyChatsAdapter by lazy {
         MyChatsAdapter(
             {
                 viewModel.onChatPressed(it)
             }, {
-                viewModel.onDelete(it)
+                showDeleteDialog(it)
             }
         )
     }
@@ -61,5 +66,15 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
+    }
+
+    private fun showDeleteDialog(id: Long) {
+        BlockUserDialog.create(
+            requireContext(),
+            getString(R.string.chats_delete),
+            getString(R.string.chats_delete_description),
+            getString(R.string.chats_delete_button),
+            getString(R.string.chats_delete_cancel)
+        ) { viewModel.onDelete(id) }.show()
     }
 }
