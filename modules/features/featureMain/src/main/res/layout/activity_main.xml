@@ -32,30 +32,30 @@
                     android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btnChat"
+                        android:id="@+id/btbNotification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="15dp"
-                        android:paddingBottom="15dp"
-                        android:paddingEnd="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="15dp"
                         android:background="@android:color/transparent"
                         android:clickable="true"
                         android:focusable="true"
-                        android:onClick="@{() -> model.onChatClick()}"
-                        android:src="@drawable/ic_chat"
+                        android:onClick="@{() -> model.onNotificationClick()}"
+                        android:src="@drawable/ic_notifications"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/hasChatMessages"
+                        android:id="@+id/hasNotification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_unread_indicator"
-                        android:visibility="@{model.hasUnreadMessages, default=gone}"
-                        app:layout_constraintEnd_toEndOf="@id/btnChat"
-                        app:layout_constraintTop_toTopOf="@id/btnChat" />
+                        android:visibility="@{model.hasUnread, default=gone}"
+                        app:layout_constraintEnd_toEndOf="@id/btbNotification"
+                        app:layout_constraintTop_toTopOf="@id/btbNotification" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvTitle"
@@ -81,7 +81,7 @@
                         android:onClick="@{() -> model.onSearchClick()}"
                         android:src="@drawable/ic_search"
                         android:visibility="visible"
-                        app:layout_constraintEnd_toStartOf="@+id/btbNotification"
+                        app:layout_constraintEnd_toStartOf="@+id/btnChat"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -97,35 +97,35 @@
                         android:onClick="@{() -> model.onFilterClick()}"
                         android:src="@drawable/ic_filter"
                         android:visibility="visible"
-                        app:layout_constraintEnd_toStartOf="@+id/btbNotification"
+                        app:layout_constraintEnd_toStartOf="@+id/btnChat"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
 
                     <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btbNotification"
+                        android:id="@+id/btnChat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginBottom="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:paddingEnd="15dp"
                         android:background="@android:color/transparent"
                         android:clickable="true"
                         android:focusable="true"
-                        android:onClick="@{() -> model.onNotificationClick()}"
-                        android:src="@drawable/ic_notifications"
+                        android:onClick="@{() -> model.onChatClick()}"
+                        android:src="@drawable/ic_chat"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/hasNotification"
+                        android:id="@+id/hasChatMessages"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_unread_indicator"
-                        android:visibility="@{model.hasUnread, default=gone}"
-                        app:layout_constraintEnd_toEndOf="@id/btbNotification"
-                        app:layout_constraintTop_toTopOf="@id/btbNotification"/>
+                        android:visibility="@{model.hasUnreadMessages, default=gone}"
+                        app:layout_constraintEnd_toEndOf="@id/btnChat"
+                        app:layout_constraintTop_toTopOf="@id/btnChat" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
