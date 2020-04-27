@@ -8,14 +8,13 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.DialogEditChatNameBinding
 import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.models.ValidationResult
-import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import com.doneit.ascend.presentation.utils.isValidChatTitle
-import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 
 class EditChatNameDialog {
     companion object {
         fun create(
             context: Context,
+            chatTitle: String,
             call: ((String) -> Unit)
         ): AlertDialog {
 
@@ -47,6 +46,7 @@ class EditChatNameDialog {
 
             binding.apply {
                 this.validatable = validatableField
+                validatableField.observableField.set(chatTitle)
                 btnPositive.setOnClickListener {
                     call.invoke(validatableField.observableField.get()!!)
                     dialog.dismiss()

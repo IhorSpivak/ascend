@@ -350,7 +350,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
     private fun createEditNameDialog(): AlertDialog {
         return EditChatNameDialog.create(
-            context!!
+            requireContext(),
+            viewModel.chat.value!!.chat.title
         ) {
             viewModel.updateChatName(it)
         }
