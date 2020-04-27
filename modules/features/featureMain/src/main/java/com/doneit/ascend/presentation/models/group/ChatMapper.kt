@@ -5,7 +5,6 @@ import com.doneit.ascend.presentation.models.PresentationCreateChatModel
 
 fun PresentationCreateChatModel.toDTO(): CreateChatDTO{
     return CreateChatDTO(
-        title.observableField.get()!!,
-        chatMembers.map { it.toInt() }
+        members = chatMembers.map { it.toInt() }
     )
 }

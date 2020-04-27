@@ -7,12 +7,9 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
-import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCreateChatModel
-import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.group.toDTO
-import com.doneit.ascend.presentation.utils.isValidChatTitle
 import kotlinx.coroutines.launch
 
 class NewChatViewModel(
@@ -56,18 +53,6 @@ class NewChatViewModel(
             groupUseCase.searchMembers(it, currentUser.id, null)
         }
 
-    init {
-        newChatModel.title.validator = {s ->
-            val result = ValidationResult()
-            if (s.isValidChatTitle().not()) {
-                result.isSucceed = false
-                result.errors.add(R.string.error_group_name)
-            }
-
-            result
-        }
-        newChatModel.title.onFieldInvalidate = {updateCanCreate()}
-    }
     override fun complete() {
         viewModelScope.launch{
             isCompletable.postValue(false)
@@ -118,7 +103,6 @@ class NewChatViewModel(
     private fun updateCanCreate() {
         var isFormValid = true
 
-        isFormValid = isFormValid and newChatModel.title.isValid
         isFormValid = isFormValid and newChatModel.chatMembers.isNotEmpty()
         isCompletable.postValue(isFormValid)
     }

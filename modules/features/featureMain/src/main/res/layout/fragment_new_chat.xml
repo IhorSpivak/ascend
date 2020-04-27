@@ -56,8 +56,7 @@
                             android:textColor="@color/light_gray_8f"
                             android:textSize="17sp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toTopOf="@id/new_chat_name"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/text_view_toolbar_title"
@@ -68,8 +67,7 @@
                             android:textColor="@color/colorAccent"
                             app:layout_constraintEnd_toStartOf="parent"
                             app:layout_constraintStart_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toTopOf="@id/new_chat_name"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/button_complete"
@@ -80,27 +78,8 @@
                             android:text="@string/btn_complete"
                             android:textColor="@color/button_text_color_selector"
                             android:textSize="17sp"
-                            app:layout_constraintBottom_toTopOf="@id/new_chat_name"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
-
-                        <com.doneit.ascend.presentation.views.EditWithError
-                            android:id="@+id/new_chat_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/new_chat_title_start_margin"
-                            android:layout_marginTop="@dimen/new_chat_title_top_margin"
-                            android:layout_marginEnd="@dimen/new_chat_title_bottom_margin"
-                            app:error="@{model.newChatModel.title.observableError}"
-                            app:hint="@{@string/new_chat_title_hint}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:maxLength="@{32}"
-                            app:saveState="@{false}"
-                            app:text="@={model.newChatModel.title.observableField}"
-                            app:tint="@{@color/red_webinar_color}" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.AppBarLayout>
