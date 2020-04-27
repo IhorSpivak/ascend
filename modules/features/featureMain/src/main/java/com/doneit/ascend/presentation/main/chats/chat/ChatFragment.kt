@@ -19,6 +19,8 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
+import com.doneit.ascend.presentation.utils.extensions.visible
+import kotlinx.android.synthetic.main.fragment_my_chats.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -168,6 +170,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             //viewModel.applyData(chat)
         })
         viewModel.messages.observe(this, Observer {
+            emptyList.visible(it.isNullOrEmpty())
             messagesAdapter.submitList(it)
             //this work badly, need another solution(trigger on scroll)
             //(binding.messageList.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0,0)

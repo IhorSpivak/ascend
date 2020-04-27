@@ -534,6 +534,7 @@
     <string name="my_chats_title">My Chats</string>
     <string name="new_chat">New Chat</string>
     <string name="no_chats">No chats</string>
+    <string name="no_messages">No Messages</string>
     <string name="new_chat_members_counter">%d/50 members</string>
     <string name="new_chat_add_members">Add More</string>
     <string name="new_chat_title_hint">Chat Title</string>
