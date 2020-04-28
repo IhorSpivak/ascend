@@ -3,7 +3,6 @@ package com.doneit.ascend.presentation.main.chats
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
 import com.doneit.ascend.presentation.main.R
@@ -18,8 +17,6 @@ import org.kodein.di.generic.instance
 class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
     override val viewModelModule = MyChatsViewModelModule.get(this)
     override val viewModel: MyChatsContract.ViewModel by instance()
-
-    private var currentDialog: AlertDialog? = null
 
     private val adapter: MyChatsAdapter by lazy {
         MyChatsAdapter(
@@ -44,9 +41,15 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
         }
 
         viewModel.chats.observe(viewLifecycleOwner, Observer {
+            swipeRefresh.isRefreshing = false
             emptyList.visible(it.isNullOrEmpty())
             adapter.submitList(it)
         })
+        binding.swipeRefresh.setOnRefreshListener {
+            swipeRefresh.isRefreshing = true
+            //todo: fix this
+            viewModel.filterTextAll.postValue(viewModel.filterTextAll.value)
+        }
         binding.clearSearch.setOnClickListener {
             tvSearch.text.clear()
             clearSearch.gone()
