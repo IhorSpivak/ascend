@@ -246,6 +246,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             }
             R.id.mm_edit_chat -> {
                 currentDialog = createEditNameDialog()
+                currentDialog?.show()
                 true
             }
             R.id.mm_invite_to_chat -> {
