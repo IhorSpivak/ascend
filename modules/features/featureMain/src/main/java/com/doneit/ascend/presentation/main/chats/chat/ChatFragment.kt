@@ -211,134 +211,136 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     }
 
     override fun onMenuItemClick(p0: MenuItem?): Boolean {
-        return when (p0!!.itemId) {
-            R.id.ru_leave -> {
-                context?.let { context ->
-                    BlockUserDialog.create(
-                        context,
-                        getString(R.string.chats_leave),
-                        getString(R.string.chats_leave_description),
-                        getString(R.string.chats_leave_button),
-                        getString(R.string.chats_leave_cancel)
-                    ) { viewModel.onLeave() }.show()
-                }
-                true
-            }
-            R.id.ru_report -> {
-                reportOnOwner()
-                true
-            }
-            R.id.ru_report_group -> {
-                reportOnOwner()
-                true
-            }
-            R.id.mm_delete_chat -> {
-                context?.let { context ->
-                    BlockUserDialog.create(
-                        context,
-                        getString(R.string.chats_delete),
-                        getString(R.string.chats_delete_description),
-                        getString(R.string.chats_delete_button),
-                        getString(R.string.chats_delete_cancel)
-                    ) { viewModel.onDeleteChat() }.show()
-                }
-                true
-            }
-            R.id.mm_edit_chat -> {
-                currentDialog = createEditNameDialog()
-                currentDialog?.show()
-                true
-            }
-            R.id.mm_invite_to_chat -> {
-                viewModel.inviteUser()
-                true
-            }
-            R.id.mm_report_user -> {
-                context?.let { context ->
-                    messagesAdapter.user?.let { user ->
-                        messagesAdapter.chat?.members?.let { list ->
-                            list.firstOrNull { it.id != user.id }?.let { member ->
-                                currentDialog = ReportAbuseDialog.create(
-                                    context
-                                ) {
-                                    currentDialog?.dismiss()
-                                    viewModel.onReport(it, member.id)
-                                }
-                                currentDialog?.show()
-                            }
-                        }
-                    }
-                }
-                true
-            }
-            R.id.report_single -> {
-                if (kickOrReportUserId > 0) {
+        if (hasConnection) {
+            return when (p0!!.itemId) {
+                R.id.ru_leave -> {
                     context?.let { context ->
-                        currentDialog = ReportAbuseDialog.create(
-                            context
-                        ) {
-                            currentDialog?.dismiss()
-                            viewModel.onReport(it, kickOrReportUserId)
-                        }
-                        currentDialog?.show()
+                        BlockUserDialog.create(
+                            context,
+                            getString(R.string.chats_leave),
+                            getString(R.string.chats_leave_description),
+                            getString(R.string.chats_leave_button),
+                            getString(R.string.chats_leave_cancel)
+                        ) { viewModel.onLeave() }.show()
                     }
+                    true
                 }
-                true
-            }
-            R.id.kick -> {
+                R.id.ru_report -> {
+                    reportOnOwner()
+                    true
+                }
+                R.id.ru_report_group -> {
+                    reportOnOwner()
+                    true
+                }
+                R.id.mm_delete_chat -> {
+                    context?.let { context ->
+                        BlockUserDialog.create(
+                            context,
+                            getString(R.string.chats_delete),
+                            getString(R.string.chats_delete_description),
+                            getString(R.string.chats_delete_button),
+                            getString(R.string.chats_delete_cancel)
+                        ) { viewModel.onDeleteChat() }.show()
+                    }
+                    true
+                }
+                R.id.mm_edit_chat -> {
+                    currentDialog = createEditNameDialog()
+                    currentDialog?.show()
+                    true
+                }
+                R.id.mm_invite_to_chat -> {
+                    viewModel.inviteUser()
+                    true
+                }
+                R.id.mm_report_user -> {
+                    context?.let { context ->
+                        messagesAdapter.user?.let { user ->
+                            messagesAdapter.chat?.members?.let { list ->
+                                list.firstOrNull { it.id != user.id }?.let { member ->
+                                    currentDialog = ReportAbuseDialog.create(
+                                        context
+                                    ) {
+                                        currentDialog?.dismiss()
+                                        viewModel.onReport(it, member.id)
+                                    }
+                                    currentDialog?.show()
+                                }
+                            }
+                        }
+                    }
+                    true
+                }
+                R.id.report_single -> {
+                    if (kickOrReportUserId > 0) {
+                        context?.let { context ->
+                            currentDialog = ReportAbuseDialog.create(
+                                context
+                            ) {
+                                currentDialog?.dismiss()
+                                viewModel.onReport(it, kickOrReportUserId)
+                            }
+                            currentDialog?.show()
+                        }
+                    }
+                    true
+                }
+                R.id.kick -> {
 
-                true
-            }
-            R.id.mm_delete_group_chat -> {
-                context?.let { context ->
-                    BlockUserDialog.create(
-                        context,
-                        getString(R.string.chats_delete),
-                        getString(R.string.chats_delete_description),
-                        getString(R.string.chats_delete_button),
-                        getString(R.string.chats_delete_cancel)
-                    ) { viewModel.onDeleteChat() }.show()
+                    true
                 }
-                true
-            }
-            R.id.mm_block_user -> {
-                context?.let { context ->
-                    messagesAdapter.user?.let { user ->
-                        messagesAdapter.chat?.members?.let { list ->
-                            list.firstOrNull { it.id != user.id }?.let {
-                                BlockUserDialog.create(
-                                    context,
-                                    getString(R.string.chats_mm_block),
-                                    getString(R.string.chats_mm_block_description),
-                                    getString(R.string.chats_mm_block_button),
-                                    getString(R.string.chats_mm_block_cancel)
-                                ) { viewModel.onBlockUserClick(it) }.show()
+                R.id.mm_delete_group_chat -> {
+                    context?.let { context ->
+                        BlockUserDialog.create(
+                            context,
+                            getString(R.string.chats_delete),
+                            getString(R.string.chats_delete_description),
+                            getString(R.string.chats_delete_button),
+                            getString(R.string.chats_delete_cancel)
+                        ) { viewModel.onDeleteChat() }.show()
+                    }
+                    true
+                }
+                R.id.mm_block_user -> {
+                    context?.let { context ->
+                        messagesAdapter.user?.let { user ->
+                            messagesAdapter.chat?.members?.let { list ->
+                                list.firstOrNull { it.id != user.id }?.let {
+                                    BlockUserDialog.create(
+                                        context,
+                                        getString(R.string.chats_mm_block),
+                                        getString(R.string.chats_mm_block_description),
+                                        getString(R.string.chats_mm_block_button),
+                                        getString(R.string.chats_mm_block_cancel)
+                                    ) { viewModel.onBlockUserClick(it) }.show()
+                                }
                             }
                         }
                     }
+                    true
                 }
-                true
-            }
-            R.id.mm_unblock_user -> {
-                context?.let { context ->
-                    messagesAdapter.user?.let { user ->
-                        messagesAdapter.chat?.members?.let { list ->
-                            list.firstOrNull { it.id != user.id }?.let {
-                                BlockUserDialog.create(
-                                    context,
-                                    getString(R.string.chats_mm_unblock),
-                                    getString(R.string.chats_mm_unblock_description),
-                                    getString(R.string.chats_mm_unblock_button),
-                                    getString(R.string.chats_mm_unblock_cancel)
-                                ) { viewModel.onUnblockUserClick(it) }.show()
+                R.id.mm_unblock_user -> {
+                    context?.let { context ->
+                        messagesAdapter.user?.let { user ->
+                            messagesAdapter.chat?.members?.let { list ->
+                                list.firstOrNull { it.id != user.id }?.let {
+                                    BlockUserDialog.create(
+                                        context,
+                                        getString(R.string.chats_mm_unblock),
+                                        getString(R.string.chats_mm_unblock_description),
+                                        getString(R.string.chats_mm_unblock_button),
+                                        getString(R.string.chats_mm_unblock_cancel)
+                                    ) { viewModel.onUnblockUserClick(it) }.show()
+                                }
                             }
                         }
                     }
+                    true
                 }
-                true
+                else -> false
             }
-            else -> false
-        }
+        } else return false
     }
 
     private fun reportOnOwner() {
