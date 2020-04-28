@@ -11,7 +11,6 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.chats.common.MyChatsAdapter
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentMyChatsBinding
-import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.visible
 import kotlinx.android.synthetic.main.fragment_my_chats.*
 import org.kodein.di.generic.instance
@@ -50,13 +49,12 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
         })
         binding.clearSearch.setOnClickListener {
             tvSearch.text.clear()
-            tvSearch.clearFocus()
-            hideKeyboard()
             clearSearch.gone()
         }
         binding.tvSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 viewModel.filterTextAll.value = p0.toString()
+                emptyList.setText(if (p0.isNullOrEmpty()) R.string.no_chats else R.string.no_results)
                 clearSearch.visible(p0.isNullOrEmpty().not())
             }
 
