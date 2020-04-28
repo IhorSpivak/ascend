@@ -582,4 +582,5 @@
     <string name="invite_message"><b>1%s</b> invited <b>2%s</b></string>
     <string name="leave_message"><b>%s</b> left this chat</string>
     <string name="chats_member_online">online</string>
+    <string name="search_hint">Search</string>
 </resources>

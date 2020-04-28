@@ -110,6 +110,7 @@
                                 android:background="@android:color/transparent"
                                 android:gravity="center_vertical"
                                 android:maxLength="32"
+                                android:hint="@string/search_hint"
                                 android:textSize="14sp"
                                 tools:text="Query" />
 
