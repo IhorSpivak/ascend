@@ -32,8 +32,6 @@ class ChatViewModel(
     private val localRouter: ChatContract.LocalRouter,
     private val groupUseCase: GroupUseCase
 ) : BaseViewModelImpl(), ChatContract.ViewModel {
-
-    override val chatName: MutableLiveData<String> = MutableLiveData()
     override val membersCountGroup: MutableLiveData<Int> = MutableLiveData()
     override val chat: MediatorLiveData<ChatWithUser> = MediatorLiveData()
     override val chatModel: MutableLiveData<ChatEntity> = MutableLiveData()
@@ -154,7 +152,7 @@ class ChatViewModel(
         viewModelScope.launch {
             val response = chatUseCase.updateChat(chatModel.value!!.id, title = newName)
             if (response.isSuccessful) {
-                chatName.postValue(response.successModel?.title)
+                chatModel.postValue(response.successModel)
             }
         }
     }

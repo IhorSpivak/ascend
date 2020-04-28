@@ -3,7 +3,6 @@ package com.doneit.ascend.presentation.main.chats.chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
@@ -17,7 +16,6 @@ interface ChatContract {
         val user: LiveData<UserEntity?>
         val messages: LiveData<PagedList<MessageEntity>>
         val chatModel: LiveData<ChatEntity>
-        val chatName: LiveData<String>
         val membersCountGroup: LiveData<Int>
         val chat: MediatorLiveData<ChatWithUser>
 

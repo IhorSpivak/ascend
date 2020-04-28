@@ -91,15 +91,12 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 }
             }
         }
-        viewModel.chatName.observe(viewLifecycleOwner, Observer {
-            binding.chatName = it
-            currentDialog?.dismiss()
-        })
         viewModel.membersCountGroup.observe(viewLifecycleOwner, Observer {
             binding.statusOrCount =
                 resources.getString(R.string.chats_member_count, it)
         })
         viewModel.chat.observe(this, Observer {
+            currentDialog?.dismiss()
             binding.apply {
                 chatName = it.chat.title
                 chat = it.chat
