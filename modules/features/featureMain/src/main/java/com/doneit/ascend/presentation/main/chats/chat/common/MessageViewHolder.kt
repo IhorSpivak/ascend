@@ -44,7 +44,7 @@ class MessageViewHolder(
             else -> {
 
                 binding.apply {
-                    if (messageEntity.id == user.id) {
+                    if (messageEntity.userId != user.id) {
                         itemLayout.gone()
                         memberMessageContainer.visible()
                     } else {
