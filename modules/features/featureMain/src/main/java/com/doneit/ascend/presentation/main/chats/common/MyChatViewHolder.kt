@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
+import com.doneit.ascend.domain.entity.chats.MessageType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateMyChatItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
@@ -28,12 +29,33 @@ class MyChatViewHolder(
     ) {
         binding.item = item
         itemView.isClickable = true
-        binding.date = item.lastMessage?.updatedAt?.toChatDate(itemView.context)
+        binding.date = item.lastMessage?.let { it.updatedAt?.toChatDate(itemView.context) }
+            ?: item.updatedAt?.toChatDate(itemView.context)
         binding.ibDelete.setOnClickListener {
             onDeleteListener.invoke(item.id)
         }
 
-        itemView.message.text = item.lastMessage?.message
+
+        item.lastMessage?.let {
+            when (it.type) {
+                MessageType.INVITE -> {
+                    itemView.message.text = binding.root.context.resources.getString(
+                        R.string.invite_message,
+                        getMemberNameById(item, item.chatOwnerId),
+                        getMemberNameById(item, it.userId)
+                    )
+                }
+                MessageType.LEAVE -> {
+                    itemView.message.text = binding.root.context.resources.getString(
+                        R.string.leave_message,
+                        getMemberNameById(item, it.userId)
+                    )
+                }
+                else -> itemView.message.text = it.message
+            }
+        } ?: run {
+            itemView.message.setText(R.string.no_messages_yet)
+        }
         val res = when (item.lastMessage?.status) {
             MessageStatus.SENT -> R.drawable.ic_unread_message
             MessageStatus.READ -> R.drawable.ic_read_message
@@ -80,5 +102,14 @@ class MyChatViewHolder(
 
             return MyChatViewHolder(binding)
         }
+    }
+
+    private fun getMemberNameById(item: ChatEntity, id: Long): String {
+        item.members?.firstOrNull {
+            it.id == item.lastMessage?.userId
+        }?.let { member ->
+            return member.fullName
+        }
+        return ""
     }
 }

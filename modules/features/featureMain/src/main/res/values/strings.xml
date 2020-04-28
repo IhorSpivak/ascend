@@ -535,12 +535,11 @@
     <string name="new_chat">New Chat</string>
     <string name="no_chats">No chats</string>
     <string name="no_messages">No Messages</string>
+    <string name="no_messages_yet">No Messages yet</string>
     <string name="new_chat_members_counter">%d/50 members</string>
     <string name="new_chat_add_members">Add More</string>
     <string name="new_chat_title_hint">Chat Title</string>
     <string name="no_results">No Results</string>
-    <string name="delete_chat_question">You really want to delete the chat?</string>
-    <string name="chat_delete_content"></string>
 
     <!--Blocked Users-->
     <string name="blocked_users_title">Blocked Users</string>
