@@ -64,7 +64,6 @@
                 android:layout_width="8dp"
                 android:layout_height="8dp"
                 android:background="@drawable/green_chat_status"
-                android:visibility="@{memberEntity.online, default = gone}"
                 app:layout_constraintEnd_toEndOf="@id/user_image"
                 app:layout_constraintTop_toTopOf="@id/user_image"
                 tools:visibility="visible" />

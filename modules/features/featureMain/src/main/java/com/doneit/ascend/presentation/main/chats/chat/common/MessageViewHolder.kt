@@ -16,16 +16,13 @@ import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.invisible
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ListItemMessageBinding
-import com.doneit.ascend.presentation.utils.extensions.START_TIME_FORMATTER
-import com.doneit.ascend.presentation.utils.extensions.TIME_12_FORMAT_DROP_DAY
-import com.doneit.ascend.presentation.utils.extensions.TIME_24_FORMAT_DROP_DAY
-import com.doneit.ascend.presentation.utils.extensions.calculateDate
+import com.doneit.ascend.presentation.utils.extensions.*
 
 class MessageViewHolder(
     private val binding: ListItemMessageBinding,
     private val onDeleteClick: (message: MessageEntity) -> Unit,
     private val onMenuClick: (view: View, id: Long) -> Unit
-): RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(
         messageEntity: MessageEntity,
@@ -34,15 +31,25 @@ class MessageViewHolder(
         nextMessage: MessageEntity?,
         chat: ChatEntity
     ) {
-        when(messageEntity.type){
+        when (messageEntity.type) {
             MessageType.INVITE -> {
-                setSystemMessage(binding.root.context.resources.getString(R.string.invite_message, user.displayName, member.fullName))
+                setSystemMessage(
+                    binding.root.context.resources.getString(
+                        R.string.invite_message,
+                        user.displayName,
+                        member.fullName
+                    )
+                )
             }
             MessageType.LEAVE -> {
-                setSystemMessage(binding.root.context.resources.getString(R.string.leave_message, member.fullName))
+                setSystemMessage(
+                    binding.root.context.resources.getString(
+                        R.string.leave_message,
+                        member.fullName
+                    )
+                )
             }
             else -> {
-
                 binding.apply {
                     if (messageEntity.userId != user.id) {
                         itemLayout.gone()
@@ -62,16 +69,16 @@ class MessageViewHolder(
                             if (chat.chatOwnerId == user.id) {
                                 onMenuClick(it, member.id)
                                 true
-                            }else{
+                            } else {
                                 false
                             }
                         } else {
                             false
                         }
                     }
-                    if(DateFormat.is24HourFormat(root.context)){
+                    if (DateFormat.is24HourFormat(root.context)) {
                         this.sendTime = TIME_24_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
-                    }else{
+                    } else {
                         this.sendTime = TIME_12_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
                     }
                     if (nextMessage == null) {
@@ -79,7 +86,7 @@ class MessageViewHolder(
                         time.visible()
                         corner.visible()
                         userImage.visible()
-                        isOnline.visible()
+                        isOnline.visible(chat.online)
                     } else {
                         time.apply {
                             text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
@@ -90,7 +97,7 @@ class MessageViewHolder(
                                     this.gone()
                                 } else {
                                     userImage.visible()
-                                    isOnline.visible()
+                                    isOnline.visible(chat.online)
                                     this.visible()
                                 }
                             }
@@ -106,7 +113,8 @@ class MessageViewHolder(
         }
 
     }
-    private fun setSystemMessage(message: String){
+
+    private fun setSystemMessage(message: String) {
         binding.apply {
             itemLayout.gone()
             memberMessageContainer.gone()
