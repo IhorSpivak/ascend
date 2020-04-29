@@ -38,8 +38,8 @@ class MyChatsRepository(
         return dao.getAllMembersLive()
     }
 
-    override fun getBlockedUsersLive(): DataSource.Factory<Int, BlockedUserLocal> {
-        return dao.getAllBlockedUsers()
+    override fun getBlockedUsersLive(query: String?): DataSource.Factory<Int, BlockedUserLocal> {
+        return dao.getAllBlockedUsers("%$query%")
     }
 
     override suspend fun insert(chat: ChatLocal) {

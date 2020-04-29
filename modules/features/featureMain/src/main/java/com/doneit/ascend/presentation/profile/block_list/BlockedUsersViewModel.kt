@@ -1,5 +1,7 @@
 package com.doneit.ascend.presentation.profile.block_list
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
 import com.doneit.ascend.domain.entity.dto.BlockedUsersDTO
@@ -19,10 +21,19 @@ class BlockedUsersViewModel(
     private val userUseCase: UserUseCase
 ) : BaseViewModelImpl(),
     BlockedUsersContract.ViewModel {
-    override val blockedUsers = chatUseCase.getBlockedUsers(BlockedUsersDTO(
-        perPage = 10,
-        sortType = SortType.ASC
-    ))
+    override val filterTextAll: MutableLiveData<String> = MutableLiveData("")
+
+
+    override val blockedUsers = Transformations.switchMap(filterTextAll)
+    { query ->
+        val model = BlockedUsersDTO(
+            perPage = 10,
+            sortType = SortType.ASC,
+            fullName = query
+        )
+        return@switchMap chatUseCase.getBlockedUsers(model)
+    }
+
     override fun onBackPressed() {
         router.onBack()
     }
@@ -30,7 +41,7 @@ class BlockedUsersViewModel(
     override fun onUnblockUser(user: BlockedUserEntity) {
         viewModelScope.launch {
             chatUseCase.unblockUser(user.id).let {
-                if (it.isSuccessful){
+                if (it.isSuccessful) {
                     chatUseCase.removeBlockedUser(user)
                     userUseCase.getUser()?.let {
                         userUseCase.update(it.apply { blockedUsersCount -= 1 })

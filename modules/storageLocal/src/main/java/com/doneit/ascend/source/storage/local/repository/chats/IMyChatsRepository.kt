@@ -14,7 +14,7 @@ interface IMyChatsRepository {
     fun getMessageListLive(): LiveData<List<MessageLocal>>
     fun getMemberList(): DataSource.Factory<Int, MemberLocal>
     fun getMemberListLive(): LiveData<List<MemberLocal>>
-    fun getBlockedUsersLive(): DataSource.Factory<Int, BlockedUserLocal>
+    fun getBlockedUsersLive(query: String?): DataSource.Factory<Int, BlockedUserLocal>
     suspend fun insert(chat: ChatLocal)
     suspend fun insertAll(chats: List<ChatLocal>)
     suspend fun insertMessage(message: MessageLocal)

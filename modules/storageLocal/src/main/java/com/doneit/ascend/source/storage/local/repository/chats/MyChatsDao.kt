@@ -83,8 +83,8 @@ interface MyChatsDao {
     @Query("DELETE FROM members")
     suspend fun removeAllMembers()
 
-    @Query("SELECT * FROM blocked_users ORDER BY fullName ASC")
-    fun getAllBlockedUsers(): DataSource.Factory<Int, BlockedUserLocal>
+    @Query("SELECT * FROM blocked_users where fullName LIKE :query ORDER BY fullName ASC")
+    fun getAllBlockedUsers(query: String): DataSource.Factory<Int, BlockedUserLocal>
 
     @Transaction
     @Query("DELETE FROM blocked_users")

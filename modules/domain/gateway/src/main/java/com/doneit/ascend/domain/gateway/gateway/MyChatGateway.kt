@@ -326,7 +326,7 @@ class MyChatGateway(
                 .setEnablePlaceholders(false)
                 .setPageSize(blockedUsersDTO.perPage ?: 50)
                 .build()
-            val factory = local.getBlockedUsersLive().map { it.toEntity() }
+            val factory = local.getBlockedUsersLive(blockedUsersDTO.fullName).map { it.toEntity() }
 
             val boundary = BlockedUsersBoundaryCallback(
                 GlobalScope,
