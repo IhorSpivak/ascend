@@ -11,14 +11,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:orientation="vertical"
+        android:paddingBottom="8dp"
         android:paddingTop="8dp">
 
         <com.doneit.ascend.presentation.views.MasterMindIcon
             android:id="@+id/followerImage"
             android:layout_width="40dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
@@ -47,8 +47,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:paddingStart="4dp"
