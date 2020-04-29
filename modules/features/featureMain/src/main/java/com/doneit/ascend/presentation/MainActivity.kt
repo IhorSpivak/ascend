@@ -135,6 +135,10 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.btnFilter.visible(isVisible)
     }
 
+    override fun setChatEnabled(isVisible: Boolean) {
+        binding.btnChat.visible(isVisible)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             VideoChatActivity.RESULT_CODE -> {

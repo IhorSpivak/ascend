@@ -47,6 +47,7 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
         listener.setTitle(getString(R.string.profile_title))
         listener.setSearchEnabled(false)
         listener.setFilterEnabled(false)
+        listener.setChatEnabled(false)
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {

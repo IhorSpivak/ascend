@@ -23,6 +23,7 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
         listener.setTitle(getString(R.string.ascension_plan))
         listener.setSearchEnabled(false)
         listener.setFilterEnabled(true)
+        listener.setChatEnabled(true)
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {

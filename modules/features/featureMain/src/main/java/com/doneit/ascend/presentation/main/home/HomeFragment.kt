@@ -35,6 +35,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         listener.setTitle(getString(R.string.main_title))
         listener.setSearchEnabled(true)
         listener.setFilterEnabled(false)
+        listener.setChatEnabled(true)
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
