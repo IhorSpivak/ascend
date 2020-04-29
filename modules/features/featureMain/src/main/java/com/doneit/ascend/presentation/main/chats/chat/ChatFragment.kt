@@ -19,6 +19,7 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.visible
 import kotlinx.android.synthetic.main.fragment_my_chats.*
 import org.kodein.di.Kodein
@@ -88,6 +89,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 if (message.text.toString().isNotBlank()) {
                     viewModel.sendMessage(message.text.toString())
                     message.text.clear()
+                    hideKeyboard()
                 }
             }
         }
