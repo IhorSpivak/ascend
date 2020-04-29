@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
-        android:padding="8dp"
         android:background="@drawable/member_background_selector">
 
     <com.doneit.ascend.presentation.views.MasterMindIcon
