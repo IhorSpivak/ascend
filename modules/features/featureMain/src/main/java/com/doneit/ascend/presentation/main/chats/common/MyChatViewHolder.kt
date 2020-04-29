@@ -106,7 +106,7 @@ class MyChatViewHolder(
 
     private fun getMemberNameById(item: ChatEntity, id: Long): String {
         item.members?.firstOrNull {
-            it.id == item.lastMessage?.userId
+            it.id == id
         }?.let { member ->
             return member.fullName
         }

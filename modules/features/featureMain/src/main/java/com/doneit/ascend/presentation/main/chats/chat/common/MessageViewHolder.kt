@@ -36,7 +36,7 @@ class MessageViewHolder(
                 setSystemMessage(
                     binding.root.context.resources.getString(
                         R.string.invite_message,
-                        user.displayName,
+                        getMemberNameById(chat, chat.chatOwnerId),
                         member.fullName
                     )
                 )
@@ -120,6 +120,15 @@ class MessageViewHolder(
             memberMessageContainer.gone()
             time.text = message
         }
+    }
+
+    private fun getMemberNameById(item: ChatEntity, id: Long): String {
+        item.members?.firstOrNull {
+            it.id == id
+        }?.let { member ->
+            return member.fullName
+        }
+        return ""
     }
 
     companion object {

@@ -579,7 +579,7 @@
     <string name="chats_dialog_edit_name_cancel">Cancel</string>
     <string name="chats_dialog_edit_name_save">Save</string>
     <string name="chats_member_count">%d members</string>
-    <string name="invite_message"><b>1%s</b> invited <b>2%s</b></string>
+    <string name="invite_message"><b>%s</b> invited <b>%s</b></string>
     <string name="leave_message"><b>%s</b> left this chat</string>
     <string name="chats_member_online">online</string>
     <string name="search_hint">Search</string>
