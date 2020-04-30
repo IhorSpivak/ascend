@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -44,6 +45,7 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             swipeRefresh.isRefreshing = false
             emptyList.visible(it.isNullOrEmpty())
             adapter.submitList(it)
+            scrollIfNeed()
         })
         binding.swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = true
@@ -67,6 +69,15 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
         })
+    }
+
+    private fun scrollIfNeed() {
+        binding.rvChats.adapter?.let {
+            val lm =
+                binding.rvChats.layoutManager as LinearLayoutManager
+            val first = lm.findFirstVisibleItemPosition()
+            if (first < 5) binding.rvChats.scrollToPosition(0)
+        }
     }
 
     private fun showDeleteDialog(id: Long) {
