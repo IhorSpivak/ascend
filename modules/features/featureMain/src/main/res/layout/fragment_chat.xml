@@ -107,15 +107,17 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/name"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:ellipsize="end"
                             android:fontFamily="@font/red_hat_font"
-                            android:gravity="center_horizontal|top"
+                            android:gravity="start|top"
+                            android:singleLine="true"
                             android:text="@{chatName}"
                             android:textSize="18sp"
                             app:layout_constraintBottom_toTopOf="@id/status"
+                            app:layout_constraintEnd_toStartOf="@+id/menu"
                             app:layout_constraintStart_toEndOf="@id/image"
                             app:layout_constraintTop_toTopOf="@id/image"
                             tools:text="Name " />
