@@ -41,10 +41,11 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             }
         }
 
-        viewModel.chats.observe(viewLifecycleOwner, Observer {
+        viewModel.chatsWithCurrentUser.observe(viewLifecycleOwner, Observer {
             swipeRefresh.isRefreshing = false
-            emptyList.visible(it.isNullOrEmpty())
-            adapter.submitList(it)
+            emptyList.visible(it.chat.isNullOrEmpty())
+            adapter.updateUser(it.user)
+            adapter.submitList(it.chat)
             scrollIfNeed()
         })
         binding.swipeRefresh.setOnRefreshListener {

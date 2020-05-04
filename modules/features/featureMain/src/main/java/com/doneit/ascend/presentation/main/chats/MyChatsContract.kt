@@ -1,13 +1,16 @@
 package com.doneit.ascend.presentation.main.chats
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.models.chat.ChatsWithUser
 
 interface MyChatsContract {
     interface ViewModel : BaseViewModel {
+        val chatsWithCurrentUser: MediatorLiveData<ChatsWithUser>
         val chats: LiveData<PagedList<ChatEntity>>
         val filterTextAll: MutableLiveData<String>
         fun onBackPressed()

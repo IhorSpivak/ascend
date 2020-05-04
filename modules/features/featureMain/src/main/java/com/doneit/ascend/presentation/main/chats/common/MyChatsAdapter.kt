@@ -3,12 +3,15 @@ package com.doneit.ascend.presentation.main.chats.common
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 
 
 class MyChatsAdapter(
     private val onItemClick: (chat: ChatEntity) -> Unit,
     private val onDeleteListener: (id: Long) -> Unit
 ) : PagedListAdapter<ChatEntity, MyChatViewHolder>(ChatDiffCallback()) {
+
+    private var user: UserEntity? = null
 
     init {
         setHasStableIds(true)
@@ -19,10 +22,17 @@ class MyChatsAdapter(
     }
 
     override fun onBindViewHolder(holder: MyChatViewHolder, position: Int) {
-        holder.bind(getItem(position)!!, onDeleteListener, onItemClick)
+        holder.bind(getItem(position)!!, onDeleteListener, onItemClick, user!!)
     }
 
     override fun getItemId(position: Int): Long {
         return getItem(position)?.id!!
+    }
+
+    fun updateUser(user: UserEntity) {
+        if (this.user == null) {
+            this.user = user
+            notifyDataSetChanged()
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.domain.entity.chats.MessageType
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateMyChatItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
@@ -25,7 +26,8 @@ class MyChatViewHolder(
     fun bind(
         item: ChatEntity,
         onDeleteListener: (id: Long) -> Unit,
-        onClickListener: (chat: ChatEntity) -> Unit
+        onClickListener: (chat: ChatEntity) -> Unit,
+        user: UserEntity
     ) {
         binding.item = item
         itemView.isClickable = true
@@ -56,11 +58,17 @@ class MyChatViewHolder(
         } ?: run {
             itemView.message.setText(R.string.no_messages_yet)
         }
+
         val res = when (item.lastMessage?.status) {
-            MessageStatus.SENT -> R.drawable.ic_unread_message
             MessageStatus.READ -> R.drawable.ic_read_message
-            MessageStatus.DELIVERED -> R.drawable.ic_sent_message
-            else -> 0
+            MessageStatus.ALL -> 0
+            else -> item.lastMessage?.let {
+                if (it.userId == user.id) {
+                    R.drawable.ic_sent_message
+                } else {
+                    R.drawable.ic_unread_message
+                }
+            } ?: 0
         }
         itemView.messageStatus.setImageResource(res)
         Glide.with(itemView.groupPlaceholder)
