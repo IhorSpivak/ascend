@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.chats.common
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.ViewGroup
@@ -43,14 +44,14 @@ class MyChatViewHolder(
                 MessageType.INVITE -> {
                     itemView.message.text = binding.root.context.resources.getString(
                         R.string.invite_message,
-                        getMemberNameById(item, item.chatOwnerId),
-                        getMemberNameById(item, it.userId)
+                        getMemberNameById(item, item.chatOwnerId, user, binding.root.context),
+                        getMemberNameById(item, it.userId, user, binding.root.context)
                     )
                 }
                 MessageType.LEAVE -> {
                     itemView.message.text = binding.root.context.resources.getString(
                         R.string.leave_message,
-                        getMemberNameById(item, it.userId)
+                        getMemberNameById(item, it.userId, user, binding.root.context)
                     )
                 }
                 else -> itemView.message.text = it.message
@@ -112,11 +113,20 @@ class MyChatViewHolder(
         }
     }
 
-    private fun getMemberNameById(item: ChatEntity, id: Long): String {
+    private fun getMemberNameById(
+        item: ChatEntity,
+        id: Long,
+        user: UserEntity,
+        context: Context
+    ): String {
         item.members?.firstOrNull {
             it.id == id
         }?.let { member ->
-            return member.fullName
+            return if (member.id == user.id) {
+                context.getString(R.string.you)
+            } else {
+                member.fullName
+            }
         }
         return ""
     }

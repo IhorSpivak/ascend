@@ -583,4 +583,5 @@
     <string name="leave_message"><b>%s</b> left this chat</string>
     <string name="chats_member_online">online</string>
     <string name="search_hint">Search</string>
+    <string name="you">You</string>
 </resources>

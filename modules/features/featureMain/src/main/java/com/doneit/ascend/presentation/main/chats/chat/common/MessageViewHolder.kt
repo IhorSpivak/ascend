@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.chats.chat.common
 
+import android.content.Context
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
@@ -36,8 +37,8 @@ class MessageViewHolder(
                 setSystemMessage(
                     binding.root.context.resources.getString(
                         R.string.invite_message,
-                        getMemberNameById(chat, chat.chatOwnerId),
-                        member.fullName
+                        getMemberNameById(chat, chat.chatOwnerId, user, binding.root.context),
+                        getMemberNameById(chat, member.id, user, binding.root.context)
                     )
                 )
             }
@@ -45,7 +46,7 @@ class MessageViewHolder(
                 setSystemMessage(
                     binding.root.context.resources.getString(
                         R.string.leave_message,
-                        member.fullName
+                        getMemberNameById(chat, member.id, user, binding.root.context)
                     )
                 )
             }
@@ -122,11 +123,20 @@ class MessageViewHolder(
         }
     }
 
-    private fun getMemberNameById(item: ChatEntity, id: Long): String {
+    private fun getMemberNameById(
+        item: ChatEntity,
+        id: Long,
+        user: UserEntity,
+        context: Context
+    ): String {
         item.members?.firstOrNull {
             it.id == id
         }?.let { member ->
-            return member.fullName
+            return if (member.id == user.id) {
+                context.getString(R.string.you)
+            } else {
+                member.fullName
+            }
         }
         return ""
     }
