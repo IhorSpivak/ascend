@@ -25,8 +25,12 @@ class UsersDataSource(
         callback: LoadInitialCallback<Int, AttendeeEntity>
     ) {
         runBlocking {
+            if (searchQuery.length <= 1) {
+                callback.onResult(emptyList(), null, 2)
+                return@runBlocking
+            }
             val data = remoteGroup.searchUsers(searchQuery.toSearchRequest(1))
-            if (data.isSuccessful){
+            if (data.isSuccessful) {
                 data.successModel?.apply {
                     loadCount = count
                     loaded = users.size
@@ -51,12 +55,17 @@ class UsersDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, AttendeeEntity>) {
-        if (loadCount > loaded){
+        if (loadCount > loaded) {
             runBlocking {
+                if (searchQuery.length <= 1) {
+                    callback.onResult(emptyList(), params.key.inc())
+                    return@runBlocking
+                }
                 val data = remoteGroup.searchUsers(searchQuery.toSearchRequest(1))
-                if (data.isSuccessful){
+                if (data.isSuccessful) {
                     if (memberList == null) {
-                        callback.onResult(data.successModel?.users?.filter { it.id != userId }?.map { it.toEntity() }
+                        callback.onResult(data.successModel?.users?.filter { it.id != userId }
+                            ?.map { it.toEntity() }
                             ?: emptyList(), params.key.inc())
                     } else {
                         callback.onResult(data.successModel?.users?.filter {
@@ -78,14 +87,14 @@ class UsersDataSource(
 
     }
 
-    private fun String.toSearchRequest(page: Int): SearchUserRequest{
+    private fun String.toSearchRequest(page: Int): SearchUserRequest {
 
-        return if (Patterns.EMAIL_ADDRESS.matcher(this).matches()){
+        return if (Patterns.EMAIL_ADDRESS.matcher(this).matches()) {
             SearchUserRequest(
                 page = page,
                 email = this
             )
-        }else{
+        } else {
             SearchUserRequest(
                 page = page,
                 fullName = this

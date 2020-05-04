@@ -18,15 +18,17 @@ class NewChatViewModel(
     private val chatUseCase: ChatUseCase,
     private val userUseCase: UserUseCase,
     private val groupUseCase: GroupUseCase
-    ) : BaseViewModelImpl(),
-    NewChatContract.ViewModel{
+) : BaseViewModelImpl(),
+    NewChatContract.ViewModel {
 
     private lateinit var currentUser: UserEntity
+
     init {
         viewModelScope.launch {
             currentUser = userUseCase.getUser()!!
         }
     }
+
     private val isCompletable: MutableLiveData<Boolean> = MutableLiveData(false)
     private val members: MutableLiveData<List<AttendeeEntity>> = MutableLiveData()
     private val memberList: MutableList<AttendeeEntity> = mutableListOf()
@@ -54,10 +56,10 @@ class NewChatViewModel(
         }
 
     override fun complete() {
-        viewModelScope.launch{
+        viewModelScope.launch {
             isCompletable.postValue(false)
             chatUseCase.createChat(newChatModel.toDTO()).let {
-                if (it.isSuccessful){
+                if (it.isSuccessful) {
                     router.onBack()
                 }
             }
@@ -85,9 +87,7 @@ class NewChatViewModel(
     }
 
     override fun onQueryTextChange(query: String) {
-        if (query.length > 1) {
-            searchQuery.postValue(query)
-        }
+        searchQuery.postValue(query)
     }
 
     override fun onDeleteMember(id: Long) {
@@ -100,6 +100,7 @@ class NewChatViewModel(
     override fun addMember() {
         localRouter.navigateToAddChatMember()
     }
+
     private fun updateCanCreate() {
         var isFormValid = true
 

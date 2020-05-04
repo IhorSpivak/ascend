@@ -40,6 +40,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
+            viewModel.onQueryTextChange(tvSearch.text.toString())
             lifecycleOwner = this@AddMemberFragment
             root.apply {
                 isFocusableInTouchMode = true
@@ -58,6 +59,9 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             tvSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener{
                 override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
                     if (p1 == EditorInfo.IME_ACTION_SEARCH) {
+                        if (tvSearch.text.length > 1) {
+                            hideKeyboard()
+                        }
                         return true
                     }
                     return false
@@ -88,7 +92,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             }
         }
         viewModel.searchResult.observe(this, Observer {
-            emptyList.visible(it.isEmpty() && tvSearch.text.isNotEmpty())
+            emptyList.visible(it.isEmpty() && tvSearch.text.length > 1)
             memberAdapter.submitList(it)
             binding.searchVis = it.isNotEmpty()
         })

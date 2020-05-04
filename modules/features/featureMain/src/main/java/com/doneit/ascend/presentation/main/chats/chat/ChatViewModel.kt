@@ -45,14 +45,10 @@ class ChatViewModel(
 
     override val searchResult: LiveData<PagedList<AttendeeEntity>>
         get() = searchQuery.switchMap {
-            if(it.length > 1) {
-                groupUseCase.searchMembers(
-                    it,
-                    user.value!!.id,
-                    chat.value!!.chat.members?.map { member -> member.toAttendeeEntity() })
-            }else{
-                MutableLiveData()
-            }
+            groupUseCase.searchMembers(
+                it,
+                user.value!!.id,
+                chat.value!!.chat.members?.map { member -> member.toAttendeeEntity() })
         }
 
     //don't used
@@ -126,7 +122,7 @@ class ChatViewModel(
                     localRouter.onBack()
                 }
             }
-        }else{
+        } else {
             clearResources()
             localRouter.onBack()
         }
@@ -143,9 +139,7 @@ class ChatViewModel(
     }
 
     override fun onQueryTextChange(query: String) {
-        if (query.length > 1) {
-            searchQuery.postValue(query)
-        }
+        searchQuery.postValue(query)
     }
 
     override fun updateChatName(newName: String) {
@@ -176,7 +170,7 @@ class ChatViewModel(
     override fun onBlockUserClick(member: MemberEntity) {
         viewModelScope.launch {
             chatUseCase.blockUser(member.id).let {
-                if (it.isSuccessful){
+                if (it.isSuccessful) {
                     user.value?.let { user ->
                         userUseCase.update(user.apply { blockedUsersCount += 1 })
                         chatUseCase.addBlockedUser(member.toBlockedUser())
@@ -190,7 +184,7 @@ class ChatViewModel(
     override fun onUnblockUserClick(member: MemberEntity) {
         viewModelScope.launch {
             chatUseCase.unblockUser(member.id).let {
-                if (it.isSuccessful){
+                if (it.isSuccessful) {
                     user.value?.let { user ->
                         userUseCase.update(user.apply { blockedUsersCount -= 1 })
                         chatUseCase.removeBlockedUser(member.toBlockedUser())
@@ -204,7 +198,7 @@ class ChatViewModel(
     override fun onDelete(message: MessageEntity) {
         viewModelScope.launch {
             chatUseCase.removeMessageRemote(message.id).let {
-                if (it.isSuccessful){
+                if (it.isSuccessful) {
                     chatUseCase.removeMessageLocal(message)
                 }
             }
@@ -276,7 +270,7 @@ class ChatViewModel(
         }
     }
 
-    private fun clearResources(){
+    private fun clearResources() {
         selectedMembers.clear()
         searchResult.value?.clear()
         searchQuery.postValue("")
