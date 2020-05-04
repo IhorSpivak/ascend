@@ -5,7 +5,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
-import com.doneit.ascend.presentation.dialog.BlockUserDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.common.gone
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_blocked_users.tvSearch
 import kotlinx.android.synthetic.main.fragment_my_chats.*
 import org.kodein.di.generic.instance
 
-class BlockedUsersFragment: BaseFragment<FragmentBlockedUsersBinding>() {
+class BlockedUsersFragment : BaseFragment<FragmentBlockedUsersBinding>() {
     override val viewModelModule =
         BlockedUsersViewModelModule.get(
             this
@@ -29,6 +28,7 @@ class BlockedUsersFragment: BaseFragment<FragmentBlockedUsersBinding>() {
             onUnblockClick(it)
         }
     }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             recyclerViewBlockedUsers.adapter = blockedUsersAdapter
@@ -60,15 +60,8 @@ class BlockedUsersFragment: BaseFragment<FragmentBlockedUsersBinding>() {
             clearSearch.gone()
         }
     }
-    private fun onUnblockClick(user: BlockedUserEntity){
-        context?.let {
-            BlockUserDialog.create(
-                it,
-                getString(R.string.chats_mm_unblock),
-                getString(R.string.chats_mm_unblock_description),
-                getString(R.string.chats_mm_unblock_button),
-                getString(R.string.chats_mm_unblock_cancel)
-            ){viewModel.onUnblockUser(user)}.show()
-        }
+
+    private fun onUnblockClick(user: BlockedUserEntity) {
+        viewModel.onUnblockUser(user)
     }
 }
