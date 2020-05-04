@@ -15,7 +15,7 @@ fun ChatEntity.toLocal(): ChatLocal {
         id,
         membersCount,
         createdAt?.toRemoteString(),
-        updatedAt?.toRemoteString(),
+        lastMessage?.let { it.createdAt?.toRemoteString() } ?: updatedAt?.toRemoteString(),
         online,
         blocked,
         unreadMessageCount,
