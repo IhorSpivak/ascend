@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "782179262877-hacun6sjln2qktub61inp05uplk8odsg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doneit.ascend",
+            "certificate_hash": "25de67fe3eee4c5669d706f16fd1c6132f2386c0"
+          }
+        },
+        {
           "client_id": "782179262877-qo9p6mvcjlo0u2a6t2adc3ivpfqqkbp9.apps.googleusercontent.com",
           "client_type": 3
         }

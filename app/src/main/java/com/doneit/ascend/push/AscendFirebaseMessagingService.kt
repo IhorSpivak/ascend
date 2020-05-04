@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.doneit.ascend.R
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
@@ -47,6 +48,7 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
 
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
+        Log.d("firebase", p0.toString())
         p0.notification?.let {
             if (p0.data.containsKey(GROUP_KEY)) {
                 sendNotification(it.title.orEmpty(), p0.data.getValue(GROUP_KEY).toLong())
