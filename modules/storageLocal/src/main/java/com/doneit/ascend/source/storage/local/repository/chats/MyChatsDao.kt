@@ -11,10 +11,10 @@ import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
 @Dao
 interface MyChatsDao {
     //@Query("SELECT updatedAt  ,last_message_updatedAt, id, membersCount, createdAt, online, blocked, unreadMessageCount, chatOwnerId, title, last_message_id, last_message_message, last_message_userId, last_message_edited, last_message_type, last_message_createdAt, last_message_status, last_message_chatId FROM chat WHERE last_message_updatedAt IS NULL UNION SELECT last_message_updatedAt, updatedAt, id, membersCount, createdAt, online, blocked, unreadMessageCount, chatOwnerId, title, last_message_id, last_message_message, last_message_userId, last_message_edited, last_message_type, last_message_createdAt, last_message_status, last_message_chatId FROM chat WHERE last_message_updatedAt IS NOT NULL ORDER BY 1 DESC")
-    @Query("SELECT * FROM chat ORDER BY last_message_updatedAt DESC, updatedAt DESC")
+    @Query("SELECT * FROM chat ORDER BY last_message_createdAt DESC, updatedAt DESC")
     fun getAll(): DataSource.Factory<Int, ChatLocal>
 
-    @Query("SELECT * FROM chat where title LIKE  :title order by last_message_updatedAt DESC, updatedAt DESC")
+    @Query("SELECT * FROM chat where title LIKE  :title order by last_message_createdAt DESC, updatedAt DESC")
     fun getAllChatByTitle(title: String): DataSource.Factory<Int, ChatLocal>
 
     @Query("SELECT * FROM messages where chatId LIKE :chatId ORDER BY createdAt DESC")
@@ -24,7 +24,7 @@ interface MyChatsDao {
     fun getAllMembers(): DataSource.Factory<Int, MemberLocal>
 
     @Transaction
-    @Query("SELECT * FROM chat ORDER BY last_message_updatedAt DESC, updatedAt DESC")
+    @Query("SELECT * FROM chat ORDER BY last_message_createdAt DESC, updatedAt DESC")
     fun getAllLive(): LiveData<List<ChatLocal>>
 
     @Transaction
