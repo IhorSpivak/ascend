@@ -114,6 +114,7 @@ class ChatViewModel(
                 if (response.isSuccessful) {
                     response.successModel?.membersCount?.let {
                         membersCountGroup.postValue(it)
+                        chatModel.postValue(response.successModel)
                     }
                     clearResources()
                     localRouter.onBack()

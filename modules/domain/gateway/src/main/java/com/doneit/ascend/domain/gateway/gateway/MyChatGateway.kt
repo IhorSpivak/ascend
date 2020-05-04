@@ -193,24 +193,33 @@ class MyChatGateway(
     }
 
     override suspend fun createChat(createChatDTO: CreateChatDTO): ResponseEntity<ChatEntity, List<String>> {
-        val result = executeRemote {
+        return executeRemote {
             remote.createChat(
                 createChatDTO.toRequest()
             )
         }.toResponseEntity(
             {
-                it?.toEntity()
+                val model = it?.toEntity()
+                model?.let {
+
+                    GlobalScope.launch {
+                        val membersResponse =
+                            remote.getMembers(it.id, MemberListDTO(perPage = 50).toRequest(1))
+                        if (membersResponse.isSuccessful) {
+                            val memberModel =
+                                membersResponse.successModel!!.users?.map { it.toEntity() }
+                            it.members = memberModel
+                        }
+                        local.insert(model.toLocal())
+                    }
+
+                }
+                return@toResponseEntity model
             },
             {
                 it?.errors
             }
         )
-
-        if (result.isSuccessful) {
-            local.insert(result.successModel!!.toLocal())
-        }
-
-        return result
     }
 
     override suspend fun updateChat(
@@ -226,7 +235,22 @@ class MyChatGateway(
             )
         }.toResponseEntity(
             {
-                it?.toEntity()
+                val model = it?.toEntity()
+                model?.let {
+
+                    GlobalScope.launch {
+                        val membersResponse =
+                            remote.getMembers(it.id, MemberListDTO(perPage = 50).toRequest(1))
+                        if (membersResponse.isSuccessful) {
+                            val memberModel =
+                                membersResponse.successModel!!.users?.map { it.toEntity() }
+                            it.members = memberModel
+                        }
+                        local.insert(model.toLocal())
+                    }
+
+                }
+                return@toResponseEntity model
             },
             {
                 it?.errors
@@ -281,6 +305,7 @@ class MyChatGateway(
             local.removeBlockedUser(userEntity.id)
         }
     }
+
     override fun addBlockedUser(userEntity: BlockedUserEntity) {
         GlobalScope.launch {
             local.insertBlockedUser(userEntity.toLocal())
