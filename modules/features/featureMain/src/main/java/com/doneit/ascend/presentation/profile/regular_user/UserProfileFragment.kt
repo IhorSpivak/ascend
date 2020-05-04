@@ -103,6 +103,10 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
             viewModel.onAgeClick()
         }
 
+        blockedUsers.setOnClickListener {
+            viewModel.onBlockedUsersClick()
+        }
+
         contactSupport.setOnClickListener {
             activity!!.sendEmail(Constants.SUPPORT_EMAIL)
         }

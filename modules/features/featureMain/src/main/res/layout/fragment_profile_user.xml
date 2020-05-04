@@ -139,8 +139,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginTop="8dp"
-                    android:visibility="@{model.user.registrationType != PresentationRegistrationType.REGULAR}"
-                    android:background="@drawable/edit_text_rounded_background">
+                    android:background="@drawable/edit_text_rounded_background"
+                    android:visibility="@{model.user.registrationType != PresentationRegistrationType.REGULAR}">
 
                     <ImageView
                         android:id="@+id/ivFieldIcon"
@@ -178,28 +178,28 @@
                 <include
                     android:id="@+id/editEmail"
                     layout="@layout/template_profile_field"
-                    app:isGone="@{model.user.registrationType != PresentationRegistrationType.REGULAR}"
                     app:fieldName="@{@string/email}"
                     app:fieldValue="@{model.user.email}"
                     app:fieldValueIfEmpty="@{@string/empty}"
-                    app:iconRes="@{@drawable/ic_email}" />
+                    app:iconRes="@{@drawable/ic_email}"
+                    app:isGone="@{model.user.registrationType != PresentationRegistrationType.REGULAR}" />
 
                 <include
                     android:id="@+id/changePhone"
                     layout="@layout/template_profile_field"
-                    app:isGone="@{model.user.registrationType != PresentationRegistrationType.REGULAR}"
                     app:fieldName="@{@string/phone_number}"
                     app:fieldValue="@{model.user.phone}"
                     app:fieldValueIfEmpty="@{@string/empty}"
-                    app:iconRes="@{@drawable/ic_phone}" />
+                    app:iconRes="@{@drawable/ic_phone}"
+                    app:isGone="@{model.user.registrationType != PresentationRegistrationType.REGULAR}" />
 
                 <include
                     android:id="@+id/changePassword"
                     layout="@layout/template_profile_field"
-                    app:isGone="@{model.user.registrationType != PresentationRegistrationType.REGULAR}"
                     app:fieldName="@{@string/password}"
                     app:fieldValue="@{@string/tap_to_change}"
-                    app:iconRes="@{@drawable/ic_password}" />
+                    app:iconRes="@{@drawable/ic_password}"
+                    app:isGone="@{model.user.registrationType != PresentationRegistrationType.REGULAR}" />
 
                 <include
                     android:id="@+id/age"
@@ -264,6 +264,13 @@
                     app:fieldName="@{@string/master_mind_following}"
                     app:fieldValue="@{@string/empty}"
                     app:iconRes="@{@drawable/ic_following}" />
+
+                <include
+                    android:id="@+id/blockedUsers"
+                    layout="@layout/template_blocked_users"
+                    app:fieldName="@{@string/blocked_users_title}"
+                    app:fieldValue="@{model.user.blockedUserString}"
+                    app:iconRes="@{@drawable/ic_blocked_users}" />
 
                 <include
                     android:id="@+id/contactSupport"
