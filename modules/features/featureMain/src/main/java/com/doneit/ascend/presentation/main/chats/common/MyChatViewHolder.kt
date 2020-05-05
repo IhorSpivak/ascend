@@ -61,7 +61,13 @@ class MyChatViewHolder(
         }
 
         val res = when (item.lastMessage?.status) {
-            MessageStatus.READ -> R.drawable.ic_read_message
+            MessageStatus.READ -> item.lastMessage?.let {
+                if (it.userId == user.id) {
+                    R.drawable.ic_read_message
+                } else {
+                    0
+                }
+            } ?: 0
             MessageStatus.ALL -> 0
             else -> item.lastMessage?.let {
                 if (it.userId == user.id) {
