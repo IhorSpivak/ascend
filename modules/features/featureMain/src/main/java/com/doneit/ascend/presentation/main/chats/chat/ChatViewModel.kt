@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.chats.chat
 import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.domain.entity.ChatSocketEvent
 import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.chats.*
 import com.doneit.ascend.domain.entity.dto.MessageDTO
@@ -254,7 +255,7 @@ class ChatViewModel(
     }
 
     override fun markMessageAsRead(message: MessageEntity) {
-        if(message.userId != user.value!!.id && message.status != MessageStatus.READ) {
+        if (message.userId != user.value!!.id && message.status != MessageStatus.READ) {
             viewModelScope.launch {
                 chatUseCase.markMessageAsRead(message.id).let {
                     if (it.isSuccessful.not()) {
@@ -273,9 +274,18 @@ class ChatViewModel(
 
     private fun getMessageObserver(chatId: Long): Observer<MessageSocketEntity?> {
         return Observer { socketEvent ->
-            val message = socketEvent?.toEntity()
-            message?.let {
-                chatUseCase.insertMessage(message, chatId)
+            socketEvent?.let {
+                when (socketEvent.event) {
+                    ChatSocketEvent.MESSAGE -> {
+                        val message = socketEvent.toEntity()
+                        message.let {
+                            chatUseCase.insertMessage(message, chatId)
+                        }
+                    }
+                    ChatSocketEvent.DESTROY -> {
+                        //TODO:
+                    }
+                }
             }
         }
     }

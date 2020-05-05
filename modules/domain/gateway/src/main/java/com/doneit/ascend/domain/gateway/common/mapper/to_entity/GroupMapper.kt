@@ -215,7 +215,8 @@ fun ChatSocketEventMessage.toEntity(): MessageSocketEntity{
         messageType,
         userId,
         createdAt,
-        updatedAt
+        updatedAt,
+        ChatSocketEvent.fromRemoteString(event ?: "")
     )
 }
 

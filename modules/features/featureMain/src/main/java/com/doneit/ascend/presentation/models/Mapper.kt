@@ -130,7 +130,7 @@ fun MessageSocketEntity.toEntity(): MessageEntity{
         message?:"",
         edited?: false,
         type?.toMessageType()?: MessageType.MESSAGE,
-        userId,
+        userId?:0,
         createdAt!!.toDate(),
         updatedAt!!.toDate(),
         status!!.toMessageStatus()
