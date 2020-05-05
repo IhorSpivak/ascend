@@ -141,7 +141,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                     menuResId = if (it.chat.membersCount > 2) {
                         R.menu.chat_ru_group_menu
                     } else {
-                        R.menu.chat_ru_menu
+                        if (it.chat.blocked) {
+                            R.menu.chat_mm_menu_unblock
+                        } else {
+                            R.menu.chat_mm_menu
+                        }
                     }
                 }
             }
@@ -241,10 +245,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                             getString(R.string.chats_leave_cancel)
                         ) { viewModel.onLeave() }.show()
                     }
-                    true
-                }
-                R.id.ru_report -> {
-                    reportOnOwner()
                     true
                 }
                 R.id.ru_report_group -> {
