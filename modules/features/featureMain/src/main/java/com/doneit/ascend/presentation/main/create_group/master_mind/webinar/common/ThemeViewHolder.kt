@@ -37,7 +37,7 @@ class ThemeViewHolder(
             }
             group?.let {
                 if ((it.pastMeetingsCount!! > 0 && action == GroupAction.EDIT) || (group.isStarting && group.participantsCount!! > 0 && action == GroupAction.EDIT)){
-                    if (position < (it.pastMeetingsCount!! - 1)) {
+                    if (position <= (it.pastMeetingsCount!! - 1)) {
                         theme.apply {
                             multilineEditText.setOnClickListener {}
                             multilineEditText.setTextColor(root.context.resources.getColor(R.color.light_gray_b1bf))
