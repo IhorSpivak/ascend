@@ -3,6 +3,7 @@ package com.doneit.ascend.retrofit
 import android.content.Context
 import com.doneit.ascend.retrofit.common.AuthInterceptor
 import com.doneit.ascend.retrofit.common.HeaderInterceptor
+import com.doneit.ascend.retrofit.common.RedirectInterceptor
 import com.doneit.ascend.retrofit.common.RetrofitConfig
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Cache
@@ -41,6 +42,7 @@ object RetrofitModule {
 
             builder.connectTimeout(100, TimeUnit.SECONDS)
             builder.retryOnConnectionFailure(true)
+            builder.addInterceptor(instance<RedirectInterceptor>())
             builder.addInterceptor(instance<AuthInterceptor>())
             builder.addInterceptor(HeaderInterceptor())
 
@@ -59,5 +61,7 @@ object RetrofitModule {
         }
 
         bind<AuthInterceptor>() with singleton { AuthInterceptor(RetrofitConfig.auth) }
+
+        bind<RedirectInterceptor>() with singleton { RedirectInterceptor(instance()) }
     }
 }

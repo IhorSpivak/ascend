@@ -20,6 +20,10 @@ internal class UserInteractor(
         return userGateway.signOut()
     }
 
+    override fun removeAccounts() {
+        return userGateway.removeAccounts()
+    }
+
     override suspend fun socialSignIn(socialLogInDTO: SocialLogInDTO): ResponseEntity<AuthEntity, List<String>> {
         return userGateway.socialSignIn(socialLogInDTO)
     }

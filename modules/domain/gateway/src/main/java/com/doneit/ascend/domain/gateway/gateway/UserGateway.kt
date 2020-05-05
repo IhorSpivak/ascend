@@ -348,7 +348,7 @@ internal class UserGateway(
         return result.receive()
     }
 
-    private fun removeAccounts() {
+    override fun removeAccounts() {
         val accounts = accountManager.getAccountsByType(packageName)
 
         if (accounts.isNotEmpty()) {

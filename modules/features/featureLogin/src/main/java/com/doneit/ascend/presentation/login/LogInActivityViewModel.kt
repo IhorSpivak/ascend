@@ -12,6 +12,9 @@ class LogInActivityViewModel(
 ) : BaseViewModelImpl(), LogInActivityContract.ViewModel {
 
     override fun tryToLogin(bundle: Bundle) {
+        if(bundle.getString(LOGOUT).isNullOrEmpty().not()){
+            userUseCase.removeAccounts()
+        }
         viewModelScope.launch {
             if (userUseCase.hasSignedInUser()) {
                 val userLocal = userUseCase.getUser()
@@ -24,5 +27,9 @@ class LogInActivityViewModel(
                 router.navigateToLogInFragment()
             }
         }
+    }
+
+    companion object {
+        private const val LOGOUT = "logout"
     }
 }

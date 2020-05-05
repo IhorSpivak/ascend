@@ -13,6 +13,8 @@ interface IUserGateway {
 
     suspend fun signOut(): ResponseEntity<Unit, List<String>>
 
+    fun removeAccounts()
+
     suspend fun socialSignIn(socialLoginDTO: SocialLogInDTO): ResponseEntity<AuthEntity, List<String>>
 
     suspend fun signUp(signUpDTO: SignUpDTO): ResponseEntity<AuthEntity, List<String>>
