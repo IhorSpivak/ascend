@@ -4,10 +4,7 @@ import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.MessageSocketEntity
-import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
-import com.doneit.ascend.domain.entity.chats.ChatEntity
-import com.doneit.ascend.domain.entity.chats.MemberEntity
-import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.chats.*
 import com.doneit.ascend.domain.entity.dto.MessageDTO
 import com.doneit.ascend.domain.entity.dto.MessageListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
@@ -256,11 +253,13 @@ class ChatViewModel(
         }
     }
 
-    override fun markMessageAsRead(id: Long) {
-        viewModelScope.launch {
-            chatUseCase.markMessageAsRead(id).let {
-                if(it.isSuccessful.not()){
-                    showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+    override fun markMessageAsRead(message: MessageEntity) {
+        if(message.userId != user.value!!.id && message.status != MessageStatus.READ) {
+            viewModelScope.launch {
+                chatUseCase.markMessageAsRead(message.id).let {
+                    if (it.isSuccessful.not()) {
+                        showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                    }
                 }
             }
         }

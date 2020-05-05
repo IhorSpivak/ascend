@@ -16,7 +16,7 @@ interface MyChatsDao {
     @Query("SELECT * FROM chat where title LIKE  :title order by updatedAt DESC")
     fun getAllChatByTitle(title: String): DataSource.Factory<Int, ChatLocal>
 
-    @Query("SELECT * FROM messages where chatId LIKE :chatId ORDER BY updatedAt DESC")
+    @Query("SELECT * FROM messages where chatId LIKE :chatId ORDER BY createdAt DESC")
     fun getAllMessages(chatId: Long): DataSource.Factory<Int, MessageLocal>
 
     @Query("SELECT * FROM members ORDER BY fullName ASC")
