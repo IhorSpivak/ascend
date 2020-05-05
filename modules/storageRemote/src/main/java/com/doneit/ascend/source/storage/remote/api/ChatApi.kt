@@ -105,4 +105,7 @@ interface ChatApi {
     fun unblockUserAsync(
         @Path("id") id: Long
     ): Deferred<Response<OKResponse>>
+
+    @GET("/api/v1/chats/available_chats")
+    fun getAvailableChatIds(): Deferred<Response<AvailableChatResponse>>
 }

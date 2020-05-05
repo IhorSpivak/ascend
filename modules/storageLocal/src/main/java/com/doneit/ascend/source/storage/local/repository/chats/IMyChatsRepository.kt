@@ -32,4 +32,5 @@ interface IMyChatsRepository {
     suspend fun removeMember(id: Long)
     suspend fun removeAllMembers()
     suspend fun markMessageAsRead(id: Long, status: String)
+    suspend fun removeAllUnavailableChats(ids: List<Long>)
 }

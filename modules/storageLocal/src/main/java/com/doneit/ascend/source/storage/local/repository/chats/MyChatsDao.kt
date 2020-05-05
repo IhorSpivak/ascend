@@ -70,6 +70,10 @@ interface MyChatsDao {
     suspend fun removeMessage(id: Long)
 
     @Transaction
+    @Query("DELETE FROM chat WHERE id NOT IN (:ids)")
+    suspend fun removeUnavailableChats(ids: List<Long>)
+
+    @Transaction
     @Query("DELETE FROM members WHERE id = :id")
     suspend fun removeMember(id: Long)
 

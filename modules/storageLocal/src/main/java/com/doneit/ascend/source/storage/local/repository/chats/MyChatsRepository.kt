@@ -110,4 +110,8 @@ class MyChatsRepository(
         dao.markMessageAsRead(id, status)
     }
 
+    override suspend fun removeAllUnavailableChats(ids: List<Long>) {
+        dao.removeUnavailableChats(ids)
+    }
+
 }

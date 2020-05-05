@@ -24,13 +24,20 @@ class MyChatsBoundaryCallback(
     override suspend fun fetchPage() {
         val response = remote.getMyChats(chatListModel.toRequest(pageIndexToLoad))
         if (response.isSuccessful) {
-
             val model = response.successModel!!.chats?.map { it.toEntity() }
             model?.let {
                 val loadedCount = model.size
                 val remoteCount = response.successModel!!.count
                 receivedItems(loadedCount, remoteCount)
                 coroutineScope {
+                    launch {
+                        val availableChatResponse = remote.getAvailableChats()
+                        if (availableChatResponse.isSuccessful) {
+                            availableChatResponse.successModel!!.chatIds?.let { ids ->
+                                local.removeAllUnavailableChats(ids)
+                            }
+                        }
+                    }
                     it.forEach {
                         launch {
                             val membersResponse =

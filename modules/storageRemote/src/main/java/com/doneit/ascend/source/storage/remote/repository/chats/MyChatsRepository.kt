@@ -125,4 +125,8 @@ internal class MyChatsRepository(
     override suspend fun markMessageAsRead(messageId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.markMessageAsReadAsync(messageId) }, ErrorsListResponse::class.java)
     }
+
+    override suspend fun getAvailableChats(): RemoteResponse<AvailableChatResponse, ErrorsListResponse> {
+        return execute({ api.getAvailableChatIds() }, ErrorsListResponse::class.java)
+    }
 }
