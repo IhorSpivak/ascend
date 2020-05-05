@@ -38,6 +38,9 @@ interface MyChatsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(chats: List<ChatLocal>)
 
+    @Query("UPDATE messages SET status = :status WHERE id LIKE :id")
+    suspend fun markMessageAsRead(id: Long, status: String)
+
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(chat: ChatLocal)

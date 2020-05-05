@@ -19,6 +19,7 @@ interface ChatContract {
         val membersCountGroup: LiveData<Int>
         val chat: MediatorLiveData<ChatWithUser>
 
+        fun markMessageAsRead(id: Long)
         fun applyData(chat: ChatEntity?, user: UserEntity? = null)
         fun setChat(chat: ChatEntity)
         fun initMessageStream()

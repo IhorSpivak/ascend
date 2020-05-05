@@ -73,7 +73,10 @@ internal class MyChatsRepository(
     }
 
     override suspend fun sendMessage(request: MessageRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
-        return execute({ api.sendMessageAsync(request.id, request.message) }, ErrorsListResponse::class.java)
+        return execute(
+            { api.sendMessageAsync(request.id, request.message) },
+            ErrorsListResponse::class.java
+        )
     }
 
     override suspend fun leaveChat(id: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
@@ -117,5 +120,9 @@ internal class MyChatsRepository(
 
     override suspend fun deleteMessage(messageId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.deleteMessageAsync(messageId) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun markMessageAsRead(messageId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.markMessageAsReadAsync(messageId) }, ErrorsListResponse::class.java)
     }
 }

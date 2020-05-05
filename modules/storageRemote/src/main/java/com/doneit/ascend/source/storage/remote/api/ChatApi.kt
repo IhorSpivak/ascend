@@ -79,8 +79,7 @@ interface ChatApi {
 
     @POST("messages/{id}/read")
     fun markMessageAsReadAsync(
-        @Path("id") id: Long,
-        @Query("message") message: String
+        @Path("id") id: Long
     ): Deferred<Response<OKResponse>>
 
     @DELETE("messages/{id}")

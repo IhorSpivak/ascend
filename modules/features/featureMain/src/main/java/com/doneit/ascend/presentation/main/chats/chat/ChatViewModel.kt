@@ -256,6 +256,16 @@ class ChatViewModel(
         }
     }
 
+    override fun markMessageAsRead(id: Long) {
+        viewModelScope.launch {
+            chatUseCase.markMessageAsRead(id).let {
+                if(it.isSuccessful.not()){
+                    showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                }
+            }
+        }
+    }
+
     override fun onCleared() {
         socketMessage.removeObserver(observer)
         chatUseCase.disconnect()

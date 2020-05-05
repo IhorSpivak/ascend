@@ -6,10 +6,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
-import com.doneit.ascend.domain.entity.chats.ChatEntity
-import com.doneit.ascend.domain.entity.chats.MemberEntity
-import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.chats.*
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
@@ -220,6 +217,21 @@ class MyChatGateway(
                 it?.errors
             }
         )
+    }
+
+    override suspend fun markMessageAsRead(id: Long): ResponseEntity<Unit, List<String>> {
+        val result = executeRemote {
+            remote.markMessageAsRead(id)
+        }.toResponseEntity(
+            {
+                Unit
+            }, {
+                it?.errors
+            })
+        if (result.isSuccessful) {
+            local.markMessageAsRead(id, MessageStatus.READ.toString())
+        }
+        return result
     }
 
     override suspend fun updateChat(

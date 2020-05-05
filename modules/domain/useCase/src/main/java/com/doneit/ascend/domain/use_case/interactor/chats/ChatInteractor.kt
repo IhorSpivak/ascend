@@ -49,6 +49,10 @@ class ChatInteractor(
         return chatGateway.updateChat(id, title, chatMembers)
     }
 
+    override suspend fun markMessageAsRead(id: Long): ResponseEntity<Unit, List<String>> {
+        return chatGateway.markMessageAsRead(id)
+    }
+
     override val messagesStream = chatGateway.messagesStream
 
     override fun connectToChannel(groupId: Long) {

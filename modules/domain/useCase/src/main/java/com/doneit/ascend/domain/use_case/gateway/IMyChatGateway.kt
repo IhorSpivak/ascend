@@ -27,6 +27,8 @@ interface IMyChatGateway {
 
     suspend fun createChat(createChatDTO: CreateChatDTO): ResponseEntity<ChatEntity, List<String>>
 
+    suspend fun markMessageAsRead(id: Long): ResponseEntity<Unit, List<String>>
+
     suspend fun updateChat(
         id: Long,
         title: String? = null,

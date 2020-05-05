@@ -106,4 +106,8 @@ class MyChatsRepository(
         dao.removeAllMembers()
     }
 
+    override suspend fun markMessageAsRead(id: Long, status: String) {
+        dao.markMessageAsRead(id, status)
+    }
+
 }

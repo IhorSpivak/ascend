@@ -30,6 +30,8 @@ interface ChatUseCase {
         chatMembers: List<Long>? = null
     ): ResponseEntity<ChatEntity, List<String>>
 
+    suspend fun markMessageAsRead(id: Long): ResponseEntity<Unit, List<String>>
+
     val messagesStream: LiveData<MessageSocketEntity?>
     fun connectToChannel(groupId: Long)
     fun disconnect()
