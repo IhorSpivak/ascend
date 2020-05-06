@@ -17,14 +17,14 @@ internal class RedirectInterceptor(
         val response = chain.proceed(newRequest)
         if (response.code == 401) {
             val intent = Intent(context, LogInActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             intent.putExtra(LOGOUT, LOGOUT)
             context.startActivity(intent)
-            (context as Activity).finish()
             return response
         }
 
-        return chain.proceed(newRequest)
+        return response
     }
 
     companion object {
