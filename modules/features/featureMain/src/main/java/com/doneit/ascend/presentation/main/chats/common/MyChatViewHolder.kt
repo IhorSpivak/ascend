@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateMyChatItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
+import com.doneit.ascend.presentation.utils.extensions.createPlaceholderDrawable
 import com.doneit.ascend.presentation.utils.extensions.toChatDate
 import kotlinx.android.synthetic.main.template_my_chat_item.view.*
 import kotlin.math.abs
@@ -78,6 +79,9 @@ class MyChatViewHolder(
             } ?: 0
         }
         itemView.messageStatus.setImageResource(res)
+        Glide.with(itemView.chatImage).load(item.image?.url)
+            .placeholder(itemView.chatImage.context.createPlaceholderDrawable(item.title, overrideSize = true))
+            .circleCrop().into(itemView.chatImage)
         Glide.with(itemView.groupPlaceholder)
             .load(R.drawable.ic_group_placeholder)
             .circleCrop()

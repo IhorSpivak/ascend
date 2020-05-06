@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        android:background="@drawable/member_background_selector">
+        android:orientation="vertical">
 
         <com.doneit.ascend.presentation.views.MasterMindIcon
             android:id="@+id/followerImage"
@@ -44,7 +43,7 @@
             android:fontFamily="@font/red_hat_font"
             android:textSize="18sp"
             android:text="@{user.fullName}"
-            android:textColor="@color/member_item_text_states"
+            android:textColor="@color/colorAccent"
             app:layout_constraintStart_toEndOf="@id/followerImage"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +56,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:src="@drawable/member_arrow_selector"
+            android:src="@drawable/member_arrow_chat_selector"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

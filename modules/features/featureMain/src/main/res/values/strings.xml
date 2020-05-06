@@ -96,6 +96,7 @@
     <string name="btn_cancel_spaced">Cancel&#160;&#160;</string>
     <string name="btn_complete">Complete</string>
     <string name="btn_done">Done</string>
+    <string name="btn_chat">Chat</string>
     <string name="btn_save_action">Save</string>
     <plurals name="x_hours">
         <item quantity="one">%d hour</item>

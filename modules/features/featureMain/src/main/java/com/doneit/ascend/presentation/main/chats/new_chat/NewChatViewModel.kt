@@ -31,7 +31,6 @@ class NewChatViewModel(
 
     private val isCompletable: MutableLiveData<Boolean> = MutableLiveData(false)
     private val members: MutableLiveData<List<AttendeeEntity>> = MutableLiveData()
-    private val memberList: MutableList<AttendeeEntity> = mutableListOf()
     private val isAddMoreVisible: MutableLiveData<Boolean> = MutableLiveData(true)
     private val searchQuery = MutableLiveData<String>()
 
@@ -52,7 +51,8 @@ class NewChatViewModel(
 
     override val searchResult: LiveData<PagedList<AttendeeEntity>>
         get() = searchQuery.switchMap {
-            groupUseCase.searchMembers(it, currentUser.id, null)
+            //TODO:
+            groupUseCase.searchMembers(it, currentUser.id)
         }
 
     override fun complete() {
@@ -94,6 +94,8 @@ class NewChatViewModel(
         selectedMembers.firstOrNull { it.id == id }?.let {
             selectedMembers.remove(it)
             members.postValue(selectedMembers)
+            //todo: refactor
+            searchQuery.postValue(searchQuery.value)
         }
     }
 

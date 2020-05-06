@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="user"
+            type="com.doneit.ascend.domain.entity.AttendeeEntity" />
+    </data>
+
+    <com.doneit.ascend.presentation.utils.GlideChip
+        style="@style/Widget.MaterialComponents.Chip.Entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkable="false"
+        android:elevation="5dp"
+        app:chipBackgroundColor="@android:color/white"
+        app:closeIcon="@drawable/ic_close"
+        app:closeIconSize="8dp"
+        app:closeIconStartPadding="4dp"
+        app:closeIconEndPadding="4dp"
+        android:text="@{user.fullName}"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:theme="@style/Theme.MaterialComponents.Light" />
+</layout>

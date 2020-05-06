@@ -8,7 +8,6 @@ import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
-import java.time.temporal.TemporalQuery
 
 interface GroupUseCase {
     suspend fun createGroup(groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>>
@@ -43,7 +42,7 @@ interface GroupUseCase {
 
     suspend fun inviteToGroup(dto: InviteToGroupDTO): ResponseEntity<Unit, List<String>>
 
-    fun searchMembers(query: String, userId: Long, memberList: List<AttendeeEntity>?): LiveData<PagedList<AttendeeEntity>>
+    fun searchMembers(query: String, userId: Long, memberList: List<AttendeeEntity>? = null): LiveData<PagedList<AttendeeEntity>>
 
     val messagesStream: LiveData<SocketEventEntity>
 
