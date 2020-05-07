@@ -209,6 +209,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/llProfileFields">
 
                 <include
+                    android:id="@+id/community"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/community}"
+                    app:fieldValue="@{model.user.community}"
+                    app:iconRes="@{@drawable/ic_community}" />
+
+                <include
                     android:id="@+id/mm_followed"
                     layout="@layout/template_profile_field"
                     app:fieldName="@{@string/master_mind_following}"

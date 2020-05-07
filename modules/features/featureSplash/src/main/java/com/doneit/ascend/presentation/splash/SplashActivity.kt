@@ -1,11 +1,8 @@
 package com.doneit.ascend.presentation.splash
 
 import android.animation.Animator
-import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.animation.LinearInterpolator
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -41,12 +38,12 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
 
         val extras = intent?.extras?: Bundle()
-        tvTitle.alpha = 0F
+        imageLogo.alpha = 0F
 
         if (intent?.extras?.containsKey(KEY_GROUP_ID) == true){
             router.goToLogin(extras)
         }else{
-            tvTitle.animate()
+            imageLogo.animate()
                 .setDuration(100)
                 .setInterpolator(LinearInterpolator())
                 .alpha(1F)
@@ -66,20 +63,6 @@ class SplashActivity : BaseActivity() {
                     override fun onAnimationStart(animation: Animator?) {}
                 })
                 .start()
-
-            tvSubtitle.animate()
-                .setDuration(100)
-                .setInterpolator(LinearInterpolator())
-                .alpha(1F)
-                .start()
-
-            viewModel.user.observe(this, Observer {
-                it?.let {
-                    val title =
-                        if (it.isMasterMind) getString(R.string.mastermind_subtitle) else it.community
-                    tvSubtitle.text = title
-                }
-            })
         }
     }
 
