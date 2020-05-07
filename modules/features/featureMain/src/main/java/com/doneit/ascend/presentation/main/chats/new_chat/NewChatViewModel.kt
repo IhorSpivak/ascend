@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCreateChatModel
 import com.doneit.ascend.presentation.models.group.toDTO
+import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import kotlinx.coroutines.launch
 
 class NewChatViewModel(
@@ -60,7 +61,9 @@ class NewChatViewModel(
             isCompletable.postValue(false)
             chatUseCase.createChat(newChatModel.toDTO()).let {
                 if (it.isSuccessful) {
-                    router.onBack()
+                    router.onBackWithOpenChat(it.successModel!!)
+                } else {
+                    showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                 }
             }
         }

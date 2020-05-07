@@ -25,7 +25,6 @@ import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.SpiritualActionListContract
 import com.doneit.ascend.presentation.main.chats.MyChatsContract
 import com.doneit.ascend.presentation.main.chats.MyChatsFragment
-import com.doneit.ascend.presentation.profile.block_list.BlockedUsersFragment
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.main.chats.new_chat.NewChatContract
@@ -65,6 +64,7 @@ import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
 import com.doneit.ascend.presentation.main.search.SearchFragment
 import com.doneit.ascend.presentation.profile.block_list.BlockedUsersContract
+import com.doneit.ascend.presentation.profile.block_list.BlockedUsersFragment
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationContract
 import com.doneit.ascend.presentation.profile.change_location.ChangeLocationFragment
 import com.doneit.ascend.presentation.profile.change_password.ChangePasswordContract
@@ -164,6 +164,10 @@ class MainRouter(
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
+    override fun onBackWithOpenChat(chat: ChatEntity) {
+        activity.supportFragmentManager.popBackStack()
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chat))
+    }
 
 
     override fun onBack() {

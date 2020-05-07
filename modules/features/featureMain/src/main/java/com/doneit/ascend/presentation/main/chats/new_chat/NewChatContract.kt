@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.chats.new_chat
 
 import androidx.lifecycle.LiveData
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberContract
 import com.doneit.ascend.presentation.models.PresentationCreateChatModel
@@ -17,6 +18,7 @@ interface NewChatContract {
     }
 
     interface Router {
+        fun onBackWithOpenChat(chat: ChatEntity)
         fun onBack()
         fun navigateToAddChatMember()
     }
