@@ -198,7 +198,7 @@ class ChatViewModel(
         viewModelScope.launch {
             chatUseCase.removeMessageRemote(message.id).let {
                 if (it.isSuccessful) {
-                    chatUseCase.removeMessageLocal(message)
+                    chatUseCase.removeMessageLocal(message.id)
                 }
             }
         }
@@ -283,7 +283,17 @@ class ChatViewModel(
                         }
                     }
                     ChatSocketEvent.DESTROY -> {
-                        //TODO:
+                        viewModelScope.launch {
+                            chatUseCase.removeMessageLocal(socketEvent.id)
+                        }
+                    }
+                    ChatSocketEvent.READ -> {
+                        viewModelScope.launch {
+                            chatUseCase.markMessageAsReadLocal(socketEvent.id)
+                        }
+                    }
+                    else -> {
+                        throw IllegalArgumentException("unknown socket type")
                     }
                 }
             }

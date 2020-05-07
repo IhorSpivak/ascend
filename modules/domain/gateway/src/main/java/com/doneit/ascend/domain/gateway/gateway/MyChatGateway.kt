@@ -234,6 +234,12 @@ class MyChatGateway(
         return result
     }
 
+    override suspend fun markMessageAsReadLocal(id: Long) {
+        GlobalScope.launch {
+            local.markMessageAsRead(id, MessageStatus.READ.toString())
+        }
+    }
+
     override suspend fun updateChat(
         id: Long,
         title: String?,
@@ -306,9 +312,9 @@ class MyChatGateway(
         }
     }
 
-    override fun removeMessageLocal(message: MessageEntity) {
+    override fun removeMessageLocal(id: Long) {
         GlobalScope.launch {
-            local.removeMessage(message.id)
+            local.removeMessage(id)
         }
     }
 

@@ -29,6 +29,8 @@ interface IMyChatGateway {
 
     suspend fun markMessageAsRead(id: Long): ResponseEntity<Unit, List<String>>
 
+    suspend fun markMessageAsReadLocal(id: Long)
+
     suspend fun updateChat(
         id: Long,
         title: String? = null,
@@ -41,7 +43,7 @@ interface IMyChatGateway {
 
     fun disconnect()
     fun insertMessage(message: MessageEntity, chatId: Long)
-    fun removeMessageLocal(message: MessageEntity)
+    fun removeMessageLocal(id: Long)
     fun removeBlockedUser(userEntity: BlockedUserEntity)
     fun addBlockedUser(userEntity: BlockedUserEntity)
     suspend fun blockUser(userId:Long): ResponseEntity<Unit, List<String>>

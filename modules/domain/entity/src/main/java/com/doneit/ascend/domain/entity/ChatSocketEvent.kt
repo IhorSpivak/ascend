@@ -4,7 +4,8 @@ enum class ChatSocketEvent(
     val command: String
 ) {
     MESSAGE(""),
-    DESTROY("destroy");
+    DESTROY("destroy"),
+    READ("read");
 
     override fun toString(): String {
         return command

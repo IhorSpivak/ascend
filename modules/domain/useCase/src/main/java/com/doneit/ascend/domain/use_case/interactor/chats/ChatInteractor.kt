@@ -53,6 +53,10 @@ class ChatInteractor(
         return chatGateway.markMessageAsRead(id)
     }
 
+    override suspend fun markMessageAsReadLocal(id: Long) {
+        return chatGateway.markMessageAsReadLocal(id)
+    }
+
     override val messagesStream = chatGateway.messagesStream
 
     override fun connectToChannel(groupId: Long) {
@@ -71,8 +75,8 @@ class ChatInteractor(
         return chatGateway.removeMessageRemote(messageId)
     }
 
-    override fun removeMessageLocal(message: MessageEntity) {
-        chatGateway.removeMessageLocal(message)
+    override fun removeMessageLocal(id: Long) {
+        chatGateway.removeMessageLocal(id)
     }
 
     override fun removeBlockedUser(user: BlockedUserEntity) {

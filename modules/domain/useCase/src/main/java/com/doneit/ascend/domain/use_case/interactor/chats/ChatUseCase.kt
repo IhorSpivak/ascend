@@ -31,13 +31,14 @@ interface ChatUseCase {
     ): ResponseEntity<ChatEntity, List<String>>
 
     suspend fun markMessageAsRead(id: Long): ResponseEntity<Unit, List<String>>
+    suspend fun markMessageAsReadLocal(id: Long)
 
     val messagesStream: LiveData<MessageSocketEntity?>
     fun connectToChannel(groupId: Long)
     fun disconnect()
     fun insertMessage(message: MessageEntity, chatId: Long)
     suspend fun removeMessageRemote(messageId: Long): ResponseEntity<Unit, List<String>>
-    fun removeMessageLocal(message: MessageEntity)
+    fun removeMessageLocal(id: Long)
     fun removeBlockedUser(user: BlockedUserEntity)
     fun addBlockedUser(user: BlockedUserEntity)
     suspend fun unblockUser(userId: Long): ResponseEntity<Unit, List<String>>
