@@ -5,6 +5,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketEventEntity
+import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -41,6 +42,8 @@ interface GroupUseCase {
     suspend fun cancelGroup(dto: CancelGroupDTO): ResponseEntity<Unit, List<String>>
 
     suspend fun inviteToGroup(dto: InviteToGroupDTO): ResponseEntity<Unit, List<String>>
+
+    suspend fun getTags(): ResponseEntity<List<TagEntity>, List<String>>
 
     fun searchMembers(query: String, userId: Long, memberList: List<AttendeeEntity>? = null): LiveData<PagedList<AttendeeEntity>>
 

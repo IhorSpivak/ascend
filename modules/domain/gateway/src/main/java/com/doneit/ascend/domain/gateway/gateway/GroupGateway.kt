@@ -9,6 +9,7 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
+import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -69,9 +70,15 @@ internal class GroupGateway(
         groupDTO: UpdateGroupDTO
     ): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
-            remote.updateGroup(id,
-                groupDTO.imagePath.let{
-                    if (it != null){ File(it) } else {null}},
+            remote.updateGroup(
+                id,
+                groupDTO.imagePath.let {
+                    if (it != null) {
+                        File(it)
+                    } else {
+                        null
+                    }
+                },
                 groupDTO.toUpdateGroupRequest()
             )
         }.toResponseEntity(
@@ -190,7 +197,10 @@ internal class GroupGateway(
         )
     }
 
-    override suspend fun deleteInvite(groupId: Long, inviteId: Long): ResponseEntity<Unit, List<String>> {
+    override suspend fun deleteInvite(
+        groupId: Long,
+        inviteId: Long
+    ): ResponseEntity<Unit, List<String>> {
         return executeRemote { remote.deleteInvite(groupId, inviteId) }.toResponseEntity(
             {
                 Unit
@@ -224,7 +234,12 @@ internal class GroupGateway(
     }
 
     override suspend fun inviteToGroup(dto: InviteToGroupDTO): ResponseEntity<Unit, List<String>> {
-        return executeRemote { remote.inviteToGroup(dto.groupId, dto.toRequest()) }.toResponseEntity(
+        return executeRemote {
+            remote.inviteToGroup(
+                dto.groupId,
+                dto.toRequest()
+            )
+        }.toResponseEntity(
             {
                 Unit
             },
@@ -234,8 +249,15 @@ internal class GroupGateway(
         )
     }
 
-    override fun getMembersPaged(query: String, userId: Long, memberList: List<AttendeeEntity>?): LiveData<PagedList<AttendeeEntity>> {
-        return UserDataSourceFactory(GlobalScope, remote, query, userId, memberList).toLiveData(pageSize = 10, fetchExecutor = Executors.newSingleThreadExecutor())
+    override fun getMembersPaged(
+        query: String,
+        userId: Long,
+        memberList: List<AttendeeEntity>?
+    ): LiveData<PagedList<AttendeeEntity>> {
+        return UserDataSourceFactory(GlobalScope, remote, query, userId, memberList).toLiveData(
+            pageSize = 10,
+            fetchExecutor = Executors.newSingleThreadExecutor()
+        )
     }
 
 
@@ -311,5 +333,16 @@ internal class GroupGateway(
 
     override fun disconnect() {
         remoteSocket.disconnect()
+    }
+
+    override suspend fun getTags(): ResponseEntity<List<TagEntity>, List<String>> {
+        return executeRemote { remote.getTags()}.toResponseEntity(
+            {
+                it?.tags?.map { it.toEntity() }
+            },
+            {
+                it?.errors
+            }
+        )
     }
 }

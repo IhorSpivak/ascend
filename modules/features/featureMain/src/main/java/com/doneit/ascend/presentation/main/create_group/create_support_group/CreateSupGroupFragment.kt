@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.main.create_group.create_support_group
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -14,7 +13,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.SpinnerAdapter
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
@@ -26,7 +24,6 @@ import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
-import com.doneit.ascend.presentation.dialog.ChooseImageDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
@@ -35,8 +32,11 @@ import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapte
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateSupportGroupBinding
-import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.GroupAction
+import com.doneit.ascend.presentation.utils.checkImage
+import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.extensions.*
+import com.doneit.ascend.presentation.utils.getImagePath
 import kotlinx.android.synthetic.main.fragment_create_support_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
@@ -50,8 +50,10 @@ import org.kodein.di.generic.provider
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
-class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBinding, CreateGroupArgs>() {
+class CreateSupGroupFragment :
+    ArgumentedFragment<FragmentCreateSupportGroupBinding, CreateGroupArgs>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<CreateSupGroupContract.ViewModel>() with provider {
@@ -77,16 +79,8 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
         )
     }
 
-    private val tagsAdapter by lazy {
-        MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
-                R.array.tags_array
-            )
-        )
-    }
-
     private val membersAdapter: InvitedMembersAdapter by lazy {
-        InvitedMembersAdapter{
+        InvitedMembersAdapter {
             viewModel.removeMember(it)
         }
     }
@@ -100,9 +94,9 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         GroupAction.values().forEach {
-            if (arguments!!.containsKey(it.toString())){
+            if (arguments!!.containsKey(it.toString())) {
                 group = arguments!!.getParcelable(it.toString())
-                if (group != null){
+                if (group != null) {
                     what = it.toString()
                 }
             }
@@ -111,9 +105,9 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
             model = viewModel
             adapter = adapter
 
-            actionTitle = if (what == null){
+            actionTitle = if (what == null) {
                 getString(R.string.create_create)
-            }else{
+            } else {
                 what!!.capitalize()
             }
 
@@ -163,23 +157,37 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
         }
 
         initSpinner(binding.meetingsPicker, meetingFormatListener, meetingTypesAdapter)
-        initSpinner(binding.tagsPicker, tagsListener, tagsAdapter)
-        if (group != null){
+        viewModel.tags.observe(viewLifecycleOwner, Observer {
+            val array = ArrayList(it.map { it.tag })
+            array.add(0, "Tag")
+
+            val tagsAdapter = MeetingFormatsAdapter(array.toTypedArray())
+            initSpinner(binding.tagsPicker, tagsListener, tagsAdapter)
+        })
+
+        if (group != null) {
             binding.btnComplete.apply {
                 text = getString(R.string.btn_save_action)
                 setOnClickListener { viewModel.updateGroup(group!!) }
             }
             viewModel.createGroupModel.isPrivate.set(group!!.isPrivate)
             viewModel.createGroupModel.apply {
-                when(what){
-                    GroupAction.DUPLICATE.toString() ->{name.observableField.set(group!!.name.plus("(2)"))}
-                    GroupAction.EDIT.toString() ->{name.observableField.set(group!!.name)}
+                when (what) {
+                    GroupAction.DUPLICATE.toString() -> {
+                        name.observableField.set(group!!.name.plus("(2)"))
+                    }
+                    GroupAction.EDIT.toString() -> {
+                        name.observableField.set(group!!.name)
+                    }
                 }
                 isPrivate.set(group!!.isPrivate)
                 tags = group!!.tag!!.id
                 binding.tagsPicker.setSelection(tags)
                 meetingFormat.observableField.set(group!!.meetingFormat!!)
-                binding.meetingsPicker.setSelection(resources.getStringArray(R.array.meeting_formats).indexOf(group!!.meetingFormat!!))
+                binding.meetingsPicker.setSelection(
+                    resources.getStringArray(R.array.meeting_formats)
+                        .indexOf(group!!.meetingFormat!!)
+                )
                 numberOfMeetings.observableField.set(group!!.meetingsCount.toString())
                 price.observableField.set(group!!.price.toString())
                 description.observableField.set(group!!.description)
@@ -191,15 +199,21 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                 hoursOfDay = date!!.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
                 minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
                 timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
-                groupType = com.doneit.ascend.presentation.models.GroupType.values()[group!!.groupType!!.ordinal]
-                meetingFormat.observableField.set(group!!.meetingFormat?: "")
-                startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(date))
+                groupType =
+                    com.doneit.ascend.presentation.models.GroupType.values()[group!!.groupType!!.ordinal]
+                meetingFormat.observableField.set(group!!.meetingFormat ?: "")
+                startDate.observableField.set(
+                    SimpleDateFormat(
+                        "dd MMMM yyyy",
+                        Locale.ENGLISH
+                    ).format(date)
+                )
                 selectedDays.addAll(group!!.daysOfWeek!!)
                 viewModel.changeSchedule()
                 Glide.with(context!!)
                     .asBitmap()
                     .load(group!!.image!!.url)
-                    .into(object : SimpleTarget<Bitmap>(){
+                    .into(object : SimpleTarget<Bitmap>() {
                         override fun onResourceReady(
                             resource: Bitmap,
                             transition: Transition<in Bitmap>?
@@ -209,18 +223,22 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
 
                     })
             }
-            viewModel.apply{
+            viewModel.apply {
                 members.postValue(group!!.attendees?.toMutableList())
-                selectedMembers.addAll(group!!.attendees?: emptyList())
+                selectedMembers.addAll(group!!.attendees ?: emptyList())
             }
-        }else{
+        } else {
             binding.btnComplete.setOnClickListener {
                 viewModel.completeClick()
             }
         }
     }
 
-    private fun initSpinner(spinner: Spinner, listener: AdapterView.OnItemSelectedListener, spinnerAdapter: SpinnerAdapter) {
+    private fun initSpinner(
+        spinner: Spinner,
+        listener: AdapterView.OnItemSelectedListener,
+        spinnerAdapter: SpinnerAdapter
+    ) {
         spinner.adapter = spinnerAdapter
         spinner.onItemSelectedListener = listener
 
@@ -259,7 +277,10 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                 Manifest.permission.CAMERA
             )
             .request { granted, _, _ ->
-                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(Manifest.permission.CAMERA)) {
+                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(
+                        Manifest.permission.CAMERA
+                    )
+                ) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
@@ -269,8 +290,12 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
                             it /* directory */
                         ).apply {
                             currentPhotoPath = absolutePath
-                        }.also {file ->
-                            FileProvider.getUriForFile(context!!, "com.doneit.ascend.fileprovider", file)?.also {
+                        }.also { file ->
+                            FileProvider.getUriForFile(
+                                context!!,
+                                "com.doneit.ascend.fileprovider",
+                                file
+                            )?.also {
                                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
                                 startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
                             }
@@ -341,10 +366,11 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
     private val meetingFormatListener: AdapterView.OnItemSelectedListener by lazy {
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if(p2 > 0) {
+                if (p2 > 0) {
                     viewModel.createGroupModel.meetingFormat.observableField.set(binding.meetingsPicker.selectedItem as String)
                 }
             }
+
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
@@ -353,11 +379,12 @@ class CreateSupGroupFragment : ArgumentedFragment<FragmentCreateSupportGroupBind
     private val tagsListener: AdapterView.OnItemSelectedListener by lazy {
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                if(p2 > 0) {
-                    viewModel.createGroupModel.tags = p2
+                if (p2 > 0) {
+                    viewModel.createGroupModel.tags = viewModel.tags.value?.get(p2 - 1)?.id ?: 0
                     binding.tagHint.visibility = View.VISIBLE
                 }
             }
+
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }

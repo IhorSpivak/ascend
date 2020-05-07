@@ -209,6 +209,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/llProfileFields">
 
                 <include
+                    android:visibility="gone"
                     android:id="@+id/community"
                     layout="@layout/template_profile_field"
                     app:fieldName="@{@string/community}"

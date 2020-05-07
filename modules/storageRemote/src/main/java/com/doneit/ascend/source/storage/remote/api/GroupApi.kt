@@ -5,10 +5,7 @@ import com.doneit.ascend.source.storage.remote.data.request.group.CancelGroupReq
 import com.doneit.ascend.source.storage.remote.data.request.group.InviteToGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.UpdateNoteRequest
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupListResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.ParticipantListResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.*
 import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -76,4 +73,7 @@ interface GroupApi {
 
     @DELETE("groups/{groupId}/invite/{inviteId}")
     fun deleteInviteAsync(@Path("groupId") groupId: Long, @Path("inviteId") inviteId: Long): Deferred<Response<OKResponse>>
+
+    @GET("tags")
+    fun getTags(): Deferred<Response<TagListResponse>>
 }

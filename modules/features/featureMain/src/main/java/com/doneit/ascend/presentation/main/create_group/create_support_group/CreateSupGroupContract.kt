@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.create_group.create_support_group
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedViewModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
@@ -23,6 +24,7 @@ interface CreateSupGroupContract {
         val clearReservationSeat: SingleLiveManager<Boolean>
         val members: MutableLiveData<MutableList<AttendeeEntity>>
         val selectedMembers: MutableList<AttendeeEntity>
+        val tags: MutableLiveData<List<TagEntity>>
 
         fun addNewParticipant()
         fun removeMember(member: AttendeeEntity)

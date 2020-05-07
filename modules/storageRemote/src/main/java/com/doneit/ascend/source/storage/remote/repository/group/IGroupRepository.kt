@@ -7,10 +7,7 @@ import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.SearchUserListResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupListResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.ParticipantListResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.*
 import java.io.File
 
 interface IGroupRepository {
@@ -44,4 +41,6 @@ interface IGroupRepository {
     suspend fun inviteToGroup(groupId: Long, request: InviteToGroupRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun searchUsers(searchRequest: SearchUserRequest): RemoteResponse<SearchUserListResponse, ErrorsListResponse>
+
+    suspend fun getTags(): RemoteResponse<TagListResponse, ErrorsListResponse>
 }

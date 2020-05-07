@@ -5,6 +5,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketEventEntity
+import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -51,4 +52,6 @@ interface IGroupGateway {
     fun sendSocketMessage(message: String)
 
     fun disconnect()
+
+    suspend fun getTags() : ResponseEntity<List<TagEntity>, List<String>>
 }

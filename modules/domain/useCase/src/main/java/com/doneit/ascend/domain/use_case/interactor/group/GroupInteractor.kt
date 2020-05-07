@@ -1,11 +1,11 @@
 package com.doneit.ascend.domain.use_case.interactor.group
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketEvent
+import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -90,6 +90,10 @@ internal class GroupInteractor(
 
     override suspend fun inviteToGroup(dto: InviteToGroupDTO): ResponseEntity<Unit, List<String>> {
         return groupGateway.inviteToGroup(dto)
+    }
+
+    override suspend fun getTags(): ResponseEntity<List<TagEntity>, List<String>> {
+        return groupGateway.getTags()
     }
 
     override fun searchMembers(query: String, userId: Long, memberList: List<AttendeeEntity>?): LiveData<PagedList<AttendeeEntity>> {

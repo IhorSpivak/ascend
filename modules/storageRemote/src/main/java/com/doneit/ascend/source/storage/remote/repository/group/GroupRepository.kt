@@ -9,10 +9,7 @@ import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.SearchUserListResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupCredentialsResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupListResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.GroupResponse
-import com.doneit.ascend.source.storage.remote.data.response.group.ParticipantListResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.*
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -210,8 +207,8 @@ internal class GroupRepository(
                         )
                     )
                 }
-                it.times?.let {list ->
-                    list.forEach {time ->
+                it.times?.let { list ->
+                    list.forEach { time ->
                         builder.addPart(
                             MultipartBody.Part.createFormData(
                                 "times[]",
@@ -220,8 +217,8 @@ internal class GroupRepository(
                         )
                     }
                 }
-                it.themes?.let {list ->
-                    list.forEach {theme ->
+                it.themes?.let { list ->
+                    list.forEach { theme ->
                         builder.addPart(
                             MultipartBody.Part.createFormData(
                                 "themes[]",
@@ -266,7 +263,10 @@ internal class GroupRepository(
         return execute({ api.leaveGroupAsync(groupId) }, ErrorsListResponse::class.java)
     }
 
-    override suspend fun deleteInvite(groupId: Long, inviteId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+    override suspend fun deleteInvite(
+        groupId: Long,
+        inviteId: Long
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({ api.deleteInviteAsync(groupId, inviteId) }, ErrorsListResponse::class.java)
     }
 
@@ -321,15 +321,23 @@ internal class GroupRepository(
 
     override suspend fun searchUsers(searchRequest: SearchUserRequest): RemoteResponse<SearchUserListResponse, ErrorsListResponse> {
         return execute(
-            { userApi.searchUsersAsync(
-                searchRequest.page,
-                searchRequest.perPage,
-                searchRequest.sortColumn,
-                searchRequest.sortType,
-                searchRequest.fullName,
-                searchRequest.email
-            )},
+            {
+                userApi.searchUsersAsync(
+                    searchRequest.page,
+                    searchRequest.perPage,
+                    searchRequest.sortColumn,
+                    searchRequest.sortType,
+                    searchRequest.fullName,
+                    searchRequest.email
+                )
+            },
             ErrorsListResponse::class.java
+        )
+    }
+
+    override suspend fun getTags(): RemoteResponse<TagListResponse, ErrorsListResponse> {
+        return execute(
+            { api.getTags() }, ErrorsListResponse::class.java
         )
     }
 
