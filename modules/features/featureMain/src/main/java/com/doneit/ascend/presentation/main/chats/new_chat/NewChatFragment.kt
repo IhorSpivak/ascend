@@ -131,7 +131,6 @@ class NewChatFragment : BaseFragment<FragmentNewChatBinding>() {
                 tvSearch.text.clear()
                 tvSearch.clearFocus()
                 emptyList.gone()
-                hideKeyboard()
                 searchVis = false
             }
             binding.tvSearch.addTextChangedListener(object: TextWatcher {
