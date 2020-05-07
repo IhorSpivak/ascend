@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.dialog.*
 import com.doneit.ascend.presentation.dialog.common.CardsAdapter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
 import com.doneit.ascend.presentation.main.group_info.common.InvitedParticipantAdapter
@@ -96,6 +97,9 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                         }
                     }
                     webinarThemeAdapter.submitList(group.themes)
+                }
+                if(group.groupType == GroupType.INDIVIDUAL) {
+                    binding.attendeesContainer.gone()
                 }
                 binding.tvSchedule.text = builder.toString()
             }
