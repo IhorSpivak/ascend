@@ -3,7 +3,6 @@ package com.doneit.ascend.presentation.main.chats.chat
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.AbsListView
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -178,25 +177,46 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         viewModel.messages.observe(this, Observer {
             emptyList.visible(it.isNullOrEmpty())
             messagesAdapter.submitList(it)
-            binding.messageList.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+            binding.messageList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
                 }
 
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    val first = (binding.messageList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val last = (binding.messageList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    for(i in last..first) {
+                    val first =
+                        (binding.messageList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val last =
+                        (binding.messageList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    for (i in last..first) {
                         messagesAdapter.currentList?.let {
                             viewModel.markMessageAsRead(it[i]!!)
                         }
                     }
                 }
             })
+            scrollIfNeed()
+            binding.messageList.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+                if (bottom < oldBottom) {
+                    binding.messageList.postDelayed(Runnable {
+                        binding.messageList.smoothScrollToPosition(
+                            0
+                        )
+                    }, 100)
+                }
+            }
             //this work badly, need another solution(trigger on scroll)
             //(binding.messageList.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0,0)
         })
+    }
+
+    private fun scrollIfNeed() {
+        binding.messageList.adapter?.let {
+            val lm =
+                binding.messageList.layoutManager as LinearLayoutManager
+            val first = lm.findFirstVisibleItemPosition()
+            binding.messageList.scrollToPosition(0)
+        }
     }
 
     override fun onResume() {
