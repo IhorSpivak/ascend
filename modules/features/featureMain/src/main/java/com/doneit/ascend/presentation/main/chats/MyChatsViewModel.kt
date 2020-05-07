@@ -13,6 +13,9 @@ import com.doneit.ascend.presentation.models.chat.ChatsWithUser
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 
@@ -27,6 +30,7 @@ class MyChatsViewModel(
     val user = userUseCase.getUserLive()
     override val filterTextAll: MutableLiveData<String> = MutableLiveData("")
     override val chatsWithCurrentUser: MediatorLiveData<ChatsWithUser> = MediatorLiveData()
+    private var repeatJob: Job
     init {
         chats = Transformations.switchMap(filterTextAll) { query ->
             val model = ChatListDTO(
@@ -37,6 +41,7 @@ class MyChatsViewModel(
             )
             return@switchMap chatUseCase.getMyChatListLive(model)
         }
+        repeatJob = repeatRequest()
 
         chatsWithCurrentUser.addSource(user) {
             applyData(chats.value, it)
@@ -80,4 +85,20 @@ class MyChatsViewModel(
             }
         }
     }
+
+    private fun repeatRequest(): Job {
+        return viewModelScope.launch {
+            while(isActive) {
+                filterTextAll.postValue(filterTextAll.value)
+                delay(3000)
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        if(repeatJob.isActive) repeatJob.cancel()
+    }
+
+//Cancel the loop
 }

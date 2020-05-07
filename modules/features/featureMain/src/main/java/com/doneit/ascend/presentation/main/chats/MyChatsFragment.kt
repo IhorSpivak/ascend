@@ -77,7 +77,7 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             val lm =
                 binding.rvChats.layoutManager as LinearLayoutManager
             val first = lm.findFirstVisibleItemPosition()
-            if (first < 5) binding.rvChats.scrollToPosition(0)
+            if (first < 2) binding.rvChats.scrollToPosition(0)
         }
     }
 
