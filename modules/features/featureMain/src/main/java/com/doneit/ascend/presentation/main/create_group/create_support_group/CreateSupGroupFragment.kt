@@ -113,11 +113,6 @@ class CreateSupGroupFragment :
 
             recyclerViewAddedMembers.adapter = membersAdapter
 
-            numberOfMeetings.editText.setOnClickListener {
-                mainContainer.requestFocus()
-                viewModel.chooseMeetingCountTouch(group, null)
-            }
-
             isPrivate.setOnCheckedChangeListener { compoundButton, b ->
                 viewModel.createGroupModel.isPrivate.set(b)
             }

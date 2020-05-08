@@ -72,8 +72,7 @@ fun String.isValidChatTitle(): Boolean {
 }
 
 fun String.isValidMeetingsNumber(): Boolean {
-    val r = Regex("^\\d{1,4}\$")
-    return this.matches(r)
+    return this.isNullOrEmpty().not() && this.toInt() in 1..365
 }
 
 fun isValidValidatableList(list: List<ValidatableField>): Boolean {

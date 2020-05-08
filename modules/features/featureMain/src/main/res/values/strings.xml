@@ -86,7 +86,7 @@
     <string name="error_start_time">The Start date cannot be past. Please check.</string>
     <string name="error_price">The Price can contain from 1 till 6 digits</string>
     <string name="error_email">The email is incorrect. Please, make sure you entered correct data</string>
-    <string name="error_number_of_meetings">The Number Of Meetings can contain from 1 till 4 digits</string>
+    <string name="error_number_of_meetings">The Number Of Meetings should be between 1 and 365</string>
     <string name="error_number_of_meetings_count">Schedule does not match the number of meetings</string>
     <string name="error_description">The Group Description from 2 till 1000 symbols</string>
     <string name="error_description_webinar">The Webinar Description from 2 till 500 symbols</string>
