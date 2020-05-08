@@ -9,15 +9,24 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.MotionEvent
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Spinner
+import android.widget.SpinnerAdapter
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostFragment
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualGroupBinding
 import com.doneit.ascend.presentation.utils.checkImage
@@ -58,6 +67,51 @@ class IndividualGroupFragment(
     private var currentPhotoPath: String? = null
     override val viewModel: IndividualGroupContract.ViewModel by instance()
 
+    private val durationAdapter by lazy {
+        MeetingFormatsAdapter(
+            context!!.resources.getStringArray(
+                R.array.meeting_duration_array
+            )
+        )
+    }
+
+    private val mDetector by lazy {
+        GestureDetectorCompat(context, object : DefaultGestureDetectorListener() {
+            override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+                return true
+            }
+        })
+    }
+
+    private fun initSpinner(
+        spinner: Spinner,
+        listener: AdapterView.OnItemSelectedListener,
+        spinnerAdapter: SpinnerAdapter
+    ) {
+        spinner.adapter = spinnerAdapter
+        spinner.onItemSelectedListener = listener
+
+        spinner.setOnTouchListener { view, motionEvent ->
+            if (mDetector.onTouchEvent(motionEvent)) {
+                hideKeyboard()
+            }
+            false
+        }
+    }
+
+    private val durationListener: AdapterView.OnItemSelectedListener by lazy {
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (p2 > 0) {
+                    viewModel.createGroupModel.duration.set(p2)
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
 
         binding.apply {
@@ -68,6 +122,8 @@ class IndividualGroupFragment(
                 viewModel.chooseScheduleTouch()
             }
 
+            initSpinner(binding.durationPicker, durationListener, durationAdapter)
+
             startDate.editText.setOnClickListener {
                 mainContainer.requestFocus()
                 viewModel.chooseStartDateTouch()
@@ -77,8 +133,6 @@ class IndividualGroupFragment(
                 mainContainer.requestFocus()
                 viewModel.chooseMeetingCountTouch(null, null)
             }
-
-            duration.isClickable = false
 
             dashRectangleBackground.setOnClickListener {
                 hideKeyboard()

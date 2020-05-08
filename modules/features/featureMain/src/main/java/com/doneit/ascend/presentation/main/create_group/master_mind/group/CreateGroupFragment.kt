@@ -2,24 +2,34 @@ package com.doneit.ascend.presentation.main.create_group.master_mind.group
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.MotionEvent
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Spinner
+import android.widget.SpinnerAdapter
 import androidx.core.content.FileProvider
+import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
+import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
-import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
-import com.doneit.ascend.presentation.utils.*
+import com.doneit.ascend.presentation.utils.checkImage
+import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.getImagePath
+import com.doneit.ascend.presentation.utils.showErrorDialog
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
@@ -46,6 +56,52 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
     private var currentPhotoPath: String? = null
     override val viewModel: CreateGroupContract.ViewModel by instance()
 
+
+    private val durationAdapter by lazy {
+        MeetingFormatsAdapter(
+            context!!.resources.getStringArray(
+                R.array.meeting_duration_array
+            )
+        )
+    }
+
+    private val mDetector by lazy {
+        GestureDetectorCompat(context, object : DefaultGestureDetectorListener() {
+            override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+                return true
+            }
+        })
+    }
+
+    private fun initSpinner(
+        spinner: Spinner,
+        listener: AdapterView.OnItemSelectedListener,
+        spinnerAdapter: SpinnerAdapter
+    ) {
+        spinner.adapter = spinnerAdapter
+        spinner.onItemSelectedListener = listener
+
+        spinner.setOnTouchListener { view, motionEvent ->
+            if (mDetector.onTouchEvent(motionEvent)) {
+                hideKeyboard()
+            }
+            false
+        }
+    }
+
+    private val durationListener: AdapterView.OnItemSelectedListener by lazy {
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (p2 > 0) {
+                    viewModel.createGroupModel.duration.set(p2)
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+    }
+
     private val adapter: ParticipantAdapter by lazy {
         ParticipantAdapter(mutableListOf(), viewModel)
     }
@@ -68,6 +124,8 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             }
 
         }
+
+        initSpinner(binding.durationPicker, durationListener, durationAdapter)
 
         viewModel.changeGroup.observe(this, Observer {
             binding.apply {

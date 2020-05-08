@@ -9,9 +9,15 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.AdapterView
+import android.widget.Spinner
+import android.widget.SpinnerAdapter
 import android.widget.TextView
 import androidx.core.content.FileProvider
+import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.ezpermission.EzPermission
@@ -19,11 +25,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.ThemeAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.TimeAdapter
@@ -46,7 +54,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, CreateGroupArgs>(){
+class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, CreateGroupArgs>() {
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<CreateWebinarContract.ViewModel>() with provider {
             instance<CreateGroupHostContract.ViewModel>()
@@ -73,6 +81,51 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         TimeAdapter(viewModel, group, what)
     }
 
+    private val durationAdapter by lazy {
+        MeetingFormatsAdapter(
+            context!!.resources.getStringArray(
+                R.array.meeting_duration_array
+            )
+        )
+    }
+
+    private val mDetector by lazy {
+        GestureDetectorCompat(context, object : DefaultGestureDetectorListener() {
+            override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+                return true
+            }
+        })
+    }
+
+    private fun initSpinner(
+        spinner: Spinner,
+        listener: AdapterView.OnItemSelectedListener,
+        spinnerAdapter: SpinnerAdapter
+    ) {
+        spinner.adapter = spinnerAdapter
+        spinner.onItemSelectedListener = listener
+
+        spinner.setOnTouchListener { view, motionEvent ->
+            if (mDetector.onTouchEvent(motionEvent)) {
+                hideKeyboard()
+            }
+            false
+        }
+    }
+
+    private val durationListener: AdapterView.OnItemSelectedListener by lazy {
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (p2 > 0) {
+                    viewModel.createGroupModel.duration.set(p2)
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         GroupAction.values().forEach {
             if (arguments!!.containsKey(it.toString())) {
@@ -84,15 +137,17 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         }
         viewModel.updateFieldValidators()
 
+        initSpinner(binding.durationPicker, durationListener, durationAdapter)
+
         binding.apply {
             model = viewModel
-            actionTitle = if (what == null){
+            actionTitle = if (what == null) {
                 getString(R.string.create_create)
-            }else{
+            } else {
                 what?.toString()?.capitalize()
             }
             recyclerViewAddedMembers.adapter = membersAdapter
-            webinarThemes.apply{
+            webinarThemes.apply {
                 adapter = themeAdapter
                 (layoutManager as LinearLayoutManager).initialPrefetchItemCount = 12
             }
@@ -122,7 +177,8 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 scrollableContainer.requestFocus()
                 viewModel.addMember(viewModel.createGroupModel.groupType!!)
             }
-            description.multilineEditText.setOnEditorActionListener(object : TextView.OnEditorActionListener{
+            description.multilineEditText.setOnEditorActionListener(object :
+                TextView.OnEditorActionListener {
                 override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
                     if (p1 == EditorInfo.IME_ACTION_DONE) {
                         hideKeyboard()
@@ -147,17 +203,17 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 })
             } else {
                 if (what == GroupAction.DUPLICATE) {
-                    it.filter {attendee ->
+                    it.filter { attendee ->
                         attendee.email != null && attendee.email!!.isNotBlank()
                     }.map { attendee ->
                         attendee.email!!
-                    }.let { list -> viewModel.createGroupModel.participants.set(list)}
+                    }.let { list -> viewModel.createGroupModel.participants.set(list) }
                 } else {
                     it.filter { attendee ->
                         !attendee.isAttended
                     }.filter { it.email != null && it.email.isNullOrBlank() }.map { attendee ->
                         attendee.email!!
-                    }.let { list -> viewModel.createGroupModel.participants.set(list)}
+                    }.let { list -> viewModel.createGroupModel.participants.set(list) }
                 }
             }
 
@@ -170,7 +226,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         viewModel.themes.observe(this, Observer {
             themeAdapter.data = it
         })
-        if (group != null){
+        if (group != null) {
             binding.buttonComplete.apply {
                 text = getString(R.string.btn_save_action)
                 setOnClickListener {
@@ -182,7 +238,8 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             }
             viewModel.updateFields(group!!, what!!.toString())
             if ((group!!.pastMeetingsCount!! > 0 && what == GroupAction.EDIT)
-                || (group!!.isStarting && group!!.participantsCount!! > 0 && what == GroupAction.EDIT)){
+                || (group!!.isStarting && group!!.participantsCount!! > 0 && what == GroupAction.EDIT)
+            ) {
                 binding.apply {
                     startDate.editText.setOnClickListener { }
                     startDate.setColor(resources.getColor(R.color.light_gray_b1bf))
@@ -191,17 +248,21 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             Glide.with(context!!)
                 .asBitmap()
                 .load(group!!.image!!.url)
-                .into(object : SimpleTarget<Bitmap>(){
+                .into(object : SimpleTarget<Bitmap>() {
                     override fun onResourceReady(
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
                     ) {
                         viewModel.createGroupModel.image.observableField.set(null)
-                        viewModel.createGroupModel.image.observableField.set(context?.copyToStorage(resource))
+                        viewModel.createGroupModel.image.observableField.set(
+                            context?.copyToStorage(
+                                resource
+                            )
+                        )
                     }
 
                 })
-        }else{
+        } else {
             binding.buttonComplete.setOnClickListener {
                 viewModel.completeClick()
             }
@@ -235,7 +296,10 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 Manifest.permission.CAMERA
             )
             .request { granted, _, _ ->
-                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(Manifest.permission.CAMERA)) {
+                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(
+                        Manifest.permission.CAMERA
+                    )
+                ) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
@@ -245,8 +309,12 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                             it /* directory */
                         ).apply {
                             currentPhotoPath = absolutePath
-                        }.also {file ->
-                           FileProvider.getUriForFile(context!!, "com.doneit.ascend.fileprovider", file)?.also {
+                        }.also { file ->
+                            FileProvider.getUriForFile(
+                                context!!,
+                                "com.doneit.ascend.fileprovider",
+                                file
+                            )?.also {
                                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
                                 startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)
                             }

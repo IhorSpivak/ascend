@@ -112,6 +112,18 @@
         <item>Group Discussion</item>
     </string-array>
 
+    <string-array name="meeting_duration_array">
+        <item>Duration</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+        <item>4 hours</item>
+        <item>5 hours</item>
+        <item>6 hours</item>
+        <item>7 hours</item>
+        <item>8 hours</item>
+    </string-array>
+
     <string-array name="duration_array">
         <item>1 hour</item>
         <item>2 hours</item>

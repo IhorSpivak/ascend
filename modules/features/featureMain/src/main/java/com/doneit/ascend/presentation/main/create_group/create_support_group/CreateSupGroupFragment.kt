@@ -79,6 +79,14 @@ class CreateSupGroupFragment :
         )
     }
 
+    private val durationAdapter by lazy {
+        MeetingFormatsAdapter(
+            context!!.resources.getStringArray(
+                R.array.meeting_duration_array
+            )
+        )
+    }
+
     private val membersAdapter: InvitedMembersAdapter by lazy {
         InvitedMembersAdapter {
             viewModel.removeMember(it)
@@ -152,6 +160,7 @@ class CreateSupGroupFragment :
         }
 
         initSpinner(binding.meetingsPicker, meetingFormatListener, meetingTypesAdapter)
+        initSpinner(binding.durationPicker, durationListener, durationAdapter)
         viewModel.tags.observe(viewLifecycleOwner, Observer {
             val array = ArrayList(it.map { it.tag })
             array.add(0, "Tag")
@@ -363,6 +372,19 @@ class CreateSupGroupFragment :
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
                     viewModel.createGroupModel.meetingFormat.observableField.set(binding.meetingsPicker.selectedItem as String)
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+        }
+    }
+
+    private val durationListener: AdapterView.OnItemSelectedListener by lazy {
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                if (p2 > 0) {
+                    viewModel.createGroupModel.duration.set(p2)
                 }
             }
 
