@@ -50,4 +50,5 @@ interface IMyChatGateway {
     suspend fun removeMessageRemote(messageId:Long): ResponseEntity<Unit, List<String>>
     suspend fun unblockUser(userId:Long): ResponseEntity<Unit, List<String>>
     fun getBlockedUsersLive(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>>
+    suspend fun getUnreadMessageCount(): Long
 }

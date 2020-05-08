@@ -276,6 +276,11 @@ class ProfileViewModel(
         router.navigateToRatings()
     }
 
+    override fun onMMCommunityClick() {
+        //todo:
+        router.navigateToSetCommunity()
+    }
+
     override fun onChangePhoneClick() {
         router.navigateToChangePhone()
     }

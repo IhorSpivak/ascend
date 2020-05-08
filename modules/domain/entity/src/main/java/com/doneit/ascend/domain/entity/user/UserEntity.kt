@@ -27,7 +27,8 @@ data class UserEntity(
     val isMasterMind: Boolean,
     val community: String?,
     val visitedGroupCount: Int,
-    val birthday: Date?
+    val birthday: Date?,
+    val communities: List<String>?
 ) {
     val age: Int?
         get() {

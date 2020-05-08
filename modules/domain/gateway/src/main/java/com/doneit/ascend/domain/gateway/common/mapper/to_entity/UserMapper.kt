@@ -45,7 +45,8 @@ fun UserAuthResponse.toEntity(): UserEntity {
         role == MM_ROLE,
         community,
         visitedGroupsCount ?: 0,
-        getDefaultCalendar().time
+        getDefaultCalendar().time,
+        communities
     )
 }
 
@@ -73,7 +74,8 @@ fun UserProfileResponse.toEntity(): UserEntity {
         role == MM_ROLE,
         community,
         visitedGroupsCount,
-        birthday?.toDate()
+        birthday?.toDate(),
+        communities = communities
     )
 }
 
@@ -101,7 +103,8 @@ fun UserLocal.toUserEntity(): UserEntity {
         isMasterMind = isMasterMind,
         community = community,
         visitedGroupCount = this@toUserEntity.visitedGroupCount,
-        birthday = this@toUserEntity.birthday?.toShortDate()
+        birthday = this@toUserEntity.birthday?.toShortDate(),
+        communities = communities
     )
 }
 

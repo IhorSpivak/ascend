@@ -58,6 +58,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
             MainViewModel(
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }

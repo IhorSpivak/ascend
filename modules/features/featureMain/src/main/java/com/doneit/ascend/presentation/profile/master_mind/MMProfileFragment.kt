@@ -134,6 +134,10 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
         contactSupport.setOnClickListener {
             activity!!.sendEmail(Constants.SUPPORT_EMAIL)
         }
+
+        community.setOnClickListener {
+            viewModel.onMMCommunityClick()
+        }
     }
 
     private fun showPhotoDialog() {

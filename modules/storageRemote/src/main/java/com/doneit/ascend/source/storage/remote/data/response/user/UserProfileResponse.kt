@@ -23,5 +23,6 @@ data class UserProfileResponse(
     @SerializedName("image") val image: ImageResponse?,
     @SerializedName("birthday") val birthday: String?,
     @SerializedName("role") val role: String?,
-    @SerializedName("community") val community: String?
+    @SerializedName("community") val community: String?,
+    @SerializedName("communities") val communities: List<String>?
 )

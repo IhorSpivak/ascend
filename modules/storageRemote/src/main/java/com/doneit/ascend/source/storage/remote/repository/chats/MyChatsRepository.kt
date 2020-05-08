@@ -129,4 +129,8 @@ internal class MyChatsRepository(
     override suspend fun getAvailableChats(): RemoteResponse<AvailableChatResponse, ErrorsListResponse> {
         return execute({ api.getAvailableChatIds() }, ErrorsListResponse::class.java)
     }
+
+    override suspend fun getUnreadMessageCount(): RemoteResponse<UnreadMessageCountResponse, ErrorsListResponse> {
+        return execute({ api.getUnreadMessageCount()}, ErrorsListResponse::class.java)
+    }
 }

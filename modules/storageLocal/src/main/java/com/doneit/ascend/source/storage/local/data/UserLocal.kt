@@ -29,5 +29,6 @@ data class UserLocal(
     val isMasterMind: Boolean,
     val visitedGroupCount: Int = 0,
     val community: String? = "",
-    val birthday: String? = ""
+    val birthday: String? = "",
+    val communities: List<String>?
 )

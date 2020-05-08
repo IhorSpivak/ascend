@@ -37,7 +37,8 @@ fun UserEntity.toUserLocal(): UserLocal {
         isMasterMind = isMasterMind,
         visitedGroupCount = visitedGroupCount,
         community = community,
-        birthday = birthday?.toRemoteStringShort()
+        birthday = birthday?.toRemoteStringShort(),
+        communities = communities
     )
 }
 
@@ -65,7 +66,8 @@ fun UserLocal.merge(newModel: UserProfileResponse): UserLocal {
         isMasterMind = newModel.role == MM_ROLE,
         visitedGroupCount = visitedGroupCount,
         community = newModel.community,
-        birthday = newModel.birthday
+        birthday = newModel.birthday,
+        communities = communities
     )
 }
 
@@ -93,7 +95,8 @@ fun UserLocal.merge(newModel: UserAuthResponse): UserLocal {
         isMasterMind = newModel.role == MM_ROLE,
         visitedGroupCount = visitedGroupCount,
         community = newModel.community,
-        birthday = birthday
+        birthday = birthday,
+        communities = communities
     )
 }
 

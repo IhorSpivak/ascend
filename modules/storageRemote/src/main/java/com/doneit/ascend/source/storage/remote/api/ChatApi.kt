@@ -77,6 +77,9 @@ interface ChatApi {
         @Query("message") message: String
     ): Deferred<Response<OKResponse>>
 
+    @GET("messages/unread_messages_count")
+    fun getUnreadMessageCount(): Deferred<Response<UnreadMessageCountResponse>>
+
     @POST("messages/{id}/read")
     fun markMessageAsReadAsync(
         @Path("id") id: Long

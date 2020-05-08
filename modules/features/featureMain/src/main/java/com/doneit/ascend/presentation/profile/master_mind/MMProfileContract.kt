@@ -7,6 +7,7 @@ interface MMProfileContract {
 
         fun onEditBioClick()
         fun onRatingsClick()
+        fun onMMCommunityClick()
     }
 
     interface Router {

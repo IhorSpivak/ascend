@@ -387,4 +387,13 @@ class MyChatGateway(
 
             boundary.loadInitial()
         }
+
+    override suspend fun getUnreadMessageCount(): Long {
+        val result = executeRemote { remote.getUnreadMessageCount() }
+        return if(result.isSuccessful){
+            result.successModel?.unreadMessageCount ?: 0
+        } else {
+            0
+        }
+    }
 }

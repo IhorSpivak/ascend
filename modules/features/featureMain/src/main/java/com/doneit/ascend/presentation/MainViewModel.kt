@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -12,7 +13,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val router: MainContract.Router,
     private val userUseCase: UserUseCase,
-    private val notificationUseCase: NotificationUseCase
+    private val notificationUseCase: NotificationUseCase,
+    private val chatUseCase: ChatUseCase
 ) : BaseViewModelImpl(), MainContract.ViewModel {
     override fun onFilterClick() {
         //TODO:
@@ -46,7 +48,8 @@ class MainViewModel(
 
     override fun onCreateGroupClick() {
         user?.let {
-            if (it.isMasterMind) {
+            val permission = it.communities?.contains(it.community?.toLowerCase()) ?: false
+            if (it.isMasterMind && permission) {
                 router.navigateToCreateGroupMM()
             } else {
                 router.navigateToCreateGroup(GroupType.SUPPORT)

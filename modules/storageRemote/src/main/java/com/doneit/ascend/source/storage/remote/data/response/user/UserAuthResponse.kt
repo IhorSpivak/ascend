@@ -24,5 +24,6 @@ data class UserAuthResponse(
     @SerializedName("bio") val bio: String?,
     @SerializedName("rating") val rating: Float,
     @SerializedName("role") val role: String?,
-    @SerializedName("community") val community: String?
+    @SerializedName("community") val community: String?,
+    @SerializedName("communities") val communities: List<String>?
 )

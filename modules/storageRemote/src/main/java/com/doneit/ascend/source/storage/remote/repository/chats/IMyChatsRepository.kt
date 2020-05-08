@@ -33,4 +33,6 @@ interface IMyChatsRepository {
     suspend fun markMessageAsRead(messageId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun getAvailableChats(): RemoteResponse<AvailableChatResponse, ErrorsListResponse>
+
+    suspend fun getUnreadMessageCount(): RemoteResponse<UnreadMessageCountResponse, ErrorsListResponse>
 }
