@@ -123,7 +123,7 @@ class CreateGroupViewModel(
             if (s.isValidMeetingsNumber().not()) {
                 result.isSucceed = false
                 result.errors.add(R.string.error_number_of_meetings)
-            } else if (createGroupModel.scheduleDays.size != s.toInt()) {
+            } else if (createGroupModel.scheduleDays.size > s.toInt()) {
                 result.isSucceed = false
                 result.errors.add(R.string.error_number_of_meetings_count)
             }
