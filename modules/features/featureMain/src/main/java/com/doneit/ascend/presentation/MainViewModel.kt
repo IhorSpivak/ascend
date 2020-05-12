@@ -1,5 +1,7 @@
 package com.doneit.ascend.presentation
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -30,14 +32,17 @@ class MainViewModel(
     //TODO: change it to chatUseCase when it available:
     override val hasUnreadMessages =
         notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }
-    private var user: UserEntity? = null
-
-    init {
-        viewModelScope.launch {
-            user = userUseCase.getUser()
+    private val user = MutableLiveData<UserEntity?>()
+    private val localUser = userUseCase.getUserLive()
+    private val userObserver: Observer<UserEntity?> = Observer {
+        it?.let {
+            user.postValue(it)
         }
     }
 
+    init {
+        localUser.observeForever(userObserver)
+    }
     override fun onSearchClick() {
         router.navigateToSearch()
     }
@@ -47,7 +52,7 @@ class MainViewModel(
     }
 
     override fun onCreateGroupClick() {
-        user?.let {
+        user.value?.let {
             val permission = it.communities?.contains(it.community?.toLowerCase()) ?: false
             if (it.isMasterMind && permission) {
                 router.navigateToCreateGroupMM()
@@ -70,7 +75,7 @@ class MainViewModel(
     }
 
     override fun navigateToProfile() {
-        user?.let {
+        user.value?.let {
             if (it.isMasterMind) {
                 router.navigateToMMProfile()
             } else {
@@ -87,5 +92,10 @@ class MainViewModel(
                 router.navigateToLogin()
             }
         }
+    }
+
+    override fun onCleared() {
+        user.removeObserver(userObserver)
+        super.onCleared()
     }
 }
