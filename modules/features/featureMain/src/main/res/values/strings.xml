@@ -431,6 +431,8 @@
     <string name="add_goal_title">Add Goal / Spiritual Plan</string>
     <string name="add_spiritual_plan">Add spiritual plan</string>
     <string name="add_goal">Add goal</string>
+    <string name="mute_all">Mute All</string>
+    <string name="unmute_all">UnMute All</string>
 
     <!--Attachment transfer status-->
     <string name="transfer_started">Started</string>

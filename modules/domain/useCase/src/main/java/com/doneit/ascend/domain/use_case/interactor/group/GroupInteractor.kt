@@ -163,6 +163,26 @@ internal class GroupInteractor(
         )
     }
 
+    override fun muteAllUsers(userId: String) {
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_WITH_ID_TEMPLATE,
+                SocketEvent.MUTE_ALL_USERS.toString(),
+                userId
+            )
+        )
+    }
+
+    override fun unMuteAllUsers(userId: String) {
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_WITH_ID_TEMPLATE,
+                SocketEvent.UNMUTE_ALL_USERS.toString(),
+                userId
+            )
+        )
+    }
+
     override fun disconnect() {
         groupGateway.disconnect()
     }

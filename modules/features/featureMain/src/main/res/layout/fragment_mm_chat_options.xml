@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsContract.ViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_black_semitransparent"
@@ -18,53 +22,53 @@
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_back"
             android:onClick="@{(v) -> model.onBackClick()}"
+            android:padding="8dp"
+            android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvTitleGroup"
+            style="@style/TextNormal.White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            style="@style/TextNormal.White"
+            android:text="@{model.groupInfo.name}"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:text="@{model.groupInfo.name}"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Fighting for recovery"/>
+            tools:text="Fighting for recovery" />
 
         <TextView
             android:id="@+id/tvTitleOwner"
+            style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            style="@style/TextNormal"
-            android:textSize="12sp"
-            android:textColor="@color/light_gray_da"
             android:text="@{model.groupInfo.owner.fullName}"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/light_gray_da"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTitleGroup"
-            tools:text="by Bessie Howard"/>
+            tools:text="by Bessie Howard" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/ivSwitchCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:layout_marginEnd="12dp"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_loop"
             android:onClick="@{(v) -> model.switchCamera()}"
+            android:padding="8dp"
+            android:src="@drawable/ic_loop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,32 +78,32 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="96dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="32dp"
             android:src="@drawable/ic_share_screen"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnMuteAll"
             app:layout_constraintEnd_toStartOf="@id/ivClip"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/ivClip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="96dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/ic_clip"
+            android:layout_marginEnd="96dp"
             android:onClick="@{(v) -> model.onAttachmentsClick()}"
-            app:layout_constraintStart_toEndOf="@id/ivShareScreen"
+            android:src="@drawable/ic_clip"
+            app:layout_constraintBottom_toBottomOf="@id/ivShareScreen"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivShareScreen"
-            app:layout_constraintBottom_toBottomOf="@id/ivShareScreen"/>
+            app:layout_constraintStart_toEndOf="@id/ivShareScreen"
+            app:layout_constraintTop_toTopOf="@id/ivShareScreen" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/bottomGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="top"
-            app:constraint_referenced_ids="ivShareScreen,ivClip"/>
+            app:constraint_referenced_ids="ivShareScreen,ivClip" />
 
         <ImageView
             android:id="@+id/ivCamera"
@@ -108,34 +112,50 @@
             android:layout_marginStart="80dp"
             android:onClick="@{(v) -> model.switchVideoEnabledState()}"
             android:src="@{model.isVideoEnabled()? @drawable/ic_videocamera_on : @drawable/ic_videocamera_off, default = @drawable/ic_videocamera_on}"
+            app:layout_constraintBottom_toBottomOf="@id/ivHandset"
+            app:layout_constraintEnd_toStartOf="@id/ivHandset"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivHandset"
-            app:layout_constraintTop_toTopOf="@id/ivHandset"
-            app:layout_constraintBottom_toBottomOf="@id/ivHandset"/>
+            app:layout_constraintTop_toTopOf="@id/ivHandset" />
 
         <ImageView
             android:id="@+id/ivHandset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="48dp"
-            android:src="@drawable/ic_finish_call"
             android:onClick="@{(v) -> model.finishCall()}"
-            app:layout_constraintStart_toEndOf="@id/ivCamera"
+            android:src="@drawable/ic_finish_call"
+            app:layout_constraintBottom_toTopOf="@id/bottomGroup"
             app:layout_constraintEnd_toStartOf="@id/ivMicro"
-            app:layout_constraintBottom_toTopOf="@id/bottomGroup"/>
+            app:layout_constraintStart_toEndOf="@id/ivCamera" />
 
         <ImageView
             android:id="@+id/ivMicro"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="80dp"
-            android:src="@{model.isAudioRecording()? @drawable/ic_micro_on : @drawable/ic_micro_off, default = @drawable/ic_micro_on}"
             android:onClick="@{(v) -> model.switchAudioEnabledState()}"
-            app:layout_constraintStart_toEndOf="@id/ivHandset"
+            android:src="@{model.isAudioRecording() ? @drawable/ic_micro_on : @drawable/ic_micro_off, default = @drawable/ic_micro_on}"
+            app:layout_constraintBottom_toBottomOf="@id/ivHandset"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivHandset"
-            app:layout_constraintBottom_toBottomOf="@id/ivHandset"/>
+            app:layout_constraintStart_toEndOf="@id/ivHandset"
+            app:layout_constraintTop_toTopOf="@id/ivHandset" />
+
+        <Button
+            android:id="@+id/btnMuteAll"
+            style="@style/AppTheme.Button"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:background="@{model.isAllMuted() ? @drawable/mm_edit_background : @drawable/mm_delete_background, default = @drawable/mm_delete_background}"
+            android:onClick="@{(v) -> model.switchAllMuted()}"
+            android:text="@{model.isAllMuted() ? @string/unmute_all : @string/mute_all, default = @string/mute_all}"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

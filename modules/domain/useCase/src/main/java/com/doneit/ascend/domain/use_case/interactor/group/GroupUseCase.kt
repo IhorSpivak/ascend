@@ -67,5 +67,9 @@ interface GroupUseCase {
 
     fun unmuteUser(userId: String)
 
+    fun muteAllUsers(userId: String)
+
+    fun unMuteAllUsers(userId: String)
+
     fun disconnect()
 }

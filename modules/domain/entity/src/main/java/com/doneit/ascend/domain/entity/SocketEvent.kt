@@ -16,6 +16,8 @@ enum class SocketEvent(
     GROUP_STARTED("StartGroup"),
     MUTE_USER("MuteUser"),
     RESET_MUTE_USER("ResetMuteUser"),
+    MUTE_ALL_USERS("MuteAllUsers"),
+    UNMUTE_ALL_USERS("UnMuteAllUsers"),
     UNEXPECTED("");
 
     override fun toString(): String {

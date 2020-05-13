@@ -87,25 +87,51 @@ class ParticipantsManager {
 
     fun updateHandState(participant: PresentationChatParticipant) {
         getParticipantMList().firstOrNull { it.userId == participant.userId }?.let {
-            updateParticipant(it.copy(
-                isHandRisen = participant.isHandRisen
-            ))
+            updateParticipant(
+                it.copy(
+                    isHandRisen = participant.isHandRisen
+                )
+            )
         }
     }
 
     fun mute(participant: PresentationChatParticipant) {
         getParticipantMList().firstOrNull { it.userId == participant.userId }?.let {
-            updateParticipant(it.copy(
-                isMuted = true
-            ))
+            updateParticipant(
+                it.copy(
+                    isMuted = true
+                )
+            )
         }
     }
 
     fun unmute(participant: PresentationChatParticipant) {
         getParticipantMList().firstOrNull { it.userId == participant.userId }?.let {
-            updateParticipant(it.copy(
-                isMuted = false
-            ))
+            updateParticipant(
+                it.copy(
+                    isMuted = false
+                )
+            )
+        }
+    }
+
+    fun muteAll() {
+        getParticipantMList().forEach {
+            updateParticipant(
+                it.copy(
+                    isMuted = true
+                )
+            )
+        }
+    }
+
+    fun unmuteAll() {
+        getParticipantMList().forEach {
+            updateParticipant(
+                it.copy(
+                    isMuted = false
+                )
+            )
         }
     }
 
@@ -114,11 +140,11 @@ class ParticipantsManager {
             var res = it
 
             //new model only if field has changed
-            if(it.userId == id) {
+            if (it.userId == id) {
                 res = it.copy(
                     isSpeaker = true
                 )
-            } else if(it.isSpeaker) {
+            } else if (it.isSpeaker) {
                 res = it.copy(
                     isSpeaker = false
                 )

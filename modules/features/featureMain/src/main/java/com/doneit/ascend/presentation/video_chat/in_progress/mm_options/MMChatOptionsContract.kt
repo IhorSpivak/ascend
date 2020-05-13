@@ -11,7 +11,9 @@ interface MMChatOptionsContract {
         val isVideoEnabled: LiveData<Boolean>
         val isAudioRecording: LiveData<Boolean>
         val isMuted: LiveData<Boolean>
+        val isAllMuted: LiveData<Boolean>
 
+        fun switchAllMuted()
         fun onAttachmentsClick()
         fun switchVideoEnabledState()
         fun switchAudioEnabledState()

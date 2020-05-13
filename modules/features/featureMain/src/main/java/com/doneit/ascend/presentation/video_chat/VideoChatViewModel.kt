@@ -1,8 +1,11 @@
 package com.doneit.ascend.presentation.video_chat
 
 import android.os.CountDownTimer
-import androidx.lifecycle.*
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
@@ -92,10 +95,19 @@ class VideoChatViewModel(
         }
     override val isMMConnected = MutableLiveData<Boolean>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
+
     //private val _isAudioEnabled = MutableLiveData<Boolean>()
     override val isAudioRecording = MediatorLiveData<Boolean>()
     override val isAudioEnabled = MutableLiveData<Boolean>()
     override val isMuted = MutableLiveData<Boolean>()
+    override val isAllMuted = Transformations.switchMap(participants) {
+        if(it.all { it.isMuted }) {
+            return@switchMap MutableLiveData(true)
+        } else {
+            return@switchMap MutableLiveData(false)
+        }
+    }
+
     override val isHandRisen = MutableLiveData<Boolean>()
     override val isFinishing = MutableLiveData<Boolean>()
     override val switchCameraEvent = SingleLiveManager(Unit)
@@ -201,6 +213,14 @@ class VideoChatViewModel(
                     isMuted.postValue(false)
                 }
                 participantsManager.unmute(user)
+            }
+            SocketEvent.MUTE_ALL_USERS -> {
+                participantsManager.muteAll()
+                if (currentUserId != groupInfo.value?.owner?.id.toString()) isMuted.postValue(true)
+            }
+            SocketEvent.UNMUTE_ALL_USERS -> {
+                participantsManager.unmuteAll()
+                if (currentUserId != groupInfo.value?.owner?.id.toString()) isMuted.postValue(false)
             }
         }
     }
@@ -502,6 +522,16 @@ class VideoChatViewModel(
         navigation.postValue(VideoChatContract.Navigation.BACK)
     }
 
+    override fun switchAllMuted() {
+        participants.value?.let {
+            if (it.all { it.isMuted }) {
+                groupUseCase.unMuteAllUsers(groupInfo.value?.owner?.id.toString())
+            } else {
+                groupUseCase.muteAllUsers(groupInfo.value?.owner?.id.toString())
+            }
+        }
+    }
+
     override fun onBackClick() {
         navigation.postValue(VideoChatContract.Navigation.BACK)
     }
@@ -587,7 +617,8 @@ class VideoChatViewModel(
         val currentDate = Date()
         downTimer?.cancel()
         downTimer =
-            object : CountDownTimer(group.startTime!!.time - currentDate.time, TIMER_PERIOD) {
+            object :
+                CountDownTimer(group.startTime!!.time - currentDate.time, TIMER_PERIOD) {
                 override fun onFinish() {
                     changeState(VideoChatState.PREVIEW_GROUP_STARTED)
                 }

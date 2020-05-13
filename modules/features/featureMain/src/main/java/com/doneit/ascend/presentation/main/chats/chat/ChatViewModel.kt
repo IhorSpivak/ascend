@@ -114,12 +114,9 @@ class ChatViewModel(
                         membersCountGroup.postValue(it)
                         chatModel.postValue(response.successModel)
                     }
-                    clearResources()
-                    localRouter.onBack()
-                } else {
-                    clearResources()
-                    localRouter.onBack()
                 }
+                clearResources()
+                localRouter.onBack()
             }
         } else {
             clearResources()
