@@ -35,6 +35,7 @@ class NewChatViewModel(
     private val isAddMoreVisible: MutableLiveData<Boolean> = MutableLiveData(true)
     private val searchQuery = MutableLiveData<String>()
 
+
     override val newChatModel: PresentationCreateChatModel = PresentationCreateChatModel()
     override val addedMembers: LiveData<List<AttendeeEntity>> = members.switchMap {
         liveData {
@@ -43,6 +44,8 @@ class NewChatViewModel(
             emit(it.toList())
         }
     }
+    override val connectionAvailable: MutableLiveData<Boolean> = MutableLiveData(false)
+
     override val canAddMember: Boolean
         get() = selectedMembers.size < 50
     override val selectedMembers: MutableList<AttendeeEntity> = mutableListOf()

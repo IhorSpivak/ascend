@@ -53,6 +53,8 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
     abstract val viewModel: BaseViewModel
 
+    //endregion
+
     private var noConnectionDialog: ConnectionSnackbar? = null
     protected val connectionObserver: ConnectionObserver by lazy {
         ConnectionObserver(context!!)
@@ -66,8 +68,6 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
                 .create()
         }
     }
-
-    //endregion
 
     protected var binding: B by AutoClearedValue()
     private var initialized = false

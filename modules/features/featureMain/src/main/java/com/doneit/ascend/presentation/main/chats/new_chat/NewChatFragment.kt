@@ -75,6 +75,9 @@ class NewChatFragment : BaseFragment<FragmentNewChatBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
+        connectionObserver.networkStateChanged.observe(viewLifecycleOwner, Observer {
+            viewModel.connectionAvailable.postValue(it)
+        })
         binding.apply {
             root.apply {
                 isFocusableInTouchMode = true
