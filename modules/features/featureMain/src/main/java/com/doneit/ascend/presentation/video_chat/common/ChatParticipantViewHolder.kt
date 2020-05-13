@@ -25,15 +25,13 @@ class ChatParticipantViewHolder(
         binding.name = model.fullName
         binding.isHandRisen = model.isHandRisen
         binding.isSpeaker = model.isSpeaker
-
         lastModel?.get()?.getVideoTrack()?.removeRenderer(binding.videoView)
         model.getVideoTrack()?.let {
             lastModel = WeakReference(model)
             it.addRenderer(binding.videoView)
             binding.videoView.visible(true)
         }
-        model.setSecondaryVideoListener(getParticipantsListener())
-
+        model.setSecondaryVideoListener(getParticipantsListener(model))
         if(binding.url != model.image?.thumbnail?.url) {
             binding.url = model.image?.thumbnail?.url
         }
@@ -47,19 +45,21 @@ class ChatParticipantViewHolder(
         return remoteParticipant?.videoTracks?.firstOrNull()?.videoTrack
     }
 
-    private fun getParticipantsListener(): RemoteParticipantListener {
+    private fun getParticipantsListener(model: PresentationChatParticipant): RemoteParticipantListener {
         return object : RemoteParticipantListener() {
             override fun onAudioTrackEnabled(
                 remoteParticipant: RemoteParticipant,
                 remoteAudioTrackPublication: RemoteAudioTrackPublication
             ) {
                 binding.ivMicroOff.visible(false)
+                model.isMuted = false
             }
 
             override fun onAudioTrackDisabled(
                 remoteParticipant: RemoteParticipant,
                 remoteAudioTrackPublication: RemoteAudioTrackPublication
             ) {
+                model.isMuted = true
                 binding.ivMicroOff.visible(true)
             }
 
