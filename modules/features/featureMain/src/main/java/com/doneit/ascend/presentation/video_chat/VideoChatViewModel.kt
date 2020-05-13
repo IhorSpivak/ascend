@@ -98,7 +98,8 @@ class VideoChatViewModel(
 
     //private val _isAudioEnabled = MutableLiveData<Boolean>()
     override val isAudioRecording = MediatorLiveData<Boolean>()
-    override val isAudioEnabled = MutableLiveData<Boolean>()
+
+    //override val isAudioEnabled = MutableLiveData<Boolean>()
     override val isMuted = MutableLiveData<Boolean>()
     override val isAllMuted = Transformations.switchMap(participants) {
         if(it.all { it.isMuted }) {
@@ -126,12 +127,12 @@ class VideoChatViewModel(
     //endregion
 
     init {
-        isAudioRecording.addSource(isAudioEnabled) {
+        /*isAudioRecording.addSource(isAudioEnabled) {
             isAudioRecording.value = it && (isMuted.value ?: false).not()
         }
-
+*/
         isAudioRecording.addSource(isMuted) {
-            isAudioRecording.value = it.not() && isAudioEnabled.value ?: false
+            isAudioRecording.value = it.not()
         }
 
         roomListener.addListener(getViewModelRoomListener())
@@ -286,7 +287,7 @@ class VideoChatViewModel(
     private fun postDefaultValues() {
         isStartButtonVisible.postValue(false)
         isVideoEnabled.postValue(true)
-        isAudioEnabled.postValue(true)
+        //isAudioEnabled.postValue(true)
         isMuted.postValue(false)
         isHandRisen.postValue(false)
         isFinishing.postValue(false)
@@ -380,7 +381,7 @@ class VideoChatViewModel(
     }
 
     override fun switchAudioEnabledState() {
-        isAudioEnabled.switch()
+        isMuted.switch()
     }
 
     override fun switchCamera() {
