@@ -5,7 +5,6 @@ import com.doneit.ascend.source.storage.remote.data.response.OwnerResponse
 import com.doneit.ascend.source.storage.remote.data.response.TagResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.SearchUsersResponse
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class GroupResponse(
     @SerializedName("id") val id: Long,
@@ -33,5 +32,6 @@ data class GroupResponse(
     @SerializedName("private") val private: Boolean,
     @SerializedName("past_meetings_count") val pastMeetingsCount: Int,
     @SerializedName("times") val dates: List<String>?,
-    @SerializedName("themes") val themes: List<String>?
+    @SerializedName("themes") val themes: List<String>?,
+    @SerializedName("duration") val duration: Int
 )

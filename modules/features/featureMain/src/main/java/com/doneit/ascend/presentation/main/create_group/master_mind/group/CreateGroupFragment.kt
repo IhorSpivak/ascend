@@ -93,7 +93,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.duration.set(p2)
+                    viewModel.createGroupModel.duration.observableField.set(p2.toString())
                 }
             }
 
@@ -107,7 +107,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
     }
 
     private val membersAdapter: InvitedMembersAdapter by lazy {
-        InvitedMembersAdapter{
+        InvitedMembersAdapter {
             viewModel.removeMember(it)
         }
     }
@@ -122,15 +122,19 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                     hideKeyboard()
                 }
             }
+            initSpinner(durationPicker, durationListener, durationAdapter)
 
+            viewModel.createGroupModel.duration.observableField.get()?.run {
+                if(this.isNotEmpty()) durationPicker.setSelection(this.toInt())
+            }
         }
 
-        initSpinner(binding.durationPicker, durationListener, durationAdapter)
+
 
         viewModel.changeGroup.observe(this, Observer {
             binding.apply {
-                userName.text = it.name?: ""
-                description.text = it.description?: ""
+                userName.text = it.name ?: ""
+                description.text = it.description ?: ""
             }
         })
 
@@ -151,7 +155,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
         binding.price.editText.apply {
             setOnFocusChangeListener { view, b ->
-                if (b){
+                if (b) {
                     scroll.scrollTo(0, chooseSchedule.top)
                     viewModel.onPriceClick(price.editText)
                 }
@@ -221,7 +225,10 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                 Manifest.permission.CAMERA
             )
             .request { granted, _, _ ->
-                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(Manifest.permission.CAMERA)) {
+                if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(
+                        Manifest.permission.CAMERA
+                    )
+                ) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
@@ -231,10 +238,15 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                             it /* directory */
                         ).apply {
                             currentPhotoPath = absolutePath
-                        }.also {file ->
-                            FileProvider.getUriForFile(context!!, "com.doneit.ascend.fileprovider", file)?.also {
+                        }.also { file ->
+                            FileProvider.getUriForFile(
+                                context!!,
+                                "com.doneit.ascend.fileprovider",
+                                file
+                            )?.also {
                                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
-                                startActivityForResult(cameraIntent,
+                                startActivityForResult(
+                                    cameraIntent,
                                     PHOTO_REQUEST_CODE
                                 )
                             }
@@ -301,6 +313,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             }
         }
     }
+
     private fun createImageBottomDialog(): ChooseImageBottomDialog {
         return ChooseImageBottomDialog.create(
             { takeAPhoto() },

@@ -155,6 +155,7 @@
                 app:hasCursor="@{true}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_price}"
+                app:text="@{model.createGroupModel.price.observableField}"
                 app:tint="@{@color/master_mind_color}"/>
 
             <com.doneit.ascend.presentation.views.MultilineEditWithError

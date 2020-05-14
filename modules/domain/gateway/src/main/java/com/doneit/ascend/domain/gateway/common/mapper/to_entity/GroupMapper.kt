@@ -81,7 +81,8 @@ fun GroupResponse.toEntity(): GroupEntity {
         private,
         pastMeetingsCount,
         dates,
-        themes
+        themes,
+        duration
     )
 }
 private fun getDays(list: List<Int>?, dayOffset: Int): List<CalendarDayEntity>{
@@ -169,7 +170,8 @@ fun GroupLocal.toEntity(): GroupEntity {
         isPrivate,
         pastMeetingsCount,
         dates,
-        themes
+        themes,
+        duration
     )
 }
 

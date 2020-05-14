@@ -120,6 +120,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 meetingFormat.observableField.set(group!!.meetingFormat?: "")
                 startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(date))
                 selectedDays.addAll(group!!.daysOfWeek!!)
+                duration.observableField.set(group!!.duration.toString())
                 viewModel.changeSchedule()
                 image.observableField.set(null)
                 Glide.with(context!!)

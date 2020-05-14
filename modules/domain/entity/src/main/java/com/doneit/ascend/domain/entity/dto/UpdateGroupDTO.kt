@@ -17,5 +17,6 @@ data class UpdateGroupDTO(
     val privacy: Boolean?,
     val tags: Int?,
     val times: List<String>?,
-    val themes: List<String>?
+    val themes: List<String>?,
+    val duration: Int?
 )

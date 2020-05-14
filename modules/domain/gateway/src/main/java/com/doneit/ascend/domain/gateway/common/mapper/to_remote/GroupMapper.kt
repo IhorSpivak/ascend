@@ -24,7 +24,8 @@ fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
         privacy,
         tags,
         dates,
-        themes
+        themes,
+        duration
     )
 }
 fun UpdateGroupDTO.toUpdateGroupRequest(): UpdateGroupRequest {
@@ -44,7 +45,8 @@ fun UpdateGroupDTO.toUpdateGroupRequest(): UpdateGroupRequest {
         privacy,
         tags,
         times,
-        themes
+        themes,
+        duration
     )
 }
 

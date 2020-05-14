@@ -1,6 +1,9 @@
 package com.doneit.ascend.source.storage.local.data
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "groups")
 data class GroupLocal(
@@ -29,5 +32,6 @@ data class GroupLocal(
     @Embedded(prefix = "tag") val tag: TagLocal?,
     val isPrivate: Boolean,
     @ColumnInfo(name = "dates") var dates: List<String>?,
-    @ColumnInfo(name = "themes") var themes: List<String>?
+    @ColumnInfo(name = "themes") var themes: List<String>?,
+    val duration: Int
 )

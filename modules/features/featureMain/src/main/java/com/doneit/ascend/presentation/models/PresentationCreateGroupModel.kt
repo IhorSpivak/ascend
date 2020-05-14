@@ -35,7 +35,7 @@ class PresentationCreateGroupModel(
     val selectedDays: MutableList<CalendarDayEntity> = mutableListOf(),
     val scheduleDays: MutableList<CalendarDayEntity> = mutableListOf(),
     val scheduleTime: ValidatableField = ValidatableField(),
-    var duration: ObservableField<Int> = ObservableField(),
+    var duration: ValidatableField = ValidatableField(),
     var themesOfMeeting: MutableList<ValidatableField> = mutableListOf(),
     var webinarSchedule: MutableList<ValidatableField> = mutableListOf(ValidatableField()),
     var timeList: MutableList<Calendar> = mutableListOf(getDefaultCalendar()),

@@ -101,6 +101,12 @@ internal class GroupRepository(
                         request.meetingFormat ?: ""
                     )
                 )
+                addPart(
+                    MultipartBody.Part.createFormData(
+                        "duration",
+                        Gson().toJson(request.duration)
+                    )
+                )
             }
             api.createGroupAsync(builder.build().parts)
         }, ErrorsListResponse::class.java)
@@ -128,6 +134,10 @@ internal class GroupRepository(
                 }
                 if (it.startTime != null) {
                     builder.addPart(MultipartBody.Part.createFormData("start_time", it.startTime))
+                }
+
+                if(it.duration !=null) {
+                    builder.addPart(MultipartBody.Part.createFormData("duration", Gson().toJson(it.duration)))
                 }
                 if (it.groupType != null) {
                     builder.addPart(MultipartBody.Part.createFormData("group_type", it.groupType))

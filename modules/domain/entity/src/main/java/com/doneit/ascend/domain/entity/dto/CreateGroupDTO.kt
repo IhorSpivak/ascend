@@ -16,5 +16,6 @@ data class CreateGroupDTO(
     val privacy: Boolean?,
     val tags: Int?,
     val dates: List<String>?,
-    val themes: List<String>?
+    val themes: List<String>?,
+    val duration: Int?
 )

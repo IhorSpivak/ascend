@@ -117,7 +117,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.duration.set(p2)
+                    viewModel.createGroupModel.duration.observableField.set(p2.toString())
                 }
             }
 

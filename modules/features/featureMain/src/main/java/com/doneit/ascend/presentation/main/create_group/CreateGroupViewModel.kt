@@ -105,6 +105,16 @@ class CreateGroupViewModel(
             result
         }
 
+        createGroupModel.duration.validator = {s ->
+            val result = ValidationResult()
+
+            if (s.isEmpty()) {
+                result.isSucceed = false
+            }
+
+            result
+        }
+
         createGroupModel.price.validator = { s ->
             val result = ValidationResult()
 
@@ -171,6 +181,7 @@ class CreateGroupViewModel(
         createGroupModel.price.onFieldInvalidate = invalidationListener
         createGroupModel.description.onFieldInvalidate = invalidationListener
         createGroupModel.image.onFieldInvalidate = invalidationListener
+        createGroupModel.duration.onFieldInvalidate = invalidationListener
     }
 
     override fun addNewParticipant() {
@@ -392,6 +403,7 @@ class CreateGroupViewModel(
         //isFormValid = isFormValid and createGroupModel.tags.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
+        isFormValid = isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
 
         return isFormValid
     }
@@ -408,6 +420,7 @@ class CreateGroupViewModel(
         isFormValid = isFormValid and createGroupModel.price.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
+        isFormValid = isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
 
         return isFormValid
     }
@@ -424,6 +437,7 @@ class CreateGroupViewModel(
         isFormValid = isFormValid and createGroupModel.price.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
+        isFormValid = isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
 
         return isFormValid
     }
@@ -450,6 +464,8 @@ class CreateGroupViewModel(
         }
         isFormValid = isFormValid and createGroupModel.themesOfMeeting.isEmpty()
             .not() and isValidValidatableList(createGroupModel.themesOfMeeting)
+        isFormValid = isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
+
         return isFormValid
     }
 

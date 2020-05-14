@@ -29,7 +29,8 @@ fun PresentationCreateGroupModel.toWebinarEntity(is24TimeFormat: Boolean): Creat
         timeList.map {
             TIME_24_FORMAT_DROP_DAY.apply { timeZone = TimeZone.getTimeZone("GMT") }.format(it.time)
         },
-        themesOfMeeting.map { it.observableField.get()!! }
+        themesOfMeeting.map { it.observableField.get()!! },
+        duration.observableField.getNotNull().toInt()
     )
 }
 
@@ -59,7 +60,8 @@ fun PresentationCreateGroupModel.toUpdateWebinarEntity(group: GroupEntity): Upda
         timeList.map {
             TIME_24_FORMAT_DROP_DAY.apply { timeZone = TimeZone.getTimeZone("GMT") }.format(it.time)
         },
-        themesOfMeeting.map { it.observableField.get()!! }
+        themesOfMeeting.map { it.observableField.get()!! },
+        duration.observableField.getNotNull().toInt()
     )
 }
 fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
@@ -85,7 +87,8 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
         isPrivate.get(),
         tags,
         null,
-        null
+        null,
+        duration.observableField.getNotNull().toInt()
     )
 }
 
@@ -118,7 +121,8 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
         isPrivate.get(),
         tags,
         null,
-        null
+        null,
+        duration.observableField.getNotNull().toInt()
     )
 }
 
@@ -136,6 +140,7 @@ fun GroupEntity.toUpdatePrivacyGroupDTO(isPrivate: Boolean): UpdateGroupDTO {
         null,
         null,
         isPrivate,
+        null,
         null,
         null,
         null
