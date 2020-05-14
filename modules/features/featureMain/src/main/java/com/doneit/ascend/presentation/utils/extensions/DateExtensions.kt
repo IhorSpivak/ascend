@@ -77,7 +77,11 @@ fun Date.toRateDate(): String {
 }
 
 fun Date.toTimerFormat(): String {
-    return "mm:ss".toDefaultFormatter().getFormatted(this)
+    return "mm:ss".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }.getFormatted(this)
+}
+
+fun Date.toVideoChatTimerFormat(): String {
+    return "HH:mm:ss".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }.getFormatted(this)
 }
 
 fun Date.toMinutesFormat(): String {

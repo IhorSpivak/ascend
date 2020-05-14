@@ -11,6 +11,7 @@ import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
+import com.doneit.ascend.domain.entity.group.hourToMillis
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -23,6 +24,7 @@ import com.doneit.ascend.presentation.utils.Constants.LIST_INDEX_ABSENT
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.extensions.toMinutesFormat
 import com.doneit.ascend.presentation.utils.extensions.toTimerFormat
+import com.doneit.ascend.presentation.utils.extensions.toVideoChatTimerFormat
 import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedContract
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsContract
@@ -645,11 +647,11 @@ class VideoChatViewModel(
                 }
 
                 override fun onTick(p0: Long) {
-                    timerLabel.postValue(Date(group.timeInProgress).toTimerFormat())
+                    timerLabel.postValue(Date(group.timeInProgress).toVideoChatTimerFormat())
                 }
             }.start()
 
-        val finishingDate = Date(GroupEntity.FINISHING_INTERVAL + group.startTime!!.time)
+        val finishingDate = Date(group.duration.hourToMillis() - GroupEntity.FINISHING_INTERVAL + group.startTime!!.time)
         timer?.cancel()
         timer = Timer()
         timer!!.schedule(timerTask {
