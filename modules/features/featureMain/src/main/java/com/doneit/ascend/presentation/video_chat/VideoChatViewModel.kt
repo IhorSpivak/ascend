@@ -383,6 +383,11 @@ class VideoChatViewModel(
     }
 
     override fun switchAudioEnabledState() {
+        if (isMuted.value!!) {
+            groupUseCase.unmuteUser(currentUserId)
+        } else {
+            groupUseCase.muteUser(currentUserId)
+        }
         isMuted.switch()
     }
 

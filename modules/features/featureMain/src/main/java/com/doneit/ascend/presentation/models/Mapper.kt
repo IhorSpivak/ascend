@@ -90,8 +90,9 @@ fun ParticipantEntity.toPresentation(): PresentationChatParticipant {
         id.toString(),
         fullName,
         image,
-        isHandRisen,
-        isMuted
+        isSpeaker = isSpeaker,
+        isHandRisen = isHandRisen,
+        isMuted = isMuted
     )
 }
 

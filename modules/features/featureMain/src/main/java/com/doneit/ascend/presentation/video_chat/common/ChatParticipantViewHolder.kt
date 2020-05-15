@@ -25,6 +25,7 @@ class ChatParticipantViewHolder(
         binding.name = model.fullName
         binding.isHandRisen = model.isHandRisen
         binding.isSpeaker = model.isSpeaker
+        binding.isMuted = model.isMuted
         lastModel?.get()?.getVideoTrack()?.removeRenderer(binding.videoView)
         model.getVideoTrack()?.let {
             lastModel = WeakReference(model)
@@ -51,7 +52,7 @@ class ChatParticipantViewHolder(
                 remoteParticipant: RemoteParticipant,
                 remoteAudioTrackPublication: RemoteAudioTrackPublication
             ) {
-                binding.ivMicroOff.visible(false)
+                //binding.ivMicroOff.visible(false)
                 model.isMuted = false
             }
 
@@ -60,7 +61,7 @@ class ChatParticipantViewHolder(
                 remoteAudioTrackPublication: RemoteAudioTrackPublication
             ) {
                 model.isMuted = true
-                binding.ivMicroOff.visible(true)
+                //binding.ivMicroOff.visible(true)
             }
 
             override fun onVideoTrackEnabled(
