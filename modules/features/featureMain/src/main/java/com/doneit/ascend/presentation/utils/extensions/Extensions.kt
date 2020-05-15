@@ -36,6 +36,12 @@ fun Activity.sendEmail(recipient: String) {
     }
 }
 
+fun Activity.openLink(url: String){
+    val i = Intent(Intent.ACTION_VIEW)
+    i.data = Uri.parse(url)
+    startActivity(i)
+}
+
 fun Long.toMb(): Float {
     return this.toFloat() / 1024 / 1024
 }
