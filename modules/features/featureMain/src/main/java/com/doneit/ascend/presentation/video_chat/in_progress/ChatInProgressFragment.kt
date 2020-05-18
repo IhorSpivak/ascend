@@ -12,16 +12,15 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
 import com.doneit.ascend.presentation.models.StartVideoModel
-import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.extensions.requestPermissions
-import com.doneit.ascend.presentation.utils.extensions.show
-import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
-import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantListener
-import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RoomListener
-import com.twilio.video.*
+import com.doneit.ascend.presentation.video_chat.delegates.VideoChatViewDelegate
+import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewDelegate
+import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewModelDelegate
+import com.doneit.ascend.presentation.video_chat.delegates.vimeo.VimeoChatViewDelegate
+import com.doneit.ascend.presentation.video_chat.delegates.vimeo.VimeoChatViewModelDelegate
 import kotlinx.android.synthetic.main.fragment_video_chat.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -39,13 +38,9 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         }
     }
 
-    override val viewModel: ChatInProgressContract.ViewModel by instance()
+    override val viewModel by instance<ChatInProgressContract.ViewModel>()
 
-    private var isPlaceholderAllowed = false
-        set(value) {
-            field = value
-            placeholder?.show()//enable mm icon and group name
-        }
+    private var delegate: VideoChatViewDelegate? = null
 
     //region audio
     private val audioManager by lazy {
@@ -63,29 +58,33 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     }
     //endregion
 
-    //region video chat
-    private val audioCodec: AudioCodec by lazy { OpusCodec() }
-    private val videoCodec: VideoCodec by lazy { Vp8Codec() }
-    private val roomListener = getActivityRoomListener()
-    //endregion
-
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
+        delegate = when (viewModel.viewModelDelegate) {
+            is TwilioChatViewModelDelegate -> TwilioChatViewDelegate(
+                this,
+                videoView,
+                placeholder,
+                viewModel.viewModelDelegate as TwilioChatViewModelDelegate
+            ) { configureAudio(it) }
+            is VimeoChatViewModelDelegate -> VimeoChatViewDelegate(viewModel.viewModelDelegate as VimeoChatViewModelDelegate)
+            else -> null
+        }
 
         viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
-            viewModel.localVideoTrack?.enable(it)
+            delegate?.enableVideo(it)
         })
 
         viewModel.isAudioRecording.observe(viewLifecycleOwner, Observer {
-            viewModel.localAudioTrack?.enable(it)
+            delegate?.enableAudio(it)
         })
 
         viewModel.currentSpeaker.observe(viewLifecycleOwner, Observer { participant ->
             if (participant?.remoteParticipant == null) {
-                showPlaceholder()
+                delegate?.showPlaceholder()
             } else {
                 clearRenderers()
-                participant.startVideoDisplay()
+                delegate?.startVideoDisplay(participant)
             }
         })
     }
@@ -93,14 +92,14 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
     override fun onStart() {
         super.onStart()
         setupAudio()
-        viewModel.roomListener.addListener(roomListener)
+        delegate?.onStart()
         viewModel.credentials.observe(this, Observer {
             startVideo(it)
         })
     }
 
     override fun onStop() {
-        viewModel.roomListener.removeListener(roomListener)
+        delegate?.onStop()
         configureAudio(false)
         activity!!.unregisterReceiver(brHeadphones)
         super.onStop()
@@ -122,40 +121,9 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
                 Manifest.permission.CAMERA
             ),
             onGranted = {
-
-                if (viewModel.room == null) {
-
-                    if (viewModel.localAudioTrack == null) {
-                        viewModel.localAudioTrack =
-                            LocalAudioTrack.create(activity!!.applicationContext, true)!!
-                    }
-
-                    if (viewModel.localVideoTrack == null) {
-                        val capturer = CameraCapturer(
-                            activity!!.applicationContext,
-                            VideoChatViewModel.cameraSources.first()
-                        )
-
-                        viewModel.localVideoTrack =
-                            LocalVideoTrack.create(activity!!.applicationContext, true, capturer)!!
-                    }
-
-                    val connectOptions =
-                        ConnectOptions.Builder(model.accessToken)
-                            .roomName(model.name)
-                            .audioTracks(listOf(viewModel.localAudioTrack))
-                            .preferAudioCodecs(listOf(audioCodec))
-                            .videoTracks(listOf(viewModel.localVideoTrack))
-                            .preferVideoCodecs(listOf(videoCodec))
-                            .enableDominantSpeaker(true)
-                            .build()
-
-                    viewModel.room =
-                        Video.connect(activity!!.applicationContext, connectOptions, viewModel.roomListener)
-                }
-
+                delegate?.startVideo(model)
                 viewModel.switchCameraEvent.observe(this) {
-                    (viewModel.localVideoTrack?.videoCapturer as? CameraCapturer)?.switchCamera()
+                    delegate?.switchCamera()
                 }
             },
             onDenied = {
@@ -204,61 +172,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
         }
     }
 
-    private fun getActivityRoomListener(): RoomListener {
-        return object : RoomListener() {
-            override fun onConnectFailure(room: Room, twilioException: TwilioException) {
-                configureAudio(false)
-            }
-        }
-    }
-
     private fun clearRenderers() {
-        viewModel.room?.remoteParticipants?.forEach { roomParticipant ->
-            videoView?.let {
-                roomParticipant.videoTracks.firstOrNull()?.videoTrack?.removeRenderer(videoView)
-            }
-        }
-    }
-
-    private fun PresentationChatParticipant.startVideoDisplay() {
-        setPrimaryVideoListener(getSpeakerListener())
-        videoView?.let {
-            val track = remoteParticipant?.videoTracks?.firstOrNull()?.videoTrack
-            if (track != null) {
-                track.addRenderer(videoView)
-                showVideo()
-            } else {
-                showPlaceholder()
-            }
-        }
-    }
-
-    private fun getSpeakerListener(): RemoteParticipantListener {
-        return object : RemoteParticipantListener() {
-
-            override fun onVideoTrackEnabled(
-                remoteParticipant: RemoteParticipant,
-                remoteVideoTrackPublication: RemoteVideoTrackPublication
-            ) {
-                showVideo()
-            }
-
-            override fun onVideoTrackDisabled(
-                remoteParticipant: RemoteParticipant,
-                remoteVideoTrackPublication: RemoteVideoTrackPublication
-            ) {
-                showPlaceholder()
-            }
-        }
-    }
-
-    private fun showPlaceholder() {
-        placeholder?.visible(isPlaceholderAllowed)
-        videoView?.visible(false)
-    }
-
-    private fun showVideo() {
-        placeholder?.visible(false)
-        videoView?.visible(true)
+        delegate?.clearRenderers()
     }
 }

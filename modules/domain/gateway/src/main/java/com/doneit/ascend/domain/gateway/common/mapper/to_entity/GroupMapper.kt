@@ -105,10 +105,10 @@ fun String.toGroupType(): GroupType? {
 }
 
 fun GroupCredentialsResponse.toEntity(): GroupCredentialsDTO {
-    return GroupCredentialsDTO(
-        name,
-        token
-    )
+    return when {
+        chatId.isNullOrEmpty() -> GroupCredentialsDTO.TwilioCredentialsDTO(name ?: "", token ?: "")
+        else -> GroupCredentialsDTO.VimeoCredentialsDTO(chatId ?: "")
+    }
 }
 
 fun SocketEventMessage.toEntity(): SocketEventEntity {
