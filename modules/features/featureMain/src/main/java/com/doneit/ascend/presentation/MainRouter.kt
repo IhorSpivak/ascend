@@ -148,6 +148,7 @@ class MainRouter(
     GoalsListContract.Router,
     AttendeesContract.Router,
     WebinarsContract.Router,
+    com.doneit.ascend.presentation.main.home.groups.GroupsContract.Router,
     MyChatsContract.Router,
     NewChatContract.Router,
     ChatContract.Router,

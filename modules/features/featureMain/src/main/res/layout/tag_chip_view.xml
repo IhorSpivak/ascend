@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="tag"
+            type="com.doneit.ascend.domain.entity.TagEntity" />
+    </data>
+
+    <com.google.android.material.chip.Chip
+        style="@style/Widget.MaterialComponents.Chip.Choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:chipCornerRadius="2dp"
+        android:checkable="true"
+        android:textColor="@color/pref_time_text_selector"
+        app:chipBackgroundColor="@color/chip_background_color"
+        app:closeIconEnabled="false"
+        app:closeIconSize="8dp"
+        app:closeIconStartPadding="4dp"
+        app:closeIconEndPadding="4dp"
+        android:text="@{tag.tag}"
+        tools:text="tag"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:theme="@style/Theme.MaterialComponents.Light" />
+</layout>

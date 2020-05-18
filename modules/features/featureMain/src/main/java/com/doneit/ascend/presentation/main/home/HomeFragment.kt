@@ -42,12 +42,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.model = viewModel
         binding.vpGroups.adapter = pagerAdapter
         binding.tlGroups.setupWithViewPager(binding.vpGroups)
-
+        binding.vpGroups.offscreenPageLimit = 0
         viewModel.user.observe(this, Observer {
             setTitle(it?.community)
         })
-
-        binding.tlGroups.disableTab(2)
     }
 
     private fun TabLayout.disableTab(index: Int) {

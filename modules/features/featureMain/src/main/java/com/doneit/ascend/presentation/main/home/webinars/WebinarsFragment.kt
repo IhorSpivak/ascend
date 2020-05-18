@@ -47,7 +47,7 @@ class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>(){
                 }
             }
         }
-        viewModel.groups.observe(this, Observer {
+        viewModel.groups.observe(viewLifecycleOwner, Observer {
             adapter.setUser(it.user)
             binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }?.let {
                 adapter.setCommunity(WebinarFilter.values()[it].toString().capitalize())
@@ -62,7 +62,7 @@ class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>(){
                 viewModel.updateFilter(WebinarFilter.values()[it])
             }
         }
-        viewModel.userLiveData.observe(this, Observer { user ->
+        viewModel.userLiveData.observe(viewLifecycleOwner, Observer { user ->
             viewModel.checkUser(user)
             WebinarFilter.values().firstOrNull {
                 it.toString() == user.community!!.toLowerCase()
@@ -72,5 +72,12 @@ class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>(){
                 }
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }?.let {
+            viewModel.updateFilter(WebinarFilter.values()[it])
+        }
     }
 }
