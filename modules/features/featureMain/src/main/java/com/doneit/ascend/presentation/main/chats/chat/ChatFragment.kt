@@ -190,9 +190,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                         (binding.messageList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val last =
                         (binding.messageList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    for (i in last..first) {
-                        messagesAdapter.currentList?.let {
-                            viewModel.markMessageAsRead(it[i]!!)
+                    if (last > 0 && first > 0) {
+                        for (i in last..first) {
+                            messagesAdapter.currentList?.let {
+                                viewModel.markMessageAsRead(it[i]!!)
+                            }
                         }
                     }
                 }
