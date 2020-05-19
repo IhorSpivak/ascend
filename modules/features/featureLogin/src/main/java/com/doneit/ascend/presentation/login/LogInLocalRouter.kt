@@ -15,12 +15,12 @@ import com.doneit.ascend.presentation.login.sign_up.SignUpContract
 import com.doneit.ascend.presentation.login.sign_up.SignUpFragment
 import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneFragment
 import com.doneit.ascend.presentation.login.utils.LoginHelper
+import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.Constants.RC_SIGN_IN
+import com.doneit.ascend.presentation.utils.extensions.openLink
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.web_page.WebPageContract
-import com.doneit.ascend.presentation.web_page.WebPageFragment
-import com.doneit.ascend.presentation.web_page.common.WebPageArgs
 import com.vrgsoft.core.presentation.fragment.argumented.ArgumentedFragment
 
 class LogInLocalRouter(
@@ -51,25 +51,11 @@ class LogInLocalRouter(
     }
 
     override fun navigateToTerms() {
-        val args = WebPageArgs("Terms & Conditions", "terms_and_conditions")
-
-        val fragment = WebPageFragment()
-        (fragment as Fragment).arguments = Bundle().apply {
-            putParcelable(ArgumentedFragment.KEY_ARGS, args)
-        }
-
-        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
+        activity.openLink(Constants.TERMS_OF_USAGE)
     }
 
     override fun navigateToPrivacyPolicy() {
-        val args = WebPageArgs("Privacy Policy", "privacy_policy")
-
-        val fragment = WebPageFragment()
-        (fragment as Fragment).arguments = Bundle().apply {
-            putParcelable(ArgumentedFragment.KEY_ARGS, args)
-        }
-
-        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
+        activity.openLink(Constants.PRIVACY_POLICY)
     }
 
     override fun navigateToNewPassword(phone: String) {
