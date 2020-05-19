@@ -89,7 +89,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             }
             send.setOnClickListener {
                 if (message.text.toString().isNotBlank()) {
-                    viewModel.sendMessage(message.text.toString())
+                    viewModel.sendMessage(message.text.toString().trim())
                     message.text.clear()
                     hideKeyboard()
                 }
