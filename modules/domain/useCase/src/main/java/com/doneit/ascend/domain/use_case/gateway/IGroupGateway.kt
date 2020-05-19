@@ -11,7 +11,7 @@ import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
 
 interface IGroupGateway {
-    suspend fun createGroup(groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>>
+    suspend fun createGroup(groupDTO: CreateGroupDTO, credentialsDTO: GroupCredentialsDTO? = null): ResponseEntity<GroupEntity, List<String>>
 
     suspend fun updateGroup(id: Long, groupDTO: UpdateGroupDTO): ResponseEntity<GroupEntity, List<String>>
 

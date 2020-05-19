@@ -5,5 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class GroupCredentialsResponse(
     @SerializedName("room_name") val name: String?,
     @SerializedName("access_token") val token: String?,
-    @SerializedName("chat_id") val chatId: String?
+    @SerializedName("chat_id") val chatId: String?,
+    @SerializedName("link") val link: String?,
+    @SerializedName("key") val key: String?
 )

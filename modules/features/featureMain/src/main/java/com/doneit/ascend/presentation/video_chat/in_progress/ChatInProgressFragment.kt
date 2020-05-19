@@ -8,6 +8,7 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
@@ -16,6 +17,7 @@ import com.doneit.ascend.presentation.utils.extensions.requestPermissions
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
+import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatViewDelegate
 import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewDelegate
 import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewModelDelegate
@@ -60,16 +62,13 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        delegate = when (viewModel.viewModelDelegate) {
-            is TwilioChatViewModelDelegate -> TwilioChatViewDelegate(
-                this,
-                videoView,
-                placeholder,
-                viewModel.viewModelDelegate as TwilioChatViewModelDelegate
-            ) { configureAudio(it) }
-            is VimeoChatViewModelDelegate -> VimeoChatViewDelegate(viewModel.viewModelDelegate as VimeoChatViewModelDelegate)
-            else -> null
-        }
+        delegate = VideoChatUtils.newViewDelegate(viewModel.viewModelDelegate, placeholder, {
+            fragment = this@ChatInProgressFragment
+            configureAudio = this@ChatInProgressFragment::configureAudio
+            videoView = this@ChatInProgressFragment.videoView
+        }, {
+            //TODO: Setup view for Vimeo
+        })
 
         viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
             delegate?.enableVideo(it)

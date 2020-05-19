@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -49,12 +50,20 @@ internal class GroupGateway(
     override val messagesStream =
         remoteSocket.messagesStream.map { it.toEntity() }//todo remove deprecation
 
-    override suspend fun createGroup(groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>> {
+    override suspend fun createGroup(groupDTO: CreateGroupDTO, credentialsDTO: GroupCredentialsDTO?): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
-            remote.createGroup(
-                File(groupDTO.imagePath),
+            val result = remote.createGroup(
+                File(groupDTO.imagePath ?: ""),
                 groupDTO.toCreateGroupRequest()
             )
+
+            if (result.isSuccessful
+                && groupDTO.groupType == GroupType.WEBINAR.toString()
+                && credentialsDTO is GroupCredentialsDTO.VimeoCredentialsDTO) {
+                remote.setCredentials(result.successModel?.id ?: 0, credentialsDTO.key, credentialsDTO.link)
+            }
+
+            result
         }.toResponseEntity(
             {
                 it?.toEntity()

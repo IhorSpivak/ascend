@@ -12,13 +12,19 @@ import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.Ro
 import com.twilio.video.*
 
 class TwilioChatViewDelegate(
-    private val fragment: Fragment,
-    private val videoView: VideoTextureView?,
-    private val placeholder: View?,
     private val viewModelDelegate: TwilioChatViewModelDelegate,
-    private val configureAudio: (Boolean) -> Unit
+    private var placeholder: View?
 ) : VideoChatViewDelegate {
+
     private val roomListener = getActivityRoomListener()
+    //region video chat
+    private val audioCodec: AudioCodec by lazy { OpusCodec() }
+    private val videoCodec: VideoCodec by lazy { Vp8Codec() }
+    //endregion
+
+    var fragment: Fragment? = null
+    var videoView: VideoTextureView? = null
+    var configureAudio: (Boolean) -> Unit = {}
 
     private var isPlaceholderAllowed = false
         set(value) {
@@ -26,14 +32,9 @@ class TwilioChatViewDelegate(
             placeholder?.show()//enable mm icon and group name
         }
 
-    //region video chat
-    private val audioCodec: AudioCodec by lazy { OpusCodec() }
-    private val videoCodec: VideoCodec by lazy { Vp8Codec() }
-    //endregion
-
     override fun startVideo(model: StartVideoModel) {
-        if (model !is StartVideoModel.TwilioVideoModel) return
-        viewModelDelegate.startVideo(fragment, model, audioCodec, videoCodec)
+        if (model !is StartVideoModel.TwilioVideoModel || fragment == null) return
+        viewModelDelegate.startVideo(fragment!!, model, audioCodec, videoCodec)
     }
 
     override fun clearRenderers() {

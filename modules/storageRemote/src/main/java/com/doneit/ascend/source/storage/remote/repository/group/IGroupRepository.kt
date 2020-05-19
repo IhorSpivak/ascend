@@ -31,6 +31,7 @@ interface IGroupRepository {
     ): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun getCredentials(groupId: Long): RemoteResponse<GroupCredentialsResponse, ErrorsListResponse>
+    suspend fun setCredentials(groupId: Long, key: String, link: String): RemoteResponse<Unit, ErrorsListResponse>
 
     suspend fun getParticipants(groupId: Long, request: GroupParticipantsRequest): RemoteResponse<ParticipantListResponse, ErrorsListResponse>
 

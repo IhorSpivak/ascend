@@ -25,6 +25,7 @@ import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.extensions.toMinutesFormat
 import com.doneit.ascend.presentation.utils.extensions.toTimerFormat
 import com.doneit.ascend.presentation.utils.extensions.toVideoChatTimerFormat
+import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatViewModelDelegate
 import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewModelDelegate
 import com.doneit.ascend.presentation.video_chat.delegates.vimeo.VimeoChatViewModelDelegate
@@ -318,10 +319,7 @@ class VideoChatViewModel(
     ) {
         if (groupEntity != null && creds != null) {
             if (viewModelDelegate == null)
-                viewModelDelegate = when (creds) {
-                    is GroupCredentialsDTO.TwilioCredentialsDTO -> TwilioChatViewModelDelegate(this)
-                    is GroupCredentialsDTO.VimeoCredentialsDTO -> VimeoChatViewModelDelegate(this)
-                }
+                viewModelDelegate = VideoChatUtils.newViewModelDelegate(this, creds)
 
             viewModelDelegate?.initializeChatState(groupEntity, creds, currentUser)
         }

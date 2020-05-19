@@ -1,10 +1,16 @@
 package com.doneit.ascend.presentation.video_chat.delegates.vimeo
 
+import android.view.View
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatViewDelegate
 
-class VimeoChatViewDelegate(private val viewModelDelegate: VimeoChatViewModelDelegate) : VideoChatViewDelegate {
+class VimeoChatViewDelegate(
+    private val viewModelDelegate: VimeoChatViewModelDelegate,
+    private var placeholder: View?
+) : VideoChatViewDelegate {
+
+
     override fun startVideo(model: StartVideoModel) {
         //TODO("Not yet implemented")
     }
