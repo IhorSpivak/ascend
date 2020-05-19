@@ -257,12 +257,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="7dp"
             android:background="@android:color/transparent"
-            android:paddingStart="8dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="8dp"
+            android:padding="16dp"
             android:src="@drawable/ic_back"
             android:tint="@color/light_gray_8f" />
 
@@ -272,9 +268,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="7dp"
             android:background="@android:color/transparent"
-            android:padding="8dp"
+            android:padding="16dp"
             android:src="@drawable/ic_info"
             android:tint="@color/light_gray_8f" />
     </RelativeLayout>

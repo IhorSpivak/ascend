@@ -36,8 +36,7 @@
                         android:id="@+id/imBack"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="20dp"
+                        android:padding="16dp"
                         android:onClick="@{(v) -> model.goBack()}"
                         android:scaleType="center"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -53,6 +52,7 @@
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
                         android:text="@string/change_location_title"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />

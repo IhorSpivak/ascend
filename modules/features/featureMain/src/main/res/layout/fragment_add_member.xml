@@ -47,6 +47,7 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/searchToolbar"
+                app:contentInsetStart="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -58,7 +59,10 @@
                         android:id="@+id/btnBack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
+                        android:paddingStart="12dp"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="16dp"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_back"
                         android:tint="@color/light_gray_8f"
@@ -91,13 +95,12 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_marginEnd="4dp"
-                                android:layout_marginStart="8dp"
                                 android:background="@android:color/transparent"
                                 android:gravity="center_vertical"
                                 android:hint="@string/search_member_hint"
                                 android:imeOptions="actionSearch"
-                                android:singleLine="true"
                                 android:maxLength="32"
+                                android:singleLine="true"
                                 android:textSize="14sp"
                                 app:layout_constraintEnd_toStartOf="@+id/clear_search"
                                 app:layout_constraintStart_toStartOf="parent" />

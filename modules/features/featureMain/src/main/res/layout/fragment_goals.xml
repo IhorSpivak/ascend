@@ -33,6 +33,7 @@
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                app:contentInsetStart="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -46,7 +47,7 @@
                         android:id="@+id/button_back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:padding="16dp"
                         android:background="@android:color/transparent"
                         android:src="@drawable/ic_back"
                         android:tint="@color/light_gray_8f"
