@@ -118,6 +118,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                             url = it.image?.url
                             if (it.online) {
                                 statusOrCount = resources.getString(R.string.chats_member_online)
+                            } else {
+                                statusOrCount = resources.getString(R.string.chats_member_offline)
                             }
                         }
                     }
