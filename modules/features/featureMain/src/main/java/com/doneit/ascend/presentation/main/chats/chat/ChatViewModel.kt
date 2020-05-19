@@ -60,7 +60,7 @@ class ChatViewModel(
             it.id, MessageListDTO(
                 perPage = 10,
                 sortColumn = "created_at",
-                sortType = SortType.ASC
+                sortType = SortType.DESC
             )
         )
     }
@@ -252,7 +252,8 @@ class ChatViewModel(
     }
 
     override fun markMessageAsRead(message: MessageEntity) {
-        if (message.userId != user.value!!.id && message.status != MessageStatus.READ) {
+        if (message.userId != user.value!!.id && message.status != MessageStatus.READ && message.isMarkAsReadSentToApprove.not()) {
+            message.isMarkAsReadSentToApprove = true
             viewModelScope.launch {
                 chatUseCase.markMessageAsRead(message.id).let {
                     if (it.isSuccessful.not()) {

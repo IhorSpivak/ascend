@@ -21,7 +21,6 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
-import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.visible
 import kotlinx.android.synthetic.main.fragment_my_chats.*
 import org.kodein.di.Kodein
@@ -91,7 +90,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 if (message.text.toString().isNotBlank()) {
                     viewModel.sendMessage(message.text.toString().trim())
                     message.text.clear()
-                    hideKeyboard()
                 }
             }
         }
@@ -178,6 +176,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         })
         viewModel.messages.observe(this, Observer {
             emptyList.visible(it.isNullOrEmpty())
+            val scrollIsNeeded = messagesAdapter.currentList?.count() == it.count()
             messagesAdapter.submitList(it)
             binding.messageList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -190,7 +189,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                         (binding.messageList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val last =
                         (binding.messageList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    if (last > 0 && first > 0) {
+                    if (last >= 0 && first >= 0) {
                         for (i in last..first) {
                             messagesAdapter.currentList?.let {
                                 viewModel.markMessageAsRead(it[i]!!)
@@ -199,22 +198,20 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                     }
                 }
             })
-            scrollIfNeed()
+            if (scrollIsNeeded) scrollIfNeed(viewModel.chatModel.value?.unreadMessageCount ?: 0)
             binding.messageList.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
                 if (bottom < oldBottom) {
                     binding.messageList.postDelayed(Runnable {
                         binding.messageList.smoothScrollToPosition(
                             0
                         )
-                    }, 100)
+                    }, 0)
                 }
             }
-            //this work badly, need another solution(trigger on scroll)
-            //(binding.messageList.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0,0)
         })
     }
 
-    private fun scrollIfNeed() {
+    private fun scrollIfNeed(unreadMessageCount: Int) {
         binding.messageList.adapter?.let {
             val lm =
                 binding.messageList.layoutManager as LinearLayoutManager
