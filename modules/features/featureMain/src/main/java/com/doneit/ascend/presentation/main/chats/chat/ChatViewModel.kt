@@ -58,7 +58,7 @@ class ChatViewModel(
     override val messages: LiveData<PagedList<MessageEntity>> = chatModel.switchMap {
         chatUseCase.getMessageList(
             it.id, MessageListDTO(
-                perPage = 10,
+                perPage = 50,
                 sortColumn = "created_at",
                 sortType = SortType.DESC
             )

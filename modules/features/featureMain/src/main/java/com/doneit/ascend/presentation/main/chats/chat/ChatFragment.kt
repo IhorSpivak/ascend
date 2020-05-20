@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
 import com.doneit.ascend.presentation.dialog.EditChatNameDialog
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
@@ -67,6 +69,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private var currentDialog: AlertDialog? = null
     private var menuResId: Int = -1
     private var kickOrReportUserId: Long = -1
+    private var firstLoad: Boolean = true
+    private var firstPositionId: Long = 0
     private val messagesAdapter: MessagesAdapter by lazy {
         MessagesAdapter(
             null,
@@ -174,49 +178,63 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             messagesAdapter.updateUser(it.user)
             //viewModel.applyData(chat)
         })
-        viewModel.messages.observe(this, Observer {
-            emptyList.visible(it.isNullOrEmpty())
-            val scrollIsNeeded = messagesAdapter.currentList?.count() == it.count()
-            messagesAdapter.submitList(it)
-            binding.messageList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                }
-
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    val first =
-                        (binding.messageList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val last =
-                        (binding.messageList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    if (last >= 0 && first >= 0) {
-                        for (i in last..first) {
-                            messagesAdapter.currentList?.let {
-                                viewModel.markMessageAsRead(it[i]!!)
-                            }
+        binding.messageList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val first =
+                    (binding.messageList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                val last =
+                    (binding.messageList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                if (last >= 0 && first >= 0) {
+                    for (i in last..first) {
+                        messagesAdapter.currentList?.let {
+                            viewModel.markMessageAsRead(it[i]!!)
                         }
                     }
                 }
-            })
-            if (scrollIsNeeded) scrollIfNeed(viewModel.chatModel.value?.unreadMessageCount ?: 0)
-            binding.messageList.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
-                if (bottom < oldBottom) {
-                    binding.messageList.postDelayed(Runnable {
-                        binding.messageList.smoothScrollToPosition(
-                            0
-                        )
-                    }, 0)
+            }
+        })
+        binding.messageList.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            if (bottom < oldBottom) {
+                binding.messageList.postDelayed(Runnable {
+                    binding.messageList.smoothScrollToPosition(
+                        0
+                    )
+                }, 0)
+            }
+        }
+        viewModel.messages.observe(this, Observer {
+            emptyList.visible(it.isNullOrEmpty())
+            messagesAdapter.submitList(it)
+            if (messagesAdapter.currentList.isNullOrEmpty().not()) {
+                if (firstPositionId == 0L) {
+                    var count = 0
+                    messagesAdapter.currentList?.forEach {
+                        if (it.status == MessageStatus.SENT && viewModel.user.value!!.id != it.userId) {
+                            count++
+                        }
+                    }
+                    scrollToUnread(count)
+                } else if (firstPositionId != (messagesAdapter.currentList?.get(0) as MessageEntity).id) {
+                    scrollIfNeed()
                 }
+                firstPositionId = (messagesAdapter.currentList?.get(0) as MessageEntity).id
             }
         })
     }
 
-    private fun scrollIfNeed(unreadMessageCount: Int) {
+    private fun scrollIfNeed() {
         binding.messageList.adapter?.let {
             val lm =
                 binding.messageList.layoutManager as LinearLayoutManager
             val first = lm.findFirstVisibleItemPosition()
-            binding.messageList.scrollToPosition(0)
+            if (first < 5) binding.messageList.scrollToPosition(0)
+        }
+    }
+
+    private fun scrollToUnread(unreadMessageCount: Int = 0) {
+        binding.messageList.adapter?.let {
+            binding.messageList.scrollToPosition(unreadMessageCount)
         }
     }
 
