@@ -104,7 +104,7 @@ class VideoChatViewModel(
     //override val isAudioEnabled = MutableLiveData<Boolean>()
     override val isMuted = MutableLiveData<Boolean>()
     override val isAllMuted = Transformations.switchMap(participants) {
-        if(it.all { it.isMuted }) {
+        if (it.all { it.isMuted }) {
             return@switchMap MutableLiveData(true)
         } else {
             return@switchMap MutableLiveData(false)
@@ -651,7 +651,8 @@ class VideoChatViewModel(
                 }
             }.start()
 
-        val finishingDate = Date(group.duration.hourToMillis() - GroupEntity.FINISHING_INTERVAL + group.startTime!!.time)
+        val finishingDate =
+            Date(group.duration.hourToMillis() - GroupEntity.FINISHING_INTERVAL + group.startTime!!.time)
         timer?.cancel()
         timer = Timer()
         timer!!.schedule(timerTask {
