@@ -44,7 +44,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:maxLength="@{64}"
+                app:maxLength="@{32}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_header}"
                 app:tint="@{@color/master_mind_color}"

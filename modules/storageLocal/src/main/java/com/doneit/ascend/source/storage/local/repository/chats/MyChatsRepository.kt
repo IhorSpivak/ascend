@@ -58,6 +58,10 @@ class MyChatsRepository(
         dao.insertAllMessages(messages)
     }
 
+    override suspend fun getLocalMessagesCount(): Int {
+        return dao.getMessagesCount()
+    }
+
     override suspend fun insertMember(memberLocal: MemberLocal) {
         dao.insertMember(memberLocal)
     }

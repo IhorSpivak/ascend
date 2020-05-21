@@ -23,11 +23,16 @@ class MessagesBoundaryCallback(
             model?.let {
                 val loadedCount = model.size
                 val remoteCount = response.successModel!!.count
-
-                receivedItems(loadedCount, remoteCount)
-
+                val localCount = local.getLocalMessagesCount()
                 local.insertAllMessages(model.map { it.toLocal(chatId) })
+                val localCountAfterAdd = local.getLocalMessagesCount()
+                receivedItems(
+                    loadedCount,
+                    remoteCount,
+                    localCountAfterAdd - localCount - model.size
+                )
             }
         }
     }
+
 }

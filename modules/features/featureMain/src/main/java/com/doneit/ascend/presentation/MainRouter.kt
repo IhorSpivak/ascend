@@ -12,7 +12,6 @@ import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
-import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanContract
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
 import com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoalsContract
@@ -95,13 +94,12 @@ import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeFragment
 import com.doneit.ascend.presentation.profile.regular_user.community.CommunityFragment
+import com.doneit.ascend.presentation.utils.Constants.PRIVACY_POLICY
+import com.doneit.ascend.presentation.utils.Constants.TERMS_OF_USAGE
 import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.web_page.WebPageContract
-import com.doneit.ascend.presentation.web_page.WebPageFragment
-import com.doneit.ascend.presentation.web_page.common.WebPageArgs
-import com.vrgsoft.core.presentation.fragment.argumented.ArgumentedFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
 import com.yalantis.ucrop.UCrop
 
@@ -150,6 +148,7 @@ class MainRouter(
     GoalsListContract.Router,
     AttendeesContract.Router,
     WebinarsContract.Router,
+    com.doneit.ascend.presentation.main.home.groups.GroupsContract.Router,
     MyChatsContract.Router,
     NewChatContract.Router,
     ChatContract.Router,
@@ -205,25 +204,11 @@ class MainRouter(
     }
 
     override fun navigateToTerms() {
-        val args = WebPageArgs("Terms & Conditions", "terms_and_conditions")
-
-        val fragment = WebPageFragment()
-        (fragment as Fragment).arguments = Bundle().apply {
-            putParcelable(ArgumentedFragment.KEY_ARGS, args)
-        }
-
-        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
+        activity.openLink(TERMS_OF_USAGE)
     }
 
     override fun navigateToPrivacyPolicy() {
-        val args = WebPageArgs("Privacy Policy", "privacy_policy")
-
-        val fragment = WebPageFragment()
-        (fragment as Fragment).arguments = Bundle().apply {
-            putParcelable(ArgumentedFragment.KEY_ARGS, args)
-        }
-
-        activity.supportFragmentManager.replaceWithBackStack(R.id.container, fragment)
+        activity.openLink(PRIVACY_POLICY)
     }
 
     override fun navigateToHome() {

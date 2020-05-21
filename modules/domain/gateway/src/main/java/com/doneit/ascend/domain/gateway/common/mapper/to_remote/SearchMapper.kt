@@ -18,6 +18,7 @@ fun SearchDTO.toGroupRequest(page: Int): GroupListRequest {
         null,
         null,
         null,
+        null,
         null
     )
 }

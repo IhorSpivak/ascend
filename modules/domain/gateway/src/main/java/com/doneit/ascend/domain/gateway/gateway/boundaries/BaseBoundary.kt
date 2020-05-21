@@ -9,9 +9,10 @@ abstract class BaseBoundary<T>(
     private val scope: CoroutineScope
 ) : PagedList.BoundaryCallback<T>() {
 
-    private var remoteCount = 0
-    private var loadedCount = 0
+    protected var remoteCount = 0
+    protected var loadedCount = 0
     protected var pageIndexToLoad = 1
+    protected var localDifference = 1
 
     fun loadInitial() {
         loadPage()
@@ -28,9 +29,12 @@ abstract class BaseBoundary<T>(
     }
 
     override fun onItemAtFrontLoaded(itemAtFront: T) {
+        if (localDifference == 0) {
+            loadPage()
+        }
     }
 
-    private fun loadPage() {
+    protected fun loadPage() {
         scope.launch(Dispatchers.IO) {
             fetchPage()
         }
@@ -38,9 +42,10 @@ abstract class BaseBoundary<T>(
 
     abstract suspend fun fetchPage()
 
-    protected fun receivedItems(loaded: Int, from: Int) {
+    protected fun receivedItems(loaded: Int, from: Int, saved: Int = 1) {
         remoteCount = from
         pageIndexToLoad += 1
         loadedCount += loaded
+        localDifference = saved
     }
 }

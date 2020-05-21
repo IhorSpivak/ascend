@@ -19,6 +19,9 @@ interface MyChatsDao {
     @Query("SELECT * FROM messages where chatId LIKE :chatId ORDER BY createdAt DESC")
     fun getAllMessages(chatId: Long): DataSource.Factory<Int, MessageLocal>
 
+    @Query("SELECT COUNT(*) FROM messages")
+    fun getMessagesCount(): Int
+
     @Query("SELECT * FROM members ORDER BY fullName ASC")
     fun getAllMembers(): DataSource.Factory<Int, MemberLocal>
 

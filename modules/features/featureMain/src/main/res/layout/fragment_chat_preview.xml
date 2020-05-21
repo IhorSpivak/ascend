@@ -24,6 +24,18 @@
             android:scaleType="centerCrop"
             app:setImage="@{model.groupInfo.image.url}" />
 
+        <com.twilio.video.VideoTextureView
+            android:id="@+id/videoView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible"
+            app:mirror="true"
+            app:scaleType="balanced" />
+
         <TextView
             android:id="@+id/title"
             style="@style/TextNormal"

@@ -19,6 +19,7 @@ interface IMyChatsRepository {
     suspend fun insertAll(chats: List<ChatLocal>)
     suspend fun insertMessage(message: MessageLocal)
     suspend fun insertAllMessages(messages: List<MessageLocal>)
+    suspend fun getLocalMessagesCount(): Int
     suspend fun insertMember(memberLocal: MemberLocal)
     suspend fun insertAllMembers(members: List<MemberLocal>)
     suspend fun remove(id: Long)

@@ -24,6 +24,7 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/searchToolbar"
                 android:layout_width="match_parent"
+                app:contentInsetStart="0dp"
                 android:layout_height="match_parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,10 +36,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:paddingStart="8dp"
-                        android:paddingTop="10dp"
-                        android:paddingEnd="20dp"
-                        android:paddingBottom="10dp"
+                        android:padding="16dp"
                         android:src="@drawable/ic_back"
                         android:tint="@color/light_gray_8f"
                         android:visibility="visible"

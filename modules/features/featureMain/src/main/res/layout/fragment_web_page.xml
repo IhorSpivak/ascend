@@ -27,14 +27,14 @@
                 android:id="@+id/imBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="8dp"
+                android:paddingStart="12dp"
                 android:paddingTop="20dp"
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
+                android:tint="#7E7D8F"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:tint="#7E7D8F"
                 app:srcCompat="@drawable/ic_back" />
 
             <TextView

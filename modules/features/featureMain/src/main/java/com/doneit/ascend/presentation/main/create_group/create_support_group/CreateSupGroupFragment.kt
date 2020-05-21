@@ -167,6 +167,12 @@ class CreateSupGroupFragment :
 
             val tagsAdapter = MeetingFormatsAdapter(array.toTypedArray())
             initSpinner(binding.tagsPicker, tagsListener, tagsAdapter)
+            if(group != null) {
+                viewModel.createGroupModel.apply {
+                    val position = array.indexOf(group!!.tag!!.tag)
+                    binding.tagsPicker.setSelection(position)
+                }
+            }
         })
 
         if (group != null) {
@@ -185,12 +191,14 @@ class CreateSupGroupFragment :
                     }
                 }
                 isPrivate.set(group!!.isPrivate)
-                tags = group!!.tag!!.id
-                binding.tagsPicker.setSelection(tags)
                 meetingFormat.observableField.set(group!!.meetingFormat!!)
                 binding.meetingsPicker.setSelection(
                     resources.getStringArray(R.array.meeting_formats)
                         .indexOf(group!!.meetingFormat!!)
+                )
+                tags = group!!.tag!!.id
+                binding.durationPicker.setSelection(
+                    group!!.duration
                 )
                 numberOfMeetings.observableField.set(group!!.meetingsCount.toString())
                 price.observableField.set(group!!.price.toString())
