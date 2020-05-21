@@ -427,6 +427,7 @@ class MainRouter(
     }
 
     override fun navigateToVideoChat(groupId: Long) {
+
         val intent = Intent(activity, VideoChatActivity::class.java).apply {
             putExtras(
                 Bundle().apply {

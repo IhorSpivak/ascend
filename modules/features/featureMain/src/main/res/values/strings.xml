@@ -433,6 +433,7 @@
     <string name="add_goal">Add goal</string>
     <string name="mute_all">Mute All</string>
     <string name="unmute_all">UnMute All</string>
+    <string name="leave_this_group_webinar_participant">Leave This Group</string>
 
     <!--Attachment transfer status-->
     <string name="transfer_started">Started</string>

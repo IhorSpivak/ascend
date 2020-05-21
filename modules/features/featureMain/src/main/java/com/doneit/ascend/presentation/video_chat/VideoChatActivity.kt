@@ -22,7 +22,7 @@ import org.kodein.di.generic.singleton
 
 class VideoChatActivity : BaseActivity() {
 
-    override fun diModule() = Kodein.Module("CropActivity") {
+    override fun diModule() = Kodein.Module("VideoChatActivity") {
         bind<ViewModelProvider.Factory>() with singleton { CommonViewModelFactory(kodein.direct) }
         bind<VideoChatRouter>() with provider {
             VideoChatRouter(

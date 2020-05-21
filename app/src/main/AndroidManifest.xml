@@ -82,6 +82,10 @@
             android:name="com.doneit.ascend.presentation.video_chat.VideoChatActivity"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name="com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivity"
+            android:windowSoftInputMode="adjustResize" />
+
 
         <service android:name="com.doneit.ascend.presentation.login.AccountService">
             <intent-filter>
