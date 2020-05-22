@@ -3,7 +3,6 @@ package com.doneit.ascend.presentation.video_chat_webinar
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.minutesToMillis
@@ -21,6 +20,7 @@ import com.doneit.ascend.presentation.video_chat.VideoChatContract
 import com.doneit.ascend.presentation.video_chat.states.ChatRole
 import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.doneit.ascend.presentation.video_chat.states.VideoChatState
+import com.doneit.ascend.presentation.video_chat_webinar.in_progress.owner_options.OwnerOptionsContract
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.participant_options.ParticipantOptionsContract
 import com.doneit.ascend.presentation.video_chat_webinar.preview.WebinarChatPreviewContract
 import com.twilio.video.CameraCapturer
@@ -35,15 +35,28 @@ class WebinarVideoChatViewModel(
     private val userUseCase: UserUseCase,
     private val groupUseCase: GroupUseCase
 ) : BaseViewModelImpl(), ParticipantOptionsContract.ViewModel,
-    WebinarChatPreviewContract.ViewModel, WebinarVideoChatContract.ViewModel {
+    WebinarChatPreviewContract.ViewModel, WebinarVideoChatContract.ViewModel,
+    OwnerOptionsContract.ViewModel {
 
     override val groupInfo = MutableLiveData<GroupEntity>()
+    override val isVideoEnabled = MutableLiveData<Boolean>()
+    override val isAudioRecording = MutableLiveData<Boolean>()
+    override val isMuted = MutableLiveData<Boolean>()
+
+    override fun switchVideoEnabledState() {
+        TODO("Not yet implemented")
+    }
+
+    override fun switchAudioEnabledState() {
+        TODO("Not yet implemented")
+    }
+
     override val navigation = SingleLiveEvent<WebinarVideoChatContract.Navigation>()
 
 
     //region ui properties
     override val timerLabel = MutableLiveData<String>()
-    val isStartButtonVisible = MutableLiveData<Boolean>(false)
+    override val isStartButtonVisible = MutableLiveData<Boolean>(false)
     override val finishingLabel = MutableLiveData<String>()
     //endregion
 
@@ -99,18 +112,7 @@ class WebinarVideoChatViewModel(
                 user
             }
 
-            val creds = async {
-                val result = groupUseCase.getCredentials(groupId)
-
-                if (result.isSuccessful) {
-                    result.successModel!!
-                } else {
-                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
-                    null
-                }
-            }
-
-            initializeChatState(groupEntity.await(), creds.await(), userEntity.await())
+            initializeChatState(groupEntity.await(), userEntity.await())
 
         }
 
@@ -138,10 +140,9 @@ class WebinarVideoChatViewModel(
 
     private fun initializeChatState(
         groupEntity: GroupEntity?,
-        creds: GroupCredentialsDTO?,
         currentUser: UserEntity?
     ) {
-        if (groupEntity != null && creds != null) {
+        if (groupEntity != null) {
             chatRole =
                 if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
                     ChatRole.OWNER
@@ -152,7 +153,7 @@ class WebinarVideoChatViewModel(
         }
     }
 
-    fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus) {
+    override fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus) {
         VideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG.data.putInt(
             ACTIVITY_RESULT_KEY,
             resultCode.ordinal
@@ -170,7 +171,7 @@ class WebinarVideoChatViewModel(
         }
     }
 
-    fun switchCamera() {
+    override fun switchCamera() {
         if (cameraSources.size > 1) {
             switchCameraEvent.call()
         }
@@ -180,7 +181,7 @@ class WebinarVideoChatViewModel(
         navigation.postValue(WebinarVideoChatContract.Navigation.FINISH_ACTIVITY)
     }
 
-    fun onStartGroupClick() {
+    override fun onStartGroupClick() {
         groupUseCase.startGroup()
     }
 
@@ -228,6 +229,10 @@ class WebinarVideoChatViewModel(
     }
 
     override fun onChatClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onQuestionsClick() {
         TODO("Not yet implemented")
     }
 

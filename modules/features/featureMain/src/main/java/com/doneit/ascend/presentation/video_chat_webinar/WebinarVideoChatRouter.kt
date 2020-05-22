@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.video_chat_webinar
 
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
+import com.doneit.ascend.presentation.video_chat_webinar.in_progress.owner_options.OwnerOptionsFragment
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.participant_options.ParticipantOptionsFragment
 import com.doneit.ascend.presentation.video_chat_webinar.preview.WebinarChatPreviewFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
@@ -13,12 +14,13 @@ class WebinarVideoChatRouter(
 
     override val containerId = activity.getContainerId()
     private val fullContainerId = activity.getFullContainerId()
+
     override fun canGoBack(): Boolean {
-        TODO("Not yet implemented")
+        return activity.supportFragmentManager.backStackEntryCount != 0
     }
 
     override fun onBack() {
-        TODO("Not yet implemented")
+        activity.supportFragmentManager.popBackStack()
     }
 
     override fun finishActivity() {
@@ -42,7 +44,7 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToMMChatOptions() {
-        TODO("Not yet implemented")
+        activity.supportFragmentManager.add(fullContainerId, OwnerOptionsFragment())
     }
 
     override fun navigateToChatParticipantActions(userId: String) {

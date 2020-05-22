@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.video_chat_webinar.in_progress.owner_options.OwnerOptionsContract.ViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_black_semitransparent"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{(v) -> model.onBackClick()}">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="@{(v) -> model.onBackClick()}"
+            android:padding="20dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitleGroup"
+            style="@style/TextNormal.White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@{model.groupInfo.name}"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Fighting for recovery" />
+
+        <TextView
+            android:id="@+id/tvTitleOwner"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{model.groupInfo.owner.fullName}"
+            android:textColor="@color/light_gray_da"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleGroup"
+            tools:text="by Bessie Howard" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ivSwitchCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="@{(v) -> model.switchCamera()}"
+            android:padding="20dp"
+            android:src="@drawable/ic_loop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivQuestions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="96dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:src="@drawable/ic_question"
+            android:onClick="@{(v) -> model.onQuestionsClick()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivChat"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="96dp"
+            android:onClick="@{(v) -> model.onChatClick()}"
+            android:src="@drawable/ic_chat"
+            app:layout_constraintBottom_toBottomOf="@id/ivQuestions"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivQuestions"
+            app:layout_constraintTop_toTopOf="@id/ivQuestions" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/bottomGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="ivQuestions,ivChat" />
+
+        <ImageView
+            android:id="@+id/ivCamera"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="80dp"
+            android:onClick="@{(v) -> model.switchVideoEnabledState()}"
+            android:src="@{model.isVideoEnabled()? @drawable/ic_videocamera_on : @drawable/ic_videocamera_off, default = @drawable/ic_videocamera_on}"
+            app:layout_constraintBottom_toBottomOf="@id/ivHandset"
+            app:layout_constraintEnd_toStartOf="@id/ivHandset"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivHandset" />
+
+        <ImageView
+            android:id="@+id/ivHandset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
+            android:onClick="@{(v) -> model.finishCall()}"
+            android:src="@drawable/ic_finish_call"
+            app:layout_constraintBottom_toTopOf="@id/bottomGroup"
+            app:layout_constraintEnd_toStartOf="@id/ivMicro"
+            app:layout_constraintStart_toEndOf="@id/ivCamera" />
+
+        <ImageView
+            android:id="@+id/ivMicro"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="80dp"
+            android:onClick="@{(v) -> model.switchAudioEnabledState()}"
+            android:src="@{model.isAudioRecording() ? @drawable/ic_micro_on : @drawable/ic_micro_off, default = @drawable/ic_micro_on}"
+            app:layout_constraintBottom_toBottomOf="@id/ivHandset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivHandset"
+            app:layout_constraintTop_toTopOf="@id/ivHandset" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
