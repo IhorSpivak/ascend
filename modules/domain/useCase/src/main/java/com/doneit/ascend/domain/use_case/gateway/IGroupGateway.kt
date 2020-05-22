@@ -35,6 +35,8 @@ interface IGroupGateway {
 
     suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsDTO, List<String>>
 
+    suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsDTO, List<String>>
+
     suspend fun getParticipantList(listModel: ParticipantListDTO): ResponseEntity<List<ParticipantEntity>, List<String>>
 
     suspend fun updateNote(dto: UpdateNoteDTO): ResponseEntity<Unit, List<String>>

@@ -292,6 +292,10 @@ internal class GroupRepository(
         return execute({ api.getCredentialsAsync(groupId) }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun getWebinarCredentials(groupId: Long): RemoteResponse<WebinarCredentialsResponse, ErrorsListResponse> {
+        return execute({ api.getWebinarCredentialsAsync(groupId) }, ErrorsListResponse::class.java)
+    }
+
     override suspend fun getParticipants(
         groupId: Long,
         request: GroupParticipantsRequest

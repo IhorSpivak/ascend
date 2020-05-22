@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.video_chat_webinar
 import android.os.CountDownTimer
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.dto.WebinarCredentialsDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.minutesToMillis
@@ -10,6 +11,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.models.StartWebinarVideoModel
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.extensions.toMinutesFormat
@@ -42,6 +44,7 @@ class WebinarVideoChatViewModel(
     override val isVideoEnabled = MutableLiveData<Boolean>()
     override val isAudioRecording = MutableLiveData<Boolean>()
     override val isMuted = MutableLiveData<Boolean>()
+    override val credentials = MutableLiveData<StartWebinarVideoModel>()
 
     override fun switchVideoEnabledState() {
         TODO("Not yet implemented")
@@ -106,13 +109,24 @@ class WebinarVideoChatViewModel(
                 }
             }
 
+            val creds = async {
+                val result = groupUseCase.getWebinarCredentials(groupId)
+
+                if (result.isSuccessful) {
+                    result.successModel!!
+                } else {
+                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                    null
+                }
+            }
+
             val userEntity = async {
                 val user = userUseCase.getUser()
                 currentUserId = user!!.id.toString()
                 user
             }
 
-            initializeChatState(groupEntity.await(), userEntity.await())
+            initializeChatState(groupEntity.await(), creds.await(), userEntity.await())
 
         }
 
@@ -140,15 +154,22 @@ class WebinarVideoChatViewModel(
 
     private fun initializeChatState(
         groupEntity: GroupEntity?,
+        creds: WebinarCredentialsDTO?,
         currentUser: UserEntity?
     ) {
-        if (groupEntity != null) {
+        if (groupEntity != null && creds != null) {
             chatRole =
                 if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
                     ChatRole.OWNER
                 } else {
                     ChatRole.VISITOR
                 }
+            credentials.postValue(
+                StartWebinarVideoModel(
+                    chatRole!!,
+                    creds.chatId
+                )
+            )
             changeState(VideoChatState.PREVIEW_DATA_LOADED)
         }
     }

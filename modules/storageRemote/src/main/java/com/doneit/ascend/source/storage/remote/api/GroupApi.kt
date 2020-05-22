@@ -52,6 +52,9 @@ interface GroupApi {
     @POST("groups/{groupId}/credentials")
     fun getCredentialsAsync(@Path("groupId") groupId: Long): Deferred<Response<GroupCredentialsResponse>>
 
+    @POST("groups/{groupId}/credentials")
+    fun getWebinarCredentialsAsync(@Path("groupId") groupId: Long): Deferred<Response<WebinarCredentialsResponse>>
+
     @GET("groups/{groupId}/participants")
     fun getParticipantsAsync(
         @Path("groupId") groupId: Long,

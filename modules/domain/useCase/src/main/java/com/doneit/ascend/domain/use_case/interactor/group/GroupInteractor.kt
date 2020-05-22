@@ -62,6 +62,10 @@ internal class GroupInteractor(
         return groupGateway.getCredentials(groupId)
     }
 
+    override suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsDTO, List<String>> {
+        return groupGateway.getWebinarCredentials(groupId)
+    }
+
     override suspend fun getParticipantList(
         groupId: Long,
         fullName: String?,

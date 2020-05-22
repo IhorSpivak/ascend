@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
+import com.doneit.ascend.domain.entity.dto.WebinarCredentialsDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
@@ -108,6 +109,14 @@ fun GroupCredentialsResponse.toEntity(): GroupCredentialsDTO {
     return GroupCredentialsDTO(
         name,
         token
+    )
+}
+
+fun WebinarCredentialsResponse.toEntity(): WebinarCredentialsDTO {
+    return WebinarCredentialsDTO(
+        key,
+        link,
+        chatId
     )
 }
 

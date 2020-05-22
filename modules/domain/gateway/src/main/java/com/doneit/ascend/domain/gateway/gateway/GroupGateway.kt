@@ -297,6 +297,17 @@ internal class GroupGateway(
         )
     }
 
+    override suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsDTO, List<String>> {
+        return remote.getWebinarCredentials(groupId).toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override suspend fun getParticipantList(listModel: ParticipantListDTO): ResponseEntity<List<ParticipantEntity>, List<String>> {
         return remote.getParticipants(listModel.groupId, listModel.toRequest()).toResponseEntity(
             {
