@@ -30,7 +30,7 @@ fun PresentationCreateGroupModel.toWebinarEntity(is24TimeFormat: Boolean): Creat
             TIME_24_FORMAT_DROP_DAY.apply { timeZone = TimeZone.getTimeZone("GMT") }.format(it.time)
         },
         themesOfMeeting.map { it.observableField.get()!! },
-        duration.observableField.getNotNull().toInt()
+        duration.observableField.getNotNull().toMinutes()
     )
 }
 
@@ -61,7 +61,7 @@ fun PresentationCreateGroupModel.toUpdateWebinarEntity(group: GroupEntity): Upda
             TIME_24_FORMAT_DROP_DAY.apply { timeZone = TimeZone.getTimeZone("GMT") }.format(it.time)
         },
         themesOfMeeting.map { it.observableField.get()!! },
-        duration.observableField.getNotNull().toInt()
+        duration.observableField.getNotNull().toMinutes()
     )
 }
 fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
@@ -88,7 +88,7 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
         tags,
         null,
         null,
-        duration.observableField.getNotNull().toInt()
+        duration.observableField.getNotNull().toMinutes()
     )
 }
 
@@ -122,7 +122,7 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
         tags,
         null,
         null,
-        duration.observableField.getNotNull().toInt()
+        duration.observableField.getNotNull().toMinutes()
     )
 }
 
@@ -185,6 +185,10 @@ private fun List<CalendarDayEntity>.toDays(): List<Int> {
 
 private fun String.toHours(): Int {
     return this.toInt() % 12 //% 12to avoid day increment
+}
+
+private fun String.toMinutes(): Int {
+    return this.toInt() * 60
 }
 
 private fun String.toAM_PM(): Int {

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
-import com.doneit.ascend.domain.entity.group.hourToMillis
+import com.doneit.ascend.domain.entity.group.minutesToMillis
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -325,7 +325,7 @@ class WebinarVideoChatViewModel(
             }.start()
 
         val finishingDate =
-            Date(group.duration.hourToMillis() - GroupEntity.FINISHING_INTERVAL + group.startTime!!.time)
+            Date(group.duration.minutesToMillis() - GroupEntity.FINISHING_INTERVAL + group.startTime!!.time)
         timer?.cancel()
         timer = Timer()
         timer!!.schedule(timerTask {

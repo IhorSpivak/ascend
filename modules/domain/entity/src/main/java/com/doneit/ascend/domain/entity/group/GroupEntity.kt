@@ -46,13 +46,13 @@ class GroupEntity(
     val timeToFinish: Long
         get() {
             val currentDate = Date()
-            val time = startTime!!.time + duration.hourToMillis() - currentDate.time
+            val time = startTime!!.time + duration.minutesToMillis() - currentDate.time
             return if (time > 0) time else 0
         }
 
     val inProgress: Boolean
         get() {
-            return (getDefaultCalendar().timeInMillis - startTime!!.time.apply {  }) in 0..duration.hourToMillis()
+            return (getDefaultCalendar().timeInMillis - startTime!!.time.apply { }) in 0..duration.minutesToMillis()
         }
 
     val isStarting: Boolean
@@ -112,6 +112,6 @@ class GroupEntity(
 }
 
 
-fun Int.hourToMillis(): Long {
-    return this * 60 * 60 * 1000L
+fun Int.minutesToMillis(): Long {
+    return this * 60 * 1000L
 }
