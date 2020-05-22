@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-<import type="com.doneit.ascend.presentation.models.GroupType"/>
+
+        <import type="com.doneit.ascend.domain.entity.group.GroupType" />
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerContract.ViewModel" />

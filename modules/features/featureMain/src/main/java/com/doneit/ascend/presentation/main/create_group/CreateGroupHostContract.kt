@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.create_group
 
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMemberViewModel
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
 import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.WebinarCalendarPickerContact
@@ -13,7 +14,6 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.individual.I
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarContract
 import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsContract
 import com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerContract
-import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.GroupAction
 import com.google.android.material.textfield.TextInputEditText
 

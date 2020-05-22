@@ -9,7 +9,6 @@ import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.dto.AnswersDTO
 import com.doneit.ascend.domain.entity.dto.UpdateProfileDTO
 import com.doneit.ascend.domain.entity.getDefaultCalendar
-import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
@@ -153,7 +152,7 @@ class ProfileViewModel(
     }
 
     override fun onSeeMyGroupsClick() {
-        router.navigateToGroupList(user.value?.id, GroupType.MY_GROUPS, true, null)
+        router.navigateToGroupList(user.value?.id, null, true, null)
     }
 
     override fun onNotificationClick() {

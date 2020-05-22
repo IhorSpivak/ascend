@@ -1,13 +1,11 @@
 package com.doneit.ascend.presentation.main.create_group.date_picker
 
 import android.os.Bundle
-import com.aigestudio.wheelpicker.WheelPicker
-import com.doneit.ascend.domain.entity.MonthEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentWebinarDatePickerBinding
-import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
 import org.kodein.di.Kodein

@@ -284,7 +284,7 @@ class MainRouter(
     }
 
     override fun navigateToEditGroup(group: GroupEntity) {
-        val type = com.doneit.ascend.presentation.models.GroupType.values()
+        val type = GroupType.values()
             .getOrNull(group.groupType!!.ordinal)
         val args = CreateGroupArgs(type!!)
         replaceFullWithMainUpdate(CreateGroupHostFragment().apply {
@@ -299,7 +299,7 @@ class MainRouter(
     }
 
     override fun navigateToDuplicateGroup(group: GroupEntity) {
-        val type = com.doneit.ascend.presentation.models.GroupType.values()
+        val type = GroupType.values()
             .getOrNull(group.groupType!!.ordinal)
         val args = CreateGroupArgs(type!!)
         replaceFullWithMainUpdate(CreateGroupHostFragment().apply {
@@ -439,7 +439,7 @@ class MainRouter(
         activity.startActivityForResult(intent, VideoChatActivity.RESULT_CODE)
     }
 
-    override fun navigateToCreateGroup(type: com.doneit.ascend.presentation.models.GroupType) {
+    override fun navigateToCreateGroup(type: GroupType) {
         val args = CreateGroupArgs(type)
 
         val fragment = CreateGroupHostFragment()

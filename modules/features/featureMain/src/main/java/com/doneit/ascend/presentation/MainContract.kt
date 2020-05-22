@@ -1,8 +1,8 @@
 package com.doneit.ascend.presentation
 
 import androidx.lifecycle.LiveData
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
-import com.doneit.ascend.presentation.models.GroupType
 
 interface MainContract {
     interface ViewModel: BaseViewModel {

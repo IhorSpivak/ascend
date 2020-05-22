@@ -13,7 +13,8 @@
         <variable
             name="is24"
             type="Boolean" />
-        <import type="com.doneit.ascend.presentation.models.GroupType"/>
+
+        <import type="com.doneit.ascend.domain.entity.group.GroupType" />
 
     </data>
 

@@ -6,7 +6,6 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -38,20 +37,13 @@ class GroupDailyListViewModel(
 
     override fun applyArguments(args: GroupListArgs) {
         viewModelScope.launch {
-            var groupType = args.groupType
-
-            if (groupType == GroupType.DAILY //according to requirement to display all created group on first tab,
-                || groupType == GroupType.MY_GROUPS
-            ) {
-                groupType = null
-            }
 
             val model = GroupListDTO(
                 perPage = 50,
                 sortType = args.sortType,
                 sortColumn = GroupEntity.START_TIME_KEY,
                 userId = args.userId,
-                groupType = groupType,
+                groupType = args.groupType,
                 groupStatus = args.status,
                 myGroups = args.isMyGroups
             )

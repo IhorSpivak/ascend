@@ -11,7 +11,8 @@
         <variable
             name="actionTitle"
             type="String" />
-        <import type="com.doneit.ascend.presentation.models.GroupType"/>
+
+        <import type="com.doneit.ascend.domain.entity.group.GroupType" />
 
         <import type="android.text.InputType" />
 

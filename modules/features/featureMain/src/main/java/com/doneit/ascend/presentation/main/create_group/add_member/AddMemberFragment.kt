@@ -9,12 +9,12 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMemberViewModel
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
-import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind

@@ -11,7 +11,8 @@
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsContract.ViewModel" />
-        <import type="com.doneit.ascend.presentation.models.GroupType"/>
+
+        <import type="com.doneit.ascend.domain.entity.group.GroupType" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

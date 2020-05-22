@@ -3,11 +3,11 @@ package com.doneit.ascend.presentation.main.create_group.price_picker
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentPricePickerBinding
-import com.doneit.ascend.presentation.models.GroupType
 import com.google.android.material.textfield.TextInputEditText
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind

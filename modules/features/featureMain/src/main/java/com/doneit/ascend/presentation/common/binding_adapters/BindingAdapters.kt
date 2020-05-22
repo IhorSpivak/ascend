@@ -16,12 +16,12 @@ import androidx.paging.PagedList
 import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.SearchEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
 import com.doneit.ascend.presentation.main.home.daily.common.groups.GroupAdapter
 import com.doneit.ascend.presentation.main.search.common.SearchAdapter
-import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.group.GroupListWithUser
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter

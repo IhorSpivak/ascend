@@ -4,11 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedViewModel
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.common.IClickListener
-import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.Theme
-import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.utils.GroupAction

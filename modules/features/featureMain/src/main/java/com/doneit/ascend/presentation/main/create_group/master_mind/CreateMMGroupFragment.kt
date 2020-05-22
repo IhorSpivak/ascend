@@ -116,7 +116,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 hoursOfDay = date!!.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
                 minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
                 timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
-                groupType = com.doneit.ascend.presentation.models.GroupType.values()[group!!.groupType!!.ordinal]
+                groupType = GroupType.values()[group!!.groupType!!.ordinal]
                 meetingFormat.observableField.set(group!!.meetingFormat?: "")
                 startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(date))
                 selectedDays.addAll(group!!.daysOfWeek!!)
@@ -150,7 +150,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
     private fun handleNavigation(action: CreateMMGroupContract.Navigation) {
         val fragment = when (action) {
             CreateMMGroupContract.Navigation.TO_GROUP -> {
-                viewModel.createGroupModel.groupType = com.doneit.ascend.presentation.models.GroupType.MASTER_MIND
+                viewModel.createGroupModel.groupType = GroupType.MASTER_MIND
                 CreateGroupFragment()
             }
             CreateMMGroupContract.Navigation.TO_INDIVIDUAL -> {
@@ -162,7 +162,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                         members.postValue(selectedMembers)
                     }
                 }
-                viewModel.createGroupModel.groupType = com.doneit.ascend.presentation.models.GroupType.INDIVIDUAL
+                viewModel.createGroupModel.groupType = GroupType.INDIVIDUAL
                 IndividualGroupFragment(group)
             }
         }

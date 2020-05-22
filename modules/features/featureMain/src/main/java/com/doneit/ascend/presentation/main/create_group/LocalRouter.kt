@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.create_group
 
 import android.os.Bundle
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberFragment
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerFragment
 import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.WebinarCalendarPickerFragment
@@ -12,7 +13,6 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.CreateMMGrou
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.CreateWebinarFragment
 import com.doneit.ascend.presentation.main.create_group.meeting_count.NumberOfMeetingsFragment
 import com.doneit.ascend.presentation.main.create_group.price_picker.PricePickerFragment
-import com.doneit.ascend.presentation.models.GroupType
 import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace

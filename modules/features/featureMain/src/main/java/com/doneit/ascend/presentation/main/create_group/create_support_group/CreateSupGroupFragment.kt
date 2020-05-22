@@ -22,6 +22,7 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.R
@@ -211,8 +212,7 @@ class CreateSupGroupFragment :
                 hoursOfDay = date!!.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
                 minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
                 timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
-                groupType =
-                    com.doneit.ascend.presentation.models.GroupType.values()[group!!.groupType!!.ordinal]
+                groupType = GroupType.values()[group!!.groupType!!.ordinal]
                 meetingFormat.observableField.set(group!!.meetingFormat ?: "")
                 startDate.observableField.set(
                     SimpleDateFormat(
