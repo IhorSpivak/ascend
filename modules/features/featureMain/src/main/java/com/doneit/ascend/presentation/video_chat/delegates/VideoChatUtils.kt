@@ -12,7 +12,7 @@ import com.vimeo.networking.Configuration
 import com.vimeo.networking.VimeoClient
 
 object VideoChatUtils {
-    private const val vimeoToken = ""
+    private const val vimeoToken = "404877188e63afd0ef38e6e6d320bd89"
 
     fun init(context: Context) {
         val config = Configuration.Builder(vimeoToken)
