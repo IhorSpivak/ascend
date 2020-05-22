@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.domain.entity.dto.SearchDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.use_case.interactor.search.SearchUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.utils.Constants
@@ -66,8 +67,8 @@ class SearchViewModel(
         router.navigateToGroupInfo(model.id)
     }
 
-    override fun onStartChatClick(groupId: Long) {
-        router.navigateToVideoChat(groupId)
+    override fun onStartChatClick(groupId: Long, groupType: GroupType) {
+        router.navigateToVideoChat(groupId, groupType)
     }
 
     override fun goBack() {

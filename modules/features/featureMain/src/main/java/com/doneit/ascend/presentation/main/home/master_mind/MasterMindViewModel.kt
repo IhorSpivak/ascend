@@ -82,8 +82,8 @@ class MasterMindViewModel(
         requestModel.postValue(requestModel.value)
     }
 
-    override fun onStartChatClick(groupId: Long) {
-        router.navigateToVideoChat(groupId)
+    override fun onStartChatClick(groupId: Long, groupType: GroupType) {
+        router.navigateToVideoChat(groupId, groupType)
     }
 
     override fun onGroupClick(groupId: Long) {

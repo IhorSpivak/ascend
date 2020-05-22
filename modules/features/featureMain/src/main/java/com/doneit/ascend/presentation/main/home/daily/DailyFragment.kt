@@ -25,7 +25,7 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>() {
             },
             {
                 if (it.blocked != true) {
-                    viewModel.onStartChatClick(it.id)
+                    viewModel.onStartChatClick(it.id, it.groupType!!)
                 } else {
                     showDefaultError(getString(R.string.error_group_user_removed))
                 }

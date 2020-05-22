@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.home.webinars
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.main.home.webinars.common.WebinarFilter
@@ -13,7 +14,7 @@ interface WebinarsContract {
         val userLiveData: LiveData<UserEntity>
         val groups: LiveData<GroupListWithUserPaged>
 
-        fun onStartChatClick(groupId: Long)
+        fun onStartChatClick(groupId: Long, groupType: GroupType)
         fun onGroupClick(model: GroupEntity)
         fun updateFilter(filter: WebinarFilter)
         fun checkUser(user: UserEntity)
@@ -21,6 +22,6 @@ interface WebinarsContract {
 
     interface Router {
         fun navigateToGroupInfo(id: Long)
-        fun navigateToVideoChat(groupId: Long)
+        fun navigateToVideoChat(groupId: Long, groupType: GroupType)
     }
 }

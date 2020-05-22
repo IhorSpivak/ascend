@@ -15,7 +15,7 @@ interface DailyContract {
         fun updateData()
         fun navigateToDailyGroups()
         fun onGroupClick(groupId: Long)
-        fun onStartChatClick(groupId: Long)
+        fun onStartChatClick(groupId: Long, groupType: GroupType)
 
         fun onAllMasterMindsClick()
         fun openProfile(mmId: Long)
@@ -26,6 +26,6 @@ interface DailyContract {
         fun navigateToAllMasterMinds()
         fun navigateToGroupInfo(id: Long)
         fun navigateToMMInfo(id: Long)
-        fun navigateToVideoChat(groupId: Long)
+        fun navigateToVideoChat(groupId: Long, groupType: GroupType)
     }
 }

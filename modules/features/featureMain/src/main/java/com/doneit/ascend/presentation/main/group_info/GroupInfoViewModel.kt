@@ -96,7 +96,7 @@ class GroupInfoViewModel(
     }
 
     override fun joinToDiscussion() {
-        router.navigateToVideoChat(group.value!!.id)
+        router.navigateToVideoChat(group.value!!.id, group.value!!.groupType!!)
     }
 
     override fun subscribe(card: PresentationCardModel) {
@@ -183,7 +183,7 @@ class GroupInfoViewModel(
     }
 
     override fun startGroup() {
-        router.navigateToVideoChat(group.value!!.id)
+        router.navigateToVideoChat(group.value!!.id, group.value!!.groupType!!)
     }
 
     override fun onAddPaymentClick() {

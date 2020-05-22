@@ -66,8 +66,8 @@ class GroupsViewModel(
         router.navigateToGroupInfo(model.id)
     }
 
-    override fun onStartChatClick(groupId: Long) {
-        router.navigateToVideoChat(groupId)
+    override fun onStartChatClick(groupId: Long, groupType: GroupType) {
+        router.navigateToVideoChat(groupId, groupType)
     }
 
     override fun updateFilter(filter: TagEntity?) {

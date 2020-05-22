@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
@@ -79,7 +78,7 @@ class WebinarsViewModel (
         router.navigateToGroupInfo(model.id)
     }
 
-    override fun onStartChatClick(groupId: Long) {
-        router.navigateToVideoChat(groupId)
+    override fun onStartChatClick(groupId: Long, groupType: GroupType) {
+        router.navigateToVideoChat(groupId, groupType)
     }
 }

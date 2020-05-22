@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.PresentationCardModel
 
@@ -51,7 +52,7 @@ interface GroupInfoContract {
     interface Router {
         fun onBack()
         fun navigateToAddPaymentMethod()
-        fun navigateToVideoChat(groupId: Long)
+        fun navigateToVideoChat(groupId: Long, groupType: GroupType)
         fun navigateToMMInfo(id: Long)
         fun navigateToViewAttendees(attendees: List<AttendeeEntity>, group: GroupEntity)
         fun navigateToEditGroup(group: GroupEntity)

@@ -99,6 +99,7 @@ import com.doneit.ascend.presentation.utils.Constants.TERMS_OF_USAGE
 import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
+import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivity
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.vrgsoft.core.presentation.router.FragmentRouter
 import com.yalantis.ucrop.UCrop
@@ -426,17 +427,28 @@ class MainRouter(
         activity.supportFragmentManager.replaceWithBackStack(containerIdFull, CommunityFragment())
     }
 
-    override fun navigateToVideoChat(groupId: Long) {
+    override fun navigateToVideoChat(groupId: Long, groupType: GroupType) {
+        if (groupType == GroupType.WEBINAR) {
+            val intent = Intent(activity, WebinarVideoChatActivity::class.java).apply {
+                putExtras(
+                    Bundle().apply {
+                        putLong(WebinarVideoChatActivity.GROUP_ID_ARG, groupId)
+                    }
+                )
+            }
 
-        val intent = Intent(activity, VideoChatActivity::class.java).apply {
-            putExtras(
-                Bundle().apply {
-                    putLong(VideoChatActivity.GROUP_ID_ARG, groupId)
-                }
-            )
+            activity.startActivityForResult(intent, WebinarVideoChatActivity.RESULT_CODE)
+        } else {
+            val intent = Intent(activity, VideoChatActivity::class.java).apply {
+                putExtras(
+                    Bundle().apply {
+                        putLong(VideoChatActivity.GROUP_ID_ARG, groupId)
+                    }
+                )
+            }
+
+            activity.startActivityForResult(intent, VideoChatActivity.RESULT_CODE)
         }
-
-        activity.startActivityForResult(intent, VideoChatActivity.RESULT_CODE)
     }
 
     override fun navigateToCreateGroup(type: GroupType) {
