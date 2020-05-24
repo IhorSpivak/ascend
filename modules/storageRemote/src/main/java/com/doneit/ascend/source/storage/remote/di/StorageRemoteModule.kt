@@ -13,6 +13,8 @@ import com.doneit.ascend.source.storage.remote.repository.group.GroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.socket.GroupSocketRepository
 import com.doneit.ascend.source.storage.remote.repository.group.socket.IGroupSocketRepository
+import com.doneit.ascend.source.storage.remote.repository.group.webinar_questions.IWebinarQuestionsRepository
+import com.doneit.ascend.source.storage.remote.repository.group.webinar_questions.WebinarQuestionsRepository
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.doneit.ascend.source.storage.remote.repository.master_minds.MasterMindRepository
 import com.doneit.ascend.source.storage.remote.repository.notification.INotificationRepository
@@ -46,6 +48,7 @@ object StorageRemoteModule {
         bind<PurchaseApi>() with singleton { instance<Retrofit>().create(PurchaseApi::class.java) }
         bind<AttachmentsApi>() with singleton { instance<Retrofit>().create(AttachmentsApi::class.java) }
         bind<ChatApi>() with singleton { instance<Retrofit>().create(ChatApi::class.java) }
+        bind<WebinarQuestionApi>() with singleton { instance<Retrofit>().create(WebinarQuestionApi::class.java) }
 
         bind<IUserRepository>() with singleton {
             UserRepository(
@@ -125,6 +128,13 @@ object StorageRemoteModule {
 
         bind<IMyChatsRepository>() with singleton {
             MyChatsRepository(
+                instance(),
+                instance()
+            )
+        }
+
+        bind<IWebinarQuestionsRepository>() with singleton {
+            WebinarQuestionsRepository(
                 instance(),
                 instance()
             )

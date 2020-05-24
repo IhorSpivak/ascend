@@ -128,5 +128,13 @@ object GatewayModule {
                 instance()
             )
         }
+
+        bind<IWebinarQuestionGateway>() with singleton {
+            WebinarQuestionGateway(
+                instance(),
+                instance(),
+                instance()
+            )
+        }
     }
 }
