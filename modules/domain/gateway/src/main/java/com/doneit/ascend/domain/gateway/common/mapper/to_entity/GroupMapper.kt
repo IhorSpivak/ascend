@@ -7,6 +7,8 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.group.NoteEntity
+import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
+import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEvent
 import com.doneit.ascend.domain.gateway.common.applyDaysOffset
 import com.doneit.ascend.domain.gateway.common.getDayOffset
 import com.doneit.ascend.source.storage.local.data.GroupLocal
@@ -44,7 +46,7 @@ fun OwnerResponse.toEntity(): OwnerEntity {
     )
 }
 
-fun TagResponse.toEntity(): TagEntity{
+fun TagResponse.toEntity(): TagEntity {
     return TagEntity(
         id,
         tag
@@ -86,8 +88,10 @@ fun GroupResponse.toEntity(): GroupEntity {
         duration
     )
 }
-private fun getDays(list: List<Int>?, dayOffset: Int): List<CalendarDayEntity>{
-    return list?.applyDaysOffset(dayOffset)?.map { it.toCalendarDay() } ?: listOf(CalendarDayEntity.SUNDAY)
+
+private fun getDays(list: List<Int>?, dayOffset: Int): List<CalendarDayEntity> {
+    return list?.applyDaysOffset(dayOffset)?.map { it.toCalendarDay() }
+        ?: listOf(CalendarDayEntity.SUNDAY)
 }
 
 fun NoteResponse.toEntity(): NoteEntity {
@@ -130,6 +134,20 @@ fun SocketEventMessage.toEntity(): SocketEventEntity {
             image?.toEntity(),
             event == SocketEvent.RISE_A_HAND
         )
+    )
+}
+
+fun QuestionSocketEventMessage.toEntity(): QuestionSocketEntity {
+    val event = QuestionSocketEvent.fromRemoteString(event!!)
+    return QuestionSocketEntity(
+        id,
+        question,
+        userId,
+        createdAt,
+        updatedAt,
+        fullName,
+        image?.toEntity(),
+        event
     )
 }
 
@@ -210,14 +228,14 @@ fun OwnerLocal.toEntity(): OwnerEntity {
     )
 }
 
-fun TagLocal.toEntity(): TagEntity{
+fun TagLocal.toEntity(): TagEntity {
     return TagEntity(
         id,
         tag
     )
 }
 
-fun ChatSocketEventMessage.toEntity(): MessageSocketEntity{
+fun ChatSocketEventMessage.toEntity(): MessageSocketEntity {
     return MessageSocketEntity(
         id,
         message,

@@ -2,9 +2,9 @@ package com.doneit.ascend.domain.use_case.interactor.webinar_questions
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.WebinarQuestionEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.WebinarQuestionDTO
+import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
 import com.doneit.ascend.domain.use_case.gateway.IWebinarQuestionGateway
 
 class WebinarQuestionInteractor(
@@ -30,6 +30,10 @@ class WebinarQuestionInteractor(
 
     override suspend fun deleteQuestion(id: Long): ResponseEntity<Unit, List<String>> {
         return gateway.delete(id)
+    }
+
+    override fun insertMessage(questionEntity: WebinarQuestionEntity) {
+        return gateway.insertQuestion(questionEntity)
     }
 
 }

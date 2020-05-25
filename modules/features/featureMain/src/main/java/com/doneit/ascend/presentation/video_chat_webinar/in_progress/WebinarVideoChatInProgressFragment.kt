@@ -1,37 +1,32 @@
-package com.doneit.ascend.presentation.video_chat_webinar.questions
+package com.doneit.ascend.presentation.video_chat_webinar.in_progress
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.databinding.FragmentQuestionsBinding
+import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatWebinarBinding
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatViewModel
-import com.doneit.ascend.presentation.video_chat_webinar.questions.common.QuestionAdapter
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-class QuestionFragment: BaseFragment<FragmentQuestionsBinding>(){
+class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinarBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
-        bind<QuestionContract.ViewModel>() with provider {
+        bind<WebinarVideoChatInProgressContract.ViewModel>() with provider {
             vmShared<WebinarVideoChatViewModel>(
                 instance()
             )
         }
     }
 
-    override val viewModel: QuestionContract.ViewModel by instance()
+
+    override val viewModel: WebinarVideoChatInProgressContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
+        binding.send.setOnClickListener {
 
-        viewModel.questions.observe(viewLifecycleOwner, Observer {
-            adapter.submitList(it)
-        })
+        }
     }
-
-    private val adapter: QuestionAdapter by lazy { QuestionAdapter() }
-
 }

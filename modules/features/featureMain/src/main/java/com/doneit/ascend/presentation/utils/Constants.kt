@@ -26,7 +26,6 @@ object Constants {
     const val PRIVACY_POLICY = "https://support.ascend2u.com/en/article/privacy-policy"
     const val TERMS_OF_USAGE = "https://support.ascend2u.com/en/article/terms-conditions "
 
-
     const val AM = "AM"
     const val PM = "PM"
 

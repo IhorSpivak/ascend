@@ -32,6 +32,7 @@ class WebinarVideoChatActivity : BaseActivity() {
         bind<ViewModel>(WebinarVideoChatViewModel::class.java.simpleName) with provider {
             WebinarVideoChatViewModel(
                 instance(),
+                instance(),
                 instance()
             )
         }

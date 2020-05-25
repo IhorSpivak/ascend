@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.video_chat_webinar.in_progress.WebinarVideoChatInProgressContract.ViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="@{(v) -> model.onOpenOptions()}">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:setImage="@{model.groupInfo.image.url}" />
+
+        <com.twilio.video.VideoTextureView
+            android:id="@+id/videoView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible"
+            app:mirror="true"
+            app:scaleType="balanced" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/TextNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="54dp"
+                android:layout_marginEnd="54dp"
+                android:gravity="center"
+                android:text="@{model.groupInfo.name}"
+                android:textColor="@android:color/white"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/mmIcon"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintVertical_bias="0.42"
+                tools:text="Fighting For Recovery" />
+
+            <com.doneit.ascend.presentation.views.MasterMindIcon
+                android:id="@+id/mmIcon"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                app:layout_constraintBottom_toTopOf="@id/tvName"
+                app:name="@{model.groupInfo.owner.fullName}"
+                app:url="@{model.groupInfo.owner.image.url}" />
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/TextNormal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="54dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="54dp"
+                android:gravity="center"
+                android:text="@{model.isMMConnected? model.groupInfo.owner.fullName : @string/mm_disconnected(model.groupInfo.owner.fullName)}"
+                android:textColor="@{model.isMMConnected? @android:color/white : @color/error_color, default = @android:color/white}"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mmIcon"
+                app:layout_constraintBottom_toTopOf="@id/tvConnection"
+                tools:text="Emma Wilson" />
+
+            <TextView
+                android:id="@+id/tvConnection"
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connecting"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:visibility="@{!model.isMMConnected}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvName"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <EditText
+                android:id="@+id/message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="20dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/chats_enter_text_hint"
+                android:maxLength="500"
+                android:maxLines="5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/send"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:textColor="@android:color/white"
+                android:padding="4dp"
+                android:id="@+id/questionSent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_pink"
+                android:text="@string/question_sent"
+                app:layout_constraintBottom_toTopOf="@+id/send"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="16dp"
+                android:src="@drawable/ic_send"
+                android:tint="@color/light_gray_8f"
+                app:layout_constraintBottom_toBottomOf="@id/message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/message"
+                app:layout_constraintTop_toTopOf="@id/message" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

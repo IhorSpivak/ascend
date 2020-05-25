@@ -601,4 +601,8 @@
     <string name="chats_member_offline">offline</string>
     <string name="search_hint">Search</string>
     <string name="you">You</string>
+
+    <!--Webinar Video Chat-->
+    <string name="question_sent">Question Sent</string>
+    <string name="ask_question_hint">Ask a question</string>
 </resources>

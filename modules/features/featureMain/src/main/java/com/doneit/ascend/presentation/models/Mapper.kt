@@ -11,6 +11,8 @@ import com.doneit.ascend.domain.entity.dto.ChangeEmailDTO
 import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
 import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
 import com.doneit.ascend.domain.entity.dto.CreateAttachmentDTO
+import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
+import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
 import com.doneit.ascend.presentation.models.group.ParticipantSourcePriority
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.Constants
@@ -135,6 +137,18 @@ fun MessageSocketEntity.toEntity(): MessageEntity{
         createdAt!!.toDate(),
         updatedAt!!.toDate(),
         status!!.toMessageStatus()
+    )
+}
+
+fun QuestionSocketEntity.toEntity(): WebinarQuestionEntity {
+    return WebinarQuestionEntity(
+        id,
+        question,
+        createdAt?.toDate(),
+        updatedAt?.toDate(),
+        userId,
+        fullName,
+        image
     )
 }
 

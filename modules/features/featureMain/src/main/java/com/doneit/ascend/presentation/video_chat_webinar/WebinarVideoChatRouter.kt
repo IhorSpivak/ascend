@@ -1,10 +1,12 @@
 package com.doneit.ascend.presentation.video_chat_webinar
 
+import android.content.Intent
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.owner_options.OwnerOptionsFragment
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.participant_options.ParticipantOptionsFragment
 import com.doneit.ascend.presentation.video_chat_webinar.preview.WebinarChatPreviewFragment
+import com.doneit.ascend.presentation.video_chat_webinar.questions.QuestionFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class WebinarVideoChatRouter(
@@ -24,7 +26,7 @@ class WebinarVideoChatRouter(
     }
 
     override fun finishActivity() {
-        TODO("Not yet implemented")
+        finishWithResult(WebinarVideoChatActivity.ResultStatus.OK)
     }
 
     override fun navigateToPreview() {
@@ -32,7 +34,7 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToChatInProgress() {
-        TODO("Not yet implemented")
+
     }
 
     override fun navigateToChatFinishScreen() {
@@ -56,7 +58,7 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToQuestions(groupId: Long) {
-        TODO("Not yet implemented")
+        activity.supportFragmentManager.add(fullContainerId, QuestionFragment())
     }
 
     override fun navigateToChat(groupId: Long) {
@@ -65,6 +67,14 @@ class WebinarVideoChatRouter(
 
     override fun navigateToNotes(groupId: Long) {
         TODO("Not yet implemented")
+    }
+
+    private fun finishWithResult(resultCode: WebinarVideoChatActivity.ResultStatus) {
+        val resultIntent = Intent().apply {
+            putExtra(WebinarVideoChatActivity.RESULT_TAG, resultCode)
+        }
+        activity.setResult(WebinarVideoChatActivity.RESULT_CODE, resultIntent)
+        activity.finish()
     }
 
 }

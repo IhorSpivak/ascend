@@ -1,17 +1,24 @@
 package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.os.CountDownTimer
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.dto.WebinarCredentialsDTO
+import com.doneit.ascend.domain.entity.dto.WebinarQuestionDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.minutesToMillis
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
+import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEvent
+import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.domain.use_case.interactor.webinar_questions.WebinarQuestionUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
+import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.extensions.toMinutesFormat
@@ -22,9 +29,11 @@ import com.doneit.ascend.presentation.video_chat.VideoChatContract
 import com.doneit.ascend.presentation.video_chat.states.ChatRole
 import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.doneit.ascend.presentation.video_chat.states.VideoChatState
+import com.doneit.ascend.presentation.video_chat_webinar.in_progress.WebinarVideoChatInProgressContract
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.owner_options.OwnerOptionsContract
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.participant_options.ParticipantOptionsContract
 import com.doneit.ascend.presentation.video_chat_webinar.preview.WebinarChatPreviewContract
+import com.doneit.ascend.presentation.video_chat_webinar.questions.QuestionContract
 import com.twilio.video.CameraCapturer
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
@@ -35,14 +44,17 @@ import kotlin.concurrent.timerTask
 
 class WebinarVideoChatViewModel(
     private val userUseCase: UserUseCase,
-    private val groupUseCase: GroupUseCase
+    private val groupUseCase: GroupUseCase,
+    private val webinarQuestionUseCase: WebinarQuestionUseCase
 ) : BaseViewModelImpl(), ParticipantOptionsContract.ViewModel,
     WebinarChatPreviewContract.ViewModel, WebinarVideoChatContract.ViewModel,
-    OwnerOptionsContract.ViewModel {
+    OwnerOptionsContract.ViewModel, QuestionContract.ViewModel, WebinarVideoChatInProgressContract.ViewModel {
 
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
     override val isAudioRecording = MutableLiveData<Boolean>()
+    override val isQuestionSent = MutableLiveData<Boolean>()
+    override val isMMConnected: LiveData<Boolean> = MutableLiveData<Boolean>(false)
     override val isMuted = MutableLiveData<Boolean>()
     override val credentials = MutableLiveData<StartWebinarVideoModel>()
 
@@ -65,7 +77,7 @@ class WebinarVideoChatViewModel(
 
     //region chat parameters
     override val isFinishing = MutableLiveData<Boolean>()
-    val switchCameraEvent = SingleLiveManager(Unit)
+    override val switchCameraEvent = SingleLiveManager(Unit)
     //endregion
 
     //region local
@@ -78,6 +90,15 @@ class WebinarVideoChatViewModel(
     private var downTimer: CountDownTimer? = null
     private var timer: Timer? = null
     //endregion
+
+    override val questions: LiveData<PagedList<WebinarQuestionEntity>> = groupInfo.switchMap {
+        webinarQuestionUseCase.getWebinarQuestionLive(groupId, WebinarQuestionDTO(
+            1,
+            10
+        ))
+    }
+
+    private lateinit var observer: Observer<QuestionSocketEntity?>
 
     private fun refetchGroupInfo() {
         viewModelScope.launch {
@@ -192,6 +213,18 @@ class WebinarVideoChatViewModel(
         }
     }
 
+    override fun createQuestion(question: String) {
+        viewModelScope.launch {
+            val result = webinarQuestionUseCase.createQuestion(groupId, question)
+
+            if (result.isSuccessful.not()) {
+                showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+            } else {
+
+            }
+        }
+    }
+
     override fun switchCamera() {
         if (cameraSources.size > 1) {
             switchCameraEvent.call()
@@ -254,7 +287,7 @@ class WebinarVideoChatViewModel(
     }
 
     override fun onQuestionsClick() {
-        TODO("Not yet implemented")
+        navigation.postValue(WebinarVideoChatContract.Navigation.TO_QUESTIONS)
     }
 
 
@@ -386,6 +419,30 @@ class WebinarVideoChatViewModel(
             }
 
             cameraSources = sources
+        }
+    }
+
+    private fun getMessageObserver(chatId: Long): Observer<QuestionSocketEntity?> {
+        return Observer { socketEvent ->
+            socketEvent?.let {
+                when (socketEvent.event) {
+                    QuestionSocketEvent.CREATE -> {
+                        val question = socketEvent.toEntity()
+                        question.let {
+                            webinarQuestionUseCase.insertMessage(it)
+                        }
+                    }
+                    QuestionSocketEvent.UPDATE -> {
+
+                    }
+                    QuestionSocketEvent.DESTROY -> {
+
+                    }
+                    else -> {
+                        throw IllegalArgumentException("unknown socket type")
+                    }
+                }
+            }
         }
     }
 

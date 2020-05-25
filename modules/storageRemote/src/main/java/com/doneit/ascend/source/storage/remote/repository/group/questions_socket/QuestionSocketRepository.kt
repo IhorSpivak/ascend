@@ -1,21 +1,20 @@
-package com.doneit.ascend.source.storage.remote.repository.group.socket
+package com.doneit.ascend.source.storage.remote.repository.group.questions_socket
 
 import android.util.Log
 import com.doneit.ascend.source.Constants.SOCKET_URL
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCookies
-import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventMessage
-import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.QuestionSocketEventMessage
+import com.doneit.ascend.source.storage.remote.data.response.group.QuestionSocketEventResponse
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 
-class GroupSocketRepository(
+class QuestionSocketRepository(
     private val gson: Gson
-) : IGroupSocketRepository {
-
-    override val messagesStream = SingleLiveEvent<SocketEventMessage>()
+) : IQuestionSocketRepository {
+    override val questionStream = SingleLiveEvent<QuestionSocketEventMessage>()
 
     private var socket: WebSocket? = null
 
@@ -39,11 +38,11 @@ class GroupSocketRepository(
         client.dispatcher.executorService.shutdown()
     }
 
-    override fun sendMessage(message: String) {
-        socket?.send(message)
+    override fun sendQuestion(question: String) {
     }
 
     override fun disconnect() {
+        questionStream.value = null
         socket?.close(1000, "")
     }
 
@@ -69,7 +68,7 @@ class GroupSocketRepository(
             }
 
             override fun onOpen(webSocket: WebSocket, response: Response) {
-                socket?.send(SUBSCRIBE_GROUP_CHANNEL_COMMAND)
+                socket?.send(SUBSCRIBE_QUESTION_CHANNEL_COMMAND)
             }
         }
     }
@@ -77,9 +76,9 @@ class GroupSocketRepository(
     private fun proceedMessage(message: String) {
         try {
             Log.d("SocketMessage", message)
-            val result = gson.fromJson(message, SocketEventResponse::class.java)
+            val result = gson.fromJson(message, QuestionSocketEventResponse::class.java)
             if(result.message?.event != null) { //todo replace by Gson deserializer with exception on missing fields
-                messagesStream.postValue(result.message)
+                questionStream.postValue(result.message)
             }
         } catch (exception: JsonSyntaxException) {
             exception.printStackTrace()
@@ -87,8 +86,9 @@ class GroupSocketRepository(
     }
 
     companion object {
-        private const val SUBSCRIBE_GROUP_CHANNEL_COMMAND =
-            "{\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\",\"command\": \"subscribe\"}"
+        private const val SUBSCRIBE_QUESTION_CHANNEL_COMMAND =
+            "{\"identifier\":\"{\\\"channel\\\":\\\"QuestionsChannel\\\"}\",\"command\": \"subscribe\"}"
         private const val COOKIE_KEY = "Cookie"
     }
+
 }
