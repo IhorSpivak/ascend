@@ -105,49 +105,72 @@
                 app:layout_constraintTop_toBottomOf="@id/tvName"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <EditText
-                android:id="@+id/message"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="20dp"
-                android:background="@android:color/transparent"
-                android:hint="@string/chats_enter_text_hint"
-                android:maxLength="500"
-                android:maxLines="5"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/send"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:textColor="@android:color/white"
-                android:padding="4dp"
-                android:id="@+id/questionSent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_pink"
-                android:text="@string/question_sent"
-                app:layout_constraintBottom_toTopOf="@+id/send"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:padding="16dp"
-                android:src="@drawable/ic_send"
-                android:tint="@color/light_gray_8f"
-                app:layout_constraintBottom_toBottomOf="@id/message"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/message"
-                app:layout_constraintTop_toTopOf="@id/message" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="@id/message"
+            android:background="@drawable/bg_shadow_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/message"
+            app:layout_constraintEnd_toEndOf="@+id/send"
+            app:layout_constraintTop_toTopOf="@+id/message" />
+
+        <EditText
+            android:textColor="@android:color/white"
+            android:alpha="0.4"
+            android:id="@+id/message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/ask_question_hint"
+            android:textColorHint="@android:color/white"
+            android:maxLength="500"
+            android:maxLines="5"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/send"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:textColor="@android:color/white"
+            android:padding="4dp"
+            android:id="@+id/questionSent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_pink"
+            android:visibility="gone"
+            android:text="@string/question_sent"
+            app:layout_constraintBottom_toTopOf="@+id/send"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{model.isVisitor, default = gone}"
+            app:constraint_referenced_ids="send,background,message"
+            android:id="@+id/ask_question" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_send"
+            android:padding="16dp"
+            android:tint="@android:color/white"
+            android:alpha="0.4"
+            app:layout_constraintBottom_toBottomOf="@id/message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/message"
+            app:layout_constraintTop_toTopOf="@id/message" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

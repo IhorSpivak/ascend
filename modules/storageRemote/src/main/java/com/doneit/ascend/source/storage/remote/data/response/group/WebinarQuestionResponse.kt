@@ -10,5 +10,5 @@ data class WebinarQuestionResponse(
     @SerializedName("updated_at") val updatedAt: String,
     @SerializedName("user_id") val userId: Long,
     @SerializedName("full_name") val fullName: String,
-    @SerializedName("image") val imageResponse: ImageResponse
+    @SerializedName("image") val imageResponse: ImageResponse?
 )

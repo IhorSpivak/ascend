@@ -5,7 +5,7 @@ import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCoo
 import com.doneit.ascend.source.storage.remote.data.response.group.QuestionSocketEventMessage
 
 interface IQuestionSocketRepository {
-    val questionStream: LiveData<QuestionSocketEventMessage>
+    val questionStream: LiveData<QuestionSocketEventMessage?>
 
     fun connect(cookies: GroupSocketCookies)
 

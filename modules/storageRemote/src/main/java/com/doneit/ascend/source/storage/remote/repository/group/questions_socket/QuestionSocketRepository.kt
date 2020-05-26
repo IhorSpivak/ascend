@@ -14,7 +14,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 class QuestionSocketRepository(
     private val gson: Gson
 ) : IQuestionSocketRepository {
-    override val questionStream = SingleLiveEvent<QuestionSocketEventMessage>()
+    override val questionStream = SingleLiveEvent<QuestionSocketEventMessage?>()
 
     private var socket: WebSocket? = null
 

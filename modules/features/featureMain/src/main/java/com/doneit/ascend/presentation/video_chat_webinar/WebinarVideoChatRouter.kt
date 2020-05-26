@@ -3,6 +3,10 @@ package com.doneit.ascend.presentation.video_chat_webinar
 import android.content.Intent
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
+import com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes.NotesContract
+import com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes.NotesFragment
+import com.doneit.ascend.presentation.video_chat_webinar.finished.WebinarFinishedFragment
+import com.doneit.ascend.presentation.video_chat_webinar.in_progress.WebinarVideoChatInProgressFragment
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.owner_options.OwnerOptionsFragment
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.participant_options.ParticipantOptionsFragment
 import com.doneit.ascend.presentation.video_chat_webinar.preview.WebinarChatPreviewFragment
@@ -12,6 +16,7 @@ import com.vrgsoft.core.presentation.router.FragmentRouter
 class WebinarVideoChatRouter(
     private val activity: WebinarVideoChatActivity
 ) : FragmentRouter(activity.supportFragmentManager),
+    NotesContract.Router,
     WebinarVideoChatContract.Router {
 
     override val containerId = activity.getContainerId()
@@ -34,11 +39,11 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToChatInProgress() {
-
+        activity.supportFragmentManager.replace(containerId, WebinarVideoChatInProgressFragment())
     }
 
     override fun navigateToChatFinishScreen() {
-        TODO("Not yet implemented")
+        activity.supportFragmentManager.replace(containerId, WebinarFinishedFragment())
     }
 
     override fun navigateUserChatOptions() {
@@ -54,7 +59,7 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToPermissionsRequiredDialog(resultCode: WebinarVideoChatActivity.ResultStatus) {
-        TODO("Not yet implemented")
+        finishWithResult(resultCode)
     }
 
     override fun navigateToQuestions(groupId: Long) {
@@ -66,7 +71,7 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToNotes(groupId: Long) {
-        TODO("Not yet implemented")
+        activity.supportFragmentManager.add(fullContainerId, NotesFragment.newInstance(groupId))
     }
 
     private fun finishWithResult(resultCode: WebinarVideoChatActivity.ResultStatus) {

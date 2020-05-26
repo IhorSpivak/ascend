@@ -16,6 +16,7 @@ interface WebinarVideoChatInProgressContract {
         val isAudioRecording: LiveData<Boolean>
         val isQuestionSent: LiveData<Boolean>
         val isMMConnected: LiveData<Boolean>
+        val isVisitor: LiveData<Boolean>
 
         //VideoChat
         val credentials: MutableLiveData<StartWebinarVideoModel>

@@ -12,7 +12,7 @@ fun WebinarQuestionResponse.toEntity(): WebinarQuestionEntity {
         updatedAt.toDate(),
         userId,
         fullName,
-        imageResponse.toEntity()
+        imageResponse?.toEntity()
     )
 }
 

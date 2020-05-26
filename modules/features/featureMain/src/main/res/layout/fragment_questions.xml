@@ -4,6 +4,11 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="adapter"
+            type="com.doneit.ascend.presentation.video_chat_webinar.questions.common.QuestionAdapter" />
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.video_chat_webinar.questions.QuestionContract.ViewModel" />
@@ -24,7 +29,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             app:layout_constraintTop_toTopOf="parent"
-            bind:title="@{@string/attachments}"
+            bind:title="@{@string/questions}"
             bind:backClick="@{(v) -> model.onBackClick()}"/>
 
         <androidx.recyclerview.widget.RecyclerView

@@ -605,4 +605,5 @@
     <!--Webinar Video Chat-->
     <string name="question_sent">Question Sent</string>
     <string name="ask_question_hint">Ask a question</string>
+    <string name="questions">Questions</string>
 </resources>

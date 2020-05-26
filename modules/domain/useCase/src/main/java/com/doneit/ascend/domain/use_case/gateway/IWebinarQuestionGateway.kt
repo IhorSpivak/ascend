@@ -16,7 +16,7 @@ interface IWebinarQuestionGateway {
 
     suspend fun delete(id: Long): ResponseEntity<Unit, List<String>>
 
-    val questionStream: LiveData<QuestionSocketEntity>
+    val questionStream: LiveData<QuestionSocketEntity?>
 
     fun connectToChannel(groupId: Long)
 

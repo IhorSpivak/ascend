@@ -22,16 +22,18 @@ class QuestionFragment: BaseFragment<FragmentQuestionsBinding>(){
         }
     }
 
+    private val adapter: QuestionAdapter by lazy { QuestionAdapter() }
+
     override val viewModel: QuestionContract.ViewModel by instance()
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
+        binding.rvQuestions.adapter = adapter
+
         viewModel.questions.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
     }
-
-    private val adapter: QuestionAdapter by lazy { QuestionAdapter() }
 
 }

@@ -31,6 +31,9 @@ class ParticipantOptionsFragment : BaseFragment<FragmentWebinarParticipantOption
         binding.ivReport.setOnClickListener {
             showReportAbuseDialog()
         }
+        binding.btnLeaveThisGroup.setOnClickListener{
+            viewModel.leaveGroup()
+        }
 
         if (savedInstanceState?.getBoolean(IS_DIALOG_SHOWN_KEY) == true) {
             showReportAbuseDialog()

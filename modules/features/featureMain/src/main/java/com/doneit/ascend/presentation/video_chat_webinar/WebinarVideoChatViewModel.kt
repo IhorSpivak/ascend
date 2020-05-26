@@ -4,6 +4,8 @@ import android.os.CountDownTimer
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.SocketEvent
+import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.dto.WebinarCredentialsDTO
 import com.doneit.ascend.domain.entity.dto.WebinarQuestionDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -29,6 +31,7 @@ import com.doneit.ascend.presentation.video_chat.VideoChatContract
 import com.doneit.ascend.presentation.video_chat.states.ChatRole
 import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.doneit.ascend.presentation.video_chat.states.VideoChatState
+import com.doneit.ascend.presentation.video_chat_webinar.finished.WebinarFinishedContract
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.WebinarVideoChatInProgressContract
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.owner_options.OwnerOptionsContract
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.participant_options.ParticipantOptionsContract
@@ -48,7 +51,8 @@ class WebinarVideoChatViewModel(
     private val webinarQuestionUseCase: WebinarQuestionUseCase
 ) : BaseViewModelImpl(), ParticipantOptionsContract.ViewModel,
     WebinarChatPreviewContract.ViewModel, WebinarVideoChatContract.ViewModel,
-    OwnerOptionsContract.ViewModel, QuestionContract.ViewModel, WebinarVideoChatInProgressContract.ViewModel {
+    OwnerOptionsContract.ViewModel, QuestionContract.ViewModel,
+    WebinarVideoChatInProgressContract.ViewModel, WebinarFinishedContract.ViewModel {
 
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
@@ -57,6 +61,7 @@ class WebinarVideoChatViewModel(
     override val isMMConnected: LiveData<Boolean> = MutableLiveData<Boolean>(false)
     override val isMuted = MutableLiveData<Boolean>()
     override val credentials = MutableLiveData<StartWebinarVideoModel>()
+    override val isVisitor = MutableLiveData<Boolean>()
 
     override fun switchVideoEnabledState() {
         TODO("Not yet implemented")
@@ -89,13 +94,18 @@ class WebinarVideoChatViewModel(
     private var currentUserId: String = Constants.DEFAULT_MODEL_ID.toString()
     private var downTimer: CountDownTimer? = null
     private var timer: Timer? = null
+
+    private val messages = groupUseCase.messagesStream
+    private val questionsStream = webinarQuestionUseCase.questionStream
     //endregion
 
     override val questions: LiveData<PagedList<WebinarQuestionEntity>> = groupInfo.switchMap {
-        webinarQuestionUseCase.getWebinarQuestionLive(groupId, WebinarQuestionDTO(
-            1,
-            10
-        ))
+        webinarQuestionUseCase.getWebinarQuestionLive(
+            groupId, WebinarQuestionDTO(
+                1,
+                10
+            )
+        )
     }
 
     private lateinit var observer: Observer<QuestionSocketEntity?>
@@ -181,8 +191,10 @@ class WebinarVideoChatViewModel(
         if (groupEntity != null && creds != null) {
             chatRole =
                 if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
+                    isVisitor.postValue(false)
                     ChatRole.OWNER
                 } else {
+                    isVisitor.postValue(true)
                     ChatRole.VISITOR
                 }
             credentials.postValue(
@@ -192,6 +204,8 @@ class WebinarVideoChatViewModel(
                 )
             )
             changeState(VideoChatState.PREVIEW_DATA_LOADED)
+            messages.observeForever(groupObserver)
+            questionsStream.observeForever(questionObserver)
         }
     }
 
@@ -231,7 +245,7 @@ class WebinarVideoChatViewModel(
         }
     }
 
-    fun onOkClick() {
+    override fun onOkClick() {
         navigation.postValue(WebinarVideoChatContract.Navigation.FINISH_ACTIVITY)
     }
 
@@ -246,7 +260,7 @@ class WebinarVideoChatViewModel(
     }
 
     override fun leaveGroup() {
-        TODO("Not yet implemented")
+        navigation.postValue(WebinarVideoChatContract.Navigation.FINISH_ACTIVITY)
     }
 
     override fun report(content: String, participantId: String) {
@@ -299,11 +313,14 @@ class WebinarVideoChatViewModel(
 
     override fun onCleared() {
         clearChatResources()
+        messages.removeObserver(groupObserver)
+        questionsStream.removeObserver(questionObserver)
         super.onCleared()
     }
 
     private fun clearChatResources() {
         groupUseCase.disconnect()
+        webinarQuestionUseCase.disconnect()
         downTimer?.cancel()
         timer?.cancel()
     }
@@ -338,6 +355,7 @@ class WebinarVideoChatViewModel(
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_PREVIEW)
             }
             VideoChatState.PROGRESS -> {
+                webinarQuestionUseCase.connectToChannel(groupId)
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_IN_PROGRESS)
             }
             VideoChatState.FINISHED -> {
@@ -422,27 +440,42 @@ class WebinarVideoChatViewModel(
         }
     }
 
-    private fun getMessageObserver(chatId: Long): Observer<QuestionSocketEntity?> {
-        return Observer { socketEvent ->
-            socketEvent?.let {
-                when (socketEvent.event) {
-                    QuestionSocketEvent.CREATE -> {
-                        val question = socketEvent.toEntity()
-                        question.let {
-                            webinarQuestionUseCase.insertMessage(it)
-                        }
-                    }
-                    QuestionSocketEvent.UPDATE -> {
-
-                    }
-                    QuestionSocketEvent.DESTROY -> {
-
-                    }
-                    else -> {
-                        throw IllegalArgumentException("unknown socket type")
+    private val questionObserver = Observer<QuestionSocketEntity?> { socketEvent ->
+        socketEvent?.let {
+            when (socketEvent.event) {
+                QuestionSocketEvent.CREATE -> {
+                    val question = socketEvent.toEntity()
+                    question.let {
+                        webinarQuestionUseCase.insertMessage(it)
                     }
                 }
+                QuestionSocketEvent.UPDATE -> {
+
+                }
+                QuestionSocketEvent.DESTROY -> {
+
+                }
+                else -> {
+                    throw IllegalArgumentException("unknown socket type")
+                }
             }
+        }
+    }
+
+    private val groupObserver = Observer<SocketEventEntity> { socketEvent ->
+        when (socketEvent.event) {
+            SocketEvent.GROUP_STARTED -> {
+                groupInfo.value?.let {
+                    groupUseCase.updateGroupLocal(
+                        it.copy(
+                            GroupStatus.STARTED
+                        )
+                    )
+                }
+                refetchGroupInfo()
+                changeState(VideoChatState.PROGRESS)
+            }
+            else -> Unit
         }
     }
 

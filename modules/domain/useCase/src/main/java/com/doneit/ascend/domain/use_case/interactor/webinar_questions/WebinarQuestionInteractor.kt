@@ -32,8 +32,19 @@ class WebinarQuestionInteractor(
         return gateway.delete(id)
     }
 
+    override val questionStream = gateway.questionStream
+    override fun connectToChannel(groupId: Long) {
+        gateway.connectToChannel(groupId)
+    }
+
+    override fun disconnect() {
+        gateway.disconnect()
+    }
+
     override fun insertMessage(questionEntity: WebinarQuestionEntity) {
         return gateway.insertQuestion(questionEntity)
     }
+
+
 
 }

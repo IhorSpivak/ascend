@@ -88,8 +88,8 @@ class WebinarQuestionGateway(
         TODO("Not yet implemented")
     }
 
-    override val questionStream: LiveData<QuestionSocketEntity> =
-        remoteSocket.questionStream.map { it.toEntity() }
+    override val questionStream: LiveData<QuestionSocketEntity?> =
+        remoteSocket.questionStream.map { it?.toEntity() }
 
     override
     fun connectToChannel(groupId: Long) {
