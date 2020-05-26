@@ -15,8 +15,8 @@ internal class GroupInteractor(
     private val groupGateway: IGroupGateway
 ) : GroupUseCase {
 
-    override suspend fun createGroup(groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>> {
-        return groupGateway.createGroup(groupDTO)
+    override suspend fun createGroup(groupDTO: CreateGroupDTO, groupCredentialsDTO: GroupCredentialsDTO?): ResponseEntity<GroupEntity, List<String>> {
+        return groupGateway.createGroup(groupDTO, groupCredentialsDTO)
     }
 
     override suspend fun updateGroup(id: Long, groupDTO: UpdateGroupDTO): ResponseEntity<GroupEntity, List<String>> {

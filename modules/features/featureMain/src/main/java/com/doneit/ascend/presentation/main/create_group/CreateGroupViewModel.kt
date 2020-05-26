@@ -214,6 +214,8 @@ class CreateGroupViewModel(
             } else {
                 createGroupModel.toEntity()
             }
+
+            //TODO: Create live stream for webinar
             val requestEntity =
                 groupUseCase.createGroup(groupTypeRequest)
 

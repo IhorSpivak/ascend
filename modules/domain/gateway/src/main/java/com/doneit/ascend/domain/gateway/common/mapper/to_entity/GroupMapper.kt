@@ -110,10 +110,10 @@ fun String.toGroupType(): GroupType? {
 }
 
 fun GroupCredentialsResponse.toEntity(): GroupCredentialsDTO {
-    return GroupCredentialsDTO(
-        name,
-        token
-    )
+    return when {
+        link.isNullOrEmpty() -> GroupCredentialsDTO.TwilioCredentialsDTO(name ?: "", token ?: "")
+        else -> GroupCredentialsDTO.VimeoCredentialsDTO(chatId ?: "", link ?: "", key ?: "")
+    }
 }
 
 fun WebinarCredentialsResponse.toEntity(): WebinarCredentialsDTO {

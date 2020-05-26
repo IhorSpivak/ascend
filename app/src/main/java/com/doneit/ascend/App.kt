@@ -3,6 +3,7 @@ package com.doneit.ascend
 import android.app.Application
 import android.util.Log
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
 import com.doneit.ascend.retrofit.common.RetrofitConfig
 import com.google.firebase.FirebaseApp
 import com.stripe.android.PaymentConfiguration
@@ -25,6 +26,8 @@ class App : Application(), KodeinAware {
 
     override fun onCreate() {
         super.onCreate()
+
+        VideoChatUtils.init(this)
 
         val config: TwitterConfig = TwitterConfig.Builder(this)
             .logger(DefaultLogger(Log.DEBUG)) //enable logging when app is in debug mode
