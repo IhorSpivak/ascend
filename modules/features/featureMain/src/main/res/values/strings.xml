@@ -552,6 +552,7 @@
     <string name="no_chats">No chats</string>
     <string name="no_blocked_users">No Blocked Users</string>
     <string name="no_messages">No Messages</string>
+    <string name="no_questions">No Questions</string>
     <string name="no_messages_yet">No Messages yet</string>
     <string name="new_chat_members_counter">%d/50 members</string>
     <string name="new_chat_add_members">Add More</string>

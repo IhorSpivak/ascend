@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentQuestionsBinding
+import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatViewModel
 import com.doneit.ascend.presentation.video_chat_webinar.questions.common.QuestionAdapter
+import kotlinx.android.synthetic.main.fragment_my_chats.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -32,6 +34,7 @@ class QuestionFragment: BaseFragment<FragmentQuestionsBinding>(){
         binding.rvQuestions.adapter = adapter
 
         viewModel.questions.observe(viewLifecycleOwner, Observer {
+            emptyList.visible(it.isNullOrEmpty())
             adapter.submitList(it)
         })
     }
