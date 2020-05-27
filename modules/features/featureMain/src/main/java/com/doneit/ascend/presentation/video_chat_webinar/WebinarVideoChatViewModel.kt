@@ -26,8 +26,6 @@ import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.extensions.toMinutesFormat
 import com.doneit.ascend.presentation.utils.extensions.toTimerFormat
 import com.doneit.ascend.presentation.utils.extensions.toVideoChatTimerFormat
-import com.doneit.ascend.presentation.video_chat.VideoChatActivity
-import com.doneit.ascend.presentation.video_chat.VideoChatContract
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
 import com.doneit.ascend.presentation.video_chat.states.ChatRole
 import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
@@ -204,8 +202,8 @@ class WebinarVideoChatViewModel(
         }
     }
 
-    override fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus) {
-        VideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG.data.putInt(
+    override fun onPermissionsRequired(resultCode: WebinarVideoChatActivity.ResultStatus) {
+        WebinarVideoChatContract.Navigation.TO_PERMISSIONS_REQUIRED_DIALOG.data.putInt(
             ACTIVITY_RESULT_KEY,
             resultCode.ordinal
         )
@@ -277,7 +275,7 @@ class WebinarVideoChatViewModel(
 
     override fun onParticipantClick(id: String) {
         if (chatRole == ChatRole.OWNER) {
-            VideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS.data.putString(USER_ID_KEY, id)
+            WebinarVideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS.data.putString(USER_ID_KEY, id)
             navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS)
         }
     }
@@ -287,12 +285,16 @@ class WebinarVideoChatViewModel(
     }
 
     override fun onNotesClick() {
-        VideoChatContract.Navigation.TO_NOTES.data.putLong(GROUP_ID_KEY, groupId)
+        WebinarVideoChatContract.Navigation.TO_NOTES.data.putLong(GROUP_ID_KEY, groupId)
         navigation.postValue(WebinarVideoChatContract.Navigation.TO_NOTES)
     }
 
     override fun onChatClick() {
-        TODO("Not yet implemented")
+        credentials.value?.let {
+            WebinarVideoChatContract.Navigation.TO_CHAT.data.putLong(CHAT_ID_KEY, it.chatId)
+            navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT)
+        }
+
     }
 
     override fun onQuestionsClick() {
@@ -417,6 +419,7 @@ class WebinarVideoChatViewModel(
         private const val PARTICIPANTS_RESYNC_DELAY = 10 * 1000L
 
         const val GROUP_ID_KEY = "GROUP_ID_KEY"
+        const val CHAT_ID_KEY = "CHAT_ID_KEY"
         const val USER_ID_KEY = "USER_ID_KEY"
         const val ACTIVITY_RESULT_KEY = "ACTIVITY_RESULT_KEY"
 

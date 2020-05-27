@@ -34,7 +34,7 @@ interface WebinarVideoChatContract {
         fun navigateToChatParticipantActions(userId: String)
         fun navigateToPermissionsRequiredDialog(resultCode: WebinarVideoChatActivity.ResultStatus)
         fun navigateToQuestions(groupId: Long)
-        fun navigateToChat(groupId: Long)
+        fun navigateToChat(chatId: Long)
         fun navigateToNotes(groupId: Long)
     }
 

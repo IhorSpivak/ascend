@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
-import com.doneit.ascend.presentation.video_chat.VideoChatActivity
+import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivity
 import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewModelDelegate
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
@@ -26,6 +26,6 @@ interface WebinarVideoChatInProgressContract {
 
         fun onOpenOptions()
         fun createQuestion(question: String)
-        fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus)
+        fun onPermissionsRequired(resultCode: WebinarVideoChatActivity.ResultStatus)
     }
 }

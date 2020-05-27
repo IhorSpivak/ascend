@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.content.Intent
+import com.doneit.ascend.presentation.main.chats.chat.ChatContract
+import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes.NotesContract
@@ -17,7 +19,7 @@ class WebinarVideoChatRouter(
     private val activity: WebinarVideoChatActivity
 ) : FragmentRouter(activity.supportFragmentManager),
     NotesContract.Router,
-    WebinarVideoChatContract.Router {
+    WebinarVideoChatContract.Router, ChatContract.Router {
 
     override val containerId = activity.getContainerId()
     private val fullContainerId = activity.getFullContainerId()
@@ -66,8 +68,8 @@ class WebinarVideoChatRouter(
         activity.supportFragmentManager.add(fullContainerId, QuestionFragment())
     }
 
-    override fun navigateToChat(groupId: Long) {
-        TODO("Not yet implemented")
+    override fun navigateToChat(chatId: Long) {
+        activity.supportFragmentManager.add(fullContainerId, ChatFragment.getInstance(chatId))
     }
 
     override fun navigateToNotes(groupId: Long) {
