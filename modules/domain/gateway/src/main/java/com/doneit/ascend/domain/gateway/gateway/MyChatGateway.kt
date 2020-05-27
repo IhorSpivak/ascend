@@ -25,6 +25,7 @@ import com.doneit.ascend.source.storage.remote.repository.chats.IMyChatsReposito
 import com.doneit.ascend.source.storage.remote.repository.chats.socket.IChatSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 
@@ -62,6 +63,38 @@ class MyChatGateway(
 
             boundary.loadInitial()
         }
+
+    override suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>> {
+        val result = executeRemote {
+            remote.getChatDetails(id)
+        }.toResponseEntity(
+            {
+                it?.toEntity()
+
+            },
+            {
+                it?.errors
+            }
+        )
+        if (result.isSuccessful) {
+            val chatEntity = result.successModel!!
+            coroutineScope {
+
+                launch {
+                    val membersResponse =
+                        remote.getMembers(chatEntity.id, MemberListDTO(perPage = 50).toRequest(1))
+                    if (membersResponse.isSuccessful) {
+                        val memberModel =
+                            membersResponse.successModel!!.users?.map { it.toEntity() }
+                        chatEntity.members = memberModel
+                    }
+                }
+            }
+            local.insert(chatEntity.toLocal())
+        }
+
+        return result
+    }
 
     override fun getMessages(
         chatId: Long,
@@ -390,7 +423,7 @@ class MyChatGateway(
 
     override suspend fun getUnreadMessageCount(): Long {
         val result = executeRemote { remote.getUnreadMessageCount() }
-        return if(result.isSuccessful){
+        return if (result.isSuccessful) {
             result.successModel?.unreadMessageCount ?: 0
         } else {
             0

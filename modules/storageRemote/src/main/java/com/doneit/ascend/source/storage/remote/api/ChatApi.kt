@@ -22,6 +22,11 @@ interface ChatApi {
         @Query("updated_at_to") updatedAtTo: String?
     ): Deferred<Response<MyChatsListResponse>>
 
+    @GET("chats/{id}")
+    fun getChatDetailAsync(
+        @Path("id") id: Long
+    ): Deferred<Response<ChatResponse>>
+
     @POST("chats")
     fun createChatAsync(@Body request: CreateChatRequest): Deferred<Response<ChatResponse>>
 

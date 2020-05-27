@@ -166,7 +166,7 @@ class MainRouter(
     private val containerIdFull = activity.getContainerIdFull()
     override fun onBackWithOpenChat(chat: ChatEntity) {
         activity.supportFragmentManager.popBackStack()
-        replaceFullWithMainUpdate(ChatFragment.getInstance(chat))
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chat.id))
     }
 
 
@@ -174,8 +174,8 @@ class MainRouter(
         activity.supportFragmentManager.popBackStack()
     }
 
-    override fun navigateToChat(chat: ChatEntity) {
-        replaceFullWithMainUpdate(ChatFragment.getInstance(chat))
+    override fun navigateToChat(id: Long) {
+        replaceFullWithMainUpdate(ChatFragment.getInstance(id))
     }
 
     override fun navigateToNewChat() {

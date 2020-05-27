@@ -21,7 +21,7 @@ interface ChatContract {
 
         fun markMessageAsRead(message: MessageEntity)
         fun applyData(chat: ChatEntity?, user: UserEntity? = null)
-        fun setChat(chat: ChatEntity)
+        fun setChat(id: Long)
         fun initMessageStream()
         fun updateChatName(newName: String)
         fun sendMessage(message: String)

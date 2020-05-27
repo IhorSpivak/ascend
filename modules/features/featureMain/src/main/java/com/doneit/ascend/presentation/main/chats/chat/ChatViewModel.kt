@@ -87,11 +87,19 @@ class ChatViewModel(
         }
     }
 
-    override fun setChat(chat: ChatEntity) {
-        chatUseCase.connectToChannel(chat.id)
-        observer = getMessageObserver(chat.id)
+    override fun setChat(id: Long) {
+        chatUseCase.connectToChannel(id)
+        observer = getMessageObserver(id)
         initMessageStream()
-        chatModel.postValue(chat)
+        viewModelScope.launch {
+            val response = chatUseCase.getChatDetails(id)
+
+            if(response.isSuccessful){
+                response.successModel?.let {
+                    chatModel.postValue(it)
+                }
+            }
+        }
     }
 
     override fun initMessageStream() {

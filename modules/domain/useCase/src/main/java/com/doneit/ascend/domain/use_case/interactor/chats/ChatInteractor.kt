@@ -21,6 +21,10 @@ class ChatInteractor(
         return chatGateway.getMessages(chatId, request)
     }
 
+    override suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>> {
+        return chatGateway.getChatDetails(id)
+    }
+
     override fun getMemberList(chatId: Long, request: MemberListDTO): LiveData<PagedList<MemberEntity>> {
         return chatGateway.getMembers(chatId, request)
     }

@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
@@ -240,17 +239,17 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
     override fun onResume() {
         super.onResume()
-        arguments?.getParcelable<ChatEntity>(CHAT_KEY)?.let {
+        arguments?.getLong(CHAT_KEY)?.let {
             viewModel.setChat(it)
         }
     }
 
     companion object {
         const val CHAT_KEY = "chat"
-        fun getInstance(chat: ChatEntity): ChatFragment {
+        fun getInstance(id: Long): ChatFragment {
             return ChatFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(CHAT_KEY, chat)
+                    putLong(CHAT_KEY, id)
                 }
             }
         }

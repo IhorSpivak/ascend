@@ -8,6 +8,8 @@ import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListRe
 interface IMyChatsRepository {
     suspend fun getMyChats(request: MyChatsListRequest): RemoteResponse<MyChatsListResponse, ErrorsListResponse>
 
+    suspend fun getChatDetails(id: Long): RemoteResponse<ChatResponse, ErrorsListResponse>
+
     suspend fun getMessages(id: Long, request: MessageListRequest): RemoteResponse<MessagesListResponse, ErrorsListResponse>
 
     suspend fun getMembers(id: Long, request: MemberListRequest): RemoteResponse<MemberListResponse, ErrorsListResponse>

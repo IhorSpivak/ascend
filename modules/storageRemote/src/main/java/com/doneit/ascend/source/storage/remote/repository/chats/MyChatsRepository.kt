@@ -28,6 +28,14 @@ internal class MyChatsRepository(
         }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun getChatDetails(id: Long): RemoteResponse<ChatResponse, ErrorsListResponse> {
+        return execute({
+            api.getChatDetailAsync(
+                id
+            )
+        }, ErrorsListResponse::class.java)
+    }
+
     override suspend fun getMessages(
         id: Long,
         request: MessageListRequest
