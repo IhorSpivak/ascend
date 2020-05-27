@@ -28,9 +28,11 @@ import com.doneit.ascend.presentation.utils.extensions.toTimerFormat
 import com.doneit.ascend.presentation.utils.extensions.toVideoChatTimerFormat
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatContract
+import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
 import com.doneit.ascend.presentation.video_chat.states.ChatRole
 import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.doneit.ascend.presentation.video_chat.states.VideoChatState
+import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewModelDelegate
 import com.doneit.ascend.presentation.video_chat_webinar.finished.WebinarFinishedContract
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.WebinarVideoChatInProgressContract
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.owner_options.OwnerOptionsContract
@@ -63,6 +65,8 @@ class WebinarVideoChatViewModel(
     override val credentials = MutableLiveData<StartWebinarVideoModel>()
     override val isVisitor = MutableLiveData<Boolean>()
 
+    override var viewModelDelegate: VimeoChatViewModelDelegate? = null
+
     override fun switchVideoEnabledState() {
         TODO("Not yet implemented")
     }
@@ -87,7 +91,7 @@ class WebinarVideoChatViewModel(
 
     //region local
     private lateinit var chatState: VideoChatState
-    private var chatRole: ChatRole? = null
+    var chatRole: ChatRole? = null
     private var chatStrategy = ChatStrategy.DOMINANT_SPEAKER
 
     private var groupId: Long = Constants.DEFAULT_MODEL_ID
@@ -188,22 +192,13 @@ class WebinarVideoChatViewModel(
         creds: WebinarCredentialsDTO?,
         currentUser: UserEntity?
     ) {
+
         if (groupEntity != null && creds != null) {
-            chatRole =
-                if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
-                    isVisitor.postValue(false)
-                    ChatRole.OWNER
-                } else {
-                    isVisitor.postValue(true)
-                    ChatRole.VISITOR
-                }
-            credentials.postValue(
-                StartWebinarVideoModel(
-                    chatRole!!,
-                    creds.chatId
-                )
-            )
-            changeState(VideoChatState.PREVIEW_DATA_LOADED)
+            if (viewModelDelegate == null)
+                viewModelDelegate = VideoChatUtils.vimeoViewModelDelegate(this)
+            viewModelDelegate!!.initializeChatState(groupEntity, creds, currentUser)
+
+
             messages.observeForever(groupObserver)
             questionsStream.observeForever(questionObserver)
         }
@@ -240,7 +235,7 @@ class WebinarVideoChatViewModel(
     }
 
     override fun switchCamera() {
-        if (cameraSources.size > 1) {
+        if (viewModelDelegate?.getCameraCount() ?: 0 > 1) {
             switchCameraEvent.call()
         }
     }
@@ -321,6 +316,7 @@ class WebinarVideoChatViewModel(
     private fun clearChatResources() {
         groupUseCase.disconnect()
         webinarQuestionUseCase.disconnect()
+        viewModelDelegate?.clearChatResources()
         downTimer?.cancel()
         timer?.cancel()
     }
@@ -332,7 +328,7 @@ class WebinarVideoChatViewModel(
         }
     }
 
-    private fun changeState(newState: VideoChatState) {
+    fun changeState(newState: VideoChatState) {
         chatState = newState
         when (chatState) {
             VideoChatState.PREVIEW -> {

@@ -26,14 +26,10 @@ import com.doneit.ascend.presentation.utils.extensions.toMinutesFormat
 import com.doneit.ascend.presentation.utils.extensions.toTimerFormat
 import com.doneit.ascend.presentation.utils.extensions.toVideoChatTimerFormat
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
-import com.doneit.ascend.presentation.video_chat.delegates.VideoChatViewModelDelegate
 import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewModelDelegate
-import com.doneit.ascend.presentation.video_chat.delegates.vimeo.VimeoChatViewModelDelegate
 import com.doneit.ascend.presentation.video_chat.finished.ChatFinishedContract
 import com.doneit.ascend.presentation.video_chat.in_progress.ChatInProgressContract
 import com.doneit.ascend.presentation.video_chat.in_progress.mm_options.MMChatOptionsContract
-import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RoomListener
-import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RoomMultilistener
 import com.doneit.ascend.presentation.video_chat.in_progress.user_actions.ChatParticipantActionsContract
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.UserChatOptionsContract
 import com.doneit.ascend.presentation.video_chat.preview.ChatPreviewContract
@@ -75,7 +71,7 @@ class VideoChatViewModel(
     override val finishingLabel = MutableLiveData<String>()
     //endregion
 
-    override var viewModelDelegate: VideoChatViewModelDelegate? = null
+    override var viewModelDelegate: TwilioChatViewModelDelegate? = null
 
     //region chat parameters
     var _IsMMConnected: Boolean = false
@@ -86,10 +82,8 @@ class VideoChatViewModel(
     override val isMMConnected = MutableLiveData<Boolean>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
 
-    //private val _isAudioEnabled = MutableLiveData<Boolean>()
     override val isAudioRecording = MediatorLiveData<Boolean>()
 
-    //override val isAudioEnabled = MutableLiveData<Boolean>()
     override val isMuted = MutableLiveData<Boolean>()
     override val isAllMuted = Transformations.switchMap(participants) {
         if (it.all { it.isMuted }) {
@@ -117,10 +111,6 @@ class VideoChatViewModel(
     //endregion
 
     init {
-        /*isAudioRecording.addSource(isAudioEnabled) {
-            isAudioRecording.value = it && (isMuted.value ?: false).not()
-        }
-*/
         isAudioRecording.addSource(isMuted) {
             isAudioRecording.value = it.not()
         }
@@ -319,7 +309,7 @@ class VideoChatViewModel(
     ) {
         if (groupEntity != null && creds != null) {
             if (viewModelDelegate == null)
-                viewModelDelegate = VideoChatUtils.newViewModelDelegate(this, creds)
+                viewModelDelegate = VideoChatUtils.twillioViewModelDelegate(this)
 
             viewModelDelegate?.initializeChatState(groupEntity, creds, currentUser)
         }

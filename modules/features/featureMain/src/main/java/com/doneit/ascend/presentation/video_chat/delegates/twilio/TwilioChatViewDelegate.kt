@@ -6,7 +6,6 @@ import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.extensions.show
 import com.doneit.ascend.presentation.utils.extensions.visible
-import com.doneit.ascend.presentation.video_chat.delegates.VideoChatViewDelegate
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantListener
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RoomListener
 import com.twilio.video.*
@@ -14,7 +13,7 @@ import com.twilio.video.*
 class TwilioChatViewDelegate(
     private val viewModelDelegate: TwilioChatViewModelDelegate,
     private var placeholder: View?
-) : VideoChatViewDelegate {
+) : ITwilioChatViewDelegate {
 
     private val roomListener = getActivityRoomListener()
     //region video chat
@@ -80,6 +79,11 @@ class TwilioChatViewDelegate(
                 showPlaceholder()
             }
         }
+    }
+
+    override fun startSelfViewVideo(model: StartVideoModel) {
+        if (model !is StartVideoModel.TwilioVideoModel || fragment == null) return
+        viewModelDelegate.startVideo(fragment!!, model, audioCodec, videoCodec)
     }
 
     private fun getSpeakerListener(): RemoteParticipantListener {

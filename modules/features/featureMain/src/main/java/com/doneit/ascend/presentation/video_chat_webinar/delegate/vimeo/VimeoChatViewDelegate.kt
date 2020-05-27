@@ -1,15 +1,15 @@
-package com.doneit.ascend.presentation.video_chat.delegates.vimeo
+package com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo
 
 import android.view.View
+import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.models.StartVideoModel
-import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
-import com.doneit.ascend.presentation.video_chat.delegates.VideoChatViewDelegate
 
 class VimeoChatViewDelegate(
-    private val viewModelDelegate: VimeoChatViewModelDelegate,
+    private val viewModelDelegate: IVimeoChatViewModelDelegate?,
     private var placeholder: View?
-) : VideoChatViewDelegate {
+) : IVimeoChatViewDelegate{
 
+    var fragment: Fragment? = null
 
     override fun startVideo(model: StartVideoModel) {
         //TODO("Not yet implemented")
@@ -35,7 +35,7 @@ class VimeoChatViewDelegate(
         //TODO("Not yet implemented")
     }
 
-    override fun startVideoDisplay(chatParticipant: PresentationChatParticipant) {
+    override fun startVideoDisplay() {
         //TODO("Not yet implemented")
     }
 
@@ -47,4 +47,7 @@ class VimeoChatViewDelegate(
         //TODO("Not yet implemented")
     }
 
+    override fun startSelfViewVideo(model: StartVideoModel) {
+        //TODO("Not yet implemented")
+    }
 }

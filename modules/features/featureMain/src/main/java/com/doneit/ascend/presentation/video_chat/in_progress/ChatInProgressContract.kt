@@ -6,7 +6,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
-import com.doneit.ascend.presentation.video_chat.delegates.VideoChatViewModelDelegate
+import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewModelDelegate
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface ChatInProgressContract {
@@ -21,7 +21,7 @@ interface ChatInProgressContract {
         //VideoChat
         val credentials: LiveData<StartVideoModel>
         val switchCameraEvent: SingleLiveManager<Unit>
-        var viewModelDelegate: VideoChatViewModelDelegate?
+        var viewModelDelegate: TwilioChatViewModelDelegate?
 
         fun onOpenOptions()
         fun onPermissionsRequired(resultCode: VideoChatActivity.ResultStatus)

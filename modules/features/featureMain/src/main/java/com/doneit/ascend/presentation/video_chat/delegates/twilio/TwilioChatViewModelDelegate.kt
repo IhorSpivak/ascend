@@ -7,7 +7,6 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.models.toPresentation
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
-import com.doneit.ascend.presentation.video_chat.delegates.VideoChatViewModelDelegate
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RoomListener
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RoomMultilistener
 import com.doneit.ascend.presentation.video_chat.states.ChatRole
@@ -15,8 +14,8 @@ import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.doneit.ascend.presentation.video_chat.states.VideoChatState
 import com.twilio.video.*
 
-class TwilioChatViewModelDelegate(viewModel: VideoChatViewModel) :
-    VideoChatViewModelDelegate(viewModel) {
+class TwilioChatViewModelDelegate(val viewModel: VideoChatViewModel) :
+    ITwilioChatViewModelDelegate {
     val roomListener = RoomMultilistener()
     val cameraSources: List<CameraCapturer.CameraSource>
 
@@ -55,8 +54,6 @@ class TwilioChatViewModelDelegate(viewModel: VideoChatViewModel) :
         creds: GroupCredentialsDTO?,
         currentUser: UserEntity?
     ) {
-        if (creds !is GroupCredentialsDTO.TwilioCredentialsDTO) return
-
         viewModel.chatRole =
             if (currentUser!!.isMasterMind && groupEntity!!.owner!!.id == currentUser.id) {
                 ChatRole.OWNER
@@ -67,7 +64,7 @@ class TwilioChatViewModelDelegate(viewModel: VideoChatViewModel) :
         viewModel.credentials.postValue(
             StartVideoModel.TwilioVideoModel(
                 viewModel.chatRole!!,
-                creds.name,
+                creds!!.name,
                 creds.token
             )
         )
@@ -207,6 +204,10 @@ class TwilioChatViewModelDelegate(viewModel: VideoChatViewModel) :
                     roomListener
                 )
         }
+    }
+
+    fun startSelfView(fragment: Fragment) {
+
     }
 
     fun switchCamera() {

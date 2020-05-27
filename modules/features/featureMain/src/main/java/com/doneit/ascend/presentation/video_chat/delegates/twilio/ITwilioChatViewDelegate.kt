@@ -1,9 +1,9 @@
-package com.doneit.ascend.presentation.video_chat.delegates
+package com.doneit.ascend.presentation.video_chat.delegates.twilio
 
 import com.doneit.ascend.presentation.models.StartVideoModel
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 
-interface VideoChatViewDelegate {
+interface ITwilioChatViewDelegate {
     fun startVideo(model: StartVideoModel)
     fun clearRenderers()
     fun enableVideo(isEnable: Boolean)
@@ -13,4 +13,5 @@ interface VideoChatViewDelegate {
     fun startVideoDisplay(chatParticipant: PresentationChatParticipant)
     fun showPlaceholder()
     fun switchCamera()
+    fun startSelfViewVideo(model: StartVideoModel)
 }

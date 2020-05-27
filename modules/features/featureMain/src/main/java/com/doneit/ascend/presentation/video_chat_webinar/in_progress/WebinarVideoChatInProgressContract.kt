@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
+import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewModelDelegate
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 
@@ -21,6 +22,7 @@ interface WebinarVideoChatInProgressContract {
         //VideoChat
         val credentials: MutableLiveData<StartWebinarVideoModel>
         val switchCameraEvent: SingleLiveManager<Unit>
+        var viewModelDelegate: VimeoChatViewModelDelegate?
 
         fun onOpenOptions()
         fun createQuestion(question: String)

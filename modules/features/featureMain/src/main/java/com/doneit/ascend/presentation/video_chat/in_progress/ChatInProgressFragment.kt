@@ -8,7 +8,6 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatBinding
@@ -18,11 +17,7 @@ import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
-import com.doneit.ascend.presentation.video_chat.delegates.VideoChatViewDelegate
-import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewDelegate
-import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewModelDelegate
-import com.doneit.ascend.presentation.video_chat.delegates.vimeo.VimeoChatViewDelegate
-import com.doneit.ascend.presentation.video_chat.delegates.vimeo.VimeoChatViewModelDelegate
+import com.doneit.ascend.presentation.video_chat.delegates.twilio.ITwilioChatViewDelegate
 import kotlinx.android.synthetic.main.fragment_video_chat.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -42,7 +37,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     override val viewModel by instance<ChatInProgressContract.ViewModel>()
 
-    private var delegate: VideoChatViewDelegate? = null
+    private var delegate: ITwilioChatViewDelegate? = null
 
     //region audio
     private val audioManager by lazy {
@@ -62,13 +57,11 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        delegate = VideoChatUtils.newViewDelegate(viewModel.viewModelDelegate, placeholder, {
+        delegate = VideoChatUtils.newTwilioViewModelDelegate(viewModel.viewModelDelegate, placeholder) {
             fragment = this@ChatInProgressFragment
             configureAudio = this@ChatInProgressFragment::configureAudio
             videoView = this@ChatInProgressFragment.videoView
-        }, {
-            //TODO: Setup view for Vimeo
-        })
+        }
 
         viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
             delegate?.enableVideo(it)

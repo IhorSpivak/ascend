@@ -50,17 +50,22 @@ internal class GroupGateway(
     override val messagesStream =
         remoteSocket.messagesStream.map { it.toEntity() }//todo remove deprecation
 
-    override suspend fun createGroup(groupDTO: CreateGroupDTO, credentialsDTO: GroupCredentialsDTO?): ResponseEntity<GroupEntity, List<String>> {
+    override suspend fun createGroup(
+        groupDTO: CreateGroupDTO,
+        credentialsDTO: WebinarCredentialsDTO?
+    ): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
             val result = remote.createGroup(
                 File(groupDTO.imagePath ?: ""),
                 groupDTO.toCreateGroupRequest()
             )
 
-            if (result.isSuccessful
-                && groupDTO.groupType == GroupType.WEBINAR.toString()
-                && credentialsDTO is GroupCredentialsDTO.VimeoCredentialsDTO) {
-                remote.setCredentials(result.successModel?.id ?: 0, credentialsDTO.key, credentialsDTO.link)
+            if (result.isSuccessful && groupDTO.groupType == GroupType.WEBINAR.toString() && credentialsDTO != null) {
+                remote.setCredentials(
+                    result.successModel?.id ?: 0,
+                    credentialsDTO.key!!,
+                    credentialsDTO.link!!
+                )
             }
 
             result
@@ -356,7 +361,7 @@ internal class GroupGateway(
     }
 
     override suspend fun getTags(): ResponseEntity<List<TagEntity>, List<String>> {
-        return executeRemote { remote.getTags()}.toResponseEntity(
+        return executeRemote { remote.getTags() }.toResponseEntity(
             {
                 it?.tags?.map { it.toEntity() }
             },

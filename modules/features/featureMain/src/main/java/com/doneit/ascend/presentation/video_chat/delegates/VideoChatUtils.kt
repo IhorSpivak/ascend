@@ -2,12 +2,13 @@ package com.doneit.ascend.presentation.video_chat.delegates
 
 import android.content.Context
 import android.view.View
-import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
 import com.doneit.ascend.presentation.video_chat.VideoChatViewModel
+import com.doneit.ascend.presentation.video_chat.delegates.twilio.ITwilioChatViewDelegate
 import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewDelegate
 import com.doneit.ascend.presentation.video_chat.delegates.twilio.TwilioChatViewModelDelegate
-import com.doneit.ascend.presentation.video_chat.delegates.vimeo.VimeoChatViewDelegate
-import com.doneit.ascend.presentation.video_chat.delegates.vimeo.VimeoChatViewModelDelegate
+import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatViewModel
+import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewDelegate
+import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewModelDelegate
 import com.vimeo.networking.Configuration
 import com.vimeo.networking.VimeoClient
 
@@ -23,32 +24,41 @@ object VideoChatUtils {
     }
 
 
-    fun newViewModelDelegate(
-        viewModel: VideoChatViewModel,
-        creds: GroupCredentialsDTO
-    ): VideoChatViewModelDelegate {
-        return when (creds) {
-            is GroupCredentialsDTO.TwilioCredentialsDTO -> TwilioChatViewModelDelegate(viewModel)
-            is GroupCredentialsDTO.VimeoCredentialsDTO -> VimeoChatViewModelDelegate(viewModel)
-        }
+    fun twillioViewModelDelegate(
+        viewModel: VideoChatViewModel
+    ): TwilioChatViewModelDelegate {
+        return TwilioChatViewModelDelegate(viewModel)
     }
 
-    fun newViewDelegate(
-        viewModelDelegate: VideoChatViewModelDelegate?,
+    fun vimeoViewModelDelegate(
+        viewModel: WebinarVideoChatViewModel
+    ): VimeoChatViewModelDelegate {
+        return VimeoChatViewModelDelegate(viewModel)
+    }
+
+    fun newVimeoViewModelDelegate(
+        viewModelDelegate: VimeoChatViewModelDelegate?,
         placeholder: View,
-        setupTwilio: TwilioChatViewDelegate.() -> Unit,
         setupVimeo: VimeoChatViewDelegate.() -> Unit
-    ): VideoChatViewDelegate? {
-        return when (viewModelDelegate) {
-            is TwilioChatViewModelDelegate -> TwilioChatViewDelegate(
-                viewModelDelegate,
-                placeholder
-            ).apply(setupTwilio)
-            is VimeoChatViewModelDelegate -> VimeoChatViewDelegate(
+    ): VimeoChatViewDelegate? {
+        return viewModelDelegate?.let {
+            VimeoChatViewDelegate(
                 viewModelDelegate,
                 placeholder
             ).apply(setupVimeo)
-            else -> null
+        }
+    }
+
+    fun newTwilioViewModelDelegate(
+        viewModelDelegate: TwilioChatViewModelDelegate?,
+        placeholder: View,
+        setupTwilio: TwilioChatViewDelegate.() -> Unit
+    ): ITwilioChatViewDelegate? {
+        return viewModelDelegate?.let {
+            TwilioChatViewDelegate(
+                viewModelDelegate,
+                placeholder
+            ).apply(setupTwilio)
         }
     }
 }

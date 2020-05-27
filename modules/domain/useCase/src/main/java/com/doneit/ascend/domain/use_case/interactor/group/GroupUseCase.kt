@@ -11,7 +11,7 @@ import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
 
 interface GroupUseCase {
-    suspend fun createGroup(groupDTO: CreateGroupDTO, groupCredentialsDTO: GroupCredentialsDTO? = null): ResponseEntity<GroupEntity, List<String>>
+    suspend fun createGroup(groupDTO: CreateGroupDTO, groupCredentialsDTO: WebinarCredentialsDTO? = null): ResponseEntity<GroupEntity, List<String>>
 
     suspend fun updateGroup(id : Long, groupDTO: UpdateGroupDTO): ResponseEntity<GroupEntity, List<String>>
 
