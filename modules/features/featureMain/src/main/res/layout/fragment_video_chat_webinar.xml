@@ -27,11 +27,11 @@
             android:id="@+id/videoView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="invisible"
             app:mirror="true"
             app:scaleType="balanced" />
 
@@ -53,12 +53,12 @@
                 android:textColor="@android:color/white"
                 android:textSize="32sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/mmIcon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/mmIcon"
-                app:layout_constraintVertical_chainStyle="packed"
                 app:layout_constraintVertical_bias="0.42"
+                app:layout_constraintVertical_chainStyle="packed"
                 tools:text="Fighting For Recovery" />
 
             <com.doneit.ascend.presentation.views.MasterMindIcon
@@ -66,10 +66,10 @@
                 android:layout_width="160dp"
                 android:layout_height="160dp"
                 android:layout_marginTop="32dp"
+                app:layout_constraintBottom_toTopOf="@id/tvName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTitle"
-                app:layout_constraintBottom_toTopOf="@id/tvName"
                 app:name="@{model.groupInfo.owner.fullName}"
                 app:url="@{model.groupInfo.owner.image.url}" />
 
@@ -85,10 +85,10 @@
                 android:text="@{model.isMMConnected? model.groupInfo.owner.fullName : @string/mm_disconnected(model.groupInfo.owner.fullName)}"
                 android:textColor="@{model.isMMConnected? @android:color/white : @color/error_color, default = @android:color/white}"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tvConnection"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/mmIcon"
-                app:layout_constraintBottom_toTopOf="@id/tvConnection"
                 tools:text="Emma Wilson" />
 
             <TextView
@@ -100,10 +100,10 @@
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
                 android:visibility="@{!model.isMMConnected}"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvName"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -111,66 +111,82 @@
             android:id="@+id/background"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@id/message"
             android:background="@drawable/bg_shadow_rounded"
             app:layout_constraintBottom_toBottomOf="@+id/message"
             app:layout_constraintEnd_toEndOf="@+id/send"
+            app:layout_constraintStart_toStartOf="@id/message"
             app:layout_constraintTop_toTopOf="@+id/message" />
 
         <EditText
-            android:textColor="@android:color/white"
-            android:alpha="0.4"
             android:id="@+id/message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="20dp"
+            android:alpha="0.4"
             android:background="@android:color/transparent"
             android:hint="@string/ask_question_hint"
-            android:textColorHint="@android:color/white"
             android:maxLength="500"
             android:maxLines="5"
             android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/send"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:textColor="@android:color/white"
-            android:padding="4dp"
             android:id="@+id/questionSent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_pink"
-            android:visibility="gone"
+            android:padding="4dp"
             android:text="@string/question_sent"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/send"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.constraintlayout.widget.Group
+            android:id="@+id/ask_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{model.isVisitor, default = gone}"
-            app:constraint_referenced_ids="send,background,message"
-            android:id="@+id/ask_question" />
+            app:constraint_referenced_ids="send,background,message" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_send"
-            android:padding="16dp"
-            android:tint="@android:color/white"
             android:alpha="0.4"
+            android:padding="16dp"
+            android:src="@drawable/ic_send"
+            android:tint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@id/message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/message"
             app:layout_constraintTop_toTopOf="@id/message" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvQuestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:focusable="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_max="350dp"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/template_webinar_question_transparent_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

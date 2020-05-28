@@ -37,10 +37,10 @@ class WebinarQuestionGateway(
         groupId: Long,
         request: WebinarQuestionDTO
     ): LiveData<PagedList<WebinarQuestionEntity>> {
-        return liveData<PagedList<WebinarQuestionEntity>> {
+        return liveData {
             val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
-                .setPageSize(request.perPage ?: 10)
+                .setEnablePlaceholders(true)
+                .setPageSize(request.perPage ?: 12)
                 .build()
             val factory = local.getAll().map { it.toEntity() }
 

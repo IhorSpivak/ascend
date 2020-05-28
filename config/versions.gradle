@@ -41,7 +41,7 @@ ext {
             kotlinJDK         : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             kotlinReflect     : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             lifecycle         : "android.arch.lifecycle:extensions:$lifecycle_version",
-            material          : "com.google.android.material:material:1.1.0-alpha07",
+            material          : "com.google.android.material:material:1.1.0-rc02",
             constraintlayout  : "androidx.constraintlayout:constraintlayout:2.0.0-alpha2",
             coroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
             multidex          : "com.android.support:multidex:$multidex_version",

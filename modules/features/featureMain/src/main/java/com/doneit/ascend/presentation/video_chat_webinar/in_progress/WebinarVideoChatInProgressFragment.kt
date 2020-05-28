@@ -6,12 +6,15 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatWebinarBinding
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatViewModel
 import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewDelegate
+import com.doneit.ascend.presentation.video_chat_webinar.in_progress.common.FourQuestionsAdapter
 import kotlinx.android.synthetic.main.fragment_video_chat.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -35,6 +38,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
     private val audioManager by lazy {
         activity!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     }
+    private val adapter: FourQuestionsAdapter by lazy { FourQuestionsAdapter() }
     private var previousAudioMode = 0
     private var previousMicrophoneMute = false
 
@@ -46,9 +50,19 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 binding.message.text.clear()
             }
         }
-        delegate = VideoChatUtils.newVimeoViewModelDelegate(viewModel.viewModelDelegate, placeholder) {
-            fragment = this@WebinarVideoChatInProgressFragment
-        }
+        binding.rvQuestions.adapter = adapter
+        (binding.rvQuestions.layoutManager as LinearLayoutManager).reverseLayout = true
+        delegate =
+            VideoChatUtils.newVimeoViewModelDelegate(viewModel.viewModelDelegate, placeholder) {
+                fragment = this@WebinarVideoChatInProgressFragment
+            }
+        observeEvents()
+    }
+
+    private fun observeEvents() {
+        viewModel.questions.observe(this, Observer {
+            adapter.submitList(it)
+        })
     }
 
     private fun configureAudio(enable: Boolean) {
@@ -90,4 +104,6 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             )
         }
     }
+
+
 }

@@ -2,7 +2,9 @@ package com.doneit.ascend.presentation.video_chat_webinar.in_progress
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivity
@@ -18,6 +20,7 @@ interface WebinarVideoChatInProgressContract {
         val isQuestionSent: LiveData<Boolean>
         val isMMConnected: LiveData<Boolean>
         val isVisitor: LiveData<Boolean>
+        val questions: LiveData<PagedList<WebinarQuestionEntity>>
 
         //VideoChat
         val credentials: MutableLiveData<StartWebinarVideoModel>
