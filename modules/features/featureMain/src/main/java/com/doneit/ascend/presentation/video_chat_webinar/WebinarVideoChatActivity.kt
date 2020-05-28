@@ -92,7 +92,7 @@ class WebinarVideoChatActivity : BaseActivity() {
                 router.navigateToPermissionsRequiredDialog(resultCode)
             }
             WebinarVideoChatContract.Navigation.TO_CHAT -> {
-                val groupId = action.data.getLong(WebinarVideoChatViewModel.GROUP_ID_KEY)
+                val groupId = action.data.getLong(WebinarVideoChatViewModel.CHAT_ID_KEY)
                 router.navigateToChat(groupId)
             }
             WebinarVideoChatContract.Navigation.TO_NOTES -> {
