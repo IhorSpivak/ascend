@@ -80,6 +80,7 @@ class WebinarVideoChatViewModel(
     override val timerLabel = MutableLiveData<String>()
     override val isStartButtonVisible = MutableLiveData<Boolean>(false)
     override val finishingLabel = MutableLiveData<String>()
+    override val showMessgeSent = SingleLiveEvent<Void>()
     //endregion
 
     //region chat parameters
@@ -227,7 +228,7 @@ class WebinarVideoChatViewModel(
             if (result.isSuccessful.not()) {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             } else {
-
+                showMessgeSent.call()
             }
         }
     }

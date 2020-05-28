@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivity
 import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewModelDelegate
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 
@@ -21,6 +22,7 @@ interface WebinarVideoChatInProgressContract {
         val isMMConnected: LiveData<Boolean>
         val isVisitor: LiveData<Boolean>
         val questions: LiveData<PagedList<WebinarQuestionEntity>>
+        val showMessgeSent: SingleLiveEvent<Void>
 
         //VideoChat
         val credentials: MutableLiveData<StartWebinarVideoModel>

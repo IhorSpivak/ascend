@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatWebinarBinding
+import com.doneit.ascend.presentation.utils.extensions.hide
+import com.doneit.ascend.presentation.utils.extensions.show
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatViewModel
@@ -63,6 +65,14 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         viewModel.questions.observe(this, Observer {
             adapter.submitList(it)
         })
+        viewModel.showMessgeSent.observe(this, Observer {
+            binding.questionSent.show()
+            binding.questionSent.postDelayed({
+                if (isVisible) {
+                    binding.questionSent.hide()
+                }
+            }, DELAY_HIDE_SEND_BADGE)
+        })
     }
 
     private fun configureAudio(enable: Boolean) {
@@ -105,5 +115,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         }
     }
 
-
+    companion object {
+        const val DELAY_HIDE_SEND_BADGE = 2000L
+    }
 }
