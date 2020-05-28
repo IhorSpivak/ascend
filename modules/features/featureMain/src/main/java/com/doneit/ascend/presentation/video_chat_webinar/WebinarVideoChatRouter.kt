@@ -29,6 +29,7 @@ class WebinarVideoChatRouter(
     }
 
     override fun onBack() {
+        activity.userInteractionListener = null
         activity.supportFragmentManager.popBackStack()
     }
 
@@ -49,7 +50,9 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateUserChatOptions() {
-        activity.supportFragmentManager.add(fullContainerId, ParticipantOptionsFragment())
+        val fragment = ParticipantOptionsFragment()
+        activity.userInteractionListener = fragment
+        activity.supportFragmentManager.add(fullContainerId, fragment)
     }
 
     override fun navigateToMMChatOptions() {

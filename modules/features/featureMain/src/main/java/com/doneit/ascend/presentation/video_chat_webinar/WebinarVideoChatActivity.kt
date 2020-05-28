@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityWebinarVideoChatBinding
 import com.doneit.ascend.presentation.video_chat.common.ChatParticipantsAdapter
+import com.doneit.ascend.presentation.video_chat_webinar.in_progress.common.OnUserInteractionListener
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -56,13 +57,15 @@ class WebinarVideoChatActivity : BaseActivity() {
         }
     }
 
+    var userInteractionListener: OnUserInteractionListener? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_webinar_video_chat)
         binding.lifecycleOwner = this
         binding.model = viewModel
 
-        val groupId = intent.getLongExtra(WebinarVideoChatActivity.GROUP_ID_ARG, -1)
+        val groupId = intent.getLongExtra(GROUP_ID_ARG, -1)
         viewModel.init(groupId)
 
         viewModel.navigation.observe(this, Observer {
@@ -101,6 +104,11 @@ class WebinarVideoChatActivity : BaseActivity() {
                 router.navigateToQuestions(groupId)
             }
         }
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        userInteractionListener?.onUserInteraction()
     }
 
     enum class ResultStatus {
