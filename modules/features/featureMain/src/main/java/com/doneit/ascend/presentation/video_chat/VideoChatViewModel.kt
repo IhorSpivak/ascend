@@ -4,7 +4,6 @@ import android.os.CountDownTimer
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
@@ -85,13 +84,7 @@ class VideoChatViewModel(
     override val isAudioRecording = MediatorLiveData<Boolean>()
 
     override val isMuted = MutableLiveData<Boolean>()
-    override val isAllMuted = Transformations.switchMap(participants) {
-        if (it.all { it.isMuted }) {
-            return@switchMap MutableLiveData(true)
-        } else {
-            return@switchMap MutableLiveData(false)
-        }
-    }
+    override val isAllMuted = MediatorLiveData<Boolean>()
 
     override val isHandRisen = MutableLiveData<Boolean>()
     override val isFinishing = MutableLiveData<Boolean>()
@@ -113,6 +106,14 @@ class VideoChatViewModel(
     init {
         isAudioRecording.addSource(isMuted) {
             isAudioRecording.value = it.not()
+        }
+        isAllMuted.addSource(participants) {
+            if (it.all { it.isMuted }) {
+                isAllMuted.value = true
+            }
+            if (it.all { !it.isMuted }) {
+                isAllMuted.value = false
+            }
         }
     }
 
@@ -417,10 +418,12 @@ class VideoChatViewModel(
     }
 
     override fun switchAllMuted() {
-        participants.value?.let {
-            if (it.all { it.isMuted }) {
+        isAllMuted.value?.let { allMuted ->
+            if (allMuted) {
+                isAllMuted.value = false
                 groupUseCase.unMuteAllUsers(groupInfo.value?.owner?.id.toString())
             } else {
+                isAllMuted.value = true
                 groupUseCase.muteAllUsers(groupInfo.value?.owner?.id.toString())
             }
         }
