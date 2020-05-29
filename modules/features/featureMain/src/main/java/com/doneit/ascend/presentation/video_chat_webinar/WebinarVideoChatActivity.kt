@@ -34,6 +34,7 @@ class WebinarVideoChatActivity : BaseActivity() {
             WebinarVideoChatViewModel(
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }

@@ -147,5 +147,12 @@ object GatewayModule {
                 instance()
             )
         }
+
+        bind<IVimeoGateway>() with singleton {
+            VimeoGateway(
+                instance(),
+                instance()
+            )
+        }
     }
 }

@@ -17,6 +17,7 @@ import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEvent
 import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.domain.use_case.interactor.vimeo.VimeoUseCase
 import com.doneit.ascend.domain.use_case.interactor.webinar_questions.WebinarQuestionUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
@@ -45,10 +46,12 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.timerTask
 
+
 class WebinarVideoChatViewModel(
     private val userUseCase: UserUseCase,
     private val groupUseCase: GroupUseCase,
-    private val webinarQuestionUseCase: WebinarQuestionUseCase
+    private val webinarQuestionUseCase: WebinarQuestionUseCase,
+    private val vimeoUseCase: VimeoUseCase
 ) : BaseViewModelImpl(), ParticipantOptionsContract.ViewModel,
     WebinarChatPreviewContract.ViewModel, WebinarVideoChatContract.ViewModel,
     OwnerOptionsContract.ViewModel, QuestionContract.ViewModel,
@@ -276,7 +279,10 @@ class WebinarVideoChatViewModel(
 
     override fun onParticipantClick(id: String) {
         if (chatRole == ChatRole.OWNER) {
-            WebinarVideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS.data.putString(USER_ID_KEY, id)
+            WebinarVideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS.data.putString(
+                USER_ID_KEY,
+                id
+            )
             navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_PARTICIPANT_ACTIONS)
         }
     }
@@ -354,6 +360,8 @@ class WebinarVideoChatViewModel(
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_PREVIEW)
             }
             VideoChatState.PROGRESS -> {
+                //TODO:
+                //createLiveEvent()
                 webinarQuestionUseCase.connectToChannel(groupId)
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_IN_PROGRESS)
             }
@@ -423,6 +431,7 @@ class WebinarVideoChatViewModel(
         const val CHAT_ID_KEY = "CHAT_ID_KEY"
         const val USER_ID_KEY = "USER_ID_KEY"
         const val ACTIVITY_RESULT_KEY = "ACTIVITY_RESULT_KEY"
+        const val CREATE_LIVE_STREAM = "/me/live_events/79919"
 
         val cameraSources: List<CameraCapturer.CameraSource>
 
@@ -479,4 +488,15 @@ class WebinarVideoChatViewModel(
         }
     }
 
+    private fun createLiveEvent() {
+        groupInfo.value?.name?.let {
+            viewModelScope.launch {
+                val res = vimeoUseCase.createLiveStream(it)
+                if(res.isSuccessful){
+                    res.successModel
+                }
+
+            }
+        }
+    }
 }

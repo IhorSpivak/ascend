@@ -93,6 +93,10 @@ ext {
             core: "com.github.yalantis:ucrop:2.2.2"
     ]
 
+    def vimeo = [
+            networking: "com.vimeo.networking:vimeo-networking:1.1.3",
+    ]
+
     def tests = [
             core       : "androidx.test:core:1.0.0",
             coreTesting: "androidx.arch.core:core-testing:2.0.0",
@@ -195,6 +199,7 @@ ext {
 
             [configuration: "api", dependency: core.remote],
             [configuration: "implementation", dependency: core.networkmanager],
+            [configuration: "implementation", dependency: vimeo.networking]
     ]
 
     localModule = [
