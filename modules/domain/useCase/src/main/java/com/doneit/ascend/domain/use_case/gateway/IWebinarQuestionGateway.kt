@@ -23,6 +23,6 @@ interface IWebinarQuestionGateway {
     fun disconnect()
 
     fun insertQuestion(question: WebinarQuestionEntity)
-    fun removeQuestionLocal(id: Long)
+    fun removeQuestionsLocal()
 
 }

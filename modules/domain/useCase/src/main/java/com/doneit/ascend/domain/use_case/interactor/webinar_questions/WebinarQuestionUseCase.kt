@@ -19,4 +19,5 @@ interface WebinarQuestionUseCase {
     fun disconnect()
 
     fun insertMessage(questionEntity: WebinarQuestionEntity)
+    fun removeQuestionsLocal()
 }

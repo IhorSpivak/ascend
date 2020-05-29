@@ -40,7 +40,7 @@ class WebinarQuestionGateway(
         return liveData {
             val config = PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
-                .setPageSize(request.perPage ?: 12)
+                .setPageSize(request.perPage ?: 10)
                 .build()
             val factory = local.getAll().map { it.toEntity() }
 
@@ -120,8 +120,10 @@ class WebinarQuestionGateway(
         }
     }
 
-    override fun removeQuestionLocal(id: Long) {
-
+    override fun removeQuestionsLocal() {
+        GlobalScope.launch {
+            local.removeAll()
+        }
     }
 
 }

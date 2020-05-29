@@ -130,10 +130,11 @@ class WebinarVideoChatViewModel(
 
     override fun init(groupId: Long) {
         this.groupId = groupId
+
         postDefaultValues()
 
         viewModelScope.launch {
-
+            webinarQuestionUseCase.removeQuestionsLocal()
             val groupEntity = async {
                 val result = groupUseCase.getGroupDetails(groupId)
 
