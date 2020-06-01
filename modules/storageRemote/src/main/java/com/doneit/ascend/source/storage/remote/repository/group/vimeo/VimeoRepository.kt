@@ -4,6 +4,7 @@ import com.doneit.ascend.source.storage.remote.api.VimeoApi
 import com.doneit.ascend.source.storage.remote.data.request.CreateLiveEventRequest
 import com.doneit.ascend.source.storage.remote.data.response.ActivateLiveEventResponse
 import com.doneit.ascend.source.storage.remote.data.response.LiveEventResponse
+import com.doneit.ascend.source.storage.remote.data.response.M3u8Response
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
@@ -21,6 +22,12 @@ internal class VimeoRepository(
     override suspend fun updateLiveStream(liveEventId: Long): RemoteResponse<ActivateLiveEventResponse, String> {
         return execute( {
             api.activateLiveEvent(liveEventId)
+        }, String::class.java)
+    }
+
+    override suspend fun getM3u8PlaybackUrl(liveEventId: Long): RemoteResponse<M3u8Response, String> {
+        return execute( {
+            api.getM3u8(liveEventId)
         }, String::class.java)
     }
 

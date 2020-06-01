@@ -382,10 +382,10 @@ class WebinarVideoChatViewModel(
                     if (chatRole == ChatRole.OWNER) {
                         createLiveEvent()
                     } else {
-
+                        // do nothing
                     }
                 } else {
-
+                    getM3u8Playback()
                 }
 
                 webinarQuestionUseCase.connectToChannel(groupId)
@@ -457,7 +457,6 @@ class WebinarVideoChatViewModel(
         const val CHAT_ID_KEY = "CHAT_ID_KEY"
         const val USER_ID_KEY = "USER_ID_KEY"
         const val ACTIVITY_RESULT_KEY = "ACTIVITY_RESULT_KEY"
-        const val CREATE_LIVE_STREAM = "/me/live_events/79919"
 
         val cameraSources: List<CameraCapturer.CameraSource>
 
@@ -547,4 +546,14 @@ class WebinarVideoChatViewModel(
             }
         }
     }
+
+    private fun getM3u8Playback(){
+        viewModelScope.launch {
+            val res = vimeoUseCase.getM3u8(credentials.value!!.link!!.drop(7).toLong())
+        }
+    }
+
+
+
+
 }

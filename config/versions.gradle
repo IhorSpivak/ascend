@@ -97,6 +97,10 @@ ext {
             networking: "com.vimeo.networking:vimeo-networking:1.1.3",
     ]
 
+    def rtmp = [
+            rtmpClient: "com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:1.8.2"
+    ]
+
     def tests = [
             core       : "androidx.test:core:1.0.0",
             coreTesting: "androidx.arch.core:core-testing:2.0.0",
@@ -307,7 +311,8 @@ ext {
             [configuration: "implementation", dependency: other.twilio],
             [configuration: "implementation", dependency: other.pickit],
             [configuration: "implementation", dependency: amazonaws.sdk],
-            [configuration: "implementation", dependency: amazonaws.s3]
+            [configuration: "implementation", dependency: amazonaws.s3],
+            [configuration: "implementation", dependency: rtmp.rtmpClient]
     ]
 
     entityModule = [

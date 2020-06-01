@@ -1,9 +1,9 @@
 package com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo
 
-import com.doneit.ascend.presentation.models.StartVideoModel
+import com.doneit.ascend.presentation.models.StartWebinarVideoModel
 
 interface IVimeoChatViewDelegate {
-    fun startVideo(model: StartVideoModel)
+    fun startVideo(model: StartWebinarVideoModel)
     fun clearRenderers()
     fun enableVideo(isEnable: Boolean)
     fun enableAudio(isEnable: Boolean)
@@ -12,5 +12,5 @@ interface IVimeoChatViewDelegate {
     fun startVideoDisplay()
     fun showPlaceholder()
     fun switchCamera()
-    fun startSelfViewVideo(model: StartVideoModel)
+    fun startSelfViewVideo(model: StartWebinarVideoModel)
 }

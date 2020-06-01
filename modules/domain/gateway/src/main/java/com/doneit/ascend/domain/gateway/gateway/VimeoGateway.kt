@@ -3,6 +3,7 @@ package com.doneit.ascend.domain.gateway.gateway
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.vimeo.ActivateLiveEventEntity
 import com.doneit.ascend.domain.entity.vimeo.LiveEventEntity
+import com.doneit.ascend.domain.entity.vimeo.M3u8Entity
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.use_case.gateway.IVimeoGateway
@@ -26,6 +27,17 @@ internal class VimeoGateway(
 
     override suspend fun updateLiveStream(liveEventId: Long): ResponseEntity<ActivateLiveEventEntity, String> {
         return remote.updateLiveStream(liveEventId).toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it
+            }
+        )
+    }
+
+    override suspend fun getM3u8(liveEventId: Long): ResponseEntity<M3u8Entity, String> {
+        return remote.getM3u8PlaybackUrl(liveEventId).toResponseEntity(
             {
                 it?.toEntity()
             },
