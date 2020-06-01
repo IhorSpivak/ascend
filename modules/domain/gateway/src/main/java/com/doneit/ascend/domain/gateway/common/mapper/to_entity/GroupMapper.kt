@@ -1,12 +1,7 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.*
-import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
-import com.doneit.ascend.domain.entity.dto.WebinarCredentialsDTO
-import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.group.GroupStatus
-import com.doneit.ascend.domain.entity.group.GroupType
-import com.doneit.ascend.domain.entity.group.NoteEntity
+import com.doneit.ascend.domain.entity.group.*
 import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
 import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEvent
 import com.doneit.ascend.domain.gateway.common.applyDaysOffset
@@ -109,15 +104,15 @@ fun String.toGroupType(): GroupType? {
     return GroupType.valueOf(this.toUpperCase())
 }
 
-fun GroupCredentialsResponse.toEntity(): GroupCredentialsDTO {
-    return GroupCredentialsDTO(
+fun GroupCredentialsResponse.toEntity(): GroupCredentialsEntity {
+    return GroupCredentialsEntity(
         name,
         token
     )
 }
 
-fun WebinarCredentialsResponse.toEntity(): WebinarCredentialsDTO {
-    return WebinarCredentialsDTO(
+fun WebinarCredentialsResponse.toEntity(): WebinarCredentialsEntity {
+    return WebinarCredentialsEntity(
         key,
         link,
         chatId

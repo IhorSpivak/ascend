@@ -8,7 +8,9 @@ import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
 
 internal class GroupInteractor(
@@ -58,12 +60,19 @@ internal class GroupInteractor(
         return groupGateway.subscribe(dto)
     }
 
-    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsDTO, List<String>> {
+    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsEntity, List<String>> {
         return groupGateway.getCredentials(groupId)
     }
 
-    override suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsDTO, List<String>> {
+    override suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsEntity, List<String>> {
         return groupGateway.getWebinarCredentials(groupId)
+    }
+
+    override suspend fun setWebinarCredentials(
+        groupId: Long,
+        groupCredentialsDTO: WebinarCredentialsDTO
+    ): ResponseEntity<Unit, List<String>> {
+        return groupGateway.setCredentials(groupId, groupCredentialsDTO)
     }
 
     override suspend fun getParticipantList(

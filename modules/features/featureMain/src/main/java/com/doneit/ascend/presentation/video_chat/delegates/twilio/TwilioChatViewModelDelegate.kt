@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.video_chat.delegates.twilio
 
 import androidx.fragment.app.Fragment
-import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
+import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.models.StartVideoModel
@@ -51,7 +51,7 @@ class TwilioChatViewModelDelegate(val viewModel: VideoChatViewModel) :
 
     override fun initializeChatState(
         groupEntity: GroupEntity?,
-        creds: GroupCredentialsDTO?,
+        creds: GroupCredentialsEntity?,
         currentUser: UserEntity?
     ) {
         viewModel.chatRole =

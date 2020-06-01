@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.use_case.interactor.vimeo
 
 import com.doneit.ascend.domain.entity.common.ResponseEntity
+import com.doneit.ascend.domain.entity.vimeo.ActivateLiveEventEntity
 import com.doneit.ascend.domain.entity.vimeo.LiveEventEntity
 import com.doneit.ascend.domain.use_case.gateway.IVimeoGateway
 
@@ -11,7 +12,7 @@ class VimeoInteractor(
         return vimeoGateway.createLiveStream(title)
     }
 
-    override suspend fun updateLiveStream(liveEventId: Long): ResponseEntity<LiveEventEntity, String> {
+    override suspend fun updateLiveStream(liveEventId: Long): ResponseEntity<ActivateLiveEventEntity, String> {
         return vimeoGateway.updateLiveStream(liveEventId)
     }
 

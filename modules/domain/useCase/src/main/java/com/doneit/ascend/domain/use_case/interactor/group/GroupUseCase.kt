@@ -8,7 +8,9 @@ import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
 
 interface GroupUseCase {
     suspend fun createGroup(groupDTO: CreateGroupDTO, groupCredentialsDTO: WebinarCredentialsDTO? = null): ResponseEntity<GroupEntity, List<String>>
@@ -33,9 +35,11 @@ interface GroupUseCase {
 
     suspend fun subscribe(dto: SubscribeGroupDTO): ResponseEntity<Unit, List<String>>
 
-    suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsDTO, List<String>>
+    suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsEntity, List<String>>
 
-    suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsDTO, List<String>>
+    suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsEntity, List<String>>
+
+    suspend fun setWebinarCredentials(groupId: Long, groupCredentialsDTO: WebinarCredentialsDTO): ResponseEntity<Unit, List<String>>
 
     suspend fun getParticipantList(groupId: Long, fullName: String? = null, isConnected: Boolean? = null): ResponseEntity<List<ParticipantEntity>, List<String>>
 

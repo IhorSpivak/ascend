@@ -1,8 +1,11 @@
 package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.os.CountDownTimer
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
@@ -10,6 +13,7 @@ import com.doneit.ascend.domain.entity.dto.WebinarCredentialsDTO
 import com.doneit.ascend.domain.entity.dto.WebinarQuestionDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
+import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
 import com.doneit.ascend.domain.entity.group.minutesToMillis
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
@@ -29,7 +33,6 @@ import com.doneit.ascend.presentation.utils.extensions.toTimerFormat
 import com.doneit.ascend.presentation.utils.extensions.toVideoChatTimerFormat
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
 import com.doneit.ascend.presentation.video_chat.states.ChatRole
-import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.doneit.ascend.presentation.video_chat.states.VideoChatState
 import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewModelDelegate
 import com.doneit.ascend.presentation.video_chat_webinar.finished.WebinarFinishedContract
@@ -94,7 +97,6 @@ class WebinarVideoChatViewModel(
     //region local
     private lateinit var chatState: VideoChatState
     var chatRole: ChatRole? = null
-    private var chatStrategy = ChatStrategy.DOMINANT_SPEAKER
 
     private var groupId: Long = Constants.DEFAULT_MODEL_ID
     private var currentUserId: String = Constants.DEFAULT_MODEL_ID.toString()
@@ -113,8 +115,6 @@ class WebinarVideoChatViewModel(
             )
         )
     }
-
-    private lateinit var observer: Observer<QuestionSocketEntity?>
 
     private fun refetchGroupInfo() {
         viewModelScope.launch {
@@ -192,15 +192,31 @@ class WebinarVideoChatViewModel(
 
     private fun initializeChatState(
         groupEntity: GroupEntity?,
-        creds: WebinarCredentialsDTO?,
+        creds: WebinarCredentialsEntity?,
         currentUser: UserEntity?
     ) {
 
         if (groupEntity != null && creds != null) {
             if (viewModelDelegate == null)
                 viewModelDelegate = VideoChatUtils.vimeoViewModelDelegate(this)
-            viewModelDelegate!!.initializeChatState(groupEntity, creds, currentUser)
+            //viewModelDelegate!!.initializeChatState(groupEntity, creds, currentUser)
+                chatRole =
+                    if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
+                        isVisitor.postValue(false)
+                        ChatRole.OWNER
+                    } else {
+                        isVisitor.postValue(true)
+                        ChatRole.VISITOR
+                    }
+                credentials.value =
+                    StartWebinarVideoModel(
+                        chatRole!!,
+                        creds!!.chatId,
+                        creds.key,
+                        creds.link
+                    )
 
+                changeState(VideoChatState.PREVIEW_DATA_LOADED)
 
             messages.observeForever(groupObserver)
             questionsStream.observeForever(questionObserver)
@@ -362,7 +378,16 @@ class WebinarVideoChatViewModel(
             }
             VideoChatState.PROGRESS -> {
                 //TODO:
-                //createLiveEvent()
+                if (credentials.value?.key == null && credentials.value?.link == null) {
+                    if (chatRole == ChatRole.OWNER) {
+                        createLiveEvent()
+                    } else {
+
+                    }
+                } else {
+
+                }
+
                 webinarQuestionUseCase.connectToChannel(groupId)
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_IN_PROGRESS)
             }
@@ -493,8 +518,30 @@ class WebinarVideoChatViewModel(
         groupInfo.value?.name?.let {
             viewModelScope.launch {
                 val res = vimeoUseCase.createLiveStream(it)
-                if(res.isSuccessful){
-                    res.successModel
+                if (res.isSuccessful) {
+                    //TODO: refactor drop
+                    val updateResponse = vimeoUseCase.updateLiveStream(res.successModel?.link!!.drop(7).toLong())
+
+                    if(updateResponse.isSuccessful) {
+                        val response = groupUseCase.setWebinarCredentials(
+                            groupInfo.value!!.id,
+                            WebinarCredentialsDTO(
+                                res.successModel?.streamKey,
+                                res.successModel?.link
+                            )
+                        )
+                        if (response.isSuccessful) {
+
+                            val startModel = StartWebinarVideoModel(
+                                credentials.value!!.role,
+                                credentials.value!!.chatId,
+                                res.successModel?.streamKey,
+                                res.successModel?.link
+                            )
+                            credentials.value = startModel
+                        }
+                    }
+
                 }
 
             }

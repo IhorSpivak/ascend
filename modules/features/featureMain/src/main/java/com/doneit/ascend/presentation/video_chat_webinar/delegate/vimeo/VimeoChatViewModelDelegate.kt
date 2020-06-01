@@ -1,7 +1,7 @@
 package com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo
 
-import com.doneit.ascend.domain.entity.dto.WebinarCredentialsDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
 import com.doneit.ascend.presentation.video_chat.states.ChatRole
@@ -12,7 +12,7 @@ class VimeoChatViewModelDelegate(val viewModel: WebinarVideoChatViewModel) :
     IVimeoChatViewModelDelegate {
     override fun initializeChatState(
         groupEntity: GroupEntity?,
-        creds: WebinarCredentialsDTO?,
+        creds: WebinarCredentialsEntity?,
         currentUser: UserEntity?
     ) {
         if (groupEntity != null) {
@@ -27,7 +27,9 @@ class VimeoChatViewModelDelegate(val viewModel: WebinarVideoChatViewModel) :
             viewModel.credentials.postValue(
                 StartWebinarVideoModel(
                     viewModel.chatRole!!,
-                    creds!!.chatId
+                    creds!!.chatId,
+                    creds.key,
+                    creds.link
                 )
             )
             viewModel.changeState(VideoChatState.PREVIEW_DATA_LOADED)

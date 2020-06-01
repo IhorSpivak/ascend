@@ -12,8 +12,10 @@ import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -300,7 +302,7 @@ internal class GroupGateway(
         return res
     }
 
-    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsDTO, List<String>> {
+    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsEntity, List<String>> {
         return remote.getCredentials(groupId).toResponseEntity(
             {
                 it?.toEntity()
@@ -311,7 +313,22 @@ internal class GroupGateway(
         )
     }
 
-    override suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsDTO, List<String>> {
+    override suspend fun setCredentials(groupId: Long, credentialsDTO: WebinarCredentialsDTO): ResponseEntity<Unit, List<String>> {
+        return remote.setCredentials(
+            groupId,
+            credentialsDTO.key!!,
+            credentialsDTO.link!!
+        ).toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsEntity, List<String>> {
         return remote.getWebinarCredentials(groupId).toResponseEntity(
             {
                 it?.toEntity()

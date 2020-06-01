@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.gateway.gateway
 
 import com.doneit.ascend.domain.entity.common.ResponseEntity
+import com.doneit.ascend.domain.entity.vimeo.ActivateLiveEventEntity
 import com.doneit.ascend.domain.entity.vimeo.LiveEventEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
@@ -23,7 +24,7 @@ internal class VimeoGateway(
         )
     }
 
-    override suspend fun updateLiveStream(liveEventId: Long): ResponseEntity<LiveEventEntity, String> {
+    override suspend fun updateLiveStream(liveEventId: Long): ResponseEntity<ActivateLiveEventEntity, String> {
         return remote.updateLiveStream(liveEventId).toResponseEntity(
             {
                 it?.toEntity()
