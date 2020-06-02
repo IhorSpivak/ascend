@@ -22,8 +22,11 @@ import com.doneit.ascend.presentation.utils.extensions.*
 class MessageViewHolder(
     private val binding: ListItemMessageBinding,
     private val onDeleteClick: (message: MessageEntity) -> Unit,
-    private val onMenuClick: (view: View, id: Long) -> Unit
-) : RecyclerView.ViewHolder(binding.root) {
+    private val onImageLongClick: (view: View, id: Long) -> Unit,
+    private val onImageClick: (view: View, id: Long) -> Unit
+) : RecyclerView.ViewHolder(
+    binding.root
+) {
 
     fun bind(
         messageEntity: MessageEntity,
@@ -68,7 +71,7 @@ class MessageViewHolder(
                     userImage.setOnLongClickListener {
                         if (chat.membersCount > 2) {
                             if (chat.chatOwnerId == user.id) {
-                                onMenuClick(it, member.id)
+                                onImageLongClick(it, member.id)
                                 true
                             } else {
                                 false
@@ -76,6 +79,9 @@ class MessageViewHolder(
                         } else {
                             false
                         }
+                    }
+                    userImage.setOnClickListener {
+                        onImageClick(it, member.id)
                     }
                     if (DateFormat.is24HourFormat(root.context)) {
                         this.sendTime = TIME_24_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
@@ -145,7 +151,8 @@ class MessageViewHolder(
         fun create(
             parent: ViewGroup,
             onDeleteClick: (message: MessageEntity) -> Unit,
-            onMenuClick: (view: View, id: Long) -> Unit
+            onMenuClick: (view: View, id: Long) -> Unit,
+            onImageClick: (view: View, id: Long) -> Unit
         ): MessageViewHolder {
             val binding: ListItemMessageBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
@@ -153,7 +160,7 @@ class MessageViewHolder(
                 parent,
                 false
             )
-            return MessageViewHolder(binding, onDeleteClick, onMenuClick)
+            return MessageViewHolder(binding, onDeleteClick, onMenuClick, onImageClick)
         }
     }
 }

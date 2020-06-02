@@ -75,7 +75,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             null,
             null,
             { viewModel.onDelete(it) },
-            { view, id -> showMenuOnUserClick(view, id) })
+            { view, id -> showMenuOnUserClick(view, id) },
+            { _, id -> viewModel.showDetailedUser(id) })
     }
 
 
@@ -114,14 +115,19 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                     statusOrCount =
                         resources.getString(R.string.chats_member_count, it.chat.membersCount)
                 } else {
-                    binding.apply {
-                        it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
-                            url = it.image?.url
-                            if (it.online) {
-                                statusOrCount = resources.getString(R.string.chats_member_online)
-                            } else {
-                                statusOrCount = resources.getString(R.string.chats_member_offline)
-                            }
+                    image.setOnClickListener {
+                        viewModel.showDetailedUser(
+                            chat?.members?.firstOrNull {
+                                it.id != viewModel.user.value?.id
+                            }?.id ?: return@setOnClickListener
+                        )
+                    }
+                    it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
+                        url = it.image?.url
+                        statusOrCount = if (it.online) {
+                            resources.getString(R.string.chats_member_online)
+                        } else {
+                            resources.getString(R.string.chats_member_offline)
                         }
                     }
                 }

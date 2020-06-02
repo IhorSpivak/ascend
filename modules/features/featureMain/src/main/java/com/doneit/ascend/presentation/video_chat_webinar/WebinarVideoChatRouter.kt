@@ -33,6 +33,10 @@ class WebinarVideoChatRouter(
         activity.supportFragmentManager.popBackStack()
     }
 
+    override fun goToDetailedUser(id: Long) {
+        TODO("Not yet implemented")
+    }
+
     override fun finishActivity() {
         finishWithResult(WebinarVideoChatActivity.ResultStatus.OK)
     }

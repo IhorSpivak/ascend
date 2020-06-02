@@ -5,6 +5,7 @@ import com.doneit.ascend.source.storage.remote.data.request.ReportRequest
 import com.doneit.ascend.source.storage.remote.data.response.MasterMindListResponse
 import com.doneit.ascend.source.storage.remote.data.response.MasterMindResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.UserProfileResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.*
@@ -24,7 +25,7 @@ interface MasterMindApi {
     ): Deferred<Response<MasterMindListResponse>>
 
     @GET("users/{user_id}")
-    fun getProfileAsync(@Path("user_id") id: Long): Deferred<Response<MasterMindResponse>>
+    fun getProfileAsync(@Path("user_id") id: Long): Deferred<Response<UserProfileResponse>>
 
     @POST("users/{id}/follow")
     fun followAsync(@Path("id") id: Long): Deferred<Response<OKResponse>>

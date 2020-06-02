@@ -5,11 +5,12 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.MasterMindListDTO
+import com.doneit.ascend.domain.entity.user.UserEntity
 
 interface IMasterMindGateway {
     suspend fun getMasterMindsList(listRequest: MasterMindListDTO): ResponseEntity<List<MasterMindEntity>, List<String>>
     fun getMasterMindsPagedList(listRequest: MasterMindListDTO): LiveData<PagedList<MasterMindEntity>>
-    fun getProfile(id: Long): LiveData<MasterMindEntity?>
+    fun getProfile(id: Long): LiveData<UserEntity?>
     suspend fun follow(userId: Long): ResponseEntity<Unit, List<String>>
     suspend fun unfollow(userId: Long): ResponseEntity<Unit, List<String>>
     suspend fun setRating(userId: Long, rating: Int): ResponseEntity<Unit, List<String>>

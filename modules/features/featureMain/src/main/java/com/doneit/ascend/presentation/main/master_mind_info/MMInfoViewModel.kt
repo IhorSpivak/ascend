@@ -24,10 +24,10 @@ class MMInfoViewModel(
     override val profile = groupId.switchMap { masterMindUseCase.getProfile(it) }
     override val user: LiveData<UserEntity?> = userUseCase.getUserLive()
 
-    override val isFollowVisible = MutableLiveData<Boolean>(true)
-    override val isUnfollowVisible = MutableLiveData<Boolean>(true)
-    override val enableFollow = MutableLiveData<Boolean>(true)
-    override val enableUnfollow = MutableLiveData<Boolean>(true)
+    override val isFollowVisible = MutableLiveData(true)
+    override val isUnfollowVisible = MutableLiveData(true)
+    override val enableFollow = MutableLiveData(true)
+    override val enableUnfollow = MutableLiveData(true)
 
     override val showRatingBar = MediatorLiveData<Boolean>()
     override val rated = profile.map { it?.rated ?: false }
@@ -45,21 +45,21 @@ class MMInfoViewModel(
         }
     }
 
-    private fun updateUIVisibility(currentUser: UserEntity?, masterMind: MasterMindEntity?) {
-        if (currentUser != null && masterMind != null) {
-            if (currentUser.id == masterMind.id) {
+    private fun updateUIVisibility(currentUser: UserEntity?, displayedUser: UserEntity?) {
+        if (currentUser != null && displayedUser != null) {
+            if (currentUser.id == displayedUser.id) {
                 isFollowVisible.value = false
                 isUnfollowVisible.value = false
                 showRatingBar.value = false
             } else {
-                isFollowVisible.value = masterMind.followed.not()
-                isUnfollowVisible.value = masterMind.followed
-                showRatingBar.value = masterMind.allowRating ?: false
+                isFollowVisible.value = displayedUser.followed.not()
+                isUnfollowVisible.value = displayedUser.followed
+                showRatingBar.value = displayedUser.allowRating
             }
         }
     }
 
-    override fun setMMId(id: Long) {
+    override fun setProfileId(id: Long) {
         groupId.postValue(id)
     }
 

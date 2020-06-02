@@ -185,6 +185,10 @@ class ChatViewModel(
         }
     }
 
+    override fun showDetailedUser(userId: Long) {
+        router.goToDetailedUser(userId)
+    }
+
     override fun onUnblockUserClick(member: MemberEntity) {
         viewModelScope.launch {
             chatUseCase.unblockUser(member.id).let {

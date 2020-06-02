@@ -11,10 +11,11 @@ class MessagesAdapter(
     var chat: ChatEntity?,
     var user: UserEntity?,
     private val onButtonClick: (message: MessageEntity) -> Unit,
-    private val onImageClick: (v: View, id: Long) -> Unit
+    private val onImageLongClick: (v: View, id: Long) -> Unit,
+    private val onImageClick: (view: View, id: Long) -> Unit
 ) : PagedListAdapter<MessageEntity, MessageViewHolder>(MessageDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        return MessageViewHolder.create(parent, onButtonClick, onImageClick)
+        return MessageViewHolder.create(parent, onButtonClick, onImageLongClick, onImageClick)
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
