@@ -9,8 +9,8 @@ import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface MMInfoContract {
 
-    interface ViewModel: BaseViewModel {
-        val profile : LiveData<MasterMindEntity?>
+    interface ViewModel : BaseViewModel {
+        val profile: LiveData<UserEntity?>
         val user: LiveData<UserEntity?>
 
         val showRatingBar: LiveData<Boolean>
@@ -28,13 +28,18 @@ interface MMInfoContract {
         fun onSeeGroupsClick()
         fun sendReport(content: String)
 
-        fun setMMId(id: Long)
+        fun setProfileId(id: Long)
         fun report(content: String)
         fun goBack()
     }
 
     interface Router {
         fun onBack()
-        fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?, mmName: String?)
+        fun navigateToGroupList(
+            userId: Long?,
+            groupType: GroupType?,
+            isMyGroups: Boolean?,
+            mmName: String?
+        )
     }
 }

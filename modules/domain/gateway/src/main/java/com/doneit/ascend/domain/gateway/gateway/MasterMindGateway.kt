@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.gateway.gateway
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
 import androidx.paging.LivePagedListBuilder
@@ -7,6 +8,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.MasterMindListDTO
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -14,9 +16,11 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MMBoundaryCallback
 import com.doneit.ascend.domain.use_case.gateway.IMasterMindGateway
+import com.doneit.ascend.source.storage.local.repository.user.IUserRepository
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.vrgsoft.networkmanager.NetworkManager
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.runBlocking
 import java.util.concurrent.Executors
 
 internal class MasterMindGateway(
@@ -67,21 +71,17 @@ internal class MasterMindGateway(
             boundary.loadInitial()
         }
 
-    override fun getProfile(id: Long) = liveData<MasterMindEntity?> {
-        emitSource(local.getMMByIdLive(id).map { it?.toEntity() })
-
-        val res = executeRemote { remote.getMMProfile(id) }.toResponseEntity(
+    override fun getProfile(id: Long) = liveData<UserEntity?> {
+        val liveUser = MutableLiveData<UserEntity>()
+        emitSource(liveUser)
+        executeRemote { remote.getMMProfile(id) }.toResponseEntity(
             {
-                it?.toEntity()
+                liveUser.postValue(it?.toEntity())
             },
             {
                 it?.errors
             }
         )
-
-        if (res.isSuccessful) {
-            local.insertAll(listOf(res.successModel!!.toLocal()))
-        }
     }
 
     override suspend fun follow(userId: Long): ResponseEntity<Unit, List<String>> {

@@ -38,7 +38,12 @@ fun UserEntity.toUserLocal(): UserLocal {
         visitedGroupCount = visitedGroupCount,
         community = community,
         birthday = birthday?.toRemoteStringShort(),
-        communities = communities
+        communities = communities,
+        rated = rated,
+        allowRating = allowRating,
+        followed = followed,
+        groupsCount = groupsCount,
+        myRating = myRating
     )
 }
 
@@ -67,7 +72,12 @@ fun UserLocal.merge(newModel: UserProfileResponse): UserLocal {
         visitedGroupCount = visitedGroupCount,
         community = newModel.community,
         birthday = newModel.birthday,
-        communities = communities
+        communities = communities,
+        rated = rated,
+        allowRating = allowRating,
+        followed = followed,
+        groupsCount = groupsCount,
+        myRating = myRating
     )
 }
 
@@ -96,7 +106,12 @@ fun UserLocal.merge(newModel: UserAuthResponse): UserLocal {
         visitedGroupCount = visitedGroupCount,
         community = newModel.community,
         birthday = birthday,
-        communities = communities
+        communities = communities,
+        rated = rated,
+        allowRating = allowRating,
+        followed = followed,
+        groupsCount = groupsCount,
+        myRating = myRating
     )
 }
 

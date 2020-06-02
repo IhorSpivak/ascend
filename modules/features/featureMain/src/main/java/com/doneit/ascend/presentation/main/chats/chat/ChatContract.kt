@@ -28,6 +28,7 @@ interface ChatContract {
         fun inviteUser()
         fun onBlockUserClick(member: MemberEntity)
         fun onUnblockUserClick(member: MemberEntity)
+        fun showDetailedUser(userId: Long)
         fun onDelete(message: MessageEntity)
         fun onDeleteChat()
         fun onReportChatOwner(content: String)
@@ -37,6 +38,7 @@ interface ChatContract {
 
     interface Router {
         fun onBack()
+        fun goToDetailedUser(id: Long)
     }
 
     interface LocalRouter {

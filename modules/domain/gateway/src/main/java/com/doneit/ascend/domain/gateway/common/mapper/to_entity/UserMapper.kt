@@ -13,6 +13,7 @@ import com.doneit.ascend.source.storage.remote.data.response.user.AuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.SearchUsersResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.UserAuthResponse
 import com.doneit.ascend.source.storage.remote.data.response.user.UserProfileResponse
+import com.vrgsoft.core.gateway.orZero
 
 fun AuthResponse.toEntity(): AuthEntity {
     return AuthEntity(
@@ -42,7 +43,12 @@ fun UserAuthResponse.toEntity(): UserEntity {
         description,
         bio,
         rating,
+        rated ?: false,
+        myRating,
         role == MM_ROLE,
+        followed ?: false,
+        groupsCount.orZero(),
+        allowRating?: false,
         community,
         visitedGroupsCount ?: 0,
         getDefaultCalendar().time,
@@ -71,6 +77,11 @@ fun UserProfileResponse.toEntity(): UserEntity {
         null,
         null,
         null,
+        rated ?: false,
+        myRating,
+        followed ?: false,
+        allowRating?: false,
+        groupsCount.orZero(),
         role == MM_ROLE,
         community,
         visitedGroupsCount,
@@ -104,7 +115,12 @@ fun UserLocal.toUserEntity(): UserEntity {
         community = community,
         visitedGroupCount = this@toUserEntity.visitedGroupCount,
         birthday = this@toUserEntity.birthday?.toShortDate(),
-        communities = communities
+        communities = communities,
+        rated = rated,
+        myRating = myRating,
+        followed = followed,
+        allowRating = allowRating,
+        groupsCount = groupsCount
     )
 }
 
@@ -119,7 +135,7 @@ fun RateResponse.toEntity(): RateEntity {
     )
 }
 
-fun SearchUsersResponse.toEntity(): AttendeeEntity{
+fun SearchUsersResponse.toEntity(): AttendeeEntity {
     return AttendeeEntity(
         id,
         fullName ?: "",

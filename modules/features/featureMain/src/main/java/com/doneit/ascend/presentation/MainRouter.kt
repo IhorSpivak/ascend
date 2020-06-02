@@ -153,7 +153,7 @@ class MainRouter(
     MyChatsContract.Router,
     NewChatContract.Router,
     ChatContract.Router,
-    BlockedUsersContract.Router{
+    BlockedUsersContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }
@@ -174,6 +174,13 @@ class MainRouter(
         activity.supportFragmentManager.popBackStack()
     }
 
+    override fun goToDetailedUser(id: Long) {
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            MMInfoFragment.newInstance(id)
+        )
+    }
+
     override fun navigateToChat(id: Long) {
         replaceFullWithMainUpdate(ChatFragment.getInstance(id))
     }
@@ -183,7 +190,7 @@ class MainRouter(
     }
 
     override fun navigateToAddChatMember() {
-        activity.supportFragmentManager.addWithBackStack(containerIdFull,AddMemberFragment())
+        activity.supportFragmentManager.addWithBackStack(containerIdFull, AddMemberFragment())
     }
 
     override fun navigateToDetails(group: GroupEntity) {
