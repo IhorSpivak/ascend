@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -45,6 +46,7 @@ import com.twilio.video.CameraCapturer
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -519,8 +521,8 @@ class WebinarVideoChatViewModel(
                 val res = vimeoUseCase.createLiveStream(it)
                 if (res.isSuccessful) {
                     //TODO: refactor drop
-                    val updateResponse = vimeoUseCase.updateLiveStream(res.successModel?.link!!.drop(7).toLong())
-
+                    delay(2000)
+                    val updateResponse = vimeoUseCase.updateLiveStream(res.successModel?.link!!.drop(13).toLong())
                     if(updateResponse.isSuccessful) {
                         val response = groupUseCase.setWebinarCredentials(
                             groupInfo.value!!.id,
@@ -547,9 +549,14 @@ class WebinarVideoChatViewModel(
         }
     }
 
-    private fun getM3u8Playback(){
+    override fun getM3u8Playback(){
         viewModelScope.launch {
-            val res = vimeoUseCase.getM3u8(credentials.value!!.link!!.drop(7).toLong())
+            val res = vimeoUseCase.getM3u8(credentials.value!!.link!!.drop(13).toLong())
+            if(res.isSuccessful){
+                Log.d("success", "success")
+            } else {
+
+            }
         }
     }
 

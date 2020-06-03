@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.video_chat_webinar.in_progress
 
 import android.Manifest
 import android.content.Context
+import android.hardware.Camera
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
@@ -21,16 +22,19 @@ import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivit
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatViewModel
 import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewDelegate
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.common.FourQuestionsAdapter
-import com.pedro.rtplibrary.rtmp.RtmpCamera1
+import com.haishinkit.events.Event
+import com.haishinkit.events.IEventListener
+import com.haishinkit.media.Audio
+import com.haishinkit.rtmp.RTMPConnection
+import com.haishinkit.rtmp.RTMPStream
+import com.haishinkit.util.EventUtils
 import kotlinx.android.synthetic.main.fragment_video_chat_webinar.*
-import net.ossrs.rtmp.ConnectCheckerRtmp
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinarBinding>(),
-    ConnectCheckerRtmp {
+class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinarBinding>(), IEventListener{
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<WebinarVideoChatInProgressContract.ViewModel>() with provider {
@@ -43,8 +47,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
     override val viewModel: WebinarVideoChatInProgressContract.ViewModel by instance()
 
     private var delegate: VimeoChatViewDelegate? = null
-
-    val camera by lazy { RtmpCamera1(videoView, this) }
+    private var stream: RTMPStream? = null
 
     private val audioManager by lazy {
         activity!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -88,7 +91,8 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         super.onStart()
         delegate?.onStart()
         viewModel.credentials.observe(this, Observer {
-            startVideo(it)
+            if (it.key != null && it.link != null)
+                startVideo(it)
         })
     }
 
@@ -100,13 +104,19 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             ),
             onGranted = {
                 delegate?.startVideo(model)
-                if(camera.prepareVideo() && camera.prepareAudio()) {
-                    camera.startStream(RTMP_LINK)
-                }
+                //TODO: remove
+                if(true) return@requestPermissions
+                val connection = RTMPConnection()
+                stream = RTMPStream(connection)
+                stream?.attachCamera(com.haishinkit.media.Camera(Camera.open()))
+                stream?.attachAudio(Audio())
+                connection.addEventListener("rtmpStatus", this)
+                connection.connect(RTMP_LINK, viewModel.credentials.value!!.key)
+
                 viewModel.switchCameraEvent.observe(this) {
                     delegate?.switchCamera()
-                    camera.switchCamera()
                 }
+                binding.videoView.attachStream(stream!!)
             },
             onDenied = {
                 viewModel.onPermissionsRequired(WebinarVideoChatActivity.ResultStatus.POPUP_REQUIRED)
@@ -154,30 +164,17 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         }
     }
 
-    private fun setRtmp(url: String) {
-
-    }
-
     companion object {
         const val DELAY_HIDE_SEND_BADGE = 2000L
-        const val RTMP_LINK = "rtmp://rtmp-global.cloud.vimeo.com/live/7c8f66b9-edb5-4e28-a2e4-17948a24a506"
+        const val RTMP_LINK = "rtmp://rtmp-global.cloud.vimeo.com/live/"
     }
 
-    override fun onAuthSuccessRtmp() {
-    }
-
-    override fun onNewBitrateRtmp(bitrate: Long) {
-    }
-
-    override fun onConnectionSuccessRtmp() {
-    }
-
-    override fun onConnectionFailedRtmp(reason: String) {
-    }
-
-    override fun onAuthErrorRtmp() {
-    }
-
-    override fun onDisconnectRtmp() {
+    override fun handleEvent(event: Event) {
+        val data = EventUtils.toMap(event)
+        val code = data["code"].toString()
+        if (code == RTMPConnection.Code.CONNECT_SUCCESS.rawValue) {
+            stream?.publish(viewModel.credentials.value!!.key)
+            //viewModel.getM3u8Playback()
+        }
     }
 }

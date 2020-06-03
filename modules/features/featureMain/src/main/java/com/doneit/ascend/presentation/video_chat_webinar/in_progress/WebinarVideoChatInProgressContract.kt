@@ -32,5 +32,6 @@ interface WebinarVideoChatInProgressContract {
         fun onOpenOptions()
         fun createQuestion(question: String)
         fun onPermissionsRequired(resultCode: WebinarVideoChatActivity.ResultStatus)
+        fun getM3u8Playback()
     }
 }

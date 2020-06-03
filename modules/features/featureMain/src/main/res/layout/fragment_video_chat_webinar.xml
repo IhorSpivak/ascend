@@ -24,11 +24,11 @@
             android:scaleType="centerCrop"
             app:setImage="@{model.groupInfo.image.url}" />
 
-        <com.pedro.rtplibrary.view.AutoFitTextureView
+        <com.haishinkit.view.CameraView
             android:id="@+id/videoView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

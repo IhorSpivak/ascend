@@ -98,7 +98,8 @@ ext {
     ]
 
     def rtmp = [
-            rtmpClient: "com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:1.8.2"
+            rtmpClient: "com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:1.8.2",
+            rtmpPublisher   : "com.github.takusemba:rtmppublisher:1.1.3"
     ]
 
     def tests = [
@@ -312,7 +313,8 @@ ext {
             [configuration: "implementation", dependency: other.pickit],
             [configuration: "implementation", dependency: amazonaws.sdk],
             [configuration: "implementation", dependency: amazonaws.s3],
-            [configuration: "implementation", dependency: rtmp.rtmpClient]
+            [configuration: "implementation", dependency: rtmp.rtmpClient],
+            [configuration: "implementation", dependency: rtmp.rtmpPublisher]
     ]
 
     entityModule = [
