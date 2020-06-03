@@ -27,6 +27,7 @@ data class UserEntity(
     val rated: Boolean,
     val myRating: Int?,
     val followed: Boolean,
+    val followersCount: Int,
     val allowRating: Boolean,
     val groupsCount: Int,
     val isMasterMind: Boolean,
@@ -53,7 +54,7 @@ data class UserEntity(
             if (currentDate.get(Calendar.MONTH) < birthday.get(Calendar.MONTH)
                 || currentDate.get(Calendar.DAY_OF_MONTH) < birthday.get(Calendar.DAY_OF_MONTH)
             ) {
-                res = res!! - 1
+                res = res - 1
             }
 
             return res

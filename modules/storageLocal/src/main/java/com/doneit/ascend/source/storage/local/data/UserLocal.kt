@@ -31,6 +31,7 @@ data class UserLocal(
     val followed: Boolean,
     val allowRating: Boolean,
     val groupsCount: Int,
+    val followersCount: Int,
     val isMasterMind: Boolean,
     val visitedGroupCount: Int = 0,
     val community: String? = "",

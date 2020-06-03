@@ -43,7 +43,8 @@ fun UserEntity.toUserLocal(): UserLocal {
         allowRating = allowRating,
         followed = followed,
         groupsCount = groupsCount,
-        myRating = myRating
+        myRating = myRating,
+        followersCount = followersCount
     )
 }
 
@@ -77,7 +78,8 @@ fun UserLocal.merge(newModel: UserProfileResponse): UserLocal {
         allowRating = allowRating,
         followed = followed,
         groupsCount = groupsCount,
-        myRating = myRating
+        myRating = myRating,
+        followersCount = followersCount
     )
 }
 
@@ -111,7 +113,8 @@ fun UserLocal.merge(newModel: UserAuthResponse): UserLocal {
         allowRating = allowRating,
         followed = followed,
         groupsCount = groupsCount,
-        myRating = myRating
+        myRating = myRating,
+        followersCount = followersCount
     )
 }
 

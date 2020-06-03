@@ -46,9 +46,10 @@ fun UserAuthResponse.toEntity(): UserEntity {
         rated ?: false,
         myRating,
         role == MM_ROLE,
+        followersCount ?: 0,
         followed ?: false,
         groupsCount.orZero(),
-        allowRating?: false,
+        allowRating ?: false,
         community,
         visitedGroupsCount ?: 0,
         getDefaultCalendar().time,
@@ -80,7 +81,8 @@ fun UserProfileResponse.toEntity(): UserEntity {
         rated ?: false,
         myRating,
         followed ?: false,
-        allowRating?: false,
+        followersCount ?: 0,
+        allowRating ?: false,
         groupsCount.orZero(),
         role == MM_ROLE,
         community,
@@ -120,7 +122,8 @@ fun UserLocal.toUserEntity(): UserEntity {
         myRating = myRating,
         followed = followed,
         allowRating = allowRating,
-        groupsCount = groupsCount
+        groupsCount = groupsCount,
+        followersCount = followersCount
     )
 }
 
@@ -138,8 +141,8 @@ fun RateResponse.toEntity(): RateEntity {
 fun SearchUsersResponse.toEntity(): AttendeeEntity {
     return AttendeeEntity(
         id,
-        fullName ?: "",
-        email ?: "",
+        fullName,
+        email,
         image?.url
     )
 }

@@ -245,6 +245,10 @@
     <string name="groups_created">%d Groups Created</string>
     <string name="groups_visited">%d Groups Visited</string>
     <string name="mm_see_groups">See groups</string>
+    <plurals name="mm_followers_count">
+        <item quantity="one">%s follower</item>
+        <item quantity="other">%s followers</item>
+    </plurals>
     <string name="see_my_groups">See my groups</string>
     <string name="set_rating">Set Rating</string>
 

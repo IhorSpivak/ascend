@@ -28,6 +28,7 @@ data class UserAuthResponse(
     @SerializedName("my_rating") val myRating: Int?,
     @SerializedName("allow_rating") val allowRating: Boolean?,
     @SerializedName("groups_count") val groupsCount: Int?,
+    @SerializedName("followers_count") val followersCount: Int?,
     @SerializedName("role") val role: String?,
     @SerializedName("community") val community: String?,
     @SerializedName("communities") val communities: List<String>?
