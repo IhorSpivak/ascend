@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentNotesBinding
+import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import org.kodein.di.generic.instance
 
 class NotesFragment : BaseFragment<FragmentNotesBinding>() {
@@ -19,6 +20,10 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>() {
 
         val groupId = arguments!!.getLong(GROUP_ID_KEY)
         viewModel.init(groupId)
+        binding.text.post {
+            showKeyboard(binding.text)
+        }
+        binding.text.requestFocus()
 
         binding.text.setOnKeyListener { view, i, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {

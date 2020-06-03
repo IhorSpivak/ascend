@@ -48,6 +48,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
 
     private var delegate: VimeoChatViewDelegate? = null
     private var stream: RTMPStream? = null
+    private var connection: RTMPConnection? = null
 
     private val audioManager by lazy {
         activity!!.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -96,6 +97,11 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         })
     }
 
+    override fun onPause() {
+        super.onPause()
+        connection?.close()
+    }
+
     private fun startVideo(model: StartWebinarVideoModel) {
         context!!.requestPermissions(
             listOf(
@@ -105,14 +111,13 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             onGranted = {
                 delegate?.startVideo(model)
                 //TODO: remove
-                if(true) return@requestPermissions
-                val connection = RTMPConnection()
-                stream = RTMPStream(connection)
+                //if(true) return@requestPermissions
+                connection = RTMPConnection()
+                stream = RTMPStream(connection!!)
                 stream?.attachCamera(com.haishinkit.media.Camera(Camera.open()))
                 stream?.attachAudio(Audio())
-                connection.addEventListener("rtmpStatus", this)
-                connection.connect(RTMP_LINK, viewModel.credentials.value!!.key)
-
+                connection?.addEventListener("rtmpStatus", this)
+                connection?.connect(RTMP_LINK, viewModel.credentials.value!!.key)
                 viewModel.switchCameraEvent.observe(this) {
                     delegate?.switchCamera()
                 }
