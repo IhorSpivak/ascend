@@ -18,6 +18,7 @@ import com.doneit.ascend.presentation.utils.extensions.requestPermissions
 import com.doneit.ascend.presentation.utils.extensions.show
 import com.doneit.ascend.presentation.utils.extensions.vmShared
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
+import com.doneit.ascend.presentation.video_chat.states.ChatRole
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivity
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatViewModel
 import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewDelegate
@@ -92,14 +93,16 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         super.onStart()
         delegate?.onStart()
         viewModel.credentials.observe(this, Observer {
-            if (it.key != null && it.link != null)
+            if (it.key != null && it.link != null && it.role == ChatRole.OWNER)
                 startVideo(it)
         })
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
         connection?.close()
+        connection?.removeEventListener("status", this)
+        super.onStop()
+
     }
 
     private fun startVideo(model: StartWebinarVideoModel) {
@@ -116,8 +119,8 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 stream = RTMPStream(connection!!)
                 stream?.attachCamera(com.haishinkit.media.Camera(Camera.open()))
                 stream?.attachAudio(Audio())
-                connection?.addEventListener("rtmpStatus", this)
-                connection?.connect(RTMP_LINK, viewModel.credentials.value!!.key)
+                connection?.addEventListener("status", this)
+                connection?.connect(RTMP_LINK)
                 viewModel.switchCameraEvent.observe(this) {
                     delegate?.switchCamera()
                 }

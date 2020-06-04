@@ -365,6 +365,7 @@ class WebinarVideoChatViewModel(
             }
             VideoChatState.PREVIEW_DATA_LOADED -> {
                 initDownTimer(groupInfo.value!!)
+                groupUseCase.participantConnectionStatus(currentUserId, true)
             }
             VideoChatState.PREVIEW_GROUP_STARTED -> {
                 initProgressTimer(groupInfo.value!!)
@@ -500,6 +501,9 @@ class WebinarVideoChatViewModel(
 
     private val groupObserver = Observer<SocketEventEntity> { socketEvent ->
         when (socketEvent.event) {
+            SocketEvent.PARTICIPANT_CONNECTED -> {
+                Log.d("socket", "connected")
+            }
             SocketEvent.GROUP_STARTED -> {
                 groupInfo.value?.let {
                     groupUseCase.updateGroupLocal(
@@ -510,6 +514,9 @@ class WebinarVideoChatViewModel(
                 }
                 refetchGroupInfo()
                 changeState(VideoChatState.PROGRESS)
+            }
+            SocketEvent.PARTICIPANT_DISCONNECTED -> {
+                Log.d("socket", "disconnected")
             }
             else -> Unit
         }

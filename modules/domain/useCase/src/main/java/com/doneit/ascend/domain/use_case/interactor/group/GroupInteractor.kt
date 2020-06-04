@@ -17,11 +17,17 @@ internal class GroupInteractor(
     private val groupGateway: IGroupGateway
 ) : GroupUseCase {
 
-    override suspend fun createGroup(groupDTO: CreateGroupDTO, groupCredentialsDTO: WebinarCredentialsDTO?): ResponseEntity<GroupEntity, List<String>> {
+    override suspend fun createGroup(
+        groupDTO: CreateGroupDTO,
+        groupCredentialsDTO: WebinarCredentialsDTO?
+    ): ResponseEntity<GroupEntity, List<String>> {
         return groupGateway.createGroup(groupDTO, groupCredentialsDTO)
     }
 
-    override suspend fun updateGroup(id: Long, groupDTO: UpdateGroupDTO): ResponseEntity<GroupEntity, List<String>> {
+    override suspend fun updateGroup(
+        id: Long,
+        groupDTO: UpdateGroupDTO
+    ): ResponseEntity<GroupEntity, List<String>> {
         return groupGateway.updateGroup(id, groupDTO)
     }
 
@@ -52,7 +58,11 @@ internal class GroupInteractor(
     override suspend fun leaveGroup(groupId: Long): ResponseEntity<Unit, List<String>> {
         return groupGateway.leaveGroup(groupId)
     }
-    override suspend fun deleteInvite(groupId: Long, inviteId: Long): ResponseEntity<Unit, List<String>> {
+
+    override suspend fun deleteInvite(
+        groupId: Long,
+        inviteId: Long
+    ): ResponseEntity<Unit, List<String>> {
         return groupGateway.deleteInvite(groupId, inviteId)
     }
 
@@ -109,14 +119,23 @@ internal class GroupInteractor(
         return groupGateway.getTags()
     }
 
-    override fun searchMembers(query: String, userId: Long, memberList: List<AttendeeEntity>?): LiveData<PagedList<AttendeeEntity>> {
+    override fun searchMembers(
+        query: String,
+        userId: Long,
+        memberList: List<AttendeeEntity>?
+    ): LiveData<PagedList<AttendeeEntity>> {
         return groupGateway.getMembersPaged(query, userId, memberList)
     }
 
     override val messagesStream = groupGateway.messagesStream
 
     override fun startGroup() {
-        groupGateway.sendSocketMessage(String.format(EVENT_TEMPLATE, SocketEvent.GROUP_STARTED.toString()))
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_TEMPLATE,
+                SocketEvent.GROUP_STARTED.toString()
+            )
+        )
     }
 
     override fun connectToChannel(groupId: Long) {
@@ -124,11 +143,21 @@ internal class GroupInteractor(
     }
 
     override fun riseOwnHand() {
-        groupGateway.sendSocketMessage(String.format(EVENT_TEMPLATE, SocketEvent.RISE_A_HAND.toString()))
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_TEMPLATE,
+                SocketEvent.RISE_A_HAND.toString()
+            )
+        )
     }
 
     override fun lowerOwnHand() {
-        groupGateway.sendSocketMessage(String.format(EVENT_TEMPLATE, SocketEvent.REMOVE_HAND.toString()))
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_TEMPLATE,
+                SocketEvent.REMOVE_HAND.toString()
+            )
+        )
     }
 
     override fun lowerAHand(userId: String) {
@@ -142,8 +171,12 @@ internal class GroupInteractor(
     }
 
     override fun allowToSay(userId: String) {
-        groupGateway.sendSocketMessage(String.format(EVENT_WITH_ID_TEMPLATE,
-            SocketEvent.SPEAK.toString(), userId))
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_WITH_ID_TEMPLATE,
+                SocketEvent.SPEAK.toString(), userId
+            )
+        )
     }
 
     override fun removeChatParticipant(userId: String) {
@@ -191,6 +224,16 @@ internal class GroupInteractor(
             String.format(
                 EVENT_WITH_ID_TEMPLATE,
                 SocketEvent.UNMUTE_ALL_USERS.toString(),
+                userId
+            )
+        )
+    }
+
+    override fun participantConnectionStatus(userId: String, isConnected: Boolean) {
+        groupGateway.sendSocketMessage(
+            String.format(
+                EVENT_WITH_ID_TEMPLATE,
+                if(isConnected) SocketEvent.PARTICIPANT_CONNECTED.toString() else SocketEvent.PARTICIPANT_DISCONNECTED.toString(),
                 userId
             )
         )
