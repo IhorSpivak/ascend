@@ -3,8 +3,10 @@ package com.doneit.ascend.presentation.video_chat_webinar
 import android.content.Intent
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
+import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes.NotesContract
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes.NotesFragment
 import com.doneit.ascend.presentation.video_chat_webinar.finished.WebinarFinishedFragment
@@ -60,7 +62,9 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToMMChatOptions() {
-        activity.supportFragmentManager.add(fullContainerId, OwnerOptionsFragment())
+        val fragment = OwnerOptionsFragment()
+        activity.userInteractionListener = fragment
+        activity.supportFragmentManager.add(fullContainerId, fragment)
     }
 
     override fun navigateToChatParticipantActions(userId: String) {
@@ -72,15 +76,15 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToQuestions(groupId: Long) {
-        activity.supportFragmentManager.add(fullContainerId, QuestionFragment())
+        activity.supportFragmentManager.replaceWithBackStack(fullContainerId, QuestionFragment())
     }
 
     override fun navigateToChat(chatId: Long) {
-        activity.supportFragmentManager.add(fullContainerId, ChatFragment.getInstance(chatId))
+        activity.supportFragmentManager.replaceWithBackStack(fullContainerId, ChatFragment.getInstance(chatId, ChatType.WEBINAR_CHAT))
     }
 
     override fun navigateToNotes(groupId: Long) {
-        activity.supportFragmentManager.add(fullContainerId, NotesFragment.newInstance(groupId))
+        activity.supportFragmentManager.replaceWithBackStack(fullContainerId, NotesFragment.newInstance(groupId))
     }
 
     private fun finishWithResult(resultCode: WebinarVideoChatActivity.ResultStatus) {

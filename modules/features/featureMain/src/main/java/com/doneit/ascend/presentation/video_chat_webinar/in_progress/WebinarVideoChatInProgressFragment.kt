@@ -98,10 +98,9 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         })
     }
 
-    override fun onStop() {
+    override fun onPause() {
         connection?.close()
-        connection?.removeEventListener("status", this)
-        super.onStop()
+        super.onPause()
 
     }
 
@@ -114,12 +113,12 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             onGranted = {
                 delegate?.startVideo(model)
                 //TODO: remove
-                //if(true) return@requestPermissions
+                if(true) return@requestPermissions
                 connection = RTMPConnection()
                 stream = RTMPStream(connection!!)
                 stream?.attachCamera(com.haishinkit.media.Camera(Camera.open()))
                 stream?.attachAudio(Audio())
-                connection?.addEventListener("status", this)
+                connection?.addEventListener("rtmpStatus", this)
                 connection?.connect(RTMP_LINK)
                 viewModel.switchCameraEvent.observe(this) {
                     delegate?.switchCamera()

@@ -3,10 +3,12 @@ package com.doneit.ascend.presentation.models.chat
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 
 data class ChatWithUser(
     val chat: ChatEntity,
-    val user: UserEntity
+    val user: UserEntity,
+    val chatType: ChatType
 )
 
 data class ChatsWithUser(

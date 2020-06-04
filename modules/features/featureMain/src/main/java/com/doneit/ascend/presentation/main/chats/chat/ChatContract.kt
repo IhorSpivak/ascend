@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberContract
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 
@@ -18,6 +19,7 @@ interface ChatContract {
         val chatModel: LiveData<ChatEntity>
         val membersCountGroup: LiveData<Int>
         val chat: MediatorLiveData<ChatWithUser>
+        var chatType: ChatType
 
         fun markMessageAsRead(message: MessageEntity)
         fun applyData(chat: ChatEntity?, user: UserEntity? = null)

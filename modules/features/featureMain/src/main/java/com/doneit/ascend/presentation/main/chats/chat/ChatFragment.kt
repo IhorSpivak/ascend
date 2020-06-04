@@ -19,6 +19,7 @@ import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
@@ -104,16 +105,19 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         viewModel.chat.observe(this, Observer {
             currentDialog?.dismiss()
             binding.apply {
-                chatName = it.chat.title
+                chatName = if (it.chatType == ChatType.WEBINAR_CHAT) {
+                    getString(R.string.chat)
+                } else {
+                    it.chat.title
+                }
+                binding.menu.visible(it.chatType == ChatType.CHAT)
                 chat = it.chat
                 Glide.with(groupPlaceholder)
                     .load(R.drawable.ic_group_placeholder)
                     .circleCrop()
                     .into(groupPlaceholder)
-                if (it.chat.membersCount > 2) {
-                    url = it.chat.image?.url
-                    statusOrCount =
-                        resources.getString(R.string.chats_member_count, it.chat.membersCount)
+                url = if (it.chat.membersCount > 2) {
+                    it.chat.image?.url
                 } else {
                     image.setOnClickListener {
                         viewModel.showDetailedUser(
@@ -123,14 +127,21 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                         )
                     }
                     it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
-                        url = it.image?.url
-                        statusOrCount = if (it.online) {
-                            resources.getString(R.string.chats_member_online)
-                        } else {
-                            resources.getString(R.string.chats_member_offline)
-                        }
+                       it.image?.url
                     }
                 }
+                statusOrCount =
+                    if (it.chat.membersCount == 2 && it.chatType == ChatType.CHAT) {
+                        it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
+                            if (it.online) {
+                                resources.getString(R.string.chats_member_online)
+                            } else {
+                                resources.getString(R.string.chats_member_offline)
+                            }
+                        }
+                    } else {
+                        resources.getString(R.string.chats_member_count, it.chat.membersCount)
+                    }
             }
             //set type of menu
             when (it.chat.chatOwnerId) {
@@ -245,17 +256,23 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
     override fun onResume() {
         super.onResume()
+        arguments?.getString(CHAT_TYPE)?.let {
+            viewModel.chatType = ChatType.fromRemoteString(it)
+        }
         arguments?.getLong(CHAT_KEY)?.let {
             viewModel.setChat(it)
         }
+
     }
 
     companion object {
         const val CHAT_KEY = "chat"
-        fun getInstance(id: Long): ChatFragment {
+        const val CHAT_TYPE = "chat_type"
+        fun getInstance(id: Long, chatType: ChatType = ChatType.CHAT): ChatFragment {
             return ChatFragment().apply {
                 arguments = Bundle().apply {
                     putLong(CHAT_KEY, id)
+                    putString(CHAT_TYPE, chatType.toString())
                 }
             }
         }
