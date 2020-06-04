@@ -10,15 +10,26 @@ interface IMyChatsRepository {
 
     suspend fun getChatDetails(id: Long): RemoteResponse<ChatResponse, ErrorsListResponse>
 
-    suspend fun getMessages(id: Long, request: MessageListRequest): RemoteResponse<MessagesListResponse, ErrorsListResponse>
+    suspend fun getMessages(
+        id: Long,
+        request: MessageListRequest
+    ): RemoteResponse<MessagesListResponse, ErrorsListResponse>
 
-    suspend fun getMembers(id: Long, request: MemberListRequest): RemoteResponse<MemberListResponse, ErrorsListResponse>
+    suspend fun getMembers(
+        id: Long,
+        request: MemberListRequest
+    ): RemoteResponse<MemberListResponse, ErrorsListResponse>
 
     suspend fun deleteChat(id: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun sendMessage(request: MessageRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun leaveChat(id: Long): RemoteResponse<OKResponse, ErrorsListResponse>
+
+    suspend fun removeUser(
+        chatId: Long,
+        userId: Long
+    ): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun createChat(request: CreateChatRequest): RemoteResponse<ChatResponse, ErrorsListResponse>
 

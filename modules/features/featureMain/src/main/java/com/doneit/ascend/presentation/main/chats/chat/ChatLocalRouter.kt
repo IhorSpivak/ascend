@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.chats.chat
 
-import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.presentation.main.chats.chat.invite_members.InviteMemberFragment
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.vrgsoft.core.presentation.router.FragmentRouter

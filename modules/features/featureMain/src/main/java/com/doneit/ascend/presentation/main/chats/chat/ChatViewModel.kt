@@ -97,7 +97,7 @@ class ChatViewModel(
         viewModelScope.launch {
             val response = chatUseCase.getChatDetails(id)
 
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 response.successModel?.let {
                     chatModel.postValue(it)
                 }
@@ -164,7 +164,7 @@ class ChatViewModel(
 
     override fun sendMessage(message: String) {
         viewModelScope.launch {
-            chatUseCase.sendMessage(MessageDTO(chatModel.value!!.id, message))?.let {
+            chatUseCase.sendMessage(MessageDTO(chatModel.value!!.id, message)).let {
                 if (it.isSuccessful) {
                     chatModel.value?.let {
                         chatModel.postValue(it)
@@ -172,6 +172,26 @@ class ChatViewModel(
                 }
             }
         }
+    }
+
+    override fun onChatDetailsClick() {
+        chat.value?.let { chatWithUser ->
+            if (chatWithUser.chat.membersCount == 2) {
+                router.goToDetailedUser(chatWithUser.chat.members?.firstOrNull {
+                    it.id != chatWithUser.user.id && !it.removed && !it.leaved
+                }?.id ?: return@let)
+            } else {
+                router.goToChatMembers(
+                    chatWithUser.chat.id,
+                    chatWithUser.chat.members.orEmpty().filter {
+                        !it.leaved && !it.removed
+                    })
+            }
+        }
+    }
+
+    override fun onImageClick() {
+        onChatDetailsClick()
     }
 
     override fun onBlockUserClick(member: MemberEntity) {

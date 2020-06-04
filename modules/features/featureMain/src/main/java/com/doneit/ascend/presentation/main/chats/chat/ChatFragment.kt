@@ -24,7 +24,8 @@ import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
 import com.doneit.ascend.presentation.utils.extensions.visible
-import kotlinx.android.synthetic.main.fragment_my_chats.*
+import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.fragment_my_chats.emptyList
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -84,6 +85,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     //TODO: still need to refactor
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
+            model = viewModel
             messageList.adapter = messagesAdapter
             menu.setOnClickListener {
                 showMenu(it)
@@ -119,13 +121,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 url = if (it.chat.membersCount > 2) {
                     it.chat.image?.url
                 } else {
-                    image.setOnClickListener {
-                        viewModel.showDetailedUser(
-                            chat?.members?.firstOrNull {
-                                it.id != viewModel.user.value?.id
-                            }?.id ?: return@setOnClickListener
-                        )
-                    }
                     it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
                        it.image?.url
                     }
@@ -432,6 +427,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             }
             currentDialog?.show()
         }
+    }
+
+    override fun onDestroyView() {
+        messageList.adapter = null
+        super.onDestroyView()
     }
 
     private fun createEditNameDialog(): AlertDialog {

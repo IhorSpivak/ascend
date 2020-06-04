@@ -47,6 +47,7 @@ fun MemberEntity.toLocal(): MemberLocal {
         fullName,
         online,
         leaved,
+        removed,
         image?.toLocal()
     )
 }

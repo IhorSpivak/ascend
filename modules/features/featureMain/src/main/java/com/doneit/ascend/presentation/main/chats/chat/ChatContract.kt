@@ -28,6 +28,8 @@ interface ChatContract {
         fun updateChatName(newName: String)
         fun sendMessage(message: String)
         fun inviteUser()
+        fun onImageClick()
+        fun onChatDetailsClick()
         fun onBlockUserClick(member: MemberEntity)
         fun onUnblockUserClick(member: MemberEntity)
         fun showDetailedUser(userId: Long)
@@ -41,6 +43,7 @@ interface ChatContract {
     interface Router {
         fun onBack()
         fun goToDetailedUser(id: Long)
+        fun goToChatMembers(chatId: Long, members: List<MemberEntity>)
     }
 
     interface LocalRouter {

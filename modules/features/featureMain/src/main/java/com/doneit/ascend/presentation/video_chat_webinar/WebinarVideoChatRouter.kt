@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.content.Intent
+import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
@@ -36,7 +37,9 @@ class WebinarVideoChatRouter(
     }
 
     override fun goToDetailedUser(id: Long) {
-        TODO("Not yet implemented")
+    }
+
+    override fun goToChatMembers(chatId: Long, members: List<MemberEntity>) {
     }
 
     override fun finishActivity() {

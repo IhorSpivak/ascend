@@ -5,7 +5,8 @@
     <data>
 
         <import type="android.view.View" />
-        <import type="com.doneit.ascend.presentation.utils.NumberUtilsKt"/>
+
+        <import type="com.doneit.ascend.presentation.utils.NumberUtilsKt" />
 
         <variable
             name="model"
@@ -102,7 +103,7 @@
                                 android:numStars="5"
                                 android:rating="@{model.profile.rating}"
                                 android:theme="@style/RatingBarTheme"
-                                android:visibility="visible"
+                                android:visibility="@{model.profile.masterMind?View.VISIBLE:View.GONE}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
@@ -113,32 +114,32 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
-                                android:layout_marginTop="16dp"
+                                android:layout_marginTop="8dp"
                                 android:layout_marginEnd="20dp"
                                 android:gravity="center"
-                                android:text="@{model.profile.description}"
+                                android:text="@{model.profile.masterMind?@string/type_mastermind:@string/type_regular_user}"
+                                android:visibility="@{model.profile.masterMind?View.VISIBLE:View.GONE}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/rbRating"
-                                app:visibilityByData="@{model.profile.description}"
                                 tools:text="MasterMind" />
 
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/tvFollowersCount"
                                 style="@style/AppTheme.Button"
-                                android:elevation="8dp"
                                 android:layout_width="120dp"
                                 android:layout_height="32dp"
                                 android:layout_marginTop="8dp"
-                                android:textSize="12sp"
+                                android:background="@drawable/ic_bg_btn_joined"
+                                android:elevation="8dp"
+                                android:text="@{@plurals/mm_followers_count(model.profile.followersCount,NumberUtilsKt.formatToKValue(model.profile.followersCount))}"
                                 android:textAllCaps="false"
                                 android:textColor="@color/colorAccent"
-                                android:background="@drawable/ic_bg_btn_joined"
+                                android:textSize="12sp"
                                 android:visibility="@{model.profile.masterMind?View.VISIBLE:View.INVISIBLE}"
-                                android:text="@{@plurals/mm_followers_count(model.profile.followersCount,NumberUtilsKt.formatToKValue(model.profile.followersCount))}"
-                                app:layout_constraintTop_toBottomOf="@id/tvShortDescription"
+                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"/>
+                                app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
 
                             <Button
                                 android:id="@+id/btnFollow"
