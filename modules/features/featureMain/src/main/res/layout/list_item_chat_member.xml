@@ -7,7 +7,7 @@
 
         <variable
             name="user"
-            type="com.doneit.ascend.domain.entity.AttendeeEntity" />
+            type="com.doneit.ascend.domain.entity.chats.MemberEntity" />
 
         <variable
             name="modelView"
@@ -32,7 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:name="@{user.fullName}"
-            app:url="@{user.imageUrl}" />
+            app:url="@{user.image.url}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/followerName"
@@ -56,11 +56,23 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnBlock"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnBlock"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_action_block"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

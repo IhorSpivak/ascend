@@ -357,6 +357,20 @@ class MyChatGateway(
         }
     }
 
+    override suspend fun removeUser(
+        chatId: Long,
+        userId: Long
+    ): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.removeUser(chatId, userId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override fun addBlockedUser(userEntity: BlockedUserEntity) {
         GlobalScope.launch {
             local.insertBlockedUser(userEntity.toLocal())

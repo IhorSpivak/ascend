@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ascension.goal.GoalEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
@@ -26,6 +27,8 @@ import com.doneit.ascend.presentation.main.chats.MyChatsContract
 import com.doneit.ascend.presentation.main.chats.MyChatsFragment
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
+import com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersContract
+import com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersFragment
 import com.doneit.ascend.presentation.main.chats.new_chat.NewChatContract
 import com.doneit.ascend.presentation.main.chats.new_chat.NewChatFragment
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberFragment
@@ -153,6 +156,7 @@ class MainRouter(
     MyChatsContract.Router,
     NewChatContract.Router,
     ChatContract.Router,
+    ChatMembersContract.Router,
     BlockedUsersContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
@@ -178,6 +182,13 @@ class MainRouter(
         activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,
             MMInfoFragment.newInstance(id)
+        )
+    }
+
+    override fun goToChatMembers(chatId: Long, members: List<MemberEntity>) {
+        activity.supportFragmentManager.replaceWithBackStack(
+            containerIdFull,
+            ChatMembersFragment.newInstance(chatId, members)
         )
     }
 

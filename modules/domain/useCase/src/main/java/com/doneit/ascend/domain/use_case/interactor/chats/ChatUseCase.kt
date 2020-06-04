@@ -20,6 +20,11 @@ interface ChatUseCase {
     suspend fun delete(id: Long): ResponseEntity<Unit, List<String>>
     suspend fun sendMessage(request: MessageDTO): ResponseEntity<Unit, List<String>>
     suspend fun leave(id: Long): ResponseEntity<Unit, List<String>>
+    suspend fun removeUser(
+        chatId: Long,
+        userId: Long
+    ): ResponseEntity<Unit, List<String>>
+
     suspend fun updateChat(
         id: Long,
         title: String? = null,

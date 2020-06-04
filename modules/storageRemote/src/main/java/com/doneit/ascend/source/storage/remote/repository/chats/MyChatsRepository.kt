@@ -91,6 +91,13 @@ internal class MyChatsRepository(
         return execute({ api.leaveChatAsync(id) }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun removeUser(
+        chatId: Long,
+        userId: Long
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.removeUserAsync(chatId, userId) }, ErrorsListResponse::class.java)
+    }
+
     override suspend fun createChat(request: CreateChatRequest): RemoteResponse<ChatResponse, ErrorsListResponse> {
         return execute({ api.createChatAsync(request) }, ErrorsListResponse::class.java)
     }
@@ -139,6 +146,6 @@ internal class MyChatsRepository(
     }
 
     override suspend fun getUnreadMessageCount(): RemoteResponse<UnreadMessageCountResponse, ErrorsListResponse> {
-        return execute({ api.getUnreadMessageCount()}, ErrorsListResponse::class.java)
+        return execute({ api.getUnreadMessageCount() }, ErrorsListResponse::class.java)
     }
 }

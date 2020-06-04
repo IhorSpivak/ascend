@@ -11,6 +11,8 @@ data class MemberResponse(
     val online: Boolean,
     @SerializedName("leaved")
     val leaved: Boolean,
+    @SerializedName("removed")
+    val removed: Boolean,
     @SerializedName("image")
     val image: ImageResponse?
 )
