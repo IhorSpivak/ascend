@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.*
-import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -52,9 +51,9 @@ class MMInfoViewModel(
                 isUnfollowVisible.value = false
                 showRatingBar.value = false
             } else {
-                isFollowVisible.value = displayedUser.followed.not()
-                isUnfollowVisible.value = displayedUser.followed
-                showRatingBar.value = displayedUser.allowRating
+                isFollowVisible.value = displayedUser.followed.not() && displayedUser.isMasterMind
+                isUnfollowVisible.value = displayedUser.followed && displayedUser.isMasterMind
+                showRatingBar.value = displayedUser.allowRating && displayedUser.isMasterMind
             }
         }
     }
