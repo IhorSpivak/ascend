@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/modules/features/featureLogin" />
             <option value="$PROJECT_DIR$/modules/features/featureMain" />
             <option value="$PROJECT_DIR$/modules/features/featureSplash" />
+            <option value="$PROJECT_DIR$/modules/haishinkit" />
             <option value="$PROJECT_DIR$/modules/storageLocal" />
             <option value="$PROJECT_DIR$/modules/storageRemote" />
           </set>

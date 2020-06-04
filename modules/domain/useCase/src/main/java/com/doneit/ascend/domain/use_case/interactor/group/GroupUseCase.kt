@@ -77,5 +77,7 @@ interface GroupUseCase {
 
     fun unMuteAllUsers(userId: String)
 
+    fun participantConnectionStatus(userId: String, isConnected: Boolean)
+
     fun disconnect()
 }
