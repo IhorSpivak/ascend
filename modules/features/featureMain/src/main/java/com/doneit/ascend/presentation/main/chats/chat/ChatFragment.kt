@@ -107,36 +107,38 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         viewModel.chat.observe(this, Observer {
             currentDialog?.dismiss()
             binding.apply {
-                chatName = if (it.chatType == ChatType.WEBINAR_CHAT) {
-                    getString(R.string.chat)
-                } else {
-                    it.chat.title
-                }
                 binding.menu.visible(it.chatType == ChatType.CHAT)
-                chat = it.chat
-                Glide.with(groupPlaceholder)
-                    .load(R.drawable.ic_group_placeholder)
-                    .circleCrop()
-                    .into(groupPlaceholder)
-                url = if (it.chat.membersCount > 2) {
-                    it.chat.image?.url
-                } else {
-                    it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
-                       it.image?.url
-                    }
-                }
-                statusOrCount =
-                    if (it.chat.membersCount == 2 && it.chatType == ChatType.CHAT) {
+                binding.chatHeader.visible(it.chatType == ChatType.CHAT)
+                binding.tvTitle.visible(it.chatType == ChatType.WEBINAR_CHAT)
+                if (it.chatType != ChatType.WEBINAR_CHAT) {
+                    chatName = it.chat.title
+                    chat = it.chat
+                    Glide.with(groupPlaceholder)
+                        .load(R.drawable.ic_group_placeholder)
+                        .circleCrop()
+                        .into(groupPlaceholder)
+                    if (it.chat.membersCount > 2) {
+                        url = it.chat.image?.url
+                        statusOrCount =
+                            resources.getString(R.string.chats_member_count, it.chat.membersCount)
+                    } else {
+                        image.setOnClickListener {
+                            viewModel.showDetailedUser(
+                                chat?.members?.firstOrNull {
+                                    it.id != viewModel.user.value?.id
+                                }?.id ?: return@setOnClickListener
+                            )
+                        }
                         it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
-                            if (it.online) {
+                            url = it.image?.url
+                            statusOrCount = if (it.online) {
                                 resources.getString(R.string.chats_member_online)
                             } else {
                                 resources.getString(R.string.chats_member_offline)
                             }
                         }
-                    } else {
-                        resources.getString(R.string.chats_member_count, it.chat.membersCount)
                     }
+                }
             }
             //set type of menu
             when (it.chat.chatOwnerId) {

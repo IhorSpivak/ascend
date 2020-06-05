@@ -59,6 +59,7 @@
                     android:layout_height="match_parent"
                     app:contentInsetStart="0dp">
 
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -81,83 +82,104 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-
-                        <com.doneit.ascend.presentation.views.MasterMindIcon
-                            android:id="@+id/image"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:onClick="@{() -> model.onImageClick()}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/btnBack"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:name="@{chatName}"
-                            app:url="@{url}" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/groupPlaceholder"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:onClick="@{() -> model.onImageClick()}"
-                            android:visibility="@{chat.members.size() != 2, default = invisible}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/btnBack"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/name"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/chatHeader"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:ellipsize="end"
-                            android:fontFamily="@font/red_hat_font"
-                            android:gravity="start|top"
-                            android:onClick="@{() -> model.onChatDetailsClick()}"
-                            android:singleLine="true"
-                            android:text="@{chatName}"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toTopOf="@id/status"
-                            app:layout_constraintEnd_toStartOf="@+id/menu"
-                            app:layout_constraintStart_toEndOf="@id/image"
-                            app:layout_constraintTop_toTopOf="@id/image"
-                            tools:text="Name " />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:ellipsize="end"
-                            android:fontFamily="@font/red_hat_font"
-                            android:gravity="center_horizontal|top"
-                            android:onClick="@{() -> model.onChatDetailsClick()}"
-                            android:text="@{statusOrCount}"
-                            android:textSize="12sp"
-                            app:layout_constraintBottom_toBottomOf="@id/image"
-                            app:layout_constraintStart_toEndOf="@id/image"
-                            app:layout_constraintTop_toBottomOf="@id/name"
-                            tools:text="Name Name" />
-
-
-                        <androidx.appcompat.widget.AppCompatImageButton
-                            android:id="@+id/menu"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
-                            android:background="@android:color/white"
-                            android:visibility="gone"
-                            android:src="@drawable/ic_more_vert"
-                            android:tint="@color/light_gray_8f"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintStart_toEndOf="@id/btnBack"
+                            app:layout_constraintTop_toTopOf="parent">
 
+                            <com.doneit.ascend.presentation.views.MasterMindIcon
+                                android:id="@+id/image"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:onClick="@{() -> model.onImageClick()}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:name="@{chatName}"
+                                app:url="@{url}" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/groupPlaceholder"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:onClick="@{() -> model.onImageClick()}"
+                                android:visibility="@{chat.members.size() != 2, default = invisible}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/name"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/red_hat_font"
+                                android:gravity="start|top"
+                                android:onClick="@{() -> model.onChatDetailsClick()}"
+                                android:singleLine="true"
+                                android:text="@{chatName}"
+                                android:textSize="18sp"
+                                app:layout_constraintBottom_toTopOf="@id/status"
+                                app:layout_constraintEnd_toStartOf="@+id/menu"
+                                app:layout_constraintStart_toEndOf="@id/image"
+                                app:layout_constraintTop_toTopOf="@id/image"
+                                tools:text="Name " />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/red_hat_font"
+                                android:gravity="center_horizontal|top"
+                                android:onClick="@{() -> model.onChatDetailsClick()}"
+                                android:text="@{statusOrCount}"
+                                android:textSize="12sp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@id/image"
+                                app:layout_constraintStart_toEndOf="@id/image"
+                                app:layout_constraintTop_toBottomOf="@id/name"
+                                tools:text="Name Name" />
+
+
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/menu"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginTop="16dp"
+                                android:layout_marginBottom="16dp"
+                                android:background="@android:color/white"
+                                android:src="@drawable/ic_more_vert"
+                                android:tint="@color/light_gray_8f"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvTitle"
+                            style="@style/Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/chat"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.AppBarLayout>
