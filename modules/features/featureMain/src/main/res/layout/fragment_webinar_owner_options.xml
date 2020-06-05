@@ -95,6 +95,24 @@
             app:layout_constraintStart_toEndOf="@id/ivQuestions"
             app:layout_constraintTop_toTopOf="@id/ivQuestions" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:visibility="@{model.hasUnreadMessage}"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:src="@drawable/ic_unread_indicator"
+            app:layout_constraintTop_toTopOf="@id/ivChat"
+            app:layout_constraintEnd_toEndOf="@id/ivChat"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:src="@drawable/ic_unread_indicator"
+            android:visibility="@{model.hasUnreadQuestion}"
+            app:layout_constraintTop_toTopOf="@id/ivQuestions"
+            app:layout_constraintEnd_toEndOf="@id/ivQuestions"/>
+
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/bottomGroup"
             android:layout_width="wrap_content"

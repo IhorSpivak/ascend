@@ -66,8 +66,10 @@ class WebinarVideoChatViewModel(
     override val isVideoEnabled = MutableLiveData<Boolean>()
     override val isAudioRecording = MutableLiveData<Boolean>()
     override val isQuestionSent = MutableLiveData<Boolean>()
-    override val isMMConnected: LiveData<Boolean> = MutableLiveData<Boolean>(false)
+    override val isMMConnected: LiveData<Boolean> = MutableLiveData(false)
     override val isMuted = MutableLiveData<Boolean>()
+    override val hasUnreadQuestion = MutableLiveData(false)
+    override val hasUnreadMessage = MutableLiveData(false)
     override val credentials = MutableLiveData<StartWebinarVideoModel>()
     override val isVisitor = MutableLiveData<Boolean>()
 
@@ -202,23 +204,23 @@ class WebinarVideoChatViewModel(
             if (viewModelDelegate == null)
                 viewModelDelegate = VideoChatUtils.vimeoViewModelDelegate(this)
             //viewModelDelegate!!.initializeChatState(groupEntity, creds, currentUser)
-                chatRole =
-                    if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
-                        isVisitor.postValue(false)
-                        ChatRole.OWNER
-                    } else {
-                        isVisitor.postValue(true)
-                        ChatRole.VISITOR
-                    }
-                credentials.value =
-                    StartWebinarVideoModel(
-                        chatRole!!,
-                        creds!!.chatId,
-                        creds.key,
-                        creds.link
-                    )
+            chatRole =
+                if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
+                    isVisitor.postValue(false)
+                    ChatRole.OWNER
+                } else {
+                    isVisitor.postValue(true)
+                    ChatRole.VISITOR
+                }
+            credentials.value =
+                StartWebinarVideoModel(
+                    chatRole!!,
+                    creds.chatId,
+                    creds.key,
+                    creds.link
+                )
 
-                changeState(VideoChatState.PREVIEW_DATA_LOADED)
+            changeState(VideoChatState.PREVIEW_DATA_LOADED)
 
             messages.observeForever(groupObserver)
             questionsStream.observeForever(questionObserver)
@@ -317,6 +319,7 @@ class WebinarVideoChatViewModel(
 
     override fun onChatClick() {
         credentials.value?.let {
+            hasUnreadMessage.value = false
             WebinarVideoChatContract.Navigation.TO_CHAT.data.putLong(CHAT_ID_KEY, it.chatId)
             navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT)
         }
@@ -324,6 +327,7 @@ class WebinarVideoChatViewModel(
     }
 
     override fun onQuestionsClick() {
+        hasUnreadQuestion.value = false
         navigation.postValue(WebinarVideoChatContract.Navigation.TO_QUESTIONS)
     }
 
@@ -483,6 +487,7 @@ class WebinarVideoChatViewModel(
                 QuestionSocketEvent.CREATE -> {
                     val question = socketEvent.toEntity()
                     question.let {
+                        hasUnreadQuestion.postValue(true)
                         webinarQuestionUseCase.insertMessage(it)
                     }
                 }
@@ -503,8 +508,10 @@ class WebinarVideoChatViewModel(
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
                 Log.d("socket", "connected")
+                hasUnreadMessage.postValue(true)
             }
             SocketEvent.GROUP_STARTED -> {
+                hasUnreadMessage.postValue(true)
                 groupInfo.value?.let {
                     groupUseCase.updateGroupLocal(
                         it.copy(
@@ -517,6 +524,7 @@ class WebinarVideoChatViewModel(
             }
             SocketEvent.PARTICIPANT_DISCONNECTED -> {
                 Log.d("socket", "disconnected")
+                hasUnreadMessage.postValue(true)
             }
             else -> Unit
         }
@@ -529,8 +537,9 @@ class WebinarVideoChatViewModel(
                 if (res.isSuccessful) {
                     //TODO: refactor drop
                     delay(2000)
-                    val updateResponse = vimeoUseCase.updateLiveStream(res.successModel?.link!!.drop(13).toLong())
-                    if(updateResponse.isSuccessful) {
+                    val updateResponse =
+                        vimeoUseCase.updateLiveStream(res.successModel?.link!!.drop(13).toLong())
+                    if (updateResponse.isSuccessful) {
                         val response = groupUseCase.setWebinarCredentials(
                             groupInfo.value!!.id,
                             WebinarCredentialsDTO(
@@ -556,18 +565,16 @@ class WebinarVideoChatViewModel(
         }
     }
 
-    override fun getM3u8Playback(){
+    override fun getM3u8Playback() {
         viewModelScope.launch {
             val res = vimeoUseCase.getM3u8(credentials.value!!.link!!.drop(13).toLong())
-            if(res.isSuccessful){
+            if (res.isSuccessful) {
                 Log.d("success", "success")
             } else {
 
             }
         }
     }
-
-
 
 
 }

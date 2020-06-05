@@ -10,6 +10,8 @@ interface OwnerOptionsContract {
         val isVideoEnabled: LiveData<Boolean>
         val isAudioRecording: LiveData<Boolean>
         val isMuted: LiveData<Boolean>
+        val hasUnreadQuestion: LiveData<Boolean>
+        val hasUnreadMessage: LiveData<Boolean>
 
         fun switchVideoEnabledState()
         fun switchAudioEnabledState()
