@@ -30,7 +30,9 @@ import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.SupportDuration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateSupportGroupBinding
 import com.doneit.ascend.presentation.utils.GroupAction
@@ -81,10 +83,8 @@ class CreateSupGroupFragment :
     }
 
     private val durationAdapter by lazy {
-        MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
-                R.array.meeting_duration_array
-            )
+        DurationAdapter(
+            SupportDuration.values().map { it.label }.toTypedArray()
         )
     }
 
@@ -168,7 +168,7 @@ class CreateSupGroupFragment :
 
             val tagsAdapter = MeetingFormatsAdapter(array.toTypedArray())
             initSpinner(binding.tagsPicker, tagsListener, tagsAdapter)
-            if(group != null) {
+            if (group != null) {
                 viewModel.createGroupModel.apply {
                     val position = array.indexOf(group!!.tag!!.tag)
                     binding.tagsPicker.setSelection(position)
@@ -199,7 +199,7 @@ class CreateSupGroupFragment :
                 )
                 tags = group!!.tag!!.id
                 binding.durationPicker.setSelection(
-                    group!!.duration
+                    SupportDuration.fromDuration(group!!.duration).ordinal
                 )
                 numberOfMeetings.observableField.set(group!!.meetingsCount.toString())
                 price.observableField.set(group!!.price.toString())
@@ -392,7 +392,7 @@ class CreateSupGroupFragment :
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.duration.observableField.set(p2.toString())
+                    viewModel.createGroupModel.duration.observableField.set(SupportDuration.values()[p2].time.toString())
                 }
             }
 

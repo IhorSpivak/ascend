@@ -22,11 +22,11 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
-import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostFragment
-import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
+import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualGroupBinding
 import com.doneit.ascend.presentation.utils.checkImage
@@ -68,10 +68,8 @@ class IndividualGroupFragment(
     override val viewModel: IndividualGroupContract.ViewModel by instance()
 
     private val durationAdapter by lazy {
-        MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
-                R.array.meeting_duration_array
-            )
+        DurationAdapter(
+            Duration.values().map { it.label }.toTypedArray()
         )
     }
 
@@ -103,7 +101,7 @@ class IndividualGroupFragment(
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.duration.observableField.set(p2.toString())
+                    viewModel.createGroupModel.duration.observableField.set(Duration.values()[p2].time.toString())
                 }
             }
 
@@ -124,7 +122,7 @@ class IndividualGroupFragment(
 
             initSpinner(durationPicker, durationListener, durationAdapter)
             viewModel.createGroupModel.duration.observableField.get()?.run {
-                if(this.isNotEmpty()) durationPicker.setSelection(this.toInt())
+                if(this.isNotEmpty()) durationPicker.setSelection(Duration.fromDuration(this.toInt()).ordinal)
             }
             startDate.editText.setOnClickListener {
                 mainContainer.requestFocus()

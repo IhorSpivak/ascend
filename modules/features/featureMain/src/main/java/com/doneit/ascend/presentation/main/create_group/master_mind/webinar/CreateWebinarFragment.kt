@@ -31,7 +31,8 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
-import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
+import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.ThemeAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.TimeAdapter
@@ -82,10 +83,8 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
     }
 
     private val durationAdapter by lazy {
-        MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
-                R.array.meeting_duration_array
-            )
+        DurationAdapter(
+            Duration.values().map { it.label }.toTypedArray()
         )
     }
 
@@ -117,7 +116,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.duration.observableField.set(p2.toString())
+                    viewModel.createGroupModel.duration.observableField.set(Duration.values()[p2].time.toString())
                 }
             }
 
@@ -138,7 +137,6 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         viewModel.updateFieldValidators()
 
         initSpinner(binding.durationPicker, durationListener, durationAdapter)
-
         binding.apply {
             model = viewModel
             actionTitle = if (what == null) {
@@ -227,6 +225,9 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             themeAdapter.data = it
         })
         if (group != null) {
+            binding.durationPicker.setSelection(
+                Duration.fromDuration(group!!.duration).ordinal
+            )
             binding.buttonComplete.apply {
                 text = getString(R.string.btn_save_action)
                 setOnClickListener {

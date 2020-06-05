@@ -18,11 +18,11 @@ import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
-import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
-import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
+import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
 import com.doneit.ascend.presentation.utils.checkImage
@@ -58,10 +58,8 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
 
     private val durationAdapter by lazy {
-        MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
-                R.array.meeting_duration_array
-            )
+        DurationAdapter(
+            Duration.values().map { it.label }.toTypedArray()
         )
     }
 
@@ -93,7 +91,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.duration.observableField.set(p2.toString())
+                    viewModel.createGroupModel.duration.observableField.set(Duration.values()[p2].time.toString())
                 }
             }
 
@@ -125,7 +123,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             initSpinner(durationPicker, durationListener, durationAdapter)
 
             viewModel.createGroupModel.duration.observableField.get()?.run {
-                if(this.isNotEmpty()) durationPicker.setSelection(this.toInt())
+                if(this.isNotEmpty()) durationPicker.setSelection(Duration.fromDuration(this.toInt()).ordinal)
             }
         }
 
