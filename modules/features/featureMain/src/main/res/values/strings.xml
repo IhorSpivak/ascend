@@ -210,7 +210,7 @@
     <string name="past">Past</string>
 
     <!--View Profile-->
-    <string name="type_mastermind">Recovery MasterMind Coach</string>
+    <string name="type_mastermind">MasterMind Coach</string>
     <string name="type_regular_user">Regular User</string>
 
     <!--Search-->
