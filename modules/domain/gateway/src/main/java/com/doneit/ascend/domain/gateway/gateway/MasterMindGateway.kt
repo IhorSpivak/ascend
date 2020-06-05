@@ -2,13 +2,13 @@ package com.doneit.ascend.domain.gateway.gateway
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import androidx.lifecycle.map
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.MasterMindListDTO
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.gateway.common.mapper.Constants
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -16,11 +16,9 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MMBoundaryCallback
 import com.doneit.ascend.domain.use_case.gateway.IMasterMindGateway
-import com.doneit.ascend.source.storage.local.repository.user.IUserRepository
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.vrgsoft.networkmanager.NetworkManager
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.runBlocking
 import java.util.concurrent.Executors
 
 internal class MasterMindGateway(
@@ -49,7 +47,7 @@ internal class MasterMindGateway(
 
             val config = PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
-                .setPageSize(listRequest.perPage ?: 10)
+                .setPageSize(listRequest.perPage ?: Constants.PER_PAGE)
                 .build()
 
             val factory = local.getMMList(listRequest.toLocal()).map { it.toEntity() }

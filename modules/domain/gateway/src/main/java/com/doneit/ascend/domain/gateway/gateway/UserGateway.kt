@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.user.AuthEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.gateway.common.mapper.Constants
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toUserEntity
@@ -254,7 +255,7 @@ internal class UserGateway(
     override suspend fun getRating(ratingsModel: RatingsDTO): PagedList<RateEntity> {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
-            .setPageSize(ratingsModel.perPage ?: 10)
+            .setPageSize(ratingsModel.perPage ?: Constants.PER_PAGE)
             .build()
 
         val dataSource = RateDataSource(
@@ -354,7 +355,7 @@ internal class UserGateway(
         if (accounts.isNotEmpty()) {
             for (accountItem in accounts) {
                 try {
-                    if (android.os.Build.VERSION.SDK_INT >= 22) {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
                         accountManager.removeAccountExplicitly(accountItem)
                     } else {
                         accountManager.removeAccount(accountItem, null, null)

@@ -4,9 +4,9 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.Button
+import android.widget.CompoundButton
 import android.widget.RadioButton
 import android.widget.TextView
-import android.widget.ToggleButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.text.HtmlCompat
@@ -199,18 +199,6 @@ fun setAdapter(
     view.adapter = adapter
 }
 
-@BindingAdapter("app:setParticipantsVisibility")
-fun setParticipantsVisibility(
-    view: androidx.recyclerview.widget.RecyclerView,
-    items: LiveData<List<String>>
-) {
-    view.visibility = if (items.value != null && items.value?.isNotEmpty() == true) {
-        View.VISIBLE
-    } else {
-        View.GONE
-    }
-}
-
 @BindingAdapter("app:path")
 fun AppCompatImageView.setImageUri(path: String?) {
     setImageURI(null)//in order to force image update
@@ -232,16 +220,6 @@ fun setVisibilityByData(
     view.visibility = if (data.isNullOrEmpty()) View.GONE else View.VISIBLE
 }
 
-@BindingAdapter("app:setDayBackground")
-fun RadioButton.setDayBackground(groupType: GroupType) {
-    background = when(groupType){
-        GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.day_button_selector)
-        GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.day_button_selector)
-        GroupType.WEBINAR -> resources.getDrawable(R.drawable.day_button_selector_webinar)
-        GroupType.SUPPORT -> resources.getDrawable(R.drawable.day_button_selector_support)
-        else -> resources.getDrawable(R.drawable.day_button_selector)
-    }
-}
 @BindingAdapter("app:setCountBackground")
 fun RadioButton.setCountBackground(groupType: GroupType) {
     background = when(groupType){
@@ -254,7 +232,7 @@ fun RadioButton.setCountBackground(groupType: GroupType) {
 }
 
 @BindingAdapter("app:setDayBackground")
-fun ToggleButton.setDayBackground(groupType: GroupType) {
+fun CompoundButton.setDayBackground(groupType: GroupType) {
     background = when(groupType){
         GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.day_button_selector)
         GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.day_button_selector)

@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.WebinarQuestionDTO
 import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
 import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
+import com.doneit.ascend.domain.gateway.common.mapper.Constants
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -40,7 +41,7 @@ class WebinarQuestionGateway(
         return liveData {
             val config = PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
-                .setPageSize(request.perPage ?: 10)
+                .setPageSize(request.perPage ?: Constants.PER_PAGE)
                 .build()
             val factory = local.getAll().map { it.toEntity() }
 

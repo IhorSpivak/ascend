@@ -16,6 +16,8 @@ import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
+import com.doneit.ascend.domain.gateway.common.defaultValue
+import com.doneit.ascend.domain.gateway.common.mapper.Constants
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -58,7 +60,7 @@ internal class GroupGateway(
     ): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
             val result = remote.createGroup(
-                File(groupDTO.imagePath ?: ""),
+                File(groupDTO.imagePath.defaultValue()),
                 groupDTO.toCreateGroupRequest()
             )
 
@@ -271,7 +273,7 @@ internal class GroupGateway(
         memberList: List<AttendeeEntity>?
     ): LiveData<PagedList<AttendeeEntity>> {
         return UserDataSourceFactory(GlobalScope, remote, query, userId, memberList).toLiveData(
-            pageSize = 10,
+            pageSize = Constants.PER_PAGE,
             fetchExecutor = Executors.newSingleThreadExecutor()
         )
     }
