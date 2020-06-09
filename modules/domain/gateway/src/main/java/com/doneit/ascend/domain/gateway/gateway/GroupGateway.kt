@@ -16,7 +16,6 @@ import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
-import com.doneit.ascend.domain.gateway.common.defaultValue
 import com.doneit.ascend.domain.gateway.common.mapper.Constants
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
@@ -60,7 +59,7 @@ internal class GroupGateway(
     ): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
             val result = remote.createGroup(
-                File(groupDTO.imagePath.defaultValue()),
+                File(groupDTO.imagePath.orEmpty()),
                 groupDTO.toCreateGroupRequest()
             )
 

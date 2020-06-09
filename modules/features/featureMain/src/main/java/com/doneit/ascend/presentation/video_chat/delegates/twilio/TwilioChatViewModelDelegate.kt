@@ -86,16 +86,17 @@ class TwilioChatViewModelDelegate(val viewModel: VideoChatViewModel) :
         return object : RoomListener() {
             override fun onConnected(room: Room) {
                 val participants = room.remoteParticipants
-                    .filter { it.identity != viewModel.groupInfo.value?.owner?.id.toString() }
-                    .map { it.toPresentation() }
+                    .map { it.toPresentation() }.toMutableList()
+                room.localParticipant?.let { if(it.identity == viewModel.groupInfo.value?.owner?.id.toString()) participants.add(it.toPresentation()) }
                 viewModel.participantsManager.addParticipants(participants)
                 handleSpeaker(room, room.dominantSpeaker)
             }
 
+
+
             override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {
-                if (remoteParticipant.identity != viewModel.groupInfo.value?.owner?.id?.toString()) {
-                    viewModel.participantsManager.addParticipant(remoteParticipant.toPresentation())
-                } else {
+                viewModel.participantsManager.addParticipant(remoteParticipant.toPresentation())
+                if (remoteParticipant.identity == viewModel.groupInfo.value?.owner?.id?.toString()) {
                     viewModel._IsMMConnected = true
                 }
             }

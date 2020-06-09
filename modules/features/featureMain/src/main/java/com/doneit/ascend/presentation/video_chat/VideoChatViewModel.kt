@@ -108,10 +108,10 @@ class VideoChatViewModel(
             isAudioRecording.value = it.not()
         }
         isAllMuted.addSource(participants) {
-            if (it.all { it.isMuted }) {
+            if (it.filter { it.isOwner.not() }.all { it.isMuted }) {
                 isAllMuted.value = true
             }
-            if (it.all { !it.isMuted }) {
+            if (it.filter { it.isOwner.not() }.all { !it.isMuted }) {
                 isAllMuted.value = false
             }
         }
@@ -130,6 +130,7 @@ class VideoChatViewModel(
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
                 if (user.userId == groupInfo.value?.owner?.id.toString() || user.userId != currentUserId) {
+                    if(user.userId == groupInfo.value?.owner?.id.toString()) user.isOwner = true
                     participantsManager.addParticipant(user)
                 }
             }
@@ -291,6 +292,9 @@ class VideoChatViewModel(
                         )
                     }
                     newItem
+                }.toMutableList()
+                groupInfo.value?.owner?.toPresentation()?.let {
+                    joinedUsers.add(it)
                 }
 
                 participantsManager.addParticipants(joinedUsers)

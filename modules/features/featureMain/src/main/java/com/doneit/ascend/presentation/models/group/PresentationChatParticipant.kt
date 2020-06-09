@@ -4,6 +4,7 @@ import com.doneit.ascend.domain.entity.ImageEntity
 import com.doneit.ascend.presentation.utils.Constants.DEFAULT_MODEL_ID
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantListener
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantMultilistener
+import com.twilio.video.LocalParticipant
 import com.twilio.video.RemoteParticipant
 
 data class PresentationChatParticipant(
@@ -15,7 +16,9 @@ data class PresentationChatParticipant(
     var isSpeaker: Boolean = false,
     var isMuted: Boolean = false,
     val remoteParticipant: RemoteParticipant? = null,
-    private val multilistenr: RemoteParticipantMultilistener = RemoteParticipantMultilistener()
+    val localParticipant: LocalParticipant? = null,
+    private val multilistenr: RemoteParticipantMultilistener = RemoteParticipantMultilistener(),
+    var isOwner: Boolean = false
 ) : Comparable<PresentationChatParticipant> {
 
     private var primaryVideoListener: RemoteParticipantListener? = null

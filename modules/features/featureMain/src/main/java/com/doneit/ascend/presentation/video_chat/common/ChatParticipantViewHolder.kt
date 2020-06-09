@@ -43,7 +43,7 @@ class ChatParticipantViewHolder(
     }
 
     private fun PresentationChatParticipant.getVideoTrack(): VideoTrack? {
-        return remoteParticipant?.videoTracks?.firstOrNull()?.videoTrack
+        return remoteParticipant?.videoTracks?.firstOrNull()?.videoTrack ?: localParticipant?.videoTracks?.firstOrNull()?.videoTrack
     }
 
     private fun getParticipantsListener(model: PresentationChatParticipant): RemoteParticipantListener {

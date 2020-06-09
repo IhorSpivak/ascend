@@ -1,9 +1,6 @@
 package com.doneit.ascend.presentation.models
 
-import com.doneit.ascend.domain.entity.CardEntity
-import com.doneit.ascend.domain.entity.MessageSocketEntity
-import com.doneit.ascend.domain.entity.ParticipantEntity
-import com.doneit.ascend.domain.entity.SocketUserEntity
+import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.domain.entity.chats.MessageType
@@ -18,6 +15,7 @@ import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
+import com.twilio.video.LocalParticipant
 import com.twilio.video.RemoteParticipant
 import java.text.SimpleDateFormat
 import java.util.*
@@ -103,6 +101,24 @@ fun RemoteParticipant.toPresentation(): PresentationChatParticipant {
         ParticipantSourcePriority.TWILIO,
         userId = identity,
         remoteParticipant = this
+    )
+}
+
+fun LocalParticipant.toPresentation(): PresentationChatParticipant {
+    return PresentationChatParticipant(
+        ParticipantSourcePriority.TWILIO,
+        userId = identity,
+        localParticipant = this,
+        isOwner = true
+    )
+}
+
+fun OwnerEntity.toPresentation(): PresentationChatParticipant {
+    return PresentationChatParticipant(
+        ParticipantSourcePriority.REQUEST,
+        userId = id.toString(),
+        fullName = fullName,
+        isOwner = true
     )
 }
 

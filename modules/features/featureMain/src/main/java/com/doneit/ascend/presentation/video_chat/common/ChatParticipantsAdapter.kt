@@ -20,7 +20,8 @@ class ChatParticipantsAdapter(
     override fun onBindViewHolder(holder: ChatParticipantViewHolder, position: Int) {
         holder.bind(items[position])
         holder.itemView.setOnClickListener {
-            onItemClick.invoke(items[position].userId)
+            if(!items[holder.adapterPosition].isOwner)
+            onItemClick.invoke(items[holder.adapterPosition].userId)
         }
     }
 
