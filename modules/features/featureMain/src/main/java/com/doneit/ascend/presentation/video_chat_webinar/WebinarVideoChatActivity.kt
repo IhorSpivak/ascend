@@ -104,6 +104,11 @@ class WebinarVideoChatActivity : BaseActivity() {
                 val groupId = action.data.getLong(WebinarVideoChatViewModel.GROUP_ID_KEY)
                 router.navigateToQuestions(groupId)
             }
+            WebinarVideoChatContract.Navigation.TO_ATTENDEES -> {
+                val group = viewModel.groupInfo.value!!
+                val attendees = viewModel.groupInfo.value?.attendees.orEmpty().toMutableList()
+                router.navigateToAttendees(attendees, group)
+            }
         }
     }
 

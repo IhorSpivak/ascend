@@ -181,11 +181,13 @@ class ChatViewModel(
                     it.id != chatWithUser.user.id && !it.removed && !it.leaved
                 }?.id ?: return@let)
             } else {
-                router.goToChatMembers(
-                    chatWithUser.chat.id,
-                    chatWithUser.chat.members.orEmpty().filter {
-                        !it.leaved && !it.removed
-                    })
+                user.value?.let {
+                    router.goToChatMembers(
+                        chatWithUser.chat.id,
+                        chatWithUser.chat.members.orEmpty().filter {
+                            !it.leaved && !it.removed
+                        }, it)
+                }
             }
         }
     }

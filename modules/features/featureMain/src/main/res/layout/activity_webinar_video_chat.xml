@@ -178,18 +178,19 @@
             android:paddingTop="16dp"
             android:paddingEnd="16dp"
             android:paddingBottom="16dp"
+            android:onClick="@{() -> model.showAttendees()}"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:drawableStart="@drawable/ic_members"
-                android:drawablePadding="4dp"
                 style="@style/TextNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_members"
+                android:drawablePadding="4dp"
                 android:includeFontPadding="false"
-                android:text="@{String.valueOf(model.groupInfo.attendees.size())}"
+                android:text="@{String.valueOf(model.participantsCount)}"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 tools:text="256" />

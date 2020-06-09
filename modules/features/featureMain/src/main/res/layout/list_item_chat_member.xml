@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="isUserMasterMind"
+            type="Boolean" />
+
+        <variable
             name="user"
             type="com.doneit.ascend.domain.entity.chats.MemberEntity" />
 
@@ -59,6 +63,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/ic_delete"
+            android:visibility="@{isUserMasterMind}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnBlock"
             app:layout_constraintTop_toTopOf="parent" />
@@ -70,9 +75,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="8dp"
+            android:visibility="@{isUserMasterMind}"
             android:src="@drawable/ic_action_block"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

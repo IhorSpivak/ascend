@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.LiveData
-import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
@@ -21,6 +20,7 @@ interface MMInfoContract {
         val rated: LiveData<Boolean>
         val myRating: LiveData<Int?>
         val sendReportStatus: SingleLiveManager<Boolean>
+        val masterMindDescription: LiveData<String>
 
         fun onFollowClick()
         fun onUnfollowClick()

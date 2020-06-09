@@ -10,6 +10,7 @@ import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
+import java.util.*
 
 @CreateFactory
 @ViewModelDiModule
@@ -33,6 +34,11 @@ class MMInfoViewModel(
     override val myRating = profile.map { it?.myRating }
 
     override val sendReportStatus = SingleLiveManager<Boolean>()
+    @ExperimentalStdlibApi
+    override val masterMindDescription =
+        profile.map { it?.communities?.joinToString(postfix = " ") {
+            it.capitalize(Locale.getDefault())
+        }.orEmpty() }
 
     init {
         showRatingBar.addSource(user) {

@@ -72,6 +72,7 @@ class WebinarVideoChatViewModel(
     override val hasUnreadMessage = MutableLiveData(false)
     override val credentials = MutableLiveData<StartWebinarVideoModel>()
     override val isVisitor = MutableLiveData<Boolean>()
+    override val participantsCount = MutableLiveData(0)
 
     override var viewModelDelegate: VimeoChatViewModelDelegate? = null
 
@@ -308,6 +309,10 @@ class WebinarVideoChatViewModel(
         }
     }
 
+    override fun showAttendees() {
+        navigation.postValue(WebinarVideoChatContract.Navigation.TO_ATTENDEES)
+    }
+
     override fun onBackClick() {
         navigation.postValue(WebinarVideoChatContract.Navigation.BACK)
     }
@@ -509,6 +514,7 @@ class WebinarVideoChatViewModel(
             SocketEvent.PARTICIPANT_CONNECTED -> {
                 Log.d("socket", "connected")
                 hasUnreadMessage.postValue(true)
+                participantsCount.value = participantsCount.value?.inc()
             }
             SocketEvent.GROUP_STARTED -> {
                 hasUnreadMessage.postValue(true)
@@ -525,6 +531,7 @@ class WebinarVideoChatViewModel(
             SocketEvent.PARTICIPANT_DISCONNECTED -> {
                 Log.d("socket", "disconnected")
                 hasUnreadMessage.postValue(true)
+                participantsCount.value = participantsCount.value?.dec()
             }
             else -> Unit
         }

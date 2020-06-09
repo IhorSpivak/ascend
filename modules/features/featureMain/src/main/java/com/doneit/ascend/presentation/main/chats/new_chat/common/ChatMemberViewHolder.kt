@@ -14,14 +14,16 @@ class ChatMemberViewHolder(
     private val onBlock: (member: MemberEntity) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(member: MemberEntity) {
+    fun bind(member: MemberEntity, isUserMasterMind: Boolean = false) {
         binding.apply {
             user = member
+            this.isUserMasterMind = isUserMasterMind
             delete.setOnClickListener {
                 onRemove(member)
             }
             btnBlock.setOnClickListener {
                 onBlock(member)
+                btnBlock.isEnabled = false
             }
         }
     }

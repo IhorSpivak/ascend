@@ -2,6 +2,8 @@ package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.os.Bundle
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 
@@ -12,6 +14,7 @@ interface WebinarVideoChatContract {
         val isFinishing: LiveData<Boolean>
         val finishingLabel: LiveData<String>
         val navigation: LiveData<Navigation>
+        val participantsCount: MutableLiveData<Int>
 
 
         fun init(groupId: Long)
@@ -20,12 +23,18 @@ interface WebinarVideoChatContract {
         fun report(content: String, participantId: String)
         fun onNetworkStateChanged(hasConnection: Boolean)
         fun onParticipantClick(id: String)
+        fun showAttendees()
     }
 
     interface Router {
         fun canGoBack(): Boolean
         fun onBack()
         fun finishActivity()
+        fun navigateToAttendees(
+            attendeesList: MutableList<AttendeeEntity>,
+            group: GroupEntity
+        )
+
         fun navigateToPreview()
         fun navigateToChatInProgress()
         fun navigateToChatFinishScreen()
@@ -50,6 +59,7 @@ interface WebinarVideoChatContract {
         TO_PERMISSIONS_REQUIRED_DIALOG,
         TO_QUESTIONS,
         TO_NOTES,
+        TO_ATTENDEES,
         TO_CHAT;
 
         val data: Bundle = Bundle()

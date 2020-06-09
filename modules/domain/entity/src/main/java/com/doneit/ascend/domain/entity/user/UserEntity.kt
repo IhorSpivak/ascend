@@ -1,9 +1,12 @@
 package com.doneit.ascend.domain.entity.user
 
+import android.os.Parcelable
 import com.doneit.ascend.domain.entity.ImageEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 data class UserEntity(
     val id: Long,
     val fullName: String?,
@@ -35,7 +38,7 @@ data class UserEntity(
     val visitedGroupCount: Int,
     val birthday: Date?,
     val communities: List<String>?
-) {
+) : Parcelable {
     val age: Int?
         get() {
             return if (birthday == null) null else getAge(

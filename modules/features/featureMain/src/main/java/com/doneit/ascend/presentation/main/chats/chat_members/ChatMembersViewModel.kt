@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.chats.chat_members
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.vrgsoft.annotations.CreateFactory
@@ -20,6 +21,7 @@ class ChatMembersViewModel(
 
     override val members = MutableLiveData<MutableList<MemberEntity>>()
     override val query = MutableLiveData<String>()
+    override val user = MutableLiveData<UserEntity>()
     private var chatId: Long by Delegates.notNull()
 
     override fun setMembers(chatId: Long, members: MutableList<MemberEntity>) {
@@ -29,6 +31,10 @@ class ChatMembersViewModel(
 
     override fun onQueryUpdated(newText: CharSequence) {
         query.value = newText.toString()
+    }
+
+    override fun setUser(user: UserEntity) {
+        this.user.value = user
     }
 
     override fun removeMember(member: MemberEntity) {

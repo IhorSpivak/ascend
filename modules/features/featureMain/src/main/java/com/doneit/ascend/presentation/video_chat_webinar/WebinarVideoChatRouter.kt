@@ -1,10 +1,14 @@
 package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.content.Intent
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
+import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesFragment
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
@@ -39,11 +43,21 @@ class WebinarVideoChatRouter(
     override fun goToDetailedUser(id: Long) {
     }
 
-    override fun goToChatMembers(chatId: Long, members: List<MemberEntity>) {
+    override fun goToChatMembers(chatId: Long, members: List<MemberEntity>, user: UserEntity) {
     }
 
     override fun finishActivity() {
         finishWithResult(WebinarVideoChatActivity.ResultStatus.OK)
+    }
+
+    override fun navigateToAttendees(
+        attendeesList: MutableList<AttendeeEntity>,
+        group: GroupEntity
+    ) {
+        activity.supportFragmentManager.replace(
+            containerId,
+            AttendeesFragment(attendeesList, group)
+        )
     }
 
     override fun navigateToPreview() {
@@ -83,11 +97,17 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToChat(chatId: Long) {
-        activity.supportFragmentManager.replaceWithBackStack(fullContainerId, ChatFragment.getInstance(chatId, ChatType.WEBINAR_CHAT))
+        activity.supportFragmentManager.replaceWithBackStack(
+            fullContainerId,
+            ChatFragment.getInstance(chatId, ChatType.WEBINAR_CHAT)
+        )
     }
 
     override fun navigateToNotes(groupId: Long) {
-        activity.supportFragmentManager.replaceWithBackStack(fullContainerId, NotesFragment.newInstance(groupId))
+        activity.supportFragmentManager.replaceWithBackStack(
+            fullContainerId,
+            NotesFragment.newInstance(groupId)
+        )
     }
 
     private fun finishWithResult(resultCode: WebinarVideoChatActivity.ResultStatus) {

@@ -43,7 +43,7 @@ interface ChatContract {
     interface Router {
         fun onBack()
         fun goToDetailedUser(id: Long)
-        fun goToChatMembers(chatId: Long, members: List<MemberEntity>)
+        fun goToChatMembers(chatId: Long, members: List<MemberEntity>, user: UserEntity)
     }
 
     interface LocalRouter {

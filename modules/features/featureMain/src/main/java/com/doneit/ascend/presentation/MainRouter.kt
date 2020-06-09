@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanContract
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
 import com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoalsContract
@@ -185,10 +186,10 @@ class MainRouter(
         )
     }
 
-    override fun goToChatMembers(chatId: Long, members: List<MemberEntity>) {
+    override fun goToChatMembers(chatId: Long, members: List<MemberEntity>, user: UserEntity) {
         activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,
-            ChatMembersFragment.newInstance(chatId, members)
+            ChatMembersFragment.newInstance(chatId, members, user)
         )
     }
 
