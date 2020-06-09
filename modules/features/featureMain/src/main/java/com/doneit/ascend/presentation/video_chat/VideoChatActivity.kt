@@ -71,6 +71,9 @@ class VideoChatActivity : BaseActivity() {
 
         viewModel.participants.observe(this, Observer {
             participantsAdapter.submitList(it)
+
+            //TODO: find out why diffutil doesnt update data(temporary workaround:)
+            participantsAdapter.notifyDataSetChanged()
         })
 
         viewModel.navigation.observe(this, Observer {
