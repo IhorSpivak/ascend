@@ -24,8 +24,8 @@ class MMInfoViewModel(
     override val profile = groupId.switchMap { masterMindUseCase.getProfile(it) }
     override val user: LiveData<UserEntity?> = userUseCase.getUserLive()
 
-    override val isFollowVisible = MutableLiveData(true)
-    override val isUnfollowVisible = MutableLiveData(true)
+    override val isFollowVisible = MutableLiveData(false)
+    override val isUnfollowVisible = MutableLiveData(false)
     override val enableFollow = MutableLiveData(true)
     override val enableUnfollow = MutableLiveData(true)
 
