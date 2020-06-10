@@ -10,7 +10,7 @@ import java.util.*
 fun MessageResponse.toEntity(): MessageEntity {
     return MessageEntity(
         id,
-        message,
+        message.orEmpty(),
         edited?.let { edited } ?: false,
         messageType?.toMessageType()?: MessageType.MESSAGE,
         userId,
@@ -40,7 +40,7 @@ fun String.toMessageType(): MessageType {
         else -> MessageType.MESSAGE
     }
 }
-fun String.toMessageStatus(): MessageStatus {
+fun String?.toMessageStatus(): MessageStatus {
     return when (this) {
         "sent" -> MessageStatus.SENT
         "delivered" -> MessageStatus.DELIVERED

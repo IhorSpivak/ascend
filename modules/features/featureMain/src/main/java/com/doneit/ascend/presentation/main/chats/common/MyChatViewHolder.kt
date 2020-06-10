@@ -55,6 +55,12 @@ class MyChatViewHolder(
                         getMemberNameById(item, it.userId, user, binding.root.context)
                     )
                 }
+                MessageType.USER_REMOVED -> {
+                    itemView.message.text = binding.root.context.resources.getString(
+                        R.string.remove_message,
+                        getMemberNameById(item, it.userId, user, binding.root.context)
+                    )
+                }
                 else -> itemView.message.text = it.message
             }
         } ?: run {
