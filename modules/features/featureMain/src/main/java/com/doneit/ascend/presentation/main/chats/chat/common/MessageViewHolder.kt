@@ -101,7 +101,7 @@ class MessageViewHolder(
                         time.visible()
                         corner.visible()
                         userImage.visible()
-                        isOnline.visible(chat.online)
+                        isOnline.visible(member.online)
                     } else {
                         time.apply {
                             text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
@@ -112,7 +112,7 @@ class MessageViewHolder(
                                     this.gone()
                                 } else {
                                     userImage.visible()
-                                    isOnline.visible(chat.online)
+                                    isOnline.visible(member.online)
                                     this.visible()
                                 }
                             }
