@@ -113,7 +113,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             onGranted = {
                 delegate?.startVideo(model)
                 //TODO: remove
-                //if(true) return@requestPermissions
+                if(true) return@requestPermissions
                 connection = RTMPConnection()
                 stream = RTMPStream(connection!!)
                 stream?.attachCamera(com.haishinkit.media.Camera(Camera.open()))
