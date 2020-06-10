@@ -191,6 +191,7 @@ fun String.toMessageType(): MessageType{
     return when{
         this == MessageType.INVITE.toString() -> MessageType.INVITE
         this == MessageType.LEAVE.toString() -> MessageType.LEAVE
+        this == MessageType.USER_REMOVED.toString() -> MessageType.USER_REMOVED
         else -> MessageType.MESSAGE
     }
 }

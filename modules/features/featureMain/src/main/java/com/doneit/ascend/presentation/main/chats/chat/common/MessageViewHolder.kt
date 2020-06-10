@@ -53,6 +53,14 @@ class MessageViewHolder(
                     )
                 )
             }
+            MessageType.USER_REMOVED -> {
+                setSystemMessage(
+                    binding.root.context.resources.getString(
+                        R.string.remove_message,
+                        getMemberNameById(chat, messageEntity.userId, user, binding.root.context)
+                    )
+                )
+            }
             else -> {
                 binding.apply {
                     if (messageEntity.userId != user.id) {

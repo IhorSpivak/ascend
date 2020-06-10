@@ -10,13 +10,13 @@ import java.util.*
 fun MessageResponse.toEntity(): MessageEntity {
     return MessageEntity(
         id,
-        message?:"",
+        message,
         edited?.let { edited } ?: false,
         messageType?.toMessageType()?: MessageType.MESSAGE,
         userId,
         createdAt.toDate(),
         updatedAt.toDate(),
-        status = status?.toMessageStatus()?: MessageStatus.ALL
+        status = status.toMessageStatus()
     )
 }
 
@@ -36,6 +36,7 @@ fun String.toMessageType(): MessageType {
     return when{
         this == MessageType.INVITE.toString() -> MessageType.INVITE
         this == MessageType.LEAVE.toString() -> MessageType.LEAVE
+        this == MessageType.USER_REMOVED.toString() -> MessageType.USER_REMOVED
         else -> MessageType.MESSAGE
     }
 }
