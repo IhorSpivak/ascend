@@ -45,7 +45,12 @@ class ParticipantOptionsFragment : BaseFragment<FragmentWebinarParticipantOption
 
     override fun onResume() {
         super.onResume()
-        resetTimer()
+        try {
+            resetTimer()
+        } catch (e: IllegalStateException) {
+            timer = Timer()
+            resetTimer()
+        }
     }
 
     private fun resetTimer() {
@@ -60,10 +65,12 @@ class ParticipantOptionsFragment : BaseFragment<FragmentWebinarParticipantOption
 
 
     override fun onUserInteraction() {
-        timer.cancel()
-        timer.purge()
-        timer = Timer()
-        resetTimer()
+        if (isResumed) {
+            timer.cancel()
+            timer.purge()
+            timer = Timer()
+            resetTimer()
+        }
     }
 
     private fun showReportAbuseDialog() {
@@ -77,6 +84,7 @@ class ParticipantOptionsFragment : BaseFragment<FragmentWebinarParticipantOption
     override fun onDestroyView() {
         timer.cancel()
         timer.purge()
+        timer = Timer()
         super.onDestroyView()
     }
 
