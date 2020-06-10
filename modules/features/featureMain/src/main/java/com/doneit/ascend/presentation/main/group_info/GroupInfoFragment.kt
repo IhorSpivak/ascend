@@ -151,6 +151,10 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 currentDialog = createCancelDialog()
                 currentDialog?.show()
             }
+            supportCancel.setOnClickListener {
+                currentDialog = createCancelDialog()
+                currentDialog?.show()
+            }
             supportDelete.setOnClickListener {
                 currentDialog = createDeleteDialog()
             }

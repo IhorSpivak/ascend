@@ -113,7 +113,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             onGranted = {
                 delegate?.startVideo(model)
                 //TODO: remove
-                if(true) return@requestPermissions
+                //if(true) return@requestPermissions
                 connection = RTMPConnection()
                 stream = RTMPStream(connection!!)
                 stream?.attachCamera(com.haishinkit.media.Camera(Camera.open()))
@@ -173,7 +173,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
 
     companion object {
         const val DELAY_HIDE_SEND_BADGE = 2000L
-        const val RTMP_LINK = "rtmp://rtmp-global.cloud.vimeo.com/live/"
+        const val RTMP_LINK = "rtmp://rtmp-global.cloud.vimeo.com/live"
     }
 
     override fun handleEvent(event: Event) {
