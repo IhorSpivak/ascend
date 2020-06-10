@@ -29,7 +29,6 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
-import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.SupportDuration
@@ -67,13 +66,9 @@ class CreateSupGroupFragment :
     override val viewModel: CreateSupGroupContract.ViewModel by instance()
 
     private var group: GroupEntity? = null
-    private var tempUri: Uri? = null
     private var what: String? = null
     private var currentPhotoPath: String? = null
 
-    private val adapter: ParticipantAdapter by lazy {
-        ParticipantAdapter(mutableListOf(), viewModel)
-    }
     private val meetingTypesAdapter by lazy {
         MeetingFormatsAdapter(
             context!!.resources.getStringArray(
@@ -179,9 +174,13 @@ class CreateSupGroupFragment :
         if (group != null) {
             binding.btnComplete.apply {
                 text = getString(R.string.btn_save_action)
-                setOnClickListener { viewModel.updateGroup(group!!) }
+                setOnClickListener {
+                    when (what) {
+                        GroupAction.DUPLICATE.toString() -> viewModel.completeClick()
+                        GroupAction.EDIT.toString() -> viewModel.updateGroup(group!!)
+                    }
+                }
             }
-            viewModel.createGroupModel.isPrivate.set(group!!.isPrivate)
             viewModel.createGroupModel.apply {
                 when (what) {
                     GroupAction.DUPLICATE.toString() -> {
@@ -213,7 +212,9 @@ class CreateSupGroupFragment :
                 minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
                 timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
                 groupType = GroupType.values()[group!!.groupType!!.ordinal]
-                meetingFormat.observableField.set(group!!.meetingFormat ?: "")
+                meetingFormat.observableField.set(group!!.meetingFormat.orEmpty())
+
+                //TODO: date format
                 startDate.observableField.set(
                     SimpleDateFormat(
                         "dd MMMM yyyy",
@@ -294,6 +295,8 @@ class CreateSupGroupFragment :
                     )
                 ) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+                    //TODO: dateformat:
                     val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
                         File.createTempFile(
@@ -313,20 +316,6 @@ class CreateSupGroupFragment :
                             }
                         }
                     }
-                    /*val content = ContentValues().apply {
-                        put(
-                            MediaStore.Images.Media.TITLE,
-                            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
-                        )
-                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                        put(MediaStore.Images.Media.DESCRIPTION, "group_image")
-                    }
-                    tempUri = activity?.contentResolver?.insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        content
-                    )
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-                    startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)*/
                 }
             }
     }

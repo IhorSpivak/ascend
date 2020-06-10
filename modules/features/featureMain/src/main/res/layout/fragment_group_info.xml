@@ -587,6 +587,48 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             android:visibility="@{model.group.groupType == GroupType.SUPPORT}">
 
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/sup_dup_edit"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/support_duplicate"
+                                android:visibility="@{(model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE)}">
+                                <Button
+                                    android:id="@+id/support_delete"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="12dp"
+                                    android:background="@drawable/mm_delete_background"
+                                    android:text="@string/mm_delete_group"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/red_hat_font"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:setVisibility="@{model.btnDeleteVisible}" />
+
+                                <Button
+                                    android:id="@+id/support_cancel"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="12dp"
+                                    android:background="@drawable/mm_cancel_background"
+                                    android:text="@string/cancel_group"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="18sp"
+                                    android:fontFamily="@font/red_hat_font"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:setVisibility="@{(model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE) &amp;&amp; group.participantsCount != 0}" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
                             <Button
                                 android:id="@+id/support_duplicate"
                                 android:layout_width="0dp"
@@ -596,49 +638,26 @@
                                 android:textColor="@android:color/white"
                                 android:textSize="18sp"
                                 android:fontFamily="@font/red_hat_font"
-                                android:visibility="@{group.participantsCount > 0}"
                                 android:onClick="@{() -> model.onDuplicateClick(group)}"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/support_edit"
+                                app:layout_constraintStart_toEndOf="@id/sup_dup_edit"
                                 app:layout_constraintTop_toTopOf="parent" />
 
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:id="@+id/sup_dup_edit"
+                            <Button
+                                android:id="@+id/support_edit"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:visibility="@{group.participantsCount == 0  &amp;&amp; (model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE)}"
+                                android:layout_marginStart="12dp"
+                                android:background="@drawable/mm_edit_background"
+                                android:text="@string/edit_group"
+                                android:textColor="@android:color/white"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/red_hat_font"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-                                <Button
-                                    android:id="@+id/support_delete"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:background="@drawable/mm_delete_background"
-                                    android:fontFamily="@font/red_hat_font"
-                                    android:text="@string/mm_delete_group"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="18sp"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@id/support_edit"
-                                    app:layout_constraintTop_toTopOf="parent" />
-
-                                <Button
-                                    android:id="@+id/support_edit"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="12dp"
-                                    android:background="@drawable/mm_edit_background"
-                                    android:text="@string/edit_group"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="18sp"
-                                    android:fontFamily="@font/red_hat_font"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintStart_toEndOf="@id/support_delete"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    android:onClick="@{() -> model.onEditClick(group)}"/>
-                            </androidx.constraintlayout.widget.ConstraintLayout>
-
+                                android:onClick="@{() -> model.onEditClick(group)}"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/support_duplicate"
+                                android:visibility="@{model.group.status == GroupStatus.UPCOMING || model.group.status == GroupStatus.ACTIVE}" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/webinar_group_buttons_container"
