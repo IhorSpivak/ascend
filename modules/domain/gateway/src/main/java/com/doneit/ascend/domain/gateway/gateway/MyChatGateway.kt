@@ -102,7 +102,7 @@ class MyChatGateway(
     ): LiveData<PagedList<MessageEntity>> =
         liveData<PagedList<MessageEntity>> {
             val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
+                .setEnablePlaceholders(true)
                 .setPageSize(request.perPage ?: 10)
                 .build()
             val factory = local.getMessageList(chatId).map { it.toEntity() }

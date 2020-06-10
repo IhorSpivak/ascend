@@ -57,15 +57,16 @@ class ChatViewModel(
     private val socketMessage = chatUseCase.messagesStream
     private lateinit var observer: Observer<MessageSocketEntity?>
     override val user = userUseCase.getUserLive()
-    override val messages: LiveData<PagedList<MessageEntity>> = chatModel.switchMap {
-        chatUseCase.getMessageList(
-            it.id, MessageListDTO(
-                perPage = 50,
-                sortColumn = "created_at",
-                sortType = SortType.DESC
+    override val messages: LiveData<PagedList<MessageEntity>> =
+        chatModel.distinctUntilChanged().switchMap {
+            chatUseCase.getMessageList(
+                it.id, MessageListDTO(
+                    perPage = 50,
+                    sortColumn = "created_at",
+                    sortType = SortType.DESC
+                )
             )
-        )
-    }
+        }
 
     init {
         chat.addSource(user) {
@@ -164,13 +165,7 @@ class ChatViewModel(
 
     override fun sendMessage(message: String) {
         viewModelScope.launch {
-            chatUseCase.sendMessage(MessageDTO(chatModel.value!!.id, message)).let {
-                if (it.isSuccessful) {
-                    chatModel.value?.let {
-                        chatModel.postValue(it)
-                    }
-                }
-            }
+            chatUseCase.sendMessage(MessageDTO(chatModel.value!!.id, message))
         }
     }
 
@@ -186,7 +181,8 @@ class ChatViewModel(
                         chatWithUser.chat.id,
                         chatWithUser.chat.members.orEmpty().filter {
                             !it.leaved && !it.removed
-                        }, it)
+                        }, it
+                    )
                 }
             }
         }
@@ -315,6 +311,7 @@ class ChatViewModel(
                         val message = socketEvent.toEntity()
                         message.let {
                             chatUseCase.insertMessage(message, chatId)
+                            messages.value?.dataSource?.invalidate()
                         }
                     }
                     ChatSocketEvent.DESTROY -> {
