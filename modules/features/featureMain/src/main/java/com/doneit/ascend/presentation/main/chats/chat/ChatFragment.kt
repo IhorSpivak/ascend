@@ -188,7 +188,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
             messagesAdapter.updateMembers(it.chat)
             messagesAdapter.updateUser(it.user)
-            //viewModel.applyData(chat)
         })
 
         applyDataObserver()

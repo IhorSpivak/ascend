@@ -20,6 +20,7 @@ import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -57,16 +58,15 @@ class ChatViewModel(
     private val socketMessage = chatUseCase.messagesStream
     private lateinit var observer: Observer<MessageSocketEntity?>
     override val user = userUseCase.getUserLive()
-    override val messages: LiveData<PagedList<MessageEntity>> =
-        chatModel.distinctUntilChanged().switchMap {
-            chatUseCase.getMessageList(
-                it.id, MessageListDTO(
-                    perPage = 50,
-                    sortColumn = "created_at",
-                    sortType = SortType.DESC
-                )
+    override val messages: LiveData<PagedList<MessageEntity>> = chatModel.switchMap {
+        chatUseCase.getMessageList(
+            it.id, MessageListDTO(
+                perPage = 50,
+                sortColumn = "created_at",
+                sortType = SortType.DESC
             )
-        }
+        )
+    }
 
     init {
         chat.addSource(user) {
@@ -75,6 +75,15 @@ class ChatViewModel(
 
         chat.addSource(chatModel) {
             applyData(it, user.value)
+        }
+
+        viewModelScope.launch { initRequestCycle() }
+    }
+
+    private suspend fun initRequestCycle() {
+        while (true) {
+            delay(5000)
+            chatModel.value = chatModel.value
         }
     }
 

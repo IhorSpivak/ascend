@@ -43,11 +43,15 @@ class MessagesAdapter(
     }
 
     fun updateMembers(chat: ChatEntity) {
-        this.chat = chat
-        notifyDataSetChanged()
+        if(this.chat != chat) {
+            this.chat = chat
+            notifyItemRangeChanged(0, itemCount - 1)
+        }
     }
     fun updateUser(user: UserEntity){
-        this.user = user
-        notifyDataSetChanged()
+        if(this.user != user) {
+            this.user = user
+            notifyItemRangeChanged(0, itemCount - 1)
+        }
     }
 }
