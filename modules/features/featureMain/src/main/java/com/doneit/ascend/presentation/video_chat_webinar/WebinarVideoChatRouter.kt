@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesFragment
 import com.doneit.ascend.presentation.utils.extensions.add
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes.NotesContract
@@ -75,6 +76,7 @@ class WebinarVideoChatRouter(
     override fun navigateUserChatOptions() {
         val fragment = ParticipantOptionsFragment()
         activity.userInteractionListener = fragment
+        activity.hideKeyboard()
         activity.supportFragmentManager.add(fullContainerId, fragment)
     }
 

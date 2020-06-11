@@ -127,7 +127,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/ask_question_hint"
             android:maxLength="500"
-            android:maxLines="5"
+            android:maxLines="4"
             android:padding="8dp"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"

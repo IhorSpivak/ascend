@@ -39,7 +39,10 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>() {
 
     private fun handleNavigation(action: NotesContract.Navigation) {
         when (action) {
-            NotesContract.Navigation.BACK -> router.onBack()
+            NotesContract.Navigation.BACK -> {
+                viewModel.update(binding.text.text.toString())
+                router.onBack()
+            }
         }
     }
 

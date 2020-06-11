@@ -71,7 +71,7 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
     calendar.time = startTime!!
     calendar.set(Calendar.HOUR, hours.toHours())
     calendar.set(Calendar.MINUTE, minutes.toInt())
-    calendar.set(Calendar.AM_PM, timeType.toAM_PM())
+    calendar.set(Calendar.AM_PM, timeType.toAM_PM(hours))
 
     return CreateGroupDTO(
         name.observableField.getNotNull(),
@@ -98,7 +98,7 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
         CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())!!
     calendar.set(Calendar.HOUR, hours.toHours())
     calendar.set(Calendar.MINUTE, minutes.toInt())
-    calendar.set(Calendar.AM_PM, timeType.toAM_PM())
+    calendar.set(Calendar.AM_PM, timeType.toAM_PM(hours))
     val emails = mutableListOf<String>()
     participants.get()?.let {
         emails.addAll(it.toMutableList())
@@ -187,6 +187,7 @@ private fun String.toHours(): Int {
     return this.toInt() % 12 //% 12to avoid day increment
 }
 
-private fun String.toAM_PM(): Int {
+private fun String.toAM_PM(hours: String): Int {
+    if(hours.toInt() in 12..23) return Calendar.PM
     return if (this == "AM") Calendar.AM else Calendar.PM
 }
