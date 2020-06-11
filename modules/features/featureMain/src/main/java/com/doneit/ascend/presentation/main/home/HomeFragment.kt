@@ -17,18 +17,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val viewModelModule = HomeViewModelModule.get(this)
     override val viewModel: HomeContract.ViewModel by instance()
 
-    private val pagerAdapter: TabAdapter by lazy {
-        TabAdapter.newInstance(
-            childFragmentManager,
-            listOf(
-                getString(R.string.daily),
-                getString(R.string.webinars),
-                getString(R.string.groups),
-                getString(R.string.master_mind)
-            )
-        )
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         val listener = (context as MainActivityListener)
@@ -40,11 +28,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        binding.vpGroups.adapter = pagerAdapter
         binding.tlGroups.setupWithViewPager(binding.vpGroups)
         binding.vpGroups.offscreenPageLimit = 0
         viewModel.user.observe(this, Observer {
             setTitle(it?.community)
+
+            binding.vpGroups.adapter = TabAdapter.newInstance(
+                childFragmentManager,
+                viewModel.getListOfTitles().map {
+                    getString(it)
+                }
+            )
         })
     }
 

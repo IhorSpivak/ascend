@@ -37,7 +37,8 @@ class WebinarsViewModel (
 
     private val webinarFilter = hashMapOf(
         WebinarFilter.RECOVERY.toString() to false,
-        WebinarFilter.SUCCESS.toString() to false,
+        WebinarFilter.FITNESS.toString() to false,
+        WebinarFilter.INDUSTRY.toString() to false,
         WebinarFilter.FAMILY.toString() to false,
         WebinarFilter.SPIRITUAL.toString() to false
     )
@@ -46,7 +47,7 @@ class WebinarsViewModel (
         groupUseCase.getGroupListPaged(it).map {
             GroupListWithUserPaged(
                 it,
-                user!!
+                user
             )
         }
     }

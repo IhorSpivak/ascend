@@ -24,8 +24,10 @@
 
     <!--Home Tabs-->
     <string name="daily">Daily</string>
-    <string name="webinars">Webinar</string>
+    <string name="webinars">Livestream</string>
     <string name="groups">Groups</string>
+    <string name="collaboration">Collaboration</string>
+    <string name="coaching">Coaching</string>
     <string name="master_mind">Workshops</string>
     <string name="master_mind_group">MasterMind Group</string>
     <string name="support_group">Support Group</string>
@@ -46,8 +48,8 @@
     <string name="select_days_of_week">Select Days of Week</string>
     <string name="preferred_time">Preferred Time</string>
     <string name="number_of_participants">Number of participants</string>
-    <string name="group">Group</string>
-    <string name="individual"> Individual</string>
+    <string name="group">Group coaching</string>
+    <string name="individual"> Private coaching</string>
     <string name="closed_group"> Closed</string>
     <string name="apply">Apply</string>
     <string name="to">to</string>
@@ -565,7 +567,8 @@
 
     <!--Home Webinars list-->
     <string name="webinars_list_recovery">Recovery</string>
-    <string name="webinars_list_success">Success</string>
+    <string name="webinars_list_fitness">Fitness</string>
+    <string name="webinars_list_industry">Industry</string>
     <string name="webinars_list_family">Family</string>
     <string name="webinars_list_spiritual">Spiritual</string>
 

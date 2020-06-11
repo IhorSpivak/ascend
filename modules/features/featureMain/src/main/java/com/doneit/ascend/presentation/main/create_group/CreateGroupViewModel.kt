@@ -37,8 +37,7 @@ class CreateGroupViewModel(
 
     private lateinit var currentUser: UserEntity
     override var tags: MutableLiveData<List<TagEntity>> = MutableLiveData()
-    override val navigation =
-        MutableLiveData<CreateMMGroupContract.Navigation>(CreateMMGroupContract.Navigation.TO_GROUP)
+    override val navigation = MutableLiveData(CreateMMGroupContract.Navigation.TO_GROUP)
     override val createGroupModel = PresentationCreateGroupModel()
     override var email: ValidatableField = ValidatableField()
     override val canComplete = MutableLiveData<Boolean>()
