@@ -87,6 +87,12 @@ class MyChatGateway(
                         val memberModel =
                             membersResponse.successModel!!.users?.map { it.toEntity() }
                         chatEntity.members = memberModel
+                        val user = userUseCase.getUser()?.id
+                        if (chatEntity.members?.count() == 2) {
+                            val member =
+                                chatEntity.members?.firstOrNull { it.id != user }
+                            member?.let { member -> chatEntity.title = member.fullName }
+                        }
                     }
                 }
             }

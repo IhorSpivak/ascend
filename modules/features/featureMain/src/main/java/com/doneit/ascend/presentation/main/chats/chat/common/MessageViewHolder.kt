@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.invisible
 import com.doneit.ascend.presentation.main.common.visible
@@ -77,7 +78,7 @@ class MessageViewHolder(
                         onDeleteClick.invoke(messageEntity)
                     }
                     userImage.setOnLongClickListener {
-                        if (chat.membersCount > 2) {
+                        if (chat.membersCount > ChatFragment.PRIVATE_CHAT_MEMBER_COUNT) {
                             if (chat.chatOwnerId == user.id) {
                                 onImageLongClick(it, member.id)
                                 true
