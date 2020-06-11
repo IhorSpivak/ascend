@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
 import com.doneit.ascend.presentation.dialog.EditChatNameDialog
@@ -192,52 +191,53 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             //viewModel.applyData(chat)
         })
 
-        messagesAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                scrollIfNeed()
-            }
-        })
-        binding.messageList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val first =
-                    (binding.messageList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                val last =
-                    (binding.messageList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                if (last >= 0 && first >= 0) {
-                    for (i in last..first) {
-                        messagesAdapter.currentList?.let {
-                            viewModel.markMessageAsRead(it[i]!!)
+        applyDataObserver()
+        binding.messageList.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val first =
+                        (binding.messageList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val last =
+                        (binding.messageList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    if (last >= 0 && first >= 0) {
+                        for (i in last..first) {
+                            messagesAdapter.currentList?.let {
+                                viewModel.markMessageAsRead(it[i]!!)
+                            }
                         }
                     }
                 }
-            }
-        })
+            })
         binding.messageList.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
             if (bottom < oldBottom) {
-                binding.messageList.postDelayed(Runnable {
+                binding.messageList.postDelayed({
                     binding.messageList.smoothScrollToPosition(
                         0
                     )
                 }, 0)
             }
         }
-        viewModel.messages.observe(this, Observer {
+        viewModel.messages.observe(this, Observer
+        {
             emptyList.visible(it.isNullOrEmpty())
             messagesAdapter.submitList(it)
-            if (messagesAdapter.currentList.isNullOrEmpty().not()) {
-                if (firstPositionId == 0L) {
-                    var count = 0
-                    messagesAdapter.currentList?.forEach {
-                        if (it.status == MessageStatus.SENT && viewModel.user.value!!.id != it.userId) {
-                            count++
-                        }
+        })
+    }
+
+    private fun applyDataObserver() {
+        messagesAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (itemCount > 0) {
+                    val index = messagesAdapter.currentList.orEmpty().indexOfLast {
+                        it.status == MessageStatus.SENT && viewModel.user.value!!.id != it.userId
                     }
-                    scrollToUnread(count)
-                } else if (firstPositionId != (messagesAdapter.currentList?.get(0) as MessageEntity).id) {
-                    scrollIfNeed()
+                    if (index != -1) {
+                        scrollToUnread(index)
+                    } else {
+                        scrollIfNeed()
+                    }
                 }
-                firstPositionId = (messagesAdapter.currentList?.get(0) as MessageEntity).id
             }
         })
     }
