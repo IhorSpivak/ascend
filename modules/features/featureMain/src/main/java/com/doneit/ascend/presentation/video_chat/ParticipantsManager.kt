@@ -36,6 +36,10 @@ class ParticipantsManager {
         _participants.postValue(resultList)
     }
 
+    fun removeAll(){
+        _participants.value = listOf()
+    }
+
     fun addParticipants(newList: List<PresentationChatParticipant>?) {
         val resultList = getParticipantMList()
 

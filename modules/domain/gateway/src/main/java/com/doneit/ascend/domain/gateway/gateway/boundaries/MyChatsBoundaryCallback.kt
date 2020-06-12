@@ -37,23 +37,23 @@ class MyChatsBoundaryCallback(
                                 local.removeAllUnavailableChats(ids)
                             }
                         }
-                    }
-                    it.forEach {
-                        launch {
+                        val user = userUseCase.getUser()?.id
+                        it.forEach {
                             val membersResponse =
                                 remote.getMembers(it.id, MemberListDTO(perPage = 50).toRequest(1))
                             if (membersResponse.isSuccessful) {
                                 val memberModel =
                                     membersResponse.successModel!!.users?.map { it.toEntity() }
                                 it.members = memberModel
-                                if (it.membersCount == 2) {
+                                if (it.members?.count() == 2) {
                                     val member =
-                                        it.members?.firstOrNull { it.id != userUseCase.getUser()?.id }
+                                        it.members?.firstOrNull { it.id != user}
                                     member?.let { member -> it.title = member.fullName }
                                 }
                             }
                         }
                     }
+
                 }
                 local.insertAll(model.map { it.toLocal() })
             }

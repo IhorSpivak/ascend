@@ -129,10 +129,8 @@ class VideoChatViewModel(
 
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
-                if (user.userId == groupInfo.value?.owner?.id.toString() || user.userId != currentUserId) {
-                    if(user.userId == groupInfo.value?.owner?.id.toString()) user.isOwner = true
-                    participantsManager.addParticipant(user)
-                }
+                if (user.userId == groupInfo.value?.owner?.id.toString()) user.isOwner = true
+                participantsManager.addParticipant(user)
             }
             SocketEvent.PARTICIPANT_DISCONNECTED -> {
                 participantsManager.removeParticipant(user)
@@ -489,11 +487,11 @@ class VideoChatViewModel(
             }
             VideoChatState.PREVIEW_GROUP_STARTED -> {
                 initProgressTimer(groupInfo.value!!)
-                if (chatRole == ChatRole.OWNER) {
-                    isStartButtonVisible.postValue(true)
-                }
+
                 if (groupInfo.value?.status == GroupStatus.STARTED) {
                     changeState(VideoChatState.PROGRESS)
+                } else if (chatRole == ChatRole.OWNER) {
+                    isStartButtonVisible.postValue(true)
                 }
             }
             VideoChatState.MM_CONNECTION_LOST -> {
@@ -505,6 +503,7 @@ class VideoChatViewModel(
             VideoChatState.FINISHED -> {
                 isFinishing.postValue(false)
                 navigation.postValue(VideoChatContract.Navigation.TO_CHAT_FINISH)
+                participantsManager.removeAll()
                 clearChatResources()
             }
         }
