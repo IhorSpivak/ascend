@@ -489,11 +489,11 @@ class VideoChatViewModel(
             }
             VideoChatState.PREVIEW_GROUP_STARTED -> {
                 initProgressTimer(groupInfo.value!!)
-                if (chatRole == ChatRole.OWNER) {
-                    isStartButtonVisible.postValue(true)
-                }
+
                 if (groupInfo.value?.status == GroupStatus.STARTED) {
                     changeState(VideoChatState.PROGRESS)
+                } else if (chatRole == ChatRole.OWNER) {
+                    isStartButtonVisible.postValue(true)
                 }
             }
             VideoChatState.MM_CONNECTION_LOST -> {
@@ -505,6 +505,7 @@ class VideoChatViewModel(
             VideoChatState.FINISHED -> {
                 isFinishing.postValue(false)
                 navigation.postValue(VideoChatContract.Navigation.TO_CHAT_FINISH)
+                participantsManager.removeAll()
                 clearChatResources()
             }
         }
