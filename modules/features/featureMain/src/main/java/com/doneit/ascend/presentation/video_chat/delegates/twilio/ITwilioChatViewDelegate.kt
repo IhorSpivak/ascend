@@ -11,7 +11,7 @@ interface ITwilioChatViewDelegate {
     fun onStart()
     fun onStop()
     fun startVideoDisplay(chatParticipant: PresentationChatParticipant)
+    fun startSelfVideoDisplay()
     fun showPlaceholder()
     fun switchCamera()
-    fun startSelfViewVideo(model: StartVideoModel)
 }

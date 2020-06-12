@@ -81,9 +81,16 @@ class TwilioChatViewDelegate(
         }
     }
 
-    override fun startSelfViewVideo(model: StartVideoModel) {
-        if (model !is StartVideoModel.TwilioVideoModel || fragment == null) return
-        viewModelDelegate.startVideo(fragment!!, model, audioCodec, videoCodec)
+    override fun startSelfVideoDisplay() {
+        videoView?.let {
+            val track = viewModelDelegate.localVideoTrack
+            if (track != null) {
+                track.addRenderer(it)
+                showVideo()
+            } else {
+                showPlaceholder()
+            }
+        }
     }
 
     private fun getSpeakerListener(): RemoteParticipantListener {

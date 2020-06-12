@@ -37,7 +37,7 @@ class ParticipantsManager {
     }
 
     fun removeAll(){
-        _participants.postValue(listOf())
+        _participants.value = listOf()
     }
 
     fun addParticipants(newList: List<PresentationChatParticipant>?) {
