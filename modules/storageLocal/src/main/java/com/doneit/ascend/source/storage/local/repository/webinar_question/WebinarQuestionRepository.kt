@@ -18,6 +18,10 @@ class WebinarQuestionRepository(
         return dao.getAll()
     }
 
+    override suspend fun removeAllExcept(groupId: Long) {
+        dao.removeAllExcept(groupId)
+    }
+
     override suspend fun removeAll() {
         dao.removeAll()
     }

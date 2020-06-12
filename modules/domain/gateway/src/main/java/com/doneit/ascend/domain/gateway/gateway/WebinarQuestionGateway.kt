@@ -121,9 +121,9 @@ class WebinarQuestionGateway(
         }
     }
 
-    override fun removeQuestionsLocal() {
+    override fun removeQuestionsLocalExcept(groupId: Long) {
         GlobalScope.launch {
-            local.removeAll()
+            local.removeAllExcept(groupId)
         }
     }
 

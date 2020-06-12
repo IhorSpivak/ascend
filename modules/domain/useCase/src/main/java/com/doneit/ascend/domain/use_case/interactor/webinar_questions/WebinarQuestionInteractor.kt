@@ -45,8 +45,8 @@ class WebinarQuestionInteractor(
         return gateway.insertQuestion(questionEntity)
     }
 
-    override fun removeQuestionsLocal() {
-        return gateway.removeQuestionsLocal()
+    override fun removeQuestionsLocalExcept(groupId: Long) {
+        return gateway.removeQuestionsLocalExcept(groupId)
     }
 
 

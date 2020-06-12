@@ -15,6 +15,9 @@ interface WebinarQuestionDao {
     @Query("SELECT * FROM webinar_questions ORDER BY updatedAt DESC")
     fun getAll(): DataSource.Factory<Int, WebinarQuestionLocal>
 
+    @Query("DELETE FROM webinar_questions WHERE id != :groupId")
+    suspend fun removeAllExcept(groupId: Long)
+
     @Transaction
     @Query("DELETE FROM webinar_questions")
     suspend fun removeAll()

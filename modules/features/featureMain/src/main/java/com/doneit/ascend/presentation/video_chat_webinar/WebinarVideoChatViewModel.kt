@@ -144,7 +144,6 @@ class WebinarVideoChatViewModel(
         postDefaultValues()
 
         viewModelScope.launch {
-            webinarQuestionUseCase.removeQuestionsLocal()
             val groupEntity = async {
                 val result = groupUseCase.getGroupDetails(groupId)
 
@@ -210,6 +209,7 @@ class WebinarVideoChatViewModel(
             if (viewModelDelegate == null)
                 viewModelDelegate = VideoChatUtils.vimeoViewModelDelegate(this)
             participantsCount.value = groupEntity.participantsCount
+            webinarQuestionUseCase.removeQuestionsLocalExcept(groupEntity.id)
             chatRole =
                 if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
                     isVisitor.postValue(false)
@@ -498,6 +498,7 @@ class WebinarVideoChatViewModel(
                     question.let {
                         hasUnreadQuestion.postValue(true)
                         webinarQuestionUseCase.insertMessage(it)
+                        questions.value?.dataSource?.invalidate()
                     }
                 }
                 QuestionSocketEvent.UPDATE -> {

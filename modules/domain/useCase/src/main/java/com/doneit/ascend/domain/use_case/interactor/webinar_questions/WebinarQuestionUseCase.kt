@@ -8,7 +8,10 @@ import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
 import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
 
 interface WebinarQuestionUseCase {
-    fun getWebinarQuestionLive(groupId: Long, request: WebinarQuestionDTO): LiveData<PagedList<WebinarQuestionEntity>>
+    fun getWebinarQuestionLive(
+        groupId: Long,
+        request: WebinarQuestionDTO
+    ): LiveData<PagedList<WebinarQuestionEntity>>
 
     suspend fun createQuestion(groupId: Long, content: String): ResponseEntity<Unit, List<String>>
     suspend fun updateQuestion(id: Long, content: String): ResponseEntity<Unit, List<String>>
@@ -19,5 +22,5 @@ interface WebinarQuestionUseCase {
     fun disconnect()
 
     fun insertMessage(questionEntity: WebinarQuestionEntity)
-    fun removeQuestionsLocal()
+    fun removeQuestionsLocalExcept(groupId: Long)
 }

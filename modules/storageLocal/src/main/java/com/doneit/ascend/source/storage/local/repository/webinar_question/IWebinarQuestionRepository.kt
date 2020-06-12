@@ -7,5 +7,6 @@ interface IWebinarQuestionRepository {
     suspend fun insert(question: WebinarQuestionLocal)
     suspend fun insert(questions: List<WebinarQuestionLocal>)
     suspend fun getAll(): DataSource.Factory<Int, WebinarQuestionLocal>
+    suspend fun removeAllExcept(groupId: Long)
     suspend fun removeAll()
 }
