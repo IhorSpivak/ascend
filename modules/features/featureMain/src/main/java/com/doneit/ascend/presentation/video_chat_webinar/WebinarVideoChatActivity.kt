@@ -38,6 +38,7 @@ class WebinarVideoChatActivity : BaseActivity() {
                 instance(),
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }

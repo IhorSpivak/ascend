@@ -8,6 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.ChatSocketEvent
+import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.dto.WebinarCredentialsDTO
@@ -20,6 +22,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
 import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEvent
 import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
+import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.domain.use_case.interactor.vimeo.VimeoUseCase
@@ -55,6 +58,7 @@ import kotlin.concurrent.timerTask
 class WebinarVideoChatViewModel(
     private val userUseCase: UserUseCase,
     private val groupUseCase: GroupUseCase,
+    private val chatUseCase: ChatUseCase,
     private val webinarQuestionUseCase: WebinarQuestionUseCase,
     private val vimeoUseCase: VimeoUseCase
 ) : BaseViewModelImpl(), ParticipantOptionsContract.ViewModel,
@@ -108,7 +112,8 @@ class WebinarVideoChatViewModel(
     private var downTimer: CountDownTimer? = null
     private var timer: Timer? = null
 
-    private val messages = groupUseCase.messagesStream
+    private val messages = chatUseCase.messagesStream
+    private val groupEvents = groupUseCase.messagesStream
     private val questionsStream = webinarQuestionUseCase.questionStream
     //endregion
 
@@ -204,7 +209,7 @@ class WebinarVideoChatViewModel(
         if (groupEntity != null && creds != null) {
             if (viewModelDelegate == null)
                 viewModelDelegate = VideoChatUtils.vimeoViewModelDelegate(this)
-            //viewModelDelegate!!.initializeChatState(groupEntity, creds, currentUser)
+            participantsCount.value = groupEntity.participantsCount
             chatRole =
                 if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
                     isVisitor.postValue(false)
@@ -220,10 +225,13 @@ class WebinarVideoChatViewModel(
                     creds.key,
                     creds.link
                 )
+            credentials.value?.let {
+                chatUseCase.connectToChannel(it.chatId)
+            }
 
             changeState(VideoChatState.PREVIEW_DATA_LOADED)
-
-            messages.observeForever(groupObserver)
+            groupEvents.observeForever(groupObserver)
+            messages.observeForever(messagesObserver)
             questionsStream.observeForever(questionObserver)
         }
     }
@@ -345,12 +353,14 @@ class WebinarVideoChatViewModel(
 
     override fun onCleared() {
         clearChatResources()
-        messages.removeObserver(groupObserver)
+        groupEvents.removeObserver(groupObserver)
+        messages.removeObserver(messagesObserver)
         questionsStream.removeObserver(questionObserver)
         super.onCleared()
     }
 
     private fun clearChatResources() {
+        groupUseCase.participantConnectionStatus(currentUserId, false)
         groupUseCase.disconnect()
         webinarQuestionUseCase.disconnect()
         viewModelDelegate?.clearChatResources()
@@ -358,12 +368,6 @@ class WebinarVideoChatViewModel(
         timer?.cancel()
     }
     //endregion
-
-    private fun MutableLiveData<Boolean>.switch() {
-        value?.let {
-            postValue(!it)
-        }
-    }
 
     fun changeState(newState: VideoChatState) {
         chatState = newState
@@ -374,9 +378,9 @@ class WebinarVideoChatViewModel(
             }
             VideoChatState.PREVIEW_DATA_LOADED -> {
                 initDownTimer(groupInfo.value!!)
-                groupUseCase.participantConnectionStatus(currentUserId, true)
             }
             VideoChatState.PREVIEW_GROUP_STARTED -> {
+                groupUseCase.participantConnectionStatus(currentUserId, true)
                 initProgressTimer(groupInfo.value!!)
                 if (chatRole == ChatRole.OWNER) {
                     isStartButtonVisible.postValue(true)
@@ -529,6 +533,19 @@ class WebinarVideoChatViewModel(
             SocketEvent.PARTICIPANT_DISCONNECTED -> {
                 Log.d("socket", "disconnected")
                 participantsCount.value = participantsCount.value?.dec()
+            }
+            else -> Unit
+        }
+    }
+
+
+    private val messagesObserver = Observer<MessageSocketEntity?> { socketEvent ->
+        when (socketEvent?.event) {
+            ChatSocketEvent.MESSAGE -> {
+                hasUnreadMessage.postValue(true)
+            }
+            null -> {
+                hasUnreadMessage.postValue(false)
             }
             else -> Unit
         }
