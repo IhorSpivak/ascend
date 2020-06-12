@@ -129,10 +129,8 @@ class VideoChatViewModel(
 
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
-                if (user.userId == groupInfo.value?.owner?.id.toString() || user.userId != currentUserId) {
-                    if(user.userId == groupInfo.value?.owner?.id.toString()) user.isOwner = true
-                    participantsManager.addParticipant(user)
-                }
+                if (user.userId == groupInfo.value?.owner?.id.toString()) user.isOwner = true
+                participantsManager.addParticipant(user)
             }
             SocketEvent.PARTICIPANT_DISCONNECTED -> {
                 participantsManager.removeParticipant(user)
