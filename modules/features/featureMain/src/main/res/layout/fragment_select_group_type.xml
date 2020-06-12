@@ -15,9 +15,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:clickable="true"
-        android:focusable="true"
-        android:background="@android:color/white">
+        android:focusable="true">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/blMain"
@@ -41,32 +41,32 @@
                         android:id="@+id/btbBack"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:onClick="@{() -> model.backClick()}"
                         android:paddingStart="12dp"
                         android:paddingTop="15dp"
                         android:paddingEnd="20dp"
                         android:paddingBottom="15dp"
-                        android:background="@android:color/transparent"
-                        android:onClick="@{() -> model.backClick()}"
                         android:src="@drawable/ic_back"
                         android:tint="#7E7D8F"
                         android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvTitle"
                         style="@style/Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/create_group"
-                        android:textStyle="bold"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="15dp"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/create_group"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -96,7 +96,7 @@
                     app:listener="@{model}"
                     app:title="@{@string/webinar_group_title}"
                     app:titleColor="@{@color/red_webinar_color}"
-                    app:type="@{GroupType.WEBINAR}" />
+                    app:type="@{GroupType.LIVESTREAM}" />
 
                 <include
                     layout="@layout/template_group_type"
@@ -108,7 +108,7 @@
                     app:description="@{@string/support_group_description}"
                     app:iconRes="@{@drawable/ic_support_type}"
                     app:listener="@{model}"
-                    app:title="@{@string/support_group_title}"
+                    app:title='@{model.supportTitle != null?context.getString(model.supportTitle):""}'
                     app:titleColor="@{@color/support_color}"
                     app:type="@{GroupType.SUPPORT}" />
 
@@ -123,7 +123,7 @@
                     app:description="@{@string/mastermind_group_description}"
                     app:iconRes="@{@drawable/ic_master_mind_type}"
                     app:listener="@{model}"
-                    app:title="@{@string/mastermind_group_title}"
+                    app:title='@{model.createGroupTitle != null?context.getString(model.createGroupTitle):""}'
                     app:titleColor="@{@color/master_mind_color}"
                     app:type="@{GroupType.MASTER_MIND}" />
 

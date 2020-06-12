@@ -60,7 +60,7 @@ class WebinarsViewModel (
                 sortType = SortType.ASC,
                 sortColumn = null,
                 userId = null,
-                groupType = GroupType.WEBINAR,
+                groupType = GroupType.LIVESTREAM,
                 groupStatus = null,
                 myGroups = null,
                 community = filter.toString()

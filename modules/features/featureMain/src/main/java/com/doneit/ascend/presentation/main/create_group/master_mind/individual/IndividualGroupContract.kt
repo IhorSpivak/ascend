@@ -25,6 +25,7 @@ interface IndividualGroupContract {
         val selectedMembers: MutableList<AttendeeEntity>
         val nonMembers: MutableList<String>
         val canAddMembers: LiveData<Boolean>
+        val supportTitle: LiveData<Int>
 
         fun addNewParticipant()
         fun removeMember(member: AttendeeEntity)

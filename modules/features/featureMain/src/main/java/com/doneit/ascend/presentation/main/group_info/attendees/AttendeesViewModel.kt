@@ -145,7 +145,7 @@ class AttendeesViewModel (
         when(group.value!!.groupType){
             GroupType.INDIVIDUAL -> canAddMembers.postValue((attendees.value?.size?: 0) < 1)
             GroupType.MASTER_MIND -> canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 50)
-            GroupType.WEBINAR -> canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 3)
+            GroupType.LIVESTREAM -> canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 3)
             GroupType.SUPPORT -> canAddMembers.postValue(selectedMembers.size + (attendees.value?.size?: 0) < 50)
         }
     }

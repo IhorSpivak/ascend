@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="@{@string/action_mm_group(actionTitle)}"
+                        android:text='@{@string/action_group(actionTitle, context.getString(model.supportTitle))??""}'
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -112,7 +112,7 @@
                     android:textSize="14sp"
                     android:textColor="@color/master_mind_color"
                     android:alpha="@{model.createGroupModel.isPrivate()? 0.5f:1.0f}"
-                    android:text="@string/group"
+                    android:text="@{context.getString(model.supportTitle) == @string/workshop?@string/workshop:@string/group}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/isPrivate"
                     app:layout_constraintTop_toTopOf="parent"
@@ -140,7 +140,7 @@
                     android:textSize="14sp"
                     android:textColor="@color/master_mind_color"
                     android:alpha="@{model.createGroupModel.isPrivate()? 1.0f:0.5f}"
-                    android:text="@string/individual"
+                    android:text="@{context.getString(model.supportTitle) == @string/workshop?@string/coaching:@string/individual}"
                     app:layout_constraintStart_toEndOf="@id/isPrivate"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

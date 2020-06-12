@@ -1,7 +1,7 @@
 package com.doneit.ascend.domain.entity.group
 
 enum class GroupType {
-    WEBINAR,
+    LIVESTREAM,
     SUPPORT,
     MASTER_MIND,
     INDIVIDUAL;

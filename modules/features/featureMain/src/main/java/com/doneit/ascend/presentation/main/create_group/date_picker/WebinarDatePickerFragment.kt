@@ -34,7 +34,7 @@ class WebinarDatePickerFragment: BaseFragment<FragmentWebinarDatePickerBinding>(
                 GroupType.SUPPORT -> resources.getColor(R.color.support_color)
                 GroupType.INDIVIDUAL -> resources.getColor(R.color.background_dimmed)
                 GroupType.MASTER_MIND -> resources.getColor(R.color.background_dimmed)
-                GroupType.WEBINAR -> resources.getColor(R.color.red_webinar_color)
+                GroupType.LIVESTREAM -> resources.getColor(R.color.red_webinar_color)
                 else -> resources.getColor(R.color.support_color)
             }
 
@@ -42,7 +42,7 @@ class WebinarDatePickerFragment: BaseFragment<FragmentWebinarDatePickerBinding>(
                 viewModel.okDateSelection(selectedDate)
             }
             newWheelPicker.selectDate(viewModel.createGroupModel.actualStartTime)
-            viewModel.createGroupModel.actualStartTime?.let {
+            viewModel.createGroupModel.actualStartTime.let {
                 selectedDate.time = it.time
                 newWheelPicker.setDefaultDate(it.time)
             }

@@ -67,7 +67,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             val builder = StringBuilder()
 
             if (group.daysOfWeek != null) {//todo refactor
-                val list = group.daysOfWeek!!.toMutableList()
+                val list = group.daysOfWeek.toMutableList()
                 val calendarUtil = CalendarPickerUtil(context!!)//todo move to di
 
                 list.sortBy { it.ordinal }
@@ -79,7 +79,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                     }
                 }
                 builder.append(context!!.getTimeFormat().format(group.startTime))
-                if(group.groupType == GroupType.WEBINAR){
+                if(group.groupType == GroupType.LIVESTREAM){
                     builder.clear()
                     if(DateFormat.is24HourFormat(context)){
                         group.daysOfWeek.forEachIndexed { index, day ->

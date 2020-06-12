@@ -102,7 +102,7 @@ fun setAdapter(
     if (view.adapter is GroupAdapter) {
         groups.value?.let {
             (view.adapter as GroupAdapter).setUser(it.user)
-            (view.adapter as GroupAdapter).submitList(it.groups!!)
+            (view.adapter as GroupAdapter).submitList(it.groups)
         }
 
         return
@@ -225,7 +225,7 @@ fun RadioButton.setCountBackground(groupType: GroupType) {
     background = when(groupType){
         GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.day_button_selector)
         GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.day_button_selector)
-        GroupType.WEBINAR -> resources.getDrawable(R.drawable.number_button_selector_webinar)
+        GroupType.LIVESTREAM -> resources.getDrawable(R.drawable.number_button_selector_webinar)
         GroupType.SUPPORT -> resources.getDrawable(R.drawable.day_button_selector_support)
         else -> resources.getDrawable(R.drawable.day_button_selector)
     }
@@ -236,7 +236,7 @@ fun CompoundButton.setDayBackground(groupType: GroupType) {
     background = when(groupType){
         GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.day_button_selector)
         GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.day_button_selector)
-        GroupType.WEBINAR -> resources.getDrawable(R.drawable.day_button_selector_webinar)
+        GroupType.LIVESTREAM -> resources.getDrawable(R.drawable.day_button_selector_webinar)
         GroupType.SUPPORT -> resources.getDrawable(R.drawable.day_button_selector_support)
         else -> resources.getDrawable(R.drawable.day_button_selector)
     }
@@ -247,7 +247,7 @@ fun Button.setOkBackground(groupType: GroupType) {
     background = when(groupType){
         GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.button_ok_selector)
         GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.button_ok_selector)
-        GroupType.WEBINAR -> resources.getDrawable(R.drawable.button_ok_selector_webinar)
+        GroupType.LIVESTREAM -> resources.getDrawable(R.drawable.button_ok_selector_webinar)
         GroupType.SUPPORT -> resources.getDrawable(R.drawable.button_ok_selector_support)
         else -> resources.getDrawable(R.drawable.button_ok_selector)
     }

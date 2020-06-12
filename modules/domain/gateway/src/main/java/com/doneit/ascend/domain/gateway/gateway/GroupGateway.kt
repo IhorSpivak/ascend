@@ -63,7 +63,7 @@ internal class GroupGateway(
                 groupDTO.toCreateGroupRequest()
             )
 
-            if (result.isSuccessful && groupDTO.groupType == GroupType.WEBINAR.toString() && credentialsDTO != null) {
+            if (result.isSuccessful && groupDTO.groupType == GroupType.LIVESTREAM.toString() && credentialsDTO != null) {
                 remote.setCredentials(
                     result.successModel?.id ?: 0,
                     credentialsDTO.key!!,

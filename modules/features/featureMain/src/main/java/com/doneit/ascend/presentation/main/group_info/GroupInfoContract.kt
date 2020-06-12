@@ -26,6 +26,7 @@ interface GroupInfoContract {
         val isSubscribed: LiveData<Boolean>
         val starting: LiveData<Boolean>
         val users: MutableLiveData<List<ParticipantEntity>>
+        val supportTitle: LiveData<Int>
 
 
         fun onBackPressed()

@@ -5,6 +5,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -51,6 +52,7 @@ class CreateGroupViewModel(
     override val clearReservationSeat = SingleLiveManager<Boolean>()
     override val changeGroup: LiveData<GroupEntity>
         get() = MutableLiveData()
+    override val supportTitle = MutableLiveData(R.string.workshop)
 
     private val searchQuery = MutableLiveData<String>()
     private val timeChooserState = MutableLiveData<Boolean>(false)
@@ -58,6 +60,7 @@ class CreateGroupViewModel(
     init {
         viewModelScope.launch {
             currentUser = userUseCase.getUser()!!
+            initTitles()
 
             val response = groupUseCase.getTags()
             tags.postValue(
@@ -75,7 +78,7 @@ class CreateGroupViewModel(
             if (s.isValidGroupName().not()) {
                 result.isSucceed = false
                 when (createGroupModel.groupType) {
-                    GroupType.WEBINAR -> result.errors.add(R.string.error_webinar_name)
+                    GroupType.LIVESTREAM -> result.errors.add(R.string.error_webinar_name)
                     else -> result.errors.add(R.string.error_group_name)
                 }
             }
@@ -104,7 +107,7 @@ class CreateGroupViewModel(
             result
         }
 
-        createGroupModel.duration.validator = {s ->
+        createGroupModel.duration.validator = { s ->
             val result = ValidationResult()
 
             if (s.isEmpty()) {
@@ -183,6 +186,23 @@ class CreateGroupViewModel(
         createGroupModel.duration.onFieldInvalidate = invalidationListener
     }
 
+    private fun initTitles() {
+        val titlePair = when (currentUser.community) {
+            Community.FITNESS.title,
+            Community.SPIRITUAL.title -> R.string.collaboration to R.string.group
+            Community.RECOVERY.title -> R.string.group_title to R.string.workshop
+            Community.FAMILY.title -> R.string.group_title to R.string.group
+            Community.INDUSTRY.title -> R.string.collaboration to R.string.workshop
+            else -> throw IllegalStateException("Unsupported community detected")
+        }
+        val title = when (createGroupModel.groupType) {
+            GroupType.MASTER_MIND -> titlePair.second
+            GroupType.SUPPORT -> titlePair.first
+            else -> return
+        }
+        supportTitle.postValue(title)
+    }
+
     override fun addNewParticipant() {
         val newParticipantEmail = email.observableField.get()
 
@@ -208,7 +228,7 @@ class CreateGroupViewModel(
         canComplete.postValue(false)
 
         viewModelScope.launch {
-            val groupTypeRequest = if (createGroupModel.groupType == GroupType.WEBINAR) {
+            val groupTypeRequest = if (createGroupModel.groupType == GroupType.LIVESTREAM) {
                 createGroupModel.toWebinarEntity(calendarUtil.is24TimeFormat())
             } else {
                 createGroupModel.toEntity()
@@ -234,7 +254,7 @@ class CreateGroupViewModel(
         when (args.groupType) {
             GroupType.SUPPORT -> localRouter.navigateToCreateSupGroup(args, group, what)
             GroupType.MASTER_MIND -> localRouter.navigateToCreateMMGroup(args, group, what)
-            GroupType.WEBINAR -> localRouter.navigateToCreateWebinar(args, group, what)
+            GroupType.LIVESTREAM -> localRouter.navigateToCreateWebinar(args, group, what)
             GroupType.INDIVIDUAL -> localRouter.navigateToCreateMMGroup(args, group, what)
         }
     }
@@ -385,7 +405,7 @@ class CreateGroupViewModel(
             createGroupModel.isPrivate.getNotNull() && createGroupModel.groupType == GroupType.MASTER_MIND -> canCreateMMGroup()
             createGroupModel.isPrivate.getNotNull()
                 .not() && createGroupModel.groupType == GroupType.MASTER_MIND -> canCreateMMIndividual()
-            createGroupModel.groupType == GroupType.WEBINAR -> canCreateWebinar()
+            createGroupModel.groupType == GroupType.LIVESTREAM -> canCreateWebinar()
             else -> canCreateMMIndividual()
         }
         canComplete.postValue(isValid)
@@ -404,7 +424,8 @@ class CreateGroupViewModel(
         //isFormValid = isFormValid and createGroupModel.tags.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
-        isFormValid = isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
+        isFormValid =
+            isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
 
         return isFormValid
     }
@@ -421,7 +442,8 @@ class CreateGroupViewModel(
         isFormValid = isFormValid and createGroupModel.price.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
-        isFormValid = isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
+        isFormValid =
+            isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
 
         return isFormValid
     }
@@ -438,7 +460,8 @@ class CreateGroupViewModel(
         isFormValid = isFormValid and createGroupModel.price.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
-        isFormValid = isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
+        isFormValid =
+            isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
 
         return isFormValid
     }
@@ -465,7 +488,8 @@ class CreateGroupViewModel(
         }
         isFormValid = isFormValid and createGroupModel.themesOfMeeting.isEmpty()
             .not() and isValidValidatableList(createGroupModel.themesOfMeeting)
-        isFormValid = isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
+        isFormValid =
+            isFormValid and createGroupModel.duration.observableField.get().isNullOrBlank().not()
 
         return isFormValid
     }
@@ -756,7 +780,7 @@ class CreateGroupViewModel(
 
         viewModelScope.launch {
             group.let { group ->
-                val groupTypeRequest = if (createGroupModel.groupType == GroupType.WEBINAR) {
+                val groupTypeRequest = if (createGroupModel.groupType == GroupType.LIVESTREAM) {
                     createGroupModel.toUpdateWebinarEntity(group)
                 } else {
                     createGroupModel.toUpdateEntity(group.attendees?.map { it.email ?: "" }
@@ -910,7 +934,7 @@ class CreateGroupViewModel(
             GroupType.MASTER_MIND -> canAddMembers.postValue(
                 selectedMembers.size + (attendees.value?.size ?: 0) < 50
             )
-            GroupType.WEBINAR -> canAddMembers.postValue(
+            GroupType.LIVESTREAM -> canAddMembers.postValue(
                 selectedMembers.size + (attendees.value?.size ?: 0) < 3
             )
             GroupType.SUPPORT -> canAddMembers.postValue(
@@ -929,7 +953,7 @@ class CreateGroupViewModel(
             GroupType.MASTER_MIND -> canAddMembers.postValue(
                 selectedMembers.size + (attendees.value?.size ?: 0) < 50
             )
-            GroupType.WEBINAR -> canAddMembers.postValue(
+            GroupType.LIVESTREAM -> canAddMembers.postValue(
                 selectedMembers.size + (attendees.value?.size ?: 0) < 3
             )
             GroupType.SUPPORT -> canAddMembers.postValue(

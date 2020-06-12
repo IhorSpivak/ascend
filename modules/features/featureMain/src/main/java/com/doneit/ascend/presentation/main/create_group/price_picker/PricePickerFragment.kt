@@ -31,7 +31,7 @@ class PricePickerFragment(
                 GroupType.SUPPORT -> resources.getColor(R.color.support_color)
                 GroupType.INDIVIDUAL -> resources.getColor(R.color.master_mind_color)
                 GroupType.MASTER_MIND -> resources.getColor(R.color.master_mind_color)
-                GroupType.WEBINAR -> resources.getColor(R.color.red_webinar_color)
+                GroupType.LIVESTREAM -> resources.getColor(R.color.red_webinar_color)
                 else -> resources.getColor(R.color.support_color)
             }
             btnCancel.setOnClickListener {

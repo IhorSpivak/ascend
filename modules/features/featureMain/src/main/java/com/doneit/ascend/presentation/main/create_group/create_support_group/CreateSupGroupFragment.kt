@@ -205,12 +205,12 @@ class CreateSupGroupFragment :
                 description.observableField.set(group!!.description)
                 val date = group!!.startTime
                 year = date!!.toYear()
-                month = MonthEntity.values()[date!!.toMonth()]
-                day = date!!.toDayOfMonth()
-                hours = date!!.toCalendar().get(Calendar.HOUR).toTimeString()
-                hoursOfDay = date!!.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
-                minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
-                timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
+                month = MonthEntity.values()[date.toMonth()]
+                day = date.toDayOfMonth()
+                hours = date.toCalendar().get(Calendar.HOUR).toTimeString()
+                hoursOfDay = date.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
+                minutes = date.toCalendar().get(Calendar.MINUTE).toTimeString()
+                timeType = date.toCalendar().get(Calendar.AM_PM).toAmPm()
                 groupType = GroupType.values()[group!!.groupType!!.ordinal]
                 meetingFormat.observableField.set(group!!.meetingFormat.orEmpty())
 
@@ -221,7 +221,7 @@ class CreateSupGroupFragment :
                         Locale.ENGLISH
                     ).format(date)
                 )
-                selectedDays.addAll(group!!.daysOfWeek!!)
+                selectedDays.addAll(group!!.daysOfWeek)
                 viewModel.changeSchedule()
                 Glide.with(context!!)
                     .asBitmap()

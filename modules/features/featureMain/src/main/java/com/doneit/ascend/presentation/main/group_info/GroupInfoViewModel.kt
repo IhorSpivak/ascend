@@ -11,11 +11,13 @@ import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCardModel
 import com.doneit.ascend.presentation.models.group.toUpdatePrivacyGroupDTO
@@ -48,6 +50,7 @@ class GroupInfoViewModel(
     override val isSubscribed = MutableLiveData<Boolean>(false)
     override val starting = MutableLiveData<Boolean>(false)
     override val users: MutableLiveData<List<ParticipantEntity>> = MutableLiveData()
+    override val supportTitle = MutableLiveData<Int>()
 
     override val isBlocked: Boolean
         get() {
@@ -64,19 +67,37 @@ class GroupInfoViewModel(
                 group.postValue(response.successModel!!)
                 isSupport.postValue(response.successModel?.groupType != GroupType.SUPPORT)
                 val user = userUseCase.getUser()
-                isMM.postValue(user!!.isMasterMind)
+                initTitles(user!!.community.orEmpty())
+                isMM.postValue(user.isMasterMind)
                 isOwner.postValue(user.id == response.successModel!!.owner?.id)
-                if(response.successModel!!.participantsCount!! > 0){
+                if (response.successModel!!.participantsCount!! > 0) {
                     groupUseCase.getParticipantList(groupId, null, null).let {
-                        if (it.isSuccessful){
+                        if (it.isSuccessful) {
                             users.postValue(it.successModel)
                         }
                     }
                 }
-                updateButtonsState(user!!, response.successModel!!)
+                updateButtonsState(user, response.successModel!!)
             }
             showProgress(false)
         }
+    }
+
+    private fun initTitles(community: String) {
+        val titlePair = when (community) {
+            Community.FITNESS.title,
+            Community.SPIRITUAL.title -> R.string.collaboration to R.string.group
+            Community.RECOVERY.title -> R.string.group_title to R.string.workshop
+            Community.FAMILY.title -> R.string.group_title to R.string.group
+            Community.INDUSTRY.title -> R.string.collaboration to R.string.workshop
+            else -> throw IllegalStateException("Unsupported community detected")
+        }
+        val title = when (group.value?.groupType) {
+            GroupType.MASTER_MIND -> titlePair.second
+            GroupType.SUPPORT -> titlePair.first
+            else -> return
+        }
+        supportTitle.postValue(title)
     }
 
     private fun updateButtonsState(user: UserEntity, details: GroupEntity) {
@@ -88,7 +109,7 @@ class GroupInfoViewModel(
             btnStartVisible.postValue(status != GroupStatus.STARTED)
             btnDeleteVisible.postValue(participantsCount == 0)
             btnSubscribeVisible.postValue(subscribed != true && user.id != details.owner?.id)
-            if (user.id == details.owner?.id){
+            if (user.id == details.owner?.id) {
                 btnJoinVisible.postValue(inProgress && status == GroupStatus.STARTED)
             }
             isSubscribed.postValue(subscribed)
@@ -142,7 +163,7 @@ class GroupInfoViewModel(
 
             if (res.isSuccessful) {
                 router.onBack()
-            }else {
+            } else {
                 showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
             }
         }
@@ -152,12 +173,12 @@ class GroupInfoViewModel(
         viewModelScope.launch {
             val res = groupUseCase.leaveGroup(group.value?.id ?: return@launch)
             if (res.isSuccessful) {
-                if (group.value!!.groupType != GroupType.WEBINAR) {
+                if (group.value!!.groupType != GroupType.LIVESTREAM) {
                     router.onBack()
-                }else{
+                } else {
                     loadData(group.value!!.id)
                 }
-            }else {
+            } else {
                 showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
             }
         }
@@ -166,7 +187,7 @@ class GroupInfoViewModel(
     override fun cancelGroup(reason: String) {
         group.value?.let {
             viewModelScope.launch {
-                groupUseCase.cancelGroup(CancelGroupDTO(it.id, reason)).let {response ->
+                groupUseCase.cancelGroup(CancelGroupDTO(it.id, reason)).let { response ->
                     if (response.isSuccessful) {
                         loadData(it.id)
                     } else {
@@ -229,15 +250,16 @@ class GroupInfoViewModel(
     override fun onUpdatePrivacyClick(isPrivate: Boolean) {
         group.value.let {
             viewModelScope.launch {
-                groupUseCase.updateGroup(it!!.id, it.toUpdatePrivacyGroupDTO(isPrivate)).let {response ->
-                    if (response.isSuccessful) {
-                        loadData(it.id)
-                    } else {
-                        if (response.errorModel!!.isNotEmpty()) {
-                            showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+                groupUseCase.updateGroup(it!!.id, it.toUpdatePrivacyGroupDTO(isPrivate))
+                    .let { response ->
+                        if (response.isSuccessful) {
+                            loadData(it.id)
+                        } else {
+                            if (response.errorModel!!.isNotEmpty()) {
+                                showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+                            }
                         }
                     }
-                }
             }
         }
     }

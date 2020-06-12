@@ -206,7 +206,7 @@
                         android:layout_marginEnd="20dp"
                         android:background="@drawable/start_group_button_states"
                         android:onClick="@{(v) -> model.startGroup()}"
-                        android:text="@{model.group.groupType == GroupType.WEBINAR? @string/start_webinar : @string/start_group}"
+                        android:text="@{model.group.groupType == GroupType.LIVESTREAM? @string/start_webinar : @string/start_group}"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
@@ -248,7 +248,7 @@
                         android:layout_marginTop="18dp"
                         android:layout_marginEnd="20dp"
                         android:background="@drawable/start_group_button_states"
-                        android:text="@{model.group.groupType == GroupType.WEBINAR? @string/ended_webinar : @string/ended_group}"
+                        android:text="@{model.group.groupType == GroupType.LIVESTREAM? @string/ended_webinar : @string/ended_group}"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
@@ -262,7 +262,7 @@
                         android:layout_marginTop="18dp"
                         android:layout_marginEnd="20dp"
                         android:background="@drawable/start_group_button_states"
-                        android:text="@{model.group.groupType == GroupType.WEBINAR? @string/webinar_cancelled : @string/group_cancelled}"
+                        android:text="@{model.group.groupType == GroupType.LIVESTREAM? @string/webinar_cancelled : @string/group_cancelled}"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
@@ -672,7 +672,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            android:visibility="@{model.group.groupType == GroupType.WEBINAR}">
+                            android:visibility="@{model.group.groupType == GroupType.LIVESTREAM}">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/webinar_delete_cancel"
@@ -867,7 +867,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="4dp"
-                            android:text="@string/master_mind_group"
+                            android:text='@{model.supportTitle != null?context.getString(model.supportTitle):""}'
                             android:textSize="12sp"
                             android:visibility="@{model.group.groupType == GroupType.MASTER_MIND || model.group.groupType == GroupType.INDIVIDUAL, default = gone}"
                             app:layout_constraintStart_toEndOf="@id/closed_individual_container"
@@ -938,7 +938,7 @@
                             android:orientation="horizontal"
                             android:paddingStart="4dp"
                             android:paddingEnd="4dp"
-                            android:visibility="@{model.group.groupType == GroupType.WEBINAR, default=gone}"
+                            android:visibility="@{model.group.groupType == GroupType.LIVESTREAM, default=gone}"
                             app:layout_constraintBottom_toTopOf="@id/support_tag"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -964,7 +964,7 @@
                             android:background="@drawable/bg_r4_519f"
                             android:padding="4dp"
                             android:textSize="12sp"
-                            android:text="@{group.tag.tag}"
+                            android:text='@{model.supportTitle != null?context.getString(model.supportTitle):""}'
                             android:textColor="@android:color/white"
                             android:visibility="@{model.group.groupType == GroupType.SUPPORT, default=gone}"
                             app:layout_constraintStart_toStartOf="parent"
@@ -1000,7 +1000,7 @@
                             android:layout_marginTop="16dp"
                             android:isScrollContainer="false"
                             android:nestedScrollingEnabled="false"
-                            android:visibility="@{model.group.groupType == GroupType.WEBINAR}"
+                            android:visibility="@{model.group.groupType == GroupType.LIVESTREAM}"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintBottom_toTopOf="@id/attendees_container"
                             app:layout_constraintEnd_toEndOf="parent"
