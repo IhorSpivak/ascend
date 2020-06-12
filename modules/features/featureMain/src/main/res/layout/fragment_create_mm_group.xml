@@ -58,10 +58,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:text='@{@string/action_group(actionTitle, context.getString(model.supportTitle))??""}'
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintEnd_toStartOf="@id/btbComplete"
+                        app:layout_constraintStart_toEndOf="@id/btbBack" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/btbComplete"
