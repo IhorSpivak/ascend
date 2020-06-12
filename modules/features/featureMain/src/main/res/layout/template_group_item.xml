@@ -96,7 +96,7 @@
                 android:textColor="@color/light_gray_e9f0"
                 android:textSize="10sp"
                 app:text="@{@string/meetings_count_with_theme(item.pastMeetingsCount, item.meetingsCount, theme)}"
-                android:visibility="@{item.groupType == GroupType.LIVESTREAM, default = gone}"
+                android:visibility="@{item.groupType == GroupType.WEBINAR, default = gone}"
                 app:layout_constraintTop_toTopOf="@id/tvGroupType"
                 app:layout_constraintStart_toEndOf="@id/tvGroupType"
                 tools:text="Ullamco sint proident est irure" />
@@ -212,7 +212,7 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/button_start_background"
                     android:gravity="center"
-                    android:text="@{item.groupType == GroupType.LIVESTREAM? @string/start_webinar : @string/start_group}"
+                    android:text="@{item.groupType == GroupType.WEBINAR? @string/start_webinar : @string/start_group}"
                     android:textAllCaps="true"
                     style="@style/TextNormal"
                     android:textColor="@android:color/white"

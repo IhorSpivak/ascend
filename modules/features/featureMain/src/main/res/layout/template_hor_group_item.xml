@@ -264,7 +264,7 @@
                     style="@style/TextNormal.White"
                     android:textSize="12sp"
                     android:text="@string/webinars"
-                    android:visibility="@{item.groupType == GroupType.LIVESTREAM, default = gone}"
+                    android:visibility="@{item.groupType == GroupType.WEBINAR, default = gone}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:background="@drawable/bg_r4_4b39"/>
@@ -278,7 +278,7 @@
                     style="@style/TextNormal"
                     android:textSize="12sp"
                     app:text="@{@string/meetings_count_with_theme(item.pastMeetingsCount, item.meetingsCount, theme)}"
-                    android:visibility="@{item.groupType == GroupType.LIVESTREAM, default = gone}"
+                    android:visibility="@{item.groupType == GroupType.WEBINAR, default = gone}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvWebinarMarker"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -343,7 +343,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/button_start_background"
-                    android:text="@{item.groupType == GroupType.LIVESTREAM? @string/start_webinar : @string/start_group}"
+                    android:text="@{item.groupType == GroupType.WEBINAR? @string/start_webinar : @string/start_group}"
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"

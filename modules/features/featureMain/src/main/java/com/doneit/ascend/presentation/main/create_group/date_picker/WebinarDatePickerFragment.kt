@@ -34,7 +34,7 @@ class WebinarDatePickerFragment: BaseFragment<FragmentWebinarDatePickerBinding>(
                 GroupType.SUPPORT -> resources.getColor(R.color.support_color)
                 GroupType.INDIVIDUAL -> resources.getColor(R.color.background_dimmed)
                 GroupType.MASTER_MIND -> resources.getColor(R.color.background_dimmed)
-                GroupType.LIVESTREAM -> resources.getColor(R.color.red_webinar_color)
+                GroupType.WEBINAR -> resources.getColor(R.color.red_webinar_color)
                 else -> resources.getColor(R.color.support_color)
             }
 

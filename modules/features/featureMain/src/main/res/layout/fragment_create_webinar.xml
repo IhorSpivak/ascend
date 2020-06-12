@@ -369,7 +369,7 @@
                         android:orientation="vertical"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:visibility="@{model.createGroupModel.groupType == GroupType.LIVESTREAM ? model.members.size() &lt; 3 : true}">
+                        android:visibility="@{model.createGroupModel.groupType == GroupType.WEBINAR ? model.members.size() &lt; 3 : true}">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/add_member_template_round"

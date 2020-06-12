@@ -447,7 +447,7 @@ class MainRouter(
     }
 
     override fun navigateToVideoChat(groupId: Long, groupType: GroupType) {
-        if (groupType == GroupType.LIVESTREAM) {
+        if (groupType == GroupType.WEBINAR) {
             val intent = Intent(activity, WebinarVideoChatActivity::class.java).apply {
                 putExtras(
                     Bundle().apply {

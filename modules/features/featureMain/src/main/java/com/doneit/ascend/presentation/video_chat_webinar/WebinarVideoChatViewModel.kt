@@ -513,11 +513,9 @@ class WebinarVideoChatViewModel(
         when (socketEvent.event) {
             SocketEvent.PARTICIPANT_CONNECTED -> {
                 Log.d("socket", "connected")
-                hasUnreadMessage.postValue(true)
                 participantsCount.value = participantsCount.value?.inc()
             }
             SocketEvent.GROUP_STARTED -> {
-                hasUnreadMessage.postValue(true)
                 groupInfo.value?.let {
                     groupUseCase.updateGroupLocal(
                         it.copy(
@@ -530,7 +528,6 @@ class WebinarVideoChatViewModel(
             }
             SocketEvent.PARTICIPANT_DISCONNECTED -> {
                 Log.d("socket", "disconnected")
-                hasUnreadMessage.postValue(true)
                 participantsCount.value = participantsCount.value?.dec()
             }
             else -> Unit

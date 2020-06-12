@@ -78,7 +78,7 @@ class CreateGroupViewModel(
             if (s.isValidGroupName().not()) {
                 result.isSucceed = false
                 when (createGroupModel.groupType) {
-                    GroupType.LIVESTREAM -> result.errors.add(R.string.error_webinar_name)
+                    GroupType.WEBINAR -> result.errors.add(R.string.error_webinar_name)
                     else -> result.errors.add(R.string.error_group_name)
                 }
             }
@@ -228,7 +228,7 @@ class CreateGroupViewModel(
         canComplete.postValue(false)
 
         viewModelScope.launch {
-            val groupTypeRequest = if (createGroupModel.groupType == GroupType.LIVESTREAM) {
+            val groupTypeRequest = if (createGroupModel.groupType == GroupType.WEBINAR) {
                 createGroupModel.toWebinarEntity(calendarUtil.is24TimeFormat())
             } else {
                 createGroupModel.toEntity()
@@ -254,7 +254,7 @@ class CreateGroupViewModel(
         when (args.groupType) {
             GroupType.SUPPORT -> localRouter.navigateToCreateSupGroup(args, group, what)
             GroupType.MASTER_MIND -> localRouter.navigateToCreateMMGroup(args, group, what)
-            GroupType.LIVESTREAM -> localRouter.navigateToCreateWebinar(args, group, what)
+            GroupType.WEBINAR -> localRouter.navigateToCreateWebinar(args, group, what)
             GroupType.INDIVIDUAL -> localRouter.navigateToCreateMMGroup(args, group, what)
         }
     }
@@ -405,7 +405,7 @@ class CreateGroupViewModel(
             createGroupModel.isPrivate.getNotNull() && createGroupModel.groupType == GroupType.MASTER_MIND -> canCreateMMGroup()
             createGroupModel.isPrivate.getNotNull()
                 .not() && createGroupModel.groupType == GroupType.MASTER_MIND -> canCreateMMIndividual()
-            createGroupModel.groupType == GroupType.LIVESTREAM -> canCreateWebinar()
+            createGroupModel.groupType == GroupType.WEBINAR -> canCreateWebinar()
             else -> canCreateMMIndividual()
         }
         canComplete.postValue(isValid)
@@ -780,7 +780,7 @@ class CreateGroupViewModel(
 
         viewModelScope.launch {
             group.let { group ->
-                val groupTypeRequest = if (createGroupModel.groupType == GroupType.LIVESTREAM) {
+                val groupTypeRequest = if (createGroupModel.groupType == GroupType.WEBINAR) {
                     createGroupModel.toUpdateWebinarEntity(group)
                 } else {
                     createGroupModel.toUpdateEntity(group.attendees?.map { it.email ?: "" }
@@ -934,7 +934,7 @@ class CreateGroupViewModel(
             GroupType.MASTER_MIND -> canAddMembers.postValue(
                 selectedMembers.size + (attendees.value?.size ?: 0) < 50
             )
-            GroupType.LIVESTREAM -> canAddMembers.postValue(
+            GroupType.WEBINAR -> canAddMembers.postValue(
                 selectedMembers.size + (attendees.value?.size ?: 0) < 3
             )
             GroupType.SUPPORT -> canAddMembers.postValue(
@@ -953,7 +953,7 @@ class CreateGroupViewModel(
             GroupType.MASTER_MIND -> canAddMembers.postValue(
                 selectedMembers.size + (attendees.value?.size ?: 0) < 50
             )
-            GroupType.LIVESTREAM -> canAddMembers.postValue(
+            GroupType.WEBINAR -> canAddMembers.postValue(
                 selectedMembers.size + (attendees.value?.size ?: 0) < 3
             )
             GroupType.SUPPORT -> canAddMembers.postValue(

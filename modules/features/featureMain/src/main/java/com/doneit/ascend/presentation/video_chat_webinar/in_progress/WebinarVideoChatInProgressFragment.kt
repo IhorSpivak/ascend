@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatWebinarBinding
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
@@ -35,7 +36,8 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinarBinding>(), IEventListener{
+class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinarBinding>(),
+    IEventListener {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<WebinarVideoChatInProgressContract.ViewModel>() with provider {
@@ -73,6 +75,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 fragment = this@WebinarVideoChatInProgressFragment
             }
         observeEvents()
+        addAdapterDataObserver()
     }
 
     private fun observeEvents() {
@@ -86,6 +89,16 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                     binding.questionSent.hide()
                 }
             }, DELAY_HIDE_SEND_BADGE)
+        })
+    }
+
+    private fun addAdapterDataObserver() {
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (itemCount > 0) {
+                    (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPosition(0)
+                }
+            }
         })
     }
 
@@ -113,7 +126,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             onGranted = {
                 delegate?.startVideo(model)
                 //TODO: remove
-                if(true) return@requestPermissions
+                if (true) return@requestPermissions
                 connection = RTMPConnection()
                 stream = RTMPStream(connection!!)
                 stream?.attachCamera(com.haishinkit.media.Camera(Camera.open()))

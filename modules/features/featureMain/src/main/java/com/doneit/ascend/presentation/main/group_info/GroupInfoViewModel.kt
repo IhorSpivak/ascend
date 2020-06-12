@@ -173,7 +173,7 @@ class GroupInfoViewModel(
         viewModelScope.launch {
             val res = groupUseCase.leaveGroup(group.value?.id ?: return@launch)
             if (res.isSuccessful) {
-                if (group.value!!.groupType != GroupType.LIVESTREAM) {
+                if (group.value!!.groupType != GroupType.WEBINAR) {
                     router.onBack()
                 } else {
                     loadData(group.value!!.id)

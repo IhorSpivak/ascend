@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
+import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesContract
 import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesFragment
 import com.doneit.ascend.presentation.utils.extensions.add
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
@@ -27,7 +28,8 @@ class WebinarVideoChatRouter(
     private val activity: WebinarVideoChatActivity
 ) : FragmentRouter(activity.supportFragmentManager),
     NotesContract.Router,
-    WebinarVideoChatContract.Router, ChatContract.Router {
+    WebinarVideoChatContract.Router, ChatContract.Router,
+    AttendeesContract.Router {
 
     override val containerId = activity.getContainerId()
     private val fullContainerId = activity.getFullContainerId()
@@ -55,8 +57,8 @@ class WebinarVideoChatRouter(
         attendeesList: MutableList<AttendeeEntity>,
         group: GroupEntity
     ) {
-        activity.supportFragmentManager.replace(
-            containerId,
+        activity.supportFragmentManager.replaceWithBackStack(
+            fullContainerId,
             AttendeesFragment(attendeesList, group)
         )
     }

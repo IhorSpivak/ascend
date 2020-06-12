@@ -79,7 +79,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                     }
                 }
                 builder.append(context!!.getTimeFormat().format(group.startTime))
-                if(group.groupType == GroupType.LIVESTREAM){
+                if(group.groupType == GroupType.WEBINAR){
                     builder.clear()
                     if(DateFormat.is24HourFormat(context)){
                         group.daysOfWeek.forEachIndexed { index, day ->

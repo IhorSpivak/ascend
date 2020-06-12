@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityWebinarVideoChatBinding
+import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesContract
 import com.doneit.ascend.presentation.video_chat.common.ChatParticipantsAdapter
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.common.OnUserInteractionListener
 import org.kodein.di.Kodein
@@ -29,6 +30,8 @@ class WebinarVideoChatActivity : BaseActivity() {
         }
 
         bind<WebinarVideoChatContract.Router>() with provider { instance<WebinarVideoChatRouter>() }
+        bind<AttendeesContract.Router>() with provider { instance<WebinarVideoChatRouter>() }
+
 
         bind<ViewModel>(WebinarVideoChatViewModel::class.java.simpleName) with provider {
             WebinarVideoChatViewModel(

@@ -14,7 +14,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-class QuestionFragment: BaseFragment<FragmentQuestionsBinding>(){
+class QuestionFragment : BaseFragment<FragmentQuestionsBinding>() {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<QuestionContract.ViewModel>() with provider {
