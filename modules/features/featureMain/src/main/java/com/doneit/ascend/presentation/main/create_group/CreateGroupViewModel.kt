@@ -5,7 +5,6 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
-import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -60,7 +59,10 @@ class CreateGroupViewModel(
     init {
         viewModelScope.launch {
             currentUser = userUseCase.getUser()!!
-            initTitles()
+            supportTitle.value = convertCommunityToResId(
+                currentUser.community.orEmpty(),
+                createGroupModel.groupType
+            )
 
             val response = groupUseCase.getTags()
             tags.postValue(
@@ -184,23 +186,6 @@ class CreateGroupViewModel(
         createGroupModel.description.onFieldInvalidate = invalidationListener
         createGroupModel.image.onFieldInvalidate = invalidationListener
         createGroupModel.duration.onFieldInvalidate = invalidationListener
-    }
-
-    private fun initTitles() {
-        val titlePair = when (currentUser.community) {
-            Community.FITNESS.title,
-            Community.SPIRITUAL.title -> R.string.collaboration to R.string.group
-            Community.RECOVERY.title -> R.string.group_title to R.string.workshop
-            Community.FAMILY.title -> R.string.group_title to R.string.group
-            Community.INDUSTRY.title -> R.string.collaboration to R.string.workshop
-            else -> throw IllegalStateException("Unsupported community detected")
-        }
-        val title = when (createGroupModel.groupType) {
-            GroupType.MASTER_MIND -> titlePair.second
-            GroupType.SUPPORT -> titlePair.first
-            else -> return
-        }
-        supportTitle.postValue(title)
     }
 
     override fun addNewParticipant() {

@@ -11,17 +11,15 @@ import com.doneit.ascend.domain.entity.dto.SubscribeGroupDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
-import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
-import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
-import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCardModel
 import com.doneit.ascend.presentation.models.group.toUpdatePrivacyGroupDTO
 import com.doneit.ascend.presentation.models.toPresentation
+import com.doneit.ascend.presentation.utils.convertCommunityToResId
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -33,22 +31,21 @@ class GroupInfoViewModel(
     private val router: GroupInfoContract.Router,
     private val groupUseCase: GroupUseCase,
     private val userUseCase: UserUseCase,
-    private val cardsUseCase: CardsUseCase,
-    private val mmUseCase: MasterMindUseCase
+    cardsUseCase: CardsUseCase
 ) : BaseViewModelImpl(), GroupInfoContract.ViewModel {
 
     override val group = MutableLiveData<GroupEntity>()
     override val cards = cardsUseCase.getAllCards().map { list -> list.map { it.toPresentation() } }
-    override val btnSubscribeVisible = MutableLiveData<Boolean>(false)
-    override val btnJoinVisible = MutableLiveData<Boolean>(false)
-    override val btnStartVisible = MutableLiveData<Boolean>(false)
-    override val btnDeleteVisible = MutableLiveData<Boolean>(false)
-    override val btnJoinedVisible = MutableLiveData<Boolean>(false)
-    override val isEditable = MutableLiveData<Boolean>(false)
-    override val isMM = MutableLiveData<Boolean>(false)
-    override val isOwner = MutableLiveData<Boolean>(false)
-    override val isSubscribed = MutableLiveData<Boolean>(false)
-    override val starting = MutableLiveData<Boolean>(false)
+    override val btnSubscribeVisible = MutableLiveData(false)
+    override val btnJoinVisible = MutableLiveData(false)
+    override val btnStartVisible = MutableLiveData(false)
+    override val btnDeleteVisible = MutableLiveData(false)
+    override val btnJoinedVisible = MutableLiveData(false)
+    override val isEditable = MutableLiveData(false)
+    override val isMM = MutableLiveData(false)
+    override val isOwner = MutableLiveData(false)
+    override val isSubscribed = MutableLiveData(false)
+    override val starting = MutableLiveData(false)
     override val users: MutableLiveData<List<ParticipantEntity>> = MutableLiveData()
     override val supportTitle = MutableLiveData<Int>()
 
@@ -67,7 +64,10 @@ class GroupInfoViewModel(
                 group.postValue(response.successModel!!)
                 isSupport.postValue(response.successModel?.groupType != GroupType.SUPPORT)
                 val user = userUseCase.getUser()
-                initTitles(user!!.community.orEmpty())
+                supportTitle.value = convertCommunityToResId(
+                    user!!.community.orEmpty(),
+                    group.value?.groupType
+                )
                 isMM.postValue(user.isMasterMind)
                 isOwner.postValue(user.id == response.successModel!!.owner?.id)
                 if (response.successModel!!.participantsCount!! > 0) {
@@ -81,23 +81,6 @@ class GroupInfoViewModel(
             }
             showProgress(false)
         }
-    }
-
-    private fun initTitles(community: String) {
-        val titlePair = when (community) {
-            Community.FITNESS.title,
-            Community.SPIRITUAL.title -> R.string.collaboration to R.string.group
-            Community.RECOVERY.title -> R.string.group_title to R.string.workshop
-            Community.FAMILY.title -> R.string.group_title to R.string.group
-            Community.INDUSTRY.title -> R.string.collaboration to R.string.workshop
-            else -> throw IllegalStateException("Unsupported community detected")
-        }
-        val title = when (group.value?.groupType) {
-            GroupType.MASTER_MIND -> titlePair.second
-            GroupType.SUPPORT -> titlePair.first
-            else -> return
-        }
-        supportTitle.postValue(title)
     }
 
     private fun updateButtonsState(user: UserEntity, details: GroupEntity) {

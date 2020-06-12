@@ -910,7 +910,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="4dp"
-                            android:text="@string/support_group"
+                            android:text='@{model.supportTitle != null?context.getString(model.supportTitle):""}'
                             android:textSize="12sp"
                             app:layout_constraintStart_toEndOf="@id/tvSupportPrivate"
                             app:layout_constraintTop_toTopOf="parent"/>
@@ -964,7 +964,7 @@
                             android:background="@drawable/bg_r4_519f"
                             android:padding="4dp"
                             android:textSize="12sp"
-                            android:text='@{model.supportTitle != null?context.getString(model.supportTitle):""}'
+                            android:text="@{group.tag.tag}"
                             android:textColor="@android:color/white"
                             android:visibility="@{model.group.groupType == GroupType.SUPPORT, default=gone}"
                             app:layout_constraintStart_toStartOf="parent"

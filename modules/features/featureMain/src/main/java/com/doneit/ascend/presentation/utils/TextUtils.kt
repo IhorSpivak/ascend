@@ -11,6 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
+import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.models.LocationModel
 import com.doneit.ascend.presentation.models.ValidatableField
@@ -78,7 +80,7 @@ fun String.isValidMeetingsNumber(): Boolean {
 fun isValidValidatableList(list: List<ValidatableField>): Boolean {
     var result = true
     list.forEach {
-        if (it.observableField.get()!!.isBlank()){
+        if (it.observableField.get()!!.isBlank()) {
             result = false
         }
     }
@@ -99,6 +101,7 @@ fun String.isWebinarDescriptionValid(): Boolean {
     val r = Regex("^[a-zA-Z0-9\\s_.]{2,500}\$")
     return this.matches(r)
 }
+
 fun String.isThemeValid(): Boolean {
     val r = Regex("^[a-zA-Z0-9\\s_.]{2,32}\$")
     return this.matches(r)
@@ -128,7 +131,7 @@ fun String.isValidStrartDate(): Boolean {
         today.set(Calendar.SECOND, 0)
         today.set(Calendar.MILLISECOND, 0)
 
-        if(date?.before(today.time) == false) {
+        if (date?.before(today.time) == false) {
             res = true
         }
     } catch (e: ParseException) {
@@ -145,7 +148,7 @@ fun String.isValidStartDate(): Boolean {
         val date = ("dd MMMM yyyy".toDefaultFormatter().parse(this).time / 1000) % 60
         val today = (getDefaultCalendar().time.time / 1000) % DAYS_MOD
 
-        if(date >= today) {
+        if (date >= today) {
             res = true
         }
     } catch (e: ParseException) {
@@ -154,13 +157,14 @@ fun String.isValidStartDate(): Boolean {
 
     return res
 }
+
 fun String.isValidActualTime(): Boolean {
     var res = false
     try {
         val date = ("dd MMMM yyyy".toDefaultFormatter().parse(this).time / 1000) % DAYS_MOD
         val today = (getDefaultCalendar().time.time / 1000) % DAYS_MOD
 
-        if(date >= today) {
+        if (date >= today) {
             res = true
         }
     } catch (e: ParseException) {
@@ -170,7 +174,7 @@ fun String.isValidActualTime(): Boolean {
     return res
 }
 
-fun getLocation(city: String, country: String) : String {
+fun getLocation(city: String, country: String): String {
     return "$city, $country"
 }
 
@@ -178,14 +182,30 @@ fun String.toLocationModel(): LocationModel {
     val location = LocationModel()
     val data = this.split(',')
 
-    if(data.isNotEmpty()) {
-       location.city = data[0]
+    if (data.isNotEmpty()) {
+        location.city = data[0]
     }
 
-    if(data.size > 1) {
+    if (data.size > 1) {
         location.county = data[1].trim()
     }
 
     return location
+}
+
+fun convertCommunityToResId(community: String, type: GroupType?): Int? {
+    val titlePair = when (community) {
+        Community.FITNESS.title,
+        Community.SPIRITUAL.title -> R.string.collaboration to R.string.group
+        Community.RECOVERY.title -> R.string.group_title to R.string.workshop
+        Community.FAMILY.title -> R.string.group_title to R.string.group
+        Community.INDUSTRY.title -> R.string.collaboration to R.string.workshop
+        else -> throw IllegalStateException("Unsupported community detected")
+    }
+    return when (type) {
+        GroupType.MASTER_MIND -> titlePair.second
+        GroupType.SUPPORT -> titlePair.first
+        else -> null
+    }
 }
 const val DAYS_MOD = 86400
