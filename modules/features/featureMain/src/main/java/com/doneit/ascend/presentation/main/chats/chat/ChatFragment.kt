@@ -104,7 +104,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 resources.getString(R.string.chats_member_count, it)
         })
         viewModel.chat.observe(this, Observer {
-            currentDialog?.dismiss()
             binding.apply {
                 binding.menu.visible(it.chatType == ChatType.CHAT)
                 binding.chatHeader.visible(it.chatType == ChatType.CHAT)
@@ -116,7 +115,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                         .load(R.drawable.ic_group_placeholder)
                         .circleCrop()
                         .into(groupPlaceholder)
-                    if (it.chat.membersCount > PRIVATE_CHAT_MEMBER_COUNT) {
+                    if (it.chat.members?.size != PRIVATE_CHAT_MEMBER_COUNT) {
                         url = it.chat.image?.url
                         statusOrCount =
                             resources.getString(R.string.chats_member_count, it.chat.membersCount)
@@ -142,7 +141,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             //set type of menu
             when (it.chat.chatOwnerId) {
                 it.user.id -> {
-                    menuResId = if (it.chat.membersCount > PRIVATE_CHAT_MEMBER_COUNT) {
+                    menuResId = if (it.chat.members?.size != PRIVATE_CHAT_MEMBER_COUNT) {
                         R.menu.chat_mm_group_menu
                     } else {
                         if (it.chat.blocked) {
@@ -153,7 +152,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                     }
                 }
                 else -> {
-                    menuResId = if (it.chat.membersCount > PRIVATE_CHAT_MEMBER_COUNT) {
+                    menuResId = if (it.chat.members?.size != PRIVATE_CHAT_MEMBER_COUNT) {
                         R.menu.chat_ru_group_menu
                     } else {
                         if (it.chat.blocked) {
@@ -174,7 +173,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
             //check when user leaved group chat
             if (it.chat.chatOwnerId != it.user.id) {
-                if (it.chat.membersCount > PRIVATE_CHAT_MEMBER_COUNT) {
+                if (it.chat.members?.size != PRIVATE_CHAT_MEMBER_COUNT) {
                     it.chat.members?.firstOrNull { member -> member.id == it.user.id }?.let {
                         if (it.leaved) {
                             binding.apply {
@@ -268,7 +267,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     }
 
     companion object {
-        const val PRIVATE_CHAT_MEMBER_COUNT = 1 //server sent members count without you.
+        const val PRIVATE_CHAT_MEMBER_COUNT = 2 //server sent members count without you.
         const val CHAT_KEY = "chat"
         const val CHAT_TYPE = "chat_type"
         fun getInstance(id: Long, chatType: ChatType = ChatType.CHAT): ChatFragment {

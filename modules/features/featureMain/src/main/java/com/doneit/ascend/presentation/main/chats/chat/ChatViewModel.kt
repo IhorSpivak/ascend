@@ -180,7 +180,7 @@ class ChatViewModel(
 
     override fun onChatDetailsClick() {
         chat.value?.let { chatWithUser ->
-            if (chatWithUser.chat.membersCount == ChatFragment.PRIVATE_CHAT_MEMBER_COUNT) {
+            if (chatWithUser.chat.members?.size == ChatFragment.PRIVATE_CHAT_MEMBER_COUNT) {
                 router.goToDetailedUser(chatWithUser.chat.members?.firstOrNull {
                     it.id != chatWithUser.user.id && !it.removed && !it.leaved
                 }?.id ?: return@let)

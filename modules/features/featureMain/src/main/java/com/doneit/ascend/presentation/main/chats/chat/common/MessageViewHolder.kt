@@ -78,7 +78,7 @@ class MessageViewHolder(
                         onDeleteClick.invoke(messageEntity)
                     }
                     userImage.setOnLongClickListener {
-                        if (chat.membersCount > ChatFragment.PRIVATE_CHAT_MEMBER_COUNT) {
+                        if (chat.members?.size != ChatFragment.PRIVATE_CHAT_MEMBER_COUNT) {
                             if (chat.chatOwnerId == user.id) {
                                 onImageLongClick(it, member.id)
                                 true
