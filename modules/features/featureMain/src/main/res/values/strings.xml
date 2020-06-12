@@ -203,6 +203,7 @@
     <string name="november">November</string>
     <string name="december">December</string>
     <string name="join_to_discussion">Join to discussion</string>
+    <string name="join_to_livestream">Join to livestream</string>
     <string name="start_group">Start group</string>
     <string name="start_webinar">Start Livestream</string>
     <string name="ended_group">Group Ended</string>
@@ -229,6 +230,7 @@
     <string name="subscribe">ATTEND</string>
     <string name="subscribed">ATTENDED</string>
     <string name="leave_this_group">LEAVE THIS GROUP</string>
+    <string name="leave_this_livestream">LEAVE THIS LIVESTREAM</string>
     <string name="delete_group">Delete Group</string>
     <string name="attendees">&lt;b>%d&lt;/b> Attendees</string>
     <string name="no_attendees">No attendees yet</string>

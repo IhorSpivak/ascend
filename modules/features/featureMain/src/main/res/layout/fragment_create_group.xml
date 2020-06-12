@@ -42,7 +42,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                 app:error="@{model.createGroupModel.name.observableError}"
-                app:hint='@{model.supportTitle != null?@string/group_name(context.getString(model.supportTitle)):""}'
+                app:hint='@{model.supportTitle != null?@string/group_name(context.getString(model.supportTitle)).replace("Coaching ", ""):""}'
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
