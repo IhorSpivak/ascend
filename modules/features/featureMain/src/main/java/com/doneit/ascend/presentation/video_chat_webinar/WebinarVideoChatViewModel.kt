@@ -318,7 +318,9 @@ class WebinarVideoChatViewModel(
     }
 
     override fun showAttendees() {
-        navigation.postValue(WebinarVideoChatContract.Navigation.TO_ATTENDEES)
+        if (chatRole == ChatRole.OWNER) {
+            navigation.postValue(WebinarVideoChatContract.Navigation.TO_ATTENDEES)
+        }
     }
 
     override fun onBackClick() {
