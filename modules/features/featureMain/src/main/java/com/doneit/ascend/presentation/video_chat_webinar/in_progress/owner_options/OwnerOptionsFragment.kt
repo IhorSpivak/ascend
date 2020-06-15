@@ -32,6 +32,7 @@ class OwnerOptionsFragment : BaseFragment<FragmentWebinarOwnerOptionsBinding>(),
 
     override fun onResume() {
         super.onResume()
+        viewModel.unlockQuestionObserver()
         timer.cancel()
         timer.purge()
         timer = Timer()

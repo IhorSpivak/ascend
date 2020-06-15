@@ -13,6 +13,8 @@ interface OwnerOptionsContract {
         val hasUnreadQuestion: LiveData<Boolean>
         val hasUnreadMessage: LiveData<Boolean>
 
+        fun lockQuestionObserver()
+        fun unlockQuestionObserver()
         fun switchVideoEnabledState()
         fun switchAudioEnabledState()
         fun onChatClick()

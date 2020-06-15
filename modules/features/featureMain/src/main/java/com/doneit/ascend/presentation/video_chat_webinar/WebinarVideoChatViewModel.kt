@@ -27,6 +27,7 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.domain.use_case.interactor.vimeo.VimeoUseCase
 import com.doneit.ascend.domain.use_case.interactor.webinar_questions.WebinarQuestionUseCase
+import com.doneit.ascend.presentation.common.LockableLiveData
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
 import com.doneit.ascend.presentation.models.toEntity
@@ -72,8 +73,18 @@ class WebinarVideoChatViewModel(
     override val isQuestionSent = MutableLiveData<Boolean>()
     override val isMMConnected: LiveData<Boolean> = MutableLiveData(false)
     override val isMuted = MutableLiveData<Boolean>()
-    override val hasUnreadQuestion = MutableLiveData(false)
+    override val hasUnreadQuestion = LockableLiveData(false)
     override val hasUnreadMessage = MutableLiveData(false)
+
+    override fun lockQuestionObserver() {
+        hasUnreadQuestion.setValue(false)
+        hasUnreadQuestion.lock()
+    }
+
+    override fun unlockQuestionObserver() {
+        hasUnreadQuestion.unlock()
+    }
+
     override val credentials = MutableLiveData<StartWebinarVideoModel>()
     override val isVisitor = MutableLiveData<Boolean>()
     override val participantsCount = MutableLiveData(0)
@@ -342,7 +353,7 @@ class WebinarVideoChatViewModel(
     }
 
     override fun onQuestionsClick() {
-        hasUnreadQuestion.value = false
+        lockQuestionObserver()
         navigation.postValue(WebinarVideoChatContract.Navigation.TO_QUESTIONS)
     }
 
