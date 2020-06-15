@@ -26,7 +26,8 @@ class ChatParticipantViewHolder(
         binding.isHandRisen = model.isHandRisen
         binding.isSpeaker = model.isSpeaker
         binding.isMuted = model.isMuted
-        lastModel?.get()?.getVideoTrack()?.removeRenderer(binding.videoView)
+        lastModel?.get()?.getLocalVideoTrack()?.removeRenderer(binding.videoView)
+        lastModel?.get()?.getRemoteVideoTrack()?.removeRenderer(binding.videoView)
         model.getVideoTrack()?.let {
             lastModel = WeakReference(model)
             it.addRenderer(binding.videoView)
@@ -44,6 +45,14 @@ class ChatParticipantViewHolder(
 
     private fun PresentationChatParticipant.getVideoTrack(): VideoTrack? {
         return remoteParticipant?.videoTracks?.firstOrNull()?.videoTrack ?: localParticipant?.videoTracks?.firstOrNull()?.videoTrack
+    }
+
+    private fun PresentationChatParticipant.getLocalVideoTrack(): VideoTrack? {
+        return localParticipant?.videoTracks?.firstOrNull()?.videoTrack
+    }
+
+    private fun PresentationChatParticipant.getRemoteVideoTrack(): VideoTrack? {
+        return remoteParticipant?.videoTracks?.firstOrNull()?.videoTrack
     }
 
     private fun getParticipantsListener(model: PresentationChatParticipant): RemoteParticipantListener {
