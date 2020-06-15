@@ -36,7 +36,7 @@ class ParticipantsManager {
         _participants.postValue(resultList)
     }
 
-    fun removeAll(){
+    fun removeAll() {
         _participants.value = listOf()
     }
 
@@ -153,7 +153,9 @@ class ParticipantsManager {
         }
 
         val speaker = resultList.firstOrNull { it.userId == id }
-        _currentSpeaker.postValue(speaker)
+        if(speaker != null) {
+            _currentSpeaker.postValue(speaker)
+        }
 
         _participants.value = resultList
     }
