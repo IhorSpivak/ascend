@@ -84,6 +84,16 @@ fun SocketUserEntity.toPresentation(): PresentationChatParticipant {
     )
 }
 
+fun SocketUserEntity.toWebinarPresentation(): PresentationChatParticipant {
+    return PresentationChatParticipant(
+        ParticipantSourcePriority.SOCKET,
+        userId.toString(),
+        fullName,
+        image,
+        isHandRisen
+    )
+}
+
 fun ParticipantEntity.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
         ParticipantSourcePriority.REQUEST,

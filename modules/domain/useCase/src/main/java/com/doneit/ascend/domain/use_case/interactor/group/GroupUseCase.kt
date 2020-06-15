@@ -53,7 +53,7 @@ interface GroupUseCase {
 
     fun searchMembers(query: String, userId: Long, memberList: List<AttendeeEntity>? = null): LiveData<PagedList<AttendeeEntity>>
 
-    val messagesStream: LiveData<SocketEventEntity>
+    val messagesStream: LiveData<SocketEventEntity?>
 
     fun connectToChannel(groupId: Long)
 

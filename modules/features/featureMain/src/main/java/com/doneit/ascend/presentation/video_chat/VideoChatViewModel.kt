@@ -117,87 +117,93 @@ class VideoChatViewModel(
         }
     }
 
-    val messagesObserver = Observer<SocketEventEntity> { socketEvent ->
-        var user = socketEvent.data.toPresentation()
+    val messagesObserver = Observer<SocketEventEntity?> { socketEvent ->
+        socketEvent?.let {
+            var user = socketEvent.data.toPresentation()
 
-        if (chatRole != null) {
-            //risen hand is displayed only for MasterMind
-            user = user.copy(
-                isHandRisen = user.isHandRisen && chatRole == ChatRole.OWNER
-            )
-        }
+            if (chatRole != null) {
+                //risen hand is displayed only for MasterMind
+                user = user.copy(
+                    isHandRisen = user.isHandRisen && chatRole == ChatRole.OWNER
+                )
+            }
 
-        when (socketEvent.event) {
-            SocketEvent.PARTICIPANT_CONNECTED -> {
-                if (user.userId == groupInfo.value?.owner?.id.toString()) user.isOwner = true
-                participantsManager.addParticipant(user)
-            }
-            SocketEvent.PARTICIPANT_DISCONNECTED -> {
-                participantsManager.removeParticipant(user)
-            }
-            SocketEvent.RISE_A_HAND -> {
-                if (currentUserId == user.userId) {
-                    isHandRisen.postValue(true)
-                } else {
-                    participantsManager.updateHandState(user)
+            when (socketEvent?.event) {
+                SocketEvent.PARTICIPANT_CONNECTED -> {
+                    if (user.userId == groupInfo.value?.owner?.id.toString()) user.isOwner = true
+                    participantsManager.addParticipant(user)
                 }
-            }
-            SocketEvent.REMOVE_HAND -> {
-                if (currentUserId == user.userId) {
-                    isHandRisen.postValue(false)
-                } else {
-                    participantsManager.updateHandState(user)
+                SocketEvent.PARTICIPANT_DISCONNECTED -> {
+                    participantsManager.removeParticipant(user)
                 }
-            }
-            SocketEvent.REMOVED_FROM_GROUP -> {
-                if (user.userId == currentUserId) {
-                    finishCall()
+                SocketEvent.RISE_A_HAND -> {
+                    if (currentUserId == user.userId) {
+                        isHandRisen.postValue(true)
+                    } else {
+                        participantsManager.updateHandState(user)
+                    }
                 }
-            }
-            SocketEvent.SPEAK -> {
-                if (currentUserId != user.userId) {
-                    chatStrategy = ChatStrategy.USER_FOCUSED
+                SocketEvent.REMOVE_HAND -> {
+                    if (currentUserId == user.userId) {
+                        isHandRisen.postValue(false)
+                    } else {
+                        participantsManager.updateHandState(user)
+                    }
                 }
+                SocketEvent.REMOVED_FROM_GROUP -> {
+                    if (user.userId == currentUserId) {
+                        finishCall()
+                    }
+                }
+                SocketEvent.SPEAK -> {
+                    if (currentUserId != user.userId) {
+                        chatStrategy = ChatStrategy.USER_FOCUSED
+                    }
 
-                viewModelScope.launch {
-                    delay(SPEECH_FOCUS_TIME)
-                    chatStrategy = ChatStrategy.DOMINANT_SPEAKER
-                }
+                    viewModelScope.launch {
+                        delay(SPEECH_FOCUS_TIME)
+                        chatStrategy = ChatStrategy.DOMINANT_SPEAKER
+                    }
 
-                if (chatRole == ChatRole.OWNER) {
-                    groupUseCase.lowerAHand(user.userId)
+                    if (chatRole == ChatRole.OWNER) {
+                        groupUseCase.lowerAHand(user.userId)
+                    }
                 }
-            }
-            SocketEvent.GROUP_STARTED -> {
-                groupInfo.value?.let {
-                    groupUseCase.updateGroupLocal(
-                        it.copy(
-                            GroupStatus.STARTED
+                SocketEvent.GROUP_STARTED -> {
+                    groupInfo.value?.let {
+                        groupUseCase.updateGroupLocal(
+                            it.copy(
+                                GroupStatus.STARTED
+                            )
                         )
+                    }
+                    refetchGroupInfo()
+                    changeState(VideoChatState.PROGRESS)
+                }
+                SocketEvent.MUTE_USER -> {
+                    if (currentUserId == user.userId) {
+                        isMuted.postValue(true)
+                    }
+                    participantsManager.mute(user)
+                }
+                SocketEvent.RESET_MUTE_USER -> {
+                    if (currentUserId == user.userId) {
+                        isMuted.postValue(false)
+                    }
+                    participantsManager.unmute(user)
+                }
+                SocketEvent.MUTE_ALL_USERS -> {
+                    participantsManager.muteAll()
+                    if (currentUserId != groupInfo.value?.owner?.id.toString()) isMuted.postValue(
+                        true
                     )
                 }
-                refetchGroupInfo()
-                changeState(VideoChatState.PROGRESS)
-            }
-            SocketEvent.MUTE_USER -> {
-                if (currentUserId == user.userId) {
-                    isMuted.postValue(true)
+                SocketEvent.UNMUTE_ALL_USERS -> {
+                    participantsManager.unmuteAll()
+                    if (currentUserId != groupInfo.value?.owner?.id.toString()) isMuted.postValue(
+                        false
+                    )
                 }
-                participantsManager.mute(user)
-            }
-            SocketEvent.RESET_MUTE_USER -> {
-                if (currentUserId == user.userId) {
-                    isMuted.postValue(false)
-                }
-                participantsManager.unmute(user)
-            }
-            SocketEvent.MUTE_ALL_USERS -> {
-                participantsManager.muteAll()
-                if (currentUserId != groupInfo.value?.owner?.id.toString()) isMuted.postValue(true)
-            }
-            SocketEvent.UNMUTE_ALL_USERS -> {
-                participantsManager.unmuteAll()
-                if (currentUserId != groupInfo.value?.owner?.id.toString()) isMuted.postValue(false)
             }
         }
     }

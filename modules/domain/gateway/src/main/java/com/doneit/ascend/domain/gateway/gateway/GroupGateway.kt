@@ -51,7 +51,7 @@ internal class GroupGateway(
     }
 
     override val messagesStream =
-        remoteSocket.messagesStream.map { it.toEntity() }//todo remove deprecation
+        remoteSocket.messagesStream.map { it?.toEntity() }//todo remove deprecation
 
     override suspend fun createGroup(
         groupDTO: CreateGroupDTO,

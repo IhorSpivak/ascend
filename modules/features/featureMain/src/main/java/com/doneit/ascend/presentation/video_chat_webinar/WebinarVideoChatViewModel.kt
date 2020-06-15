@@ -31,6 +31,7 @@ import com.doneit.ascend.presentation.common.LockableLiveData
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
 import com.doneit.ascend.presentation.models.toEntity
+import com.doneit.ascend.presentation.models.toWebinarPresentation
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.utils.extensions.toMinutesFormat
@@ -71,7 +72,7 @@ class WebinarVideoChatViewModel(
     override val isVideoEnabled = MutableLiveData<Boolean>()
     override val isAudioRecording = MutableLiveData<Boolean>()
     override val isQuestionSent = MutableLiveData<Boolean>()
-    override val isMMConnected: LiveData<Boolean> = MutableLiveData(false)
+    override val isMMConnected = MutableLiveData<Boolean>()
     override val isMuted = MutableLiveData<Boolean>()
     override val hasUnreadQuestion = LockableLiveData(false)
     override val hasUnreadMessage = MutableLiveData(false)
@@ -360,15 +361,14 @@ class WebinarVideoChatViewModel(
 
     //region release resources
     override fun finishCall() {
-        clearChatResources()
         navigation.postValue(WebinarVideoChatContract.Navigation.FINISH_ACTIVITY)
     }
 
     override fun onCleared() {
-        clearChatResources()
         groupEvents.removeObserver(groupObserver)
         messages.removeObserver(messagesObserver)
         questionsStream.removeObserver(questionObserver)
+        clearChatResources()
         super.onCleared()
     }
 
@@ -387,13 +387,19 @@ class WebinarVideoChatViewModel(
         when (chatState) {
             VideoChatState.PREVIEW -> {
                 groupUseCase.connectToChannel(groupId)
+                viewModelScope.launch {
+                    //todo: find a solution without delay
+                    delay(1000)
+                    groupUseCase.participantConnectionStatus(currentUserId, true)
+                }
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_PREVIEW)
             }
             VideoChatState.PREVIEW_DATA_LOADED -> {
                 initDownTimer(groupInfo.value!!)
+
             }
             VideoChatState.PREVIEW_GROUP_STARTED -> {
-                groupUseCase.participantConnectionStatus(currentUserId, true)
+
                 initProgressTimer(groupInfo.value!!)
                 if (chatRole == ChatRole.OWNER) {
                     isStartButtonVisible.postValue(true)
@@ -423,7 +429,6 @@ class WebinarVideoChatViewModel(
             VideoChatState.FINISHED -> {
                 isFinishing.postValue(false)
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_FINISH)
-                clearChatResources()
             }
         }
     }
@@ -527,28 +532,38 @@ class WebinarVideoChatViewModel(
         }
     }
 
-    private val groupObserver = Observer<SocketEventEntity> { socketEvent ->
-        when (socketEvent.event) {
-            SocketEvent.PARTICIPANT_CONNECTED -> {
-                Log.d("socket", "connected")
-                participantsCount.value = participantsCount.value?.inc()
-            }
-            SocketEvent.GROUP_STARTED -> {
-                groupInfo.value?.let {
-                    groupUseCase.updateGroupLocal(
-                        it.copy(
-                            GroupStatus.STARTED
-                        )
-                    )
+    private val groupObserver = Observer<SocketEventEntity?> { socketEvent ->
+        socketEvent?.let {
+            val user = socketEvent.data.toWebinarPresentation()
+            when (socketEvent.event) {
+                SocketEvent.PARTICIPANT_CONNECTED -> {
+                    Log.d("socket", "connected")
+                    if (user.userId == groupInfo.value?.owner?.id.toString()) {
+                        isMMConnected.value = true
+                    }
+                    participantsCount.value = participantsCount.value?.inc()
+
                 }
-                refetchGroupInfo()
-                changeState(VideoChatState.PROGRESS)
+                SocketEvent.GROUP_STARTED -> {
+                    groupInfo.value?.let {
+                        groupUseCase.updateGroupLocal(
+                            it.copy(
+                                GroupStatus.STARTED
+                            )
+                        )
+                    }
+                    refetchGroupInfo()
+                    changeState(VideoChatState.PROGRESS)
+                }
+                SocketEvent.PARTICIPANT_DISCONNECTED -> {
+                    Log.d("socket", "disconnected")
+                    if (user.userId == groupInfo.value?.owner?.id.toString()) {
+                        isMMConnected.value = false
+                    }
+                    participantsCount.value = participantsCount.value?.dec()
+                }
+                else -> Unit
             }
-            SocketEvent.PARTICIPANT_DISCONNECTED -> {
-                Log.d("socket", "disconnected")
-                participantsCount.value = participantsCount.value?.dec()
-            }
-            else -> Unit
         }
     }
 

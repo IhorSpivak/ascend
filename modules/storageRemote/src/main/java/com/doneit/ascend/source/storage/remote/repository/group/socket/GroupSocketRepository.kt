@@ -15,7 +15,7 @@ class GroupSocketRepository(
     private val gson: Gson
 ) : IGroupSocketRepository {
 
-    override val messagesStream = SingleLiveEvent<SocketEventMessage>()
+    override val messagesStream = SingleLiveEvent<SocketEventMessage?>()
 
     private var socket: WebSocket? = null
 
@@ -44,6 +44,7 @@ class GroupSocketRepository(
     }
 
     override fun disconnect() {
+        messagesStream.value = null
         socket?.close(1000, "")
     }
 
@@ -78,7 +79,7 @@ class GroupSocketRepository(
         try {
             Log.d("SocketMessage", message)
             val result = gson.fromJson(message, SocketEventResponse::class.java)
-            if(result.message?.event != null) { //todo replace by Gson deserializer with exception on missing fields
+            if(result.message?.event != null && messagesStream.hasActiveObservers()) { //todo replace by Gson deserializer with exception on missing fields
                 messagesStream.postValue(result.message)
             }
         } catch (exception: JsonSyntaxException) {

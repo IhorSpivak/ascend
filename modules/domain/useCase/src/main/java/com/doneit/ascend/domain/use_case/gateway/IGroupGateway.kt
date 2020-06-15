@@ -51,7 +51,7 @@ interface IGroupGateway {
 
     fun getMembersPaged(query: String, userId: Long, memberList: List<AttendeeEntity>?): LiveData<PagedList<AttendeeEntity>>
 
-    val messagesStream: LiveData<SocketEventEntity>
+    val messagesStream: LiveData<SocketEventEntity?>
 
     fun connectToChannel(groupId: Long)
 
