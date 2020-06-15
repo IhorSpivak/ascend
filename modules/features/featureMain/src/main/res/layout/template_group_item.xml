@@ -193,7 +193,7 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/button_join_background"
                     android:gravity="center"
-                    android:text="@string/join_to_discussion"
+                    android:text="@{item.groupType == GroupType.WEBINAR?@string/join_to_livestream:@string/join_to_discussion}"
                     android:textAllCaps="true"
                     android:textColor="@color/colorAccent"
                     android:textSize="18sp"
