@@ -69,7 +69,6 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             }
         }
         binding.rvQuestions.adapter = adapter
-        (binding.rvQuestions.layoutManager as LinearLayoutManager).reverseLayout = true
         delegate =
             VideoChatUtils.newVimeoViewModelDelegate(viewModel.viewModelDelegate, placeholder) {
                 fragment = this@WebinarVideoChatInProgressFragment
@@ -96,7 +95,9 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (itemCount > 0) {
-                    (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPosition(0)
+                    (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPosition(
+                        0
+                    )
                 }
             }
         })

@@ -181,6 +181,8 @@
             android:orientation="vertical"
             android:overScrollMode="never"
             android:visibility="@{!model.isVisitor, default = gone}"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
