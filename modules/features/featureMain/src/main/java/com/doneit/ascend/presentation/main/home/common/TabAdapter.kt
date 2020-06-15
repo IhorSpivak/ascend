@@ -2,8 +2,9 @@ package com.doneit.ascend.presentation.main.home.common
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.doneit.ascend.presentation.main.home.daily.DailyFragment
+import com.doneit.ascend.presentation.main.home.groups.GroupsFragment
 import com.doneit.ascend.presentation.main.home.master_mind.MasterMindFragment
 import com.doneit.ascend.presentation.main.home.webinars.WebinarsFragment
 
@@ -11,7 +12,7 @@ class TabAdapter(
     fragmentManager: FragmentManager,
     private val fragments: List<Fragment> = arrayListOf(),
     private val titles: List<String> = arrayListOf()
-) : FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         return fragments[position]
@@ -31,7 +32,7 @@ class TabAdapter(
             val fragments: ArrayList<Fragment> = arrayListOf(
                 DailyFragment(),
                 WebinarsFragment(),
-                com.doneit.ascend.presentation.main.home.groups.GroupsFragment(),
+                GroupsFragment(),
                 MasterMindFragment()
             )
 
