@@ -49,7 +49,7 @@ class ChatViewModel(
             groupUseCase.searchMembers(
                 it,
                 user.value!!.id,
-                chat.value!!.chat.members?.map { member -> member.toAttendeeEntity() })
+                chat.value!!.chat.members?.filter { !it.removed }?.map { member -> member.toAttendeeEntity() })
         }
 
     //don't used
