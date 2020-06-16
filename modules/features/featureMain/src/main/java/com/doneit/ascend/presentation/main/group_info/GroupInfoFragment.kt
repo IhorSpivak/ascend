@@ -207,6 +207,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             viewModel.group.value!!.groupType!!
         ) {
             viewModel.cancelGroup(it)
+            //TODO: AS-36
             currentDialog?.dismiss()
         }
     }
