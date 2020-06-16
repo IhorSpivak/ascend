@@ -443,6 +443,7 @@
 
     <!--Video Chat-->
     <string name="waiting_for_start">Waiting for a group start</string>
+    <string name="waiting_for_start_webinar">Waiting for a livestream start</string>
     <string name="leave_group">Leave This Group</string>
     <string name="connection_lost">Connection lost</string>
     <string name="connection">connection…</string>

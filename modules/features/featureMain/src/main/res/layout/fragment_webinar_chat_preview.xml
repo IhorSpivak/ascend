@@ -48,7 +48,7 @@
             style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/waiting_for_start"
+            android:text="@string/waiting_for_start_webinar"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
