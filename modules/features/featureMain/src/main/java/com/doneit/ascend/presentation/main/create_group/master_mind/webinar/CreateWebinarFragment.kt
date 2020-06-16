@@ -193,28 +193,11 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         }
         viewModel.members.observe(this, Observer {
             membersAdapter.submitList(it.toMutableList())
-            if (what == null) {
-                viewModel.createGroupModel.participants.set(it.filter { attendee ->
-                    !attendee.isAttended
-                }.filter { it.email != null && it.email.isNullOrBlank() }.map { attendee ->
-                    attendee.email!!
-                })
-            } else {
-                if (what == GroupAction.DUPLICATE) {
-                    it.filter { attendee ->
-                        attendee.email != null && attendee.email!!.isNotBlank()
-                    }.map { attendee ->
-                        attendee.email!!
-                    }.let { list -> viewModel.createGroupModel.participants.set(list) }
-                } else {
-                    it.filter { attendee ->
-                        !attendee.isAttended
-                    }.filter { it.email != null && it.email.isNullOrBlank() }.map { attendee ->
-                        attendee.email!!
-                    }.let { list -> viewModel.createGroupModel.participants.set(list) }
-                }
-            }
-
+            viewModel.createGroupModel.participants.set(it.filter { attendee ->
+                !attendee.isAttended
+            }.filter { it.email.isNullOrBlank().not() }.map { attendee ->
+                attendee.email!!
+            })
         })
 
         viewModel.newScheduleItem.observe(this, Observer {
