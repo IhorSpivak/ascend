@@ -389,6 +389,7 @@ class WebinarVideoChatViewModel(
         when (chatState) {
             VideoChatState.PREVIEW -> {
                 groupUseCase.connectToChannel(groupId)
+                webinarQuestionUseCase.connectToChannel(groupId)
                 viewModelScope.launch {
                     //todo: find a solution without delay
                     delay(1000)
@@ -409,7 +410,7 @@ class WebinarVideoChatViewModel(
                 if (groupInfo.value?.status == GroupStatus.STARTED) {
                     changeState(VideoChatState.PROGRESS)
                 }
-                webinarQuestionUseCase.connectToChannel(groupId)
+
             }
             VideoChatState.MM_CONNECTION_LOST -> {
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_PREVIEW)
