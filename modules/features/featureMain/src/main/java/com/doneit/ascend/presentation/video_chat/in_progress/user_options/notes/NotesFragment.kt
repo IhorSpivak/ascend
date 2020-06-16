@@ -24,6 +24,10 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>() {
             showKeyboard(binding.text)
         }
         binding.text.requestFocus()
+        viewModel.groupInfo.observe(viewLifecycleOwner, Observer {
+            binding.text.setText(it?.note?.content)
+            binding.text.text?.length?.let { it -> binding.text.setSelection(it) }
+        })
 
         binding.text.setOnKeyListener { view, i, keyEvent ->
             if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
