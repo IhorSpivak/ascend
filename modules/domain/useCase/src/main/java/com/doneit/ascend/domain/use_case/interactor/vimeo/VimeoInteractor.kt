@@ -13,8 +13,8 @@ class VimeoInteractor(
         return vimeoGateway.createLiveStream(title)
     }
 
-    override suspend fun updateLiveStream(liveEventId: Long): ResponseEntity<ActivateLiveEventEntity, String> {
-        return vimeoGateway.updateLiveStream(liveEventId)
+    override suspend fun activateLiveStream(liveEventId: Long): ResponseEntity<ActivateLiveEventEntity, String> {
+        return vimeoGateway.activateLiveStream(liveEventId)
     }
 
     override suspend fun getM3u8(liveEventId: Long): ResponseEntity<M3u8Entity, String> {

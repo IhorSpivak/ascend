@@ -10,16 +10,15 @@ import com.doneit.ascend.source.storage.remote.data.response.M3u8Response
 fun LiveEventResponse.toEntity(): LiveEventEntity {
     return LiveEventEntity(
         link,
-        streamKey,
         rtmpLink
     )
 }
 
 fun ActivateLiveEventResponse.toEntity(): ActivateLiveEventEntity {
     return ActivateLiveEventEntity(
+        this.live.streamKey
     )
 }
-
 fun M3u8Response.toEntity(): M3u8Entity {
     return M3u8Entity()
 }

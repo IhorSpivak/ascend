@@ -25,8 +25,8 @@ internal class VimeoGateway(
         )
     }
 
-    override suspend fun updateLiveStream(liveEventId: Long): ResponseEntity<ActivateLiveEventEntity, String> {
-        return remote.updateLiveStream(liveEventId).toResponseEntity(
+    override suspend fun activateLiveStream(liveEventId: Long): ResponseEntity<ActivateLiveEventEntity, String> {
+        return remote.activateLiveStream(liveEventId).toResponseEntity(
             {
                 it?.toEntity()
             },

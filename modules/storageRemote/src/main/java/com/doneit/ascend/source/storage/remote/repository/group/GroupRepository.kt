@@ -30,10 +30,10 @@ internal class GroupRepository(
     ): RemoteResponse<GroupResponse, ErrorsListResponse> {
         return execute({
             val builder = MultipartBody.Builder().apply {
-                addPart(MultipartBody.Part.createFormData("name", request.name ?: ""))
-                addPart(MultipartBody.Part.createFormData("description", request.description ?: ""))
-                addPart(MultipartBody.Part.createFormData("start_time", request.startTime ?: ""))
-                addPart(MultipartBody.Part.createFormData("group_type", request.groupType ?: ""))
+                addPart(MultipartBody.Part.createFormData("name", request.name.orEmpty()))
+                addPart(MultipartBody.Part.createFormData("description", request.description.orEmpty()))
+                addPart(MultipartBody.Part.createFormData("start_time", request.startTime.orEmpty()))
+                addPart(MultipartBody.Part.createFormData("group_type", request.groupType.orEmpty()))
                 when (request.groupType) {
                     MASTER_MIND -> {
                     }
@@ -295,8 +295,8 @@ internal class GroupRepository(
 
     override suspend fun setCredentials(
         groupId: Long,
-        key: String,
-        link: String
+        key: String?,
+        link: String?
     ): RemoteResponse<Unit, ErrorsListResponse> {
         return execute({ api.setCredentialsAsync(groupId, SetGroupCredentialsRequest(key, link)) }, ErrorsListResponse::class.java)
     }

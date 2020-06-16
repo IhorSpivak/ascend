@@ -8,7 +8,7 @@ import com.doneit.ascend.domain.entity.vimeo.M3u8Entity
 interface IVimeoGateway {
     suspend fun createLiveStream(title: String) : ResponseEntity<LiveEventEntity, String>
 
-    suspend fun updateLiveStream(liveEventId: Long) : ResponseEntity<ActivateLiveEventEntity, String>
+    suspend fun activateLiveStream(liveEventId: Long) : ResponseEntity<ActivateLiveEventEntity, String>
 
     suspend fun getM3u8(liveEventId: Long) : ResponseEntity<M3u8Entity, String>
 }

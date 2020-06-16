@@ -118,6 +118,8 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
 
     }
 
+    private var currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+
     private fun startVideo(model: StartWebinarVideoModel) {
         context!!.requestPermissions(
             listOf(
@@ -132,12 +134,20 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 stream = RTMPStream(connection!!)
                 stream?.attachCamera(com.haishinkit.media.Camera(Camera.open()))
                 stream?.attachAudio(Audio())
+                binding.videoView.attachStream(stream!!)
+
                 connection?.addEventListener("rtmpStatus", this)
                 connection?.connect(RTMP_LINK)
                 viewModel.switchCameraEvent.observe(this) {
                     delegate?.switchCamera()
+                    currentCameraId = if(currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK){
+                        Camera.CameraInfo.CAMERA_FACING_FRONT;
+                    } else {
+                        Camera.CameraInfo.CAMERA_FACING_BACK;
+                    }
+                    stream?.attachCamera(com.haishinkit.media.Camera(Camera.open(currentCameraId)))
                 }
-                binding.videoView.attachStream(stream!!)
+
             },
             onDenied = {
                 viewModel.onPermissionsRequired(WebinarVideoChatActivity.ResultStatus.POPUP_REQUIRED)
@@ -195,7 +205,6 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         val code = data["code"].toString()
         if (code == RTMPConnection.Code.CONNECT_SUCCESS.rawValue) {
             stream?.publish(viewModel.credentials.value!!.key)
-            //viewModel.getM3u8Playback()
         }
     }
 }

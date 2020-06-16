@@ -19,7 +19,7 @@ internal class VimeoRepository(
         }, String::class.java)
     }
 
-    override suspend fun updateLiveStream(liveEventId: Long): RemoteResponse<ActivateLiveEventResponse, String> {
+    override suspend fun activateLiveStream(liveEventId: Long): RemoteResponse<ActivateLiveEventResponse, String> {
         return execute( {
             api.activateLiveEvent(liveEventId)
         }, String::class.java)

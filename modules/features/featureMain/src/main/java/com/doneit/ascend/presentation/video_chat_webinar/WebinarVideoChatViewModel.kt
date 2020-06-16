@@ -12,6 +12,7 @@ import com.doneit.ascend.domain.entity.ChatSocketEvent
 import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.SocketEventEntity
+import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.WebinarCredentialsDTO
 import com.doneit.ascend.domain.entity.dto.WebinarQuestionDTO
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -279,6 +280,7 @@ class WebinarVideoChatViewModel(
     }
 
     override fun switchCamera() {
+        switchCameraEvent.call()
         if (viewModelDelegate?.getCameraCount() ?: 0 > 1) {
             switchCameraEvent.call()
         }
@@ -407,23 +409,23 @@ class WebinarVideoChatViewModel(
                 if (groupInfo.value?.status == GroupStatus.STARTED) {
                     changeState(VideoChatState.PROGRESS)
                 }
+                webinarQuestionUseCase.connectToChannel(groupId)
             }
             VideoChatState.MM_CONNECTION_LOST -> {
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_PREVIEW)
             }
             VideoChatState.PROGRESS -> {
                 //TODO:
-                if (credentials.value?.key == null && credentials.value?.link == null) {
-                    if (chatRole == ChatRole.OWNER) {
-                        createLiveEvent()
-                    } else {
-                        // do nothing
-                    }
+                if (credentials.value?.link == null) {
+                    if (chatRole == ChatRole.OWNER) createLiveEvent()
+                } else if (credentials.value?.key == null) {
+                    if (chatRole == ChatRole.OWNER)
+                        viewModelScope.launch {
+                            activateLiveStream(credentials.value?.link!!)
+                        }
                 } else {
                     getM3u8Playback()
                 }
-
-                webinarQuestionUseCase.connectToChannel(groupId)
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_IN_PROGRESS)
             }
             VideoChatState.FINISHED -> {
@@ -585,39 +587,41 @@ class WebinarVideoChatViewModel(
             viewModelScope.launch {
                 val res = vimeoUseCase.createLiveStream(it)
                 if (res.isSuccessful) {
-                    //TODO: refactor drop
-                    delay(2000)
-                    val updateResponse =
-                        vimeoUseCase.updateLiveStream(res.successModel?.link!!.drop(13).toLong())
-                    if (updateResponse.isSuccessful) {
-                        val response = groupUseCase.setWebinarCredentials(
-                            groupInfo.value!!.id,
-                            WebinarCredentialsDTO(
-                                res.successModel?.streamKey,
-                                res.successModel?.link
-                            )
+                    val response = setWebinarCredentials(
+                        WebinarCredentialsDTO(
+                            link = res.successModel!!.link
                         )
-                        if (response.isSuccessful) {
-
-                            val startModel = StartWebinarVideoModel(
-                                credentials.value!!.role,
-                                credentials.value!!.chatId,
-                                res.successModel?.streamKey,
-                                res.successModel?.link
-                            )
-                            credentials.value = startModel
-                        }
+                    )
+                    if (response.isSuccessful) {
+                        activateLiveStream(res.successModel?.link!!)
                     }
-
                 }
-
             }
+        }
+    }
+
+    private suspend fun activateLiveStream(streamLink: String) {
+        val streamId = getStreamId(streamLink);
+        val activateResponse =
+            vimeoUseCase.activateLiveStream(streamId)
+        if (activateResponse.isSuccessful) {
+            val response = setWebinarCredentials(
+                WebinarCredentialsDTO(
+                    key = activateResponse.successModel?.streamKey,
+                    link = streamLink
+                )
+            )
+            if (response.isSuccessful) {
+            }
+        } else {
+            delay(2000)
+            activateLiveStream(streamLink)
         }
     }
 
     override fun getM3u8Playback() {
         viewModelScope.launch {
-            val res = vimeoUseCase.getM3u8(credentials.value!!.link!!.drop(13).toLong())
+            val res = vimeoUseCase.getM3u8(getStreamId(credentials.value!!.link!!))
             if (res.isSuccessful) {
                 Log.d("success", "success")
             } else {
@@ -626,5 +630,25 @@ class WebinarVideoChatViewModel(
         }
     }
 
+    private suspend fun setWebinarCredentials(credentialsDTO: WebinarCredentialsDTO): ResponseEntity<Unit, List<String>> {
+        val response = groupUseCase.setWebinarCredentials(
+            groupInfo.value!!.id,
+            credentialsDTO
+        )
+        if (response.isSuccessful) {
+            val startModel = StartWebinarVideoModel(
+                credentials.value!!.role,
+                credentials.value!!.chatId,
+                link = credentialsDTO.link,
+                key = credentialsDTO.key
+            )
+            credentials.value = startModel
+        }
+        return response
+    }
 
+    private fun getStreamId(streamLink: String): Long {
+        //TODO: refactor drop
+        return streamLink.drop(13).toLong()
+    }
 }

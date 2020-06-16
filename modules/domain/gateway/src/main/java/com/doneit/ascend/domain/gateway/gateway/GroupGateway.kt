@@ -317,8 +317,8 @@ internal class GroupGateway(
     override suspend fun setCredentials(groupId: Long, credentialsDTO: WebinarCredentialsDTO): ResponseEntity<Unit, List<String>> {
         return remote.setCredentials(
             groupId,
-            credentialsDTO.key!!,
-            credentialsDTO.link!!
+            credentialsDTO.key,
+            credentialsDTO.link
         ).toResponseEntity(
             {
                 Unit
