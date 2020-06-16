@@ -51,10 +51,12 @@ class OwnerOptionsFragment : BaseFragment<FragmentWebinarOwnerOptionsBinding>(),
 
 
     override fun onUserInteraction() {
-        timer.cancel()
-        timer.purge()
-        timer = Timer()
-        resetTimer()
+        if (isResumed) {
+            timer.cancel()
+            timer.purge()
+            timer = Timer()
+            resetTimer()
+        }
     }
 
     override fun onPause() {

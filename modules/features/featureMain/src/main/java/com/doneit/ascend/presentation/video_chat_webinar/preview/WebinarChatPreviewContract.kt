@@ -11,6 +11,7 @@ interface WebinarChatPreviewContract {
         val groupInfo: LiveData<GroupEntity>
         val isStartButtonVisible: LiveData<Boolean>
         val credentials: LiveData<StartWebinarVideoModel>
+        val isVisitor: LiveData<Boolean>
 
         fun onOpenOptions()
         fun onStartGroupClick()

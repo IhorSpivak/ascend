@@ -2,6 +2,8 @@ package com.doneit.ascend.presentation.video_chat_webinar.questions
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentQuestionsBinding
 import com.doneit.ascend.presentation.utils.extensions.visible
@@ -32,11 +34,32 @@ class QuestionFragment : BaseFragment<FragmentQuestionsBinding>() {
         binding.model = viewModel
 
         binding.rvQuestions.adapter = adapter
+        applyDataObserver()
 
         viewModel.questions.observe(viewLifecycleOwner, Observer {
             emptyList.visible(it.isNullOrEmpty())
             adapter.submitList(it)
         })
+    }
+
+    private fun applyDataObserver() {
+            adapter.registerAdapterDataObserver(object :
+                RecyclerView.AdapterDataObserver() {
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    if (itemCount > 0) {
+                        scrollIfNeed()
+                    }
+                }
+            })
+    }
+
+    private fun scrollIfNeed() {
+        adapter.let {
+            val lm =
+                binding.rvQuestions.layoutManager as LinearLayoutManager
+            val first = lm.findFirstVisibleItemPosition()
+            if (first < 5) binding.rvQuestions.scrollToPosition(0)
+        }
     }
 
 }

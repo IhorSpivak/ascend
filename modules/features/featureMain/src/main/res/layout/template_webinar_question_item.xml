@@ -19,7 +19,7 @@
         android:padding="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/bg_list_item"
-        app:layout_constraintWidth_default="wrap">
+        app:layout_constrainedWidth="true">
 
         <com.doneit.ascend.presentation.views.MasterMindIcon
             android:id="@+id/icon"
@@ -62,7 +62,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDate"
-            app:layout_constraintWidth_default="wrap"
+            app:layout_constrainedWidth="true"
             tools:text="keasddasasdsad" />
 
         <androidx.constraintlayout.widget.Barrier
