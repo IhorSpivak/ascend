@@ -20,5 +20,7 @@ fun ActivateLiveEventResponse.toEntity(): ActivateLiveEventEntity {
     )
 }
 fun M3u8Response.toEntity(): M3u8Entity {
-    return M3u8Entity()
+    return M3u8Entity(
+        m3u8playbackUrl
+    )
 }

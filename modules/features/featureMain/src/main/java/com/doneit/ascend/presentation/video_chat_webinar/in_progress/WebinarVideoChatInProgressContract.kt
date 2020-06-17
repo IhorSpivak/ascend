@@ -23,6 +23,7 @@ interface WebinarVideoChatInProgressContract {
         val isVisitor: LiveData<Boolean>
         val questions: LiveData<PagedList<WebinarQuestionEntity>>
         val showMessgeSent: SingleLiveEvent<Void>
+        val m3u8url: LiveData<String>
 
         //VideoChat
         val credentials: MutableLiveData<StartWebinarVideoModel>

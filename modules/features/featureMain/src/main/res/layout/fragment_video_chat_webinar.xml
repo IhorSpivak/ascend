@@ -28,11 +28,17 @@
             android:id="@+id/videoView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="@{!model.isVisitor(), default = gone}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <VideoView
+            android:visibility="@{model.isVisitor(), default = gone}"
+            android:id="@+id/videoViewForParticipants"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/placeholder"

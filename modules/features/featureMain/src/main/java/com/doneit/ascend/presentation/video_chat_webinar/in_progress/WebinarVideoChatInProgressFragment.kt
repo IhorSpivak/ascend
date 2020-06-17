@@ -6,12 +6,15 @@ import android.hardware.Camera
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.widget.MediaController
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatWebinarBinding
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
 import com.doneit.ascend.presentation.utils.extensions.hide
@@ -30,14 +33,16 @@ import com.haishinkit.media.Audio
 import com.haishinkit.rtmp.RTMPConnection
 import com.haishinkit.rtmp.RTMPStream
 import com.haishinkit.util.EventUtils
+import com.pedro.rtplibrary.rtmp.RtmpCamera1
 import kotlinx.android.synthetic.main.fragment_video_chat_webinar.*
+import net.ossrs.rtmp.ConnectCheckerRtmp
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
 class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinarBinding>(),
-    IEventListener {
+    IEventListener, ConnectCheckerRtmp {
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<WebinarVideoChatInProgressContract.ViewModel>() with provider {
@@ -110,6 +115,14 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             if (it.key != null && it.link != null && it.role == ChatRole.OWNER)
                 startVideo(it)
         })
+        viewModel.m3u8url.observe(viewLifecycleOwner, Observer {
+            binding.videoViewForParticipants.visible()
+            val mc = MediaController(requireContext())
+            binding.videoViewForParticipants.apply {
+                setMediaController(mc)
+                setVideoURI(Uri.parse(it))
+            }
+        })
     }
 
     override fun onPause() {
@@ -129,6 +142,12 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             onGranted = {
                 delegate?.startVideo(model)
                 //TODO: remove
+                val rtmpCamera1 = RtmpCamera1(requireContext(), this)
+                if (!rtmpCamera1.isStreaming) {
+                    if (rtmpCamera1.prepareAudio() && rtmpCamera1.prepareVideo()) {
+                        rtmpCamera1.startStream(RTMP_LINK + "/" + model.key)
+                    }
+                }
                 if (true) return@requestPermissions
                 connection = RTMPConnection()
                 stream = RTMPStream(connection!!)
@@ -140,7 +159,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 connection?.connect(RTMP_LINK)
                 viewModel.switchCameraEvent.observe(this) {
                     delegate?.switchCamera()
-                    currentCameraId = if(currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK){
+                    currentCameraId = if (currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
                         Camera.CameraInfo.CAMERA_FACING_FRONT;
                     } else {
                         Camera.CameraInfo.CAMERA_FACING_BACK;
@@ -206,5 +225,23 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         if (code == RTMPConnection.Code.CONNECT_SUCCESS.rawValue) {
             stream?.publish(viewModel.credentials.value!!.key)
         }
+    }
+
+    override fun onAuthSuccessRtmp() {
+    }
+
+    override fun onNewBitrateRtmp(bitrate: Long) {
+    }
+
+    override fun onConnectionSuccessRtmp() {
+    }
+
+    override fun onConnectionFailedRtmp(reason: String) {
+    }
+
+    override fun onAuthErrorRtmp() {
+    }
+
+    override fun onDisconnectRtmp() {
     }
 }

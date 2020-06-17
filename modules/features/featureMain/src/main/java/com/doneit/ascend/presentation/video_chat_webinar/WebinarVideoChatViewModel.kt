@@ -102,7 +102,7 @@ class WebinarVideoChatViewModel(
     }
 
     override val navigation = SingleLiveEvent<WebinarVideoChatContract.Navigation>()
-
+    override val m3u8url = MutableLiveData<String>()
 
     //region ui properties
     override val timerLabel = MutableLiveData<String>()
@@ -618,9 +618,9 @@ class WebinarVideoChatViewModel(
         viewModelScope.launch {
             val res = vimeoUseCase.getM3u8(getStreamId(credentials.value!!.link!!))
             if (res.isSuccessful) {
-                Log.d("success", "success")
+                m3u8url.postValue(res.successModel!!.m3u8playbackUrl)
             } else {
-
+                //TODO:
             }
         }
     }

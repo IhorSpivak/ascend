@@ -84,6 +84,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                     if(DateFormat.is24HourFormat(context)){
                         group.daysOfWeek.forEachIndexed { index, day ->
                             group.dates?.get(index)?.let {
+                                //TODO: AS-36 - SimpleDateFormat("ZZZZZ", Locale.getDefault()).format(System.currentTimeMillis())
                                 val time =  HOUR_24_ONLY_FORMAT.parse(it)
                                 builder.append(day.toString().take(3) + ", " + "HH:mm".toDefaultFormatter().format(time)+"\n")
                             }
