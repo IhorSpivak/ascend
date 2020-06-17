@@ -198,19 +198,6 @@ class WebinarVideoChatViewModel(
         isFinishing.postValue(false)
     }
 
-    //todo: this will needed in screen with all participants for group (or similar to this)
-    private fun loadParticipants() {
-        viewModelScope.launch {
-            val result = groupUseCase.getParticipantList(groupId, isConnected = true)
-
-            if (result.isSuccessful) {
-                val participants = result.successModel!!.toMutableList()
-            } else {
-                showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
-            }
-        }
-    }
-
 
     private fun initializeChatState(
         groupEntity: GroupEntity?,
@@ -239,7 +226,13 @@ class WebinarVideoChatViewModel(
                     creds.link
                 )
             credentials.value?.let {
-                chatUseCase.connectToChannel(it.chatId)
+                viewModelScope.launch {
+                    val result = chatUseCase.getChatDetails(it.chatId)
+                    if(result.isSuccessful){
+                        chatUseCase.connectToChannel(it.chatId)
+                    }
+                }
+
             }
 
             changeState(VideoChatState.PREVIEW_DATA_LOADED)
@@ -378,6 +371,7 @@ class WebinarVideoChatViewModel(
         groupUseCase.participantConnectionStatus(currentUserId, false)
         groupUseCase.disconnect()
         webinarQuestionUseCase.disconnect()
+        chatUseCase.disconnect()
         viewModelDelegate?.clearChatResources()
         downTimer?.cancel()
         timer?.cancel()
