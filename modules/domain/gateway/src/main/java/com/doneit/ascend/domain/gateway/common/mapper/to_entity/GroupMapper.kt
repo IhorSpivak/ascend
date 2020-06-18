@@ -37,7 +37,8 @@ fun OwnerResponse.toEntity(): OwnerEntity {
         image?.toEntity(),
         rating,
         followed,
-        location
+        location,
+        connected
     )
 }
 
@@ -219,7 +220,8 @@ fun OwnerLocal.toEntity(): OwnerEntity {
         image?.toEntity(),
         rating,
         followed,
-        location
+        location,
+        connected
     )
 }
 

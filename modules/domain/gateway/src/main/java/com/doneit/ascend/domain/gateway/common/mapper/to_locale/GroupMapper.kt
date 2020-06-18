@@ -58,7 +58,8 @@ fun OwnerEntity.toLocal(): OwnerLocal {
         image?.toLocal(),
         rating,
         followed,
-        location?:""
+        location?:"",
+        connected
     )
 }
 

@@ -12,6 +12,7 @@ import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
 import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
 import com.doneit.ascend.presentation.models.group.ParticipantSourcePriority
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
+import com.doneit.ascend.presentation.models.group.WebinarChatParticipant
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
@@ -84,13 +85,21 @@ fun SocketUserEntity.toPresentation(): PresentationChatParticipant {
     )
 }
 
-fun SocketUserEntity.toWebinarPresentation(): PresentationChatParticipant {
-    return PresentationChatParticipant(
-        ParticipantSourcePriority.SOCKET,
+fun SocketUserEntity.toWebinarPresentation(): WebinarChatParticipant {
+    return WebinarChatParticipant(
         userId.toString(),
         fullName,
         image,
-        isHandRisen
+        isConnected = true
+    )
+}
+
+fun ParticipantEntity.toWebinarPresentation(): WebinarChatParticipant {
+    return WebinarChatParticipant(
+        userId = id.toString(),
+        fullName = fullName,
+        image = image,
+        isConnected = isConnected
     )
 }
 

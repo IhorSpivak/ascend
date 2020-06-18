@@ -31,6 +31,7 @@ import com.doneit.ascend.domain.use_case.interactor.webinar_questions.WebinarQue
 import com.doneit.ascend.presentation.common.LockableLiveData
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
+import com.doneit.ascend.presentation.models.group.WebinarChatParticipant
 import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.models.toWebinarPresentation
 import com.doneit.ascend.presentation.utils.Constants
@@ -71,7 +72,7 @@ class WebinarVideoChatViewModel(
 
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val isVideoEnabled = MutableLiveData<Boolean>()
-    override val isAudioRecording = MutableLiveData<Boolean>()
+    override val isAudioRecording = MutableLiveData<Boolean>(true)
     override val isQuestionSent = MutableLiveData<Boolean>()
     override val isMMConnected = MutableLiveData<Boolean>()
     override val isMuted = MutableLiveData<Boolean>()
@@ -90,15 +91,16 @@ class WebinarVideoChatViewModel(
     override val credentials = MutableLiveData<StartWebinarVideoModel>()
     override val isVisitor = MutableLiveData<Boolean>()
     override val participantsCount = MutableLiveData(0)
+    override val participants = MutableLiveData<Set<WebinarChatParticipant>>(setOf())
 
     override var viewModelDelegate: VimeoChatViewModelDelegate? = null
 
     override fun switchVideoEnabledState() {
-        TODO("Not yet implemented")
+        isVideoEnabled.switch()
     }
 
     override fun switchAudioEnabledState() {
-        TODO("Not yet implemented")
+        isAudioRecording.switch()
     }
 
     override val navigation = SingleLiveEvent<WebinarVideoChatContract.Navigation>()
@@ -139,6 +141,19 @@ class WebinarVideoChatViewModel(
         )
     }
 
+    private fun getParticipants() {
+        viewModelScope.launch {
+            val res = groupUseCase.getParticipantList(groupId)
+            if (res.isSuccessful) {
+
+                res.successModel!!.filter { it.isConnected }.also {
+                    participants.value = it.map { it.toWebinarPresentation() }.toSet()
+                    participantsCount.postValue(it.size)
+                }
+            }
+        }
+    }
+
     private fun refetchGroupInfo() {
         viewModelScope.launch {
             val res = groupUseCase.getGroupDetails(groupId)
@@ -153,7 +168,7 @@ class WebinarVideoChatViewModel(
 
     override fun init(groupId: Long) {
         this.groupId = groupId
-
+        getParticipants()
         postDefaultValues()
 
         viewModelScope.launch {
@@ -162,6 +177,7 @@ class WebinarVideoChatViewModel(
 
                 if (result.isSuccessful) {
                     groupInfo.value = result.successModel!!
+                    isMMConnected.value = result.successModel!!.owner?.connected
                     result.successModel!!
                 } else {
                     showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
@@ -208,7 +224,6 @@ class WebinarVideoChatViewModel(
         if (groupEntity != null && creds != null) {
             if (viewModelDelegate == null)
                 viewModelDelegate = VideoChatUtils.vimeoViewModelDelegate(this)
-            participantsCount.value = groupEntity.participantsCount
             webinarQuestionUseCase.removeQuestionsLocalExcept(groupEntity.id)
             chatRole =
                 if (currentUser!!.isMasterMind && groupEntity.owner!!.id == currentUser.id) {
@@ -228,7 +243,7 @@ class WebinarVideoChatViewModel(
             credentials.value?.let {
                 viewModelScope.launch {
                     val result = chatUseCase.getChatDetails(it.chatId)
-                    if(result.isSuccessful){
+                    if (result.isSuccessful) {
                         chatUseCase.connectToChannel(it.chatId)
                     }
                 }
@@ -418,7 +433,7 @@ class WebinarVideoChatViewModel(
                         viewModelScope.launch {
                             activateLiveStream(credentials.value?.link!!)
                         }
-                } else {
+                } else if (chatRole == ChatRole.VISITOR) {
                     getM3u8Playback()
                 }
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_IN_PROGRESS)
@@ -537,8 +552,10 @@ class WebinarVideoChatViewModel(
                     Log.d("socket", "connected")
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
                         isMMConnected.value = true
+                    } else {
+                        participants.value = participants.value!!.plus(user)
+                        participantsCount.value = participants.value!!.size
                     }
-                    participantsCount.value = participantsCount.value?.inc()
 
                 }
                 SocketEvent.GROUP_STARTED -> {
@@ -556,8 +573,10 @@ class WebinarVideoChatViewModel(
                     Log.d("socket", "disconnected")
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
                         isMMConnected.value = false
+                    } else {
+                        participants.value = participants.value!!.minus(user)
+                        participantsCount.value = participants.value!!.size
                     }
-                    participantsCount.value = participantsCount.value?.dec()
                 }
                 else -> Unit
             }
@@ -620,7 +639,8 @@ class WebinarVideoChatViewModel(
             if (res.isSuccessful) {
                 m3u8url.postValue(res.successModel!!.m3u8playbackUrl)
             } else {
-                //TODO:
+                delay(5000)
+                getM3u8Playback()
             }
         }
     }
@@ -645,5 +665,11 @@ class WebinarVideoChatViewModel(
     private fun getStreamId(streamLink: String): Long {
         //TODO: refactor drop
         return streamLink.drop(13).toLong()
+    }
+
+    private fun MutableLiveData<Boolean>.switch() {
+        value?.let {
+            postValue(!it)
+        }
     }
 }

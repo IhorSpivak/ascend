@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.models.group.WebinarChatParticipant
 
 interface WebinarVideoChatContract {
     interface ViewModel : BaseViewModel {
@@ -15,6 +16,7 @@ interface WebinarVideoChatContract {
         val finishingLabel: LiveData<String>
         val navigation: LiveData<Navigation>
         val participantsCount: MutableLiveData<Int>
+        val participants: MutableLiveData<Set<WebinarChatParticipant>>
 
 
         fun init(groupId: Long)
