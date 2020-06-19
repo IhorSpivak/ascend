@@ -49,7 +49,6 @@ import com.doneit.ascend.presentation.video_chat_webinar.in_progress.owner_optio
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.participant_options.ParticipantOptionsContract
 import com.doneit.ascend.presentation.video_chat_webinar.preview.WebinarChatPreviewContract
 import com.doneit.ascend.presentation.video_chat_webinar.questions.QuestionContract
-import com.twilio.video.CameraCapturer
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.async
@@ -71,8 +70,8 @@ class WebinarVideoChatViewModel(
     WebinarVideoChatInProgressContract.ViewModel, WebinarFinishedContract.ViewModel {
 
     override val groupInfo = MutableLiveData<GroupEntity>()
-    override val isVideoEnabled = MutableLiveData<Boolean>()
-    override val isAudioRecording = MutableLiveData<Boolean>(true)
+    override val isVideoEnabled = MutableLiveData(true)
+    override val isAudioRecording = MutableLiveData(true)
     override val isQuestionSent = MutableLiveData<Boolean>()
     override val isMMConnected = MutableLiveData<Boolean>()
     override val isMuted = MutableLiveData<Boolean>()
@@ -426,21 +425,53 @@ class WebinarVideoChatViewModel(
             }
             VideoChatState.PROGRESS -> {
                 //TODO:
-                if (credentials.value?.link == null) {
-                    if (chatRole == ChatRole.OWNER) createLiveEvent()
-                } else if (credentials.value?.key == null) {
-                    if (chatRole == ChatRole.OWNER)
-                        viewModelScope.launch {
-                            activateLiveStream(credentials.value?.link!!)
-                        }
-                } else if (chatRole == ChatRole.VISITOR) {
-                    getM3u8Playback()
+                if (chatRole == ChatRole.OWNER) {
+                    if (credentials.value?.link == null) {
+                        if (chatRole == ChatRole.OWNER) createLiveEvent()
+                    } else if (credentials.value?.key == null) {
+                        if (chatRole == ChatRole.OWNER)
+                            viewModelScope.launch {
+                                activateLiveStream(credentials.value?.link!!)
+                            }
+                    }
+                }
+                if (chatRole == ChatRole.VISITOR) {
+                    if (credentials.value?.link != null && credentials.value?.link != null) {
+                        getM3u8Playback()
+                    } else {
+                        getCredentials()
+                    }
                 }
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_IN_PROGRESS)
             }
             VideoChatState.FINISHED -> {
                 isFinishing.postValue(false)
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_FINISH)
+            }
+        }
+    }
+
+    private fun getCredentials() {
+        viewModelScope.launch {
+            val result = groupUseCase.getWebinarCredentials(groupId)
+            if (result.isSuccessful) {
+                result.successModel?.let {
+                    if (it.link != null && it.key != null) {
+                        credentials.value =
+                            StartWebinarVideoModel(
+                                credentials.value!!.role,
+                                credentials.value!!.chatId,
+                                link = it.link,
+                                key = it.key
+                            )
+                        getM3u8Playback()
+                    } else {
+                        delay(2000)
+                        getCredentials()
+                    }
+                }
+            } else {
+                showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
         }
     }
@@ -503,21 +534,6 @@ class WebinarVideoChatViewModel(
         const val CHAT_ID_KEY = "CHAT_ID_KEY"
         const val USER_ID_KEY = "USER_ID_KEY"
         const val ACTIVITY_RESULT_KEY = "ACTIVITY_RESULT_KEY"
-
-        val cameraSources: List<CameraCapturer.CameraSource>
-
-        init {
-            val sources = mutableListOf<CameraCapturer.CameraSource>()
-
-            if (CameraCapturer.isSourceAvailable(CameraCapturer.CameraSource.FRONT_CAMERA)) {
-                sources.add(CameraCapturer.CameraSource.FRONT_CAMERA)
-            }
-            if (CameraCapturer.isSourceAvailable(CameraCapturer.CameraSource.BACK_CAMERA)) {
-                sources.add(CameraCapturer.CameraSource.BACK_CAMERA)
-            }
-
-            cameraSources = sources
-        }
     }
 
     private val questionObserver = Observer<QuestionSocketEntity?> { socketEvent ->

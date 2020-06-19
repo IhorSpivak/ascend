@@ -4,7 +4,6 @@ import android.Manifest
 import android.net.Uri
 import android.os.Bundle
 import android.view.SurfaceHolder
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +21,7 @@ import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivit
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatViewModel
 import com.doneit.ascend.presentation.video_chat_webinar.delegate.vimeo.VimeoChatViewDelegate
 import com.doneit.ascend.presentation.video_chat_webinar.in_progress.common.FourQuestionsAdapter
+import com.pedro.encoder.input.video.CameraHelper
 import com.pedro.rtplibrary.rtmp.RtmpCamera2
 import kotlinx.android.synthetic.main.fragment_video_chat_webinar.*
 import net.ossrs.rtmp.ConnectCheckerRtmp
@@ -119,6 +119,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
             onGranted = {
                 delegate?.startVideo(model)
                 rtmpCamera = RtmpCamera2(surfaceView, this).apply {
+                    startPreview(CameraHelper.Facing.FRONT)
                     if (!isStreaming) {
                         if (prepareAudio() && prepareVideo()) {
                             startStream(RTMP_LINK + "/" + model.key)
@@ -138,7 +139,11 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                     }
                 })
                 viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
-                    Toast.makeText(requireContext(), "Feature is not implemented yet", Toast.LENGTH_LONG).show()
+                    if(it) {
+                        rtmpCamera?.glInterface?.unMuteVideo()
+                    } else {
+                        rtmpCamera?.glInterface?.muteVideo()
+                    }
                 })
             },
             onDenied = {

@@ -5,7 +5,7 @@ ext {
     versionMajor = 0
     versionMinor = 7
     versionPatch = 1
-    version_code = 74
+    version_code = 75
 
     kotlin_version = '1.3.31'
     androidx_version = '1.0.2'
@@ -98,7 +98,7 @@ ext {
     ]
 
     def rtmp = [
-            rtmpClient: "com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:1.8.3",
+            rtmpClient: "com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:e75a68b761",
     ]
 
     def tests = [
