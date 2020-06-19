@@ -198,5 +198,18 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:listitem="@layout/template_webinar_question_transparent_item" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:indeterminateOnly="true"
+            android:interpolator="@android:anim/linear_interpolator"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:indeterminateTint="@color/colorAccent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

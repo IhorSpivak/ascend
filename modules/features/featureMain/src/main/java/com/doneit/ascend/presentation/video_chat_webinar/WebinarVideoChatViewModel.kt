@@ -653,6 +653,7 @@ class WebinarVideoChatViewModel(
         viewModelScope.launch {
             val res = vimeoUseCase.getM3u8(getStreamId(credentials.value!!.link!!))
             if (res.isSuccessful) {
+                delay(5000)
                 m3u8url.postValue(res.successModel!!.m3u8playbackUrl)
             } else {
                 delay(5000)

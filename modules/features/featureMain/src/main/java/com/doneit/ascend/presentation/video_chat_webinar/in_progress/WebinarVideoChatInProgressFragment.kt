@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.FragmentVideoChatWebinarBinding
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
@@ -56,6 +57,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 binding.message.text.clear()
             }
         }
+        binding.progressBar.visible()
         binding.rvQuestions.adapter = adapter
         delegate =
             VideoChatUtils.newVimeoViewModelDelegate(viewModel.viewModelDelegate, placeholder) {
@@ -94,10 +96,12 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
     override fun onStart() {
         super.onStart()
         delegate?.onStart()
+
         viewModel.m3u8url.observe(viewLifecycleOwner, Observer {
             binding.videoViewForParticipants.apply {
                 setVideoURI(Uri.parse(it))
                 visible()
+                binding.progressBar.gone()
                 start()
             }
         })
@@ -183,9 +187,16 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
     }
 
     override fun surfaceCreated(p0: SurfaceHolder?) {
+
         viewModel.credentials.observe(this, Observer {
-            if (it.key != null && it.link != null && it.role == ChatRole.OWNER)
-                startVideo(it)
+            if(it.role == ChatRole.OWNER){
+                binding.progressBar.post {
+                    binding.progressBar.gone()
+                }
+                if (it.key != null && it.link != null)
+                    startVideo(it)
+            }
+
         })
     }
 }
