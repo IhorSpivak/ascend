@@ -23,6 +23,7 @@ import com.doneit.ascend.presentation.utils.convertCommunityToResId
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -48,7 +49,7 @@ class GroupInfoViewModel(
     override val starting = MutableLiveData(false)
     override val users: MutableLiveData<List<ParticipantEntity>> = MutableLiveData()
     override val supportTitle = MutableLiveData<Int>()
-
+    override val closeDialog = SingleLiveEvent<Boolean>()
     override val isBlocked: Boolean
         get() {
             val isInitialized = group.value != null
@@ -173,6 +174,7 @@ class GroupInfoViewModel(
                 groupUseCase.cancelGroup(CancelGroupDTO(it.id, reason)).let { response ->
                     if (response.isSuccessful) {
                         loadData(it.id)
+                        closeDialog.postValue(true)
                     } else {
                         showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
                     }
