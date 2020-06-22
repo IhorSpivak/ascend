@@ -41,6 +41,7 @@ import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.checkImage
 import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
 import com.doneit.ascend.presentation.utils.getImagePath
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
@@ -52,7 +53,6 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, CreateGroupArgs>() {
@@ -285,10 +285,9 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                     )
                 ) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
                         File.createTempFile(
-                            "JPEG_${timeStamp}_",
+                            "JPEG_${Date().toTimeStampFormat()}_",
                             ".jpg",
                             it /* directory */
                         ).apply {

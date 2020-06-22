@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.group_info
 
 import android.os.Bundle
-import android.text.format.DateFormat
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.group.GroupType
@@ -15,13 +14,11 @@ import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
 import com.doneit.ascend.presentation.main.group_info.common.InvitedParticipantAdapter
 import com.doneit.ascend.presentation.main.group_info.common.WebinarThemeAdapter
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
-import com.doneit.ascend.presentation.utils.extensions.HOUR_24_ONLY_FORMAT
 import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
-import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
+import com.doneit.ascend.presentation.utils.extensions.toLocaleTimeString
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
-import java.util.*
 
 class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
 
@@ -34,7 +31,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         currentDialog?.dismiss()
     }
     private val membersAdapter: InvitedMembersAdapter by lazy {
-        InvitedMembersAdapter{
+        InvitedMembersAdapter {
             viewModel.removeMember(it)
         }
     }
@@ -61,7 +58,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 isAttended = false
                 rvWebinarThemes.adapter = webinarThemeAdapter
             }
-            if (group.price ==  0f){
+            if (group.price == 0f) {
                 isGroupFree = true
             }
             val builder = StringBuilder()
@@ -79,39 +76,30 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                     }
                 }
                 builder.append(context!!.getTimeFormat().format(group.startTime))
-                if(group.groupType == GroupType.WEBINAR){
+                if (group.groupType == GroupType.WEBINAR) {
                     builder.clear()
-                    if(DateFormat.is24HourFormat(context)){
-                        group.daysOfWeek.forEachIndexed { index, day ->
-                            group.dates?.get(index)?.let {
-                                //TODO: AS-36 - SimpleDateFormat("ZZZZZ", Locale.getDefault()).format(System.currentTimeMillis())
-                                val time =  HOUR_24_ONLY_FORMAT.parse(it)
-                                builder.append(day.toString().take(3) + ", " + "HH:mm".toDefaultFormatter().format(time)+"\n")
-                            }
-                        }
-                    }else{
-                        group.daysOfWeek.forEachIndexed { index, day ->
-                            group.dates?.get(index)?.let {
-                                val time =  HOUR_24_ONLY_FORMAT.apply{ timeZone = TimeZone.getTimeZone("GMT") }.parse(it)
-                                builder.append(day.toString().take(3) + ", " + "hh:mm a".toDefaultFormatter().format(time)+"\n")
-                            }
+                    group.daysOfWeek.forEachIndexed { index, day ->
+                        group.dates?.get(index)?.let {
+                            builder.append(
+                                "${day.toString().take(3)}, ${it.toLocaleTimeString(requireContext())}"
+                            )
                         }
                     }
                     webinarThemeAdapter.submitList(group.themes)
                 }
-                if(group.groupType == GroupType.INDIVIDUAL) {
+                if (group.groupType == GroupType.INDIVIDUAL) {
                     binding.attendeesContainer.gone()
                 }
                 binding.tvSchedule.text = builder.toString()
             }
             membersAdapter.submitList(group.attendees)
             binding.viewAttendees.setOnClickListener {
-                viewModel.onViewClick(group.attendees?: emptyList())
+                viewModel.onViewClick(group.attendees ?: emptyList())
             }
         })
 
         viewModel.users.observe(this, Observer {
-            if (it.isNotEmpty()){
+            if (it.isNotEmpty()) {
                 binding.recyclerViewAttendees.adapter = participantAdapter
                 participantAdapter.participants = it
             }
@@ -121,7 +109,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             cardsAdapter.setData(it)
         })
         viewModel.closeDialog.observe(viewLifecycleOwner, Observer {
-            if(it){
+            if (it) {
                 currentDialog?.dismiss()
             }
         })
@@ -173,9 +161,9 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             }
 
             btnSubscribe.setOnClickListener {
-                if (isGroupFree){
+                if (isGroupFree) {
                     viewModel.subscribe()
-                }else {
+                } else {
                     currentDialog = SelectPaymentDialog.create(context!!, cardsAdapter) {
                         viewModel.subscribe(it)
                     }
@@ -184,7 +172,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             }
 
             btnJoinToDisc.setOnClickListener {
-                if(viewModel.isBlocked) {
+                if (viewModel.isBlocked) {
                     showDefaultError(getString(R.string.error_group_user_removed))
                 } else {
                     viewModel.joinToDiscussion()
@@ -207,7 +195,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         viewModel.loadData(id)
     }
 
-    private fun createCancelDialog(): AlertDialog{
+    private fun createCancelDialog(): AlertDialog {
         return CancelDialog.create(
             context!!,
             viewModel.group.value!!.groupType!!
@@ -216,7 +204,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         }
     }
 
-    private fun createLeaveDialog(): AlertDialog{
+    private fun createLeaveDialog(): AlertDialog {
         return DeleteDialog.create(
             context!!,
             getString(R.string.leave_this_group_question),
@@ -231,20 +219,20 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         }
     }
 
-    private fun createMakeClosedDialog(): AlertDialog{
+    private fun createMakeClosedDialog(): AlertDialog {
         return DialogPattern.create(
             context!!,
             getString(R.string.make_closed_title),
             getString(R.string.make_closed_description),
             getString(R.string.make_closed_ok),
             getString(R.string.make_closed_cancell)
-        ){
+        ) {
             currentDialog?.dismiss()
             viewModel.onUpdatePrivacyClick(true)
         }
     }
 
-    private fun createDeleteDialog(): AlertDialog{
+    private fun createDeleteDialog(): AlertDialog {
         return DeleteDialog.create(
             context!!,
             getString(R.string.delete_this_group),
@@ -259,7 +247,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         }
     }
 
-    private fun createDeleteWebinarDialog(): AlertDialog{
+    private fun createDeleteWebinarDialog(): AlertDialog {
         return DeleteDialog.create(
             context!!,
             getString(R.string.delete_this_webinar),

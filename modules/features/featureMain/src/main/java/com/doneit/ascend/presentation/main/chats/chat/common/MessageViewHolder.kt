@@ -93,19 +93,19 @@ class MessageViewHolder(
                         onImageClick(it, member.id)
                     }
                     if (DateFormat.is24HourFormat(root.context)) {
-                        this.sendTime = TIME_24_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
+                        this.sendTime = HOUR_24_ONLY_FORMAT.toDefaultFormatter().format(messageEntity.createdAt!!)
                     } else {
-                        this.sendTime = TIME_12_FORMAT_DROP_DAY.format(messageEntity.createdAt!!)
+                        this.sendTime = HOUR_12_ONLY_FORMAT.toDefaultFormatter().format(messageEntity.createdAt!!)
                     }
                     if (nextMessage == null) {
-                        time.text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
+                        time.text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
                         time.visible()
                         corner.visible()
                         userImage.visible()
                         isOnline.visible(member.online)
                     } else {
                         time.apply {
-                            text = START_TIME_FORMATTER.format(messageEntity.createdAt!!)
+                            text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
                             corner.apply {
                                 if (messageEntity.userId == nextMessage.userId) {
                                     userImage.invisible()

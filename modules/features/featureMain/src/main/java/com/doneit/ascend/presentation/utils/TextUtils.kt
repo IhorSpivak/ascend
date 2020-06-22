@@ -16,6 +16,7 @@ import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.models.LocationModel
 import com.doneit.ascend.presentation.models.ValidatableField
+import com.doneit.ascend.presentation.utils.extensions.START_TIME_FORMATTER
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.views.SmsCodeView
 import java.text.ParseException
@@ -124,7 +125,7 @@ fun String.isValidStrartDate(): Boolean {
     var res = false
 
     try {
-        val date = "dd MMMM yyyy".toDefaultFormatter().parse(this)
+        val date = START_TIME_FORMATTER.toDefaultFormatter().parse(this)
         val today = getDefaultCalendar()
         today.set(Calendar.HOUR_OF_DAY, 0)
         today.set(Calendar.MINUTE, 0)
@@ -145,7 +146,7 @@ fun String.isValidStartDate(): Boolean {
     var res = false
 
     try {
-        val date = ("dd MMMM yyyy".toDefaultFormatter().parse(this).time / 1000) % 60
+        val date = (START_TIME_FORMATTER.toDefaultFormatter().parse(this).time / 1000) % 60
         val today = (getDefaultCalendar().time.time / 1000) % DAYS_MOD
 
         if (date >= today) {
@@ -161,7 +162,7 @@ fun String.isValidStartDate(): Boolean {
 fun String.isValidActualTime(): Boolean {
     var res = false
     try {
-        val date = ("dd MMMM yyyy".toDefaultFormatter().parse(this).time / 1000) % DAYS_MOD
+        val date = (START_TIME_FORMATTER.toDefaultFormatter().parse(this).time / 1000) % DAYS_MOD
         val today = (getDefaultCalendar().time.time / 1000) % DAYS_MOD
 
         if (date >= today) {

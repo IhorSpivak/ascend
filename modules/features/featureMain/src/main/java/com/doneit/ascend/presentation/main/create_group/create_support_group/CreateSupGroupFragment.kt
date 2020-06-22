@@ -50,7 +50,6 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -214,13 +213,7 @@ class CreateSupGroupFragment :
                 groupType = GroupType.values()[group!!.groupType!!.ordinal]
                 meetingFormat.observableField.set(group!!.meetingFormat.orEmpty())
 
-                //TODO: date format
-                startDate.observableField.set(
-                    SimpleDateFormat(
-                        "dd MMMM yyyy",
-                        Locale.ENGLISH
-                    ).format(date)
-                )
+                startDate.observableField.set(date.toDayFullMonthYear())
                 selectedDays.addAll(group!!.daysOfWeek)
                 viewModel.changeSchedule()
                 Glide.with(context!!)
@@ -296,11 +289,9 @@ class CreateSupGroupFragment :
                 ) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-                    //TODO: dateformat:
-                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
                         File.createTempFile(
-                            "JPEG_${timeStamp}_",
+                            "JPEG_${Date().toTimeStampFormat()}_",
                             ".jpg",
                             it /* directory */
                         ).apply {

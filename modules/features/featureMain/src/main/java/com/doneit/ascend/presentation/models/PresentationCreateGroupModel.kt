@@ -5,12 +5,8 @@ import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.entity.group.GroupType
-import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
-import com.doneit.ascend.presentation.utils.extensions.toAmPm
-import com.doneit.ascend.presentation.utils.extensions.toCalendar
-import com.doneit.ascend.presentation.utils.extensions.toMonthEntity
-import com.doneit.ascend.presentation.utils.extensions.toTimeString
+import com.doneit.ascend.presentation.utils.extensions.*
 import java.util.*
 
 class PresentationCreateGroupModel(
@@ -61,7 +57,7 @@ class PresentationCreateGroupModel(
         val start = startDate.observableField.get()
         if (start.isNullOrEmpty().not()) {
             @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-            val date = CreateGroupViewModel.START_TIME_FORMATTER.parse(start).toCalendar()
+            val date = START_TIME_FORMATTER.toDefaultFormatter().parse(start).toCalendar()
             val dayIndex = date.get(Calendar.DAY_OF_WEEK).toOrdinal()
 
             result = CalendarDayEntity.values()[dayIndex]

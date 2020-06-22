@@ -2,6 +2,8 @@ package com.doneit.ascend.presentation.common.binding_adapters
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.doneit.ascend.presentation.utils.extensions.DAY_MONTH_FORMAT
+import com.doneit.ascend.presentation.utils.extensions.FULL_DATE_FORMAT
 import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import java.util.*
@@ -10,8 +12,7 @@ import java.util.*
 fun TextView.setDate(dateTime: Date?) {
     dateTime?.let {
         try {
-            val formatter = "dd MMM YYYY hh:mm aa".toDefaultFormatter()
-            text = formatter.format(dateTime)
+            text = FULL_DATE_FORMAT.toDefaultFormatter().format(dateTime)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -22,8 +23,7 @@ fun TextView.setDate(dateTime: Date?) {
 @BindingAdapter("app:setDate")
 fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date?) {
     try {
-        val formatter = "d MMM".toDefaultFormatter()
-        view.text = formatter.format(dateTime)
+        view.text = DAY_MONTH_FORMAT.toDefaultFormatter().format(dateTime)
     } catch (e: Exception) {
         e.printStackTrace()
     }

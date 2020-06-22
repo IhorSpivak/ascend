@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.databinding.FragmentWebinarCalendarPickerBinding
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.toCalendar
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -39,14 +40,29 @@ class WebinarCalendarPickerFragment(
             newWheelPicker.setCustomLocale(Locale.ENGLISH)
             if (position == 0) {
                 viewModel.createGroupModel.startDate.observableField.let {
-                    if (it.get()!!.isNotEmpty()){
-                            viewModel.createGroupModel.actualStartTime.time.let {
-                                selectedDate.time = it
-                                newWheelPicker.setDefaultDate(it)
+                    if (it.get()!!.isNotEmpty()) {
+                        viewModel.createGroupModel.actualStartTime.time.let {
+                            val temp = it.toCalendar()
+                            temp.apply {
+                                set(
+                                    Calendar.HOUR_OF_DAY,
+                                    selectedDate.get(Calendar.HOUR_OF_DAY)
+                                )
+                                set(
+                                    Calendar.HOUR,
+                                    selectedDate.get(Calendar.HOUR)
+                                )
+                                set(
+                                    Calendar.MINUTE,
+                                    selectedDate.get(Calendar.MINUTE)
+                                )
+                                set(Calendar.ZONE_OFFSET, selectedDate.get(Calendar.ZONE_OFFSET))
+                                newWheelPicker.setDefaultDate(this.time)
                             }
+                        }
                     }
                 }
-            }else{
+            } else {
                 viewModel.createGroupModel.webinarSchedule.getOrNull(position)?.let {
                     if (it.observableField.get()!!.isNotEmpty()) {
                         viewModel.createGroupModel.timeList[position].time.let { date ->
@@ -59,7 +75,7 @@ class WebinarCalendarPickerFragment(
             newWheelPicker.addOnDateChangedListener { displayed, date -> selectedDate.time = date }
         }
         binding.executePendingBindings()
-        if (position == 0){
+        if (position == 0) {
             viewModel.createGroupModel.getStartTimeDay()?.let {
                 //this day mustn't be unselected
                 selectedDay = it.ordinal + 1
@@ -72,7 +88,7 @@ class WebinarCalendarPickerFragment(
                 dayView?.isChecked = true
                 viewModel.updateTimeChooserOk(true)
             }
-        }else{
+        } else {
             viewModel.createGroupModel.scheduleDays.forEachIndexed { index, day ->
                 (binding.radioGroupTop.children.elementAtOrNull(day.ordinal) as RadioButton?)?.apply {
                     if (index != position) {

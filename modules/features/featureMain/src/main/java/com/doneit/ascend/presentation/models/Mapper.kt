@@ -200,7 +200,7 @@ fun String.toDate(): Date? {
     return Constants.REMOTE_DATE_FORMAT_FULL.toDefaultFormatter().parse(this)
 }
 
-fun String.toDefaultFormatter(): SimpleDateFormat {
+private fun String.toDefaultFormatter(): SimpleDateFormat {
     val formatter = SimpleDateFormat(this, Locale.ENGLISH)
     formatter.timeZone = TimeZone.getTimeZone("GMT")
     return formatter

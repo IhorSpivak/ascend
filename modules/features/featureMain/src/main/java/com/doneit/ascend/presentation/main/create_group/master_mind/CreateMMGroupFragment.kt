@@ -25,7 +25,6 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, CreateGroupArgs>() {
@@ -63,12 +62,12 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
             viewModel.createGroupModel.participants.set(it.filter {attendee ->
                 !attendee.isAttended
             }.map {attendee ->
-                attendee.email ?: ""
+                attendee.email.orEmpty()
             })
         })
         viewModel.membersToDelete.observe(this, Observer {
             viewModel.createGroupModel.participantsToDelete.set(it.map {attendee ->
-                attendee.email?: ""
+                attendee.email.orEmpty()
             })
         })
 
@@ -117,8 +116,8 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
                 timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
                 groupType = GroupType.values()[group!!.groupType!!.ordinal]
-                meetingFormat.observableField.set(group!!.meetingFormat?: "")
-                startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(date))
+                meetingFormat.observableField.set(group!!.meetingFormat.orEmpty())
+                startDate.observableField.set(date.toDayFullMonthYear())
                 selectedDays.addAll(group!!.daysOfWeek!!)
                 duration.observableField.set(group!!.duration.toString())
                 viewModel.changeSchedule()

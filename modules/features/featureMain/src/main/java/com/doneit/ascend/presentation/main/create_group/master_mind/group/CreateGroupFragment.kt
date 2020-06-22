@@ -28,6 +28,7 @@ import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBindin
 import com.doneit.ascend.presentation.utils.checkImage
 import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
 import com.doneit.ascend.presentation.utils.getImagePath
 import com.doneit.ascend.presentation.utils.showErrorDialog
 import kotlinx.android.synthetic.main.fragment_create_group.*
@@ -41,7 +42,6 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
@@ -228,10 +228,9 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                     )
                 ) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
                         File.createTempFile(
-                            "JPEG_${timeStamp}_",
+                            "JPEG_${Date().toTimeStampFormat()}_",
                             ".jpg",
                             it /* directory */
                         ).apply {
@@ -250,20 +249,6 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                             }
                         }
                     }
-                    /*val content = ContentValues().apply {
-                        put(
-                            MediaStore.Images.Media.TITLE,
-                            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
-                        )
-                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                        put(MediaStore.Images.Media.DESCRIPTION, "group_image")
-                    }
-                    tempUri = activity?.contentResolver?.insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        content
-                    )
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-                    startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)*/
                 }
             }
     }

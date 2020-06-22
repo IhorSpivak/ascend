@@ -32,6 +32,7 @@ import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualG
 import com.doneit.ascend.presentation.utils.checkImage
 import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
 import com.doneit.ascend.presentation.utils.getImagePath
 import com.doneit.ascend.presentation.utils.showErrorDialog
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
@@ -44,7 +45,6 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 class IndividualGroupFragment(
@@ -206,10 +206,9 @@ class IndividualGroupFragment(
             .request { granted, _, _ ->
                 if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(Manifest.permission.CAMERA)) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
                         File.createTempFile(
-                            "JPEG_${timeStamp}_",
+                            "JPEG_${Date().toTimeStampFormat()}_",
                             ".jpg",
                             it /* directory */
                         ).apply {

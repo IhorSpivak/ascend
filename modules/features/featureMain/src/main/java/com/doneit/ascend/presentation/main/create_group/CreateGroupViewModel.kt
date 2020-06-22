@@ -19,12 +19,10 @@ import com.doneit.ascend.presentation.models.group.toUpdateEntity
 import com.doneit.ascend.presentation.models.group.toUpdateWebinarEntity
 import com.doneit.ascend.presentation.models.group.toWebinarEntity
 import com.doneit.ascend.presentation.utils.*
-import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
-import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
+import com.doneit.ascend.presentation.utils.extensions.*
 import com.google.android.material.textfield.TextInputEditText
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateGroupViewModel(
@@ -290,9 +288,9 @@ class CreateGroupViewModel(
             createGroupModel.webinarSchedule[position].observableField.apply {
                 date.set(Calendar.DAY_OF_WEEK, selectedDay)
                 if (calendarUtil.is24TimeFormat()) {
-                    set(TIME_24_FORMAT.format(date.time))
+                    set("EEE, HH:mm".toDefaultFormatter().format(date.time))
                 } else {
-                    set(TIME_12_FORMAT.format(date.time))
+                    set("EEE, hh:mm a".toDefaultFormatter().format(date.time))
                 }
             }
             createGroupModel.timeList[position].time = date.time
@@ -300,6 +298,8 @@ class CreateGroupViewModel(
                 set(Calendar.DAY_OF_WEEK, selectedDay)
                 set(Calendar.HOUR_OF_DAY, date.get(Calendar.HOUR_OF_DAY))
                 set(Calendar.MINUTE, date.get(Calendar.MINUTE))
+                set(Calendar.HOUR, date.get(Calendar.HOUR))
+                set(Calendar.ZONE_OFFSET, date.get(Calendar.ZONE_OFFSET))
             }
             createGroupModel.startDate.observableField.get()!!.let {
                 createGroupModel.startDate.observableField.set("")
@@ -320,9 +320,9 @@ class CreateGroupViewModel(
                 date.set(Calendar.DAY_OF_WEEK, selectedDay)
                 createGroupModel.timeList[position].time = date.time
                 if (calendarUtil.is24TimeFormat()) {
-                    set(TIME_24_FORMAT.format(date.time))
+                    set(HOUR_24_ONLY_FORMAT.toDefaultFormatter().format(date.time))
                 } else {
-                    set(TIME_12_FORMAT.format(date.time))
+                    set(HOUR_12_ONLY_FORMAT.toDefaultFormatter().format(date.time))
                 }
             }
             createGroupModel.numberOfMeetings.observableField.get()?.let {
@@ -656,10 +656,7 @@ class CreateGroupViewModel(
             groupType = GroupType.values()[group.groupType!!.ordinal]
             if (what == GroupAction.EDIT.toString()) {
                 startDate.observableField.set(
-                    SimpleDateFormat(
-                        "dd MMMM yyyy",
-                        Locale.ENGLISH
-                    ).format(actualStartTime.time)
+                   actualStartTime.time.toDayMonthYear()
                 )
                 scheduleDays.addAll(group.daysOfWeek)
                 scheduleDays.forEachIndexed { index, day ->
@@ -670,21 +667,21 @@ class CreateGroupViewModel(
                     timeList[index].apply {
                         if (calendarUtil.is24TimeFormat()) {
                             group.dates?.get(index).let {
-                                time = HOUR_24_ONLY_FORMAT.parse(it)
+                                time = HOUR_24_ONLY_FORMAT.toDefaultFormatter().parse(it)
                             }
                             set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
                             webinarSchedule[index].observableField.set(
-                                TIME_24_FORMAT.format(
+                                HOUR_24_ONLY_FORMAT.toDefaultFormatter().format(
                                     timeList[index].time
                                 )
                             )
                         } else {
                             group.dates?.get(index).let {
-                                time = HOUR_24_ONLY_FORMAT.parse(it)
+                                time = HOUR_24_ONLY_FORMAT.toDefaultFormatter().parse(it)
                             }
                             set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
                             webinarSchedule[index].observableField.set(
-                                TIME_12_FORMAT.format(
+                                HOUR_12_ONLY_FORMAT.toDefaultFormatter().format(
                                     timeList[index].time
                                 )
                             )
@@ -793,7 +790,7 @@ class CreateGroupViewModel(
         calendar.set(Calendar.DAY_OF_MONTH, createGroupModel.day)
         createGroupModel.apply {
             selectedDays.clear()
-            startDate.observableField.set(START_TIME_FORMATTER.format(calendar.time))
+            startDate.observableField.set(START_TIME_FORMATTER.toDefaultFormatter().format(calendar.time))
         }
     }
 
@@ -1017,25 +1014,12 @@ class CreateGroupViewModel(
             set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH))
         }
         createGroupModel.startDate.observableField.set(
-            SimpleDateFormat(
-                "dd MMMM yyyy",
-                Locale.ENGLISH
-            ).format(date.time)
+            date.time.toDayMonthYear()
         )
         localRouter.onBack()
     }
 
     private fun String.toHours(): Int {
         return this.toInt() % 12 //% 12to avoid day increment
-    }
-
-    companion object {
-        val START_TIME_FORMATTER = "dd MMMM yyyy".toDefaultFormatter()
-        val TIME_24_FORMAT = "EEE, HH:mm".toDefaultFormatter()
-        val TIME_12_FORMAT = "EEE, hh:mm a".toDefaultFormatter()
-        val WEEK_ONLY_FORMAT = "EEE".toDefaultFormatter()
-        val HOUR_12_ONLY_FORMAT = "hh:mm a".toDefaultFormatter()
-        val HOUR_24_ONLY_FORMAT =
-            "HH:mm".toDefaultFormatter().apply { timeZone = TimeZone.getTimeZone("GMT") }
     }
 }
