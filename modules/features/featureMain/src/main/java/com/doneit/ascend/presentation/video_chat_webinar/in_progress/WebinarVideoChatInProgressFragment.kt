@@ -106,10 +106,11 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 visible()
                 binding.progressBar.gone()
                 start()
-            }
-            binding.videoViewForParticipants.setOnErrorListener { mediaPlayer, i, i2 ->
-                Log.d("rtmp", "onError")
-                false
+                setOnErrorListener { mediaPlayer, i, i2 ->
+                    Log.d("rtmp", "onError")
+                    start()
+                    true
+                }
             }
         })
         surfaceView.holder.addCallback(this)

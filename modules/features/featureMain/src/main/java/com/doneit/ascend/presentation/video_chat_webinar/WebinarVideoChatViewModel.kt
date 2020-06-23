@@ -570,6 +570,7 @@ class WebinarVideoChatViewModel(
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
                         viewModelScope.launch {
                             delay(LIVESTREAM_DELAY)
+                            getM3u8Playback()
                             isMMConnected.value = true
                         }
                     } else {
@@ -660,7 +661,7 @@ class WebinarVideoChatViewModel(
         viewModelScope.launch {
             val res = vimeoUseCase.getM3u8(getStreamId(credentials.value!!.link!!))
             if (res.isSuccessful) {
-                delay(5000)
+                delay(2000)
                 m3u8url.postValue(res.successModel!!.m3u8playbackUrl)
             } else {
                 delay(5000)
