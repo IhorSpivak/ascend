@@ -570,7 +570,9 @@ class WebinarVideoChatViewModel(
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
                         viewModelScope.launch {
                             delay(LIVESTREAM_DELAY)
-                            getM3u8Playback()
+                            if(groupInfo.value?.owner?.id.toString() != currentUserId) {
+                                getM3u8Playback()
+                            }
                             isMMConnected.value = true
                         }
                     } else {
