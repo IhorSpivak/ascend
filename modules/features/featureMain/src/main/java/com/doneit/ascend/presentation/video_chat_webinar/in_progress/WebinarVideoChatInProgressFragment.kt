@@ -85,9 +85,11 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (itemCount > 0) {
-                    (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPosition(
-                        0
-                    )
+                    binding.rvQuestions.postDelayed( {
+                        (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+                            0, 0
+                        )
+                    },100)
                 }
             }
         })
