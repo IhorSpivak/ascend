@@ -129,7 +129,10 @@ fun String.toLocaleTimeString(context: Context): String {
         set(Calendar.HOUR_OF_DAY, substringBefore(":").toInt())
         set(Calendar.HOUR, substringBefore(":").toInt() % 12)
         set(Calendar.MINUTE, substringAfter(":").toInt())
-    }.run { context.getTimeFormat().format(this.time) }
+        set(Calendar.AM_PM, if(substringBefore(":").toInt() < 12) Calendar.AM else Calendar.PM)
+    }.run {
+        context.getTimeFormat().format(this.time)
+    }
 }
 
 fun Context.getTimeFormat(): SimpleDateFormat {

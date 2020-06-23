@@ -299,6 +299,7 @@ class CreateGroupViewModel(
                 set(Calendar.MINUTE, date.get(Calendar.MINUTE))
                 set(Calendar.HOUR, date.get(Calendar.HOUR))
                 set(Calendar.ZONE_OFFSET, date.get(Calendar.ZONE_OFFSET))
+                set(Calendar.AM_PM, date.get(Calendar.AM_PM))
             }
             createGroupModel.startDate.observableField.get()!!.let {
                 createGroupModel.startDate.observableField.set("")
