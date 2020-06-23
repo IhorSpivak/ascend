@@ -658,16 +658,19 @@ class WebinarVideoChatViewModel(
     }
 
     override fun getM3u8Playback() {
-        viewModelScope.launch {
-            val res = vimeoUseCase.getM3u8(getStreamId(credentials.value!!.link!!))
-            if (res.isSuccessful) {
-                delay(2000)
-                m3u8url.postValue(res.successModel!!.m3u8playbackUrl)
-            } else {
-                delay(5000)
-                getM3u8Playback()
+        credentials.value?.link?.let {
+            viewModelScope.launch {
+                val res = vimeoUseCase.getM3u8(getStreamId(it))
+                if (res.isSuccessful) {
+                    delay(2000)
+                    m3u8url.postValue(res.successModel!!.m3u8playbackUrl)
+                } else {
+                    delay(5000)
+                    getM3u8Playback()
+                }
             }
         }
+
     }
 
     private suspend fun setWebinarCredentials(credentialsDTO: WebinarCredentialsDTO): ResponseEntity<Unit, List<String>> {
