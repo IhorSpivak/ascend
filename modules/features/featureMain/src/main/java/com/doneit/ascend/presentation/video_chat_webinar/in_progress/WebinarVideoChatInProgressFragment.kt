@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.video_chat_webinar.in_progress
 import android.Manifest
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.SurfaceHolder
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -106,6 +107,10 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 binding.progressBar.gone()
                 start()
             }
+            binding.videoViewForParticipants.setOnErrorListener { mediaPlayer, i, i2 ->
+                Log.d("rtmp", "onError")
+                false
+            }
         })
         surfaceView.holder.addCallback(this)
     }
@@ -164,21 +169,25 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
     }
 
     override fun onAuthSuccessRtmp() {
+        Log.d("rtmp", "onSuccessRtmp")
     }
 
     override fun onNewBitrateRtmp(bitrate: Long) {
     }
 
     override fun onConnectionSuccessRtmp() {
+        Log.d("rtmp", "onSuccessRtmp")
     }
 
     override fun onConnectionFailedRtmp(reason: String) {
+        Log.d("rtmp", "onConnectionFailed")
     }
 
     override fun onAuthErrorRtmp() {
     }
 
     override fun onDisconnectRtmp() {
+        Log.d("rtmp", "onDisconnect")
     }
 
     override fun surfaceChanged(p0: SurfaceHolder?, p1: Int, p2: Int, p3: Int) {

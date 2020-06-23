@@ -55,7 +55,7 @@ class MasterMindIcon @JvmOverloads constructor(
 
     fun setName(name: String?) {
         if (name.isNullOrBlank().not()) {
-            val splited = name!!.split(' ')
+            val splited = name!!.split(' ').filter { it != "" }
             var res = name[0].toString().capitalize()
             if (splited.size > 1) {
                 res += splited[1][0]

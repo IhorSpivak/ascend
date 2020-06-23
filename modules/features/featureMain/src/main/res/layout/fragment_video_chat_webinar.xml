@@ -25,6 +25,7 @@
             app:setImage="@{model.groupInfo.image.url}" />
 
         <com.pedro.rtplibrary.view.OpenGlView
+            android:visibility="@{!model.isVisitor(), default = gone}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/surfaceView"
@@ -37,7 +38,7 @@
             />
 
         <VideoView
-            android:visibility="@{model.isVisitor(), default = gone}"
+            android:visibility="gone"
             android:id="@+id/videoViewForParticipants"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

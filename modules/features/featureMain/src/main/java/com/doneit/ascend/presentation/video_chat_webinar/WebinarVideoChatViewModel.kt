@@ -529,6 +529,7 @@ class WebinarVideoChatViewModel(
         private const val TIMER_PERIOD = 1000L
         private const val FINISHING_TIMER_PERIOD = 1 * 60 * 1000L //every minute
         private const val PARTICIPANTS_RESYNC_DELAY = 10 * 1000L
+        private const val LIVESTREAM_DELAY = 13000L
 
         const val GROUP_ID_KEY = "GROUP_ID_KEY"
         const val CHAT_ID_KEY = "CHAT_ID_KEY"
@@ -567,7 +568,10 @@ class WebinarVideoChatViewModel(
                 SocketEvent.PARTICIPANT_CONNECTED -> {
                     Log.d("socket", "connected")
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
-                        isMMConnected.value = true
+                        viewModelScope.launch {
+                            delay(LIVESTREAM_DELAY)
+                            isMMConnected.value = true
+                        }
                     } else {
                         participants.value = participants.value!!.plus(user)
                         participantsCount.value = participants.value!!.size
@@ -588,7 +592,10 @@ class WebinarVideoChatViewModel(
                 SocketEvent.PARTICIPANT_DISCONNECTED -> {
                     Log.d("socket", "disconnected")
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
-                        isMMConnected.value = false
+                        viewModelScope.launch {
+                            delay(LIVESTREAM_DELAY)
+                            isMMConnected.value = false
+                        }
                     } else {
                         participants.value = participants.value!!.minus(user)
                         participantsCount.value = participants.value!!.size
