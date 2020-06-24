@@ -40,7 +40,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                 app:error="@{model.createGroupModel.name.observableError}"
-                app:hint='@{model.supportTitle != null?@string/group_name(model.supportTitle):""}'
+                app:hint='@{model.supportTitle != null?@string/group_name(context.getString(model.supportTitle)):""}'
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -206,7 +206,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text='@{model.supportTitle != null?@string/upload_group_image(model.supportTitle):""}'
+                android:text='@{model.supportTitle != null?@string/upload_group_image(context.getString(model.supportTitle)):""}'
                 android:textColor="@color/master_mind_color"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/dash_rectangle_background"
