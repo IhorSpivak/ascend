@@ -56,6 +56,7 @@ class WebinarCalendarPickerFragment(
                                     Calendar.MINUTE,
                                     selectedDate.get(Calendar.MINUTE)
                                 )
+                                set(Calendar.AM_PM, selectedDate.get(Calendar.AM_PM))
                                 set(Calendar.ZONE_OFFSET, selectedDate.get(Calendar.ZONE_OFFSET))
                                 newWheelPicker.setDefaultDate(this.time)
                             }
