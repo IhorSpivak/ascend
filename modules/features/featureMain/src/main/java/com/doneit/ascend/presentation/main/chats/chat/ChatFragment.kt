@@ -251,6 +251,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private fun scrollToUnread(unreadMessageCount: Int = 0) {
         binding.messageList.adapter?.let {
             binding.messageList.scrollToPosition(unreadMessageCount)
+            binding.messageList.smoothScrollBy(0, -1)
         }
     }
 
