@@ -319,11 +319,7 @@ class CreateGroupViewModel(
             createGroupModel.webinarSchedule[position].observableField.apply {
                 date.set(Calendar.DAY_OF_WEEK, selectedDay)
                 createGroupModel.timeList[position].time = date.time
-                if (calendarUtil.is24TimeFormat()) {
-                    set(HOUR_24_ONLY_FORMAT.toDefaultFormatter().format(date.time))
-                } else {
-                    set(HOUR_12_ONLY_FORMAT.toDefaultFormatter().format(date.time))
-                }
+                calendarUtil.is24TimeFormat().getTimeFormat().format(date.time)
             }
             createGroupModel.numberOfMeetings.observableField.get()?.let {
                 resetNumberOfMeeting(it)
@@ -656,7 +652,7 @@ class CreateGroupViewModel(
             groupType = GroupType.values()[group.groupType!!.ordinal]
             if (what == GroupAction.EDIT.toString()) {
                 startDate.observableField.set(
-                   actualStartTime.time.toDayMonthYear()
+                    actualStartTime.time.toDayMonthYear()
                 )
                 scheduleDays.addAll(group.daysOfWeek)
                 scheduleDays.forEachIndexed { index, day ->
@@ -665,27 +661,13 @@ class CreateGroupViewModel(
                         timeList.add(getDefaultCalendar())
                     }
                     timeList[index].apply {
-                        if (calendarUtil.is24TimeFormat()) {
-                            group.dates?.get(index).let {
-                                time = HOUR_24_ONLY_FORMAT.toDefaultFormatter().parse(it)
-                            }
-                            set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
-                            webinarSchedule[index].observableField.set(
-                                HOUR_24_ONLY_FORMAT.toDefaultFormatter().format(
-                                    timeList[index].time
-                                )
-                            )
-                        } else {
-                            group.dates?.get(index).let {
-                                time = HOUR_24_ONLY_FORMAT.toDefaultFormatter().parse(it)
-                            }
-                            set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
-                            webinarSchedule[index].observableField.set(
-                                HOUR_12_ONLY_FORMAT.toDefaultFormatter().format(
-                                    timeList[index].time
-                                )
-                            )
+                        group.dates?.get(index)?.let {
+                            time = it.toLocaleTime()
                         }
+                        set(Calendar.DAY_OF_WEEK, day.ordinal + 1)
+                        webinarSchedule[index].observableField.set(
+                            calendarUtil.is24TimeFormat().getTimeFormat().format(time)
+                        )
                     }
                 }
                 newScheduleItem.postValue(webinarSchedule)
@@ -711,33 +693,16 @@ class CreateGroupViewModel(
             groupUseCase.getParticipantList(groupId).also {
                 if (it.isSuccessful) {
                     it.successModel?.let {
-                        when (what) {
-                            GroupAction.DUPLICATE.toString() -> {
-                                it.forEach {
-                                    selectedMembers.add(
-                                        AttendeeEntity(
-                                            it.id,
-                                            it.fullName,
-                                            it.email,
-                                            it.image?.url,
-                                            false
-                                        )
-                                    )
-                                }
-                            }
-                            GroupAction.EDIT.toString() -> {
-                                it.forEach {
-                                    selectedMembers.add(
-                                        AttendeeEntity(
-                                            it.id,
-                                            it.fullName,
-                                            it.email,
-                                            it.image?.url,
-                                            true
-                                        )
-                                    )
-                                }
-                            }
+                        it.forEach {
+                            selectedMembers.add(
+                                AttendeeEntity(
+                                    it.id,
+                                    it.fullName,
+                                    it.email,
+                                    it.image?.url,
+                                    what == GroupAction.EDIT.toString()
+                                )
+                            )
                         }
                         members.postValue(selectedMembers)
                     }
@@ -790,7 +755,9 @@ class CreateGroupViewModel(
         calendar.set(Calendar.DAY_OF_MONTH, createGroupModel.day)
         createGroupModel.apply {
             selectedDays.clear()
-            startDate.observableField.set(START_TIME_FORMATTER.toDefaultFormatter().format(calendar.time))
+            startDate.observableField.set(
+                START_TIME_FORMATTER.toDefaultFormatter().format(calendar.time)
+            )
         }
     }
 
@@ -911,18 +878,7 @@ class CreateGroupViewModel(
 
     override fun onAdd(member: AttendeeEntity) {
         selectedMembers.add(member)
-        when (createGroupModel.groupType) {
-            GroupType.INDIVIDUAL -> canAddMembers.postValue((attendees.value?.size ?: 0) < 1)
-            GroupType.MASTER_MIND -> canAddMembers.postValue(
-                selectedMembers.size + (attendees.value?.size ?: 0) < 50
-            )
-            GroupType.WEBINAR -> canAddMembers.postValue(
-                selectedMembers.size + (attendees.value?.size ?: 0) < 3
-            )
-            GroupType.SUPPORT -> canAddMembers.postValue(
-                selectedMembers.size + (attendees.value?.size ?: 0) < 50
-            )
-        }
+        canAddMembers.postValue(canAddMembers())
     }
 
     override fun onRemove(member: AttendeeEntity) {
@@ -930,17 +886,18 @@ class CreateGroupViewModel(
             it.email == member.email
         }
         selectedMembers.remove(itemToDelete)
-        when (createGroupModel.groupType) {
-            GroupType.INDIVIDUAL -> canAddMembers.postValue((attendees.value?.size ?: 0) < 1)
-            GroupType.MASTER_MIND -> canAddMembers.postValue(
-                selectedMembers.size + (attendees.value?.size ?: 0) < 50
-            )
-            GroupType.WEBINAR -> canAddMembers.postValue(
-                selectedMembers.size + (attendees.value?.size ?: 0) < 3
-            )
-            GroupType.SUPPORT -> canAddMembers.postValue(
-                selectedMembers.size + (attendees.value?.size ?: 0) < 50
-            )
+        canAddMembers.postValue(canAddMembers())
+    }
+
+    private fun canAddMembers(): Boolean {
+        return when (createGroupModel.groupType) {
+            GroupType.INDIVIDUAL -> 1
+            GroupType.WEBINAR -> 3
+            GroupType.MASTER_MIND -> 50
+            GroupType.SUPPORT -> 50
+            else -> 0
+        }.run {
+            selectedMembers.size + (attendees.value?.size ?: 0) < this
         }
     }
 
@@ -1017,9 +974,5 @@ class CreateGroupViewModel(
             date.time.toDayMonthYear()
         )
         localRouter.onBack()
-    }
-
-    private fun String.toHours(): Int {
-        return this.toInt() % 12 //% 12to avoid day increment
     }
 }

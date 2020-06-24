@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.chats.chat.common
 
 import android.content.Context
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,11 +91,7 @@ class MessageViewHolder(
                     userImage.setOnClickListener {
                         onImageClick(it, member.id)
                     }
-                    if (DateFormat.is24HourFormat(root.context)) {
-                        this.sendTime = HOUR_24_ONLY_FORMAT.toDefaultFormatter().format(messageEntity.createdAt!!)
-                    } else {
-                        this.sendTime = HOUR_12_ONLY_FORMAT.toDefaultFormatter().format(messageEntity.createdAt!!)
-                    }
+                    this.sendTime = root.context.getTimeFormat().format(messageEntity.createdAt!!)
                     if (nextMessage == null) {
                         time.text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
                         time.visible()

@@ -123,23 +123,31 @@ fun String.toGMTFormatter(): SimpleDateFormat {
     return formatter
 }
 
-fun String.toLocaleTimeString(context: Context): String {
+fun String.toLocaleTime(): Date {
     val cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
     return cal.apply {
         set(Calendar.HOUR_OF_DAY, substringBefore(":").toInt())
         set(Calendar.HOUR, substringBefore(":").toInt() % 12)
         set(Calendar.MINUTE, substringAfter(":").toInt())
         set(Calendar.AM_PM, if(substringBefore(":").toInt() < 12) Calendar.AM else Calendar.PM)
-    }.run {
-        context.getTimeFormat().format(this.time)
+    }.time
+}
+
+fun String.toLocaleTimeString(context: Context): String {
+    return toLocaleTime().run {
+        context.getTimeFormat().format(this)
     }
 }
 
 fun Context.getTimeFormat(): SimpleDateFormat {
-    return if (DateFormat.is24HourFormat(this)) {
-        "HH:mm".toDefaultFormatter()
+    return DateFormat.is24HourFormat(this).getTimeFormat()
+}
+
+fun Boolean.getTimeFormat(): SimpleDateFormat {
+    return if (this) {
+        HOUR_24_ONLY_FORMAT.toDefaultFormatter()
     } else {
-        "hh:mm aa".toDefaultFormatter()
+        HOUR_12_ONLY_FORMAT.toDefaultFormatter()
     }
 }
 
