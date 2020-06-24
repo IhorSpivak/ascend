@@ -43,6 +43,10 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         }
     }
 
+    val width: Int = android.content.res.Resources.getSystem().displayMetrics.widthPixels
+    val height: Int = android.content.res.Resources.getSystem().displayMetrics.heightPixels
+    val orientation: Int = android.content.res.Resources.getSystem().configuration.orientation
+
     override val viewModel: WebinarVideoChatInProgressContract.ViewModel by instance()
 
     private var delegate: VimeoChatViewDelegate? = null
@@ -58,6 +62,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 binding.message.text.clear()
             }
         }
+        binding.videoViewForParticipants.setDimensions(orientation, width, height)
         binding.progressBar.visible()
         binding.rvQuestions.adapter = adapter
         delegate =
