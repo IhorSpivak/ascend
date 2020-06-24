@@ -76,7 +76,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             null,
             { viewModel.onDelete(it) },
             { view, id -> showMenuOnUserClick(view, id) },
-            { _, id -> viewModel.showDetailedUser(id) })
+            { _, id -> viewModel.showDetailedUser(id) },
+            { _, member -> viewModel.showLiveStreamUser(member) })
     }
 
 

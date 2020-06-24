@@ -25,7 +25,7 @@ class WebinarMessageViewHolder(
     private val binding: ListItemWebinarMessageBinding,
     private val onDeleteClick: (message: MessageEntity) -> Unit,
     private val onImageLongClick: (view: View, id: Long) -> Unit,
-    private val onImageClick: (view: View, id: Long) -> Unit
+    private val onImageClick: (view: View, member: MemberEntity) -> Unit
 ) : BaseMessageHolder(binding.root) {
 
     override fun bind(
@@ -88,7 +88,7 @@ class WebinarMessageViewHolder(
                         }
                     }
                     userImage.setOnClickListener {
-                        onImageClick(it, member.id)
+                        onImageClick(it, member)
                     }
                     this.sendTime = root.context.getTimeFormat().format(messageEntity.createdAt!!)
                     if (nextMessage == null) {
@@ -177,7 +177,7 @@ class WebinarMessageViewHolder(
             parent: ViewGroup,
             onDeleteClick: (message: MessageEntity) -> Unit,
             onMenuClick: (view: View, id: Long) -> Unit,
-            onImageClick: (view: View, id: Long) -> Unit
+            onImageClick: (view: View, member: MemberEntity) -> Unit
         ): WebinarMessageViewHolder {
             val binding: ListItemWebinarMessageBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),

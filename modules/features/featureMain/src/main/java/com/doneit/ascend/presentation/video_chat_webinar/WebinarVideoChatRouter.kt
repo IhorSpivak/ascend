@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
+import com.doneit.ascend.presentation.main.chats.chat.livestream_user_actions.LivestreamUserActionsFragment
 import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesContract
 import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesFragment
 import com.doneit.ascend.presentation.utils.extensions.add
@@ -47,6 +48,13 @@ class WebinarVideoChatRouter(
     }
 
     override fun goToChatMembers(chatId: Long, members: List<MemberEntity>, user: UserEntity) {
+    }
+
+    override fun goToLiveStreamUser(member: MemberEntity) {
+        activity.supportFragmentManager.add(
+            fullContainerId,
+            LivestreamUserActionsFragment.newInstance(member)
+        )
     }
 
     override fun finishActivity() {

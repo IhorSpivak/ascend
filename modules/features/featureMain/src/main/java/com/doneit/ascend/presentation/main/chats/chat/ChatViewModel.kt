@@ -219,6 +219,10 @@ class ChatViewModel(
         router.goToDetailedUser(userId)
     }
 
+    override fun showLiveStreamUser(member: MemberEntity) {
+        router.goToLiveStreamUser(member)
+    }
+
     override fun onUnblockUserClick(member: MemberEntity) {
         viewModelScope.launch {
             chatUseCase.unblockUser(member.id).let {
