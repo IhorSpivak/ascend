@@ -1,9 +1,13 @@
 package com.doneit.ascend.presentation.main.chats.chat.common
 
 import android.content.Context
+import android.graphics.Color
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
@@ -13,19 +17,16 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.main.common.gone
-import com.doneit.ascend.presentation.main.common.invisible
 import com.doneit.ascend.presentation.main.common.visible
-import com.doneit.ascend.presentation.main.databinding.ListItemMessageBinding
+import com.doneit.ascend.presentation.main.databinding.ListItemWebinarMessageBinding
 import com.doneit.ascend.presentation.utils.extensions.*
 
-class MessageViewHolder(
-    private val binding: ListItemMessageBinding,
+class WebinarMessageViewHolder(
+    private val binding: ListItemWebinarMessageBinding,
     private val onDeleteClick: (message: MessageEntity) -> Unit,
     private val onImageLongClick: (view: View, id: Long) -> Unit,
     private val onImageClick: (view: View, id: Long) -> Unit
-) : BaseMessageHolder(
-    binding.root
-) {
+) : BaseMessageHolder(binding.root) {
 
     override fun bind(
         messageEntity: MessageEntity,
@@ -62,16 +63,15 @@ class MessageViewHolder(
             }
             else -> {
                 binding.apply {
-                    if (messageEntity.userId != user.id) {
-                        itemLayout.gone()
-                        memberMessageContainer.visible()
-                    } else {
-                        itemLayout.visible()
-                        memberMessageContainer.invisible()
-                    }
                     this.memberEntity = member
                     this.messageEntity = messageEntity
                     this.user = user
+                    messageContainer.isRightSwipeEnabled = messageEntity.userId == user.id
+                    if (messageEntity.userId == user.id) {
+                        setOtherLayout()
+                    } else {
+                        setOwnLayout()
+                    }
                     ibDelete.setOnClickListener {
                         onDeleteClick.invoke(messageEntity)
                     }
@@ -92,25 +92,13 @@ class MessageViewHolder(
                     }
                     this.sendTime = root.context.getTimeFormat().format(messageEntity.createdAt!!)
                     if (nextMessage == null) {
-                        time.text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
+                        time.text = START_TIME_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
                         time.visible()
-                        corner.visible()
                         userImage.visible()
                         isOnline.visible(member.online)
                     } else {
                         time.apply {
-                            text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
-                            corner.apply {
-                                if (messageEntity.userId == nextMessage.userId) {
-                                    userImage.invisible()
-                                    isOnline.gone()
-                                    this.gone()
-                                } else {
-                                    userImage.visible()
-                                    isOnline.visible(member.online)
-                                    this.visible()
-                                }
-                            }
+                            text = START_TIME_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
                             if (calculateDate(messageEntity.createdAt!!, nextMessage.createdAt!!)) {
                                 this.visible()
                             } else {
@@ -121,13 +109,47 @@ class MessageViewHolder(
                 }
             }
         }
+    }
 
+    private fun ListItemWebinarMessageBinding.setOtherLayout() {
+        (messageCard.layoutParams as? FrameLayout.LayoutParams)?.gravity =
+            Gravity.END
+        messageCard.setCardBackgroundColor(
+            ContextCompat.getColor(
+                messageContainer.context,
+                R.color.colorAccent
+            )
+        )
+        userName.setTextColor(Color.WHITE)
+        messageTime.setTextColor(Color.WHITE)
+        message.setTextColor(Color.WHITE)
+        frameContainer.invalidate()
+        messageCard.invalidate()
+    }
+
+    private fun ListItemWebinarMessageBinding.setOwnLayout() {
+        (messageCard.layoutParams as? FrameLayout.LayoutParams)?.gravity =
+            Gravity.START
+        messageCard.setCardBackgroundColor(Color.WHITE)
+        userName.setTextColor(
+            ContextCompat.getColor(
+                messageCard.context,
+                R.color.light_gray_8f
+            )
+        )
+        val textColor = ContextCompat.getColor(
+            messageCard.context,
+            R.color.colorAccent
+        )
+        messageTime.setTextColor(textColor)
+        message.setTextColor(textColor)
+        frameContainer.invalidate()
+        messageCard.invalidate()
     }
 
     private fun setSystemMessage(message: String) {
         binding.apply {
-            itemLayout.gone()
-            memberMessageContainer.gone()
+            messageContainer.gone()
             time.text = message
         }
     }
@@ -156,14 +178,14 @@ class MessageViewHolder(
             onDeleteClick: (message: MessageEntity) -> Unit,
             onMenuClick: (view: View, id: Long) -> Unit,
             onImageClick: (view: View, id: Long) -> Unit
-        ): MessageViewHolder {
-            val binding: ListItemMessageBinding = DataBindingUtil.inflate(
+        ): WebinarMessageViewHolder {
+            val binding: ListItemWebinarMessageBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.list_item_message,
+                R.layout.list_item_webinar_message,
                 parent,
                 false
             )
-            return MessageViewHolder(binding, onDeleteClick, onMenuClick, onImageClick)
+            return WebinarMessageViewHolder(binding, onDeleteClick, onMenuClick, onImageClick)
         }
     }
 }

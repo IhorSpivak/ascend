@@ -69,10 +69,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private var currentDialog: AlertDialog? = null
     private var menuResId: Int = -1
     private var kickOrReportUserId: Long = -1
-    private var firstLoad: Boolean = true
-    private var firstPositionId: Long = 0
     private val messagesAdapter: MessagesAdapter by lazy {
         MessagesAdapter(
+            ChatType.fromRemoteString(requireArguments().getString(CHAT_TYPE).orEmpty()),
             null,
             null,
             { viewModel.onDelete(it) },
