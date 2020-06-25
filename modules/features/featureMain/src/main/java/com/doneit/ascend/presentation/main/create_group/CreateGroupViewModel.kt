@@ -46,14 +46,14 @@ class CreateGroupViewModel(
     override val participants = MutableLiveData<List<String>>()
     override val users = MutableLiveData<List<ParticipantEntity>>()
     override val networkErrorMessage = SingleLiveManager<String>()
+
     override val clearReservationSeat = SingleLiveManager<Boolean>()
     override val changeGroup: LiveData<GroupEntity>
         get() = MutableLiveData()
     override val supportTitle = MutableLiveData(R.string.workshop)
-
     private val searchQuery = MutableLiveData<String>()
-    private val timeChooserState = MutableLiveData<Boolean>(false)
 
+    private val timeChooserState = MutableLiveData(false)
     init {
         viewModelScope.launch {
             currentUser = userUseCase.getUser()!!
@@ -175,9 +175,9 @@ class CreateGroupViewModel(
             result
         }
 
-        createGroupModel.scheduleTime.validator = { s->
+        createGroupModel.scheduleTime.validator = { s ->
             val result = ValidationResult()
-            if(s.isEmpty()){
+            if (s.isEmpty()) {
                 result.isSucceed = false
             }
             result
@@ -239,6 +239,10 @@ class CreateGroupViewModel(
                 }
             }
         }
+    }
+
+    override fun clearSearchResult() {
+        searchQuery.value = ""
     }
 
     override fun handleBaseNavigation(args: CreateGroupArgs, group: GroupEntity?, what: String?) {
@@ -854,14 +858,17 @@ class CreateGroupViewModel(
     }
 
     override val group: MutableLiveData<GroupEntity> = MutableLiveData()
-    override val searchVisibility = MutableLiveData<Boolean>(false)
-    override val inviteVisibility = MutableLiveData<Boolean>(false)
-    override val inviteButtonActive = MutableLiveData<Boolean>(false)
+    override val searchVisibility = MutableLiveData(false)
+    override val inviteVisibility = MutableLiveData(false)
+    override val inviteButtonActive = MutableLiveData(false)
     override val validQuery = MutableLiveData<String>()
     override val attendees: MutableLiveData<MutableList<AttendeeEntity>> = MutableLiveData()
 
     override val searchResult: LiveData<PagedList<AttendeeEntity>>
         get() = searchQuery.switchMap {
+            if (it.isEmpty()) {
+                return@switchMap MutableLiveData<PagedList<AttendeeEntity>>()
+            }
             groupUseCase.searchMembers(it, currentUser.id)
         }
 

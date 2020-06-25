@@ -141,6 +141,10 @@ class AttendeesViewModel (
             }
         }
     }
+
+    override fun clearSearchResult() {
+    }
+
     private fun checkCanAdd(){
         when(group.value!!.groupType){
             GroupType.INDIVIDUAL -> canAddMembers.postValue((attendees.value?.size?: 0) < 1)
