@@ -107,13 +107,15 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
     private fun setBackStackHandler() {
         supportFragmentManager.addOnBackStackChangedListener {
-            binding.mainBottomNavigationView.selectedItemId =
-                when (supportFragmentManager.findFragmentById(getContainerId())) {
-                    is HomeFragment -> R.id.home
-                    is AscensionPlanFragment -> R.id.ascension_plan
-                    is UserProfileFragment, is MMProfileFragment -> R.id.profile
-                    else -> binding.mainBottomNavigationView.selectedItemId
-                }
+            if (supportFragmentManager.findFragmentById(getContainerIdFull()) == null) {
+                binding.mainBottomNavigationView.selectedItemId =
+                    when (supportFragmentManager.findFragmentById(getContainerId())) {
+                        is HomeFragment -> R.id.home
+                        is AscensionPlanFragment -> R.id.ascension_plan
+                        is UserProfileFragment, is MMProfileFragment -> R.id.profile
+                        else -> return@addOnBackStackChangedListener
+                    }
+            }
         }
     }
 
