@@ -16,6 +16,7 @@ import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMem
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
 import com.doneit.ascend.presentation.utils.extensions.showKeyboard
+import com.doneit.ascend.presentation.utils.extensions.visible
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -100,6 +101,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
         viewModel.searchResult.observe(this, Observer {
             memberAdapter.submitList(it)
             binding.apply {
+                emptyList.visible(it.isEmpty() && tvSearch.text.length > 1)
                 query = tvSearch.text.toString()
                 searchVis = it.isNotEmpty()
                 inviteVis = it.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(query).matches()
