@@ -15,7 +15,8 @@ import com.doneit.ascend.source.storage.local.data.dto.GroupFilter
 fun GroupListDTO.toLocal(): GroupFilter {
     return GroupFilter(
         sortType?.ordinal,
-        groupStatus?.ordinal
+        groupStatus?.ordinal,
+        groupType = groupType?.ordinal?:0
     )
 }
 
@@ -40,7 +41,7 @@ fun GroupEntity.toLocal(): GroupLocal {
         blocked,
         participantsCount,
         invitesCount,
-        daysOfWeek?.map { it.ordinal },
+        daysOfWeek.map { it.ordinal },
         note?.toLocale(),
         meetingFormat,
         tag?.toLocal(),

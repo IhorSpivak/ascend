@@ -44,7 +44,7 @@ class WebinarsViewModel (
     )
 
     override val groups = groupListModel.switchMap {
-        groupUseCase.getGroupListPaged(it).map {
+        groupUseCase.getGroupListPaged(viewModelScope, it).map {
             GroupListWithUserPaged(
                 it,
                 user

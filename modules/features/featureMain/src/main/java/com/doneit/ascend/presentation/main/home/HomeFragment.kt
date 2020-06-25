@@ -2,14 +2,12 @@ package com.doneit.ascend.presentation.main.home
 
 import android.content.Context
 import android.os.Bundle
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.MainActivityListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
-import com.google.android.material.tabs.TabLayout
 import org.kodein.di.generic.instance
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -40,11 +38,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             )
         })
-    }
-
-    private fun TabLayout.disableTab(index: Int) {
-        (this.getChildAt(0) as ViewGroup).getChildAt(index).isEnabled = false
-        (this.getChildAt(0) as ViewGroup).getChildAt(index).alpha = 0.3f
     }
 
     private fun setTitle(community: String?) {

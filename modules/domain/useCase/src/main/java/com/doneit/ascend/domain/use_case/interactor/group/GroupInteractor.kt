@@ -12,6 +12,7 @@ import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
 import com.doneit.ascend.domain.use_case.gateway.IGroupGateway
+import kotlinx.coroutines.CoroutineScope
 
 internal class GroupInteractor(
     private val groupGateway: IGroupGateway
@@ -35,8 +36,11 @@ internal class GroupInteractor(
         return groupGateway.getGroupsList(model)
     }
 
-    override fun getGroupListPaged(model: GroupListDTO): LiveData<PagedList<GroupEntity>> {
-        return groupGateway.getGroupsListPaged(model)
+    override fun getGroupListPaged(
+        scope: CoroutineScope,
+        model: GroupListDTO
+    ): LiveData<PagedList<GroupEntity>> {
+        return groupGateway.getGroupsListPaged(scope, model)
     }
 
     override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>> {

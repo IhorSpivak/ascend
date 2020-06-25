@@ -11,6 +11,7 @@ import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
+import kotlinx.coroutines.CoroutineScope
 
 interface GroupUseCase {
     suspend fun createGroup(groupDTO: CreateGroupDTO, groupCredentialsDTO: WebinarCredentialsDTO? = null): ResponseEntity<GroupEntity, List<String>>
@@ -19,7 +20,7 @@ interface GroupUseCase {
 
     suspend fun getGroupList(model: GroupListDTO): ResponseEntity<List<GroupEntity>, List<String>>
 
-    fun getGroupListPaged(model: GroupListDTO): LiveData<PagedList<GroupEntity>>
+    fun getGroupListPaged(scope: CoroutineScope, model: GroupListDTO): LiveData<PagedList<GroupEntity>>
 
     suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>>
 

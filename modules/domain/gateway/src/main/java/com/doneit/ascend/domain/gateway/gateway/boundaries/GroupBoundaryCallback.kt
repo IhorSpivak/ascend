@@ -24,7 +24,6 @@ class GroupBoundaryCallback(
             val remoteCount = response.successModel!!.count
 
             receivedItems(loadedCount, remoteCount)
-
             local.insertAll(model.map { it.toLocal() })
         }
     }

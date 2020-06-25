@@ -31,6 +31,7 @@ import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCoo
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.socket.IGroupSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -67,7 +68,7 @@ internal class GroupGateway(
                 remote.setCredentials(
                     result.successModel?.id ?: 0,
                     credentialsDTO.key!!,
-                    credentialsDTO.link!!
+                    credentialsDTO.link
                 )
             }
 
@@ -126,29 +127,30 @@ internal class GroupGateway(
         return res
     }
 
-    override fun getGroupsListPaged(listRequest: GroupListDTO): LiveData<PagedList<GroupEntity>> =
-        liveData {
-            groupLocal.removeAll()
+    override fun getGroupsListPaged(
+        coroutineScope: CoroutineScope,
+        listRequest: GroupListDTO
+    ) = liveData {
+        groupLocal.removeAllByType(listRequest.groupType?.ordinal ?: 0)
+        val config = getDefaultPagedConfig(listRequest)
+        val factory = groupLocal.getGroupList(listRequest.toLocal()).map { it.toEntity() }
 
-            val config = getDefaultPagedConfig(listRequest)
-            val factory = groupLocal.getGroupList(listRequest.toLocal()).map { it.toEntity() }
+        val boundary = GroupBoundaryCallback(
+            coroutineScope,
+            groupLocal,
+            remote,
+            listRequest
+        )
 
-            val boundary = GroupBoundaryCallback(
-                GlobalScope,
-                groupLocal,
-                remote,
-                listRequest
-            )
+        emitSource(
+            LivePagedListBuilder<Int, GroupEntity>(factory, config)
+                .setFetchExecutor(Executors.newSingleThreadExecutor())
+                .setBoundaryCallback(boundary)
+                .build()
+        )
 
-            emitSource(
-                LivePagedListBuilder<Int, GroupEntity>(factory, config)
-                    .setFetchExecutor(Executors.newSingleThreadExecutor())
-                    .setBoundaryCallback(boundary)
-                    .build()
-            )
-
-            boundary.loadInitial()
-        }
+        boundary.loadInitial()
+    }
 
     override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>> {
         val res = executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
@@ -314,7 +316,10 @@ internal class GroupGateway(
         )
     }
 
-    override suspend fun setCredentials(groupId: Long, credentialsDTO: WebinarCredentialsDTO): ResponseEntity<Unit, List<String>> {
+    override suspend fun setCredentials(
+        groupId: Long,
+        credentialsDTO: WebinarCredentialsDTO
+    ): ResponseEntity<Unit, List<String>> {
         return remote.setCredentials(
             groupId,
             credentialsDTO.key,

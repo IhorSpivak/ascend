@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.main.databinding.FragmentDailyBinding
 import com.doneit.ascend.presentation.main.home.daily.common.groups.GroupAdapter
 import com.doneit.ascend.presentation.main.home.daily.common.master_minds.MastermindAdapter
 import com.doneit.ascend.presentation.utils.showDefaultError
+import kotlinx.android.synthetic.main.fragment_daily.*
 import org.kodein.di.generic.instance
 
 class DailyFragment : BaseFragment<FragmentDailyBinding>() {
@@ -31,6 +32,7 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>() {
                 }
             })
     }
+
     private val mastermindsAdapter: MastermindAdapter by lazy {
         MastermindAdapter(
             mutableListOf()
@@ -41,8 +43,6 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-        //binding.hasGroups = true
-        //binding.hasMasterMinds = true
         binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
         val decorator = SideListDecorator(paddingLeft = resources.getDimension(R.dimen.create_group_horizontal_margin).toInt())
         binding.rvGroups.addItemDecoration(decorator)
@@ -78,5 +78,11 @@ class DailyFragment : BaseFragment<FragmentDailyBinding>() {
         super.onResume()
         viewModel.updateData()
         binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
+    }
+
+    override fun onDestroyView() {
+        rvGroups.adapter = null
+        rvMasterminds.adapter = null
+        super.onDestroyView()
     }
 }
