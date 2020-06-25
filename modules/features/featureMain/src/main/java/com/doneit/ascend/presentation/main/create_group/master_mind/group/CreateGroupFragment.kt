@@ -127,7 +127,11 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             }
         }
 
-
+        binding.mainContainer.setOnFocusChangeListener { v, b ->
+            if (b) {
+                hideKeyboard()
+            }
+        }
 
         viewModel.changeGroup.observe(this, Observer {
             binding.apply {

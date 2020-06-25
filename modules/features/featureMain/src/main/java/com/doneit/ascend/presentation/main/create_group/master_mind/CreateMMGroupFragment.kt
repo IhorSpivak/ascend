@@ -55,6 +55,11 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 what!!.capitalize()
             }
         }
+        binding.mainContainer.setOnFocusChangeListener { v, b ->
+            if (b) {
+                hideKeyboard()
+            }
+        }
         viewModel.navigation.observe(viewLifecycleOwner, Observer {
             handleNavigation(it)
         })

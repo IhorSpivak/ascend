@@ -134,6 +134,12 @@ class IndividualGroupFragment(
                 viewModel.chooseMeetingCountTouch(null, null)
             }
 
+            mainContainer.setOnFocusChangeListener { v, b ->
+                if (b) {
+                    hideKeyboard()
+                }
+            }
+
             dashRectangleBackground.setOnClickListener {
                 hideKeyboard()
                 createImageBottomDialog().show(childFragmentManager, null)

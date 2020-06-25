@@ -120,6 +120,12 @@ class CreateSupGroupFragment :
                 viewModel.createGroupModel.isPrivate.set(b)
             }
 
+            mainContainer.setOnFocusChangeListener { v, b ->
+                if (b) {
+                    hideKeyboard()
+                }
+            }
+
             placeholderDash.setOnClickListener {
                 hideKeyboard()
                 createImageBottomDialog().show(childFragmentManager, null)

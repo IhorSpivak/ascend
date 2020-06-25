@@ -183,7 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                    android:layout_marginTop="@dimen/create_group_top_margin"
+                    android:layout_marginTop="52dp"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                     app:digits="@{@string/allow_date_digits}"
                     app:error="@{model.createGroupModel.startDate.observableError}"

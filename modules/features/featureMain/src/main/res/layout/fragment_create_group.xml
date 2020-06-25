@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
+            android:clickable="true"
             android:focusableInTouchMode="true">
 
             <com.doneit.ascend.presentation.views.EditWithError
@@ -144,7 +145,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="@dimen/create_group_top_margin"
+                android:layout_marginTop="52dp"
                 android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                 app:error="@{model.createGroupModel.price.observableError}"
                 app:hint="@{@string/price}"

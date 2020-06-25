@@ -107,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
+                android:clickable="true"
                 android:focusableInTouchMode="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -321,10 +322,10 @@
                     app:layout_constraintBottom_toTopOf="@id/tagsPicker"/>
 
                 <ImageView
-                    android:id="@+id/duration_icon"
+                    android:id="@+id/tagIcon"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:layout_marginTop="52dp"
+                    android:layout_marginTop="72dp"
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
                     android:src="@drawable/ic_tags"
                     app:layout_constraintTop_toBottomOf="@+id/underlineDuration"
@@ -335,12 +336,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
-                    android:layout_marginTop="52dp"
+                    android:layout_marginTop="72dp"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                     android:background="@null"
                     android:spinnerMode="dropdown"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/duration_icon"
+                    app:layout_constraintStart_toEndOf="@id/tagIcon"
                     app:layout_constraintTop_toBottomOf="@id/underlineDuration" />
                 <View
                     android:id="@+id/underlineTags"
