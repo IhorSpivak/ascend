@@ -487,18 +487,6 @@ class CreateGroupViewModel(
         return isFormValid
     }
 
-    private fun updateCanAddParticipant() {
-        var isFormValid = true
-
-        isFormValid = isFormValid and email.isValid
-
-        canAddParticipant.postValue(isFormValid)
-    }
-
-    private fun checkCanAddMembers() {
-        canAddMembers.postValue(createGroupModel.participants.get()?.size!! < 50)
-    }
-
     override fun changeSchedule() {
 
         val builder = StringBuilder()
@@ -688,7 +676,7 @@ class CreateGroupViewModel(
                 newScheduleItem.postValue(webinarSchedule)
             }
             group.themes?.let {
-                themesOfMeeting = it.mapIndexed { index, theme ->
+                themesOfMeeting = it.mapIndexed { _, theme ->
                     ValidatableField().apply {
                         observableField.set(theme)
                     }

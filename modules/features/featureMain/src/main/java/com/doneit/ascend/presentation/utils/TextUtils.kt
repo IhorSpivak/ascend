@@ -95,12 +95,12 @@ fun String.isValidPrice(): Boolean {
 
 fun String.isDescriptionValid(): Boolean {
     val r = Regex("^[a-zA-Z0-9\\s_.]{2,500}\$")
-    return this.matches(r)
+    return this.matches(r) && isNotBlank()
 }
 
 fun String.isWebinarDescriptionValid(): Boolean {
     val r = Regex("^[a-zA-Z0-9\\s_.]{2,500}\$")
-    return this.matches(r)
+    return this.matches(r) && isNotBlank()
 }
 
 fun String.isThemeValid(): Boolean {
