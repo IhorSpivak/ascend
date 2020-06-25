@@ -28,6 +28,7 @@ import com.doneit.ascend.presentation.main.chats.MyChatsContract
 import com.doneit.ascend.presentation.main.chats.MyChatsFragment
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
+import com.doneit.ascend.presentation.main.chats.chat.livestream_user_actions.LivestreamUserActionsFragment
 import com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersContract
 import com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersFragment
 import com.doneit.ascend.presentation.main.chats.new_chat.NewChatContract
@@ -190,6 +191,13 @@ class MainRouter(
         activity.supportFragmentManager.replaceWithBackStack(
             containerIdFull,
             ChatMembersFragment.newInstance(chatId, members, user)
+        )
+    }
+
+    override fun goToLiveStreamUser(member: MemberEntity) {
+        activity.supportFragmentManager.add(
+            containerIdFull,
+            LivestreamUserActionsFragment.newInstance(member)
         )
     }
 

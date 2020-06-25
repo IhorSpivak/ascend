@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.os.CountDownTimer
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -30,6 +29,7 @@ import com.doneit.ascend.domain.use_case.interactor.vimeo.VimeoUseCase
 import com.doneit.ascend.domain.use_case.interactor.webinar_questions.WebinarQuestionUseCase
 import com.doneit.ascend.presentation.common.LockableLiveData
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.chats.chat.livestream_user_actions.LivestreamUserActionsContract
 import com.doneit.ascend.presentation.models.StartWebinarVideoModel
 import com.doneit.ascend.presentation.models.group.WebinarChatParticipant
 import com.doneit.ascend.presentation.models.toEntity
@@ -67,7 +67,8 @@ class WebinarVideoChatViewModel(
 ) : BaseViewModelImpl(), ParticipantOptionsContract.ViewModel,
     WebinarChatPreviewContract.ViewModel, WebinarVideoChatContract.ViewModel,
     OwnerOptionsContract.ViewModel, QuestionContract.ViewModel,
-    WebinarVideoChatInProgressContract.ViewModel, WebinarFinishedContract.ViewModel {
+    WebinarVideoChatInProgressContract.ViewModel, WebinarFinishedContract.ViewModel,
+    LivestreamUserActionsContract.ViewModel {
 
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val isVideoEnabled = MutableLiveData(true)
@@ -311,6 +312,11 @@ class WebinarVideoChatViewModel(
         navigation.postValue(WebinarVideoChatContract.Navigation.FINISH_ACTIVITY)
     }
 
+    override fun remove(userId: Long) {
+        groupUseCase.removeChatParticipant(userId.toString())
+        onBackClick()
+    }
+
     override fun report(content: String, participantId: String) {
         viewModelScope.launch {
             val res = userUseCase.report(content, participantId)
@@ -444,6 +450,7 @@ class WebinarVideoChatViewModel(
                 }
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_IN_PROGRESS)
             }
+
             VideoChatState.FINISHED -> {
                 isFinishing.postValue(false)
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_FINISH)
@@ -566,7 +573,6 @@ class WebinarVideoChatViewModel(
             val user = socketEvent.data.toWebinarPresentation()
             when (socketEvent.event) {
                 SocketEvent.PARTICIPANT_CONNECTED -> {
-                    Log.d("socket", "connected")
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
                         viewModelScope.launch {
                             delay(LIVESTREAM_DELAY)
@@ -593,12 +599,19 @@ class WebinarVideoChatViewModel(
                     changeState(VideoChatState.PROGRESS)
                 }
                 SocketEvent.PARTICIPANT_DISCONNECTED -> {
-                    Log.d("socket", "disconnected")
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
                         viewModelScope.launch {
                             delay(LIVESTREAM_DELAY)
                             isMMConnected.value = false
                         }
+                    } else {
+                        participants.value = participants.value!!.minus(user)
+                        participantsCount.value = participants.value!!.size
+                    }
+                }
+                SocketEvent.REMOVED_FROM_GROUP -> {
+                    if (user.userId == currentUserId) {
+                        finishCall()
                     } else {
                         participants.value = participants.value!!.minus(user)
                         participantsCount.value = participants.value!!.size

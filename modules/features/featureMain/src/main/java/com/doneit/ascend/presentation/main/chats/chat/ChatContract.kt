@@ -33,6 +33,7 @@ interface ChatContract {
         fun onBlockUserClick(member: MemberEntity)
         fun onUnblockUserClick(member: MemberEntity)
         fun showDetailedUser(userId: Long)
+        fun showLiveStreamUser(member: MemberEntity)
         fun onDelete(message: MessageEntity)
         fun onDeleteChat()
         fun onReportChatOwner(content: String)
@@ -44,6 +45,7 @@ interface ChatContract {
         fun onBack()
         fun goToDetailedUser(id: Long)
         fun goToChatMembers(chatId: Long, members: List<MemberEntity>, user: UserEntity)
+        fun goToLiveStreamUser(member: MemberEntity)
     }
 
     interface LocalRouter {

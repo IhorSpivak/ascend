@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 
@@ -13,7 +14,8 @@ class MessagesAdapter(
     var user: UserEntity?,
     private val onButtonClick: (message: MessageEntity) -> Unit,
     private val onImageLongClick: (v: View, id: Long) -> Unit,
-    private val onImageClick: (view: View, id: Long) -> Unit
+    private val onImageClick: (view: View, id: Long) -> Unit,
+    private val onImageWebinarClick: (view: View, member: MemberEntity) -> Unit
 ) : PagedListAdapter<MessageEntity, BaseMessageHolder>(MessageDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseMessageHolder {
         return when (viewType) {
@@ -27,7 +29,7 @@ class MessagesAdapter(
                 parent,
                 onButtonClick,
                 onImageLongClick,
-                onImageClick
+                onImageWebinarClick
             )
             else -> throw IllegalArgumentException("Unknown view type : $viewType")
         }
