@@ -175,6 +175,14 @@ class CreateGroupViewModel(
             result
         }
 
+        createGroupModel.scheduleTime.validator = { s->
+            val result = ValidationResult()
+            if(s.isEmpty()){
+                result.isSucceed = false
+            }
+            result
+        }
+
         val invalidationListener = { updateCanCreate() }
         createGroupModel.name.onFieldInvalidate = invalidationListener
         createGroupModel.meetingFormat.onFieldInvalidate = invalidationListener
@@ -184,6 +192,7 @@ class CreateGroupViewModel(
         createGroupModel.description.onFieldInvalidate = invalidationListener
         createGroupModel.image.onFieldInvalidate = invalidationListener
         createGroupModel.duration.onFieldInvalidate = invalidationListener
+        createGroupModel.scheduleTime.onFieldInvalidate = invalidationListener
     }
 
     override fun addNewParticipant() {
@@ -301,12 +310,11 @@ class CreateGroupViewModel(
                 set(Calendar.ZONE_OFFSET, date.get(Calendar.ZONE_OFFSET))
                 set(Calendar.AM_PM, date.get(Calendar.AM_PM))
             }
-            createGroupModel.startDate.observableField.get()!!.let {
-                createGroupModel.startDate.observableField.set("")
-                createGroupModel.startDate.observableField.set(it)
-            }
-            createGroupModel.numberOfMeetings.observableField.get()?.let {
-                resetNumberOfMeeting(it)
+            createGroupModel.startDate.observableField.apply {
+                get()?.let {
+                    set("")
+                    set(it)
+                }
             }
         } else {
             createGroupModel.scheduleDays.apply {
@@ -321,9 +329,9 @@ class CreateGroupViewModel(
                 createGroupModel.timeList[position].time = date.time
                 calendarUtil.is24TimeFormat().getTimeFormat().format(date.time)
             }
-            createGroupModel.numberOfMeetings.observableField.get()?.let {
-                resetNumberOfMeeting(it)
-            }
+        }
+        createGroupModel.numberOfMeetings.observableField.get()?.let {
+            resetNumberOfMeeting(it)
         }
         localRouter.onBack()
     }
@@ -514,6 +522,9 @@ class CreateGroupViewModel(
 
         createGroupModel.scheduleDays.clear()
         createGroupModel.scheduleDays.addAll(days)
+        createGroupModel.numberOfMeetings.observableField.get()?.let {
+            resetNumberOfMeeting(it)
+        }
     }
 
     override fun removeMember(member: AttendeeEntity) {
@@ -730,7 +741,7 @@ class CreateGroupViewModel(
                 val groupTypeRequest = if (createGroupModel.groupType == GroupType.WEBINAR) {
                     createGroupModel.toUpdateWebinarEntity(group)
                 } else {
-                    createGroupModel.toUpdateEntity(group.attendees?.map { it.email ?: "" }
+                    createGroupModel.toUpdateEntity(group.attendees?.map { it.email.orEmpty() }
                         ?: emptyList())
                 }
                 groupUseCase.updateGroup(group.id, groupTypeRequest).let { response ->

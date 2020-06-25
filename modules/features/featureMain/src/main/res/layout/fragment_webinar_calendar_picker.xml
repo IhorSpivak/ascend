@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.WebinarCalendarPickerContact.ViewModel" />
+            type="com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.WebinarCalendarPickerContract.ViewModel" />
 
         <variable
             name="is24"

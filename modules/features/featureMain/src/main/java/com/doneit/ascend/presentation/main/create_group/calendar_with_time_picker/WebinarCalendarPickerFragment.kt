@@ -22,11 +22,11 @@ class WebinarCalendarPickerFragment(
     private val group: GroupEntity?
 ) : BaseFragment<FragmentWebinarCalendarPickerBinding>() {
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
-        bind<WebinarCalendarPickerContact.ViewModel>() with provider {
+        bind<WebinarCalendarPickerContract.ViewModel>() with provider {
             instance<CreateGroupHostContract.ViewModel>()
         }
     }
-    override val viewModel: WebinarCalendarPickerContact.ViewModel by instance()
+    override val viewModel: WebinarCalendarPickerContract.ViewModel by instance()
     private var selectedDay: Int = -1
     private var selectedDate: Calendar = getDefaultCalendar()
 
