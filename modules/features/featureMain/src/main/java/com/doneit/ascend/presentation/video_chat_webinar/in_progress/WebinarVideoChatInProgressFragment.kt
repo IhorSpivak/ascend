@@ -91,11 +91,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (itemCount > 0) {
-                    binding.rvQuestions.postDelayed( {
-                        (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
-                            0, 0
-                        )
-                    },100)
+                    (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
                 }
             }
         })
@@ -112,7 +108,6 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 binding.progressBar.gone()
                 start()
                 setOnErrorListener { mediaPlayer, i, i2 ->
-                    Log.d("rtmp", "onError")
                     start()
                     true
                 }
