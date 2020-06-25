@@ -205,6 +205,7 @@ fun convertCommunityToResId(community: String, type: GroupType?): Int? {
     }
     return when (type) {
         GroupType.MASTER_MIND -> titlePair.second
+        GroupType.INDIVIDUAL -> titlePair.second
         GroupType.SUPPORT -> titlePair.first
         else -> null
     }
