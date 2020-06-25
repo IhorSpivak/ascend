@@ -128,6 +128,7 @@ class MessageViewHolder(
         binding.apply {
             itemLayout.gone()
             memberMessageContainer.gone()
+            time.visible()
             time.text = message
         }
     }

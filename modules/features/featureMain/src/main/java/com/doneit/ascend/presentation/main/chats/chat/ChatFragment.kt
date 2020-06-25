@@ -263,7 +263,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         arguments?.getLong(CHAT_KEY)?.let {
             viewModel.setChat(it)
         }
-
     }
 
     companion object {
