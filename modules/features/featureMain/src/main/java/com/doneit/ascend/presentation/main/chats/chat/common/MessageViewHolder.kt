@@ -121,7 +121,6 @@ class MessageViewHolder(
                 }
             }
         }
-
     }
 
     private fun setSystemMessage(message: String) {
