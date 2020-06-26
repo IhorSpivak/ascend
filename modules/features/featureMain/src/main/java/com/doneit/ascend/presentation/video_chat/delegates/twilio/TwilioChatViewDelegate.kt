@@ -25,7 +25,7 @@ class TwilioChatViewDelegate(
     var videoView: VideoTextureView? = null
     var configureAudio: (Boolean) -> Unit = {}
 
-    private var isPlaceholderAllowed = false
+    private var isPlaceholderAllowed = true
         set(value) {
             field = value
             placeholder?.show()//enable mm icon and group name
