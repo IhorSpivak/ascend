@@ -20,7 +20,6 @@ import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
-import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
@@ -52,7 +51,6 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
     }
 
-    private var tempUri: Uri? = null
     private var currentPhotoPath: String? = null
     override val viewModel: CreateGroupContract.ViewModel by instance()
 
@@ -100,10 +98,6 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
     }
 
-    private val adapter: ParticipantAdapter by lazy {
-        ParticipantAdapter(mutableListOf(), viewModel)
-    }
-
     private val membersAdapter: InvitedMembersAdapter by lazy {
         InvitedMembersAdapter {
             viewModel.removeMember(it)
@@ -115,7 +109,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         binding.apply {
             adapter = adapter
             recyclerViewAddedMembers.adapter = membersAdapter
-            scroll.setOnFocusChangeListener { v, b ->
+            scroll.setOnFocusChangeListener { _, b ->
                 if (b) {
                     hideKeyboard()
                 }
@@ -156,7 +150,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
 
         binding.price.editText.apply {
-            setOnFocusChangeListener { view, b ->
+            setOnFocusChangeListener { _, b ->
                 if (b) {
                     scroll.scrollTo(0, chooseSchedule.top)
                     viewModel.onPriceClick(price.editText)
