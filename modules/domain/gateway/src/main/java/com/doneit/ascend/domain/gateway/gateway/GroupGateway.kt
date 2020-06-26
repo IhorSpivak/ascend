@@ -143,7 +143,7 @@ internal class GroupGateway(
         )
 
         emitSource(
-            LivePagedListBuilder<Int, GroupEntity>(factory, config)
+            LivePagedListBuilder(factory, config)
                 .setFetchExecutor(Executors.newSingleThreadExecutor())
                 .setBoundaryCallback(boundary)
                 .build()

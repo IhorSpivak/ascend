@@ -31,7 +31,7 @@ class MasterMindViewModel(
 ) : BaseViewModelImpl(), MasterMindContract.ViewModel {
 
     private val formingRequestModel = PresentationGroupListModel()
-    override val requestModel = MutableLiveData<GroupListDTO>(defaultRequest)
+    override val requestModel = MutableLiveData(defaultRequest)
 
     private val _groups = requestModel.switchMap { groupUseCase.getGroupListPaged(viewModelScope, it) }
     private val user = userUseCase.getUserLive()
