@@ -190,10 +190,15 @@ class MainRouter(
         )
     }
 
-    override fun goToChatMembers(chatId: Long, members: List<MemberEntity>, user: UserEntity) {
+    override fun goToChatMembers(
+        chatId: Long,
+        chatOwner: Long,
+        members: List<MemberEntity>,
+        user: UserEntity
+    ) {
         manager.replaceWithBackStack(
             containerIdFull,
-            ChatMembersFragment.newInstance(chatId, members, user)
+            ChatMembersFragment.newInstance(chatId, chatOwner, members, user)
         )
     }
 

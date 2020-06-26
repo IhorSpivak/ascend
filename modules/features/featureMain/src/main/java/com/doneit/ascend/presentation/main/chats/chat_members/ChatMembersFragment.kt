@@ -61,7 +61,7 @@ class ChatMembersFragment : BaseFragment<FragmentChatMembersBinding>() {
         })
         viewModel.user.observe(this, Observer {
             it ?: return@Observer
-            chatMembersAdapter.isUserMasterMind = it.isMasterMind
+            chatMembersAdapter.isUserOwner = it.id == requireArguments().getLong(KEY_CHAT_OWNER)
         })
     }
 
@@ -75,15 +75,18 @@ class ChatMembersFragment : BaseFragment<FragmentChatMembersBinding>() {
         private const val KEY_CHAT_ID = "CHAT_ID"
         private const val KEY_MEMBERS_LIST = "MEMBERS_LIST"
         private const val KEY_USER = "USER"
+        private const val KEY_CHAT_OWNER = "CHAT_OWNER"
 
         fun newInstance(
             chatId: Long,
+            chatOwnerId: Long,
             members: List<MemberEntity>,
             user: UserEntity
         ): ChatMembersFragment {
             return ChatMembersFragment().apply {
                 arguments = Bundle().apply {
                     putLong(KEY_CHAT_ID, chatId)
+                    putLong(KEY_CHAT_OWNER, chatOwnerId)
                     putParcelable(KEY_USER, user)
                     putParcelableArray(KEY_MEMBERS_LIST, members.toTypedArray())
                 }

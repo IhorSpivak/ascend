@@ -12,7 +12,7 @@ class ChatMemberAdapter(
     private val onBlockMember: (MemberEntity) -> Unit
 ) : ListAdapter<MemberEntity, ChatMemberViewHolder>(ChatMembersDiffUtilCallback()), Filterable {
 
-    var isUserMasterMind: Boolean = false
+    var isUserOwner: Boolean = false
         set(value) {
             if (value != field) {
                 field = value
@@ -53,7 +53,7 @@ class ChatMemberAdapter(
     }
 
     override fun onBindViewHolder(holder: ChatMemberViewHolder, position: Int) {
-        holder.bind(filteredList[position],isUserMasterMind)
+        holder.bind(filteredList[position],isUserOwner)
     }
 
     override fun getItemCount(): Int {

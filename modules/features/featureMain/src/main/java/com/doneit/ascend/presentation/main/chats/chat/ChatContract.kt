@@ -44,7 +44,7 @@ interface ChatContract {
     interface Router {
         fun onBack()
         fun goToDetailedUser(id: Long)
-        fun goToChatMembers(chatId: Long, members: List<MemberEntity>, user: UserEntity)
+        fun goToChatMembers(chatId: Long, chatOwner:Long, members: List<MemberEntity>, user: UserEntity)
         fun goToLiveStreamUser(member: MemberEntity)
     }
 

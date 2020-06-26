@@ -47,7 +47,12 @@ class WebinarVideoChatRouter(
     override fun goToDetailedUser(id: Long) {
     }
 
-    override fun goToChatMembers(chatId: Long, members: List<MemberEntity>, user: UserEntity) {
+    override fun goToChatMembers(
+        chatId: Long,
+        chatOwner: Long,
+        members: List<MemberEntity>,
+        user: UserEntity
+    ) {
     }
 
     override fun goToLiveStreamUser(member: MemberEntity) {

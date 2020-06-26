@@ -188,6 +188,7 @@ class ChatViewModel(
                 user.value?.let {
                     router.goToChatMembers(
                         chatWithUser.chat.id,
+                        chatWithUser.chat.chatOwnerId,
                         chatWithUser.chat.members.orEmpty().filter {
                             !it.leaved && !it.removed
                         }, it
