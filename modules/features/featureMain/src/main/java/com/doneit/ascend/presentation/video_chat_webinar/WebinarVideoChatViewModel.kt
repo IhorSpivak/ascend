@@ -473,7 +473,7 @@ class WebinarVideoChatViewModel(
                             )
                         getM3u8Playback()
                     } else {
-                        delay(2000)
+                        delay(CREDS_RETRY_DELAY)
                         getCredentials()
                     }
                 }
@@ -529,19 +529,6 @@ class WebinarVideoChatViewModel(
         timer!!.schedule(timerTask {
             finishingLabel.postValue(Date(group.timeToFinish).toMinutesFormat())
         }, finishingDate, FINISHING_TIMER_PERIOD)
-    }
-
-    companion object {
-        private const val SPEECH_FOCUS_TIME = 3 * 1000L
-        private const val TIMER_PERIOD = 1000L
-        private const val FINISHING_TIMER_PERIOD = 1 * 60 * 1000L //every minute
-        private const val PARTICIPANTS_RESYNC_DELAY = 10 * 1000L
-        private const val LIVESTREAM_DELAY = 13000L
-
-        const val GROUP_ID_KEY = "GROUP_ID_KEY"
-        const val CHAT_ID_KEY = "CHAT_ID_KEY"
-        const val USER_ID_KEY = "USER_ID_KEY"
-        const val ACTIVITY_RESULT_KEY = "ACTIVITY_RESULT_KEY"
     }
 
     private val questionObserver = Observer<QuestionSocketEntity?> { socketEvent ->
@@ -664,10 +651,8 @@ class WebinarVideoChatViewModel(
                     link = streamLink
                 )
             )
-            if (response.isSuccessful) {
-            }
         } else {
-            delay(2000)
+            delay(ACTIVATE_LIVESTREAM_DELAY)
             activateLiveStream(streamLink)
         }
     }
@@ -677,10 +662,9 @@ class WebinarVideoChatViewModel(
             viewModelScope.launch {
                 val res = vimeoUseCase.getM3u8(getStreamId(it))
                 if (res.isSuccessful) {
-                    delay(2000)
                     m3u8url.postValue(res.successModel!!.m3u8playbackUrl)
                 } else {
-                    delay(5000)
+                    delay(M3U8_RETRY_DELAY)
                     getM3u8Playback()
                 }
             }
@@ -714,5 +698,19 @@ class WebinarVideoChatViewModel(
         value?.let {
             postValue(!it)
         }
+    }
+
+    companion object {
+        private const val TIMER_PERIOD = 1000L
+        private const val FINISHING_TIMER_PERIOD = 1 * 60 * 1000L //every minute
+        private const val LIVESTREAM_DELAY = 13000L
+        private const val M3U8_RETRY_DELAY = 5000L
+        private const val CREDS_RETRY_DELAY = 2000L
+        private const val ACTIVATE_LIVESTREAM_DELAY = 2000L
+
+        const val GROUP_ID_KEY = "GROUP_ID_KEY"
+        const val CHAT_ID_KEY = "CHAT_ID_KEY"
+        const val USER_ID_KEY = "USER_ID_KEY"
+        const val ACTIVITY_RESULT_KEY = "ACTIVITY_RESULT_KEY"
     }
 }

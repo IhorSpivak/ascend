@@ -70,6 +70,24 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 fragment = this@WebinarVideoChatInProgressFragment
             }
         observeEvents()
+        viewModel.m3u8url.observe(viewLifecycleOwner, Observer {
+            binding.videoViewForParticipants.apply {
+                setVideoURI(Uri.parse(it))
+                visible()
+
+            }
+        })
+        binding.videoViewForParticipants.apply {
+            setOnPreparedListener {
+                binding.progressBar.gone()
+                start()
+            }
+            setOnErrorListener { mediaPlayer, i, i2 ->
+                binding.progressBar.visible()
+                viewModel.getM3u8Playback()
+                true
+            }
+        }
         addAdapterDataObserver()
     }
 
@@ -100,19 +118,6 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
     override fun onStart() {
         super.onStart()
         delegate?.onStart()
-
-        viewModel.m3u8url.observe(viewLifecycleOwner, Observer {
-            binding.videoViewForParticipants.apply {
-                setVideoURI(Uri.parse(it))
-                visible()
-                binding.progressBar.gone()
-                start()
-                setOnErrorListener { mediaPlayer, i, i2 ->
-                    start()
-                    true
-                }
-            }
-        })
         surfaceView.holder.addCallback(this)
     }
 
