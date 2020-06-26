@@ -92,7 +92,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 }
                 binding.tvSchedule.text = builder.toString()
             }
-            membersAdapter.submitList(group.attendees)
+            membersAdapter.submitList(group.attendees.orEmpty().toMutableList())
             binding.viewAttendees.setOnClickListener {
                 viewModel.onViewClick(group.attendees ?: emptyList())
             }

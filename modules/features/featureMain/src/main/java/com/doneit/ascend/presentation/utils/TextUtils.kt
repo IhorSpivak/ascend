@@ -217,7 +217,7 @@ fun convertGroupTypeToString(
             GroupType.SUPPORT -> privateOrPublic(publicSp, prvtSp)
             GroupType.INDIVIDUAL,
             GroupType.MASTER_MIND -> privateOrPublic(publicMM, prvtMM)
-            else -> throw IllegalStateException("Unsupported type detected")
+            else -> R.string.webinars
         }
     }
 

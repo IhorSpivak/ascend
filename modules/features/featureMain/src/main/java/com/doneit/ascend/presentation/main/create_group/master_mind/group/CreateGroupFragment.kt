@@ -77,7 +77,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         spinner.adapter = spinnerAdapter
         spinner.onItemSelectedListener = listener
 
-        spinner.setOnTouchListener { view, motionEvent ->
+        spinner.setOnTouchListener { _, motionEvent ->
             if (mDetector.onTouchEvent(motionEvent)) {
                 hideKeyboard()
             }
@@ -100,7 +100,10 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
     private val membersAdapter: InvitedMembersAdapter by lazy {
         InvitedMembersAdapter {
-            viewModel.removeMember(it)
+            val removedIndex = viewModel.removeMember(it)
+            if(removedIndex != -1){
+                membersAdapter.remove(removedIndex)
+            }
         }
     }
 
@@ -300,6 +303,11 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             { takeAPhoto() },
             { selectFromGallery() }
         )
+    }
+
+    override fun onDestroyView() {
+        recycler_view_added_members.adapter = null
+        super.onDestroyView()
     }
 
     companion object {

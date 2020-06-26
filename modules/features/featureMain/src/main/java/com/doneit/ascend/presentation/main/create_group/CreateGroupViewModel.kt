@@ -54,6 +54,7 @@ class CreateGroupViewModel(
     private val searchQuery = MutableLiveData<String>()
 
     private val timeChooserState = MutableLiveData(false)
+
     init {
         viewModelScope.launch {
             currentUser = userUseCase.getUser()!!
@@ -519,12 +520,13 @@ class CreateGroupViewModel(
         }
     }
 
-    override fun removeMember(member: AttendeeEntity) {
+    override fun removeMember(member: AttendeeEntity): Int {
+        val index = selectedMembers.indexOf(member)
         if (selectedMembers.remove(member)) {
-            members.postValue(selectedMembers)
             deletedMembers.add(member)
             membersToDelete.postValue(deletedMembers)
         }
+        return index
     }
 
     override fun chooseMeetingCountTouch(group: GroupEntity?, what: GroupAction?) {
