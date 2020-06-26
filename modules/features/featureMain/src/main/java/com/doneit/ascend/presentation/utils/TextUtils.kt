@@ -7,6 +7,7 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Patterns
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
 import com.doneit.ascend.domain.entity.CalendarDayEntity
@@ -194,6 +195,63 @@ fun String.toLocationModel(): LocationModel {
     return location
 }
 
+fun convertGroupTypeToString(
+    context: Context,
+    community: String,
+    type: GroupType?,
+    isPrivate: Boolean
+): String {
+    fun privateOrPublic(@StringRes public: Int, @StringRes prvt: Int): Int {
+        return if (isPrivate) {
+            prvt
+        } else public
+    }
+
+    fun supportOrMM(
+        @StringRes publicSp: Int,
+        @StringRes prvtSp: Int,
+        @StringRes publicMM: Int,
+        @StringRes prvtMM: Int
+    ): Int {
+        return when (type) {
+            GroupType.SUPPORT -> privateOrPublic(publicSp, prvtSp)
+            GroupType.INDIVIDUAL,
+            GroupType.MASTER_MIND -> privateOrPublic(publicMM, prvtMM)
+            else -> throw IllegalStateException("Unsupported type detected")
+        }
+    }
+
+    val res = when (community) {
+        Community.FITNESS.title,
+        Community.SPIRITUAL.title -> supportOrMM(
+            R.string.public_collaboration_title,
+            R.string.private_collaboration_title,
+            R.string.group,
+            R.string.individual
+        )
+        Community.RECOVERY.title -> supportOrMM(
+            R.string.public_group_title,
+            R.string.private_group_title,
+            R.string.workshop,
+            R.string.coaching
+        )
+        Community.FAMILY.title -> supportOrMM(
+            R.string.public_group_title,
+            R.string.private_group_title,
+            R.string.group,
+            R.string.individual
+        )
+        Community.INDUSTRY.title -> supportOrMM(
+            R.string.public_collaboration_title,
+            R.string.private_collaboration_title,
+            R.string.workshop,
+            R.string.coaching
+        )
+        else -> throw IllegalStateException("Unsupported community detected")
+    }
+    return context.getString(res)
+}
+
 fun convertCommunityToResId(community: String, type: GroupType?): Int? {
     val titlePair = when (community) {
         Community.FITNESS.title,
@@ -204,10 +262,11 @@ fun convertCommunityToResId(community: String, type: GroupType?): Int? {
         else -> throw IllegalStateException("Unsupported community detected")
     }
     return when (type) {
+        GroupType.INDIVIDUAL,
         GroupType.MASTER_MIND -> titlePair.second
-        GroupType.INDIVIDUAL -> titlePair.second
         GroupType.SUPPORT -> titlePair.first
         else -> null
     }
 }
+
 const val DAYS_MOD = 86400

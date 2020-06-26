@@ -65,6 +65,10 @@
     <string name="action_webinar">%s Livestream</string>
     <string name="private_group">Private %s</string>
     <string name="public_group">Public %s</string>
+    <string name="public_group_title">Public group</string>
+    <string name="private_group_title">Private group</string>
+    <string name="public_collaboration_title">Public collaboration</string>
+    <string name="private_collaboration_title">Private collaboration</string>
     <string name="group_name">%s Name</string>
     <string name="group_title">Group</string>
     <string name="meeting_format">Meeting Format</string>
