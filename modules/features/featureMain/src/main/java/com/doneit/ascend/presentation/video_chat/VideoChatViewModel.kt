@@ -60,6 +60,7 @@ class VideoChatViewModel(
     override val credentials = MutableLiveData<StartVideoModel>()
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val participants = participantsManager.participants
+    override val showVideo = MediatorLiveData<PresentationChatParticipant>()
     override val currentSpeaker = participantsManager.currentSpeaker
     override val navigation = SingleLiveEvent<VideoChatContract.Navigation>()
     //endregion
@@ -113,6 +114,20 @@ class VideoChatViewModel(
             }
             if (it.filter { it.isOwner.not() }.all { !it.isMuted }) {
                 isAllMuted.value = false
+            }
+        }
+        showVideo.addSource(participants){
+            if(it.size == 2) {
+                showVideo.value = it.firstOrNull { it.userId != currentUserId }
+            }
+        }
+        showVideo.addSource(currentSpeaker){
+            if(participants.value!!.size == 2) {
+                showVideo.value = participants.value!!.firstOrNull { it.userId != currentUserId }
+            } else {
+                if (it != null && it.isSpeaker) {
+                    showVideo.value = it
+                }
             }
         }
     }

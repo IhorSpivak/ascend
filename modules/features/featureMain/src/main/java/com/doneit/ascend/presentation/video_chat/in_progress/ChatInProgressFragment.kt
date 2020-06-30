@@ -71,7 +71,7 @@ class ChatInProgressFragment : BaseFragment<FragmentVideoChatBinding>() {
             delegate?.enableAudio(it)
         })
 
-        viewModel.currentSpeaker.observe(viewLifecycleOwner, Observer { participant ->
+        viewModel.showVideo.observe(viewLifecycleOwner, Observer { participant ->
             if (participant?.remoteParticipant == null) {
                 delegate?.showPlaceholder()
             } else {
