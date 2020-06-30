@@ -241,6 +241,7 @@ fun convertGroupTypeToString(
             R.string.group,
             R.string.individual
         )
+        Community.SUCCESS.title,
         Community.INDUSTRY.title -> supportOrMM(
             R.string.public_collaboration_title,
             R.string.private_collaboration_title,
@@ -258,6 +259,7 @@ fun convertCommunityToResId(community: String, type: GroupType?): Int? {
         Community.SPIRITUAL.title -> R.string.collaboration to R.string.group
         Community.RECOVERY.title -> R.string.group_title to R.string.workshop
         Community.FAMILY.title -> R.string.group_title to R.string.group
+        Community.SUCCESS.title,
         Community.INDUSTRY.title -> R.string.collaboration to R.string.workshop
         else -> throw IllegalStateException("Unsupported community detected")
     }
