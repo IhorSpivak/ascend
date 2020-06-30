@@ -1,7 +1,9 @@
 package com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentNotesBinding
@@ -28,12 +30,17 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>() {
             binding.text.setText(it?.note?.content)
             binding.text.text?.length?.let { it -> binding.text.setSelection(it) }
         })
-
-        binding.text.setOnKeyListener { view, i, keyEvent ->
-            if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
+        binding.text.imeOptions = EditorInfo.IME_ACTION_DONE;
+        binding.text.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        binding.text.setOnEditorActionListener { textView, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH
+                || actionId == EditorInfo.IME_ACTION_DONE
+                || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                 viewModel.update(binding.text.text.toString())
+                true
             }
-            return@setOnKeyListener false
+            false
         }
 
         viewModel.navigation.observe(viewLifecycleOwner, Observer {

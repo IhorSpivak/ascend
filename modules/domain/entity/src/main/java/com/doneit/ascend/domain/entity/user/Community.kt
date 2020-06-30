@@ -7,7 +7,9 @@ enum class Community(
     FITNESS("Fitness"),
     INDUSTRY("Industry"),
     FAMILY("Family"),
+    SUCCESS("Success"),
     SPIRITUAL("Spiritual");
+
 
     override fun toString(): String {
         return title

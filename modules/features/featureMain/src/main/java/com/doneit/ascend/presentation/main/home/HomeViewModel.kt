@@ -19,6 +19,7 @@ class HomeViewModel(
     override fun getListOfTitles(): List<Int> {
         user.value?.let {
             return when (it.community) {
+                Community.SUCCESS.title,
                 Community.INDUSTRY.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
