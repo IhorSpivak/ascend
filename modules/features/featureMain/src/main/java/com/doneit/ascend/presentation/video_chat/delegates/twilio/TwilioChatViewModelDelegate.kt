@@ -55,7 +55,7 @@ class TwilioChatViewModelDelegate(val viewModel: VideoChatViewModel) :
         currentUser: UserEntity?
     ) {
         viewModel.chatRole =
-            if (currentUser!!.isMasterMind && groupEntity!!.owner!!.id == currentUser.id) {
+            if (groupEntity!!.owner!!.id == currentUser!!.id) {
                 ChatRole.OWNER
             } else {
                 ChatRole.VISITOR

@@ -6,7 +6,8 @@ enum class WebinarFilter {
     FITNESS,
     INDUSTRY,
     FAMILY,
-    SPIRITUAL;
+    SPIRITUAL,
+    SUCCESS;
 
     override fun toString(): String {
         return super.toString().toLowerCase()

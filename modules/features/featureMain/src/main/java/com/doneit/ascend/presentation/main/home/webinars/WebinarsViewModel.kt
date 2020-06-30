@@ -40,7 +40,8 @@ class WebinarsViewModel (
         WebinarFilter.FITNESS.toString() to false,
         WebinarFilter.INDUSTRY.toString() to false,
         WebinarFilter.FAMILY.toString() to false,
-        WebinarFilter.SPIRITUAL.toString() to false
+        WebinarFilter.SPIRITUAL.toString() to false,
+        WebinarFilter.SUCCESS.toString() to false
     )
 
     override val groups = groupListModel.switchMap {
