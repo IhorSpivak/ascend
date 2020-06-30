@@ -77,10 +77,16 @@ class MyChatViewHolder(
             } ?: 0
             MessageStatus.ALL -> 0
             else -> item.lastMessage?.let {
-                if (it.userId == user.id) {
-                    R.drawable.ic_sent_message
-                } else {
-                    R.drawable.ic_unread_message
+                when {
+                    it.userId == user.id -> {
+                        R.drawable.ic_sent_message
+                    }
+                    it.type != MessageType.MESSAGE-> {
+                        0
+                    }
+                    else -> {
+                        R.drawable.ic_unread_message
+                    }
                 }
             } ?: 0
         }
