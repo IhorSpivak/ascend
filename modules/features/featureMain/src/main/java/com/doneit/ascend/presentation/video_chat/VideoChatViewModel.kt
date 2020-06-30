@@ -297,8 +297,11 @@ class VideoChatViewModel(
                     }
                     newItem
                 }.toMutableList()
-                groupInfo.value?.owner?.toPresentation()?.let {
-                    joinedUsers.add(it)
+                groupInfo.value?.owner?.apply {
+                    if(connected)
+                    toPresentation().let {
+                        joinedUsers.add(it)
+                    }
                 }
 
                 participantsManager.addParticipants(joinedUsers)
