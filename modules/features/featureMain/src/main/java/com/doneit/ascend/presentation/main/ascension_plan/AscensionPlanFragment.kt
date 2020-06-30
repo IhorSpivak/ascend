@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.ascension_plan
 
-import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.MainActivityListener
@@ -17,8 +16,8 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
 
     private val adapter = AscensionPlanAdapter()
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onResume() {
+        super.onResume()
         val listener = (context as MainActivityListener)
         listener.setTitle(getString(R.string.ascension_plan))
         listener.setSearchEnabled(false)

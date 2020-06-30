@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.chats.chat.common
 
-import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -9,14 +8,9 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
-import com.doneit.ascend.domain.entity.chats.MessageType
-import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
-import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ListItemWebinarMessageBinding
 import com.doneit.ascend.presentation.utils.extensions.*
@@ -30,83 +24,42 @@ class WebinarMessageViewHolder(
 
     override fun bind(
         messageEntity: MessageEntity,
-        member: MemberEntity,
-        user: UserEntity,
         nextMessage: MessageEntity?,
-        chat: ChatEntity
+        memberEntity: MemberEntity,
+        chatOwner: MemberEntity,
+        currentUserId: Long
     ) {
-        when (messageEntity.type) {
-            MessageType.INVITE -> {
-                setSystemMessage(
-                    binding.root.context.resources.getString(
-                        R.string.invite_message,
-                        getMemberNameById(chat, chat.chatOwnerId, user, binding.root.context),
-                        getMemberNameById(chat, member.id, user, binding.root.context)
-                    )
-                )
+        binding.apply {
+            this.memberEntity = memberEntity
+            this.messageEntity = messageEntity
+            messageContainer.isRightSwipeEnabled = messageEntity.userId == currentUserId
+            if (messageEntity.userId == currentUserId) {
+                setOtherLayout()
+            } else {
+                setOwnLayout()
             }
-            MessageType.LEAVE -> {
-                setSystemMessage(
-                    binding.root.context.resources.getString(
-                        R.string.leave_message,
-                        getMemberNameById(chat, member.id, user, binding.root.context)
-                    )
-                )
+            ibDelete.setOnClickListener {
+                onDeleteClick.invoke(messageEntity)
             }
-            MessageType.USER_REMOVED -> {
-                setSystemMessage(
-                    binding.root.context.resources.getString(
-                        R.string.remove_message,
-                        getMemberNameById(chat, messageEntity.userId, user, binding.root.context)
-                    )
-                )
+            userImage.setOnLongClickListener {
+                onImageLongClick(it, memberEntity.id)
+                true
             }
-            else -> {
-                binding.apply {
-                    this.memberEntity = member
-                    this.messageEntity = messageEntity
-                    this.user = user
-                    messageContainer.isRightSwipeEnabled = messageEntity.userId == user.id
-                    if (messageEntity.userId == user.id) {
-                        setOtherLayout()
-                    } else {
-                        setOwnLayout()
-                    }
-                    ibDelete.setOnClickListener {
-                        onDeleteClick.invoke(messageEntity)
-                    }
-                    userImage.setOnLongClickListener {
-                        if (chat.members?.size != ChatFragment.PRIVATE_CHAT_MEMBER_COUNT) {
-                            if (chat.chatOwnerId == user.id) {
-                                onImageLongClick(it, member.id)
-                                true
-                            } else {
-                                false
-                            }
-                        } else {
-                            false
-                        }
-                    }
-                    userImage.setOnClickListener {
-                        onImageClick(it, member)
-                    }
-                    this.sendTime = root.context.getTimeFormat().format(messageEntity.createdAt!!)
-                    if (nextMessage == null) {
-                        time.text = START_TIME_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
-                        time.visible()
-                        userImage.visible()
-                        isOnline.visible(member.online)
-                    } else {
-                        time.apply {
-                            text = START_TIME_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
-                            if (calculateDate(messageEntity.createdAt!!, nextMessage.createdAt!!)) {
-                                this.visible()
-                            } else {
-                                this.gone()
-                            }
-                        }
-                    }
-                }
+            userImage.setOnClickListener {
+                onImageClick(it, memberEntity)
+            }
+            sendTime = root.context.getTimeFormat().format(messageEntity.createdAt!!)
+            time.text =
+                START_TIME_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
+            time.visible(
+                nextMessage == null || calculateDate(
+                    messageEntity.createdAt!!,
+                    nextMessage.createdAt!!
+                )
+            )
+            if (nextMessage == null) {
+                userImage.visible()
+                isOnline.visible(memberEntity.online)
             }
         }
     }
@@ -145,31 +98,6 @@ class WebinarMessageViewHolder(
         message.setTextColor(textColor)
         frameContainer.invalidate()
         messageCard.invalidate()
-    }
-
-    private fun setSystemMessage(message: String) {
-        binding.apply {
-            messageContainer.gone()
-            time.text = message
-        }
-    }
-
-    private fun getMemberNameById(
-        item: ChatEntity,
-        id: Long,
-        user: UserEntity,
-        context: Context
-    ): String {
-        item.members?.firstOrNull {
-            it.id == id
-        }?.let { member ->
-            return if (member.id == user.id) {
-                context.getString(R.string.you)
-            } else {
-                member.fullName
-            }
-        }
-        return ""
     }
 
     companion object {

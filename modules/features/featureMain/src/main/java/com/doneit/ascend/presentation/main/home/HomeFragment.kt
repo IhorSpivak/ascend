@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.home
 
-import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.MainActivityListener
@@ -15,8 +14,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val viewModelModule = HomeViewModelModule.get(this)
     override val viewModel: HomeContract.ViewModel by instance()
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onResume() {
+        super.onResume()
         val listener = (context as MainActivityListener)
         listener.setTitle(getString(R.string.main_title))
         listener.setSearchEnabled(true)

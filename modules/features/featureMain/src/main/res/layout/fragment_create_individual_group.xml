@@ -170,7 +170,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/price"
-                app:maxLength="@{1000}"
+                app:maxLength="@{500}"
                 app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_description}"

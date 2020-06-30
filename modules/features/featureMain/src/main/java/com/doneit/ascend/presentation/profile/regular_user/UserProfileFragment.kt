@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.profile.regular_user
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -41,8 +40,8 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
     private val cropPhotoUri by lazy { context!!.createCropPhotoUri() }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onResume() {
+        super.onResume()
         val listener = (context as MainActivityListener)
         listener.setTitle(getString(R.string.profile_title))
         listener.setSearchEnabled(false)

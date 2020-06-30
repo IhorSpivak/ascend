@@ -6,7 +6,9 @@ import androidx.paging.PagedListAdapter
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.chats.MessageType
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 
 class MessagesAdapter(
     val type: ChatType,
@@ -19,44 +21,38 @@ class MessagesAdapter(
 ) : PagedListAdapter<MessageEntity, BaseMessageHolder>(MessageDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseMessageHolder {
         return when (viewType) {
-            ChatType.CHAT.ordinal -> MessageViewHolder.create(
+            Type.OWN.ordinal -> OwnMessageViewHolder.create(
                 parent,
-                onButtonClick,
-                onImageLongClick,
+                onButtonClick
+            )
+            Type.SYSTEM.ordinal -> SystemMessageViewHolder.create(
+                parent
+            )
+            Type.OTHER.ordinal -> OtherMessageViewHolder.create(
+                parent,
+                { view: View, id: Long ->
+                    if (chat?.membersCount == ChatFragment.PRIVATE_CHAT_MEMBER_COUNT && chat?.chatOwnerId == user?.id)
+                        onImageLongClick.invoke(view, id)
+                },
                 onImageClick
             )
-            ChatType.WEBINAR_CHAT.ordinal -> WebinarMessageViewHolder.create(
-                parent,
-                onButtonClick,
-                onImageLongClick,
-                onImageWebinarClick
-            )
-            else -> throw IllegalArgumentException("Unknown view type : $viewType")
+            else -> throw IllegalArgumentException("Unsupported view type $viewType")
         }
     }
 
     override fun onBindViewHolder(holder: BaseMessageHolder, position: Int) {
-        getItem(position)?.let { message ->
-            chat?.members?.firstOrNull {
-                it.id == message.userId
-            }?.let { member ->
-                user?.let { user ->
-                    if (position != (itemCount - 1)) {
-                        holder.bind(
-                            message,
-                            member,
-                            user,
-                            getItem(position + 1),
-                            chat!!
-
-                        )
-                    } else {
-                        holder.bind(message, member, user, null, chat!!)
-                    }
-                }
-
-            }
-        }
+        val message = getItem(position) ?: return
+        val nextMessage = if (position != itemCount - 1) getItem(position + 1) else null
+        val chat = chat ?: return
+        val member = chat.members?.firstOrNull { it.id == message.userId } ?: return
+        val user = user ?: return
+        holder.bind(
+            messageEntity = message,
+            nextMessage = nextMessage,
+            memberEntity = member,
+            currentUserId = user.id,
+            chatOwner = chat.members?.firstOrNull { it.id == chat.chatOwnerId } ?: return
+        )
     }
 
     fun updateMembers(chat: ChatEntity) {
@@ -74,6 +70,23 @@ class MessagesAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return type.ordinal
+        return convertItemToType(getItem(position)!!).ordinal
+    }
+
+    private fun convertItemToType(message: MessageEntity): Type {
+        return when (message.type) {
+            MessageType.MESSAGE -> if (message.userId == user?.id) {
+                Type.OWN
+            } else Type.OTHER
+            MessageType.INVITE,
+            MessageType.USER_REMOVED,
+            MessageType.LEAVE -> Type.SYSTEM
+        }
+    }
+
+    enum class Type {
+        OWN,
+        SYSTEM,
+        OTHER
     }
 }
