@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aigestudio="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/transparent">
 
     <data>
@@ -30,19 +30,19 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> model.backDateClick()}"
-            aigestudio:layout_constraintStart_toStartOf="parent"
-            aigestudio:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/white"
             android:orientation="vertical"
             android:paddingStart="50dp"
             android:paddingEnd="50dp"
-            aigestudio:layout_constraintBottom_toBottomOf="parent"
-            aigestudio:layout_constraintEnd_toEndOf="parent"
-            aigestudio:layout_constraintStart_toStartOf="parent"
-            android:background="@android:color/white">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <LinearLayout
                 android:id="@+id/daysContainer"
@@ -50,89 +50,96 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp">
 
-                <ToggleButton
+                <RadioButton
                     android:id="@+id/btn_su"
-                    style="@style/TextDayPicker"
+                    style="@style/WebinarTimeRadioButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    app:setDayBackground="@{model.createGroupModel.groupType}"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/su"
+                    android:textAlignment="center"
                     android:textColor="@drawable/day_button_text_selector"
-                    android:textOff="@string/su"
-                    android:textOn="@string/su"
-                    android:layout_weight="1"/>
+                    tools:setDayBackground="@{model.createGroupModel.groupType}" />
 
-                <ToggleButton
+                <RadioButton
                     android:id="@+id/btn_mo"
-                    style="@style/TextDayPicker"
+                    style="@style/WebinarTimeRadioButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    app:setDayBackground="@{model.createGroupModel.groupType}"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/mo"
+                    android:textAlignment="center"
                     android:textColor="@drawable/day_button_text_selector"
-                    android:textOff="@string/mo"
-                    android:textOn="@string/mo"
-                    android:layout_weight="1"/>
+                    tools:setDayBackground="@{model.createGroupModel.groupType}" />
 
-                <ToggleButton
+                <RadioButton
                     android:id="@+id/btn_tu"
-                    style="@style/TextDayPicker"
+                    style="@style/WebinarTimeRadioButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    app:setDayBackground="@{model.createGroupModel.groupType}"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/tu"
+                    android:textAlignment="center"
                     android:textColor="@drawable/day_button_text_selector"
-                    android:textOff="@string/tu"
-                    android:textOn="@string/tu"
-                    android:layout_weight="1"/>
+                    tools:setDayBackground="@{model.createGroupModel.groupType}" />
 
-                <ToggleButton
+                <RadioButton
                     android:id="@+id/btn_we"
-                    style="@style/TextDayPicker"
+                    style="@style/WebinarTimeRadioButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    app:setDayBackground="@{model.createGroupModel.groupType}"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/we"
+                    android:textAlignment="center"
                     android:textColor="@drawable/day_button_text_selector"
-                    android:textOff="@string/we"
-                    android:textOn="@string/we"
-                    android:layout_weight="1"/>
+                    tools:setDayBackground="@{model.createGroupModel.groupType}" />
 
-                <ToggleButton
+                <RadioButton
                     android:id="@+id/btn_th"
-                    style="@style/TextDayPicker"
+                    style="@style/WebinarTimeRadioButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
-                    app:setDayBackground="@{model.createGroupModel.groupType}"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/th"
+                    android:textAlignment="center"
                     android:textColor="@drawable/day_button_text_selector"
-                    android:textOff="@string/th"
-                    android:textOn="@string/th"
-                    android:layout_weight="1"/>
+                    tools:setDayBackground="@{model.createGroupModel.groupType}" />
 
-                <ToggleButton
+                <RadioButton
                     android:id="@+id/btn_fr"
-                    style="@style/TextDayPicker"
+                    style="@style/WebinarTimeRadioButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    app:setDayBackground="@{model.createGroupModel.groupType}"
+                    android:gravity="center"
+                    android:text="@string/fr"
+                    android:textAlignment="center"
                     android:textColor="@drawable/day_button_text_selector"
-                    android:textOff="@string/fr"
-                    android:textOn="@string/fr" />
+                    tools:setDayBackground="@{model.createGroupModel.groupType}" />
 
-                <ToggleButton
+                <RadioButton
                     android:id="@+id/btn_sa"
-                    style="@style/TextDayPicker"
+                    style="@style/WebinarTimeRadioButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    app:setDayBackground="@{model.createGroupModel.groupType}"
+                    android:gravity="center"
+                    android:text="@string/sa"
+                    android:textAlignment="center"
                     android:textColor="@drawable/day_button_text_selector"
-                    android:textOff="@string/sa"
-                    android:textOn="@string/sa"/>
+                    tools:setDayBackground="@{model.createGroupModel.groupType}" />
 
             </LinearLayout>
 
@@ -147,43 +154,43 @@
                     android:id="@+id/hoursPicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    aigestudio:wheel_atmospheric="true"
-                    aigestudio:wheel_curved="true"
-                    aigestudio:wheel_cyclic="true"
-                    aigestudio:wheel_item_align="right"
-                    aigestudio:wheel_item_space="40dp"
-                    aigestudio:wheel_item_text_color="#D1D1D1"
-                    aigestudio:wheel_item_text_size="23sp"
-                    aigestudio:wheel_selected_item_text_color="@color/colorAccent" />
+                    app:wheel_atmospheric="true"
+                    app:wheel_curved="true"
+                    app:wheel_cyclic="true"
+                    app:wheel_item_align="right"
+                    app:wheel_item_space="40dp"
+                    app:wheel_item_text_color="#D1D1D1"
+                    app:wheel_item_text_size="23sp"
+                    app:wheel_selected_item_text_color="@color/colorAccent" />
 
                 <com.aigestudio.wheelpicker.WheelPicker
                     android:id="@+id/minutesPicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="27dp"
-                    aigestudio:wheel_atmospheric="true"
-                    aigestudio:wheel_curved="true"
-                    aigestudio:wheel_cyclic="true"
-                    aigestudio:wheel_item_align="right"
-                    aigestudio:wheel_item_space="40dp"
-                    aigestudio:wheel_item_text_color="#D1D1D1"
-                    aigestudio:wheel_item_text_size="23sp"
-                    aigestudio:wheel_selected_item_text_color="@color/colorAccent" />
+                    app:wheel_atmospheric="true"
+                    app:wheel_curved="true"
+                    app:wheel_cyclic="true"
+                    app:wheel_item_align="right"
+                    app:wheel_item_space="40dp"
+                    app:wheel_item_text_color="#D1D1D1"
+                    app:wheel_item_text_size="23sp"
+                    app:wheel_selected_item_text_color="@color/colorAccent" />
 
                 <com.aigestudio.wheelpicker.WheelPicker
                     android:id="@+id/timeTypePicker"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:visibility="@{!is24}"
                     android:layout_marginStart="27dp"
-                    aigestudio:wheel_atmospheric="true"
-                    aigestudio:wheel_curved="true"
-                    aigestudio:wheel_cyclic="false"
-                    aigestudio:wheel_item_align="right"
-                    aigestudio:wheel_item_space="40dp"
-                    aigestudio:wheel_item_text_color="#D1D1D1"
-                    aigestudio:wheel_item_text_size="23sp"
-                    aigestudio:wheel_selected_item_text_color="@color/colorAccent" />
+                    android:visibility="@{!is24}"
+                    app:wheel_atmospheric="true"
+                    app:wheel_curved="true"
+                    app:wheel_cyclic="false"
+                    app:wheel_item_align="right"
+                    app:wheel_item_space="40dp"
+                    app:wheel_item_text_color="#D1D1D1"
+                    app:wheel_item_text_size="23sp"
+                    app:wheel_selected_item_text_color="@color/colorAccent" />
             </LinearLayout>
 
             <LinearLayout
@@ -217,7 +224,7 @@
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:setOkBackground="@{model.createGroupModel.groupType}" />
+                    tools:setOkBackground="@{model.createGroupModel.groupType}" />
 
             </LinearLayout>
         </LinearLayout>
