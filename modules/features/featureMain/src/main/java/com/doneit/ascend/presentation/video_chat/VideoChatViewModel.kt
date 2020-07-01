@@ -119,6 +119,8 @@ class VideoChatViewModel(
         showVideo.addSource(participants){
             if(it.size == 2) {
                 showVideo.value = it.firstOrNull { it.userId != currentUserId }
+            } else {
+                showVideo.value = currentSpeaker.value
             }
         }
         showVideo.addSource(currentSpeaker){
