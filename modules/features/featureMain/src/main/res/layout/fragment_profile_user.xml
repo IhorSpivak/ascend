@@ -239,6 +239,13 @@
                     app:iconRes="@{@drawable/ic_alarm}" />
 
                 <include
+                    android:id="@+id/community"
+                    layout="@layout/template_profile_field"
+                    app:fieldName="@{@string/community}"
+                    app:fieldValue="@{model.user.community}"
+                    app:iconRes="@{@drawable/ic_community}" />
+
+                <include
                     android:id="@+id/paymentPortal"
                     layout="@layout/template_profile_field"
                     app:fieldName="@{@string/payments}"
@@ -250,13 +257,6 @@
                     app:fieldName="@{@string/privacy_settings}"
                     app:fieldValue="@{@string/empty}"
                     app:iconRes="@{@drawable/ic_security}" />
-
-                <include
-                    android:id="@+id/community"
-                    layout="@layout/template_profile_field"
-                    app:fieldName="@{@string/community}"
-                    app:fieldValue="@{model.user.community}"
-                    app:iconRes="@{@drawable/ic_community}" />
 
                 <include
                     android:id="@+id/mm_followed"

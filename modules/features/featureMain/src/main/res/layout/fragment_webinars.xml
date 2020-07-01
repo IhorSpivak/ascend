@@ -16,88 +16,111 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
-        <RadioGroup
-            android:id="@+id/radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:gravity="left"
-            android:orientation="horizontal"
-            android:paddingBottom="20dp"
+        <HorizontalScrollView
+            android:id="@+id/communities_scroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <RadioButton
-                android:id="@+id/recovery"
-                style="@style/WebinarFilterRadioButton"
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_marginStart="0dp"
-                android:layout_weight="1"
-                android:background="@drawable/webinar_type_filter_button"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/webinars_list_recovery"
-                android:textSize="14sp" />
+                android:background="@android:color/white"
+                android:gravity="left"
+                android:orientation="horizontal"
+                android:paddingBottom="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <RadioButton
-                android:id="@+id/fitness"
-                style="@style/WebinarFilterRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/webinar_type_filter_button"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/webinars_list_fitness"
-                android:textAlignment="center"
-                android:textSize="14sp" />
+                <RadioButton
+                    android:id="@+id/recovery"
+                    style="@style/WebinarFilterRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/webinar_type_filter_button"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/webinars_list_recovery"
+                    android:textSize="14sp" />
 
-            <RadioButton
-                android:id="@+id/industry"
-                style="@style/WebinarFilterRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/webinar_type_filter_button"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/webinars_list_industry"
-                android:textAlignment="center"
-                android:textSize="14sp" />
+                <RadioButton
+                    android:id="@+id/fitness"
+                    style="@style/WebinarFilterRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/webinar_type_filter_button"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/webinars_list_fitness"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
 
-            <RadioButton
-                android:id="@+id/family"
-                style="@style/WebinarFilterRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/webinar_type_filter_button"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/webinars_list_family"
-                android:textSize="14sp" />
+                <RadioButton
+                    android:id="@+id/industry"
+                    style="@style/WebinarFilterRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/webinar_type_filter_button"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/webinars_list_industry"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
 
-            <RadioButton
-                android:id="@+id/spiritual"
-                style="@style/WebinarFilterRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_marginEnd="16dp"
-                android:layout_weight="1"
-                android:background="@drawable/webinar_type_filter_button"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/webinars_list_spiritual"
-                android:textSize="14sp" />
+                <RadioButton
+                    android:id="@+id/family"
+                    style="@style/WebinarFilterRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/webinar_type_filter_button"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/webinars_list_family"
+                    android:textSize="14sp" />
 
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/spiritual"
+                    style="@style/WebinarFilterRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/webinar_type_filter_button"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/webinars_list_spiritual"
+                    android:textSize="14sp" />
+
+                <RadioButton
+                    android:id="@+id/success"
+                    style="@style/WebinarFilterRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/webinar_type_filter_button"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/webinars_list_success"
+                    android:textSize="14sp" />
+
+            </RadioGroup>
+        </HorizontalScrollView>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
@@ -108,7 +131,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radio_group">
+            app:layout_constraintTop_toBottomOf="@id/communities_scroll">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_groups"

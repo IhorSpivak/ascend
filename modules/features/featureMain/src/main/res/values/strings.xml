@@ -581,6 +581,7 @@
     <string name="webinars_list_industry">Industry</string>
     <string name="webinars_list_family">Family</string>
     <string name="webinars_list_spiritual">Spiritual</string>
+    <string name="webinars_list_success">Success</string>
 
     <!--My Chats-->
     <string name="my_chats_title">My Chats</string>
