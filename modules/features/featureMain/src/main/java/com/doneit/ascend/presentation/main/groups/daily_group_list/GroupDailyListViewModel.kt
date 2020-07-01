@@ -5,6 +5,7 @@ import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
+import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -39,7 +40,8 @@ class GroupDailyListViewModel(
     override fun applyArguments(args: GroupListArgs) {
         viewModelScope.launch {
 
-            val model = GroupListDTO(
+            //TODO: until client decide what he wants:
+            /*val model = GroupListDTO(
                 perPage = 50,
                 sortType = args.sortType,
                 sortColumn = GroupEntity.START_TIME_KEY,
@@ -47,6 +49,12 @@ class GroupDailyListViewModel(
                 groupType = args.groupType,
                 groupStatus = args.status,
                 myGroups = args.isMyGroups
+            )*/
+
+            val model = GroupListDTO(
+                sortType = SortType.ASC,
+                sortColumn = GroupEntity.START_TIME_KEY,
+                myGroups = true
             )
 
             user = userUseCase.getUser()!!
