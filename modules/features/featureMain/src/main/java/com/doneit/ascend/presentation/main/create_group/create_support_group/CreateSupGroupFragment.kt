@@ -34,11 +34,8 @@ import com.doneit.ascend.presentation.main.create_group.create_support_group.com
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.SupportDuration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateSupportGroupBinding
-import com.doneit.ascend.presentation.utils.GroupAction
-import com.doneit.ascend.presentation.utils.checkImage
-import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.*
-import com.doneit.ascend.presentation.utils.getImagePath
 import kotlinx.android.synthetic.main.fragment_create_support_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
@@ -145,6 +142,7 @@ class CreateSupGroupFragment :
                 mainContainer.requestFocus()
                 viewModel.chooseStartDateTouch()
             }
+            applyMultilineFilter(description)
         }
         viewModel.members.observe(this, Observer {
             viewModel.createGroupModel.participants.set(it.map {

@@ -19,6 +19,7 @@ import com.doneit.ascend.presentation.models.LocationModel
 import com.doneit.ascend.presentation.models.ValidatableField
 import com.doneit.ascend.presentation.utils.extensions.START_TIME_FORMATTER
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
+import com.doneit.ascend.presentation.views.MultilineEditWithError
 import com.doneit.ascend.presentation.views.SmsCodeView
 import java.text.ParseException
 import java.util.*
@@ -268,6 +269,17 @@ fun convertCommunityToResId(community: String, type: GroupType?): Int? {
         GroupType.MASTER_MIND -> titlePair.second
         GroupType.SUPPORT -> titlePair.first
         else -> null
+    }
+}
+
+fun applyMultilineFilter(editText: MultilineEditWithError) {
+    editText.addOnTextChangedListener { text ->
+        if (text.startsWith("\r\n")
+            || text.startsWith("\r") ||
+            text.startsWith("\n")
+        ) {
+            editText.text = text.trim()
+        }
     }
 }
 

@@ -37,12 +37,9 @@ import com.doneit.ascend.presentation.main.create_group.master_mind.common.Invit
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.ThemeAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.TimeAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateWebinarBinding
-import com.doneit.ascend.presentation.utils.GroupAction
-import com.doneit.ascend.presentation.utils.checkImage
-import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
-import com.doneit.ascend.presentation.utils.getImagePath
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -190,6 +187,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                     hideKeyboard()
                 }
             }
+            applyMultilineFilter(description)
         }
         viewModel.members.observe(this, Observer {
             membersAdapter.submitList(it.toMutableList())

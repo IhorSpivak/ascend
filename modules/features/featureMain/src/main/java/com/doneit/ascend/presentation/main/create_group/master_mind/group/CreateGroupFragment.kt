@@ -24,12 +24,9 @@ import com.doneit.ascend.presentation.main.create_group.create_support_group.com
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
-import com.doneit.ascend.presentation.utils.checkImage
-import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
-import com.doneit.ascend.presentation.utils.getImagePath
-import com.doneit.ascend.presentation.utils.showErrorDialog
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
@@ -101,7 +98,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
     private val membersAdapter: InvitedMembersAdapter by lazy {
         InvitedMembersAdapter {
             val removedIndex = viewModel.removeMember(it)
-            if(removedIndex != -1){
+            if (removedIndex != -1) {
                 membersAdapter.remove(removedIndex)
             }
         }
@@ -120,8 +117,9 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             initSpinner(durationPicker, durationListener, durationAdapter)
 
             viewModel.createGroupModel.duration.observableField.get()?.run {
-                if(this.isNotEmpty()) durationPicker.setSelection(Duration.fromDuration(this.toInt()).ordinal)
+                if (this.isNotEmpty()) durationPicker.setSelection(Duration.fromDuration(this.toInt()).ordinal)
             }
+            applyMultilineFilter(description)
         }
 
         binding.mainContainer.setOnFocusChangeListener { v, b ->

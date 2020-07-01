@@ -10,7 +10,6 @@ import android.text.TextWatcher
 import android.text.method.DigitsKeyListener
 import android.util.AttributeSet
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
 import androidx.lifecycle.LiveData
@@ -131,6 +130,22 @@ class MultilineEditWithError @JvmOverloads constructor(
         })
     }
 
+    fun addOnTextChangedListener(listener: (String) -> Unit) {
+        multilineEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+               listener(s?.toString().orEmpty())
+            }
+        })
+    }
+
     fun setHint(hint: String?) {
         textLayout.hint = hint
     }
@@ -149,8 +164,8 @@ class MultilineEditWithError @JvmOverloads constructor(
         requestLayout()
     }
 
-    fun setTint(color: Int){
-        icon.setColorFilter(color , PorterDuff.Mode.SRC_IN)
+    fun setTint(color: Int) {
+        icon.setColorFilter(color, PorterDuff.Mode.SRC_IN)
         requestLayout()
     }
 
@@ -177,6 +192,7 @@ class MultilineEditWithError @JvmOverloads constructor(
             InputFilter.LengthFilter(length)
         )
     }
+
     fun setIme(code: Int) {
         multilineEditText.imeOptions = code
     }

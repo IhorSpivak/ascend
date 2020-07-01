@@ -29,12 +29,9 @@ import com.doneit.ascend.presentation.main.create_group.create_support_group.com
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualGroupBinding
-import com.doneit.ascend.presentation.utils.checkImage
-import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
-import com.doneit.ascend.presentation.utils.getImagePath
-import com.doneit.ascend.presentation.utils.showErrorDialog
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -119,7 +116,6 @@ class IndividualGroupFragment(
                 mainContainer.requestFocus()
                 viewModel.chooseScheduleTouch()
             }
-
             initSpinner(durationPicker, durationListener, durationAdapter)
             viewModel.createGroupModel.duration.observableField.get()?.run {
                 if(this.isNotEmpty()) durationPicker.setSelection(Duration.fromDuration(this.toInt()).ordinal)
@@ -166,6 +162,7 @@ class IndividualGroupFragment(
                     hideKeyboard()
                 }
             }
+            applyMultilineFilter(description)
         }
 
         viewModel.members.observe(this, Observer {
