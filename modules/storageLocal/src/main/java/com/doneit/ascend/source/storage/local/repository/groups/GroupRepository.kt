@@ -12,8 +12,8 @@ internal class GroupRepository(
 
     override suspend fun getGroupList(filter: GroupFilter): DataSource.Factory<Int, GroupLocal> {
         return when (filter.sortType) {
-            0 -> dao.getAllByTypeASC(filter.groupStatus, type = filter.groupType)
-            else -> dao.getAllByTypeDESC(filter.groupStatus, type = filter.groupType)
+            0 -> filter.groupType?.let { dao.getAllByTypeASC(filter.groupStatus, type = filter.groupType) } ?: dao.getAllASC(filter.groupStatus)
+            else -> filter.groupType?.let { dao.getAllByTypeDESC(filter.groupStatus, type = filter.groupType) } ?: dao.getAllDESC(filter.groupStatus)
         }
     }
 

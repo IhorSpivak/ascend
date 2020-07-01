@@ -4,5 +4,5 @@ data class GroupFilter(
     val sortType: Int? = null,
     val groupStatus: Int? = null,
     val community: String? = null,
-    val groupType: Int
+    val groupType: Int? = null
 )
