@@ -40,12 +40,24 @@ fun Int.toMonthEntity(): MonthEntity {
     return MonthEntity.values()[this]
 }
 
+fun Date.toDayFullMonthYear(): String {
+    return SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).getFormatted(this)
+}
+
 fun Date.toDayMonthYear(): String {
     return SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH).getFormatted(this)
 }
 
+fun Date.toDayShortMonthYear(): String {
+    return SimpleDateFormat("dd MM yyyy", Locale.ENGLISH).getFormatted(this)
+}
+
 fun Date.toNotificationDate(): String {
     return "MM.dd.yy hh:mm aa".toDefaultFormatter().getFormatted(this)
+}
+
+fun Date.toTimeStampFormat(): String {
+    return TIMESTAMP_FORMAT.toDefaultFormatter().getFormatted(this)
 }
 
 fun Date.toChatDate(context: Context): String {
@@ -77,11 +89,13 @@ fun Date.toRateDate(): String {
 }
 
 fun Date.toTimerFormat(): String {
-    return "mm:ss".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }.getFormatted(this)
+    return "mm:ss".toDefaultFormatter().apply { timeZone = TimeZone.getTimeZone("GMT") }
+        .getFormatted(this)
 }
 
 fun Date.toVideoChatTimerFormat(): String {
-    return "HH:mm:ss".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }.getFormatted(this)
+    return "HH:mm:ss".toDefaultFormatter().apply { timeZone = TimeZone.getTimeZone("GMT") }
+        .getFormatted(this)
 }
 
 fun Date.toMinutesFormat(): String {
@@ -109,11 +123,31 @@ fun String.toGMTFormatter(): SimpleDateFormat {
     return formatter
 }
 
+fun String.toLocaleTime(): Date {
+    val cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"))
+    return cal.apply {
+        set(Calendar.HOUR_OF_DAY, substringBefore(":").toInt())
+        set(Calendar.HOUR, substringBefore(":").toInt() % 12)
+        set(Calendar.MINUTE, substringAfter(":").toInt())
+        set(Calendar.AM_PM, if(substringBefore(":").toInt() < 12) Calendar.AM else Calendar.PM)
+    }.time
+}
+
+fun String.toLocaleTimeString(context: Context): String {
+    return toLocaleTime().run {
+        context.getTimeFormat().format(this)
+    }
+}
+
 fun Context.getTimeFormat(): SimpleDateFormat {
-    return if (DateFormat.is24HourFormat(this)) {
-        "HH:mm".toDefaultFormatter()
+    return DateFormat.is24HourFormat(this).getTimeFormat()
+}
+
+fun Boolean.getTimeFormat(): SimpleDateFormat {
+    return if (this) {
+        HOUR_24_ONLY_FORMAT.toDefaultFormatter()
     } else {
-        "hh:mm aa".toDefaultFormatter()
+        HOUR_12_ONLY_FORMAT.toDefaultFormatter()
     }
 }
 
@@ -145,11 +179,14 @@ fun calculateDate(currentMessageTime: Date, previousMessageTime: Date): Boolean 
     return ((current.get(Calendar.YEAR) * 365 + current.get(Calendar.DAY_OF_YEAR)) -
             (previous.get(Calendar.YEAR) * 365 + previous.get(Calendar.DAY_OF_YEAR))) > 0
 }
-    val START_TIME_FORMATTER = "dd MMMM yyyy".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }
-    val TIME_24_FORMAT = "EEE, HH:mm".toDefaultFormatter()
-    val TIME_12_FORMAT = "EEE, hh:mm a".toDefaultFormatter()
-    val TIME_24_FORMAT_DROP_DAY = "HH:mm".toDefaultFormatter()
-    val TIME_12_FORMAT_DROP_DAY = "hh:mm a".toDefaultFormatter()
-    val WEEK_ONLY_FORMAT = "EEE".toDefaultFormatter()
-    val HOUR_12_ONLY_FORMAT = "hh:mm a".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }
-    val HOUR_24_ONLY_FORMAT = "HH:mm".toDefaultFormatter().apply{ timeZone = TimeZone.getTimeZone("GMT") }
+
+const val MESSAGE_FORMATTER = "dd MMMM yyyy"
+const val START_TIME_FORMATTER = "dd MMMM yyyy"
+const val TIME_24_FORMAT_DROP_DAY = "HH:mm"
+const val TIME_12_FORMAT_DROP_DAY = "hh:mm a"
+const val WEEK_ONLY_FORMAT = "EEE"
+const val HOUR_12_ONLY_FORMAT = "hh:mm a"
+const val HOUR_24_ONLY_FORMAT = "HH:mm"
+const val FULL_DATE_FORMAT = "dd MMM yyyy hh:mm aa"
+const val DAY_MONTH_FORMAT = "d MMM"
+const val TIMESTAMP_FORMAT = "yyyyMMdd_HHmmss"

@@ -1,9 +1,7 @@
 package com.doneit.ascend.presentation.utils
 
 import android.app.Activity
-import android.content.ContentResolver
 import android.content.Context
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -12,10 +10,10 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
+import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.text.SimpleDateFormat
 import java.util.*
 
 const val TEMP_IMAGE_NAME = "temp.jpeg"
@@ -39,7 +37,7 @@ fun Context.copyToStorage(bitmap: Bitmap): String{
 fun Activity.checkImage(path: String): String{
     this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
         File.createTempFile(
-            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}_",
+            "JPEG_${Date().toTimeStampFormat()}_",
             ".jpg",
             it /* directory */
         ).apply {
@@ -223,10 +221,9 @@ private fun Context.createTempFile(name: String): Uri {
 @Throws(IOException::class)
 private fun Context.createImageFile(): File {
     // Create an image file name
-    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
     val storageDir: File = File(externalCacheDir!!.path)
     return File.createTempFile(
-        "JPEG_${timeStamp}_",
+        "JPEG_${Date().toTimeStampFormat()}_",
         ".jpg",
         storageDir
     )

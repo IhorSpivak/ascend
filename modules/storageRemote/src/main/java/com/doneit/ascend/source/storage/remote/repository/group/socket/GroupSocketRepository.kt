@@ -1,6 +1,7 @@
 package com.doneit.ascend.source.storage.remote.repository.group.socket
 
 import android.util.Log
+import com.doneit.ascend.source.Constants.SOCKET_URL
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCookies
 import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventMessage
 import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventResponse
@@ -14,7 +15,7 @@ class GroupSocketRepository(
     private val gson: Gson
 ) : IGroupSocketRepository {
 
-    override val messagesStream = SingleLiveEvent<SocketEventMessage>()
+    override val messagesStream = SingleLiveEvent<SocketEventMessage?>()
 
     private var socket: WebSocket? = null
 
@@ -26,7 +27,7 @@ class GroupSocketRepository(
         val client = builder.build()
 
         val request =
-            Request.Builder().url(URL)
+            Request.Builder().url(SOCKET_URL)
                 .addHeader(COOKIE_KEY, cookies.toString())//required for authorization
                 .addHeader(
                     "Origin",
@@ -43,6 +44,7 @@ class GroupSocketRepository(
     }
 
     override fun disconnect() {
+        messagesStream.value = null
         socket?.close(1000, "")
     }
 
@@ -77,7 +79,7 @@ class GroupSocketRepository(
         try {
             Log.d("SocketMessage", message)
             val result = gson.fromJson(message, SocketEventResponse::class.java)
-            if(result.message?.event != null) { //todo replace by Gson deserializer with exception on missing fields
+            if(result.message?.event != null && messagesStream.hasActiveObservers()) { //todo replace by Gson deserializer with exception on missing fields
                 messagesStream.postValue(result.message)
             }
         } catch (exception: JsonSyntaxException) {
@@ -88,8 +90,6 @@ class GroupSocketRepository(
     companion object {
         private const val SUBSCRIBE_GROUP_CHANNEL_COMMAND =
             "{\"identifier\":\"{\\\"channel\\\":\\\"GroupChannel\\\"}\",\"command\": \"subscribe\"}"
-        private const val URL = "wss://ascend-backend.herokuapp.com/cable"
-        //private const val URL = "wss://ascend-backend-prod.herokuapp.com/cable"
         private const val COOKIE_KEY = "Cookie"
     }
 }

@@ -42,7 +42,7 @@ class WebinarDatePickerFragment: BaseFragment<FragmentWebinarDatePickerBinding>(
                 viewModel.okDateSelection(selectedDate)
             }
             newWheelPicker.selectDate(viewModel.createGroupModel.actualStartTime)
-            viewModel.createGroupModel.actualStartTime?.let {
+            viewModel.createGroupModel.actualStartTime.let {
                 selectedDate.time = it.time
                 newWheelPicker.setDefaultDate(it.time)
             }

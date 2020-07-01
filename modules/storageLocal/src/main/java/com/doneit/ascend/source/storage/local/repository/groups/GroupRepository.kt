@@ -10,10 +10,10 @@ internal class GroupRepository(
     private val dao: GroupDao
 ) : IGroupRepository {
 
-    override fun getGroupList(filter: GroupFilter): DataSource.Factory<Int, GroupLocal> {
-        return when(filter.sortType) {
-            0 -> dao.getAllASC(filter.groupStatus)
-            else -> dao.getAllDESC(filter.groupStatus)
+    override suspend fun getGroupList(filter: GroupFilter): DataSource.Factory<Int, GroupLocal> {
+        return when (filter.sortType) {
+            0 -> filter.groupType?.let { dao.getAllByTypeASC(filter.groupStatus, type = filter.groupType) } ?: dao.getAllASC(filter.groupStatus)
+            else -> filter.groupType?.let { dao.getAllByTypeDESC(filter.groupStatus, type = filter.groupType) } ?: dao.getAllDESC(filter.groupStatus)
         }
     }
 
@@ -35,6 +35,10 @@ internal class GroupRepository(
 
     override suspend fun remove(group: GroupLocal) {
         dao.remove(group)
+    }
+
+    override suspend fun removeAllByType(type: Int) {
+        dao.removeAllByType(type)
     }
 
     override suspend fun removeAll() {

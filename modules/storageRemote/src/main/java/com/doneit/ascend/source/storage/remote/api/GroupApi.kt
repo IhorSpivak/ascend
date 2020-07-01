@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.remote.api
 
+import com.doneit.ascend.source.storage.remote.data.request.SetGroupCredentialsRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.CancelGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.InviteToGroupRequest
@@ -51,6 +52,9 @@ interface GroupApi {
 
     @POST("groups/{groupId}/credentials")
     fun getCredentialsAsync(@Path("groupId") groupId: Long): Deferred<Response<GroupCredentialsResponse>>
+
+    @POST("groups/{groupId}/set_credentials")
+    fun setCredentialsAsync(@Path("groupId") groupId: Long, @Body request: SetGroupCredentialsRequest): Deferred<Response<Unit>>
 
     @POST("groups/{groupId}/credentials")
     fun getWebinarCredentialsAsync(@Path("groupId") groupId: Long): Deferred<Response<WebinarCredentialsResponse>>

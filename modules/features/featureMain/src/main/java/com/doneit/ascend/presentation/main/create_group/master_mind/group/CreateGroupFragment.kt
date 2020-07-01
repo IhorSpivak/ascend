@@ -18,18 +18,15 @@ import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
-import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
-import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
-import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
+import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateGroupBinding
-import com.doneit.ascend.presentation.utils.checkImage
-import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.doneit.ascend.presentation.utils.getImagePath
-import com.doneit.ascend.presentation.utils.showErrorDialog
+import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
 import kotlinx.android.synthetic.main.fragment_create_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
@@ -41,7 +38,6 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
@@ -52,16 +48,13 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
     }
 
-    private var tempUri: Uri? = null
     private var currentPhotoPath: String? = null
     override val viewModel: CreateGroupContract.ViewModel by instance()
 
 
     private val durationAdapter by lazy {
-        MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
-                R.array.meeting_duration_array
-            )
+        DurationAdapter(
+            Duration.values().map { it.label }.toTypedArray()
         )
     }
 
@@ -81,7 +74,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         spinner.adapter = spinnerAdapter
         spinner.onItemSelectedListener = listener
 
-        spinner.setOnTouchListener { view, motionEvent ->
+        spinner.setOnTouchListener { _, motionEvent ->
             if (mDetector.onTouchEvent(motionEvent)) {
                 hideKeyboard()
             }
@@ -93,7 +86,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.duration.observableField.set(p2.toString())
+                    viewModel.createGroupModel.duration.observableField.set(Duration.values()[p2].time.toString())
                 }
             }
 
@@ -102,13 +95,12 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
     }
 
-    private val adapter: ParticipantAdapter by lazy {
-        ParticipantAdapter(mutableListOf(), viewModel)
-    }
-
     private val membersAdapter: InvitedMembersAdapter by lazy {
         InvitedMembersAdapter {
-            viewModel.removeMember(it)
+            val removedIndex = viewModel.removeMember(it)
+            if (removedIndex != -1) {
+                membersAdapter.remove(removedIndex)
+            }
         }
     }
 
@@ -117,7 +109,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         binding.apply {
             adapter = adapter
             recyclerViewAddedMembers.adapter = membersAdapter
-            scroll.setOnFocusChangeListener { v, b ->
+            scroll.setOnFocusChangeListener { _, b ->
                 if (b) {
                     hideKeyboard()
                 }
@@ -125,11 +117,16 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             initSpinner(durationPicker, durationListener, durationAdapter)
 
             viewModel.createGroupModel.duration.observableField.get()?.run {
-                if(this.isNotEmpty()) durationPicker.setSelection(this.toInt())
+                if (this.isNotEmpty()) durationPicker.setSelection(Duration.fromDuration(this.toInt()).ordinal)
             }
+            applyMultilineFilter(description)
         }
 
-
+        binding.mainContainer.setOnFocusChangeListener { v, b ->
+            if (b) {
+                hideKeyboard()
+            }
+        }
 
         viewModel.changeGroup.observe(this, Observer {
             binding.apply {
@@ -154,7 +151,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
 
         binding.price.editText.apply {
-            setOnFocusChangeListener { view, b ->
+            setOnFocusChangeListener { _, b ->
                 if (b) {
                     scroll.scrollTo(0, chooseSchedule.top)
                     viewModel.onPriceClick(price.editText)
@@ -230,10 +227,9 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                     )
                 ) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
                         File.createTempFile(
-                            "JPEG_${timeStamp}_",
+                            "JPEG_${Date().toTimeStampFormat()}_",
                             ".jpg",
                             it /* directory */
                         ).apply {
@@ -252,20 +248,6 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
                             }
                         }
                     }
-                    /*val content = ContentValues().apply {
-                        put(
-                            MediaStore.Images.Media.TITLE,
-                            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
-                        )
-                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                        put(MediaStore.Images.Media.DESCRIPTION, "group_image")
-                    }
-                    tempUri = activity?.contentResolver?.insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        content
-                    )
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-                    startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)*/
                 }
             }
     }
@@ -319,6 +301,11 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             { takeAPhoto() },
             { selectFromGallery() }
         )
+    }
+
+    override fun onDestroyView() {
+        recycler_view_added_members.adapter = null
+        super.onDestroyView()
     }
 
     companion object {

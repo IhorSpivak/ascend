@@ -12,7 +12,11 @@ import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
+import com.doneit.ascend.domain.gateway.common.mapper.Constants
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -27,6 +31,7 @@ import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCoo
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.socket.IGroupSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -47,14 +52,27 @@ internal class GroupGateway(
     }
 
     override val messagesStream =
-        remoteSocket.messagesStream.map { it.toEntity() }//todo remove deprecation
+        remoteSocket.messagesStream.map { it?.toEntity() }//todo remove deprecation
 
-    override suspend fun createGroup(groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>> {
+    override suspend fun createGroup(
+        groupDTO: CreateGroupDTO,
+        credentialsDTO: WebinarCredentialsDTO?
+    ): ResponseEntity<GroupEntity, List<String>> {
         return executeRemote {
-            remote.createGroup(
-                File(groupDTO.imagePath),
+            val result = remote.createGroup(
+                File(groupDTO.imagePath.orEmpty()),
                 groupDTO.toCreateGroupRequest()
             )
+
+            if (result.isSuccessful && groupDTO.groupType == GroupType.WEBINAR.toString() && credentialsDTO != null) {
+                remote.setCredentials(
+                    result.successModel?.id ?: 0,
+                    credentialsDTO.key!!,
+                    credentialsDTO.link
+                )
+            }
+
+            result
         }.toResponseEntity(
             {
                 it?.toEntity()
@@ -109,29 +127,30 @@ internal class GroupGateway(
         return res
     }
 
-    override fun getGroupsListPaged(listRequest: GroupListDTO): LiveData<PagedList<GroupEntity>> =
-        liveData {
-            groupLocal.removeAll()
+    override fun getGroupsListPaged(
+        coroutineScope: CoroutineScope,
+        listRequest: GroupListDTO
+    ) = liveData {
+        groupLocal.removeAllByType(listRequest.groupType?.ordinal ?: 0)
+        val config = getDefaultPagedConfig(listRequest)
+        val factory = groupLocal.getGroupList(listRequest.toLocal()).map { it.toEntity() }
 
-            val config = getDefaultPagedConfig(listRequest)
-            val factory = groupLocal.getGroupList(listRequest.toLocal()).map { it.toEntity() }
+        val boundary = GroupBoundaryCallback(
+            coroutineScope,
+            groupLocal,
+            remote,
+            listRequest
+        )
 
-            val boundary = GroupBoundaryCallback(
-                GlobalScope,
-                groupLocal,
-                remote,
-                listRequest
-            )
+        emitSource(
+            LivePagedListBuilder(factory, config)
+                .setFetchExecutor(Executors.newSingleThreadExecutor())
+                .setBoundaryCallback(boundary)
+                .build()
+        )
 
-            emitSource(
-                LivePagedListBuilder<Int, GroupEntity>(factory, config)
-                    .setFetchExecutor(Executors.newSingleThreadExecutor())
-                    .setBoundaryCallback(boundary)
-                    .build()
-            )
-
-            boundary.loadInitial()
-        }
+        boundary.loadInitial()
+    }
 
     override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>> {
         val res = executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
@@ -255,7 +274,7 @@ internal class GroupGateway(
         memberList: List<AttendeeEntity>?
     ): LiveData<PagedList<AttendeeEntity>> {
         return UserDataSourceFactory(GlobalScope, remote, query, userId, memberList).toLiveData(
-            pageSize = 10,
+            pageSize = Constants.PER_PAGE,
             fetchExecutor = Executors.newSingleThreadExecutor()
         )
     }
@@ -286,7 +305,7 @@ internal class GroupGateway(
         return res
     }
 
-    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsDTO, List<String>> {
+    override suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsEntity, List<String>> {
         return remote.getCredentials(groupId).toResponseEntity(
             {
                 it?.toEntity()
@@ -297,7 +316,25 @@ internal class GroupGateway(
         )
     }
 
-    override suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsDTO, List<String>> {
+    override suspend fun setCredentials(
+        groupId: Long,
+        credentialsDTO: WebinarCredentialsDTO
+    ): ResponseEntity<Unit, List<String>> {
+        return remote.setCredentials(
+            groupId,
+            credentialsDTO.key,
+            credentialsDTO.link
+        ).toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsEntity, List<String>> {
         return remote.getWebinarCredentials(groupId).toResponseEntity(
             {
                 it?.toEntity()
@@ -347,7 +384,7 @@ internal class GroupGateway(
     }
 
     override suspend fun getTags(): ResponseEntity<List<TagEntity>, List<String>> {
-        return executeRemote { remote.getTags()}.toResponseEntity(
+        return executeRemote { remote.getTags() }.toResponseEntity(
             {
                 it?.tags?.map { it.toEntity() }
             },

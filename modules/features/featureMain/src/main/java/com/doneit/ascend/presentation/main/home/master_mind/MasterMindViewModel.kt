@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.home.master_mind
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
@@ -30,9 +31,9 @@ class MasterMindViewModel(
 ) : BaseViewModelImpl(), MasterMindContract.ViewModel {
 
     private val formingRequestModel = PresentationGroupListModel()
-    override val requestModel = MutableLiveData<GroupListDTO>(defaultRequest)
+    override val requestModel = MutableLiveData(defaultRequest)
 
-    private val _groups = requestModel.switchMap { groupUseCase.getGroupListPaged(it) }
+    private val _groups = requestModel.switchMap { groupUseCase.getGroupListPaged(viewModelScope, it) }
     private val user = userUseCase.getUserLive()
 
     override val groups = MediatorLiveData<GroupListWithUserPaged>()

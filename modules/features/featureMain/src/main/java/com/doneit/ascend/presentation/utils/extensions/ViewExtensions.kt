@@ -10,6 +10,10 @@ fun View.visible(isVisible: Boolean = true, isGone: Boolean = false) {
     visibility = if (isVisible) View.VISIBLE else if (isGone) View.GONE else View.INVISIBLE
 }
 
+fun View.visibleOrGone(isVisible: Boolean = true) {
+    visibility = if (isVisible) View.VISIBLE else View.GONE
+}
+
 fun View.hide() {
     visibility = View.GONE
 }

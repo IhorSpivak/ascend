@@ -25,7 +25,6 @@ import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
-import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, CreateGroupArgs>() {
@@ -42,33 +41,38 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
         GroupAction.values().forEach {
-            if (arguments!!.containsKey(it.toString())){
+            if (arguments!!.containsKey(it.toString())) {
                 group = arguments!!.getParcelable(it.toString())
-                if (group != null){
+                if (group != null) {
                     what = it.toString()
                 }
             }
         }
         binding.apply {
-            actionTitle = if (what == null){
+            actionTitle = if (what == null) {
                 getString(R.string.create_create)
-            }else{
+            } else {
                 what!!.capitalize()
+            }
+        }
+        binding.mainContainer.setOnFocusChangeListener { v, b ->
+            if (b) {
+                hideKeyboard()
             }
         }
         viewModel.navigation.observe(viewLifecycleOwner, Observer {
             handleNavigation(it)
         })
         viewModel.members.observe(this, Observer {
-            viewModel.createGroupModel.participants.set(it.filter {attendee ->
+            viewModel.createGroupModel.participants.set(it.filter { attendee ->
                 !attendee.isAttended
-            }.map {attendee ->
-                attendee.email ?: ""
+            }.map { attendee ->
+                attendee.email.orEmpty()
             })
         })
         viewModel.membersToDelete.observe(this, Observer {
-            viewModel.createGroupModel.participantsToDelete.set(it.map {attendee ->
-                attendee.email?: ""
+            viewModel.createGroupModel.participantsToDelete.set(it.map { attendee ->
+                attendee.email.orEmpty()
             })
         })
 
@@ -82,7 +86,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 }
             }
         })
-        if (group != null){
+        if (group != null) {
             binding.btbComplete.apply {
                 text = getString(R.string.btn_save_action)
                 setOnClickListener {
@@ -92,8 +96,8 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                     }
                 }
             }
-            when(group!!.groupType){
-                GroupType.INDIVIDUAL ->{
+            when (group!!.groupType) {
+                GroupType.INDIVIDUAL -> {
                     viewModel.createGroupModel.isPrivate.set(true)
                 }
                 GroupType.MASTER_MIND -> {
@@ -101,9 +105,13 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 }
             }
             viewModel.createGroupModel.apply {
-                when(what){
-                    GroupAction.DUPLICATE.toString() ->{name.observableField.set(group!!.name.plus("(2)"))}
-                    GroupAction.EDIT.toString() ->{name.observableField.set(group!!.name)}
+                when (what) {
+                    GroupAction.DUPLICATE.toString() -> {
+                        name.observableField.set(group!!.name.plus("(2)"))
+                    }
+                    GroupAction.EDIT.toString() -> {
+                        name.observableField.set(group!!.name)
+                    }
                 }
                 numberOfMeetings.observableField.set(group!!.meetingsCount.toString())
                 price.observableField.set(group!!.price.toString())
@@ -117,8 +125,8 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
                 timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
                 groupType = GroupType.values()[group!!.groupType!!.ordinal]
-                meetingFormat.observableField.set(group!!.meetingFormat?: "")
-                startDate.observableField.set(SimpleDateFormat("dd MMMM yyyy", Locale.ENGLISH).format(date))
+                meetingFormat.observableField.set(group!!.meetingFormat.orEmpty())
+                startDate.observableField.set(date.toDayFullMonthYear())
                 selectedDays.addAll(group!!.daysOfWeek!!)
                 duration.observableField.set(group!!.duration.toString())
                 viewModel.changeSchedule()
@@ -126,7 +134,7 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 Glide.with(context!!)
                     .asBitmap()
                     .load(group!!.image!!.url)
-                    .into(object : SimpleTarget<Bitmap>(){
+                    .into(object : SimpleTarget<Bitmap>() {
                         override fun onResourceReady(
                             resource: Bitmap,
                             transition: Transition<in Bitmap>?
@@ -136,11 +144,11 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
 
                     })
             }
-            viewModel.apply{
+            viewModel.apply {
                 members.postValue(group!!.attendees?.toMutableList())
-                selectedMembers.addAll(group!!.attendees?: emptyList())
+                selectedMembers.addAll(group!!.attendees ?: emptyList())
             }
-        }else{
+        } else {
             binding.btbComplete.setOnClickListener {
                 viewModel.completeClick()
             }
@@ -154,17 +162,13 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
                 CreateGroupFragment()
             }
             CreateMMGroupContract.Navigation.TO_INDIVIDUAL -> {
-                viewModel.apply {
-                    if (selectedMembers.size > 1){
-                        val temp = selectedMembers.first()
-                        selectedMembers.clear()
-                        selectedMembers.add(temp)
-                        members.postValue(selectedMembers)
-                    }
-                }
                 viewModel.createGroupModel.groupType = GroupType.INDIVIDUAL
                 IndividualGroupFragment(group)
             }
+        }
+        viewModel.apply {
+            selectedMembers.clear()
+            members.postValue(selectedMembers)
         }
 
         childFragmentManager.replace(R.id.container, fragment)

@@ -24,8 +24,10 @@
 
     <!--Home Tabs-->
     <string name="daily">Daily</string>
-    <string name="webinars">Webinar</string>
+    <string name="webinars">Livestream</string>
     <string name="groups">Groups</string>
+    <string name="collaboration">Collaboration</string>
+    <string name="coaching">Coaching</string>
     <string name="master_mind">Workshops</string>
     <string name="master_mind_group">MasterMind Group</string>
     <string name="support_group">Support Group</string>
@@ -46,8 +48,9 @@
     <string name="select_days_of_week">Select Days of Week</string>
     <string name="preferred_time">Preferred Time</string>
     <string name="number_of_participants">Number of participants</string>
-    <string name="group">Group</string>
-    <string name="individual"> Individual</string>
+    <string name="group">Group Coaching</string>
+    <string name="workshop">Workshop</string>
+    <string name="individual"> Private coaching</string>
     <string name="closed_group"> Closed</string>
     <string name="apply">Apply</string>
     <string name="to">to</string>
@@ -58,11 +61,16 @@
     <string name="create_mm_group">Create MM Group</string>
     <string name="create_create">Create</string>
     <string name="action_mm_group">%s MM Group</string>
-    <string name="action_support_group">%s Support Group</string>
-    <string name="action_webinar">%s Webinar</string>
-    <string name="private_group">Private Group</string>
-    <string name="public_group">Public Group</string>
-    <string name="group_name">Group Name</string>
+    <string name="action_group">%s %s</string>
+    <string name="action_webinar">%s Livestream</string>
+    <string name="private_group">Private %s</string>
+    <string name="public_group">Public %s</string>
+    <string name="public_group_title">Public group</string>
+    <string name="private_group_title">Private group</string>
+    <string name="public_collaboration_title">Public collaboration</string>
+    <string name="private_collaboration_title">Private collaboration</string>
+    <string name="group_name">%s Name</string>
+    <string name="group_title">Group</string>
     <string name="meeting_format">Meeting Format</string>
     <string name="tags">Tags</string>
     <string name="tag">Tag</string>
@@ -71,7 +79,7 @@
     <string name="start_date">Start Date</string>
     <string name="price">Price</string>
     <string name="group_description">Group Description</string>
-    <string name="upload_group_image">Upload Group Image</string>
+    <string name="upload_group_image">Upload %s Image</string>
     <string name="reservation">Reservation a seat</string>
     <string name="create">Create</string>
     <string name="input_error">Input Error</string>
@@ -88,9 +96,9 @@
     <string name="error_email">The email is incorrect. Please, make sure you entered correct data</string>
     <string name="error_number_of_meetings">The Number Of Meetings should be between 1 and 365</string>
     <string name="error_number_of_meetings_count">Schedule does not match the number of meetings</string>
-    <string name="error_description">The Group Description from 2 till 1000 symbols</string>
-    <string name="error_description_webinar">The Webinar Description from 2 till 500 symbols</string>
-    <string name="error_theme">Please, enter the Webinar Theme correctly</string>
+    <string name="error_description">The Group Description from 2 till 500 symbols</string>
+    <string name="error_description_webinar">The Livestream Description from 2 till 500 symbols</string>
+    <string name="error_theme">Please, enter the Livestream Theme correctly</string>
     <string name="error_time">Please, enter days correctly</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_cancel_spaced">Cancel&#160;&#160;</string>
@@ -124,6 +132,21 @@
         <item>8 hours</item>
     </string-array>
 
+    <string-array name="support_meeting_duration_array">
+        <item>Duration</item>
+        <item>1 hour</item>
+        <item>1h 15min</item>
+        <item>1h 30min</item>
+        <item>1h 45min</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+        <item>4 hours</item>
+        <item>5 hours</item>
+        <item>6 hours</item>
+        <item>7 hours</item>
+        <item>8 hours</item>
+    </string-array>
+
     <string-array name="duration_array">
         <item>1 hour</item>
         <item>2 hours</item>
@@ -146,8 +169,8 @@
     <!--Profile-->
     <string name="sign_out">Logout</string>
     <string name="delete_account">Delete account</string>
-    <string name="webinar_group_title">Webinar</string>
-    <string name="webinar_group_description">This webinar groups is an online meeting or presentation held via the Internet in real time</string>
+    <string name="webinar_group_title">Livestream</string>
+    <string name="webinar_group_description">This Livestream groups is an online meeting or presentation held via the Internet in real time</string>
     <string name="support_group_title">Support Group</string>
     <string name="support_group_description">Provide an opportunity for people to share personal experiences, feelings and helps people who are going through or have gone through similar experiences</string>
     <string name="mastermind_group_title">MasterMind Group</string>
@@ -184,15 +207,20 @@
     <string name="november">November</string>
     <string name="december">December</string>
     <string name="join_to_discussion">Join to discussion</string>
+    <string name="join_to_livestream">Join to livestream</string>
     <string name="start_group">Start group</string>
-    <string name="start_webinar">Start Webinar</string>
+    <string name="start_webinar">Start Livestream</string>
     <string name="ended_group">Group Ended</string>
-    <string name="ended_webinar">Webinar Ended</string>
+    <string name="ended_webinar">Livestream Ended</string>
 
     <string name="my_daily_group_list">My Daily Groups List</string>
     <string name="group_list">Groups List</string>
     <string name="upcoming">Upcoming</string>
     <string name="past">Past</string>
+
+    <!--View Profile-->
+    <string name="type_mastermind">MasterMind Coach</string>
+    <string name="type_regular_user">Regular User</string>
 
     <!--Search-->
     <string name="search_title">Search</string>
@@ -206,11 +234,12 @@
     <string name="subscribe">ATTEND</string>
     <string name="subscribed">ATTENDED</string>
     <string name="leave_this_group">LEAVE THIS GROUP</string>
+    <string name="leave_this_livestream">LEAVE THIS LIVESTREAM</string>
     <string name="delete_group">Delete Group</string>
     <string name="attendees">&lt;b>%d&lt;/b> Attendees</string>
     <string name="no_attendees">No attendees yet</string>
     <string name="error_group_user_removed">You are removed from group</string>
-    <string name="error_group_user_banned">You have been banned by the webinar\norganizer and cannot join.</string>
+    <string name="error_group_user_banned">You have been banned by the Livestream\norganizer and cannot join.</string>
     <string name="duplicate_group">Duplicate</string>
     <string name="cancel_group">Cancel</string>
     <string name="edit_group">Edit</string>
@@ -229,7 +258,7 @@
     <string name="btn_delete">Yes, delete</string>
     <string name="btn_leave">Yes, Leave</string>
     <string name="delete_content">If you delete a group, it cannot be restored and all funds will be returned to the participants.</string>
-    <string name="delete_content_webinar">If you delete a webinar, it cannot be restored and all funds will be returned to the participants.</string>
+    <string name="delete_content_webinar">If you delete a Livestream, it cannot be restored and all funds will be returned to the participants.</string>
     <string name="leave_content">If you leave,\n You can\'t join this group again.</string>
     <string name="btn_send">Send</string>
     <string name="enter_reason">Enter a reason</string>
@@ -241,11 +270,15 @@
     <string name="groups_created">%d Groups Created</string>
     <string name="groups_visited">%d Groups Visited</string>
     <string name="mm_see_groups">See groups</string>
+    <plurals name="mm_followers_count">
+        <item quantity="one">%s follower</item>
+        <item quantity="other">%s followers</item>
+    </plurals>
     <string name="see_my_groups">See my groups</string>
     <string name="set_rating">Set Rating</string>
 
     <string name="delete_this_group">Delete this group?</string>
-    <string name="delete_this_webinar">Delete this webinar?</string>
+    <string name="delete_this_webinar">Delete this Livestream?</string>
     <string name="leave_this_group_question">You really want to leave?</string>
     <string name="make_closed_title">Make this group closed?</string>
     <string name="make_closed_description">If you close the group, new users will not be able to find it in the group list.</string>
@@ -370,9 +403,9 @@
     <string name="hint_enter_display_name">Enter display name</string>
     <string name="hint_enter_short_description">Enter short description</string>
     <string name="action_cancel">Cancel Group</string>
-    <string name="action_cancel_webinar">Cancel Webinar</string>
+    <string name="action_cancel_webinar">Cancel Livestream</string>
     <string name="group_cancelled">Group Cancelled</string>
-    <string name="webinar_cancelled">Webinar Cancelled</string>
+    <string name="webinar_cancelled">Livestream Cancelled</string>
     <string name="action_cancel_description">Enter a reason</string>
     <string name="action_cancel_hint">Reason</string>
     <string name="action_cancel_btn_done">Done</string>
@@ -414,6 +447,7 @@
 
     <!--Video Chat-->
     <string name="waiting_for_start">Waiting for a group start</string>
+    <string name="waiting_for_start_webinar">Waiting for a livestream start</string>
     <string name="leave_group">Leave This Group</string>
     <string name="connection_lost">Connection lost</string>
     <string name="connection">connection…</string>
@@ -421,6 +455,7 @@
     <string name="group_ended">Group ended</string>
     <string name="mm_disconnected">%s\n is disconnected</string>
     <string name="remove_from_group">Remove from Group</string>
+    <string name="remove">Remove</string>
     <string name="unmute_this_user">Unmute this user</string>
     <string name="mute_this_user">Mute this user</string>
     <string name="report">Report</string>
@@ -497,20 +532,20 @@
     <string name="goals_app_bar_title">My Goals</string>
     <string name="goals_main_">Category</string>
 
-    <!--Create Webinar-->
-    <string name="create_webinar_title">Create Webinar</string>
+    <!--Create Livestream-->
+    <string name="create_webinar_title">Create Livestream</string>
     <string name="create_webinar_cancel">Cancel</string>
     <string name="create_webinar_complete">Complete</string>
-    <string name="create_webinar_group_name">Webinar Name</string>
+    <string name="create_webinar_group_name">Livestream Name</string>
     <string name="create_webinar_date_and_time">Date&amp;Time</string>
     <string name="create_webinar_choose_schedule">Choose Schedule</string>
-    <string name="create_webinar_group_description">Webinar Description</string>
-    <string name="create_webinar_upload_group_image">Upload Webinar Image</string>
+    <string name="create_webinar_group_description">Description</string>
+    <string name="create_webinar_upload_group_image">Upload Livestream Image</string>
     <string name="create_webinar_invite">Invite members</string>
     <string name="create_webinar_add_member">Add\nMember</string>
     <string name="create_webinar_theme_hint">Theme of meeting %d</string>
     <string name="create_webinar_default_price">0.00</string>
-    <string name="error_webinar_name">Please, enter the Webinar Name correctly</string>
+    <string name="error_webinar_name">Please, enter the Livestream Name correctly</string>
 
     <!--MM Groups-->
     <string name="mm_name_groups">%s Groups</string>
@@ -542,9 +577,11 @@
 
     <!--Home Webinars list-->
     <string name="webinars_list_recovery">Recovery</string>
-    <string name="webinars_list_success">Success</string>
+    <string name="webinars_list_fitness">Fitness</string>
+    <string name="webinars_list_industry">Industry</string>
     <string name="webinars_list_family">Family</string>
     <string name="webinars_list_spiritual">Spiritual</string>
+    <string name="webinars_list_success">Success</string>
 
     <!--My Chats-->
     <string name="my_chats_title">My Chats</string>
@@ -552,6 +589,7 @@
     <string name="no_chats">No chats</string>
     <string name="no_blocked_users">No Blocked Users</string>
     <string name="no_messages">No Messages</string>
+    <string name="no_questions">No Questions</string>
     <string name="no_messages_yet">No Messages yet</string>
     <string name="new_chat_members_counter">%d/50 members</string>
     <string name="new_chat_add_members">Add More</string>
@@ -597,8 +635,16 @@
     <string name="chats_member_count">%d members</string>
     <string name="invite_message"><b>%s</b> invited <b>%s</b></string>
     <string name="leave_message"><b>%s</b> left this chat</string>
+    <string name="remove_message"><b>%s</b> was removed from chat</string>
     <string name="chats_member_online">online</string>
     <string name="chats_member_offline">offline</string>
     <string name="search_hint">Search</string>
     <string name="you">You</string>
+
+    <!--Livestream Video Chat-->
+    <string name="question_sent">Question Sent</string>
+    <string name="ask_question_hint">Ask a question</string>
+    <string name="questions">Questions</string>
+    <string name="chat">Chat</string>
+    <string name="title_chats_members">Chat Members</string>
 </resources>

@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.PresentationCardModel
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 
 interface GroupInfoContract {
     interface ViewModel : BaseViewModel {
@@ -26,6 +27,8 @@ interface GroupInfoContract {
         val isSubscribed: LiveData<Boolean>
         val starting: LiveData<Boolean>
         val users: MutableLiveData<List<ParticipantEntity>>
+        val supportTitle: LiveData<Int>
+        val closeDialog: SingleLiveEvent<Boolean>
 
 
         fun onBackPressed()

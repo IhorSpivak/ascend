@@ -24,6 +24,7 @@ import com.doneit.ascend.source.storage.local.repository.master_minds.MasterMind
 import com.doneit.ascend.source.storage.local.repository.notification.NotificationDao
 import com.doneit.ascend.source.storage.local.repository.question.QuestionDao
 import com.doneit.ascend.source.storage.local.repository.user.UserDao
+import com.doneit.ascend.source.storage.local.repository.webinar_question.WebinarQuestionDao
 
 @Database(
     entities = [
@@ -44,7 +45,8 @@ import com.doneit.ascend.source.storage.local.repository.user.UserDao
         MessageLocal::class,
         TagLocal::class,
         MemberLocal::class,
-        BlockedUserLocal::class
+        BlockedUserLocal::class,
+        WebinarQuestionLocal::class
     ],
     version = 1
 )
@@ -63,6 +65,7 @@ internal abstract class LocalDatabase : RoomDatabase() {
     abstract fun attachmentDao(): AttachmentDao
     abstract fun notificationDao(): NotificationDao
     abstract fun myChatsDao(): MyChatsDao
+    abstract fun webinarQuestionDao(): WebinarQuestionDao
 
     companion object {
         const val NAME = "AscendDB"

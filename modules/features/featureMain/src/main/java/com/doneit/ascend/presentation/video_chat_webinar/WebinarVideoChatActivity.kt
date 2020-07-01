@@ -9,7 +9,9 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityWebinarVideoChatBinding
+import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesContract
 import com.doneit.ascend.presentation.video_chat.common.ChatParticipantsAdapter
+import com.doneit.ascend.presentation.video_chat_webinar.in_progress.common.OnUserInteractionListener
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -28,9 +30,14 @@ class WebinarVideoChatActivity : BaseActivity() {
         }
 
         bind<WebinarVideoChatContract.Router>() with provider { instance<WebinarVideoChatRouter>() }
+        bind<AttendeesContract.Router>() with provider { instance<WebinarVideoChatRouter>() }
+
 
         bind<ViewModel>(WebinarVideoChatViewModel::class.java.simpleName) with provider {
             WebinarVideoChatViewModel(
+                instance(),
+                instance(),
+                instance(),
                 instance(),
                 instance()
             )
@@ -55,13 +62,15 @@ class WebinarVideoChatActivity : BaseActivity() {
         }
     }
 
+    var userInteractionListener: OnUserInteractionListener? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_webinar_video_chat)
         binding.lifecycleOwner = this
         binding.model = viewModel
 
-        val groupId = intent.getLongExtra(WebinarVideoChatActivity.GROUP_ID_ARG, -1)
+        val groupId = intent.getLongExtra(GROUP_ID_ARG, -1)
         viewModel.init(groupId)
 
         viewModel.navigation.observe(this, Observer {
@@ -88,7 +97,7 @@ class WebinarVideoChatActivity : BaseActivity() {
                 router.navigateToPermissionsRequiredDialog(resultCode)
             }
             WebinarVideoChatContract.Navigation.TO_CHAT -> {
-                val groupId = action.data.getLong(WebinarVideoChatViewModel.GROUP_ID_KEY)
+                val groupId = action.data.getLong(WebinarVideoChatViewModel.CHAT_ID_KEY)
                 router.navigateToChat(groupId)
             }
             WebinarVideoChatContract.Navigation.TO_NOTES -> {
@@ -99,7 +108,17 @@ class WebinarVideoChatActivity : BaseActivity() {
                 val groupId = action.data.getLong(WebinarVideoChatViewModel.GROUP_ID_KEY)
                 router.navigateToQuestions(groupId)
             }
+            WebinarVideoChatContract.Navigation.TO_ATTENDEES -> {
+                val group = viewModel.groupInfo.value!!
+                val attendees = viewModel.groupInfo.value?.attendees.orEmpty().toMutableList()
+                router.navigateToAttendees(attendees, group)
+            }
         }
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        userInteractionListener?.onUserInteraction()
     }
 
     enum class ResultStatus {

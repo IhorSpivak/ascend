@@ -12,6 +12,7 @@ import com.doneit.ascend.presentation.login.ILogInAppRouter
 import com.doneit.ascend.presentation.splash.ISplashRouter
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.retrofit.RetrofitModule
+import com.doneit.ascend.retrofit.vimeo.VimeoRetrofitModule
 import com.doneit.ascend.source.storage.local.di.StorageLocalModule
 import com.doneit.ascend.source.storage.remote.di.StorageRemoteModule
 import org.kodein.di.Kodein
@@ -25,6 +26,7 @@ object AppModule {
     fun module(application: com.doneit.ascend.App) = Kodein.Module("AppModule") {
         import(androidModule(application))
         import(RetrofitModule.get())
+        import(VimeoRetrofitModule.get())
         import(StorageRemoteModule.get())
         import(StorageLocalModule.get())
         import(UseCaseModule.get())

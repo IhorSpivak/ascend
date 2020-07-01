@@ -8,16 +8,19 @@ import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.WebinarCredentialsEntity
+import kotlinx.coroutines.CoroutineScope
 
 interface GroupUseCase {
-    suspend fun createGroup(groupDTO: CreateGroupDTO): ResponseEntity<GroupEntity, List<String>>
+    suspend fun createGroup(groupDTO: CreateGroupDTO, groupCredentialsDTO: WebinarCredentialsDTO? = null): ResponseEntity<GroupEntity, List<String>>
 
     suspend fun updateGroup(id : Long, groupDTO: UpdateGroupDTO): ResponseEntity<GroupEntity, List<String>>
 
     suspend fun getGroupList(model: GroupListDTO): ResponseEntity<List<GroupEntity>, List<String>>
 
-    fun getGroupListPaged(model: GroupListDTO): LiveData<PagedList<GroupEntity>>
+    fun getGroupListPaged(scope: CoroutineScope, model: GroupListDTO): LiveData<PagedList<GroupEntity>>
 
     suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>>
 
@@ -33,9 +36,11 @@ interface GroupUseCase {
 
     suspend fun subscribe(dto: SubscribeGroupDTO): ResponseEntity<Unit, List<String>>
 
-    suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsDTO, List<String>>
+    suspend fun getCredentials(groupId: Long): ResponseEntity<GroupCredentialsEntity, List<String>>
 
-    suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsDTO, List<String>>
+    suspend fun getWebinarCredentials(groupId: Long): ResponseEntity<WebinarCredentialsEntity, List<String>>
+
+    suspend fun setWebinarCredentials(groupId: Long, groupCredentialsDTO: WebinarCredentialsDTO): ResponseEntity<Unit, List<String>>
 
     suspend fun getParticipantList(groupId: Long, fullName: String? = null, isConnected: Boolean? = null): ResponseEntity<List<ParticipantEntity>, List<String>>
 
@@ -49,7 +54,7 @@ interface GroupUseCase {
 
     fun searchMembers(query: String, userId: Long, memberList: List<AttendeeEntity>? = null): LiveData<PagedList<AttendeeEntity>>
 
-    val messagesStream: LiveData<SocketEventEntity>
+    val messagesStream: LiveData<SocketEventEntity?>
 
     fun connectToChannel(groupId: Long)
 
@@ -72,6 +77,8 @@ interface GroupUseCase {
     fun muteAllUsers(userId: String)
 
     fun unMuteAllUsers(userId: String)
+
+    fun participantConnectionStatus(userId: String, isConnected: Boolean)
 
     fun disconnect()
 }

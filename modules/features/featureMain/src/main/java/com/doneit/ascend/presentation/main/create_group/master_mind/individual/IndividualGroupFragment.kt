@@ -22,18 +22,16 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
-import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostFragment
-import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
+import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualGroupBinding
-import com.doneit.ascend.presentation.utils.checkImage
-import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.doneit.ascend.presentation.utils.getImagePath
-import com.doneit.ascend.presentation.utils.showErrorDialog
+import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +42,6 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 class IndividualGroupFragment(
@@ -68,10 +65,8 @@ class IndividualGroupFragment(
     override val viewModel: IndividualGroupContract.ViewModel by instance()
 
     private val durationAdapter by lazy {
-        MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
-                R.array.meeting_duration_array
-            )
+        DurationAdapter(
+            Duration.values().map { it.label }.toTypedArray()
         )
     }
 
@@ -103,7 +98,7 @@ class IndividualGroupFragment(
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.duration.observableField.set(p2.toString())
+                    viewModel.createGroupModel.duration.observableField.set(Duration.values()[p2].time.toString())
                 }
             }
 
@@ -121,10 +116,9 @@ class IndividualGroupFragment(
                 mainContainer.requestFocus()
                 viewModel.chooseScheduleTouch()
             }
-
             initSpinner(durationPicker, durationListener, durationAdapter)
             viewModel.createGroupModel.duration.observableField.get()?.run {
-                if(this.isNotEmpty()) durationPicker.setSelection(this.toInt())
+                if(this.isNotEmpty()) durationPicker.setSelection(Duration.fromDuration(this.toInt()).ordinal)
             }
             startDate.editText.setOnClickListener {
                 mainContainer.requestFocus()
@@ -134,6 +128,12 @@ class IndividualGroupFragment(
             numberOfMeetings.editText.setOnClickListener {
                 mainContainer.requestFocus()
                 viewModel.chooseMeetingCountTouch(null, null)
+            }
+
+            mainContainer.setOnFocusChangeListener { v, b ->
+                if (b) {
+                    hideKeyboard()
+                }
             }
 
             dashRectangleBackground.setOnClickListener {
@@ -162,6 +162,7 @@ class IndividualGroupFragment(
                     hideKeyboard()
                 }
             }
+            applyMultilineFilter(description)
         }
 
         viewModel.members.observe(this, Observer {
@@ -208,10 +209,9 @@ class IndividualGroupFragment(
             .request { granted, _, _ ->
                 if (granted.contains(Manifest.permission.READ_EXTERNAL_STORAGE) && granted.contains(Manifest.permission.CAMERA)) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
                         File.createTempFile(
-                            "JPEG_${timeStamp}_",
+                            "JPEG_${Date().toTimeStampFormat()}_",
                             ".jpg",
                             it /* directory */
                         ).apply {

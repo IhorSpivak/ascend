@@ -1,12 +1,9 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 
 import com.doneit.ascend.domain.entity.*
-import com.doneit.ascend.domain.entity.dto.GroupCredentialsDTO
-import com.doneit.ascend.domain.entity.dto.WebinarCredentialsDTO
-import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.group.GroupStatus
-import com.doneit.ascend.domain.entity.group.GroupType
-import com.doneit.ascend.domain.entity.group.NoteEntity
+import com.doneit.ascend.domain.entity.group.*
+import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
+import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEvent
 import com.doneit.ascend.domain.gateway.common.applyDaysOffset
 import com.doneit.ascend.domain.gateway.common.getDayOffset
 import com.doneit.ascend.source.storage.local.data.GroupLocal
@@ -40,11 +37,12 @@ fun OwnerResponse.toEntity(): OwnerEntity {
         image?.toEntity(),
         rating,
         followed,
-        location
+        location,
+        connected
     )
 }
 
-fun TagResponse.toEntity(): TagEntity{
+fun TagResponse.toEntity(): TagEntity {
     return TagEntity(
         id,
         tag
@@ -86,8 +84,10 @@ fun GroupResponse.toEntity(): GroupEntity {
         duration
     )
 }
-private fun getDays(list: List<Int>?, dayOffset: Int): List<CalendarDayEntity>{
-    return list?.applyDaysOffset(dayOffset)?.map { it.toCalendarDay() } ?: listOf(CalendarDayEntity.SUNDAY)
+
+private fun getDays(list: List<Int>?, dayOffset: Int): List<CalendarDayEntity> {
+    return list?.applyDaysOffset(dayOffset)?.map { it.toCalendarDay() }
+        ?: listOf(CalendarDayEntity.SUNDAY)
 }
 
 fun NoteResponse.toEntity(): NoteEntity {
@@ -105,15 +105,15 @@ fun String.toGroupType(): GroupType? {
     return GroupType.valueOf(this.toUpperCase())
 }
 
-fun GroupCredentialsResponse.toEntity(): GroupCredentialsDTO {
-    return GroupCredentialsDTO(
+fun GroupCredentialsResponse.toEntity(): GroupCredentialsEntity {
+    return GroupCredentialsEntity(
         name,
         token
     )
 }
 
-fun WebinarCredentialsResponse.toEntity(): WebinarCredentialsDTO {
-    return WebinarCredentialsDTO(
+fun WebinarCredentialsResponse.toEntity(): WebinarCredentialsEntity {
+    return WebinarCredentialsEntity(
         key,
         link,
         chatId
@@ -130,6 +130,20 @@ fun SocketEventMessage.toEntity(): SocketEventEntity {
             image?.toEntity(),
             event == SocketEvent.RISE_A_HAND
         )
+    )
+}
+
+fun QuestionSocketEventMessage.toEntity(): QuestionSocketEntity {
+    val event = QuestionSocketEvent.fromRemoteString(event!!)
+    return QuestionSocketEntity(
+        id,
+        question,
+        userId,
+        createdAt,
+        updatedAt,
+        fullName,
+        image?.toEntity(),
+        event
     )
 }
 
@@ -206,18 +220,19 @@ fun OwnerLocal.toEntity(): OwnerEntity {
         image?.toEntity(),
         rating,
         followed,
-        location
+        location,
+        connected
     )
 }
 
-fun TagLocal.toEntity(): TagEntity{
+fun TagLocal.toEntity(): TagEntity {
     return TagEntity(
         id,
         tag
     )
 }
 
-fun ChatSocketEventMessage.toEntity(): MessageSocketEntity{
+fun ChatSocketEventMessage.toEntity(): MessageSocketEntity {
     return MessageSocketEntity(
         id,
         message,

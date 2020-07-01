@@ -23,6 +23,12 @@ data class UserProfileResponse(
     @SerializedName("image") val image: ImageResponse?,
     @SerializedName("birthday") val birthday: String?,
     @SerializedName("role") val role: String?,
+    @SerializedName("rated") val rated: Boolean?,
+    @SerializedName("followed") val followed: Boolean?,
+    @SerializedName("allow_rating") val allowRating: Boolean?,
+    @SerializedName("groups_count") val groupsCount: Int?,
+    @SerializedName("followers_count") val followersCount: Int?,
+    @SerializedName("my_rating") val myRating: Int?,
     @SerializedName("community") val community: String?,
     @SerializedName("communities") val communities: List<String>?
 )

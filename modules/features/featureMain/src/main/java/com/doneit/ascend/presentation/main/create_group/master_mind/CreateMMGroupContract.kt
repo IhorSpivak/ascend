@@ -17,6 +17,7 @@ interface CreateMMGroupContract {
         val selectedMembers: MutableList<AttendeeEntity>
         val membersToDelete: MutableLiveData<MutableList<AttendeeEntity>>
         val deletedMembers: MutableList<AttendeeEntity>
+        val supportTitle: LiveData<Int>
 
         fun onGroupSelected()
         fun onIndividualSelected()

@@ -21,7 +21,7 @@ interface MyChatsContract {
 
     interface Router {
         fun onBack()
-        fun navigateToChat(chat: ChatEntity)
+        fun navigateToChat(id: Long)
         fun navigateToNewChat()
     }
 }

@@ -4,8 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.doneit.ascend.domain.entity.group.GroupStatus"/>
-        <import type="com.doneit.ascend.domain.entity.group.GroupType"/>
+
+        <import type="com.doneit.ascend.domain.entity.group.GroupStatus" />
+
+        <import type="com.doneit.ascend.domain.entity.group.GroupType" />
+
+        <import type="com.doneit.ascend.presentation.utils.TextUtilsKt" />
+
         <variable
             name="item"
             type="com.doneit.ascend.domain.entity.group.GroupEntity" />
@@ -13,6 +18,7 @@
         <variable
             name="user"
             type="com.doneit.ascend.domain.entity.user.UserEntity" />
+
         <variable
             name="showJoinButton"
             type="Boolean" />
@@ -20,9 +26,10 @@
         <variable
             name="showStartButton"
             type="Boolean" />
+
         <variable
             name="theme"
-            type="String"/>
+            type="String" />
 
     </data>
 
@@ -42,8 +49,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:setImage="@{item.image.url}"
-                app:placeholder="@{@drawable/group_item_placeholder}"/>
+                app:placeholder="@{@drawable/group_item_placeholder}"
+                app:setImage="@{item.image.url}" />
 
 
             <ImageView
@@ -63,15 +70,15 @@
                 style="@style/TextNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:text="@{item.name}"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Ullamco sint proident est irure" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -79,12 +86,13 @@
                 style="@style/TextNormal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:text="@{TextUtilsKt.convertGroupTypeToString(context, user.community,item.groupType, item.private)}"
                 android:textColor="@color/light_gray_e9f0"
                 android:textSize="10sp"
-                app:layout_constraintTop_toBottomOf="@id/tvName"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvName"
                 tools:text="Ullamco sint proident est irure" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -95,10 +103,10 @@
                 android:layout_marginStart="20dp"
                 android:textColor="@color/light_gray_e9f0"
                 android:textSize="10sp"
-                app:text="@{@string/meetings_count_with_theme(item.pastMeetingsCount, item.meetingsCount, theme)}"
                 android:visibility="@{item.groupType == GroupType.WEBINAR, default = gone}"
-                app:layout_constraintTop_toTopOf="@id/tvGroupType"
                 app:layout_constraintStart_toEndOf="@id/tvGroupType"
+                app:layout_constraintTop_toTopOf="@id/tvGroupType"
+                app:text="@{@string/meetings_count_with_theme(item.pastMeetingsCount, item.meetingsCount, theme)}"
                 tools:text="Ullamco sint proident est irure" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -106,6 +114,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toTopOf="@+id/buttonBox"
                 app:layout_constraintStart_toStartOf="@id/tvName">
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvCreator"
                     style="@style/TextNormal"
@@ -115,8 +124,8 @@
                     android:text="@{String.format(@string/create_by, item.owner.fullName)}"
                     android:textColor="@android:color/white"
                     android:textSize="10sp"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="by Timoty Lowson" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -125,11 +134,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
+                    android:text="@{item.owner.location}"
                     android:textColor="@android:color/white"
                     android:textSize="10sp"
-                    android:text="@{item.owner.location}"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCreator"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCreator"
                     tools:text="London, United Kingdom" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -193,7 +202,7 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/button_join_background"
                     android:gravity="center"
-                    android:text="@string/join_to_discussion"
+                    android:text="@{item.groupType == GroupType.WEBINAR?@string/join_to_livestream:@string/join_to_discussion}"
                     android:textAllCaps="true"
                     android:textColor="@color/colorAccent"
                     android:textSize="18sp"
@@ -201,10 +210,11 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/btnStartGroup"
+                    style="@style/TextNormal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -214,13 +224,12 @@
                     android:gravity="center"
                     android:text="@{item.groupType == GroupType.WEBINAR? @string/start_webinar : @string/start_group}"
                     android:textAllCaps="true"
-                    style="@style/TextNormal"
                     android:textColor="@android:color/white"
                     android:visibility="@{item.owner.id == user.id &amp;&amp; item.starting &amp;&amp; item.status == GroupStatus.ACTIVE}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

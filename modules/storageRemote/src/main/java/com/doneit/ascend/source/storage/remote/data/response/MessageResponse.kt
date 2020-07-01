@@ -6,7 +6,7 @@ data class MessageResponse(
     @SerializedName("id")
     val id: Long,
     @SerializedName("message")
-    val message: String,
+    val message: String?,
     @SerializedName("edited")
     val edited: Boolean?,
     @SerializedName("message_type")
@@ -18,5 +18,5 @@ data class MessageResponse(
     @SerializedName("updated_at")
     val updatedAt: String,
     @SerializedName("status")
-    val status: String
+    val status: String?
 )

@@ -5,6 +5,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.MasterMindEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.MasterMindListDTO
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.gateway.IMasterMindGateway
 
 internal class MasterMindInteractor(
@@ -23,7 +24,7 @@ internal class MasterMindInteractor(
         return masterMindGateway.getMasterMindsPagedList(MasterMindListDTO(fullName = fullName, followed = false))
     }
 
-    override fun getProfile(id: Long): LiveData<MasterMindEntity?> {
+    override fun getProfile(id: Long): LiveData<UserEntity?> {
         return masterMindGateway.getProfile(id)
     }
 

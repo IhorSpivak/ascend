@@ -14,6 +14,12 @@ interface GroupDao {
     @Query("SELECT * FROM groups WHERE status = :status or (:status is null and 1) ORDER BY start_time DESC")
     fun getAllDESC(status: Int?): DataSource.Factory<Int, GroupLocal>
 
+    @Query("SELECT * FROM groups WHERE (status = :status or (:status is null and 1)) AND group_type = :type ORDER BY start_time ASC")
+    fun getAllByTypeASC(status: Int?, type: Int): DataSource.Factory<Int, GroupLocal>
+
+    @Query("SELECT * FROM groups WHERE (status = :status or (:status is null and 1)) AND group_type = :type ORDER BY start_time DESC")
+    fun getAllByTypeDESC(status: Int?, type: Int): DataSource.Factory<Int, GroupLocal>
+
     @Transaction
     @Query("SELECT * FROM groups WHERE id = :id LIMIT 1")
     suspend fun getById(id: Long): GroupLocal?
@@ -32,6 +38,9 @@ interface GroupDao {
 
     @Delete
     suspend fun remove(group: GroupLocal)
+
+    @Query("DELETE FROM groups WHERE group_type = :type")
+    suspend fun removeAllByType(type: Int)
 
     @Transaction
     @Query("DELETE FROM groups")

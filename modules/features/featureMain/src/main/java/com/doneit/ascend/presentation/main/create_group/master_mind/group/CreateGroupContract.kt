@@ -27,9 +27,10 @@ interface CreateGroupContract {
         val members: LiveData<MutableList<AttendeeEntity>>
         val selectedMembers: MutableList<AttendeeEntity>
         val nonMembers: MutableList<String>
+        val supportTitle: LiveData<Int>
 
         fun addNewParticipant()
-        fun removeMember(member: AttendeeEntity)
+        fun removeMember(member: AttendeeEntity): Int
         fun completeClick()
         fun backClick()
         fun chooseScheduleTouch()

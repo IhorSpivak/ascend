@@ -4,7 +4,7 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMemberViewModel
 import com.doneit.ascend.presentation.main.create_group.calendar_picker.CalendarPickerContract
-import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.WebinarCalendarPickerContact
+import com.doneit.ascend.presentation.main.create_group.calendar_with_time_picker.WebinarCalendarPickerContract
 import com.doneit.ascend.presentation.main.create_group.create_support_group.CreateSupGroupContract
 import com.doneit.ascend.presentation.main.create_group.date_picker.DatePickerContract
 import com.doneit.ascend.presentation.main.create_group.date_picker.WebinarDatePickerContract
@@ -25,7 +25,7 @@ interface CreateGroupHostContract {
         CreateMMGroupContract.ViewModel,
         IndividualGroupContract.ViewModel,
         CreateWebinarContract.ViewModel,
-        WebinarCalendarPickerContact.ViewModel,
+        WebinarCalendarPickerContract.ViewModel,
         AddMemberViewModel,
         NumberOfMeetingsContract.ViewModel,
         PricePickerContract.ViewModel,

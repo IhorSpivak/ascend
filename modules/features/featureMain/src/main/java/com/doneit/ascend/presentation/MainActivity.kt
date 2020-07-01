@@ -7,13 +7,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.dialog.PermissionsRequiredDialog
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.ActivityMainBinding
+import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract
 import com.doneit.ascend.presentation.main.home.master_mind.MasterMindViewModel
 import com.doneit.ascend.presentation.main.home.master_mind.MasterMindViewModelFactory
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
+import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment
+import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.visible
@@ -86,11 +90,11 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.lifecycleOwner = this
         binding.model = viewModel
         super.onCreate(savedInstanceState)
-        if(intent.extras?.containsKey(Constants.KEY_GROUP_ID) == true){
+        if (intent.extras?.containsKey(Constants.KEY_GROUP_ID) == true) {
             intent.extras?.get(Constants.KEY_GROUP_ID)?.let {
                 viewModel.tryToNavigateToGroupInfo(it.toString().toLong())
             }
-        }else{
+        } else {
             viewModel.onHomeClick()
         }
         binding.fabCreateGroup.setOnClickListener {
@@ -98,6 +102,21 @@ class MainActivity : BaseActivity(), MainActivityListener {
         }
 
         setBottomNavigationListeners()
+        setBackStackHandler()
+    }
+
+    private fun setBackStackHandler() {
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.findFragmentById(getContainerIdFull()) == null) {
+                binding.mainBottomNavigationView.selectedItemId =
+                    when (supportFragmentManager.findFragmentById(getContainerId())) {
+                        is HomeFragment -> R.id.home
+                        is AscensionPlanFragment -> R.id.ascension_plan
+                        is UserProfileFragment, is MMProfileFragment -> R.id.profile
+                        else -> return@addOnBackStackChangedListener
+                    }
+            }
+        }
     }
 
     private fun setBottomNavigationListeners() {
@@ -109,7 +128,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
                 }
                 R.id.my_content -> {
                     viewModel.navigateToMyContent()
-                    true
+                    false //TODO change to true when fragment will be implemented
                 }
                 R.id.ascension_plan -> {
                     viewModel.navigateToAscensionPlan()

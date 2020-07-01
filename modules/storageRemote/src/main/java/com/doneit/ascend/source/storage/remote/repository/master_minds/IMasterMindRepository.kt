@@ -6,12 +6,13 @@ import com.doneit.ascend.source.storage.remote.data.response.MasterMindResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.UserProfileResponse
 
 interface IMasterMindRepository {
 
     suspend fun getMasterMindsList(listRequest: MasterMindListRequest): RemoteResponse<MasterMindListResponse, ErrorsListResponse>
 
-    suspend fun getMMProfile(id: Long): RemoteResponse<MasterMindResponse, ErrorsListResponse>
+    suspend fun getMMProfile(id: Long): RemoteResponse<UserProfileResponse, ErrorsListResponse>
 
     suspend fun follow(userId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 

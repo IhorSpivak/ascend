@@ -55,6 +55,12 @@ class MyChatViewHolder(
                         getMemberNameById(item, it.userId, user, binding.root.context)
                     )
                 }
+                MessageType.USER_REMOVED -> {
+                    itemView.message.text = binding.root.context.resources.getString(
+                        R.string.remove_message,
+                        getMemberNameById(item, it.userId, user, binding.root.context)
+                    )
+                }
                 else -> itemView.message.text = it.message
             }
         } ?: run {
@@ -71,10 +77,16 @@ class MyChatViewHolder(
             } ?: 0
             MessageStatus.ALL -> 0
             else -> item.lastMessage?.let {
-                if (it.userId == user.id) {
-                    R.drawable.ic_sent_message
-                } else {
-                    R.drawable.ic_unread_message
+                when {
+                    it.userId == user.id -> {
+                        R.drawable.ic_sent_message
+                    }
+                    it.type != MessageType.MESSAGE-> {
+                        0
+                    }
+                    else -> {
+                        R.drawable.ic_unread_message
+                    }
                 }
             } ?: 0
         }

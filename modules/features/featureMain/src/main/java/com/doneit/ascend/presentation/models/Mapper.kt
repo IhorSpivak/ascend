@@ -1,9 +1,6 @@
 package com.doneit.ascend.presentation.models
 
-import com.doneit.ascend.domain.entity.CardEntity
-import com.doneit.ascend.domain.entity.MessageSocketEntity
-import com.doneit.ascend.domain.entity.ParticipantEntity
-import com.doneit.ascend.domain.entity.SocketUserEntity
+import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.domain.entity.chats.MessageType
@@ -11,11 +8,15 @@ import com.doneit.ascend.domain.entity.dto.ChangeEmailDTO
 import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
 import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
 import com.doneit.ascend.domain.entity.dto.CreateAttachmentDTO
+import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
+import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
 import com.doneit.ascend.presentation.models.group.ParticipantSourcePriority
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
+import com.doneit.ascend.presentation.models.group.WebinarChatParticipant
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.getNotNull
 import com.stripe.android.model.Card
+import com.twilio.video.LocalParticipant
 import com.twilio.video.RemoteParticipant
 import java.text.SimpleDateFormat
 import java.util.*
@@ -84,6 +85,24 @@ fun SocketUserEntity.toPresentation(): PresentationChatParticipant {
     )
 }
 
+fun SocketUserEntity.toWebinarPresentation(): WebinarChatParticipant {
+    return WebinarChatParticipant(
+        userId.toString(),
+        fullName,
+        image,
+        isConnected = true
+    )
+}
+
+fun ParticipantEntity.toWebinarPresentation(): WebinarChatParticipant {
+    return WebinarChatParticipant(
+        userId = id.toString(),
+        fullName = fullName,
+        image = image,
+        isConnected = isConnected
+    )
+}
+
 fun ParticipantEntity.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
         ParticipantSourcePriority.REQUEST,
@@ -101,6 +120,24 @@ fun RemoteParticipant.toPresentation(): PresentationChatParticipant {
         ParticipantSourcePriority.TWILIO,
         userId = identity,
         remoteParticipant = this
+    )
+}
+
+fun LocalParticipant.toPresentation(): PresentationChatParticipant {
+    return PresentationChatParticipant(
+        ParticipantSourcePriority.TWILIO,
+        userId = identity,
+        localParticipant = this,
+        isOwner = true
+    )
+}
+
+fun OwnerEntity.toPresentation(): PresentationChatParticipant {
+    return PresentationChatParticipant(
+        ParticipantSourcePriority.REQUEST,
+        userId = id.toString(),
+        fullName = fullName,
+        isOwner = true
     )
 }
 
@@ -138,6 +175,18 @@ fun MessageSocketEntity.toEntity(): MessageEntity{
     )
 }
 
+fun QuestionSocketEntity.toEntity(): WebinarQuestionEntity {
+    return WebinarQuestionEntity(
+        id,
+        question,
+        createdAt?.toDate(),
+        updatedAt?.toDate(),
+        userId,
+        fullName,
+        image
+    )
+}
+
 fun String.toMessageStatus(): MessageStatus {
     return when (this) {
         "sent" -> MessageStatus.SENT
@@ -151,7 +200,7 @@ fun String.toDate(): Date? {
     return Constants.REMOTE_DATE_FORMAT_FULL.toDefaultFormatter().parse(this)
 }
 
-fun String.toDefaultFormatter(): SimpleDateFormat {
+private fun String.toDefaultFormatter(): SimpleDateFormat {
     val formatter = SimpleDateFormat(this, Locale.ENGLISH)
     formatter.timeZone = TimeZone.getTimeZone("GMT")
     return formatter
@@ -161,6 +210,7 @@ fun String.toMessageType(): MessageType{
     return when{
         this == MessageType.INVITE.toString() -> MessageType.INVITE
         this == MessageType.LEAVE.toString() -> MessageType.LEAVE
+        this == MessageType.USER_REMOVED.toString() -> MessageType.USER_REMOVED
         else -> MessageType.MESSAGE
     }
 }

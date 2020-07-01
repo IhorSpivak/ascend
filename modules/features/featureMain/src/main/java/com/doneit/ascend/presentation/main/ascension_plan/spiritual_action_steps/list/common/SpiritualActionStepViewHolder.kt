@@ -1,6 +1,9 @@
 package com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.common
 
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +12,7 @@ import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.Spiritual
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.TimeCommitmentType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.SpiritualActionListItemBinding
-import java.text.SimpleDateFormat
+import com.doneit.ascend.presentation.utils.extensions.toDayShortMonthYear
 import java.util.*
 
 class SpiritualActionStepViewHolder(
@@ -41,7 +44,7 @@ class SpiritualActionStepViewHolder(
                 textViewSpiritualActionDone.text = if (this){
                     "Completed"
                 }else{
-                    SimpleDateFormat("dd MM yyyy", Locale.ENGLISH).format(Date(item.deadline))
+                    Date(item.deadline).toDayShortMonthYear()
                 }
             }
             buttonSpiritualActionInteraction.apply {

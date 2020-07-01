@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberContract
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 
@@ -18,16 +19,21 @@ interface ChatContract {
         val chatModel: LiveData<ChatEntity>
         val membersCountGroup: LiveData<Int>
         val chat: MediatorLiveData<ChatWithUser>
+        var chatType: ChatType
 
         fun markMessageAsRead(message: MessageEntity)
         fun applyData(chat: ChatEntity?, user: UserEntity? = null)
-        fun setChat(chat: ChatEntity)
+        fun setChat(id: Long)
         fun initMessageStream()
         fun updateChatName(newName: String)
         fun sendMessage(message: String)
         fun inviteUser()
+        fun onImageClick()
+        fun onChatDetailsClick()
         fun onBlockUserClick(member: MemberEntity)
         fun onUnblockUserClick(member: MemberEntity)
+        fun showDetailedUser(userId: Long)
+        fun showLiveStreamUser(member: MemberEntity)
         fun onDelete(message: MessageEntity)
         fun onDeleteChat()
         fun onReportChatOwner(content: String)
@@ -37,6 +43,9 @@ interface ChatContract {
 
     interface Router {
         fun onBack()
+        fun goToDetailedUser(id: Long)
+        fun goToChatMembers(chatId: Long, chatOwner:Long, members: List<MemberEntity>, user: UserEntity)
+        fun goToLiveStreamUser(member: MemberEntity)
     }
 
     interface LocalRouter {

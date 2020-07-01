@@ -14,15 +14,16 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
-import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCardModel
 import com.doneit.ascend.presentation.models.group.toUpdatePrivacyGroupDTO
 import com.doneit.ascend.presentation.models.toPresentation
+import com.doneit.ascend.presentation.utils.convertCommunityToResId
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -31,24 +32,24 @@ class GroupInfoViewModel(
     private val router: GroupInfoContract.Router,
     private val groupUseCase: GroupUseCase,
     private val userUseCase: UserUseCase,
-    private val cardsUseCase: CardsUseCase,
-    private val mmUseCase: MasterMindUseCase
+    cardsUseCase: CardsUseCase
 ) : BaseViewModelImpl(), GroupInfoContract.ViewModel {
 
     override val group = MutableLiveData<GroupEntity>()
     override val cards = cardsUseCase.getAllCards().map { list -> list.map { it.toPresentation() } }
-    override val btnSubscribeVisible = MutableLiveData<Boolean>(false)
-    override val btnJoinVisible = MutableLiveData<Boolean>(false)
-    override val btnStartVisible = MutableLiveData<Boolean>(false)
-    override val btnDeleteVisible = MutableLiveData<Boolean>(false)
-    override val btnJoinedVisible = MutableLiveData<Boolean>(false)
-    override val isEditable = MutableLiveData<Boolean>(false)
-    override val isMM = MutableLiveData<Boolean>(false)
-    override val isOwner = MutableLiveData<Boolean>(false)
-    override val isSubscribed = MutableLiveData<Boolean>(false)
-    override val starting = MutableLiveData<Boolean>(false)
+    override val btnSubscribeVisible = MutableLiveData(false)
+    override val btnJoinVisible = MutableLiveData(false)
+    override val btnStartVisible = MutableLiveData(false)
+    override val btnDeleteVisible = MutableLiveData(false)
+    override val btnJoinedVisible = MutableLiveData(false)
+    override val isEditable = MutableLiveData(false)
+    override val isMM = MutableLiveData(false)
+    override val isOwner = MutableLiveData(false)
+    override val isSubscribed = MutableLiveData(false)
+    override val starting = MutableLiveData(false)
     override val users: MutableLiveData<List<ParticipantEntity>> = MutableLiveData()
-
+    override val supportTitle = MutableLiveData<Int>()
+    override val closeDialog = SingleLiveEvent<Boolean>()
     override val isBlocked: Boolean
         get() {
             val isInitialized = group.value != null
@@ -64,16 +65,20 @@ class GroupInfoViewModel(
                 group.postValue(response.successModel!!)
                 isSupport.postValue(response.successModel?.groupType != GroupType.SUPPORT)
                 val user = userUseCase.getUser()
-                isMM.postValue(user!!.isMasterMind)
+                supportTitle.value = convertCommunityToResId(
+                    user!!.community.orEmpty(),
+                    group.value?.groupType
+                )
+                isMM.postValue(user.isMasterMind)
                 isOwner.postValue(user.id == response.successModel!!.owner?.id)
-                if(response.successModel!!.participantsCount!! > 0){
+                if (response.successModel!!.participantsCount!! > 0) {
                     groupUseCase.getParticipantList(groupId, null, null).let {
-                        if (it.isSuccessful){
+                        if (it.isSuccessful) {
                             users.postValue(it.successModel)
                         }
                     }
                 }
-                updateButtonsState(user!!, response.successModel!!)
+                updateButtonsState(user, response.successModel!!)
             }
             showProgress(false)
         }
@@ -88,7 +93,7 @@ class GroupInfoViewModel(
             btnStartVisible.postValue(status != GroupStatus.STARTED)
             btnDeleteVisible.postValue(participantsCount == 0)
             btnSubscribeVisible.postValue(subscribed != true && user.id != details.owner?.id)
-            if (user.id == details.owner?.id){
+            if (user.id == details.owner?.id) {
                 btnJoinVisible.postValue(inProgress && status == GroupStatus.STARTED)
             }
             isSubscribed.postValue(subscribed)
@@ -142,7 +147,7 @@ class GroupInfoViewModel(
 
             if (res.isSuccessful) {
                 router.onBack()
-            }else {
+            } else {
                 showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
             }
         }
@@ -154,10 +159,10 @@ class GroupInfoViewModel(
             if (res.isSuccessful) {
                 if (group.value!!.groupType != GroupType.WEBINAR) {
                     router.onBack()
-                }else{
+                } else {
                     loadData(group.value!!.id)
                 }
-            }else {
+            } else {
                 showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
             }
         }
@@ -166,9 +171,10 @@ class GroupInfoViewModel(
     override fun cancelGroup(reason: String) {
         group.value?.let {
             viewModelScope.launch {
-                groupUseCase.cancelGroup(CancelGroupDTO(it.id, reason)).let {response ->
+                groupUseCase.cancelGroup(CancelGroupDTO(it.id, reason)).let { response ->
                     if (response.isSuccessful) {
                         loadData(it.id)
+                        closeDialog.postValue(true)
                     } else {
                         showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
                     }
@@ -229,15 +235,16 @@ class GroupInfoViewModel(
     override fun onUpdatePrivacyClick(isPrivate: Boolean) {
         group.value.let {
             viewModelScope.launch {
-                groupUseCase.updateGroup(it!!.id, it.toUpdatePrivacyGroupDTO(isPrivate)).let {response ->
-                    if (response.isSuccessful) {
-                        loadData(it.id)
-                    } else {
-                        if (response.errorModel!!.isNotEmpty()) {
-                            showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+                groupUseCase.updateGroup(it!!.id, it.toUpdatePrivacyGroupDTO(isPrivate))
+                    .let { response ->
+                        if (response.isSuccessful) {
+                            loadData(it.id)
+                        } else {
+                            if (response.errorModel!!.isNotEmpty()) {
+                                showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+                            }
                         }
                     }
-                }
             }
         }
     }

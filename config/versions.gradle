@@ -5,7 +5,7 @@ ext {
     versionMajor = 0
     versionMinor = 7
     versionPatch = 1
-    version_code = 58
+    version_code = 85
 
     kotlin_version = '1.3.31'
     androidx_version = '1.0.2'
@@ -41,7 +41,7 @@ ext {
             kotlinJDK         : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             kotlinReflect     : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             lifecycle         : "android.arch.lifecycle:extensions:$lifecycle_version",
-            material          : "com.google.android.material:material:1.1.0-alpha07",
+            material          : "com.google.android.material:material:1.1.0-rc02",
             constraintlayout  : "androidx.constraintlayout:constraintlayout:2.0.0-alpha2",
             coroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version",
             multidex          : "com.android.support:multidex:$multidex_version",
@@ -91,6 +91,14 @@ ext {
 
     def ucrop = [
             core: "com.github.yalantis:ucrop:2.2.2"
+    ]
+
+    def vimeo = [
+            networking: "com.vimeo.networking:vimeo-networking:1.1.3",
+    ]
+
+    def rtmp = [
+            rtmpClient: "com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:e75a68b761",
     ]
 
     def tests = [
@@ -195,6 +203,7 @@ ext {
 
             [configuration: "api", dependency: core.remote],
             [configuration: "implementation", dependency: core.networkmanager],
+            [configuration: "implementation", dependency: vimeo.networking]
     ]
 
     localModule = [
@@ -302,7 +311,8 @@ ext {
             [configuration: "implementation", dependency: other.twilio],
             [configuration: "implementation", dependency: other.pickit],
             [configuration: "implementation", dependency: amazonaws.sdk],
-            [configuration: "implementation", dependency: amazonaws.s3]
+            [configuration: "implementation", dependency: amazonaws.s3],
+            [configuration: "implementation", dependency: rtmp.rtmpClient]
     ]
 
     entityModule = [

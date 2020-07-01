@@ -22,6 +22,11 @@ interface ChatApi {
         @Query("updated_at_to") updatedAtTo: String?
     ): Deferred<Response<MyChatsListResponse>>
 
+    @GET("chats/{id}")
+    fun getChatDetailAsync(
+        @Path("id") id: Long
+    ): Deferred<Response<ChatResponse>>
+
     @POST("chats")
     fun createChatAsync(@Body request: CreateChatRequest): Deferred<Response<ChatResponse>>
 
@@ -70,6 +75,12 @@ interface ChatApi {
 
     @DELETE("chats/{id}/leave")
     fun leaveChatAsync(@Path("id") id: Long): Deferred<Response<OKResponse>>
+
+    @DELETE("chats/{id}/remove_user/{user_id}")
+    fun removeUserAsync(
+        @Path("id") chatId: Long,
+        @Path("user_id") userId: Long
+    ): Deferred<Response<OKResponse>>
 
     @PUT("messages/{id}")
     fun editMessageAsync(

@@ -29,15 +29,13 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
-import com.doneit.ascend.presentation.main.create_group.common.ParticipantAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.SupportDuration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateSupportGroupBinding
-import com.doneit.ascend.presentation.utils.GroupAction
-import com.doneit.ascend.presentation.utils.checkImage
-import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.*
-import com.doneit.ascend.presentation.utils.getImagePath
 import kotlinx.android.synthetic.main.fragment_create_support_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
@@ -49,7 +47,6 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -65,13 +62,9 @@ class CreateSupGroupFragment :
     override val viewModel: CreateSupGroupContract.ViewModel by instance()
 
     private var group: GroupEntity? = null
-    private var tempUri: Uri? = null
     private var what: String? = null
     private var currentPhotoPath: String? = null
 
-    private val adapter: ParticipantAdapter by lazy {
-        ParticipantAdapter(mutableListOf(), viewModel)
-    }
     private val meetingTypesAdapter by lazy {
         MeetingFormatsAdapter(
             context!!.resources.getStringArray(
@@ -81,10 +74,8 @@ class CreateSupGroupFragment :
     }
 
     private val durationAdapter by lazy {
-        MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
-                R.array.meeting_duration_array
-            )
+        DurationAdapter(
+            SupportDuration.values().map { it.label }.toTypedArray()
         )
     }
 
@@ -126,6 +117,12 @@ class CreateSupGroupFragment :
                 viewModel.createGroupModel.isPrivate.set(b)
             }
 
+            mainContainer.setOnFocusChangeListener { v, b ->
+                if (b) {
+                    hideKeyboard()
+                }
+            }
+
             placeholderDash.setOnClickListener {
                 hideKeyboard()
                 createImageBottomDialog().show(childFragmentManager, null)
@@ -145,6 +142,7 @@ class CreateSupGroupFragment :
                 mainContainer.requestFocus()
                 viewModel.chooseStartDateTouch()
             }
+            applyMultilineFilter(description)
         }
         viewModel.members.observe(this, Observer {
             viewModel.createGroupModel.participants.set(it.map {
@@ -168,7 +166,7 @@ class CreateSupGroupFragment :
 
             val tagsAdapter = MeetingFormatsAdapter(array.toTypedArray())
             initSpinner(binding.tagsPicker, tagsListener, tagsAdapter)
-            if(group != null) {
+            if (group != null) {
                 viewModel.createGroupModel.apply {
                     val position = array.indexOf(group!!.tag!!.tag)
                     binding.tagsPicker.setSelection(position)
@@ -179,9 +177,13 @@ class CreateSupGroupFragment :
         if (group != null) {
             binding.btnComplete.apply {
                 text = getString(R.string.btn_save_action)
-                setOnClickListener { viewModel.updateGroup(group!!) }
+                setOnClickListener {
+                    when (what) {
+                        GroupAction.DUPLICATE.toString() -> viewModel.completeClick()
+                        GroupAction.EDIT.toString() -> viewModel.updateGroup(group!!)
+                    }
+                }
             }
-            viewModel.createGroupModel.isPrivate.set(group!!.isPrivate)
             viewModel.createGroupModel.apply {
                 when (what) {
                     GroupAction.DUPLICATE.toString() -> {
@@ -199,28 +201,24 @@ class CreateSupGroupFragment :
                 )
                 tags = group!!.tag!!.id
                 binding.durationPicker.setSelection(
-                    group!!.duration
+                    SupportDuration.fromDuration(group!!.duration).ordinal
                 )
                 numberOfMeetings.observableField.set(group!!.meetingsCount.toString())
                 price.observableField.set(group!!.price.toString())
                 description.observableField.set(group!!.description)
                 val date = group!!.startTime
                 year = date!!.toYear()
-                month = MonthEntity.values()[date!!.toMonth()]
-                day = date!!.toDayOfMonth()
-                hours = date!!.toCalendar().get(Calendar.HOUR).toTimeString()
-                hoursOfDay = date!!.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
-                minutes = date!!.toCalendar().get(Calendar.MINUTE).toTimeString()
-                timeType = date!!.toCalendar().get(Calendar.AM_PM).toAmPm()
+                month = MonthEntity.values()[date.toMonth()]
+                day = date.toDayOfMonth()
+                hours = date.toCalendar().get(Calendar.HOUR).toTimeString()
+                hoursOfDay = date.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
+                minutes = date.toCalendar().get(Calendar.MINUTE).toTimeString()
+                timeType = date.toCalendar().get(Calendar.AM_PM).toAmPm()
                 groupType = GroupType.values()[group!!.groupType!!.ordinal]
-                meetingFormat.observableField.set(group!!.meetingFormat ?: "")
-                startDate.observableField.set(
-                    SimpleDateFormat(
-                        "dd MMMM yyyy",
-                        Locale.ENGLISH
-                    ).format(date)
-                )
-                selectedDays.addAll(group!!.daysOfWeek!!)
+                meetingFormat.observableField.set(group!!.meetingFormat.orEmpty())
+
+                startDate.observableField.set(date.toDayFullMonthYear())
+                selectedDays.addAll(group!!.daysOfWeek)
                 viewModel.changeSchedule()
                 Glide.with(context!!)
                     .asBitmap()
@@ -294,10 +292,10 @@ class CreateSupGroupFragment :
                     )
                 ) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
                         File.createTempFile(
-                            "JPEG_${timeStamp}_",
+                            "JPEG_${Date().toTimeStampFormat()}_",
                             ".jpg",
                             it /* directory */
                         ).apply {
@@ -313,20 +311,6 @@ class CreateSupGroupFragment :
                             }
                         }
                     }
-                    /*val content = ContentValues().apply {
-                        put(
-                            MediaStore.Images.Media.TITLE,
-                            "JPEG_${SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())}.jpg"
-                        )
-                        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                        put(MediaStore.Images.Media.DESCRIPTION, "group_image")
-                    }
-                    tempUri = activity?.contentResolver?.insert(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        content
-                    )
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri)
-                    startActivityForResult(cameraIntent, PHOTO_REQUEST_CODE)*/
                 }
             }
     }
@@ -392,7 +376,7 @@ class CreateSupGroupFragment :
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.duration.observableField.set(p2.toString())
+                    viewModel.createGroupModel.duration.observableField.set(SupportDuration.values()[p2].time.toString())
                 }
             }
 

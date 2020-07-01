@@ -76,7 +76,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:onClick="@{(v) -> model.onNotesClick()}"
+            android:onClick="@{(v) -> model.onChatClick()}"
             android:src="@drawable/ic_chat"
             android:tint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="@+id/ivNotes"
@@ -84,6 +84,15 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/ivNotes"
             app:layout_constraintTop_toTopOf="@+id/ivNotes" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:visibility="@{model.hasUnreadMessage}"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:src="@drawable/ic_unread_indicator"
+            app:layout_constraintTop_toTopOf="@id/ivChat"
+            app:layout_constraintEnd_toEndOf="@id/ivChat"/>
 
         <ImageView
             android:id="@+id/ivReport"
@@ -103,7 +112,6 @@
             style="@style/AppTheme.Button"
             android:layout_marginBottom="16dp"
             android:background="#DD4B39"
-            android:onClick="@{(v) -> model.leaveGroup()"
             android:fontFamily="@font/red_hat_text_bold"
             android:text="@string/leave_this_group_webinar_participant"
             android:textColor="@android:color/white"

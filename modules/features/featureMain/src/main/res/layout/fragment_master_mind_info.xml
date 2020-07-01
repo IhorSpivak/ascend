@@ -6,6 +6,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.doneit.ascend.presentation.utils.NumberUtilsKt" />
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.master_mind_info.MMInfoContract.ViewModel" />
@@ -15,9 +17,9 @@
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:clickable="true"
-        android:focusable="true"
-        android:background="@android:color/white">
+        android:focusable="true">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -50,6 +52,7 @@
                                 android:id="@+id/ivImage"
                                 android:layout_width="160dp"
                                 android:layout_height="160dp"
+                                android:layout_marginTop="16dp"
                                 android:elevation="0dp"
                                 app:cardCornerRadius="80dp"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +103,7 @@
                                 android:numStars="5"
                                 android:rating="@{model.profile.rating}"
                                 android:theme="@style/RatingBarTheme"
-                                android:visibility="visible"
+                                android:visibility="@{model.profile.masterMind?View.VISIBLE:View.GONE}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
@@ -111,15 +114,32 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
-                                android:layout_marginTop="16dp"
+                                android:layout_marginTop="8dp"
                                 android:layout_marginEnd="20dp"
                                 android:gravity="center"
-                                android:text="@{model.profile.description}"
+                                android:visibility="@{model.profile != null}"
+                                android:text="@{model.profile.masterMind?model.masterMindDescription + @string/type_mastermind:@string/type_regular_user}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/rbRating"
-                                app:visibilityByData="@{model.profile.description}"
                                 tools:text="MasterMind" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/tvFollowersCount"
+                                style="@style/AppTheme.Button"
+                                android:layout_width="120dp"
+                                android:layout_height="32dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/ic_bg_btn_joined"
+                                android:elevation="8dp"
+                                android:text="@{@plurals/mm_followers_count(model.profile.followersCount,NumberUtilsKt.formatToKValue(model.profile.followersCount))}"
+                                android:textAllCaps="false"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="12sp"
+                                android:visibility="@{model.profile.masterMind?View.VISIBLE:View.INVISIBLE}"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
 
                             <Button
                                 android:id="@+id/btnFollow"
@@ -131,11 +151,11 @@
                                 android:enabled="@{model.enableFollow}"
                                 android:onClick="@{() -> model.onFollowClick()}"
                                 android:text="@string/btn_follow"
-                                android:visibility="@{model.isFollowVisible()}"
+                                android:visibility="@{model.isFollowVisible(),default=gone}"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
+                                app:layout_constraintTop_toBottomOf="@id/tvFollowersCount" />
 
                             <Button
                                 android:id="@+id/btnUnFollow"
@@ -148,11 +168,11 @@
                                 android:onClick="@{() -> model.onUnfollowClick()}"
                                 android:text="@string/btn_unfollow"
                                 android:textColor="@color/default_font_color"
-                                android:visibility="@{model.isUnfollowVisible()}"
+                                android:visibility="@{model.isUnfollowVisible(),default=gone}"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
+                                app:layout_constraintTop_toBottomOf="@id/tvFollowersCount" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.appcompat.widget.Toolbar>
@@ -161,6 +181,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="@{model.profile.masterMind?View.VISIBLE:View.INVISIBLE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -236,12 +257,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:isIndicator="@{model.rated}"
                         android:numStars="5"
                         android:rating="@{model.myRating == null ? 0 : model.myRating}"
                         android:stepSize="1"
                         android:theme="@style/RatingBarTheme"
                         android:visibility="@{model.showRatingBar}"
-                        android:isIndicator="@{model.rated}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvRate" />

@@ -25,9 +25,10 @@ interface CreateSupGroupContract {
         val members: MutableLiveData<MutableList<AttendeeEntity>>
         val selectedMembers: MutableList<AttendeeEntity>
         val tags: MutableLiveData<List<TagEntity>>
+        val supportTitle: LiveData<Int>
 
         fun addNewParticipant()
-        fun removeMember(member: AttendeeEntity)
+        fun removeMember(member: AttendeeEntity): Int
         fun completeClick()
         fun updateGroup(group: GroupEntity)
         fun backClick()

@@ -16,6 +16,8 @@ import com.doneit.ascend.source.storage.local.repository.question.IQuestionRepos
 import com.doneit.ascend.source.storage.local.repository.question.QuestionRepository
 import com.doneit.ascend.source.storage.local.repository.user.IUserRepository
 import com.doneit.ascend.source.storage.local.repository.user.UserRepository
+import com.doneit.ascend.source.storage.local.repository.webinar_question.IWebinarQuestionRepository
+import com.doneit.ascend.source.storage.local.repository.webinar_question.WebinarQuestionRepository
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -35,5 +37,6 @@ object StorageLocalModule {
         bind<IAttachmentRepository>() with singleton { AttachmentRepository(instance<LocalDatabase>().attachmentDao()) }
         bind<INotificationRepository>() with singleton { NotificationRepository(instance<LocalDatabase>().notificationDao()) }
         bind<IMyChatsRepository>() with singleton { MyChatsRepository(instance<LocalDatabase>().myChatsDao()) }
+        bind<IWebinarQuestionRepository>() with singleton { WebinarQuestionRepository(instance<LocalDatabase>().webinarQuestionDao()) }
     }
 }

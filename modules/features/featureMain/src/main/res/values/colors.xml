@@ -41,4 +41,5 @@
     <color name="black_05">#88000000</color>
     <color name="gold">#FFCA00</color>
     <color name="transparent_30_black">#4c000000</color>
+    <color name="messageWebinarName">#FE1E92</color>
 </resources>

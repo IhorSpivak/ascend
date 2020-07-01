@@ -38,7 +38,7 @@
             android:id="@+id/placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible">
+            android:visibility="@{!model.isMMConnected}">
 
             <TextView
                 android:id="@+id/tvTitle"

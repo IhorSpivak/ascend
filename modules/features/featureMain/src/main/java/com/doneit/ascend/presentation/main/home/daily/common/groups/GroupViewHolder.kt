@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.LifecycleViewHolder
 import com.doneit.ascend.presentation.main.databinding.TemplateGroupItemBinding
+import com.doneit.ascend.presentation.utils.convertCommunityToResId
 
 class GroupViewHolder(
     private val binding: TemplateGroupItemBinding
@@ -18,16 +18,16 @@ class GroupViewHolder(
         binding.apply {
             this.item = item
             this.user = user
-            this.theme = if (item.pastMeetingsCount == item.meetingsCount){
+            this.theme = if (item.pastMeetingsCount == item.meetingsCount) {
                 item.pastMeetingsCount?.let { item.themes?.get(it - 1) }
-            }else{
+            } else {
                 item.pastMeetingsCount?.let { item.themes?.get(it) }
             }
-            when(item.groupType){
-                GroupType.MASTER_MIND -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)
-                GroupType.INDIVIDUAL -> tvGroupType.text = root.context.resources.getString(R.string.master_mind_group)
-                GroupType.SUPPORT -> tvGroupType.text = root.context.resources.getString(R.string.support_group)
-                GroupType.WEBINAR -> tvGroupType.text = root.context.resources.getString(R.string.webinars)
+            convertCommunityToResId(
+                user?.community.orEmpty(),
+                item.groupType
+            )?.let {
+                tvGroupType.setText(it)
             }
             btnStartGroup.setOnClickListener {
                 onButtonClick.invoke(item)

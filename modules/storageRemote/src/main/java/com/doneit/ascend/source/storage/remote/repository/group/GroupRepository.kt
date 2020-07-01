@@ -3,6 +3,7 @@ package com.doneit.ascend.source.storage.remote.repository.group
 import com.doneit.ascend.source.storage.remote.api.GroupApi
 import com.doneit.ascend.source.storage.remote.api.UserApi
 import com.doneit.ascend.source.storage.remote.data.request.SearchUserRequest
+import com.doneit.ascend.source.storage.remote.data.request.SetGroupCredentialsRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.*
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
@@ -29,10 +30,10 @@ internal class GroupRepository(
     ): RemoteResponse<GroupResponse, ErrorsListResponse> {
         return execute({
             val builder = MultipartBody.Builder().apply {
-                addPart(MultipartBody.Part.createFormData("name", request.name ?: ""))
-                addPart(MultipartBody.Part.createFormData("description", request.description ?: ""))
-                addPart(MultipartBody.Part.createFormData("start_time", request.startTime ?: ""))
-                addPart(MultipartBody.Part.createFormData("group_type", request.groupType ?: ""))
+                addPart(MultipartBody.Part.createFormData("name", request.name.orEmpty()))
+                addPart(MultipartBody.Part.createFormData("description", request.description.orEmpty()))
+                addPart(MultipartBody.Part.createFormData("start_time", request.startTime.orEmpty()))
+                addPart(MultipartBody.Part.createFormData("group_type", request.groupType.orEmpty()))
                 when (request.groupType) {
                     MASTER_MIND -> {
                     }
@@ -290,6 +291,14 @@ internal class GroupRepository(
 
     override suspend fun getCredentials(groupId: Long): RemoteResponse<GroupCredentialsResponse, ErrorsListResponse> {
         return execute({ api.getCredentialsAsync(groupId) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun setCredentials(
+        groupId: Long,
+        key: String?,
+        link: String?
+    ): RemoteResponse<Unit, ErrorsListResponse> {
+        return execute({ api.setCredentialsAsync(groupId, SetGroupCredentialsRequest(key, link)) }, ErrorsListResponse::class.java)
     }
 
     override suspend fun getWebinarCredentials(groupId: Long): RemoteResponse<WebinarCredentialsResponse, ErrorsListResponse> {

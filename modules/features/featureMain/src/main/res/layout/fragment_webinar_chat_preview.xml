@@ -48,7 +48,7 @@
             style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/waiting_for_start"
+            android:text="@string/waiting_for_start_webinar"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +70,97 @@
             android:textAllCaps="true"
             app:layout_constraintTop_toBottomOf="@id/subtitle"
             app:layout_constraintBottom_toBottomOf="parent" />
+
+        <View
+            android:id="@+id/background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_shadow_rounded"
+            app:layout_constraintBottom_toBottomOf="@+id/message"
+            app:layout_constraintEnd_toEndOf="@+id/send"
+            app:layout_constraintStart_toStartOf="@id/message"
+            app:layout_constraintTop_toTopOf="@+id/message" />
+
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="20dp"
+            android:alpha="0.4"
+            android:background="@android:color/transparent"
+            android:hint="@string/ask_question_hint"
+            android:maxLength="500"
+            android:maxLines="4"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/send"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/questionSent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_pink"
+            android:padding="4dp"
+            android:text="@string/question_sent"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/send"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/ask_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{model.isVisitor, default = gone}"
+            app:constraint_referenced_ids="send,background,message" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:alpha="0.4"
+            android:padding="16dp"
+            android:src="@drawable/ic_send"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@id/message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/message"
+            app:layout_constraintTop_toTopOf="@id/message" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvQuestions"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:focusable="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:visibility="@{!model.isVisitor, default = gone}"
+            app:reverseLayout="true"
+            app:stackFromEnd="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline"
+            tools:listitem="@layout/template_webinar_question_transparent_item" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            app:layout_constraintGuide_percent="0.5"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

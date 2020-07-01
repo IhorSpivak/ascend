@@ -11,8 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.doneit.ascend.domain.entity.chats.ChatEntity
-import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
 import com.doneit.ascend.presentation.dialog.EditChatNameDialog
@@ -20,11 +18,13 @@ import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
 import com.doneit.ascend.presentation.utils.extensions.visible
-import kotlinx.android.synthetic.main.fragment_my_chats.*
+import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.fragment_my_chats.emptyList
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -69,20 +69,22 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private var currentDialog: AlertDialog? = null
     private var menuResId: Int = -1
     private var kickOrReportUserId: Long = -1
-    private var firstLoad: Boolean = true
-    private var firstPositionId: Long = 0
     private val messagesAdapter: MessagesAdapter by lazy {
         MessagesAdapter(
+            ChatType.fromRemoteString(requireArguments().getString(CHAT_TYPE).orEmpty()),
             null,
             null,
             { viewModel.onDelete(it) },
-            { view, id -> showMenuOnUserClick(view, id) })
+            { view, id -> showMenuOnUserClick(view, id) },
+            { _, id -> viewModel.showDetailedUser(id) },
+            { _, member -> viewModel.showLiveStreamUser(member) })
     }
 
 
     //TODO: still need to refactor
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
+            model = viewModel
             messageList.adapter = messagesAdapter
             menu.setOnClickListener {
                 showMenu(it)
@@ -102,26 +104,35 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 resources.getString(R.string.chats_member_count, it)
         })
         viewModel.chat.observe(this, Observer {
-            currentDialog?.dismiss()
             binding.apply {
-                chatName = it.chat.title
-                chat = it.chat
-                Glide.with(groupPlaceholder)
-                    .load(R.drawable.ic_group_placeholder)
-                    .circleCrop()
-                    .into(groupPlaceholder)
-                if (it.chat.membersCount > 2) {
-                    url = it.chat.image?.url
-                    statusOrCount =
-                        resources.getString(R.string.chats_member_count, it.chat.membersCount)
-                } else {
-                    binding.apply {
+                binding.menu.visible(it.chatType == ChatType.CHAT)
+                binding.chatHeader.visible(it.chatType == ChatType.CHAT)
+                binding.tvTitle.visible(it.chatType == ChatType.WEBINAR_CHAT)
+                if (it.chatType != ChatType.WEBINAR_CHAT) {
+                    chatName = it.chat.title
+                    chat = it.chat
+                    Glide.with(groupPlaceholder)
+                        .load(R.drawable.ic_group_placeholder)
+                        .circleCrop()
+                        .into(groupPlaceholder)
+                    if (it.chat.members?.size != PRIVATE_CHAT_MEMBER_COUNT) {
+                        url = it.chat.image?.url
+                        statusOrCount =
+                            resources.getString(R.string.chats_member_count, it.chat.membersCount)
+                    } else {
+                        image.setOnClickListener {
+                            viewModel.showDetailedUser(
+                                chat?.members?.firstOrNull {
+                                    it.id != viewModel.user.value?.id
+                                }?.id ?: return@setOnClickListener
+                            )
+                        }
                         it.chat.members?.firstOrNull { it.id != viewModel.user.value?.id }?.let {
                             url = it.image?.url
-                            if (it.online) {
-                                statusOrCount = resources.getString(R.string.chats_member_online)
+                            statusOrCount = if (it.online) {
+                                resources.getString(R.string.chats_member_online)
                             } else {
-                                statusOrCount = resources.getString(R.string.chats_member_offline)
+                                resources.getString(R.string.chats_member_offline)
                             }
                         }
                     }
@@ -130,7 +141,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             //set type of menu
             when (it.chat.chatOwnerId) {
                 it.user.id -> {
-                    menuResId = if (it.chat.membersCount > 2) {
+                    menuResId = if (it.chat.members?.size != PRIVATE_CHAT_MEMBER_COUNT) {
                         R.menu.chat_mm_group_menu
                     } else {
                         if (it.chat.blocked) {
@@ -141,7 +152,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                     }
                 }
                 else -> {
-                    menuResId = if (it.chat.membersCount > 2) {
+                    menuResId = if (it.chat.members?.size != PRIVATE_CHAT_MEMBER_COUNT) {
                         R.menu.chat_ru_group_menu
                     } else {
                         if (it.chat.blocked) {
@@ -162,7 +173,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
             //check when user leaved group chat
             if (it.chat.chatOwnerId != it.user.id) {
-                if (it.chat.membersCount > 2) {
+                if (it.chat.members?.size != PRIVATE_CHAT_MEMBER_COUNT) {
                     it.chat.members?.firstOrNull { member -> member.id == it.user.id }?.let {
                         if (it.leaved) {
                             binding.apply {
@@ -176,49 +187,55 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
             messagesAdapter.updateMembers(it.chat)
             messagesAdapter.updateUser(it.user)
-            //viewModel.applyData(chat)
         })
-        binding.messageList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val first =
-                    (binding.messageList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                val last =
-                    (binding.messageList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                if (last >= 0 && first >= 0) {
-                    for (i in last..first) {
-                        messagesAdapter.currentList?.let {
-                            viewModel.markMessageAsRead(it[i]!!)
+
+        applyDataObserver()
+        binding.messageList.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val first =
+                        (binding.messageList.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val last =
+                        (binding.messageList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    if (last >= 0 && first >= 0) {
+                        for (i in last..first) {
+                            messagesAdapter.currentList?.let {
+                                viewModel.markMessageAsRead(it[i]!!)
+                            }
                         }
                     }
                 }
-            }
-        })
+            })
         binding.messageList.addOnLayoutChangeListener { v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
             if (bottom < oldBottom) {
-                binding.messageList.postDelayed(Runnable {
+                binding.messageList.postDelayed({
                     binding.messageList.smoothScrollToPosition(
                         0
                     )
                 }, 0)
             }
         }
-        viewModel.messages.observe(this, Observer {
+        viewModel.messages.observe(this, Observer
+        {
             emptyList.visible(it.isNullOrEmpty())
             messagesAdapter.submitList(it)
-            if (messagesAdapter.currentList.isNullOrEmpty().not()) {
-                if (firstPositionId == 0L) {
-                    var count = 0
-                    messagesAdapter.currentList?.forEach {
-                        if (it.status == MessageStatus.SENT && viewModel.user.value!!.id != it.userId) {
-                            count++
-                        }
+        })
+    }
+
+    private fun applyDataObserver() {
+        messagesAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (itemCount > 0) {
+                    val index = messagesAdapter.currentList.orEmpty().indexOfLast {
+                        it.status == MessageStatus.SENT && viewModel.user.value!!.id != it.userId
                     }
-                    scrollToUnread(count)
-                } else if (firstPositionId != (messagesAdapter.currentList?.get(0) as MessageEntity).id) {
-                    scrollIfNeed()
+                    if (index != -1) {
+                        scrollToUnread(index)
+                    } else {
+                        scrollIfNeed()
+                    }
                 }
-                firstPositionId = (messagesAdapter.currentList?.get(0) as MessageEntity).id
             }
         })
     }
@@ -235,22 +252,29 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private fun scrollToUnread(unreadMessageCount: Int = 0) {
         binding.messageList.adapter?.let {
             binding.messageList.scrollToPosition(unreadMessageCount)
+            binding.messageList.smoothScrollBy(0, -1)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        arguments?.getParcelable<ChatEntity>(CHAT_KEY)?.let {
+        arguments?.getString(CHAT_TYPE)?.let {
+            viewModel.chatType = ChatType.fromRemoteString(it)
+        }
+        arguments?.getLong(CHAT_KEY)?.let {
             viewModel.setChat(it)
         }
     }
 
     companion object {
+        const val PRIVATE_CHAT_MEMBER_COUNT = 2 //server sent members count without you.
         const val CHAT_KEY = "chat"
-        fun getInstance(chat: ChatEntity): ChatFragment {
+        const val CHAT_TYPE = "chat_type"
+        fun getInstance(id: Long, chatType: ChatType = ChatType.CHAT): ChatFragment {
             return ChatFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(CHAT_KEY, chat)
+                    putLong(CHAT_KEY, id)
+                    putString(CHAT_TYPE, chatType.toString())
                 }
             }
         }
@@ -410,6 +434,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             }
             currentDialog?.show()
         }
+    }
+
+    override fun onDestroyView() {
+        messageList.adapter = null
+        super.onDestroyView()
     }
 
     private fun createEditNameDialog(): AlertDialog {

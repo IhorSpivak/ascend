@@ -1,6 +1,7 @@
 package com.doneit.ascend.source.storage.remote.repository.chats.socket
 
 import android.util.Log
+import com.doneit.ascend.source.Constants.SOCKET_URL
 import com.doneit.ascend.source.storage.remote.data.request.group.ChatSocketCookies
 import com.doneit.ascend.source.storage.remote.data.response.chat.ChatSocketEventMessage
 import com.doneit.ascend.source.storage.remote.data.response.chat.ChatSocketEventResponse
@@ -25,7 +26,7 @@ class ChatSocketRepository(
         val client = builder.build()
 
         val request =
-            Request.Builder().url(URL)
+            Request.Builder().url(SOCKET_URL)
                 .addHeader(COOKIE_KEY, cookies.toString())//required for authorization
                 .addHeader(
                     "Origin",
@@ -84,8 +85,6 @@ class ChatSocketRepository(
     companion object {
         private const val SUBSCRIBE_GROUP_CHANNEL_COMMAND =
             "{\"identifier\":\"{\\\"channel\\\":\\\"ChatChannel\\\"}\",\"command\": \"subscribe\"}"
-        private const val URL = "wss://ascend-backend.herokuapp.com/cable"
-        //private const val URL = "wss://ascend-backend-prod.herokuapp.com/cable"
         private const val COOKIE_KEY = "Cookie"
     }
 }

@@ -6,9 +6,10 @@ import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.dto.UpdateGroupDTO
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.presentation.main.create_group.CreateGroupViewModel
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
+import com.doneit.ascend.presentation.utils.extensions.START_TIME_FORMATTER
 import com.doneit.ascend.presentation.utils.extensions.TIME_24_FORMAT_DROP_DAY
+import com.doneit.ascend.presentation.utils.extensions.toGMTFormatter
 import com.doneit.ascend.presentation.utils.getNotNull
 import java.util.*
 
@@ -27,10 +28,10 @@ fun PresentationCreateGroupModel.toWebinarEntity(is24TimeFormat: Boolean): Creat
         isPrivate.get(),
         tags,
         timeList.map {
-            TIME_24_FORMAT_DROP_DAY.apply { timeZone = TimeZone.getTimeZone("GMT") }.format(it.time)
+            TIME_24_FORMAT_DROP_DAY.toGMTFormatter().format(it.time)
         },
         themesOfMeeting.map { it.observableField.get()!! },
-        duration.observableField.getNotNull().toMinutes()
+        duration.observableField.getNotNull().toInt()
     )
 }
 
@@ -58,20 +59,20 @@ fun PresentationCreateGroupModel.toUpdateWebinarEntity(group: GroupEntity): Upda
         isPrivate.get(),
         tags,
         timeList.map {
-            TIME_24_FORMAT_DROP_DAY.apply { timeZone = TimeZone.getTimeZone("GMT") }.format(it.time)
+            TIME_24_FORMAT_DROP_DAY.toGMTFormatter().format(it.time)
         },
         themesOfMeeting.map { it.observableField.get()!! },
-        duration.observableField.getNotNull().toMinutes()
+        duration.observableField.getNotNull().toInt()
     )
 }
 fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
-    val startTime =
-        CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())
+    val startTime = START_TIME_FORMATTER.toGMTFormatter().parse(startDate.observableField.getNotNull())
     val calendar = getDefaultCalendar()
     calendar.time = startTime!!
     calendar.set(Calendar.HOUR, hours.toHours())
     calendar.set(Calendar.MINUTE, minutes.toInt())
-    calendar.set(Calendar.AM_PM, timeType.toAM_PM())
+    calendar.set(Calendar.AM_PM, timeType.toAM_PM(hours))
+    calendar.set(Calendar.DAY_OF_MONTH, day)
 
     return CreateGroupDTO(
         name.observableField.getNotNull(),
@@ -88,17 +89,17 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
         tags,
         null,
         null,
-        duration.observableField.getNotNull().toMinutes()
+        duration.observableField.getNotNull().toInt()
     )
 }
 
 fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): UpdateGroupDTO {
     val calendar = getDefaultCalendar()
-    calendar.time =
-        CreateGroupViewModel.START_TIME_FORMATTER.parse(startDate.observableField.getNotNull())!!
+    calendar.time = START_TIME_FORMATTER.toGMTFormatter().parse(startDate.observableField.getNotNull())!!
     calendar.set(Calendar.HOUR, hours.toHours())
     calendar.set(Calendar.MINUTE, minutes.toInt())
-    calendar.set(Calendar.AM_PM, timeType.toAM_PM())
+    calendar.set(Calendar.AM_PM, timeType.toAM_PM(hours))
+    calendar.set(Calendar.DAY_OF_MONTH, day)
     val emails = mutableListOf<String>()
     participants.get()?.let {
         emails.addAll(it.toMutableList())
@@ -122,7 +123,7 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
         tags,
         null,
         null,
-        duration.observableField.getNotNull().toMinutes()
+        duration.observableField.getNotNull().toInt()
     )
 }
 
@@ -187,10 +188,7 @@ private fun String.toHours(): Int {
     return this.toInt() % 12 //% 12to avoid day increment
 }
 
-private fun String.toMinutes(): Int {
-    return this.toInt() * 60
-}
-
-private fun String.toAM_PM(): Int {
+private fun String.toAM_PM(hours: String): Int {
+    if(hours.toInt() in 12..23) return Calendar.PM
     return if (this == "AM") Calendar.AM else Calendar.PM
 }

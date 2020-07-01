@@ -1,10 +1,13 @@
 package com.doneit.ascend.presentation.video_chat.in_progress.user_options.notes
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentNotesBinding
+import com.doneit.ascend.presentation.utils.extensions.showKeyboard
 import org.kodein.di.generic.instance
 
 class NotesFragment : BaseFragment<FragmentNotesBinding>() {
@@ -19,12 +22,25 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>() {
 
         val groupId = arguments!!.getLong(GROUP_ID_KEY)
         viewModel.init(groupId)
-
-        binding.text.setOnKeyListener { view, i, keyEvent ->
-            if (keyEvent.action == KeyEvent.ACTION_DOWN && i == KeyEvent.KEYCODE_ENTER) {
+        binding.text.post {
+            showKeyboard(binding.text)
+        }
+        binding.text.requestFocus()
+        viewModel.groupInfo.observe(viewLifecycleOwner, Observer {
+            binding.text.setText(it?.note?.content)
+            binding.text.text?.length?.let { it -> binding.text.setSelection(it) }
+        })
+        binding.text.imeOptions = EditorInfo.IME_ACTION_DONE;
+        binding.text.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        binding.text.setOnEditorActionListener { textView, actionId, keyEvent ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH
+                || actionId == EditorInfo.IME_ACTION_DONE
+                || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                 viewModel.update(binding.text.text.toString())
+                true
             }
-            return@setOnKeyListener false
+            false
         }
 
         viewModel.navigation.observe(viewLifecycleOwner, Observer {
@@ -34,7 +50,10 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>() {
 
     private fun handleNavigation(action: NotesContract.Navigation) {
         when (action) {
-            NotesContract.Navigation.BACK -> router.onBack()
+            NotesContract.Navigation.BACK -> {
+                viewModel.update(binding.text.text.toString())
+                router.onBack()
+            }
         }
     }
 

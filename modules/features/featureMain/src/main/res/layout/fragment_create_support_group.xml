@@ -70,7 +70,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
                         android:gravity="center"
-                        android:text="@{@string/action_support_group(actionTitle)}"
+                        android:text='@{model.supportTitle != null?@string/action_group(actionTitle, context.getString(model.supportTitle)) :""}'
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/btnBack"
@@ -107,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"
+                android:clickable="true"
                 android:focusableInTouchMode="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -131,7 +132,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/blue_color_selector"
                         android:enabled="@{!model.createGroupModel.isPrivate()}"
-                        android:text="@string/public_group"
+                        android:text='@{model.supportTitle != null?@string/public_group(context.getString(model.supportTitle)) :""}'
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/isPrivate"
                         app:layout_constraintTop_toTopOf="parent"
@@ -158,7 +159,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/blue_color_selector"
                         android:enabled="@{model.createGroupModel.isPrivate()}"
-                        android:text="@string/private_group"
+                        android:text='@{model.supportTitle != null?@string/private_group(context.getString(model.supportTitle)) :""}'
                         app:layout_constraintStart_toEndOf="@id/isPrivate"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -174,7 +175,7 @@
                     android:layout_marginTop="@dimen/create_group_top_margin"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                     app:error="@{model.createGroupModel.name.observableError}"
-                    app:hint="@{@string/group_name}"
+                    app:hint='@{model.supportTitle != null?@string/group_name(context.getString(model.supportTitle)):""}'
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/privacyContainer"
@@ -321,10 +322,10 @@
                     app:layout_constraintBottom_toTopOf="@id/tagsPicker"/>
 
                 <ImageView
-                    android:id="@+id/duration_icon"
+                    android:id="@+id/tagIcon"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:layout_marginTop="52dp"
+                    android:layout_marginTop="72dp"
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
                     android:src="@drawable/ic_tags"
                     app:layout_constraintTop_toBottomOf="@+id/underlineDuration"
@@ -335,12 +336,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
-                    android:layout_marginTop="52dp"
+                    android:layout_marginTop="72dp"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                     android:background="@null"
                     android:spinnerMode="dropdown"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/duration_icon"
+                    app:layout_constraintStart_toEndOf="@id/tagIcon"
                     app:layout_constraintTop_toBottomOf="@id/underlineDuration" />
                 <View
                     android:id="@+id/underlineTags"
@@ -364,7 +365,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/underlineTags"
-                    app:maxLength="@{1000}"
+                    app:maxLength="@{500}"
                     app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_description}"
@@ -401,7 +402,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text="@string/upload_group_image"
+                    android:text='@{model.supportTitle != null?@string/upload_group_image(context.getString(model.supportTitle)):""}'
                     android:textColor="@color/support_color"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="@id/placeholderDash"
@@ -458,80 +459,6 @@
                     app:barrierDirection="bottom"
                     app:constraint_referenced_ids="imageContainer,placeholderDash"/>
 
-                <!--<TextView
-                    android:id="@+id/reservation"
-                    style="@style/TextNormalSecond"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:gravity="center_horizontal|bottom"
-                    android:text="@string/reservation"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageBarrier" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvParticipants"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:items="@{model.participants}"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/reservation"
-                    app:setAdapter="@{adapter}"
-                    app:setParticipantsVisibility="@{model.participants}" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/add_participant_box"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                    android:layout_marginBottom="@dimen/create_group_top_margin"
-                    android:background="@drawable/ic_dash_stroke"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rvParticipants">
-
-                    <com.doneit.ascend.presentation.views.EditWithError
-                        android:id="@+id/email"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="5dp"
-                        app:digits="@{@string/allow_email_digits}"
-                        app:error="@{model.email.observableError}"
-                        app:hint="@{@string/reserved_person_email}"
-                        app:inputType="@{InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/add_participant"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:maxLength="@{48}"
-                        app:saveState="@{false}"
-                        app:text="@={model.email.observableField}" />
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/add_participant"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginTop="18dp"
-                        android:layout_marginEnd="15dp"
-                        android:backgroundTint="@android:color/transparent"
-                        android:enabled="@{model.canAddParticipant}"
-                        android:onClick="@{() -> model.addNewParticipant()}"
-                        android:src="@drawable/ic_checked"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>-->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_view_invite_members"
                     style="@style/TextNormal"

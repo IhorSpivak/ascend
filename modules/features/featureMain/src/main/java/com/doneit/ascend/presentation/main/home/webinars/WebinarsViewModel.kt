@@ -37,16 +37,18 @@ class WebinarsViewModel (
 
     private val webinarFilter = hashMapOf(
         WebinarFilter.RECOVERY.toString() to false,
-        WebinarFilter.SUCCESS.toString() to false,
+        WebinarFilter.FITNESS.toString() to false,
+        WebinarFilter.INDUSTRY.toString() to false,
         WebinarFilter.FAMILY.toString() to false,
-        WebinarFilter.SPIRITUAL.toString() to false
+        WebinarFilter.SPIRITUAL.toString() to false,
+        WebinarFilter.SUCCESS.toString() to false
     )
 
     override val groups = groupListModel.switchMap {
-        groupUseCase.getGroupListPaged(it).map {
+        groupUseCase.getGroupListPaged(viewModelScope, it).map {
             GroupListWithUserPaged(
                 it,
-                user!!
+                user
             )
         }
     }

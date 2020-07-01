@@ -4,14 +4,17 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ascension.goal.GoalEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanContract
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
 import com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoalsContract
@@ -22,10 +25,14 @@ import com.doneit.ascend.presentation.main.ascension_plan.goals.list.GoalsListCo
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsContract
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsFragment
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.SpiritualActionListContract
+import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.chats.MyChatsContract
 import com.doneit.ascend.presentation.main.chats.MyChatsFragment
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
+import com.doneit.ascend.presentation.main.chats.chat.livestream_user_actions.LivestreamUserActionsFragment
+import com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersContract
+import com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersFragment
 import com.doneit.ascend.presentation.main.chats.new_chat.NewChatContract
 import com.doneit.ascend.presentation.main.chats.new_chat.NewChatFragment
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberFragment
@@ -76,6 +83,7 @@ import com.doneit.ascend.presentation.profile.edit_email.EditEmailFragment
 import com.doneit.ascend.presentation.profile.edit_phone.EditPhoneContract
 import com.doneit.ascend.presentation.profile.edit_phone.EditPhoneFragment
 import com.doneit.ascend.presentation.profile.edit_phone.verify_phone.VerifyChangePhoneFragment
+import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingContract
 import com.doneit.ascend.presentation.profile.mm_following.MMFollowingFragment
 import com.doneit.ascend.presentation.profile.mm_following.mm_add.MMAddContract
@@ -153,7 +161,8 @@ class MainRouter(
     MyChatsContract.Router,
     NewChatContract.Router,
     ChatContract.Router,
-    BlockedUsersContract.Router{
+    ChatMembersContract.Router,
+    BlockedUsersContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }
@@ -165,17 +174,43 @@ class MainRouter(
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
     override fun onBackWithOpenChat(chat: ChatEntity) {
-        activity.supportFragmentManager.popBackStack()
-        replaceFullWithMainUpdate(ChatFragment.getInstance(chat))
+        manager.popBackStack()
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chat.id))
     }
 
 
     override fun onBack() {
-        activity.supportFragmentManager.popBackStack()
+        manager.popBackStack()
     }
 
-    override fun navigateToChat(chat: ChatEntity) {
-        replaceFullWithMainUpdate(ChatFragment.getInstance(chat))
+    override fun goToDetailedUser(id: Long) {
+        manager.replaceWithBackStack(
+            containerIdFull,
+            MMInfoFragment.newInstance(id)
+        )
+    }
+
+    override fun goToChatMembers(
+        chatId: Long,
+        chatOwner: Long,
+        members: List<MemberEntity>,
+        user: UserEntity
+    ) {
+        manager.replaceWithBackStack(
+            containerIdFull,
+            ChatMembersFragment.newInstance(chatId, chatOwner, members, user)
+        )
+    }
+
+    override fun goToLiveStreamUser(member: MemberEntity) {
+        manager.add(
+            containerIdFull,
+            LivestreamUserActionsFragment.newInstance(member)
+        )
+    }
+
+    override fun navigateToChat(id: Long) {
+        replaceFullWithMainUpdate(ChatFragment.getInstance(id))
     }
 
     override fun navigateToNewChat() {
@@ -183,16 +218,16 @@ class MainRouter(
     }
 
     override fun navigateToAddChatMember() {
-        activity.supportFragmentManager.addWithBackStack(containerIdFull,AddMemberFragment())
+        manager.addWithBackStack(containerIdFull, AddMemberFragment())
     }
 
     override fun navigateToDetails(group: GroupEntity) {
-        activity.supportFragmentManager.popBackStack()
+        manager.popBackStack()
         replaceFullWithMainUpdate(GroupInfoFragment.newInstance(group.id))
     }
 
     override fun navigateToDetailsNoBackStack(group: GroupEntity) {
-        activity.supportFragmentManager.popBackStack()
+        manager.popBackStackImmediate()
         replaceFullNoBackStack(GroupInfoFragment.newInstance(group.id))
     }
 
@@ -213,7 +248,7 @@ class MainRouter(
     }
 
     override fun navigateToHome() {
-        activity.supportFragmentManager.replace(containerId, HomeFragment())
+        popOrReplace { HomeFragment() }
     }
 
     override fun navigateToMyContent() {
@@ -221,22 +256,16 @@ class MainRouter(
     }
 
     override fun navigateToAscensionPlan() {
-        activity.supportFragmentManager.replace(containerId, AscensionPlanFragment())
+        popOrReplaceWithBackStack { AscensionPlanFragment() }
     }
 
 
     override fun navigateToRegularUserProfile() {
-        activity.supportFragmentManager.replaceWithBackStack(
-            containerId,
-            UserProfileFragment()
-        )
+        popOrReplaceWithBackStack { UserProfileFragment() }
     }
 
     override fun navigateToMMProfile() {
-        activity.supportFragmentManager.replaceWithBackStack(
-            containerId,
-            com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment()
-        )
+        popOrReplaceWithBackStack { MMProfileFragment() }
     }
 
     override fun navigateToCreateGroupMM() {
@@ -251,7 +280,7 @@ class MainRouter(
     ) {
         val args =
             GroupsArg(userId, groupType, isMyGroups)
-        activity.supportFragmentManager.replaceWithBackStack(
+        manager.replaceWithBackStack(
             containerIdFull,
             GroupsFragment.newInstance(args, mmName)
         )
@@ -265,7 +294,7 @@ class MainRouter(
         val args =
             GroupsArg(userId, groupType, isMyGroups)
 
-        activity.supportFragmentManager.replaceWithBackStack(
+        manager.replaceWithBackStack(
             containerIdFull,
             GroupDailyListFragment.newInstance(
                 args.toGroupListArgs(
@@ -346,33 +375,33 @@ class MainRouter(
     }
 
     override fun navigateToEditBio() {
-        activity.supportFragmentManager.addWithBackStack(containerIdFull, EditBioFragment())
+        manager.addWithBackStack(containerIdFull, EditBioFragment())
     }
 
     override fun navigateToMMFollowed() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MMFollowingFragment())
+        manager.replaceWithBackStack(containerIdFull, MMFollowingFragment())
     }
 
     override fun navigateToAddMasterMind() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, MMAddFragment())
+        manager.replaceWithBackStack(containerIdFull, MMAddFragment())
     }
 
     override fun navigateToRatings() {
-        activity.supportFragmentManager.replaceWithBackStack(
+        manager.replaceWithBackStack(
             containerIdFull,
             ProfileRatingsFragment()
         )
     }
 
     override fun navigateToChangePhone() {
-        activity.supportFragmentManager.replaceWithoutBackStack(
+        manager.replaceWithoutBackStack(
             containerIdFull,
             EditPhoneFragment()
         )
     }
 
     override fun navigateToVerifyPhone() {
-        activity.supportFragmentManager.addWithBackStack(
+        manager.addWithBackStack(
             containerIdFull,
             VerifyChangePhoneFragment()
         )
@@ -380,51 +409,51 @@ class MainRouter(
 
     override fun navigateToChangeLocation(currentLocation: String?) {
         val instance = ChangeLocationFragment.newInstance(currentLocation)
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, instance)
+        manager.replaceWithBackStack(containerIdFull, instance)
     }
 
     override fun navigateToChangePassword() {
-        activity.supportFragmentManager.replaceWithBackStack(
+        manager.replaceWithBackStack(
             containerIdFull,
             ChangePasswordFragment()
         )
     }
 
     override fun navigateToEditEmail() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, EditEmailFragment())
+        manager.replaceWithBackStack(containerIdFull, EditEmailFragment())
     }
 
     override fun navigateToNotificationSettings() {
-        activity.supportFragmentManager.replaceWithBackStack(
+        manager.replaceWithBackStack(
             containerIdFull,
             NotificationSettingsFragment()
         )
     }
 
     override fun navigateToPayments(isMasterMind: Boolean) {
-        activity.supportFragmentManager.replaceWithBackStack(
+        manager.replaceWithBackStack(
             containerIdFull,
             PaymentsFragment.newInstance(isMasterMind)
         )
     }
 
     override fun navigateToBlockedUsers() {
-        activity.supportFragmentManager.replaceWithBackStack(
+        manager.replaceWithBackStack(
             containerIdFull,
             BlockedUsersFragment()
         )
     }
 
     override fun navigateToAddPaymentMethod() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, AddPaymentFragment())
+        manager.replaceWithBackStack(containerIdFull, AddPaymentFragment())
     }
 
     override fun navigateToSetAge() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, AgeFragment())
+        manager.replaceWithBackStack(containerIdFull, AgeFragment())
     }
 
     override fun navigateToSetCommunity() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, CommunityFragment())
+        manager.replaceWithBackStack(containerIdFull, CommunityFragment())
     }
 
     override fun navigateToVideoChat(groupId: Long, groupType: GroupType) {
@@ -467,44 +496,60 @@ class MainRouter(
     }
 
     override fun navigateToGroupsFilter() {
-        activity.supportFragmentManager.add(containerIdFull, FilterFragment())
+        manager.add(containerIdFull, FilterFragment())
     }
 
     override fun navigateToSpiritualActionSteps() {
-        activity.supportFragmentManager.replaceWithBackStack(
+        manager.replaceWithBackStack(
             containerIdFull,
             SpiritualActionStepsFragment()
         )
     }
 
     override fun navigateToMyGoals() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, GoalsFragment())
+        manager.replaceWithBackStack(containerIdFull, GoalsFragment())
     }
 
     override fun navigateToCreateSpiritualActionSteps() {
-        activity.supportFragmentManager.replaceWithBackStack(
+        manager.replaceWithBackStack(
             containerIdFull,
             CreateSpiritualFragment()
         )
     }
 
     override fun navigateToCreateGoal() {
-        activity.supportFragmentManager.replaceWithBackStack(containerIdFull, CreateGoalsFragment())
+        manager.replaceWithBackStack(containerIdFull, CreateGoalsFragment())
     }
 
     private fun replaceFullWithMainUpdate(fragment: Fragment) {
-        activity.supportFragmentManager.beginTransaction()
+        manager.beginTransaction()
             .replace(containerId, Fragment())//in order to force fragment's view recreation
             .replace(containerIdFull, fragment, fragment::class.java.simpleName)
             .addToBackStack(fragment::class.java.simpleName)
             .commit()
     }
 
-    private fun replaceFullNoBackStack(fragment: Fragment) {
-        activity.supportFragmentManager.popBackStack()
-        activity.supportFragmentManager.beginTransaction()
+    private inline fun <reified T : BaseFragment<*>> popOrReplace(factory: () -> T) {
+        with(manager.findFragmentByTag(T::class.java.simpleName)) {
+            if (this == null)
+                manager.replace(containerId, factory())
+            else manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
+    }
+
+    private inline fun <reified T : BaseFragment<*>> popOrReplaceWithBackStack(factory: () -> T) {
+        with(manager.findFragmentByTag(T::class.java.simpleName)) {
+            if (this == null)
+                manager.replaceWithBackStack(containerId, factory())
+            else manager.popBackStack(T::class.java.simpleName, 0)
+        }
+    }
+
+    private inline fun <reified T : Fragment> replaceFullNoBackStack(fragment: T) {
+        manager.popBackStackImmediate()
+        manager.beginTransaction()
             .replace(containerId, Fragment())//in order to force fragment's view recreation
-            .replace(containerIdFull, fragment, fragment::class.java.simpleName)
+            .replace(containerIdFull, fragment, T::class.java.simpleName)
             .addToBackStack(fragment::class.java.simpleName)
             .commit()
     }

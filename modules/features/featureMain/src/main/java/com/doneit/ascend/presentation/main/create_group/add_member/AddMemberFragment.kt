@@ -16,6 +16,8 @@ import com.doneit.ascend.presentation.main.create_group.add_member.common.AddMem
 import com.doneit.ascend.presentation.main.create_group.add_member.common.MemberAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentAddMemberBinding
 import com.doneit.ascend.presentation.utils.extensions.showKeyboard
+import com.doneit.ascend.presentation.utils.extensions.visible
+import kotlinx.android.synthetic.main.fragment_chat_members.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -32,24 +34,26 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
 
     private val memberAdapter: MemberAdapter by lazy {
         MemberAdapter(
-            {viewModel.onAdd(it) },
-            {viewModel.onRemove(it)},
+            { viewModel.onAdd(it) },
+            { viewModel.onRemove(it) },
             viewModel
         )
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                viewModel.members.postValue(viewModel.selectedMembers)
-                binding.apply {
-                    searchVis = false
-                    inviteVis = false
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    viewModel.members.postValue(viewModel.selectedMembers)
+                    binding.apply {
+                        searchVis = false
+                        inviteVis = false
+                    }
+                    fragmentManager?.popBackStack()
                 }
-                fragmentManager?.popBackStack()
-            }
-        })
-        when(arguments!!.getString(GROUP_TYPE)){
+            })
+        when (arguments!!.getString(GROUP_TYPE)) {
             GroupType.INDIVIDUAL.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 1)
             GroupType.MASTER_MIND.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 50)
             GroupType.WEBINAR.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 3)
@@ -61,7 +65,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
                 isFocusableInTouchMode = true
                 requestFocus()
                 setOnKeyListener { view, i, keyEvent ->
-                    if (i == KeyEvent.KEYCODE_BACK){
+                    if (i == KeyEvent.KEYCODE_BACK) {
                         fragmentManager?.popBackStack()
                         true
                     }
@@ -69,7 +73,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
                 }
             }
             rvMembers.adapter = memberAdapter
-            tvSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener{
+            tvSearch.setOnEditorActionListener(object : TextView.OnEditorActionListener {
                 override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
                     if (p1 == EditorInfo.IME_ACTION_SEARCH) {
                         return true
@@ -100,13 +104,14 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
         viewModel.searchResult.observe(this, Observer {
             memberAdapter.submitList(it)
             binding.apply {
+                emptyList.visible(it.isEmpty() && tvSearch.text.length > 1)
                 query = tvSearch.text.toString()
                 searchVis = it.isNotEmpty()
                 inviteVis = it.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(query).matches()
             }
         })
 
-        binding.tvSearch.addTextChangedListener(object: TextWatcher {
+        binding.tvSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 viewModel.onQueryTextChange(p0.toString())
                 binding.inviteActive = Patterns.EMAIL_ADDRESS.matcher(p0.toString()).matches()
@@ -116,7 +121,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.isEmpty()!!){
+                if (p0?.isEmpty()!!) {
                     binding.apply {
                         searchVis = false
                         inviteVis = false
@@ -124,16 +129,22 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
                 }
             }
         })
-        binding.apply{
+        binding.apply {
             tvSearch.showKeyboard()
             searchVis = false
             inviteVis = false
         }
     }
 
-    companion object{
+    override fun onDestroyView() {
+        viewModel.clearSearchResult()
+        rvMembers.adapter = null
+        super.onDestroyView()
+    }
+
+    companion object {
         private const val GROUP_TYPE = "type"
-        fun getInstance(groupType: GroupType): AddMemberFragment{
+        fun getInstance(groupType: GroupType): AddMemberFragment {
             return AddMemberFragment().apply {
                 arguments = Bundle().apply {
                     putString(GROUP_TYPE, groupType.toString())

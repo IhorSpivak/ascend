@@ -26,6 +26,8 @@ import com.doneit.ascend.domain.use_case.interactor.search.SearchInteractor
 import com.doneit.ascend.domain.use_case.interactor.search.SearchUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserInteractor
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.domain.use_case.interactor.vimeo.VimeoInteractor
+import com.doneit.ascend.domain.use_case.interactor.vimeo.VimeoUseCase
 import com.doneit.ascend.domain.use_case.interactor.webinar_questions.WebinarQuestionInteractor
 import com.doneit.ascend.domain.use_case.interactor.webinar_questions.WebinarQuestionUseCase
 import org.kodein.di.Kodein
@@ -115,6 +117,12 @@ object UseCaseModule {
 
         bind<WebinarQuestionUseCase>() with singleton {
             WebinarQuestionInteractor(
+                instance()
+            )
+        }
+
+        bind<VimeoUseCase>() with singleton {
+            VimeoInteractor(
                 instance()
             )
         }

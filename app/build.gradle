@@ -28,14 +28,16 @@ android {
             versionNameSuffix ""
             //todo move to Build from res
             resValue "string", "base_url", "https://ascend-backend.herokuapp.com/api/v1/"
-            //resValue "string", "base_url", "https://ascend-backend-prod.herokuapp.com/api/v1/"
+            resValue "string", "socket_url", "wss://ascend-backend.herokuapp.com/cable"
+            buildConfigField "boolean", "IS_DEV_SERVER", "true"
         }
 
         prod {
             dimension "type"
             versionNameSuffix "-prod"
 
-            resValue "string", "base_url", "https://ascend-backend-prod.herokuapp.com/api/v1/"
+            resValue "string", "base_url", "https://app.ascend.video/api/v1/"
+            resValue "string", "socket_url", "wss://ascend-backend.herokuapp.com/cable"
         }
     }
 
@@ -91,6 +93,8 @@ dependencies {
 
     implementation project(':modules:storageLocal')
     implementation project(':modules:storageRemote')
+
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
     annotationProcessor 'com.github.VRGsoftUA.core:processor:0.0.10'
     implementation 'com.google.guava:guava:27.0.1-android'// for fix "android Duplicate class com.google.common.util.concurrent.ListenableFuture found in modules guava-23.5-jre.jar"

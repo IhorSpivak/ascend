@@ -7,8 +7,8 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 interface HomeContract {
     interface ViewModel : BaseViewModel {
         val user: LiveData<UserEntity?>
+        fun getListOfTitles(): List<Int>
     }
 
-    interface Router {
-    }
+    interface Router
 }

@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
+            android:clickable="true"
             android:focusableInTouchMode="true">
 
             <com.doneit.ascend.presentation.views.EditWithError
@@ -40,7 +41,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                 app:error="@{model.createGroupModel.name.observableError}"
-                app:hint="@{@string/group_name}"
+                app:hint='@{model.supportTitle != null?@string/group_name(context.getString(model.supportTitle)):""}'
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -142,7 +143,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="@dimen/create_group_top_margin"
+                android:layout_marginTop="52dp"
                 android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                 app:error="@{model.createGroupModel.price.observableError}"
                 app:hint="@{@string/price}"
@@ -169,7 +170,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/price"
-                app:maxLength="@{1000}"
+                app:maxLength="@{500}"
                 app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                 app:saveState="@{false}"
                 app:src="@{@drawable/ic_description}"
@@ -206,7 +207,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/create_webinar_upload_group_image"
+                android:text='@{model.supportTitle != null?@string/upload_group_image(context.getString(model.supportTitle)):""}'
                 android:textColor="@color/master_mind_color"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/dash_rectangle_background"

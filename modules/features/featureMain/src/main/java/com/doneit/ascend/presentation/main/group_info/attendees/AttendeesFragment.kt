@@ -77,7 +77,7 @@ class AttendeesFragment(
         binding.apply {
             btnBack.setOnClickListener {
                 if (viewModel.selectedMembers.size > 0){
-                    viewModel.onBackClick(viewModel.selectedMembers.map { it.email?: "" })
+                    viewModel.onBackClick(viewModel.selectedMembers.map { it.email.orEmpty() })
                 }else{
                     fragmentManager?.popBackStack()
                 }

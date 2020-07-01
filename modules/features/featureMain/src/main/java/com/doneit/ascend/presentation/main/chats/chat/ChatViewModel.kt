@@ -14,11 +14,13 @@ import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -32,6 +34,7 @@ class ChatViewModel(
 ) : BaseViewModelImpl(), ChatContract.ViewModel {
     override val membersCountGroup: MutableLiveData<Int> = MutableLiveData()
     override val chat: MediatorLiveData<ChatWithUser> = MediatorLiveData()
+    override var chatType: ChatType = ChatType.CHAT
     override val chatModel: MutableLiveData<ChatEntity> = MutableLiveData()
 
     private val searchQuery = MutableLiveData<String>()
@@ -46,7 +49,7 @@ class ChatViewModel(
             groupUseCase.searchMembers(
                 it,
                 user.value!!.id,
-                chat.value!!.chat.members?.map { member -> member.toAttendeeEntity() })
+                chat.value!!.chat.members?.filter { !it.removed }?.map { member -> member.toAttendeeEntity() })
         }
 
     //don't used
@@ -73,6 +76,15 @@ class ChatViewModel(
         chat.addSource(chatModel) {
             applyData(it, user.value)
         }
+
+        viewModelScope.launch { initRequestCycle() }
+    }
+
+    private suspend fun initRequestCycle() {
+        while (true) {
+            delay(5000)
+            chatModel.value = chatModel.value
+        }
     }
 
     override fun applyData(chatEntity: ChatEntity?, user: UserEntity?) {
@@ -81,17 +93,26 @@ class ChatViewModel(
             chat.postValue(
                 ChatWithUser(
                     chatEntity,
-                    user
+                    user,
+                    chatType
                 )
             )
         }
     }
 
-    override fun setChat(chat: ChatEntity) {
-        chatUseCase.connectToChannel(chat.id)
-        observer = getMessageObserver(chat.id)
+    override fun setChat(id: Long) {
+        chatUseCase.connectToChannel(id)
+        observer = getMessageObserver(id)
         initMessageStream()
-        chatModel.postValue(chat)
+        viewModelScope.launch {
+            val response = chatUseCase.getChatDetails(id)
+
+            if (response.isSuccessful) {
+                response.successModel?.let {
+                    chatModel.postValue(it)
+                }
+            }
+        }
     }
 
     override fun initMessageStream() {
@@ -153,14 +174,32 @@ class ChatViewModel(
 
     override fun sendMessage(message: String) {
         viewModelScope.launch {
-            chatUseCase.sendMessage(MessageDTO(chatModel.value!!.id, message))?.let {
-                if (it.isSuccessful) {
-                    chatModel.value?.let {
-                        chatModel.postValue(it)
-                    }
+            chatUseCase.sendMessage(MessageDTO(chatModel.value!!.id, message))
+        }
+    }
+
+    override fun onChatDetailsClick() {
+        chat.value?.let { chatWithUser ->
+            if (chatWithUser.chat.members?.size == ChatFragment.PRIVATE_CHAT_MEMBER_COUNT) {
+                router.goToDetailedUser(chatWithUser.chat.members?.firstOrNull {
+                    it.id != chatWithUser.user.id && !it.removed && !it.leaved
+                }?.id ?: return@let)
+            } else {
+                user.value?.let {
+                    router.goToChatMembers(
+                        chatWithUser.chat.id,
+                        chatWithUser.chat.chatOwnerId,
+                        chatWithUser.chat.members.orEmpty().filter {
+                            !it.leaved && !it.removed
+                        }, it
+                    )
                 }
             }
         }
+    }
+
+    override fun onImageClick() {
+        onChatDetailsClick()
     }
 
     override fun onBlockUserClick(member: MemberEntity) {
@@ -175,6 +214,14 @@ class ChatViewModel(
                 }
             }
         }
+    }
+
+    override fun showDetailedUser(userId: Long) {
+        router.goToDetailedUser(userId)
+    }
+
+    override fun showLiveStreamUser(member: MemberEntity) {
+        router.goToLiveStreamUser(member)
     }
 
     override fun onUnblockUserClick(member: MemberEntity) {
@@ -278,6 +325,7 @@ class ChatViewModel(
                         val message = socketEvent.toEntity()
                         message.let {
                             chatUseCase.insertMessage(message, chatId)
+                            messages.value?.dataSource?.invalidate()
                         }
                     }
                     ChatSocketEvent.DESTROY -> {

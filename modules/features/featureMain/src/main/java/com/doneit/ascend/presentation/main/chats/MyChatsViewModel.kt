@@ -73,7 +73,7 @@ class MyChatsViewModel(
     }
 
     override fun onChatPressed(chat: ChatEntity) {
-        router.navigateToChat(chat)
+        router.navigateToChat(chat.id)
     }
 
     override fun onDelete(chatId: Long) {

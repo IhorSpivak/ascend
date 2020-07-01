@@ -17,11 +17,21 @@ class ChatInteractor(
         return chatGateway.getMyChatListLive(request)
     }
 
-    override fun getMessageList(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>> {
+    override fun getMessageList(
+        chatId: Long,
+        request: MessageListDTO
+    ): LiveData<PagedList<MessageEntity>> {
         return chatGateway.getMessages(chatId, request)
     }
 
-    override fun getMemberList(chatId: Long, request: MemberListDTO): LiveData<PagedList<MemberEntity>> {
+    override suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>> {
+        return chatGateway.getChatDetails(id)
+    }
+
+    override fun getMemberList(
+        chatId: Long,
+        request: MemberListDTO
+    ): LiveData<PagedList<MemberEntity>> {
         return chatGateway.getMembers(chatId, request)
     }
 
@@ -39,6 +49,13 @@ class ChatInteractor(
 
     override suspend fun leave(id: Long): ResponseEntity<Unit, List<String>> {
         return chatGateway.leave(id)
+    }
+
+    override suspend fun removeUser(
+        chatId: Long,
+        userId: Long
+    ): ResponseEntity<Unit, List<String>> {
+        return chatGateway.removeUser(chatId, userId)
     }
 
     override suspend fun updateChat(

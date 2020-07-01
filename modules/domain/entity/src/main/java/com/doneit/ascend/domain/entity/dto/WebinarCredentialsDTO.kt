@@ -1,7 +1,6 @@
 package com.doneit.ascend.domain.entity.dto
 
 class WebinarCredentialsDTO(
-    val key: String?,
-    val link: String?,
-    val chatId: Int
+    val key: String? = null,
+    val link: String
 )

@@ -20,8 +20,8 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
         binding.model = viewModel
 
         //todo replace by ArgumentedFragment
-        val id = arguments!!.getLong(MM_ID)!!
-        viewModel.setMMId(id)
+        val id = requireArguments().getLong(USER_ID)
+        viewModel.setProfileId(id)
 
         viewModel.sendReportStatus.observe(this) {
             if (it == true) {
@@ -61,12 +61,12 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
     }
 
     companion object {
-        const val MM_ID = "MM_ID"
+        const val USER_ID = "MM_ID"
 
         fun newInstance(id: Long): MMInfoFragment {
             val fragment = MMInfoFragment()
             fragment.arguments = Bundle().apply {
-                putLong(MM_ID, id)
+                putLong(USER_ID, id)
             }
             return fragment
         }

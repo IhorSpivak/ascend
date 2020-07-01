@@ -13,11 +13,16 @@ import com.doneit.ascend.domain.entity.dto.*
 interface IMyChatGateway {
     fun getMyChatListLive(request: ChatListDTO): LiveData<PagedList<ChatEntity>>
 
+    suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>>
+
     fun getMessages(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>>
 
     fun getMembers(chatId: Long, request: MemberListDTO): LiveData<PagedList<MemberEntity>>
 
-    suspend fun getMemberList(chatId: Long, request: MemberListDTO): ResponseEntity<List<MemberEntity>, List<String>>
+    suspend fun getMemberList(
+        chatId: Long,
+        request: MemberListDTO
+    ): ResponseEntity<List<MemberEntity>, List<String>>
 
     suspend fun delete(id: Long): ResponseEntity<Unit, List<String>>
 
@@ -45,10 +50,15 @@ interface IMyChatGateway {
     fun insertMessage(message: MessageEntity, chatId: Long)
     fun removeMessageLocal(id: Long)
     fun removeBlockedUser(userEntity: BlockedUserEntity)
+    suspend fun removeUser(
+        chatId: Long,
+        userId: Long
+    ): ResponseEntity<Unit, List<String>>
+
     fun addBlockedUser(userEntity: BlockedUserEntity)
-    suspend fun blockUser(userId:Long): ResponseEntity<Unit, List<String>>
-    suspend fun removeMessageRemote(messageId:Long): ResponseEntity<Unit, List<String>>
-    suspend fun unblockUser(userId:Long): ResponseEntity<Unit, List<String>>
+    suspend fun blockUser(userId: Long): ResponseEntity<Unit, List<String>>
+    suspend fun removeMessageRemote(messageId: Long): ResponseEntity<Unit, List<String>>
+    suspend fun unblockUser(userId: Long): ResponseEntity<Unit, List<String>>
     fun getBlockedUsersLive(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>>
     suspend fun getUnreadMessageCount(): Long
 }

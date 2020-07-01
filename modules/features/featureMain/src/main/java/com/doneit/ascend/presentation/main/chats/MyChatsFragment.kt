@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -28,6 +30,7 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             }
         )
     }
+    private var lastChecked: ChatEntity? = null
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
@@ -46,7 +49,7 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             emptyList.visible(it.chat.isNullOrEmpty())
             adapter.updateUser(it.user)
             adapter.submitList(it.chat)
-            scrollIfNeed()
+            scrollIfNeed(it.chat)
         })
         binding.swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = true
@@ -72,12 +75,14 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
         })
     }
 
-    private fun scrollIfNeed() {
-        binding.rvChats.adapter?.let {
-            val lm =
-                binding.rvChats.layoutManager as LinearLayoutManager
-            val first = lm.findFirstVisibleItemPosition()
-            if (first < 2) binding.rvChats.scrollToPosition(0)
+    private fun scrollIfNeed(list: PagedList<ChatEntity>) {
+        val currentChecked = lastChecked
+        val firstUnread = list.indexOfFirst {
+            lastChecked = it
+            it.lastMessage?.status != MessageStatus.READ
+        }
+        if (firstUnread != -1 && currentChecked?.id != lastChecked?.id) {
+            binding.rvChats.scrollToPosition(firstUnread)
         }
     }
 
@@ -89,5 +94,10 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             getString(R.string.chats_delete_button),
             getString(R.string.chats_delete_cancel)
         ) { viewModel.onDelete(id) }.show()
+    }
+
+    override fun onDestroyView() {
+        rvChats.adapter = null
+        super.onDestroyView()
     }
 }

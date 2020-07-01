@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersContract.ViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true">
+
+        <FrameLayout
+            android:id="@+id/addMemberContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="108dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/searchToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentInsetStart="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{() -> model.goBack()}"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/light_gray_8f"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvTitle"
+                        style="@style/Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="11dp"
+                        android:text="@string/title_chats_members"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="42dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginEnd="24dp"
+                        app:cardBackgroundColor="@color/light_gray_f4f7"
+                        app:cardCornerRadius="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/btnSearch"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_marginStart="4dp"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/ic_search" />
+
+                            <!--suppress AndroidUnknownAttribute -->
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/tvSearch"
+                                style="@style/TextNormal"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_weight="1"
+                                android:background="@android:color/transparent"
+                                android:gravity="center_vertical"
+                                android:hint="@string/search_hint"
+                                android:imeOptions="actionDone"
+                                android:maxLength="32"
+                                android:onTextChanged="@{(text, s,e,c) -> model.onQueryUpdated(text)}"
+                                android:singleLine="true"
+                                android:textSize="14sp"
+                                tools:text="Query" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/clearSearch"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:background="@drawable/clear_member_button_background"
+                                android:padding="4dp"
+                                android:src="@drawable/ic_clear_member_button"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMembers"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchBar"
+            tools:listitem="@layout/list_item_chat_member" />
+
+        <TextView
+            android:id="@+id/emptyList"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/no_chats"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchBar" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

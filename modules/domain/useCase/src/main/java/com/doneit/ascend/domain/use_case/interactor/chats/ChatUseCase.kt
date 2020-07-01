@@ -13,17 +13,18 @@ import com.doneit.ascend.domain.entity.dto.*
 interface ChatUseCase {
     fun getMyChatListLive(request: ChatListDTO): LiveData<PagedList<ChatEntity>>
     fun getMessageList(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>>
+    suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>>
 
-    @Deprecated(
-        "don't use this method as it doesn't provide chat id in database",
-        ReplaceWith("field members in chatEntity"),
-        DeprecationLevel.WARNING
-    )
     fun getMemberList(chatId: Long, request: MemberListDTO): LiveData<PagedList<MemberEntity>>
     suspend fun createChat(createChatDTO: CreateChatDTO): ResponseEntity<ChatEntity, List<String>>
     suspend fun delete(id: Long): ResponseEntity<Unit, List<String>>
     suspend fun sendMessage(request: MessageDTO): ResponseEntity<Unit, List<String>>
     suspend fun leave(id: Long): ResponseEntity<Unit, List<String>>
+    suspend fun removeUser(
+        chatId: Long,
+        userId: Long
+    ): ResponseEntity<Unit, List<String>>
+
     suspend fun updateChat(
         id: Long,
         title: String? = null,

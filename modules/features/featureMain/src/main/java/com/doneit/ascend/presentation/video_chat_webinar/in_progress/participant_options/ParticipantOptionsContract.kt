@@ -7,6 +7,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 interface ParticipantOptionsContract {
     interface ViewModel : BaseViewModel {
         val groupInfo: LiveData<GroupEntity>
+        val hasUnreadMessage: LiveData<Boolean>
 
         fun onNotesClick()
         fun onChatClick()

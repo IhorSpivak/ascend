@@ -7,4 +7,6 @@ object Constants {
     const val DAYS_IN_WEEK_COUNT = 7
 
     const val MM_ROLE = "master_mind"
+
+    const val PER_PAGE = 10
 }

@@ -11,5 +11,6 @@ data class OwnerLocal(
     @Embedded(prefix = "owner_img") val image: ImageLocal?,
     val rating: Float,
     val followed: Boolean,
-    val location: String
+    val location: String,
+    val connected: Boolean
 )

@@ -11,5 +11,6 @@ data class MemberLocal(
     val fullName: String,
     val online: Boolean,
     val leaved: Boolean,
+    val removed: Boolean,
     @Embedded(prefix = "img") val image: ImageLocal?
 )

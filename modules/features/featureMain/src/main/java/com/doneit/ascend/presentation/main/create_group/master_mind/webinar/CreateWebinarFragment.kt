@@ -31,16 +31,15 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
-import com.doneit.ascend.presentation.main.create_group.create_support_group.common.MeetingFormatsAdapter
+import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
+import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.ThemeAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.webinar.common.TimeAdapter
 import com.doneit.ascend.presentation.main.databinding.FragmentCreateWebinarBinding
-import com.doneit.ascend.presentation.utils.GroupAction
-import com.doneit.ascend.presentation.utils.checkImage
-import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.doneit.ascend.presentation.utils.getImagePath
+import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +50,6 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, CreateGroupArgs>() {
@@ -82,10 +80,8 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
     }
 
     private val durationAdapter by lazy {
-        MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
-                R.array.meeting_duration_array
-            )
+        DurationAdapter(
+            Duration.values().map { it.label }.toTypedArray()
         )
     }
 
@@ -117,7 +113,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.duration.observableField.set(p2.toString())
+                    viewModel.createGroupModel.duration.observableField.set(Duration.values()[p2].time.toString())
                 }
             }
 
@@ -138,7 +134,6 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
         viewModel.updateFieldValidators()
 
         initSpinner(binding.durationPicker, durationListener, durationAdapter)
-
         binding.apply {
             model = viewModel
             actionTitle = if (what == null) {
@@ -192,31 +187,15 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                     hideKeyboard()
                 }
             }
+            applyMultilineFilter(description)
         }
         viewModel.members.observe(this, Observer {
             membersAdapter.submitList(it.toMutableList())
-            if (what == null) {
-                viewModel.createGroupModel.participants.set(it.filter { attendee ->
-                    !attendee.isAttended
-                }.filter { it.email != null && it.email.isNullOrBlank() }.map { attendee ->
-                    attendee.email!!
-                })
-            } else {
-                if (what == GroupAction.DUPLICATE) {
-                    it.filter { attendee ->
-                        attendee.email != null && attendee.email!!.isNotBlank()
-                    }.map { attendee ->
-                        attendee.email!!
-                    }.let { list -> viewModel.createGroupModel.participants.set(list) }
-                } else {
-                    it.filter { attendee ->
-                        !attendee.isAttended
-                    }.filter { it.email != null && it.email.isNullOrBlank() }.map { attendee ->
-                        attendee.email!!
-                    }.let { list -> viewModel.createGroupModel.participants.set(list) }
-                }
-            }
-
+            viewModel.createGroupModel.participants.set(it.filter { attendee ->
+                !attendee.isAttended
+            }.filter { it.email.isNullOrBlank().not() }.map { attendee ->
+                attendee.email!!
+            })
         })
 
         viewModel.newScheduleItem.observe(this, Observer {
@@ -227,6 +206,9 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             themeAdapter.data = it
         })
         if (group != null) {
+            binding.durationPicker.setSelection(
+                Duration.fromDuration(group!!.duration).ordinal
+            )
             binding.buttonComplete.apply {
                 text = getString(R.string.btn_save_action)
                 setOnClickListener {
@@ -301,10 +283,9 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                     )
                 ) {
                     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
                     activity!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
                         File.createTempFile(
-                            "JPEG_${timeStamp}_",
+                            "JPEG_${Date().toTimeStampFormat()}_",
                             ".jpg",
                             it /* directory */
                         ).apply {

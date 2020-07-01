@@ -31,10 +31,10 @@ class GroupsViewModel(
     private val groupListModel = MutableLiveData<GroupListDTO>()
 
     override val groups = groupListModel.switchMap {
-        groupUseCase.getGroupListPaged(it).map {
+        groupUseCase.getGroupListPaged(viewModelScope, it).map {
             GroupListWithUserPaged(
                 it,
-                user!!
+                user
             )
         }
     }
@@ -46,7 +46,7 @@ class GroupsViewModel(
             val response = groupUseCase.getTags()
             tags.postValue(
                 if (response.isSuccessful) {
-                    updateFilter(response.successModel!![0])
+                    updateFilter(response.successModel!!.firstOrNull())
                     response.successModel!!
 
                 } else {

@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
+import com.twilio.video.ChatParticipantViewHolder
 
 class ChatParticipantsAdapter(
     private val onItemClick: (String) -> Unit
@@ -20,7 +21,8 @@ class ChatParticipantsAdapter(
     override fun onBindViewHolder(holder: ChatParticipantViewHolder, position: Int) {
         holder.bind(items[position])
         holder.itemView.setOnClickListener {
-            onItemClick.invoke(items[position].userId)
+            if(!items[holder.adapterPosition].isOwner)
+            onItemClick.invoke(items[holder.adapterPosition].userId)
         }
     }
 

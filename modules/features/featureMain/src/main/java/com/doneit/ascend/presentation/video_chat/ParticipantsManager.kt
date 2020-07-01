@@ -17,6 +17,7 @@ class ParticipantsManager {
         return _participants.value?.toMutableList() ?: mutableListOf()
     }
 
+
     fun addParticipant(newParticipant: PresentationChatParticipant) {
         val resultList = getParticipantMList()
 
@@ -26,9 +27,6 @@ class ParticipantsManager {
         } else {
             resultList[index] = resultList[index].merge(newParticipant)
         }
-        /*if (newParticipant.isSpeaker){
-            _currentSpeaker.postValue(newParticipant)
-        }*/
         _participants.value = resultList
     }
 
@@ -36,6 +34,10 @@ class ParticipantsManager {
         val resultList = getParticipantMList()
         resultList.removeAll { it.userId == participant.userId }
         _participants.postValue(resultList)
+    }
+
+    fun removeAll() {
+        _participants.value = listOf()
     }
 
     fun addParticipants(newList: List<PresentationChatParticipant>?) {
@@ -49,11 +51,6 @@ class ParticipantsManager {
                 resultList[index] = resultList[index].merge(remoteItem)
             }
         }
-        /*newList?.forEach {
-            if (it.isSpeaker){
-                _currentSpeaker.postValue(it)
-            }
-        }*/
         _participants.value = resultList
     }
 
@@ -81,7 +78,8 @@ class ParticipantsManager {
             isHandRisen = first.isHandRisen,
             isSpeaker = first.isSpeaker,
             isMuted = first.isMuted,
-            remoteParticipant = first.remoteParticipant ?: second.remoteParticipant
+            remoteParticipant = first.remoteParticipant ?: second.remoteParticipant,
+            localParticipant = newParticipant.localParticipant ?: this.localParticipant
         )
     }
 
@@ -116,7 +114,7 @@ class ParticipantsManager {
     }
 
     fun muteAll() {
-        getParticipantMList().forEach {
+        getParticipantMList().filter { it.isOwner.not() }.forEach {
             updateParticipant(
                 it.copy(
                     isMuted = true
@@ -126,7 +124,7 @@ class ParticipantsManager {
     }
 
     fun unmuteAll() {
-        getParticipantMList().forEach {
+        getParticipantMList().filter { it.isOwner.not() }.forEach {
             updateParticipant(
                 it.copy(
                     isMuted = false
@@ -155,7 +153,9 @@ class ParticipantsManager {
         }
 
         val speaker = resultList.firstOrNull { it.userId == id }
-        _currentSpeaker.postValue(speaker)
+        if(speaker != null) {
+            _currentSpeaker.postValue(speaker)
+        }
 
         _participants.value = resultList
     }

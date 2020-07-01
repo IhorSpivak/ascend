@@ -9,6 +9,7 @@ import com.doneit.ascend.source.storage.remote.data.response.MasterMindResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.UserProfileResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
 
@@ -32,7 +33,7 @@ internal class MasterMindRepository(
         }, ErrorsListResponse::class.java)
     }
 
-    override suspend fun getMMProfile(id: Long): RemoteResponse<MasterMindResponse, ErrorsListResponse> {
+    override suspend fun getMMProfile(id: Long): RemoteResponse<UserProfileResponse, ErrorsListResponse> {
         return execute({ api.getProfileAsync(id) }, ErrorsListResponse::class.java)
     }
 

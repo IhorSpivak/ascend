@@ -6,7 +6,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.PresentationCreateGroupModel
 import java.util.*
 
-interface WebinarCalendarPickerContact {
+interface WebinarCalendarPickerContract {
     interface ViewModel : BaseViewModel {
         val canTimeChooserOk: LiveData<Boolean>
         val createGroupModel: PresentationCreateGroupModel

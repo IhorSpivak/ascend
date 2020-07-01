@@ -25,6 +25,7 @@ import com.doneit.ascend.source.storage.remote.repository.chats.IMyChatsReposito
 import com.doneit.ascend.source.storage.remote.repository.chats.socket.IChatSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 
@@ -63,13 +64,51 @@ class MyChatGateway(
             boundary.loadInitial()
         }
 
+    override suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>> {
+        val result = executeRemote {
+            remote.getChatDetails(id)
+        }.toResponseEntity(
+            {
+                it?.toEntity()
+
+            },
+            {
+                it?.errors
+            }
+        )
+        if (result.isSuccessful) {
+            val chatEntity = result.successModel!!
+            coroutineScope {
+
+                launch {
+                    val membersResponse =
+                        remote.getMembers(chatEntity.id, MemberListDTO(perPage = 50).toRequest(1))
+                    if (membersResponse.isSuccessful) {
+                        val memberModel =
+                            membersResponse.successModel!!.users?.map { it.toEntity() }
+                        chatEntity.members = memberModel
+                        val user = userUseCase.getUser()?.id
+                        if (chatEntity.members?.count() == 2) {
+                            val member =
+                                chatEntity.members?.firstOrNull { it.id != user }
+                            member?.let { member -> chatEntity.title = member.fullName }
+                        }
+                    }
+                }
+            }
+            local.insert(chatEntity.toLocal())
+        }
+
+        return result
+    }
+
     override fun getMessages(
         chatId: Long,
         request: MessageListDTO
     ): LiveData<PagedList<MessageEntity>> =
         liveData<PagedList<MessageEntity>> {
             val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
+                .setEnablePlaceholders(true)
                 .setPageSize(request.perPage ?: 10)
                 .build()
             val factory = local.getMessageList(chatId).map { it.toEntity() }
@@ -324,6 +363,20 @@ class MyChatGateway(
         }
     }
 
+    override suspend fun removeUser(
+        chatId: Long,
+        userId: Long
+    ): ResponseEntity<Unit, List<String>> {
+        return executeRemote { remote.removeUser(chatId, userId) }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override fun addBlockedUser(userEntity: BlockedUserEntity) {
         GlobalScope.launch {
             local.insertBlockedUser(userEntity.toLocal())
@@ -390,7 +443,7 @@ class MyChatGateway(
 
     override suspend fun getUnreadMessageCount(): Long {
         val result = executeRemote { remote.getUnreadMessageCount() }
-        return if(result.isSuccessful){
+        return if (result.isSuccessful) {
             result.successModel?.unreadMessageCount ?: 0
         } else {
             0
