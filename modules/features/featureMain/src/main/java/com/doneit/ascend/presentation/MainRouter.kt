@@ -227,7 +227,7 @@ class MainRouter(
     }
 
     override fun navigateToDetailsNoBackStack(group: GroupEntity) {
-        manager.popBackStack()
+        manager.popBackStackImmediate()
         replaceFullNoBackStack(GroupInfoFragment.newInstance(group.id))
     }
 
@@ -545,11 +545,11 @@ class MainRouter(
         }
     }
 
-    private fun replaceFullNoBackStack(fragment: Fragment) {
-        manager.popBackStack()
+    private inline fun <reified T : Fragment> replaceFullNoBackStack(fragment: T) {
+        manager.popBackStackImmediate()
         manager.beginTransaction()
             .replace(containerId, Fragment())//in order to force fragment's view recreation
-            .replace(containerIdFull, fragment, fragment::class.java.simpleName)
+            .replace(containerIdFull, fragment, T::class.java.simpleName)
             .addToBackStack(fragment::class.java.simpleName)
             .commit()
     }
