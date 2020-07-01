@@ -42,7 +42,7 @@ class OtherMessageViewHolder(
                         nextMessage.createdAt!!
                     )
                 )
-                userImage.visible(nextMessage != null && messageEntity.userId != nextMessage.userId)
+                userImage.visible(messageEntity.userId != nextMessage?.userId)
                 corner.visible(nextMessage == null || messageEntity.userId != nextMessage.userId)
                 isOnline.visible(memberEntity.online && messageEntity.userId != nextMessage?.userId)
             }
