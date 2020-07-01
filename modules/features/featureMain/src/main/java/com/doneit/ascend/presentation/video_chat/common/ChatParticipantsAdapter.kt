@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
+import com.twilio.video.ChatParticipantViewHolder
 
 class ChatParticipantsAdapter(
     private val onItemClick: (String) -> Unit

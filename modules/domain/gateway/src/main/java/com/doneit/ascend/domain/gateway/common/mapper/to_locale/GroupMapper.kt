@@ -16,7 +16,7 @@ fun GroupListDTO.toLocal(): GroupFilter {
     return GroupFilter(
         sortType?.ordinal,
         groupStatus?.ordinal,
-        groupType = groupType?.ordinal?:0
+        groupType = groupType?.ordinal
     )
 }
 
