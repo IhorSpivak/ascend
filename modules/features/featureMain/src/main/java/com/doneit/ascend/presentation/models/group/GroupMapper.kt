@@ -73,6 +73,7 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
     calendar.set(Calendar.MINUTE, minutes.toInt())
     calendar.set(Calendar.AM_PM, timeType.toAM_PM(hours))
     calendar.set(Calendar.DAY_OF_MONTH, day)
+    calendar.set(Calendar.MONTH, month.ordinal)
 
     return CreateGroupDTO(
         name.observableField.getNotNull(),
@@ -100,6 +101,7 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
     calendar.set(Calendar.MINUTE, minutes.toInt())
     calendar.set(Calendar.AM_PM, timeType.toAM_PM(hours))
     calendar.set(Calendar.DAY_OF_MONTH, day)
+    calendar.set(Calendar.MONTH, month.ordinal)
     val emails = mutableListOf<String>()
     participants.get()?.let {
         emails.addAll(it.toMutableList())
