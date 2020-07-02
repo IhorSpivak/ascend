@@ -61,7 +61,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                 R.string.edit_full_name,
                 R.string.error_full_name,
                 R.string.enter_full_name,
-                viewModel.user.value?.fullName ?: ""
+                viewModel.user.value?.fullName.orEmpty()
             ) {
                 viewModel.updateFullName(it)
             }).show()
@@ -72,7 +72,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                 R.string.edit_display_name,
                 R.string.error_display_name,
                 R.string.hint_enter_display_name,
-                viewModel.user.value?.displayName ?: ""
+                viewModel.user.value?.displayName.orEmpty()
             ) {
                 viewModel.updateDisplayName(it)
             }).show()
@@ -87,7 +87,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                 R.string.edit_short_description,
                 R.string.error_short_description,
                 R.string.hint_enter_short_description,
-                viewModel.user.value?.description ?: ""
+                viewModel.user.value?.description.orEmpty()
             ) {
                 viewModel.updateShortDescription(it)
             }).show()

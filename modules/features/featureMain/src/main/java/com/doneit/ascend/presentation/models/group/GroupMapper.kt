@@ -18,7 +18,7 @@ fun PresentationCreateGroupModel.toWebinarEntity(is24TimeFormat: Boolean): Creat
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         actualStartTime.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         participants.get(),
@@ -41,14 +41,14 @@ fun PresentationCreateGroupModel.toUpdateWebinarEntity(group: GroupEntity): Upda
     participants.get()?.let {
         emails.addAll(it.toMutableList())
     }
-    (group.attendees?.map { it.email ?: "" } ?: emptyList()).forEach {
+    (group.attendees?.map { it.email.orEmpty() } ?: emptyList()).forEach {
         emails.remove(it)
     }
     return UpdateGroupDTO(
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         actualStartTime.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         emails,
@@ -79,7 +79,7 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         calendar.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         participants.get(),
@@ -113,7 +113,7 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         calendar.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         emails,

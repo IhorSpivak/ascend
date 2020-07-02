@@ -62,7 +62,7 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
                 R.string.edit_full_name,
                 R.string.error_full_name,
                 R.string.hint_enter_full_name,
-                viewModel.user.value?.fullName ?: ""
+                viewModel.user.value?.fullName.orEmpty()
             ) {
                 viewModel.updateFullName(it)
             }).show()

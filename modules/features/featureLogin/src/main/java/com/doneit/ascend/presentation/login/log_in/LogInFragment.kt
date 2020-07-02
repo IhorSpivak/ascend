@@ -195,7 +195,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
 
             override fun onResponse(call: Call, response: Response) {
                 try {
-                    val jsonObject = JSONObject(response.body()?.string() ?: "")
+                    val jsonObject = JSONObject(response.body()?.string().orEmpty())
                     val mAccessToken = jsonObject.get("access_token").toString()
 
                     viewModel.loginWithGoogle(mAccessToken)

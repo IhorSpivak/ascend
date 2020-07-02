@@ -15,6 +15,6 @@ open class AmazoneTransferListener : TransferListener {
     }
 
     override fun onStateChanged(id: Int, state: TransferState?) {
-        Log.e("stateChanged", state?.name ?: "")
+        Log.e("stateChanged", state?.name.orEmpty())
     }
 }

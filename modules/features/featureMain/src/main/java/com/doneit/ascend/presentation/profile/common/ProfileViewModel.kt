@@ -112,7 +112,7 @@ class ProfileViewModel(
                 user.postValue(it.toPresentation())
                 val birthday = it.birthday ?: minBirthday
                 birthdaySelected.postValue(birthday)
-                bioValue.observableField.set(it.bio ?: "")
+                bioValue.observableField.set(it.bio.orEmpty())
             }
         }
         userLocal.observeForever(userObserver)
