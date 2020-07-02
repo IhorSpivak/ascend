@@ -90,12 +90,11 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.lifecycleOwner = this
         binding.model = viewModel
         super.onCreate(savedInstanceState)
+        viewModel.onHomeClick()
         if (intent.extras?.containsKey(Constants.KEY_GROUP_ID) == true) {
             intent.extras?.get(Constants.KEY_GROUP_ID)?.let {
                 viewModel.tryToNavigateToGroupInfo(it.toString().toLong())
             }
-        } else {
-            viewModel.onHomeClick()
         }
         binding.fabCreateGroup.setOnClickListener {
             viewModel.onCreateGroupClick()
