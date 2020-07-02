@@ -63,35 +63,36 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             }
             val builder = StringBuilder()
 
-            if (group.daysOfWeek != null) {//todo refactor
-                val list = group.daysOfWeek.toMutableList()
-                val calendarUtil = CalendarPickerUtil(context!!)//todo move to di
+            //todo refactor
+            val list = group.daysOfWeek.toMutableList()
+            val calendarUtil = CalendarPickerUtil(context!!)//todo move to di
 
-                list.sortBy { it.ordinal }
+            list.sortBy { it.ordinal }
+            builder.apply {
                 for ((index, value) in list.iterator().withIndex()) {
+                    append(calendarUtil.getString(value))
                     if (index != list.size - 1) {
-                        builder.append("${calendarUtil.getString(value)}, ")
-                    } else {
-                        builder.append("${calendarUtil.getString(value)} ")
+                        append(",")
                     }
+                    append(" ")
                 }
-                builder.append(context!!.getTimeFormat().format(group.startTime))
-                if (group.groupType == GroupType.WEBINAR) {
-                    builder.clear()
-                    group.daysOfWeek.forEachIndexed { index, day ->
-                        group.dates?.get(index)?.let {
-                            builder.append(
-                                "${day.toString().take(3)}, ${it.toLocaleTimeString(requireContext())}"
-                            )
-                        }
-                    }
-                    webinarThemeAdapter.submitList(group.themes)
-                }
-                if (group.groupType == GroupType.INDIVIDUAL) {
-                    binding.attendeesContainer.gone()
-                }
-                binding.tvSchedule.text = builder.toString()
+                append(context!!.getTimeFormat().format(group.startTime))
             }
+            if (group.groupType == GroupType.WEBINAR) {
+                builder.clear()
+                group.daysOfWeek.forEachIndexed { index, day ->
+                    group.dates?.get(index)?.let {
+                        builder.append(
+                            "${day.toString().take(3)}, ${it.toLocaleTimeString(requireContext())}"
+                        )
+                    }
+                }
+                webinarThemeAdapter.submitList(group.themes)
+            }
+            if (group.groupType == GroupType.INDIVIDUAL) {
+                binding.attendeesContainer.gone()
+            }
+            binding.tvSchedule.text = builder.toString()
             membersAdapter.submitList(group.attendees.orEmpty().toMutableList())
             binding.viewAttendees.setOnClickListener {
                 viewModel.onViewClick(group.attendees ?: emptyList())
@@ -186,6 +187,11 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 currentDialog = createMakeClosedDialog()
                 currentDialog?.show()
             }
+
+            mmOpen.setOnClickListener {
+                currentDialog = createMakeOpenDialog()
+                currentDialog?.show()
+            }
         }
     }
 
@@ -225,10 +231,23 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
             getString(R.string.make_closed_title),
             getString(R.string.make_closed_description),
             getString(R.string.make_closed_ok),
-            getString(R.string.make_closed_cancell)
+            getString(R.string.make_closed_cancel)
         ) {
             currentDialog?.dismiss()
             viewModel.onUpdatePrivacyClick(true)
+        }
+    }
+
+    private fun createMakeOpenDialog(): AlertDialog {
+        return DialogPattern.create(
+            context!!,
+            getString(R.string.make_open_title),
+            getString(R.string.make_open_description),
+            getString(R.string.make_open_ok),
+            getString(R.string.make_open_cancel)
+        ) {
+            currentDialog?.dismiss()
+            viewModel.onUpdatePrivacyClick(false)
         }
     }
 

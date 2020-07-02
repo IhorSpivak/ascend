@@ -448,7 +448,6 @@
                                         android:background="@drawable/mm_make_opened_background"
                                         android:ellipsize="none"
                                         android:fontFamily="@font/red_hat_font"
-                                        android:onClick="@{() -> model.onUpdatePrivacyClick(false)}"
                                         android:singleLine="true"
                                         android:text="@string/mm_open"
                                         android:textColor="@android:color/white"

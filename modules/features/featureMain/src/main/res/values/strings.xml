@@ -283,7 +283,11 @@
     <string name="make_closed_title">Make this group closed?</string>
     <string name="make_closed_description">If you close the group, new users will not be able to find it in the group list.</string>
     <string name="make_closed_ok">Yes, close</string>
-    <string name="make_closed_cancell">Cancel</string>
+    <string name="make_closed_cancel">Cancel</string>
+    <string name="make_open_title">Make this group opened?</string>
+    <string name="make_open_description">If you open the group, new users will be able to find it in the group list.</string>
+    <string name="make_open_ok">Yes, open</string>
+    <string name="make_open_cancel">Cancel</string>
     <string name="notifications">Notifications</string>
     <string name="from">from</string>
     <string name="by">by</string>
