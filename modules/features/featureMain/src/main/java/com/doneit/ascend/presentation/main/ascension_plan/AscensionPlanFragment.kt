@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.ascension_plan
 
+import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.MainActivityListener
@@ -15,14 +16,22 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
     override val viewModel: AscensionPlanContract.ViewModel by instance()
 
     private val adapter = AscensionPlanAdapter()
+    var listener: MainActivityListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = (context as MainActivityListener).apply {
+            setTitle(getString(R.string.ascension_plan))
+        }
+    }
 
     override fun onResume() {
         super.onResume()
-        val listener = (context as MainActivityListener)
-        listener.setTitle(getString(R.string.ascension_plan))
-        listener.setSearchEnabled(false)
-        listener.setFilterEnabled(true)
-        listener.setChatEnabled(true)
+        listener?.apply {
+            setSearchEnabled(false)
+            setFilterEnabled(true)
+            setChatEnabled(true)
+        }
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -48,6 +57,11 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
         viewModel.data.observe(viewLifecycleOwner, Observer {
             adapter.submitList(it)
         })
+    }
+
+    override fun onDetach() {
+        listener = null
+        super.onDetach()
     }
 
 }

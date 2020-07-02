@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.home
 
+import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.MainActivityListener
@@ -13,14 +14,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override val viewModelModule = HomeViewModelModule.get(this)
     override val viewModel: HomeContract.ViewModel by instance()
+    var listener: MainActivityListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = (context as MainActivityListener).apply {
+            setTitle(getString(R.string.main_title))
+        }
+    }
 
     override fun onResume() {
         super.onResume()
-        val listener = (context as MainActivityListener)
-        listener.setTitle(getString(R.string.main_title))
-        listener.setSearchEnabled(true)
-        listener.setFilterEnabled(false)
-        listener.setChatEnabled(true)
+        listener?.apply {
+            setSearchEnabled(true)
+            setFilterEnabled(false)
+            setChatEnabled(true)
+        }
+
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -44,7 +54,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         community?.let {
             title += " $community"
         }
+        listener?.setTitle(title)
+    }
 
-        (activity as MainActivityListener).setTitle(title)
+    override fun onDetach() {
+        listener = null
+        super.onDetach()
     }
 }
