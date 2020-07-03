@@ -154,8 +154,8 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
                 ds.isUnderlineText = false
             }
         }
-        spannable.setSpan(clickableSpan, 23, spannable.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        context!!.applyLinkStyle(spannable, 23, spannable.length)
+        spannable.setSpan(clickableSpan, 23, 31, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        context!!.applyLinkStyle(spannable, 23, 31)
 
         tvNoAccountTitle.text = spannable
         tvNoAccountTitle.movementMethod = LinkMovementMethod.getInstance()

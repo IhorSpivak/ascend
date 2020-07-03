@@ -15,7 +15,7 @@
     <string name="new_password">New Password</string>
     <string name="first_time_login">First Time Login</string>
     <string name="forgot_password_title">Forgot Password</string>
-    <string name="dont_have_account_title">Don\'t have an account? <b>Sign Up</b></string>
+    <string name="dont_have_account_title">Don\'t have an account? <b>Sign Up</b> here</string>
     <string name="social_title">Login with social</string>
     <string name="or">- or -</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
