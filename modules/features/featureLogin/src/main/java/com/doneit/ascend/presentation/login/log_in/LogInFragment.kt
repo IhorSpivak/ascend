@@ -144,7 +144,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun initSignUpSpannable() {
-        val spannable = SpannableString(getString(R.string.social_title))
+        val spannable = SpannableString(getString(R.string.dont_have_account_title))
         val clickableSpan = object : ClickableSpan() {
             override fun onClick(p0: View) {
                 viewModel.signUpClick()
@@ -157,8 +157,8 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
         spannable.setSpan(clickableSpan, 23, spannable.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         context!!.applyLinkStyle(spannable, 23, spannable.length)
 
-        tvSocialTitle.text = spannable
-        tvSocialTitle.movementMethod = LinkMovementMethod.getInstance()
+        tvNoAccountTitle.text = spannable
+        tvNoAccountTitle.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {

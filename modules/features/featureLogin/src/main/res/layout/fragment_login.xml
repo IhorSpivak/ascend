@@ -109,7 +109,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/socialLayout"
                 android:layout_width="0dp"
-                android:layout_height="227dp"
+                android:layout_height="250dp"
                 android:layout_marginTop="36dp"
                 android:background="@color/light_gray_f4f7"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -118,13 +118,13 @@
 
 
                 <TextView
-                    android:id="@+id/tvSocialTitle"
+                    android:id="@+id/tvNoAccountTitle"
                     style="@style/TextNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="36dp"
                     android:clickable="true"
-                    android:text="@string/social_title"
+                    android:text="@string/dont_have_account_title"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -139,7 +139,19 @@
                     android:text="@string/or"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvSocialTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/tvNoAccountTitle" />
+
+                <TextView
+                    android:id="@+id/tvSocialTitle"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:clickable="true"
+                    android:text="@string/social_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvOr" />
 
                 <ImageView
                     android:id="@+id/facebook"
@@ -154,7 +166,7 @@
                     app:layout_constraintEnd_toStartOf="@id/google"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvOr" />
+                    app:layout_constraintTop_toBottomOf="@id/tvSocialTitle" />
 
                 <com.facebook.login.widget.LoginButton
                     android:id="@+id/btnFB"
