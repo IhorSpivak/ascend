@@ -23,6 +23,7 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostFragment
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
@@ -102,6 +103,7 @@ class IndividualGroupFragment(
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
                     viewModel.createGroupModel.duration.observableField.set(Duration.values()[p2].time.toString())
+                    binding.durationTitle.visible()
                 }
             }
 

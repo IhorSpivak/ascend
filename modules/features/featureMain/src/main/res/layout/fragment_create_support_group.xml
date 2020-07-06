@@ -16,6 +16,7 @@
         <import type="android.text.InputType" />
 
         <import type="android.view.View" />
+
         <variable
             name="actionTitle"
             type="String" />
@@ -73,8 +74,8 @@
                         android:text='@{model.supportTitle != null?@string/action_group(actionTitle, context.getString(model.supportTitle)) :""}'
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/btnBack"
-                        app:layout_constraintEnd_toStartOf="@id/btnComplete"/>
+                        app:layout_constraintEnd_toStartOf="@id/btnComplete"
+                        app:layout_constraintStart_toEndOf="@id/btnBack" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/btnComplete"
@@ -106,8 +107,8 @@
                 android:id="@+id/mainContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="true"
                 android:clickable="true"
+                android:focusable="true"
                 android:focusableInTouchMode="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -115,55 +116,55 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="24dp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/bg_round_blue"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:background="@drawable/bg_round_blue">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
+                        style="@style/TextNormal"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="16dp"
-                        android:gravity="end"
-                        style="@style/TextNormal"
-                        android:textSize="14sp"
-                        android:textColor="@color/blue_color_selector"
                         android:enabled="@{!model.createGroupModel.isPrivate()}"
+                        android:gravity="end"
                         android:text='@{model.supportTitle != null?@string/public_group(context.getString(model.supportTitle)) :""}'
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:textColor="@color/blue_color_selector"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/isPrivate"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <Switch
                         android:id="@+id/isPrivate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:button="@drawable/switch_button"
-                        android:track="@drawable/bg_round_solid_blue"
                         android:theme="@style/SwitchTheme"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:track="@drawable/bg_round_solid_blue"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        style="@style/TextNormal"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="8dp"
-                        style="@style/TextNormal"
-                        android:textSize="14sp"
-                        android:textColor="@color/blue_color_selector"
                         android:enabled="@{model.createGroupModel.isPrivate()}"
                         android:text='@{model.supportTitle != null?@string/private_group(context.getString(model.supportTitle)) :""}'
-                        app:layout_constraintStart_toEndOf="@id/isPrivate"
+                        android:textColor="@color/blue_color_selector"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
+                        app:layout_constraintStart_toEndOf="@id/isPrivate"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -208,11 +209,22 @@
                     android:id="@+id/iconMeetings"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:layout_marginTop="52dp"
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="52dp"
                     android:src="@drawable/ic_meeting_format"
-                    app:layout_constraintTop_toBottomOf="@+id/startDate"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/startDate" />
+
+                <TextView
+                    android:id="@+id/meeting_format_title"
+                    style="@style/HintStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/meeting_format"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/meetingsPicker"
+                    app:layout_constraintStart_toStartOf="@+id/meetingsPicker" />
 
                 <Spinner
                     android:id="@+id/meetingsPicker"
@@ -246,10 +258,10 @@
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                     app:error="@{model.createGroupModel.scheduleTime.observableError}"
                     app:hint="@{@string/choose_schedule}"
+                    app:layout_constraintBottom_toTopOf="@id/numberOfMeetings"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/underline"
-                    app:layout_constraintBottom_toTopOf="@id/numberOfMeetings"
                     app:noFocusable="@{true}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_schedule}"
@@ -263,14 +275,14 @@
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
                     android:layout_marginTop="@dimen/create_group_top_margin"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:digits="@{@string/allow_number_digits}"
                     app:error="@{model.createGroupModel.numberOfMeetings.observableError}"
                     app:hint="@{@string/number_of_meetings}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/chooseSchedule"
-                    app:digits="@{@string/allow_number_digits}"
-                    app:noFocusable="@{false}"
                     app:maxLength="@{3}"
+                    app:noFocusable="@{false}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_hand_number}"
                     app:text="@={model.createGroupModel.numberOfMeetings.observableField}"
@@ -280,12 +292,23 @@
                     android:id="@+id/iconDuration"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:layout_marginTop="52dp"
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="52dp"
                     android:src="@drawable/ic_duration"
-                    app:tint="#2E9DC0"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/numberOfMeetings"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:tint="#2E9DC0" />
+
+                <TextView
+                    android:layout_marginBottom="8dp"
+                    style="@style/HintStyle"
+                    android:id="@+id/duration_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/duration_hours"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/durationPicker"
+                    app:layout_constraintBottom_toTopOf="@+id/durationPicker" />
 
                 <Spinner
                     android:id="@+id/durationPicker"
@@ -311,25 +334,25 @@
 
                 <TextView
                     android:id="@+id/tag_hint"
+                    style="@style/HintStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/tag"
-                    android:textSize="10sp"
-                    android:textColor="@color/light_gray_b1bf"
                     android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="@id/tagsPicker"
-                    app:layout_constraintBottom_toTopOf="@id/tagsPicker"/>
+                    app:layout_constraintBottom_toTopOf="@id/tagsPicker"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tagsPicker" />
 
                 <ImageView
                     android:id="@+id/tagIcon"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:layout_marginTop="72dp"
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="72dp"
                     android:src="@drawable/ic_tags"
-                    app:layout_constraintTop_toBottomOf="@+id/underlineDuration"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/underlineDuration" />
 
                 <Spinner
                     android:id="@+id/tagsPicker"
@@ -343,6 +366,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tagIcon"
                     app:layout_constraintTop_toBottomOf="@id/underlineDuration" />
+
                 <View
                     android:id="@+id/underlineTags"
                     android:layout_width="0dp"
@@ -379,8 +403,8 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="20dp"
-                    android:src="@drawable/ic_dash_stroke_support"
                     android:clickable="@{model.createGroupModel.image.observableField.isEmpty() ? true : false}"
+                    android:src="@drawable/ic_dash_stroke_support"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/description" />
@@ -422,12 +446,12 @@
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.GONE : View.VISIBLE}"
                     app:cardBackgroundColor="@android:color/transparent"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="0dp"
-                    android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.GONE : View.VISIBLE}"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/description">
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -457,7 +481,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="imageContainer,placeholderDash"/>
+                    app:constraint_referenced_ids="imageContainer,placeholderDash" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_view_invite_members"
@@ -479,19 +503,19 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="32dp"
                     android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_view_invite_members"
-                    app:layout_constraintBottom_toBottomOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/text_view_invite_members">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/add_member_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="@{()->model.addMember(model.createGroupModel.groupType)}"
                         android:orientation="vertical"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:onClick="@{()->model.addMember(model.createGroupModel.groupType)}">
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/add_member_template_round"
@@ -538,10 +562,10 @@
                         android:layout_marginBottom="8dp"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/add_member_container"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintVertical_bias="0"
                         tools:listitem="@layout/attendee_list_item" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -116,6 +116,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/numberOfMeetings"
                 app:layout_constraintStart_toStartOf="parent"/>
 
+            <TextView
+                android:layout_marginBottom="8dp"
+                style="@style/HintStyle"
+                android:id="@+id/duration_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/duration_hours"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/durationPicker"
+                app:layout_constraintBottom_toTopOf="@+id/durationPicker" />
+
+
             <Spinner
                 android:id="@+id/durationPicker"
                 android:layout_width="0dp"

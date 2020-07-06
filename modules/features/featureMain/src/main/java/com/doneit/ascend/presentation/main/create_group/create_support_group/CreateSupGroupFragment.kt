@@ -27,6 +27,7 @@ import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
+import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
@@ -367,6 +368,7 @@ class CreateSupGroupFragment :
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
                     viewModel.createGroupModel.meetingFormat.observableField.set(binding.meetingsPicker.selectedItem as String)
+                    binding.meetingFormatTitle.visible()
                 }
             }
 
@@ -380,6 +382,7 @@ class CreateSupGroupFragment :
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
                     viewModel.createGroupModel.duration.observableField.set(SupportDuration.values()[p2].time.toString())
+                    binding.durationTitle.visible()
                 }
             }
 
@@ -393,7 +396,7 @@ class CreateSupGroupFragment :
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
                     viewModel.createGroupModel.tags = viewModel.tags.value?.get(p2 - 1)?.id ?: 0
-                    binding.tagHint.visibility = View.VISIBLE
+                    binding.tagHint.visible()
                 }
             }
 
