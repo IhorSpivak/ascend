@@ -42,4 +42,5 @@
     <color name="gold">#FFCA00</color>
     <color name="transparent_30_black">#4c000000</color>
     <color name="messageWebinarName">#FE1E92</color>
+    <color name="background_attachments_alpha">#8043425D</color>
 </resources>
