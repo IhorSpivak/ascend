@@ -81,7 +81,7 @@ class MyChatViewHolder(
                     it.userId == user.id -> {
                         R.drawable.ic_sent_message
                     }
-                    it.type != MessageType.MESSAGE-> {
+                    it.type != MessageType.MESSAGE -> {
                         0
                     }
                     else -> {
@@ -91,9 +91,7 @@ class MyChatViewHolder(
             } ?: 0
         }
         itemView.messageStatus.setImageResource(res)
-        Glide.with(itemView.chatImage).load(item.image?.url)
-            .placeholder(itemView.chatImage.context.createPlaceholderDrawable(item.title, overrideSize = true))
-            .circleCrop().into(itemView.chatImage)
+        loadChatImage(item)
         Glide.with(itemView.groupPlaceholder)
             .load(R.drawable.ic_group_placeholder)
             .circleCrop()
@@ -116,6 +114,20 @@ class MyChatViewHolder(
             }
 
             status
+        }
+    }
+
+    private fun loadChatImage(item: ChatEntity) {
+        if (item.title.isNotEmpty()) {
+            Glide.with(itemView.chatImage)
+                .load(item.image?.url)
+                .placeholder(
+                    itemView.chatImage.context.createPlaceholderDrawable(
+                        item.title,
+                        overrideSize = true
+                    )
+                )
+                .circleCrop().into(itemView.chatImage)
         }
     }
 

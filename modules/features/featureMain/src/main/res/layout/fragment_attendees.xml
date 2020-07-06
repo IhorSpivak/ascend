@@ -5,6 +5,7 @@
     <data>
         <import type="android.text.Html" />
         <import type="android.view.View"/>
+        <import type="com.doneit.ascend.domain.entity.group.GroupStatus" />
         <variable
             name="isEmpty"
             type="Boolean" />
@@ -87,7 +88,7 @@
                                 android:background="@android:color/transparent"
                                 android:gravity="center_vertical"
                                 android:textSize="14sp"
-                                android:enabled="@{model.selectedMembers.size() &lt; 30}"
+                                android:enabled="@{model.selectedMembers.size() &lt; 30  &amp;&amp; !(model.group.status == GroupStatus.CANCELLED || model.group.status == GroupStatus.ENDED)}"
                                 android:hint="@string/add_attendee_hint"/>
 
                             <androidx.appcompat.widget.AppCompatImageView

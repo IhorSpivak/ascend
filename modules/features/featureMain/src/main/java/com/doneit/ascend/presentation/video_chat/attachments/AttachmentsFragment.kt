@@ -92,7 +92,7 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
             requestWritePermissions(getString(R.string.add_attachments_denied)) {
                 val directoryType =
                     if (it.attachmentType == AttachmentType.IMAGE) Environment.DIRECTORY_PICTURES else Environment.DIRECTORY_DOWNLOADS
-                val basePath = context?.getExternalFilesDir(directoryType)?.path ?: ""
+                val basePath = context?.getExternalFilesDir(directoryType)?.path.orEmpty()
 
                 viewModel.downloadAttachment(it, basePath)
             }

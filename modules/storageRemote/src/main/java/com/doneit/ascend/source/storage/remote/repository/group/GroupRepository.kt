@@ -99,7 +99,7 @@ internal class GroupRepository(
                 addPart(
                     MultipartBody.Part.createFormData(
                         "meeting_format",
-                        request.meetingFormat ?: ""
+                        request.meetingFormat.orEmpty()
                     )
                 )
                 addPart(
@@ -201,7 +201,7 @@ internal class GroupRepository(
                         )
                     )
                 }
-                if (file != null) {
+                file?.let { file ->
                     builder.addPart(
                         MultipartBody.Part.createFormData(
                             "image",
@@ -210,11 +210,11 @@ internal class GroupRepository(
                         )
                     )
                 }
-                if (it.meetingFormat != null) {
+                it.meetingFormat?.let { meetingFormat ->
                     builder.addPart(
                         MultipartBody.Part.createFormData(
                             "meeting_format",
-                            it.meetingFormat ?: ""
+                            meetingFormat
                         )
                     )
                 }

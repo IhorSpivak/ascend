@@ -18,7 +18,7 @@ fun PresentationCreateGroupModel.toWebinarEntity(is24TimeFormat: Boolean): Creat
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         actualStartTime.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         participants.get(),
@@ -41,14 +41,14 @@ fun PresentationCreateGroupModel.toUpdateWebinarEntity(group: GroupEntity): Upda
     participants.get()?.let {
         emails.addAll(it.toMutableList())
     }
-    (group.attendees?.map { it.email ?: "" } ?: emptyList()).forEach {
+    (group.attendees?.map { it.email.orEmpty() } ?: emptyList()).forEach {
         emails.remove(it)
     }
     return UpdateGroupDTO(
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         actualStartTime.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         emails,
@@ -73,12 +73,13 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
     calendar.set(Calendar.MINUTE, minutes.toInt())
     calendar.set(Calendar.AM_PM, timeType.toAM_PM(hours))
     calendar.set(Calendar.DAY_OF_MONTH, day)
+    calendar.set(Calendar.MONTH, month.ordinal)
 
     return CreateGroupDTO(
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         calendar.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         participants.get(),
@@ -100,6 +101,7 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
     calendar.set(Calendar.MINUTE, minutes.toInt())
     calendar.set(Calendar.AM_PM, timeType.toAM_PM(hours))
     calendar.set(Calendar.DAY_OF_MONTH, day)
+    calendar.set(Calendar.MONTH, month.ordinal)
     val emails = mutableListOf<String>()
     participants.get()?.let {
         emails.addAll(it.toMutableList())
@@ -111,7 +113,7 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         calendar.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         emails,

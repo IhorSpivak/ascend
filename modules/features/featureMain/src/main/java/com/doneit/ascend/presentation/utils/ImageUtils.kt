@@ -231,6 +231,6 @@ private fun Context.createImageFile(): File {
 fun Activity.getImagePath(uri: Uri): String{
     contentResolver.query(uri, null, null, null, null).use { cursor ->
         cursor?.moveToFirst()
-        return cursor?.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))?: ""
+        return cursor?.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)).orEmpty()
     }
 }

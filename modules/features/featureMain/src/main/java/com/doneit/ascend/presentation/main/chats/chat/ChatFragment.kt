@@ -245,7 +245,13 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             val lm =
                 binding.messageList.layoutManager as LinearLayoutManager
             val first = lm.findFirstVisibleItemPosition()
-            if (first < 5) binding.messageList.scrollToPosition(0)
+            if (first < 5) {
+                binding.messageList.postDelayed({
+                    binding.messageList.scrollToPosition(
+                        0
+                    )
+                }, 100)
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.SurfaceHolder
+import androidx.core.view.doOnNextLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -82,7 +83,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 binding.progressBar.gone()
                 start()
             }
-            setOnErrorListener { mediaPlayer, i, i2 ->
+            setOnErrorListener { _, _, _ ->
                 binding.progressBar.visible()
                 viewModel.getM3u8Playback()
                 true
@@ -93,6 +94,9 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
 
     private fun observeEvents() {
         viewModel.questions.observe(this, Observer {
+            binding.rvQuestions.doOnNextLayout {
+                (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPosition(0)
+            }
             adapter.submitList(it)
         })
         viewModel.showMessgeSent.observe(this, Observer {
@@ -109,7 +113,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (itemCount > 0) {
-                    (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
+                    (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPosition(0)
                 }
             }
         })
@@ -156,7 +160,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                     }
                 })
                 viewModel.isVideoEnabled.observe(viewLifecycleOwner, Observer {
-                    if(it) {
+                    if (it) {
                         rtmpCamera?.glInterface?.unMuteVideo()
                     } else {
                         rtmpCamera?.glInterface?.muteVideo()
@@ -167,6 +171,11 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 viewModel.onPermissionsRequired(WebinarVideoChatActivity.ResultStatus.POPUP_REQUIRED)
             }
         )
+    }
+
+    override fun onDestroyView() {
+        rvQuestions.adapter = null
+        super.onDestroyView()
     }
 
     companion object {
@@ -206,7 +215,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
     override fun surfaceCreated(p0: SurfaceHolder?) {
 
         viewModel.credentials.observe(this, Observer {
-            if(it.role == ChatRole.OWNER){
+            if (it.role == ChatRole.OWNER) {
                 binding.progressBar.post {
                     binding.progressBar.gone()
                 }

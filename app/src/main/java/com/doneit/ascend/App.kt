@@ -43,7 +43,7 @@ class App : Application(), KodeinAware {
         Twitter.initialize(config)
 
         RetrofitConfig.apply {
-            baseUrl = getString(R.string.base_url)
+            baseUrl = BuildConfig.BASE_URL
             auth = interceptor
 
             enableLogging()

@@ -1,7 +1,7 @@
 package com.doneit.ascend.source.storage.remote.repository.chats.socket
 
 import android.util.Log
-import com.doneit.ascend.source.Constants.SOCKET_URL
+import com.doneit.ascend.source.storage.remote.BuildConfig
 import com.doneit.ascend.source.storage.remote.data.request.group.ChatSocketCookies
 import com.doneit.ascend.source.storage.remote.data.response.chat.ChatSocketEventMessage
 import com.doneit.ascend.source.storage.remote.data.response.chat.ChatSocketEventResponse
@@ -26,7 +26,7 @@ class ChatSocketRepository(
         val client = builder.build()
 
         val request =
-            Request.Builder().url(SOCKET_URL)
+            Request.Builder().url(BuildConfig.SOCKET_URL)
                 .addHeader(COOKIE_KEY, cookies.toString())//required for authorization
                 .addHeader(
                     "Origin",

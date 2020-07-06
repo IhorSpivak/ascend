@@ -5,7 +5,6 @@ import android.text.format.DateFormat
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.RadioButton
-import android.widget.ToggleButton
 import androidx.core.view.children
 import com.aigestudio.wheelpicker.WheelPicker
 import com.doneit.ascend.domain.entity.CalendarDayEntity
@@ -180,8 +179,8 @@ class CalendarPickerFragment : BaseFragment<FragmentCalendarPickerBinding>() {
         hideKeyboard()
     }
 
-    private fun getCorrespondingButton(day: CalendarDayEntity): ToggleButton? {
-        return binding.daysContainer.children.elementAtOrNull(day.ordinal) as ToggleButton?
+    private fun getCorrespondingButton(day: CalendarDayEntity): RadioButton? {
+        return binding.daysContainer.children.elementAtOrNull(day.ordinal) as RadioButton?
     }
 
     //todo refactor handling time with strings

@@ -130,8 +130,8 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
         viewModel.changeGroup.observe(this, Observer {
             binding.apply {
-                userName.text = it.name ?: ""
-                description.text = it.description ?: ""
+                userName.text = it.name.orEmpty()
+                description.text = it.description.orEmpty()
             }
         })
 

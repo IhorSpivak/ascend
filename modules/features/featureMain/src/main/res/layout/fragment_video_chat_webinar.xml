@@ -189,8 +189,6 @@
             android:layout_height="0dp"
             android:layout_gravity="end"
             android:background="@android:color/transparent"
-            android:clickable="false"
-            android:focusable="false"
             android:orientation="vertical"
             android:overScrollMode="never"
             android:visibility="@{!model.isVisitor, default = gone}"

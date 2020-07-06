@@ -63,7 +63,7 @@ class TextOvalDrawable private constructor(builder: Builder) :
         var width = -1
         fun setText(text: String?): Builder {
             if (text.isNullOrBlank().not()) {
-                val splited = text!!.trim().split(' ')
+                val splited = text!!.trim().split(' ').filter { it.isEmpty().not() }
                 var res = text[0].toString().capitalize()
                 if (splited.size > 1) {
                     res += splited[1][0]

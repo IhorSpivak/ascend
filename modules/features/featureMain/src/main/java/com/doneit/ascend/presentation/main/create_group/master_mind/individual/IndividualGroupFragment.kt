@@ -56,7 +56,10 @@ class IndividualGroupFragment(
 
     private val membersAdapter: InvitedMembersAdapter by lazy {
         InvitedMembersAdapter {
-            viewModel.removeMember(it)
+            val removedIndex = viewModel.removeMember(it)
+            if (removedIndex != -1) {
+                membersAdapter.remove(removedIndex)
+            }
         }
     }
 

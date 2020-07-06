@@ -1,7 +1,7 @@
 package com.doneit.ascend.source.storage.remote.repository.group.socket
 
 import android.util.Log
-import com.doneit.ascend.source.Constants.SOCKET_URL
+import com.doneit.ascend.source.storage.remote.BuildConfig
 import com.doneit.ascend.source.storage.remote.data.request.group.GroupSocketCookies
 import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventMessage
 import com.doneit.ascend.source.storage.remote.data.response.group.SocketEventResponse
@@ -27,7 +27,7 @@ class GroupSocketRepository(
         val client = builder.build()
 
         val request =
-            Request.Builder().url(SOCKET_URL)
+            Request.Builder().url(BuildConfig.SOCKET_URL)
                 .addHeader(COOKIE_KEY, cookies.toString())//required for authorization
                 .addHeader(
                     "Origin",
@@ -50,17 +50,6 @@ class GroupSocketRepository(
 
     private fun getWebSocketListener(): WebSocketListener {
         return object : WebSocketListener() {
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
-            }
-
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosing(webSocket, code, reason)
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                super.onFailure(webSocket, t, response)
-            }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
                 //optimization in order to avoid ping messages processing

@@ -79,6 +79,8 @@ class GroupInfoViewModel(
                     }
                 }
                 updateButtonsState(user, response.successModel!!)
+            } else {
+                showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
             }
             showProgress(false)
         }
@@ -115,12 +117,11 @@ class GroupInfoViewModel(
             val result = groupUseCase.subscribe(requestModel)
 
             if (result.isSuccessful) {
-                showProgress(false)
                 loadData(group.value!!.id)
             } else {
-                showProgress(false)
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
+            showProgress(false)
         }
     }
 
