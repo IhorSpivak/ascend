@@ -1,5 +1,7 @@
 package com.doneit.ascend.presentation.common.binding_adapters
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
@@ -7,6 +9,7 @@ import android.widget.Button
 import android.widget.CompoundButton
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.text.HtmlCompat
@@ -26,20 +29,21 @@ import com.doneit.ascend.presentation.models.group.GroupListWithUser
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter
 
+
 @BindingAdapter("app:html")
 fun TextView.setAdapter(source: String?) {
-    if(source != null) {
+    if (source != null) {
         text = HtmlCompat.fromHtml(source, HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 }
 
 @BindingAdapter("app:cardNumber")
 fun TextView.setCardNumber(source: String?) {
-    if(source != null) {
+    if (source != null) {
         val result = StringBuilder("XXXX  XXXX  XXXX  XXXX")
 
         source.forEachIndexed { index, c ->
-            result.replace(index, index+1, c.toString())
+            result.replace(index, index + 1, c.toString())
         }
 
         text = result.toString()
@@ -48,7 +52,7 @@ fun TextView.setCardNumber(source: String?) {
 
 @BindingAdapter("app:error")
 fun TextView.setText(text: LiveData<Int?>?) {
-    if(text != null && text.value != null){
+    if (text != null && text.value != null) {
         this.text = resources.getString(text.value!!)
     } else {
         this.text = ""
@@ -140,7 +144,7 @@ fun View.setVisibility(isShow: Boolean) {
 }
 
 @BindingAdapter("app:layout_constraintHorizontal_bias")
-fun View.setConstrainHorizontalBias(value: Float){
+fun View.setConstrainHorizontalBias(value: Float) {
     val params = layoutParams as ConstraintLayout.LayoutParams
     params.horizontalBias = value
     layoutParams = params
@@ -208,7 +212,10 @@ fun AppCompatImageView.setImageUri(path: String?) {
 }
 
 @BindingAdapter("app:setAdapter")
-fun setAdapter(view: androidx.viewpager.widget.ViewPager, adapter: com.doneit.ascend.presentation.main.master_mind.common.TabAdapter) {
+fun setAdapter(
+    view: androidx.viewpager.widget.ViewPager,
+    adapter: com.doneit.ascend.presentation.main.master_mind.common.TabAdapter
+) {
     view.adapter = adapter
 }
 
@@ -222,9 +229,9 @@ fun setVisibilityByData(
 
 @BindingAdapter("app:setCountBackground")
 fun RadioButton.setCountBackground(groupType: GroupType) {
-    background = when(groupType){
+    background = when (groupType) {
         GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.day_button_selector)
-        GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.day_button_selector)
+        GroupType.INDIVIDUAL -> resources.getDrawable(R.drawable.day_button_selector)
         GroupType.WEBINAR -> resources.getDrawable(R.drawable.number_button_selector_webinar)
         GroupType.SUPPORT -> resources.getDrawable(R.drawable.day_button_selector_support)
         else -> resources.getDrawable(R.drawable.day_button_selector)
@@ -233,9 +240,9 @@ fun RadioButton.setCountBackground(groupType: GroupType) {
 
 @BindingAdapter("app:setDayBackground")
 fun CompoundButton.setDayBackground(groupType: GroupType) {
-    background = when(groupType){
+    background = when (groupType) {
         GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.day_button_selector)
-        GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.day_button_selector)
+        GroupType.INDIVIDUAL -> resources.getDrawable(R.drawable.day_button_selector)
         GroupType.WEBINAR -> resources.getDrawable(R.drawable.day_button_selector_webinar)
         GroupType.SUPPORT -> resources.getDrawable(R.drawable.day_button_selector_support)
         else -> resources.getDrawable(R.drawable.day_button_selector)
@@ -244,11 +251,23 @@ fun CompoundButton.setDayBackground(groupType: GroupType) {
 
 @BindingAdapter("app:setOkBackground")
 fun Button.setOkBackground(groupType: GroupType) {
-    background = when(groupType){
+    background = when (groupType) {
         GroupType.MASTER_MIND -> resources.getDrawable(R.drawable.button_ok_selector)
-        GroupType.INDIVIDUAL ->resources.getDrawable(R.drawable.button_ok_selector)
+        GroupType.INDIVIDUAL -> resources.getDrawable(R.drawable.button_ok_selector)
         GroupType.WEBINAR -> resources.getDrawable(R.drawable.button_ok_selector_webinar)
         GroupType.SUPPORT -> resources.getDrawable(R.drawable.button_ok_selector_support)
         else -> resources.getDrawable(R.drawable.button_ok_selector)
+    }
+}
+
+@BindingAdapter("iconTint")
+fun AppCompatButton.setIconTint(color: Int) {
+    for (drawable in compoundDrawables) {
+        if (drawable != null) {
+            drawable.colorFilter = PorterDuffColorFilter(
+                color,
+                PorterDuff.Mode.SRC_IN
+            )
+        }
     }
 }

@@ -31,4 +31,6 @@
     <dimen name="new_chat_add_member_top_margin">16dp</dimen>
     <dimen name="new_chat_add_member_start_margin">8dp</dimen>
     <dimen name="new_chat_add_member_bottom_margin">20dp</dimen>
+
+    <dimen name="max_multiview_width">200dp</dimen>
 </resources>

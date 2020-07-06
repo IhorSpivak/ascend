@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.source.storage.local.repository.notification.INotificationRepository
+import com.vrgsoft.core.gateway.orZero
 import kotlinx.coroutines.CoroutineScope
 
 class NotificationBoundaryCallback(
@@ -25,7 +26,7 @@ class NotificationBoundaryCallback(
                 val loadedCount = model.size
                 val remoteCount = response.successModel!!.count
 
-                receivedItems(loadedCount, remoteCount)
+                receivedItems(loadedCount, remoteCount.orZero())
 
                 local.insertAll(model.map { it.toLocal() })
             }

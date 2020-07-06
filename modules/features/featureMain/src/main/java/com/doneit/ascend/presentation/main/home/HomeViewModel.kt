@@ -10,7 +10,7 @@ import com.vrgsoft.annotations.ViewModelDiModule
 @CreateFactory
 @ViewModelDiModule
 class HomeViewModel(
-    private val userUseCase: UserUseCase,
+    userUseCase: UserUseCase,
     private val router: HomeContract.Router
 ) : BaseViewModelImpl(), HomeContract.ViewModel {
 
@@ -23,30 +23,35 @@ class HomeViewModel(
                 Community.INDUSTRY.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.community_feed_title,
                     R.string.collaboration,
                     R.string.master_mind
                 )
-                Community.FITNESS.title  -> listOf(
+                Community.FITNESS.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.community_feed_title,
                     R.string.collaboration,
                     R.string.coaching
                 )
-                Community.RECOVERY.title  -> listOf(
+                Community.RECOVERY.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.community_feed_title,
                     R.string.groups,
                     R.string.master_mind
                 )
-                Community.FAMILY.title  -> listOf(
+                Community.FAMILY.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.community_feed_title,
                     R.string.groups,
                     R.string.coaching
                 )
-                Community.SPIRITUAL.title  -> listOf(
+                Community.SPIRITUAL.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.community_feed_title,
                     R.string.collaboration,
                     R.string.coaching
                 )

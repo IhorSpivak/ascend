@@ -9,6 +9,8 @@ import com.doneit.ascend.source.storage.remote.repository.cards.CardsRepository
 import com.doneit.ascend.source.storage.remote.repository.cards.ICardsRepository
 import com.doneit.ascend.source.storage.remote.repository.chats.IMyChatsRepository
 import com.doneit.ascend.source.storage.remote.repository.chats.MyChatsRepository
+import com.doneit.ascend.source.storage.remote.repository.community_feed.CommunityFeedRepository
+import com.doneit.ascend.source.storage.remote.repository.community_feed.ICommunityFeedRepository
 import com.doneit.ascend.source.storage.remote.repository.group.GroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.doneit.ascend.source.storage.remote.repository.group.socket.GroupSocketRepository
@@ -52,6 +54,7 @@ object StorageRemoteModule {
         bind<ChatApi>() with singleton { instance<Retrofit>().create(ChatApi::class.java) }
         bind<WebinarQuestionApi>() with singleton { instance<Retrofit>().create(WebinarQuestionApi::class.java) }
         bind<VimeoApi>() with singleton { instance<Retrofit>("VimeoRetrofitModule").create(VimeoApi::class.java) }
+        bind<CommunityFeedApi>() with singleton { instance<Retrofit>().create(CommunityFeedApi::class.java) }
 
         bind<IUserRepository>() with singleton {
             UserRepository(
@@ -145,6 +148,13 @@ object StorageRemoteModule {
 
         bind<IVimeoRepository>() with singleton {
             VimeoRepository(
+                instance(),
+                instance()
+            )
+        }
+
+        bind<ICommunityFeedRepository>() with singleton {
+            CommunityFeedRepository(
                 instance(),
                 instance()
             )

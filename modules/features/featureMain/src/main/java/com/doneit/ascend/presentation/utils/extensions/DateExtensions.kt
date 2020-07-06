@@ -64,7 +64,6 @@ fun Date.toChatDate(context: Context): String {
     val nowTime = Calendar.getInstance()
     val neededTime = Calendar.getInstance()
     neededTime.time = this
-
     return if (neededTime[Calendar.YEAR] == nowTime[Calendar.YEAR]) {
         return if (neededTime[Calendar.MONTH] == nowTime[Calendar.MONTH]) {
             if (nowTime[Calendar.DATE] == neededTime[Calendar.DATE]) {
@@ -86,6 +85,21 @@ fun Date.toAttachmentDate(): String {
 
 fun Date.toRateDate(): String {
     return "MMM dd, yyyy".toDefaultFormatter().getFormatted(this)
+}
+
+fun Date.isYesterday(): Boolean {
+    val c1 = Calendar.getInstance()
+    c1.add(Calendar.DAY_OF_YEAR, -1)
+
+    val c2 = Calendar.getInstance()
+    c2.time = this
+
+    return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
+            && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR))
+}
+
+fun Date.formatYesterday(): String {
+    return YESTERDAY_FORMAT.toDefaultFormatter().format(this)
 }
 
 fun Date.toTimerFormat(): String {
@@ -129,7 +143,7 @@ fun String.toLocaleTime(): Date {
         set(Calendar.HOUR_OF_DAY, substringBefore(":").toInt())
         set(Calendar.HOUR, substringBefore(":").toInt() % 12)
         set(Calendar.MINUTE, substringAfter(":").toInt())
-        set(Calendar.AM_PM, if(substringBefore(":").toInt() < 12) Calendar.AM else Calendar.PM)
+        set(Calendar.AM_PM, if (substringBefore(":").toInt() < 12) Calendar.AM else Calendar.PM)
     }.time
 }
 
@@ -190,3 +204,4 @@ const val HOUR_24_ONLY_FORMAT = "HH:mm"
 const val FULL_DATE_FORMAT = "dd MMM yyyy hh:mm aa"
 const val DAY_MONTH_FORMAT = "d MMM"
 const val TIMESTAMP_FORMAT = "yyyyMMdd_HHmmss"
+const val YESTERDAY_FORMAT = "Yesterday at hh:mm a"

@@ -38,7 +38,7 @@ fun CreateChatDTO.toRequest(): CreateChatRequest {
     )
 }
 
-fun MessageListDTO.toRequest(page: Int): MessageListRequest{
+fun MessageListDTO.toRequest(page: Int): MessageListRequest {
     return MessageListRequest(
         page,
         perPage,
@@ -47,7 +47,13 @@ fun MessageListDTO.toRequest(page: Int): MessageListRequest{
         message,
         status.toString(),
         userId,
-        edited?.let { if(it){1}else{0} },
+        edited?.let {
+            if (it) {
+                1
+            } else {
+                0
+            }
+        },
         createdAtFrom,
         createdAtTo,
         updatedAtTo,
@@ -55,25 +61,31 @@ fun MessageListDTO.toRequest(page: Int): MessageListRequest{
     )
 }
 
-fun MemberListDTO.toRequest(page: Int): MemberListRequest{
+fun MemberListDTO.toRequest(page: Int): MemberListRequest {
     return MemberListRequest(
         page,
         perPage,
         sortColumn,
         sortType?.toString(),
         fullName,
-        online?.let { if(it){1}else{0} }
+        online?.let {
+            if (it) {
+                1
+            } else {
+                0
+            }
+        }
     )
 }
 
-fun MessageDTO.toRequest(): MessageRequest{
+fun MessageDTO.toRequest(): MessageRequest {
     return MessageRequest(
         id,
         message
     )
 }
 
-fun BlockedUsersDTO.toRequest(page: Int): BlockedUsersRequest{
+fun BlockedUsersDTO.toRequest(page: Int): BlockedUsersRequest {
     return BlockedUsersRequest(
         page,
         perPage,

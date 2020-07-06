@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="channelModel"
+            type="com.doneit.ascend.domain.entity.community_feed.Channel" />
+
+        <variable
+            name="onChannelClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:onClick="@{onChannelClick}"
+        android:orientation="vertical">
+
+        <com.doneit.ascend.presentation.views.MasterMindIcon
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/TextNormal.White"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            tools:text="Celebrate Recovery" />
+
+    </LinearLayout>
+</layout>

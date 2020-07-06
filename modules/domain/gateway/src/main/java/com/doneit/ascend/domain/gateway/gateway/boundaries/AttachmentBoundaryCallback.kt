@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.source.storage.local.repository.attachments.IAttachmentRepository
 import com.doneit.ascend.source.storage.remote.repository.attachments.IAttachmentsRepository
+import com.vrgsoft.core.gateway.orZero
 import kotlinx.coroutines.CoroutineScope
 
 class AttachmentBoundaryCallback(
@@ -24,7 +25,7 @@ class AttachmentBoundaryCallback(
             val loadedCount = model.size
             val remoteCount = response.successModel!!.count
 
-            receivedItems(loadedCount, remoteCount)
+            receivedItems(loadedCount, remoteCount.orZero())
 
             local.insertAll(model.map { it.toLocal() })
         }

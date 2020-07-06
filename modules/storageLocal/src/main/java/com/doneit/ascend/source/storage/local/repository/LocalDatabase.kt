@@ -8,6 +8,8 @@ import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
 import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
 import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
 import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
+import com.doneit.ascend.source.storage.local.data.community_feed.PostAttachmentLocal
+import com.doneit.ascend.source.storage.local.data.community_feed.PostLocal
 import com.doneit.ascend.source.storage.local.data.converters.ListIntConverter
 import com.doneit.ascend.source.storage.local.data.converters.ListLongConverter
 import com.doneit.ascend.source.storage.local.data.converters.ListStringConverter
@@ -19,6 +21,7 @@ import com.doneit.ascend.source.storage.local.data.notification.NotificationLoca
 import com.doneit.ascend.source.storage.local.data.notification.NotificationOwnerLocal
 import com.doneit.ascend.source.storage.local.repository.attachments.AttachmentDao
 import com.doneit.ascend.source.storage.local.repository.chats.MyChatsDao
+import com.doneit.ascend.source.storage.local.repository.community_feed.CommunityFeedDao
 import com.doneit.ascend.source.storage.local.repository.groups.GroupDao
 import com.doneit.ascend.source.storage.local.repository.master_minds.MasterMindDao
 import com.doneit.ascend.source.storage.local.repository.notification.NotificationDao
@@ -46,7 +49,9 @@ import com.doneit.ascend.source.storage.local.repository.webinar_question.Webina
         TagLocal::class,
         MemberLocal::class,
         BlockedUserLocal::class,
-        WebinarQuestionLocal::class
+        WebinarQuestionLocal::class,
+        PostAttachmentLocal::class,
+        PostLocal::class
     ],
     version = 1
 )
@@ -66,6 +71,7 @@ internal abstract class LocalDatabase : RoomDatabase() {
     abstract fun notificationDao(): NotificationDao
     abstract fun myChatsDao(): MyChatsDao
     abstract fun webinarQuestionDao(): WebinarQuestionDao
+    abstract fun communityFeedDao(): CommunityFeedDao
 
     companion object {
         const val NAME = "AscendDB"

@@ -647,4 +647,13 @@
     <string name="questions">Questions</string>
     <string name="chat">Chat</string>
     <string name="title_chats_members">Chat Members</string>
+    <string name="community_feed_post_something">Post Something...</string>
+    <string name="community_feed_welcome_title">Welcome to the recovery community feed</string>
+    <string name="community_feed_recommended_channels_title">Recommended Channels</string>
+    <string name="community_feed_see_all">See All</string>
+    <string name="community_feed_post_hint">Enter your comment here</string>
+    <string name="label_like">Like</string>
+    <string name="label_share">Share</string>
+    <string name="community_feed_title">Community Feed</string>
+    <string name="likes_comments_format">%d likes, %d comments</string>
 </resources>

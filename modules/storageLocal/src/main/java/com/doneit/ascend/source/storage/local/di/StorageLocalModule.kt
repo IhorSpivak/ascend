@@ -6,6 +6,8 @@ import com.doneit.ascend.source.storage.local.repository.attachments.AttachmentR
 import com.doneit.ascend.source.storage.local.repository.attachments.IAttachmentRepository
 import com.doneit.ascend.source.storage.local.repository.chats.IMyChatsRepository
 import com.doneit.ascend.source.storage.local.repository.chats.MyChatsRepository
+import com.doneit.ascend.source.storage.local.repository.community_feed.CommunityFeedRepository
+import com.doneit.ascend.source.storage.local.repository.community_feed.ICommunityFeedRepository
 import com.doneit.ascend.source.storage.local.repository.groups.GroupRepository
 import com.doneit.ascend.source.storage.local.repository.groups.IGroupRepository
 import com.doneit.ascend.source.storage.local.repository.master_minds.IMasterMindRepository
@@ -38,5 +40,6 @@ object StorageLocalModule {
         bind<INotificationRepository>() with singleton { NotificationRepository(instance<LocalDatabase>().notificationDao()) }
         bind<IMyChatsRepository>() with singleton { MyChatsRepository(instance<LocalDatabase>().myChatsDao()) }
         bind<IWebinarQuestionRepository>() with singleton { WebinarQuestionRepository(instance<LocalDatabase>().webinarQuestionDao()) }
+        bind<ICommunityFeedRepository>() with singleton { CommunityFeedRepository(instance<LocalDatabase>().communityFeedDao()) }
     }
 }

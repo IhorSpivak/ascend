@@ -10,6 +10,8 @@ import com.doneit.ascend.domain.use_case.interactor.cards.CardsInteractor
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatInteractor
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
+import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedInteractor
+import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupInteractor
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindInteractor
@@ -123,6 +125,12 @@ object UseCaseModule {
 
         bind<VimeoUseCase>() with singleton {
             VimeoInteractor(
+                instance()
+            )
+        }
+
+        bind<CommunityFeedUseCase>() with singleton {
+            CommunityFeedInteractor(
                 instance()
             )
         }
