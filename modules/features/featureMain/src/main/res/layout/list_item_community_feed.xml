@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -22,7 +22,8 @@
 
         <com.doneit.ascend.presentation.views.MasterMindIcon
             android:layout_width="80dp"
-            android:layout_height="80dp" />
+            android:layout_height="80dp"
+            app:url="@{channelModel.imageUrl}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/TextNormal.White"
@@ -31,6 +32,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:gravity="center"
+            android:text="@{channelModel.title}"
             android:textSize="12sp"
             tools:text="Celebrate Recovery" />
 
