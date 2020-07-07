@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.create_group.create_support_group
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -117,11 +118,11 @@ class CreateSupGroupFragment :
 
             recyclerViewAddedMembers.adapter = membersAdapter
 
-            isPrivate.setOnCheckedChangeListener { compoundButton, b ->
+            isPrivate.setOnCheckedChangeListener { _, b ->
                 viewModel.createGroupModel.isPrivate.set(b)
             }
 
-            mainContainer.setOnFocusChangeListener { v, b ->
+            mainContainer.setOnFocusChangeListener { _, b ->
                 if (b) {
                     hideKeyboard()
                 }
@@ -178,76 +179,82 @@ class CreateSupGroupFragment :
             }
         })
 
-        if (group != null) {
-            binding.btnComplete.apply {
-                text = getString(R.string.btn_save_action)
-                setOnClickListener {
-                    when (what) {
-                        GroupAction.DUPLICATE.toString() -> viewModel.completeClick()
-                        GroupAction.EDIT.toString() -> viewModel.updateGroup(group!!)
-                    }
-                }
-            }
-            viewModel.createGroupModel.apply {
-                when (what) {
-                    GroupAction.DUPLICATE.toString() -> {
-                        name.observableField.set(group!!.name.plus("(2)"))
-                    }
-                    GroupAction.EDIT.toString() -> {
-                        name.observableField.set(group!!.name)
-                    }
-                }
-                isPrivate.set(group!!.isPrivate)
-                meetingFormat.observableField.set(group!!.meetingFormat!!)
-                binding.meetingsPicker.setSelection(
-                    resources.getStringArray(R.array.meeting_formats)
-                        .indexOf(group!!.meetingFormat!!)
-                )
-                tags.observableField.set(group!!.tag!!.id.toString())
-                binding.durationPicker.setSelection(
-                    SupportDuration.fromDuration(group!!.duration).ordinal
-                )
-                numberOfMeetings.observableField.set(group!!.meetingsCount.toString())
-                price.observableField.set(group!!.price.toString())
-                description.observableField.set(group!!.description)
-                val date = group!!.startTime
-                year = date!!.toYear()
-                month = MonthEntity.values()[date.toMonth()]
-                day = date.toDayOfMonth()
-                hours = date.toCalendar().get(Calendar.HOUR).toTimeString()
-                hoursOfDay = date.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
-                minutes = date.toCalendar().get(Calendar.MINUTE).toTimeString()
-                timeType = date.toCalendar().get(Calendar.AM_PM).toAmPm()
-                groupType = GroupType.values()[group!!.groupType!!.ordinal]
-                meetingFormat.observableField.set(group!!.meetingFormat.orEmpty())
-
-                startDate.observableField.set(date.toDayFullMonthYear())
-                selectedDays.addAll(group!!.daysOfWeek)
-                viewModel.changeSchedule()
-                Glide.with(context!!)
-                    .asBitmap()
-                    .load(group!!.image!!.url)
-                    .into(object : SimpleTarget<Bitmap>() {
-                        override fun onResourceReady(
-                            resource: Bitmap,
-                            transition: Transition<in Bitmap>?
-                        ) {
-                            image.observableField.set(context?.copyToStorage(resource))
-                        }
-
-                    })
-            }
-            viewModel.apply {
-                members.postValue(group!!.attendees?.toMutableList())
-                selectedMembers.addAll(group!!.attendees ?: emptyList())
-            }
-        } else {
+        group?.let { group ->
+            setGroupData(group)
+        } ?: run {
             binding.btnComplete.setOnClickListener {
                 viewModel.completeClick()
             }
         }
     }
 
+    private fun setGroupData(group: GroupEntity) {
+        binding.btnComplete.apply {
+            text = getString(R.string.btn_save_action)
+            setOnClickListener {
+                when (what) {
+                    GroupAction.DUPLICATE.toString() -> viewModel.completeClick()
+                    GroupAction.EDIT.toString() -> viewModel.updateGroup(group)
+                }
+            }
+        }
+        viewModel.createGroupModel.apply {
+            when (what) {
+                GroupAction.DUPLICATE.toString() -> {
+                    name.observableField.set(group.name.plus("(2)"))
+                }
+                GroupAction.EDIT.toString() -> {
+                    name.observableField.set(group.name)
+                }
+            }
+            binding.isPrivate.isChecked = group.isPrivate
+            meetingFormat.observableField.set(group.meetingFormat!!)
+            binding.meetingsPicker.setSelection(
+                resources.getStringArray(R.array.meeting_formats)
+                    .indexOf(group.meetingFormat!!)
+            )
+            tags.observableField.set(group.tag!!.id.toString())
+            binding.durationPicker.setSelection(
+                SupportDuration.fromDuration(group.duration).ordinal
+            )
+            numberOfMeetings.observableField.set(group.meetingsCount.toString())
+            price.observableField.set(group.price.toString())
+            description.observableField.set(group.description)
+            group.startTime?.let { date ->
+                year = date.toYear()
+                month = MonthEntity.values()[date.toMonth()]
+                day = date.toDayOfMonth()
+                hours = date.toCalendar().get(Calendar.HOUR).toTimeString()
+                hoursOfDay = date.toCalendar().get(Calendar.HOUR_OF_DAY).toTimeString()
+                minutes = date.toCalendar().get(Calendar.MINUTE).toTimeString()
+                timeType = date.toCalendar().get(Calendar.AM_PM).toAmPm()
+                startDate.observableField.set(date.toDayFullMonthYear())
+            }
+            groupType = GroupType.values()[group.groupType!!.ordinal]
+            meetingFormat.observableField.set(group.meetingFormat.orEmpty())
+
+            selectedDays.addAll(group.daysOfWeek)
+            viewModel.changeSchedule()
+            Glide.with(requireContext())
+                .asBitmap()
+                .load(group.image!!.url)
+                .into(object : SimpleTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        image.observableField.set(context?.copyToStorage(resource))
+                    }
+
+                })
+        }
+        viewModel.apply {
+            members.postValue(group.attendees?.toMutableList())
+            selectedMembers.addAll(group.attendees ?: emptyList())
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private fun initSpinner(
         spinner: Spinner,
         listener: AdapterView.OnItemSelectedListener,
@@ -255,8 +262,7 @@ class CreateSupGroupFragment :
     ) {
         spinner.adapter = spinnerAdapter
         spinner.onItemSelectedListener = listener
-
-        spinner.setOnTouchListener { view, motionEvent ->
+        spinner.setOnTouchListener { _, motionEvent ->
             if (mDetector.onTouchEvent(motionEvent)) {
                 hideKeyboard()
             }
@@ -339,11 +345,11 @@ class CreateSupGroupFragment :
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
                 viewModel.createGroupModel.image.observableField.set(
-                    activity!!.getImagePath(
+                    requireActivity().getImagePath(
                         sourcePath
                     ).let {
                         if (it.isEmpty()) {
-                            context!!.copyToStorage(sourcePath)
+                            context?.copyToStorage(sourcePath)
                         } else {
                             it
                         }
@@ -357,7 +363,7 @@ class CreateSupGroupFragment :
             launch(Dispatchers.Main) {
                 viewModel.createGroupModel.image.observableField.set(null)//in order to force observers notification
                 viewModel.createGroupModel.image.observableField.set(
-                    activity!!.checkImage(sourcePath)
+                    requireActivity().checkImage(sourcePath)
                 )
             }
         }
