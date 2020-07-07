@@ -463,7 +463,7 @@
     <string name="unmute_this_user">Unmute this user</string>
     <string name="mute_this_user">Mute this user</string>
     <string name="report">Report</string>
-    <string name="allow_say">Allow to say</string>
+    <string name="allow_say">Remove Hand</string>
     <string name="attachments">Attachments</string>
     <string name="file_size_format">%.1f MB</string>
     <string name="notes">Notes</string>
