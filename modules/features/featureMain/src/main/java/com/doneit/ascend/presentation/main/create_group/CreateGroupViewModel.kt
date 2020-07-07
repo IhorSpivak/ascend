@@ -87,6 +87,16 @@ class CreateGroupViewModel(
             result
         }
 
+        createGroupModel.tags.validator = {s ->
+            val result = ValidationResult()
+
+            if (s.isEmpty()) {
+                result.isSucceed = false
+            }
+
+            result
+        }
+
         createGroupModel.startDate.validator = { s ->
             val result = ValidationResult()
 
@@ -194,6 +204,7 @@ class CreateGroupViewModel(
         createGroupModel.image.onFieldInvalidate = invalidationListener
         createGroupModel.duration.onFieldInvalidate = invalidationListener
         createGroupModel.scheduleTime.onFieldInvalidate = invalidationListener
+        createGroupModel.tags.onFieldInvalidate = invalidationListener
     }
 
     override fun addNewParticipant() {
@@ -415,7 +426,7 @@ class CreateGroupViewModel(
                 createGroupModel.scheduleDays.isNotEmpty()
         isFormValid = isFormValid and createGroupModel.numberOfMeetings.isValid
         isFormValid = isFormValid and createGroupModel.startDate.isValid
-        //isFormValid = isFormValid and createGroupModel.tags.isValid
+        isFormValid = isFormValid and createGroupModel.tags.isValid
         isFormValid = isFormValid and createGroupModel.description.isValid
         isFormValid = isFormValid and createGroupModel.image.isValid
         isFormValid =

@@ -203,7 +203,7 @@ class CreateSupGroupFragment :
                     resources.getStringArray(R.array.meeting_formats)
                         .indexOf(group!!.meetingFormat!!)
                 )
-                tags = group!!.tag!!.id
+                tags.observableField.set(group!!.tag!!.id.toString())
                 binding.durationPicker.setSelection(
                     SupportDuration.fromDuration(group!!.duration).ordinal
                 )
@@ -395,7 +395,7 @@ class CreateSupGroupFragment :
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.tags = viewModel.tags.value?.get(p2 - 1)?.id ?: 0
+                    viewModel.createGroupModel.tags.observableField.set((viewModel.tags.value?.get(p2 - 1)?.id ?: 0).toString())
                     binding.tagHint.visible()
                 }
             }

@@ -19,7 +19,7 @@ class PresentationCreateGroupModel(
     var participants: ObservableField<List<String>> = ObservableField(),
     var participantsToDelete: ObservableField<List<String>> = ObservableField(),
     var meetingFormat: ValidatableField = ValidatableField(),
-    var tags: Int = 0,
+    var tags: ValidatableField = ValidatableField(),
     var isPrivate: ObservableField<Boolean> = ObservableField(false),
     var groupType: GroupType? = null,
     var hours: String = "00",
