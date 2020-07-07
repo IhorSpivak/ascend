@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.community_feed.Channel
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.common.RvLazyAdapter
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCommunityFeedBinding
-import com.doneit.ascend.presentation.main.home.community_feed.common.ChannelAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.common.PostClickListeners
 import com.doneit.ascend.presentation.main.home.community_feed.common.PostsAdapter
 import org.kodein.di.Kodein
@@ -27,17 +27,17 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
                 onLikeClick = viewModel::likePost,
                 onOptionsClick = {},
                 onSendCommentClick = viewModel::leaveComment,
-                onShareClick = {}
-            )
+                onShareClick = {},
+                onCreatePostListener = viewModel::onNewPostClick,
+                onSeeAllClickListener = viewModel::onSeeAllClick,
+                onChannelClick = viewModel::onChannelClick
+            ),
+            requireArguments().getParcelable(KEY_USER)!!
         ) to { binding.rvPosts }
-    }
-    private val initChannelAdapter: ChannelAdapter by RvLazyAdapter {
-        ChannelAdapter(viewModel::onChannelClick) to { binding.rvChannels }
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         initPostsAdapter
-        initChannelAdapter
         observeData()
     }
 
@@ -53,10 +53,15 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     }
 
     private fun onChannelsReceived(channels: PagedList<Channel>) {
-        initChannelAdapter.submitList(channels)
+        initPostsAdapter.submitChannels(channels)
     }
 
     companion object {
-        fun newInstance() = CommunityFeedFragment()
+        private const val KEY_USER = "USER"
+        fun newInstance(user: UserEntity) = CommunityFeedFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(KEY_USER, user)
+            }
+        }
     }
 }

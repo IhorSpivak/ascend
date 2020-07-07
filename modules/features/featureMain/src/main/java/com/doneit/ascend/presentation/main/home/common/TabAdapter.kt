@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.home.common
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedFragment
 import com.doneit.ascend.presentation.main.home.daily.DailyFragment
 import com.doneit.ascend.presentation.main.home.groups.GroupsFragment
@@ -28,12 +29,12 @@ class TabAdapter(
     }
 
     companion object {
-        fun newInstance(fragmentManager: FragmentManager, titles: List<String>): TabAdapter {
+        fun newInstance(fragmentManager: FragmentManager, userEntity: UserEntity, titles: List<String>): TabAdapter {
 
             val fragments: ArrayList<Fragment> = arrayListOf(
                 DailyFragment(),
                 WebinarsFragment(),
-                CommunityFeedFragment.newInstance(),
+                CommunityFeedFragment.newInstance(userEntity),
                 GroupsFragment(),
                 MasterMindFragment()
             )

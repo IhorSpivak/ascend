@@ -99,7 +99,7 @@ fun Date.isYesterday(): Boolean {
 }
 
 fun Date.formatYesterday(): String {
-    return YESTERDAY_FORMAT.toDefaultFormatter().format(this)
+    return "Yesterday at " + HOUR_12_ONLY_FORMAT.toDefaultFormatter().format(this)
 }
 
 fun Date.toTimerFormat(): String {
@@ -204,4 +204,3 @@ const val HOUR_24_ONLY_FORMAT = "HH:mm"
 const val FULL_DATE_FORMAT = "dd MMM yyyy hh:mm aa"
 const val DAY_MONTH_FORMAT = "d MMM"
 const val TIMESTAMP_FORMAT = "yyyyMMdd_HHmmss"
-const val YESTERDAY_FORMAT = "Yesterday at hh:mm a"

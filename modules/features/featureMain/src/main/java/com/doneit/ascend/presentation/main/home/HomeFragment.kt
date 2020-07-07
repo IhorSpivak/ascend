@@ -28,10 +28,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.tlGroups.setupWithViewPager(binding.vpGroups)
         binding.vpGroups.offscreenPageLimit = 0
         viewModel.user.observe(this, Observer {
-            setTitle(it?.community)
+            it ?: return@Observer
+            setTitle(it.community)
 
             binding.vpGroups.adapter = TabAdapter.newInstance(
                 childFragmentManager,
+                it,
                 viewModel.getListOfTitles().map {
                     getString(it)
                 }
