@@ -51,24 +51,42 @@
                         android:id="@+id/hasNotification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_unread_indicator"
                         android:layout_marginTop="16dp"
                         android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_unread_indicator"
                         android:visibility="@{model.hasUnread, default=gone}"
                         app:layout_constraintEnd_toEndOf="@id/btbNotification"
                         app:layout_constraintTop_toTopOf="@id/btbNotification" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvTitle"
-                        style="@style/Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:src="@drawable/logo_image"
+                            android:adjustViewBounds="true"
+                            android:id="@+id/ascend_logo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            app:layout_constraintBottom_toBottomOf="@id/tvTitle"
+                            app:layout_constraintEnd_toStartOf="@id/tvTitle"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/tvTitle" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:id="@+id/tvTitle"
+                            style="@style/Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/ascend_logo" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/btnSearch"

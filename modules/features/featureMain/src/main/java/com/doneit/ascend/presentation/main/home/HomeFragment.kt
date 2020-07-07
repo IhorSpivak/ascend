@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import org.kodein.di.generic.instance
+import java.util.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -19,7 +20,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = (context as MainActivityListener).apply {
-            setTitle(getString(R.string.main_title))
+            setTitle(getString(R.string.main_title), true)
         }
     }
 
@@ -52,9 +53,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun setTitle(community: String?) {
         var title = getString(R.string.main_title)
         community?.let {
-            title += " $community"
+            title = " $community".toUpperCase(Locale.ROOT)
         }
-        listener?.setTitle(title)
+        listener?.setTitle(title, true)
     }
 
     override fun onDetach() {
