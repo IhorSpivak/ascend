@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.home.community_feed
 
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Channel
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
 import com.doneit.ascend.domain.entity.dto.SortType
@@ -39,12 +40,29 @@ class CommunityFeedViewModel(
     }
 
     override fun leaveComment(postId: Long, message: String) {
+
     }
 
     override fun likePost(postId: Long) {
+        postsUseCase.likePost(viewModelScope, postId, BaseCallback(
+            onSuccess = {
+            },
+            onError = {
+
+            }
+        ))
+    }
+
+    override fun unlikePost(postId: Long) {
+        postsUseCase.unlikePost(viewModelScope, postId, BaseCallback(
+            onSuccess = {
+            },
+            onError = {
+
+            }
+        ))
     }
 
     override fun onUserClick(userId: Long) {
     }
-
 }

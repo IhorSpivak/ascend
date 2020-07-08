@@ -1,10 +1,10 @@
 package com.doneit.ascend.source.storage.remote.api
 
+import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostsResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface CommunityFeedApi {
     @GET("posts")
@@ -18,4 +18,10 @@ interface CommunityFeedApi {
         @Query("updated_at_from") updatedAtFrom: String?,
         @Query("updated_at_to") updatedAtTo: String?
     ): Deferred<Response<PostsResponse>>
+
+    @POST("posts/{post_id}/likes")
+    fun likePostAsync(@Path("post_id") postId: Long): Deferred<Response<PostResponse>>
+
+    @DELETE("posts/{post_id}/likes")
+    fun unlikePostAsync(@Path("post_id") postId: Long): Deferred<Response<PostResponse>>
 }

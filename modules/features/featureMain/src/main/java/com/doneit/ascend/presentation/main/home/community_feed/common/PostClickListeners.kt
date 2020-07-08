@@ -7,7 +7,7 @@ data class PostClickListeners(
     val onComplainClick: (Long) -> Unit,
     val onOptionsClick: () -> Unit,
     val onSendCommentClick: (Long, String) -> Unit,
-    val onLikeClick: (Long) -> Unit,
+    val onLikeClick: (Boolean, Long) -> Unit,
     val onShareClick: (Long) -> Unit,
     val onCreatePostListener: () -> Unit,
     val onSeeAllClickListener: () -> Unit,

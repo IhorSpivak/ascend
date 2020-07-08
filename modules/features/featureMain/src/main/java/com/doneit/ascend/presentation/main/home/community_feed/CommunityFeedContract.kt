@@ -1,9 +1,9 @@
 package com.doneit.ascend.presentation.main.home.community_feed
 
 import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.community_feed.Channel
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 
 interface CommunityFeedContract {
@@ -16,6 +16,7 @@ interface CommunityFeedContract {
         fun onSeeAllClick()
         fun leaveComment(postId: Long, message: String)
         fun likePost(postId: Long)
+        fun unlikePost(postId: Long)
         fun onUserClick(userId: Long)
     }
 
