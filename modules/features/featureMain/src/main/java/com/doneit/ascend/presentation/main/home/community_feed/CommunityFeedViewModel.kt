@@ -13,7 +13,8 @@ import com.vrgsoft.annotations.ViewModelDiModule
 @CreateFactory
 @ViewModelDiModule
 class CommunityFeedViewModel(
-    private val postsUseCase: CommunityFeedUseCase
+    private val postsUseCase: CommunityFeedUseCase,
+    private val router: CommunityFeedContract.Router
 ) : BaseViewModelImpl(), CommunityFeedContract.ViewModel {
     override val posts = postsUseCase.loadPosts(
         viewModelScope, CommunityFeedDTO(
@@ -30,6 +31,7 @@ class CommunityFeedViewModel(
     )
 
     override fun onNewPostClick() {
+        router.navigateToCreatePost()
     }
 
     override fun onChannelClick(channel: Channel) {

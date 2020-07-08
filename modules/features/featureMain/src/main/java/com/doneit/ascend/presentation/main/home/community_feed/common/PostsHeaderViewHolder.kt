@@ -31,11 +31,8 @@ class PostsHeaderViewHolder(
     }
 
     fun bind(channelList: PagedList<Channel>) {
+        bind()
         adapter.submitList(channelList)
-    }
-
-    fun setList(list: PagedList<Channel>) {
-        adapter.submitList(list)
     }
 
     companion object {

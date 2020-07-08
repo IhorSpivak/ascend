@@ -20,5 +20,7 @@ interface CommunityFeedContract {
         fun onUserClick(userId: Long)
     }
 
-    interface Router
+    interface Router {
+        fun navigateToCreatePost()
+    }
 }

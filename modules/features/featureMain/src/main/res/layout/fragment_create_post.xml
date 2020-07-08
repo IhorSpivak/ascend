@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="android.view.inputmethod.EditorInfo" />
+        <import type="android.text.InputType" />
+
         <variable
-            name="model"
+            name="viewModel"
             type="com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract.ViewModel" />
 
-        <import type="android.view.inputmethod.EditorInfo" />
-
-        <import type="android.text.InputType" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:onClick="@{() -> model.backClick()}"
+                        android:onClick="@{() -> viewModel.backClick()}"
                         android:text="@string/create_webinar_cancel"
                         android:textColor="@color/light_gray_8f"
                         android:textSize="17sp"
@@ -72,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:enabled="@{model.canComplete}"
+                        android:enabled="@{viewModel.canComplete}"
                         android:text="@string/create_post_complete"
                         android:textColor="@color/button_text_color_selector"
                         android:textSize="17sp"
@@ -108,7 +109,7 @@
                     android:layout_marginTop="@dimen/create_group_top_margin"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                     app:digits="@{@string/allow_description_digits}"
-                    app:error="@{model.createPostModel.description.observableError}"
+                    app:error="@{viewModel.createPostModel.description.observableError}"
                     app:hint="@{@string/create_webinar_group_description}"
                     app:layout_constraintBottom_toTopOf="@id/dash_rectangle_background"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -118,7 +119,7 @@
                     app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_description}"
-                    app:text="@={model.createPostModel.description.observableField}"
+                    app:text="@={viewModel.createPostModel.description.observableField}"
                     app:tint="@{@color/colorAccent}" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -165,8 +166,9 @@
                     android:id="@+id/rv_media"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/dash_rectangle_background" />
+                    android:layout_margin="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/dash_rectangle_background"
+                    tools:listitem="@layout/list_item_group_attachment_video" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

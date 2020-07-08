@@ -19,6 +19,9 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     override val viewModelModule: Kodein.Module
         get() = CommunityFeedViewModelModule.get(this)
 
+    override val kodeinModule: Kodein.Module = Kodein.Module(this::class.java.simpleName) {
+    }
+
     private val initPostsAdapter: PostsAdapter by RvLazyAdapter {
         PostsAdapter(
             postClickListeners(),
