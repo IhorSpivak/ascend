@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="model"
+            type="com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract.ViewModel" />
+
+        <import type="android.view.inputmethod.EditorInfo" />
+
+        <import type="android.text.InputType" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/button_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:onClick="@{() -> model.backClick()}"
+                    android:text="@string/create_webinar_cancel"
+                    android:textColor="@color/light_gray_8f"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_view_toolbar_title"
+                    style="@style/Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_post_title"
+                    android:textColor="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/button_complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:enabled="@{model.canComplete}"
+                    android:text="@string/create_post_complete"
+                    android:textColor="@color/button_text_color_selector"
+                    android:textSize="17sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/scrollable_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <com.doneit.ascend.presentation.views.EditWithError
+                    android:id="@+id/post_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:error="@{model.createPostModel.header.observableError}"
+                    app:hint="@{@string/create_webinar_group_name}"
+                    app:imeOptions="@{EditorInfo.IME_ACTION_DONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:maxLength="@{32}"
+                    app:saveState="@{false}"
+                    app:src="@{@drawable/ic_header}"
+                    app:text="@={model.createPostModel.header.observableField}"
+                    app:tint="@{@color/colorAccent}" />
+
+                <com.doneit.ascend.presentation.views.MultilineEditWithError
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="@dimen/create_group_top_margin"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:digits="@{@string/allow_description_digits}"
+                    app:error="@{model.createPostModel.description.observableError}"
+                    app:hint="@{@string/create_webinar_group_description}"
+                    app:layout_constraintBottom_toTopOf="@id/dash_rectangle_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/post_header"
+                    app:maxLength="@{500}"
+                    app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
+                    app:saveState="@{false}"
+                    app:src="@{@drawable/ic_description}"
+                    app:text="@={model.createPostModel.description.observableField}"
+                    app:tint="@{@color/colorAccent}" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/dash_rectangle_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_dash_stroke_accent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_view_upload_image_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/ic_upload_image_red"
+                    android:tint="@color/colorAccent"
+                    app:layout_constraintBottom_toTopOf="@+id/text_view_upload_group_image"
+                    app:layout_constraintEnd_toEndOf="@id/dash_rectangle_background"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@id/dash_rectangle_background"
+                    app:layout_constraintTop_toTopOf="@+id/dash_rectangle_background"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_view_upload_group_image"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_image_or_video"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/dash_rectangle_background"
+                    app:layout_constraintEnd_toEndOf="@id/dash_rectangle_background"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="@id/dash_rectangle_background"
+                    app:layout_constraintTop_toBottomOf="@+id/image_view_upload_image_group" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_media"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/dash_rectangle_background" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -656,4 +656,12 @@
     <string name="label_share">Share</string>
     <string name="community_feed_title">Community Feed</string>
     <string name="likes_comments_format">%d likes, %d comments</string>
+
+
+    <!--Create Post-->
+    <string name="create_post_title">Create Post</string>
+    <string name="post_header">Post Header</string>
+    <string name="post_description">Post Description</string>
+    <string name="create_post_complete">Post</string>
+    <string name="add_image_or_video">Add Image or Video</string>
 </resources>

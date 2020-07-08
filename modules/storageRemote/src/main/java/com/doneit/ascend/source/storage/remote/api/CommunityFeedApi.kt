@@ -4,6 +4,7 @@ import com.doneit.ascend.source.storage.remote.data.response.community_feed.Post
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface CommunityFeedApi {
@@ -18,4 +19,9 @@ interface CommunityFeedApi {
         @Query("updated_at_from") updatedAtFrom: String?,
         @Query("updated_at_to") updatedAtTo: String?
     ): Deferred<Response<PostsResponse>>
+
+    @POST("posts")
+    fun createPostAsync(
+
+    )
 }
