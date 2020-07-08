@@ -33,6 +33,7 @@ android {
             dimension "type"
             versionNameSuffix "-prod"
             buildConfigField "String", "BASE_URL", "\"https://app.ascend.video/api/v1/\""
+            signingConfig signingConfigs.prod
         }
     }
 
@@ -50,6 +51,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.prod
         }
         android.applicationVariants.all { variant ->
             variant.outputs.all {
