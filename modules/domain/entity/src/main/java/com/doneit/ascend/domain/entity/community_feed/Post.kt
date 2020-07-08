@@ -9,9 +9,9 @@ data class Post(
     val commentsCount: Int,
     val createdAt: Date,
     val description: String,
-    val isLikedMe: Boolean,
+    var isLikedMe: Boolean,
     val isOwner: Boolean,
-    val likesCount: Int,
+    var likesCount: Int,
     val owner: OwnerEntity,
     val updatedAt: Date
 )

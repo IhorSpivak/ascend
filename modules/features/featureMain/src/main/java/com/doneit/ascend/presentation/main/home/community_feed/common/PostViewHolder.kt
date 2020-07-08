@@ -28,17 +28,47 @@ class PostViewHolder(
     fun bind(post: Post) {
         with(binding) {
             postModel = post
+            isLiked = post.isLikedMe
+            likesCount = post.likesCount
+            isOwner = post.isOwner
             setupAttachments(post.attachments)
-            mmiAvatar.setOnClickListener { postClickListeners.onUserClick(1L) }
-            tvName.setOnClickListener { postClickListeners.onUserClick(1L) }
-            btnLike.setOnClickListener { postClickListeners.onLikeClick(post.id) }
-            btnShare.setOnClickListener { postClickListeners.onShareClick(post.id) }
-            btnSend.setOnClickListener {
-                postClickListeners.onSendCommentClick(
-                    post.id,
-                    etInputMessage.text?.toString().orEmpty()
-                )
-            }
+            setClickListeners(post)
+        }
+    }
+
+    fun updateFromPayloads(payloads: List<Any>) {
+        if (payloads.isEmpty()) return
+        val payload = (payloads.first() as? PostPayload) ?: return
+        with(binding) {
+            likesCount = if (payload.likeStatus) {
+                likesCount?.inc()
+            } else likesCount?.dec()
+            isLiked = payload.likeStatus
+            postModel?.likesCount = likesCount ?: 0
+            postModel?.isLikedMe = payload.likeStatus
+        }
+    }
+
+    private fun ListItemFeedBinding.setClickListeners(
+        post: Post
+    ) {
+        mmiAvatar.setOnClickListener { postClickListeners.onUserClick(post.owner.id) }
+        tvName.setOnClickListener { postClickListeners.onUserClick(post.owner.id) }
+        btnLike.setOnClickListener {
+            postClickListeners.onLikeClick(post.isLikedMe, post.id)
+            post.isLikedMe = !post.isLikedMe
+        }
+        btnShare.setOnClickListener { postClickListeners.onShareClick(post.id) }
+        btnBlock.setOnClickListener {
+            if (post.isOwner) {
+                postClickListeners.onOptionsClick()
+            } else postClickListeners.onComplainClick(post.id)
+        }
+        btnSend.setOnClickListener {
+            postClickListeners.onSendCommentClick(
+                post.id,
+                etInputMessage.text?.toString().orEmpty()
+            )
         }
     }
 
@@ -63,8 +93,18 @@ class PostViewHolder(
             .into(this)
     }
 
+    data class PostPayload(
+        val likeStatus: Boolean
+    )
+
     companion object {
-        fun create(parent: ViewGroup, postClickListeners: PostClickListeners): PostViewHolder {
+
+        fun buildPayload(likeStatus: Boolean) = PostPayload(likeStatus)
+
+        fun create(
+            parent: ViewGroup,
+            postClickListeners: PostClickListeners
+        ): PostViewHolder {
             return PostViewHolder(
                 DataBindingUtil.inflate<ListItemFeedBinding>(
                     LayoutInflater.from(parent.context),

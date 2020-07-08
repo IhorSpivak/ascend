@@ -40,7 +40,7 @@ internal class AttachmentGateway(
         )
         val executor = MainThreadExecutor()
 
-        return PagedList.Builder<Int, AttachmentEntity>(dataSource, config)
+        return PagedList.Builder(dataSource, config)
             .setFetchExecutor(executor)
             .setNotifyExecutor(executor)
             .build()
@@ -65,7 +65,7 @@ internal class AttachmentGateway(
             )
 
             emitSource(
-                LivePagedListBuilder<Int, AttachmentEntity>(factory, config)
+                LivePagedListBuilder(factory, config)
                     .setFetchExecutor(Executors.newSingleThreadExecutor())
                     .setBoundaryCallback(boundary)
                     .build()

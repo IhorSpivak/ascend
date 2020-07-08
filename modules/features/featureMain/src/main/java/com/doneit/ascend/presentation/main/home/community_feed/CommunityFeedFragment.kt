@@ -1,10 +1,10 @@
 package com.doneit.ascend.presentation.main.home.community_feed
 
 import android.os.Bundle
-import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.community_feed.Channel
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.presentation.common.RvLazyAdapter
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCommunityFeedBinding
@@ -21,23 +21,32 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
 
     private val initPostsAdapter: PostsAdapter by RvLazyAdapter {
         PostsAdapter(
-            PostClickListeners(
-                onUserClick = viewModel::onUserClick,
-                onComplainClick = {},
-                onLikeClick = viewModel::likePost,
-                onOptionsClick = {},
-                onSendCommentClick = viewModel::leaveComment,
-                onShareClick = {},
-                onCreatePostListener = viewModel::onNewPostClick,
-                onSeeAllClickListener = viewModel::onSeeAllClick,
-                onChannelClick = viewModel::onChannelClick
-            ),
+            postClickListeners(),
             requireArguments().getParcelable(KEY_USER)!!
         ) to { binding.rvPosts }
     }
 
+    private fun postClickListeners(): PostClickListeners {
+        return PostClickListeners(
+            onUserClick = viewModel::onUserClick,
+            onComplainClick = {},
+            onLikeClick = { liked, id ->
+                if (!liked)
+                    viewModel.likePost(id)
+                else viewModel.unlikePost(id)
+            },
+            onOptionsClick = {},
+            onSendCommentClick = viewModel::leaveComment,
+            onShareClick = {},
+            onCreatePostListener = viewModel::onNewPostClick,
+            onSeeAllClickListener = viewModel::onSeeAllClick,
+            onChannelClick = viewModel::onChannelClick
+        )
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         initPostsAdapter
+        binding.rvPosts.itemAnimator = null
         observeData()
     }
 

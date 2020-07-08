@@ -41,7 +41,9 @@ class RvLazyAdapter<out T : RecyclerView.Adapter<*>>(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun doOnCreate() {
-        recyclerProvider?.invoke()?.adapter = _value
+        if(recyclerProvider?.invoke()?.adapter !== _value) {
+            recyclerProvider?.invoke()?.adapter = _value
+        }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
