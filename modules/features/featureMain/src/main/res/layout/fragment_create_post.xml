@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract.ViewModel" />
@@ -41,43 +42,43 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/button_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:onClick="@{() -> model.backClick()}"
-                    android:text="@string/create_webinar_cancel"
-                    android:textColor="@color/light_gray_8f"
-                    android:textSize="17sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/button_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:onClick="@{() -> model.backClick()}"
+                        android:text="@string/create_webinar_cancel"
+                        android:textColor="@color/light_gray_8f"
+                        android:textSize="17sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/text_view_toolbar_title"
-                    style="@style/Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/create_post_title"
-                    android:textColor="@color/colorAccent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="parent"
-                    app:layout_constraintStart_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/text_view_toolbar_title"
+                        style="@style/Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/create_post_title"
+                        android:textColor="@color/colorAccent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/button_complete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:enabled="@{model.canComplete}"
-                    android:text="@string/create_post_complete"
-                    android:textColor="@color/button_text_color_selector"
-                    android:textSize="17sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/button_complete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:enabled="@{model.canComplete}"
+                        android:text="@string/create_post_complete"
+                        android:textColor="@color/button_text_color_selector"
+                        android:textSize="17sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
@@ -99,25 +100,6 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true">
 
-                <com.doneit.ascend.presentation.views.EditWithError
-                    android:id="@+id/post_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                    app:error="@{model.createPostModel.header.observableError}"
-                    app:hint="@{@string/create_webinar_group_name}"
-                    app:imeOptions="@{EditorInfo.IME_ACTION_DONE}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:maxLength="@{32}"
-                    app:saveState="@{false}"
-                    app:src="@{@drawable/ic_header}"
-                    app:text="@={model.createPostModel.header.observableField}"
-                    app:tint="@{@color/colorAccent}" />
-
                 <com.doneit.ascend.presentation.views.MultilineEditWithError
                     android:id="@+id/description"
                     android:layout_width="match_parent"
@@ -131,7 +113,7 @@
                     app:layout_constraintBottom_toTopOf="@id/dash_rectangle_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/post_header"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:maxLength="@{500}"
                     app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                     app:saveState="@{false}"
@@ -185,7 +167,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     app:layout_constraintTop_toBottomOf="@+id/dash_rectangle_background" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

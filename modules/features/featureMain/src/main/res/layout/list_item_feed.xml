@@ -7,6 +7,8 @@
 
         <import type="com.doneit.ascend.presentation.main.R" />
 
+        <import type="com.doneit.ascend.domain.entity.community_feed.ContentType" />
+
         <variable
             name="postModel"
             type="com.doneit.ascend.domain.entity.community_feed.Post" />
@@ -134,7 +136,7 @@
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextNormal.TextButton"
                 android:textColor="@{isLiked?@color/colorAccent:@color/light_gray_b1bf}"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnShare"
@@ -151,7 +153,7 @@
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextNormal.TextButton"
                 android:textColor="@color/light_gray_b1bf"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -189,6 +191,18 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@tools:sample/backgrounds/scenic" />
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/vdFirst"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_play"
+                    android:visibility="@{postModel.attachments.size() > 0 &amp;&amp; postModel.attachments[0].contentType == ContentType.VIDEO}"
+                    app:fabCustomSize="40dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/imvSecond"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imvSecond"
                     android:layout_width="0dp"
@@ -199,6 +213,18 @@
                     app:layout_constraintStart_toEndOf="@id/imvFirst"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:src="@tools:sample/backgrounds/scenic" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/vdSecond"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_play"
+                    android:visibility="@{postModel.attachments.size() > 1 &amp;&amp; postModel.attachments[1].contentType == ContentType.VIDEO}"
+                    app:fabCustomSize="40dp"
+                    app:layout_constraintBottom_toTopOf="@id/imvThird"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imvFirst"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imvThird"
