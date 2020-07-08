@@ -29,9 +29,14 @@ class MainViewModel(
     override val hasUnread =
         notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }
 
-    //TODO: change it to chatUseCase when it available:
-    override val hasUnreadMessages =
-        notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }
+    override val hasUnreadMessages = MutableLiveData<Boolean>(false)
+
+    override fun getUnreadMessageCount() {
+        viewModelScope.launch {
+            hasUnreadMessages.value = chatUseCase.getUnreadMessageCount() > 0
+        }
+    }
+
     private val user = MutableLiveData<UserEntity?>()
     private val localUser = userUseCase.getUserLive()
     private val userObserver: Observer<UserEntity?> = Observer {
@@ -43,6 +48,7 @@ class MainViewModel(
     init {
         localUser.observeForever(userObserver)
     }
+
     override fun onSearchClick() {
         router.navigateToSearch()
     }

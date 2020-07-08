@@ -14,11 +14,9 @@ import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUse
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.MainActivity
 import com.doneit.ascend.presentation.utils.Constants
-import com.doneit.ascend.push.data.PushEvent
 import com.doneit.ascend.push.data.toEntity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
@@ -53,6 +51,9 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
             if (p0.data.containsKey(GROUP_KEY)) {
                 sendNotification(it.title.orEmpty(), p0.data.getValue(GROUP_KEY).toLong())
                 useCase.notificationReceived(p0.toEntity())
+            }
+            if (p0.data.containsKey(MESSAGE_KEY)) {
+                sendNotification(it.title.orEmpty(), p0.data.getValue(GROUP_KEY).toLong())
             }
         }
 

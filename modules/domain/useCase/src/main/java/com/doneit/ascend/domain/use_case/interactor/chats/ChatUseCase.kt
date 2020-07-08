@@ -45,4 +45,5 @@ interface ChatUseCase {
     suspend fun unblockUser(userId: Long): ResponseEntity<Unit, List<String>>
     suspend fun blockUser(userId: Long): ResponseEntity<Unit, List<String>>
     fun getBlockedUsers(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>>
+    suspend fun getUnreadMessageCount(): Long
 }

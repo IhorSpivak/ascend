@@ -160,6 +160,10 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.btnChat.visible(isVisible)
     }
 
+    override fun getUnreadMessageCount() {
+        viewModel.getUnreadMessageCount()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             VideoChatActivity.RESULT_CODE -> {
