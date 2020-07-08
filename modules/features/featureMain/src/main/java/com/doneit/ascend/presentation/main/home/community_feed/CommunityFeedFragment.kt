@@ -30,13 +30,13 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
         return PostClickListeners(
             onUserClick = viewModel::onUserClick,
             onComplainClick = {},
-            onLikeClick = { liked, id ->
+            onLikeClick = { liked, id, _ ->
                 if (!liked)
                     viewModel.likePost(id)
                 else viewModel.unlikePost(id)
             },
             onOptionsClick = {},
-            onSendCommentClick = viewModel::leaveComment,
+            onSendCommentClick = { id, text, _ -> viewModel.leaveComment(id, text) },
             onShareClick = {},
             onCreatePostListener = viewModel::onNewPostClick,
             onSeeAllClickListener = viewModel::onSeeAllClick,

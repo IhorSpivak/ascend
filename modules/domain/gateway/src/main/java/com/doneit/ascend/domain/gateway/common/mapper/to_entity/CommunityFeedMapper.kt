@@ -3,8 +3,12 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 import com.doneit.ascend.domain.entity.ImageEntity
 import com.doneit.ascend.domain.entity.OwnerEntity
 import com.doneit.ascend.domain.entity.ThumbnailEntity
+import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
 import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.Comment
+import com.doneit.ascend.domain.entity.community_feed.ContentType
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.AttachmentResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
 import com.vrgsoft.core.gateway.orMinusOne
@@ -42,7 +46,18 @@ fun PostResponse.toEntity(): Post {
 fun AttachmentResponse.toEntity(): Attachment {
     return Attachment(
         id = id.orEmpty(),
-        contentType = contentType.orEmpty(),
+        contentType = ContentType.valueOf(contentType.orEmpty().toUpperCase(Locale.getDefault())),
         url = url.orEmpty()
+    )
+}
+
+fun CommentResponse.toEntity(): Comment {
+    return Comment(
+        id = id.orMinusOne(),
+        createdAt = createdAt.orEmpty().toDate() ?: Date(),
+        isPostOwner = isPostOwner ?: false,
+        postCommentsCount = postCommentsCount.orZero(),
+        text = text.orEmpty(),
+        user = user?.toEntity() ?: BlockedUserEntity(id = -1, fullName = "", image = null)
     )
 }

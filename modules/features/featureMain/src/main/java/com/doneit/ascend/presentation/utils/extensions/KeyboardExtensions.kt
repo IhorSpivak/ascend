@@ -18,6 +18,10 @@ fun Fragment.hideKeyboard() {
     hideKeyboardOnView(view)
 }
 
+fun View.hideKeyboard() {
+    hideKeyboardOnView(this)
+}
+
 fun Activity.hideKeyboard() {
     hideKeyboardOnView(window.decorView.rootView)
 }

@@ -40,7 +40,15 @@ class CommunityFeedViewModel(
     }
 
     override fun leaveComment(postId: Long, message: String) {
+        if (message.isBlank()) return
+        postsUseCase.createPostComment(viewModelScope, postId, message, BaseCallback(
+            onSuccess = {
 
+            },
+            onError = {
+
+            }
+        ))
     }
 
     override fun likePost(postId: Long) {

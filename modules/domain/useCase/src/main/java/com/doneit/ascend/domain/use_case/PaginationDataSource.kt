@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
 class PaginationDataSource<T> private constructor(
@@ -18,11 +19,10 @@ class PaginationDataSource<T> private constructor(
 
     private var endReached = false
     private var page = offset / limit + 1
-    private val dataContainer = PagedList(this, 0.9f)
+    private val dataContainer = Collections.synchronizedList(LinkedList<T>())
     private val isLoading = AtomicBoolean(false)
 
     init {
-        postValue(dataContainer)
         loadNext()
     }
 
@@ -36,6 +36,7 @@ class PaginationDataSource<T> private constructor(
                     page += 1
                     local?.save(it)
                     dataContainer.addAll(it)
+                    notifyChanged()
                 }
                 isLoading.compareAndSet(true, false)
             }
@@ -43,7 +44,7 @@ class PaginationDataSource<T> private constructor(
     }
 
     override fun notifyChanged() {
-        postValue(dataContainer)
+        postValue(PagedList(this, 0.7f, dataContainer))
     }
 
     class Builder<T> {

@@ -14,37 +14,29 @@ class PostsAdapter(
     private val user: UserEntity
 ) : PaginationAdapter<Post, RecyclerView.ViewHolder>(PostDiffUtilCallback()) {
 
-    private var recyclerView: RecyclerView? = null
     private var channelList: PagedList<Channel>? = null
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        this.recyclerView = recyclerView
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        this.recyclerView = null
-        super.onDetachedFromRecyclerView(recyclerView)
-    }
-
-    override fun submitList(list: com.doneit.ascend.domain.use_case.PagedList<Post>) {
-        val state = recyclerView?.layoutManager?.onSaveInstanceState()
-        super.submitList(list)
-        recyclerView?.layoutManager?.onRestoreInstanceState(state)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_HEADER -> PostsHeaderViewHolder.create(parent, user, onPostClickListeners)
             TYPE_OTHER -> PostViewHolder.create(
                 parent,
-                onPostClickListeners.copy(onLikeClick = { isLiked: Boolean, id: Long ->
-                    onPostClickListeners.onLikeClick(isLiked, id)
-                    notifyItemChanged(
-                        currentList.orEmpty().indexOfFirst { it.id == id },
-                        PostViewHolder.buildPayload(!isLiked)
-                    )
-                })
+                onPostClickListeners.copy(
+                    onLikeClick = { isLiked, id, i ->
+                        onPostClickListeners.onLikeClick(isLiked, id, i)
+                        notifyItemChanged(
+                            i,
+                            PostViewHolder.buildPayload(!isLiked)
+                        )
+                    },
+                    onSendCommentClick = { id, text, i ->
+                        onPostClickListeners.onSendCommentClick(id, text, i)
+                        notifyItemChanged(
+                            i,
+                            PostViewHolder.buildPayload(commentsCount = 1)
+                        )
+                    }
+                )
             )
             else -> throw IllegalArgumentException("Unsupported view type: $viewType")
         }
@@ -53,21 +45,18 @@ class PostsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             TYPE_HEADER -> {
-                if (channelList == null) {
-                    (holder as PostsHeaderViewHolder).bind()
-                } else (holder as PostsHeaderViewHolder).bind(channelList ?: return)
+                (holder as PostsHeaderViewHolder).bind(channelList ?: return)
             }
-            TYPE_OTHER -> currentList.orEmpty()[position].let {
-                (holder as PostViewHolder).bind(it)
+            TYPE_OTHER -> {
+                (holder as PostViewHolder).bind(currentList.orEmpty()[position - 1])
             }
             else -> throw IllegalArgumentException(
-                "Unsupported view type: ${getItemViewType(
-                    position
-                )}"
+                "Unsupported view type: ${getItemViewType(position)}"
             )
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
         position: Int,
@@ -75,29 +64,26 @@ class PostsAdapter(
     ) {
         when (getItemViewType(position)) {
             TYPE_HEADER -> {
-                if (channelList == null) {
-                    (holder as PostsHeaderViewHolder).bind()
-                } else (holder as PostsHeaderViewHolder).bind(channelList ?: return)
-            }
-            TYPE_OTHER -> currentList.orEmpty()[position].let {
-                (holder as PostViewHolder).run {
-                    if(payloads.isNotEmpty()) {
-                        updateFromPayloads(payloads)
-                    } else bind(currentList.orEmpty()[position])
+                with(holder as PostsHeaderViewHolder) {
+                    if (payloads.isEmpty()) {
+                        bind(channelList ?: return)
+                    } else bind(payloads.first() as PagedList<Channel>)
                 }
             }
+            TYPE_OTHER -> with(holder as PostViewHolder) {
+                if (payloads.isNotEmpty()) {
+                    updateFromPayloads(payloads)
+                } else bind(currentList.orEmpty()[position - 1])
+            }
             else -> throw IllegalArgumentException(
-                "Unsupported view type: ${getItemViewType(
-                    position
-                )}"
+                "Unsupported view type: ${getItemViewType(position)}"
             )
         }
     }
 
     fun submitChannels(channelList: PagedList<Channel>) {
         this.channelList = channelList
-        (recyclerView?.findViewHolderForAdapterPosition(0) as? PostsHeaderViewHolder)
-            ?.setList(channelList)
+        notifyItemChanged(0, channelList)
     }
 
 
@@ -106,6 +92,10 @@ class PostsAdapter(
             0 -> TYPE_HEADER
             else -> TYPE_OTHER
         }
+    }
+
+    override fun getItemCount(): Int {
+        return (currentList?.size ?: 0) + 1
     }
 
     companion object {

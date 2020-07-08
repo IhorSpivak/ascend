@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_locale
 
 import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.ContentType
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.source.storage.local.data.community_feed.PostAttachmentLocal
@@ -29,7 +30,7 @@ fun PostWithAttachments.toEntity(): Post {
 fun PostAttachmentLocal.toEntity(): Attachment {
     return Attachment(
         id = id,
-        contentType = contentType,
+        contentType = ContentType.values()[contentType],
         url = url
     )
 }
@@ -54,7 +55,7 @@ fun Post.toLocal(): PostWithAttachments {
 fun Attachment.toLocal(postId: Long): PostAttachmentLocal {
     return PostAttachmentLocal(
         id = id,
-        contentType = contentType,
+        contentType = contentType.ordinal,
         post_id = postId,
         url = url
     )

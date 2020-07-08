@@ -58,11 +58,83 @@ class CommunityFeedGateway(
         )
     }
 
+    //TODO remove mock
     override fun loadChannels(
         scope: CoroutineScope,
         communityFeedDTO: CommunityFeedDTO
     ): LiveData<PagedList<Channel>> = liveData {
+        emitSource(
+            PaginationDataSource.Builder<Channel>()
+                .coroutineScope(scope)
+                .localSource(object : PaginationSourceLocal<Channel> {
+                    override suspend fun loadData(page: Int, limit: Int): List<Channel>? {
+                        return listOf(
+                            Channel(
+                                1,
+                                "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+                                "Title Example"
+                            ),
+                            Channel(
+                                2,
+                                "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+                                "Title Example"
+                            ),
+                            Channel(
+                                3,
+                                "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+                                "Title Example"
+                            ),
+                            Channel(
+                                4,
+                                "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+                                "Title Example"
+                            ),
+                            Channel(
+                                5,
+                                "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+                                "Title Example"
+                            )
+                        )
+                    }
 
+                    override suspend fun save(data: List<Channel>) {
+
+                    }
+                })
+                .pageLimit(communityFeedDTO.perPage ?: 10)
+                .remoteSource(object : PaginationSourceRemote<Channel> {
+                    override suspend fun loadData(page: Int, limit: Int): List<Channel>? {
+                        return return listOf(
+                            Channel(
+                                1,
+                                "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+                                "Title Example"
+                            ),
+                            Channel(
+                                2,
+                                "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+                                "Title Example"
+                            ),
+                            Channel(
+                                3,
+                                "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+                                "Title Example"
+                            ),
+                            Channel(
+                                4,
+                                "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+                                "Title Example"
+                            ),
+                            Channel(
+                                5,
+                                "https://image.freepik.com/free-photo/image-human-brain_99433-298.jpg",
+                                "Title Example"
+                            )
+                        )
+                    }
+                })
+                .build()
+        )
     }
 
     override fun likePost(
@@ -103,6 +175,14 @@ class CommunityFeedGateway(
         postComment: String,
         baseCallback: BaseCallback<Unit>
     ) {
-
+        coroutineScope.launch(Dispatchers.IO) {
+            val response = communityRemote.leaveComment(postId, postComment)
+            if (response.isSuccessful) {
+                //TODO insert comment locally
+                baseCallback.onSuccess(Unit)
+            } else {
+                baseCallback.onError(response.message)
+            }
+        }
     }
 }

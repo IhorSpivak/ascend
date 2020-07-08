@@ -1,13 +1,12 @@
 package com.doneit.ascend.source.storage.remote.api
 
+import com.doneit.ascend.source.storage.remote.data.request.LeaveCommentRequest
+import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostsResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.*
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
 
 interface CommunityFeedApi {
     @GET("posts")
@@ -27,6 +26,12 @@ interface CommunityFeedApi {
 
     @DELETE("posts/{post_id}/likes")
     fun unlikePostAsync(@Path("post_id") postId: Long): Deferred<Response<PostResponse>>
+
+    @POST("posts/{post_id}/comments")
+    fun leaveCommentAsync(
+        @Path("post_id") postId: Long,
+        @Body request: LeaveCommentRequest
+    ): Deferred<Response<CommentResponse>>
 
     @POST("posts")
     fun createPostAsync(

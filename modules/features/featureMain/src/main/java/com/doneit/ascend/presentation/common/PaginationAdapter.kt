@@ -38,7 +38,7 @@ abstract class PaginationAdapter<T, VH : RecyclerView.ViewHolder>(
         }
         DiffUtil.calculateDiff(diffCallback).apply {
             currentList = list
-            this.dispatchUpdatesTo(this@PaginationAdapter)
+            dispatchUpdatesTo(this@PaginationAdapter)
         }
         current.unlock()
         list.unlock()

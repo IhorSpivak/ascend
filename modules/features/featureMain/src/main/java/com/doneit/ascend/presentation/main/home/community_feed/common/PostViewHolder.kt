@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.ContentType
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ListItemFeedBinding
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
 
 class PostViewHolder(
@@ -30,6 +32,7 @@ class PostViewHolder(
             postModel = post
             isLiked = post.isLikedMe
             likesCount = post.likesCount
+            commentsCount = post.commentsCount
             isOwner = post.isOwner
             setupAttachments(post.attachments)
             setClickListeners(post)
@@ -40,35 +43,51 @@ class PostViewHolder(
         if (payloads.isEmpty()) return
         val payload = (payloads.first() as? PostPayload) ?: return
         with(binding) {
-            likesCount = if (payload.likeStatus) {
-                likesCount?.inc()
-            } else likesCount?.dec()
-            isLiked = payload.likeStatus
-            postModel?.likesCount = likesCount ?: 0
-            postModel?.isLikedMe = payload.likeStatus
+            payload.likeStatus?.let {
+                likesCount = if (it) {
+                    likesCount?.inc()
+                } else likesCount?.dec()
+                postModel?.isLikedMe = it
+                isLiked = it
+                postModel?.likesCount = likesCount ?: 0
+            }
+            payload.commentsCount?.let {
+                commentsCount = commentsCount?.plus(it)
+            }
         }
     }
 
     private fun ListItemFeedBinding.setClickListeners(
         post: Post
     ) {
-        mmiAvatar.setOnClickListener { postClickListeners.onUserClick(post.owner.id) }
-        tvName.setOnClickListener { postClickListeners.onUserClick(post.owner.id) }
+        mmiAvatar.setOnClickListener {
+            postClickListeners.onUserClick(post.owner.id)
+        }
+        tvName.setOnClickListener {
+            postClickListeners.onUserClick(post.owner.id)
+        }
         btnLike.setOnClickListener {
-            postClickListeners.onLikeClick(post.isLikedMe, post.id)
+            postClickListeners.onLikeClick(post.isLikedMe, post.id, adapterPosition)
             post.isLikedMe = !post.isLikedMe
         }
-        btnShare.setOnClickListener { postClickListeners.onShareClick(post.id) }
+        btnShare.setOnClickListener {
+            postClickListeners.onShareClick(post.id)
+        }
         btnBlock.setOnClickListener {
             if (post.isOwner) {
                 postClickListeners.onOptionsClick()
             } else postClickListeners.onComplainClick(post.id)
         }
         btnSend.setOnClickListener {
-            postClickListeners.onSendCommentClick(
-                post.id,
-                etInputMessage.text?.toString().orEmpty()
-            )
+            if (etInputMessage.length() > 2) {
+                postClickListeners.onSendCommentClick(
+                    post.id,
+                    etInputMessage.text?.toString().orEmpty(),
+                    adapterPosition
+                )
+                etInputMessage.text?.clear()
+                etInputMessage.hideKeyboard()
+            }
         }
     }
 
@@ -83,9 +102,27 @@ class PostViewHolder(
         visibleOrGone(attachment == null)
         attachment ?: return
         binding.mivAttachments.visible()
+        when (attachment.contentType) {
+            ContentType.IMAGE -> loadImage(attachment.url)
+            ContentType.VIDEO -> {/*TODO*/}
+        }
+    }
+
+    private fun ImageView.loadImage(url: String) {
         Glide.with(this)
             .asBitmap()
-            .load(attachment.url)
+            .load(url)
+            .error(R.drawable.ic_action_block)
+            .centerCrop()
+            .placeholder(ColorDrawable(Color.LTGRAY))
+            .transition(BitmapTransitionOptions.withCrossFade())
+            .into(this)
+    }
+
+    private fun ImageView.loadFirstVideoFrame(url: String) {
+        Glide.with(this)
+            .asBitmap()
+            .load(url)
             .error(R.drawable.ic_action_block)
             .centerCrop()
             .placeholder(ColorDrawable(Color.LTGRAY))
@@ -94,12 +131,16 @@ class PostViewHolder(
     }
 
     data class PostPayload(
-        val likeStatus: Boolean
+        val likeStatus: Boolean?,
+        val commentsCount: Int?
     )
 
     companion object {
 
-        fun buildPayload(likeStatus: Boolean) = PostPayload(likeStatus)
+        fun buildPayload(
+            likeStatus: Boolean? = null,
+            commentsCount: Int? = null
+        ) = PostPayload(likeStatus, commentsCount)
 
         fun create(
             parent: ViewGroup,
