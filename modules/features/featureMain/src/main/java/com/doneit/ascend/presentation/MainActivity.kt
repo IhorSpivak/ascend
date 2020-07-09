@@ -158,6 +158,9 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
     override fun setChatEnabled(isVisible: Boolean) {
         binding.btnChat.visible(isVisible)
+        if(isVisible.not()) {
+            binding.hasChatMessages.visible(false)
+        }
     }
 
     override fun getUnreadMessageCount() {

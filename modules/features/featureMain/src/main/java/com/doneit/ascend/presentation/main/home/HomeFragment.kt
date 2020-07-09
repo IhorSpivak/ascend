@@ -27,10 +27,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onResume() {
         super.onResume()
         listener?.apply {
-            getUnreadMessageCount()
             setSearchEnabled(true)
             setFilterEnabled(false)
             setChatEnabled(true)
+            getUnreadMessageCount()
         }
 
     }
