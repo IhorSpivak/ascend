@@ -99,12 +99,12 @@ class PostViewHolder(
     }
 
     private fun ImageView.glideLoad(attachment: Attachment?) {
-        visibleOrGone(attachment == null)
+        visibleOrGone(attachment != null)
         attachment ?: return
         binding.mivAttachments.visible()
         when (attachment.contentType) {
             ContentType.IMAGE -> loadImage(attachment.url)
-            ContentType.VIDEO -> {/*TODO*/}
+            ContentType.VIDEO -> loadImage(attachment.url)
         }
     }
 

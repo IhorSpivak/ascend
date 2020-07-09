@@ -73,13 +73,15 @@ internal class CommunityFeedRepository(
                         it.readBytes()
                     }
                     val body = bytes.toRequestBody(
-                        contentType = contentResolver.getType(Uri.parse(attachment.value.url))!!
+                        contentType = attachment.value.contentType
                             .toMediaTypeOrNull()
                     )
                     addPart(
                         MultipartBody.Part.createFormData(
                             "attachment${attachment.index + 1}",
-                            UUID.randomUUID().toString(),
+                            UUID.randomUUID().toString() + "." +
+                                    contentResolver.getType(Uri.parse(attachment.value.url))!!
+                                        .substringAfterLast("/"),
                             body
                         )
                     )
