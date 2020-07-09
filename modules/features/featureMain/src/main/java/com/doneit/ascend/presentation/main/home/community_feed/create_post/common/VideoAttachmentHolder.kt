@@ -22,7 +22,14 @@ class VideoAttachmentHolder(
             vvVideo.setOnPreparedListener {
                 it.seekTo(1)
             }
+            vvVideo.setOnCompletionListener {
+                isPlaying = false
+            }
             btnPlay.setOnClickListener {
+                if (!vvVideo.isPlaying) vvVideo.start() else vvVideo.pause()
+                isPlaying = vvVideo.isPlaying
+            }
+            vvVideo.setOnClickListener {
                 if (!vvVideo.isPlaying) vvVideo.start() else vvVideo.pause()
                 isPlaying = vvVideo.isPlaying
             }

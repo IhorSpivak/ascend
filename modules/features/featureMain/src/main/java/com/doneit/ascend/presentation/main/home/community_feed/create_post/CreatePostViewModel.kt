@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.home.community_feed.create_post
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.common.BaseCallback
@@ -9,6 +8,7 @@ import com.doneit.ascend.domain.entity.community_feed.getContentTypeFromMime
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCreatePostModel
+import com.doneit.ascend.presentation.models.ValidationResult
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
@@ -21,12 +21,17 @@ class CreatePostViewModel(
     private val router: CreatePostContract.Router
 ) : BaseViewModelImpl(), CreatePostContract.ViewModel {
 
-    private val media = arrayListOf<Attachment>()
-
     override val createPostModel: PresentationCreatePostModel = PresentationCreatePostModel()
-    override val canComplete: LiveData<Boolean> = MutableLiveData(true)
-    override val attachments = MutableLiveData<List<Attachment>>(media)
+    override val canComplete = MutableLiveData(false)
+    override val attachments = MutableLiveData<List<Attachment>>(createPostModel.media)
     override val showPopupEvent = SingleLiveEvent<String>()
+
+    init {
+        createPostModel.description.validator = {
+            canComplete.value = it.length > 2
+            ValidationResult(it.length > 2)
+        }
+    }
 
     override fun backClick() {
         router.onBack()
@@ -36,7 +41,7 @@ class CreatePostViewModel(
         communityFeedUseCase.createPost(
             viewModelScope,
             createPostModel.description.observableField.get().orEmpty(),
-            media,
+            createPostModel.media,
             BaseCallback(
                 onSuccess = {
                     router.onBack()
@@ -49,20 +54,20 @@ class CreatePostViewModel(
     }
 
     override fun processSingleItem(uri: String, mimeType: String) {
-        if (media.size >= 5) return
-        val index = media.indexOfFirst { it.url == uri }
+        if (createPostModel.media.size >= 5) return
+        val index = createPostModel.media.indexOfFirst { it.url == uri }
         val newAttachment = Attachment(
             id = UUID.randomUUID().toString(),
             contentType = getContentTypeFromMime(mimeType),
             url = uri
         )
         if (index == -1) {
-            media.add(newAttachment)
-        } else media[index] = newAttachment
+            createPostModel.media.add(newAttachment)
+        } else createPostModel.media[index] = newAttachment
     }
 
     override fun deleteItemAt(pos: Int) {
-        media.removeAt(pos)
-        attachments.value = media
+        createPostModel.media.removeAt(pos)
+        attachments.value = createPostModel.media
     }
 }

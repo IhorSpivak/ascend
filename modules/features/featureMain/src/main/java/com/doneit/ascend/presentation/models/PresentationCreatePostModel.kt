@@ -1,7 +1,8 @@
 package com.doneit.ascend.presentation.models
 
+import com.doneit.ascend.domain.entity.community_feed.Attachment
+
 class PresentationCreatePostModel {
-    var header: ValidatableField = ValidatableField()
     var description: ValidatableField = ValidatableField()
-    var mediaList: List<String>? = listOf()
+    val media = arrayListOf<Attachment>()
 }

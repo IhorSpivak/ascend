@@ -39,7 +39,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_baseline_play"
-                android:visibility="@{isPlaying}"
+                android:visibility="@{!isPlaying}"
                 app:fabCustomSize="40dp" />
         </FrameLayout>
     </androidx.cardview.widget.CardView>
