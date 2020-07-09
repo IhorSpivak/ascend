@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.use_case.interactor.community_feed
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.common.BaseCallback
+import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Channel
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
@@ -35,6 +36,13 @@ interface CommunityFeedUseCase {
         coroutineScope: CoroutineScope,
         postId: Long,
         postComment: String,
+        baseCallback: BaseCallback<Unit>
+    )
+
+    fun createPost(
+        coroutineScope: CoroutineScope,
+        description: String,
+        attachments: List<Attachment>,
         baseCallback: BaseCallback<Unit>
     )
 }

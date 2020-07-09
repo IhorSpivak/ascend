@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.use_case.interactor.community_feed
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.common.BaseCallback
+import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Channel
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
@@ -49,5 +50,14 @@ class CommunityFeedInteractor(
         baseCallback: BaseCallback<Unit>
     ) {
         gateway.createPostComment(coroutineScope, postId, postComment, baseCallback)
+    }
+
+    override fun createPost(
+        coroutineScope: CoroutineScope,
+        description: String,
+        attachments: List<Attachment>,
+        baseCallback: BaseCallback<Unit>
+    ) {
+        return gateway.createPost(coroutineScope, description, attachments, baseCallback)
     }
 }

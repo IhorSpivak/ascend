@@ -6,6 +6,7 @@
     <data>
 
         <import type="android.view.inputmethod.EditorInfo" />
+
         <import type="android.text.InputType" />
 
         <variable
@@ -115,7 +116,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:maxLength="@{500}"
+                    app:maxLength="@{5000}"
                     app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                     app:saveState="@{false}"
                     app:src="@{@drawable/ic_description}"
@@ -167,6 +168,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@+id/dash_rectangle_background"
                     tools:listitem="@layout/list_item_group_attachment_video" />
 

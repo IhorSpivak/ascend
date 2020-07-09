@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Comment
 import com.doneit.ascend.domain.entity.community_feed.ContentType
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.source.storage.remote.data.request.AttachmentRequest
 import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.AttachmentResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
@@ -59,5 +60,12 @@ fun CommentResponse.toEntity(): Comment {
         postCommentsCount = postCommentsCount.orZero(),
         text = text.orEmpty(),
         user = user?.toEntity() ?: BlockedUserEntity(id = -1, fullName = "", image = null)
+    )
+}
+
+fun Attachment.toRequest(): AttachmentRequest {
+    return AttachmentRequest(
+        contentType = contentType.mimeType,
+        url = url
     )
 }

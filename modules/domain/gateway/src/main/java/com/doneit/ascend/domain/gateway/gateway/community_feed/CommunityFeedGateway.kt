@@ -3,10 +3,12 @@ package com.doneit.ascend.domain.gateway.gateway.community_feed
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import com.doneit.ascend.domain.entity.common.BaseCallback
+import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Channel
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
+import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
@@ -179,6 +181,23 @@ class CommunityFeedGateway(
             val response = communityRemote.leaveComment(postId, postComment)
             if (response.isSuccessful) {
                 //TODO insert comment locally
+                baseCallback.onSuccess(Unit)
+            } else {
+                baseCallback.onError(response.message)
+            }
+        }
+    }
+
+    override fun createPost(
+        coroutineScope: CoroutineScope,
+        description: String,
+        attachments: List<Attachment>,
+        baseCallback: BaseCallback<Unit>
+    ) {
+        coroutineScope.launch(Dispatchers.IO) {
+            val response = communityRemote.createPost(description, attachments.map { it.toRequest() })
+            if (response.isSuccessful) {
+
                 baseCallback.onSuccess(Unit)
             } else {
                 baseCallback.onError(response.message)

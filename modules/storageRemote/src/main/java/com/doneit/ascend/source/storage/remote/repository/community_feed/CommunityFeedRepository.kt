@@ -1,6 +1,9 @@
 package com.doneit.ascend.source.storage.remote.repository.community_feed
 
+import android.content.ContentResolver
+import android.net.Uri
 import com.doneit.ascend.source.storage.remote.api.CommunityFeedApi
+import com.doneit.ascend.source.storage.remote.data.request.AttachmentRequest
 import com.doneit.ascend.source.storage.remote.data.request.LeaveCommentRequest
 import com.doneit.ascend.source.storage.remote.data.request.community_feed.PostsRequest
 import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
@@ -10,9 +13,13 @@ import com.doneit.ascend.source.storage.remote.data.response.community_feed.Post
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 internal class CommunityFeedRepository(
     gson: Gson,
+    private val contentResolver: ContentResolver,
     private val api: CommunityFeedApi
 ) : BaseRepository(gson), ICommunityFeedRepository {
     override suspend fun loadPosts(postsRequest: PostsRequest): RemoteResponse<PostsResponse, ErrorsListResponse> {
@@ -50,4 +57,31 @@ internal class CommunityFeedRepository(
             api.leaveCommentAsync(postId, LeaveCommentRequest(text))
         }, ErrorsListResponse::class.java)
     }
+
+    override suspend fun createPost(
+        description: String,
+        attachments: List<AttachmentRequest>
+    ): RemoteResponse<PostResponse, ErrorsListResponse> {
+        return execute({
+            with(MultipartBody.Builder()) {
+                addPart(MultipartBody.Part.createFormData("description", description))
+                for (attachment in attachments.withIndex()) {
+                    val inputStream = contentResolver.openInputStream(Uri.parse(attachment.value.url))!!
+                    val bytes = inputStream.readBytes()
+                    val body = bytes.toRequestBody(
+                        contentType = attachment.value.contentType.toMediaTypeOrNull()
+                    )
+                    addPart(
+                        MultipartBody.Part.createFormData(
+                            "attachment${attachment.index + 1}",
+                            null,
+                            body
+                        )
+                    )
+                }
+                api.createPostAsync(build().parts)
+            }
+        }, ErrorsListResponse::class.java)
+    }
+
 }

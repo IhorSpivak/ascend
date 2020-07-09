@@ -5,6 +5,7 @@ import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostsResponse
 import kotlinx.coroutines.Deferred
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -33,8 +34,9 @@ interface CommunityFeedApi {
         @Body request: LeaveCommentRequest
     ): Deferred<Response<CommentResponse>>
 
+    @Multipart
     @POST("posts")
     fun createPostAsync(
-
-    )
+        @Part attachments: List<MultipartBody.Part>
+    ): Deferred<Response<PostResponse>>
 }

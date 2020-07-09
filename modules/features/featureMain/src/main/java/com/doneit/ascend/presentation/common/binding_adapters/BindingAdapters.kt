@@ -87,6 +87,14 @@ fun setImage(view: AppCompatImageView, url: String?, placeholder: Drawable?) {
         .into(view)
 }
 
+@BindingAdapter("app:setImage", "app:placeholder", requireAll = false)
+fun setImage(view: AppCompatImageView, uri: Uri?, placeholder: Drawable?) {
+    Glide.with(view)
+        .load(uri)
+        .placeholder(placeholder)
+        .into(view)
+}
+
 @BindingAdapter("app:setCircleImage", "app:circlePlaceholder", requireAll = false)
 fun setCircleImage(view: AppCompatImageView, url: String?, placeholder: Drawable?) {
     Glide.with(view)

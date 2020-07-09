@@ -58,6 +58,7 @@ import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedContract
+import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
 import com.doneit.ascend.presentation.main.home.master_mind.filter.FilterFragment
@@ -165,7 +166,8 @@ class MainRouter(
     ChatContract.Router,
     ChatMembersContract.Router,
     BlockedUsersContract.Router,
-    CommunityFeedContract.Router {
+    CommunityFeedContract.Router,
+    CreatePostContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }

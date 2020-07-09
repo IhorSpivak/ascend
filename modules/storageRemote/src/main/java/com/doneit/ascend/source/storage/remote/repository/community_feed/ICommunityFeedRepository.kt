@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.remote.repository.community_feed
 
+import com.doneit.ascend.source.storage.remote.data.request.AttachmentRequest
 import com.doneit.ascend.source.storage.remote.data.request.community_feed.PostsRequest
 import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
@@ -15,4 +16,9 @@ interface ICommunityFeedRepository {
         postId: Long,
         text: String
     ): RemoteResponse<CommentResponse, ErrorsListResponse>
+
+    suspend fun createPost(
+        description: String,
+        attachments: List<AttachmentRequest>
+    ): RemoteResponse<PostResponse, ErrorsListResponse>
 }

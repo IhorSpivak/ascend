@@ -156,6 +156,7 @@ object StorageRemoteModule {
         bind<ICommunityFeedRepository>() with singleton {
             CommunityFeedRepository(
                 instance(),
+                instance(),
                 instance()
             )
         }
