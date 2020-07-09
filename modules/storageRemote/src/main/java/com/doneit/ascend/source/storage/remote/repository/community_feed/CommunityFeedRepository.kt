@@ -16,6 +16,7 @@ import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.util.*
 
 internal class CommunityFeedRepository(
     gson: Gson,
@@ -66,15 +67,19 @@ internal class CommunityFeedRepository(
             with(MultipartBody.Builder()) {
                 addPart(MultipartBody.Part.createFormData("description", description))
                 for (attachment in attachments.withIndex()) {
-                    val inputStream = contentResolver.openInputStream(Uri.parse(attachment.value.url))!!
-                    val bytes = inputStream.readBytes()
+                    val inputStream =
+                        contentResolver.openInputStream(Uri.parse(attachment.value.url))!!
+                    val bytes = inputStream.use {
+                        it.readBytes()
+                    }
                     val body = bytes.toRequestBody(
-                        contentType = attachment.value.contentType.toMediaTypeOrNull()
+                        contentType = contentResolver.getType(Uri.parse(attachment.value.url))!!
+                            .toMediaTypeOrNull()
                     )
                     addPart(
                         MultipartBody.Part.createFormData(
                             "attachment${attachment.index + 1}",
-                            null,
+                            UUID.randomUUID().toString(),
                             body
                         )
                     )
