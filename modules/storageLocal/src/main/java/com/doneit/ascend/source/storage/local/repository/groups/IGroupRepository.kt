@@ -7,6 +7,7 @@ import com.doneit.ascend.source.storage.local.data.dto.GroupFilter
 
 interface IGroupRepository {
     suspend fun getGroupList(filter: GroupFilter): DataSource.Factory<Int, GroupLocal>
+    suspend fun getUpcomingGroupList(filter: GroupFilter): DataSource.Factory<Int, GroupLocal>
     suspend fun getGroupById(id: Long): GroupLocal?
     fun getGroupByIdLive(id: Long): LiveData<GroupLocal?>
     suspend fun insertAll(groups: List<GroupLocal>)

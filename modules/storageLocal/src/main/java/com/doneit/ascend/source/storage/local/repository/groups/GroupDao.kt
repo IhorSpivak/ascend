@@ -20,6 +20,9 @@ interface GroupDao {
     @Query("SELECT * FROM groups WHERE (status = :status or (:status is null and 1)) AND group_type = :type ORDER BY start_time DESC")
     fun getAllByTypeDESC(status: Int?, type: Int): DataSource.Factory<Int, GroupLocal>
 
+    @Query("SELECT * FROM groups WHERE status <= 2 AND ownerid = :userId ORDER BY start_time ASC")
+    fun getUpcomingASC(userId: Long): DataSource.Factory<Int, GroupLocal>
+
     @Transaction
     @Query("SELECT * FROM groups WHERE id = :id LIMIT 1")
     suspend fun getById(id: Long): GroupLocal?
