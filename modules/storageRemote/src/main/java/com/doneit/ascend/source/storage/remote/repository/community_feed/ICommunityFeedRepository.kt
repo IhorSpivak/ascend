@@ -21,4 +21,11 @@ interface ICommunityFeedRepository {
         description: String,
         attachments: List<AttachmentRequest>
     ): RemoteResponse<PostResponse, ErrorsListResponse>
+
+    suspend fun updatePost(
+        postId: Long,
+        description: String,
+        deletedAttachments: Array<String>,
+        attachments: List<AttachmentRequest>
+    ): RemoteResponse<PostResponse, ErrorsListResponse>
 }

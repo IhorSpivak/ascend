@@ -66,29 +66,49 @@ internal class CommunityFeedRepository(
         return execute({
             with(MultipartBody.Builder()) {
                 addPart(MultipartBody.Part.createFormData("description", description))
-                for (attachment in attachments.withIndex()) {
-                    val inputStream =
-                        contentResolver.openInputStream(Uri.parse(attachment.value.url))!!
-                    val bytes = inputStream.use {
-                        it.readBytes()
-                    }
-                    val body = bytes.toRequestBody(
-                        contentType = attachment.value.contentType
-                            .toMediaTypeOrNull()
-                    )
-                    addPart(
-                        MultipartBody.Part.createFormData(
-                            "attachment${attachment.index + 1}",
-                            UUID.randomUUID().toString() + "." +
-                                    contentResolver.getType(Uri.parse(attachment.value.url))!!
-                                        .substringAfterLast("/"),
-                            body
-                        )
-                    )
-                }
+                addAttachments(attachments)
                 api.createPostAsync(build().parts)
             }
         }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun updatePost(
+        postId: Long,
+        description: String,
+        deletedAttachments: Array<String>,
+        attachments: List<AttachmentRequest>
+    ): RemoteResponse<PostResponse, ErrorsListResponse> {
+        return execute({
+            with(MultipartBody.Builder()) {
+                addPart(MultipartBody.Part.createFormData("description", description))
+                addAttachments(attachments)
+                api.updatePostAsync(postId, deletedAttachments, build().parts)
+            }
+        }, ErrorsListResponse::class.java)
+    }
+
+    private fun MultipartBody.Builder.addAttachments(attachments: List<AttachmentRequest>) {
+        for (attachment in attachments.withIndex()) {
+            val inputStream = contentResolver.openInputStream(
+                Uri.parse(attachment.value.url)
+            )!!
+            val bytes = inputStream.use {
+                it.readBytes()
+            }
+            val body = bytes.toRequestBody(
+                contentType = attachment.value.contentType
+                    .toMediaTypeOrNull()
+            )
+            addPart(
+                MultipartBody.Part.createFormData(
+                    "attachment${attachment.index + 1}",
+                    UUID.randomUUID().toString() + "." +
+                            contentResolver.getType(Uri.parse(attachment.value.url))!!
+                                .substringAfterLast("/"),
+                    body
+                )
+            )
+        }
     }
 
 }

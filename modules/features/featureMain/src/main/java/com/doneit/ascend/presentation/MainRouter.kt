@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.entity.ascension.goal.GoalEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
@@ -559,7 +560,7 @@ class MainRouter(
             .commit()
     }
 
-    override fun navigateToCreatePost() {
-        manager.replaceWithBackStack(containerIdFull, CreatePostFragment.newInstance())
+    override fun navigateToCreatePost(post: Post?) {
+        manager.replaceWithBackStack(containerIdFull, CreatePostFragment.newInstance(post))
     }
 }

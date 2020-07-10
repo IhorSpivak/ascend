@@ -35,6 +35,10 @@ class CommunityFeedViewModel(
         router.navigateToCreatePost()
     }
 
+    override fun onEditPostClick(post: Post) {
+        router.navigateToCreatePost(post)
+    }
+
     override fun onChannelClick(channel: Channel) {
 
     }
@@ -78,6 +82,11 @@ class CommunityFeedViewModel(
     }
 
     override fun newItem(post: Post) {
-        posts.value?.add(0, post)
+        val index = posts.value?.indexOfFirst { it.id == post.id }
+        if (index == null || index == -1) {
+            posts.value?.add(0, post)
+        } else {
+            posts.value?.set(index, post)
+        }
     }
 }

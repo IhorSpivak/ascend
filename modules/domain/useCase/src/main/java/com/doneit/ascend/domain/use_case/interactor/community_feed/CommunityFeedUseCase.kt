@@ -45,4 +45,13 @@ interface CommunityFeedUseCase {
         attachments: List<Attachment>,
         baseCallback: BaseCallback<Post>
     )
+
+    fun updatePost(
+        coroutineScope: CoroutineScope,
+        postId: Long,
+        description: String,
+        deletedAttachments: Array<String>,
+        attachments: List<Attachment>,
+        baseCallback: BaseCallback<Post>
+    )
 }

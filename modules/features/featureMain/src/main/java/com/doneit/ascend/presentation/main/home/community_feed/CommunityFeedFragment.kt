@@ -55,7 +55,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
                     viewModel.likePost(id)
                 else viewModel.unlikePost(id)
             },
-            onOptionsClick = {},
+            onOptionsClick = viewModel::onEditPostClick,
             onSendCommentClick = { id, text, _ -> viewModel.leaveComment(id, text) },
             onShareClick = {},
             onCreatePostListener = viewModel::onNewPostClick,

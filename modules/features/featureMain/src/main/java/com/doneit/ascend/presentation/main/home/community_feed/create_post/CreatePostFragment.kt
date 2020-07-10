@@ -29,8 +29,16 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         CreatePostAdapter(viewModel::deleteItemAt)
     }
 
+    private val post: Post? by lazy {
+        requireArguments().getParcelable<Post>(KEY_POST)
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
+        post?.let {
+            viewModel.setEditMode(it)
+        }
         binding.apply {
+            isInUpdateMode = post != null
             viewModel = this@CreatePostFragment.viewModel
             dashRectangleBackground.setOnClickListener {
                 doIfPermissionsGranted {
@@ -132,9 +140,14 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
     companion object {
         const val RESULT = "result"
+        private const val KEY_POST = "POST"
         private const val REQUEST_CODE_MEDIA = 101
         private const val MIME_TYPE_IMAGE = "image/*"
         private const val MIME_TYPE_VIDEO = "video/*"
-        fun newInstance() = CreatePostFragment()
+        fun newInstance(post: Post? = null) = CreatePostFragment().also {
+            it.arguments = Bundle().apply {
+                putParcelable(KEY_POST, post ?: return@apply)
+            }
+        }
     }
 }

@@ -49,6 +49,11 @@ class PaginationDataSource<T> private constructor(
 
     override fun insert(index: Int, element: T) {
         dataContainer.add(index, element)
+        notifyChanged()
+    }
+
+    override fun set(index: Int, element: T): T {
+        return dataContainer.set(index, element).also { notifyChanged() }
     }
 
     class Builder<T> {
@@ -113,4 +118,5 @@ interface DataSource<T> {
     fun notifyChanged()
     fun loadNext()
     fun insert(index: Int, element: T)
+    fun set(index: Int, element: T): T
 }

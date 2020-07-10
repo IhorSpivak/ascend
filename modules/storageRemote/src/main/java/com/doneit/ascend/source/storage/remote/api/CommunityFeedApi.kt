@@ -39,4 +39,12 @@ interface CommunityFeedApi {
     fun createPostAsync(
         @Part attachments: List<MultipartBody.Part>
     ): Deferred<Response<PostResponse>>
+
+    @Multipart
+    @PATCH("posts/{post_id}")
+    fun updatePostAsync(
+        @Path("post_id") postId: Long,
+        @Query("delete_attachment_ids[]") deleted: Array<String>,
+        @Part attachments: List<MultipartBody.Part>
+    ): Deferred<Response<PostResponse>>
 }
