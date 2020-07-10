@@ -1,9 +1,12 @@
 package com.doneit.ascend.source.storage.remote.repository.community_feed
 
 import com.doneit.ascend.source.storage.remote.data.request.AttachmentRequest
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.CommentsRequest
 import com.doneit.ascend.source.storage.remote.data.request.community_feed.PostsRequest
 import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
+import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
+import com.doneit.ascend.source.storage.remote.data.response.community_feed.CommentsResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostsResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
@@ -21,4 +24,8 @@ interface ICommunityFeedRepository {
         description: String,
         attachments: List<AttachmentRequest>
     ): RemoteResponse<PostResponse, ErrorsListResponse>
+
+    suspend fun getComments(postId: Long, commentsRequest: CommentsRequest): RemoteResponse<CommentsResponse, ErrorsListResponse>
+
+    suspend fun deleteComment(postId: Long, commentId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 }

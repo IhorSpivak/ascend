@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.local.repository.community_feed
 
+import com.doneit.ascend.source.storage.local.data.community_feed.CommentLocal
 import com.doneit.ascend.source.storage.local.data.community_feed.PostWithAttachments
 
 internal class CommunityFeedRepository(
@@ -24,6 +25,22 @@ internal class CommunityFeedRepository(
     override suspend fun updatePost(post: PostWithAttachments) {
         communityFeedDao.updatePost(post.postLocal)
         communityFeedDao.updateAttachments(post.attachments)
+    }
+
+    override suspend fun getComments(offset: Int, limit: Int): List<CommentLocal> {
+        return communityFeedDao.getComments(offset, limit)
+    }
+
+    override suspend fun insertComment(comment: CommentLocal) {
+        communityFeedDao.insert(comment)
+    }
+
+    override suspend fun deleteComment(id: Long) {
+        communityFeedDao.deleteCommentById(id)
+    }
+
+    override suspend fun insertComments(comments: List<CommentLocal>) {
+        communityFeedDao.insertAllComments(comments)
     }
 
     override suspend fun deleteAll() {

@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Channel
+import com.doneit.ascend.domain.entity.community_feed.Comment
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.dto.CommentsDTO
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.domain.use_case.gateway.ICommunityFeedGateway
@@ -59,5 +61,22 @@ class CommunityFeedInteractor(
         baseCallback: BaseCallback<Post>
     ) {
         return gateway.createPost(coroutineScope, description, attachments, baseCallback)
+    }
+
+    override fun loadComments(
+        coroutineScope: CoroutineScope,
+        postId: Long,
+        commentsRequest: CommentsDTO
+    ): LiveData<PagedList<Comment>> {
+        return gateway.loadComments(coroutineScope, postId, commentsRequest)
+    }
+
+    override fun deletePost(
+        coroutineScope: CoroutineScope,
+        postId: Long,
+        commentId: Long,
+        baseCallback: BaseCallback<Unit>
+    ) {
+        return gateway.deleteComment(coroutineScope, postId = postId, commentId = commentId, baseCallback = baseCallback)
     }
 }

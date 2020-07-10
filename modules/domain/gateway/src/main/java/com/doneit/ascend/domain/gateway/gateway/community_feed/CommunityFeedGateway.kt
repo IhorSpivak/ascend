@@ -5,7 +5,9 @@ import androidx.lifecycle.liveData
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Channel
+import com.doneit.ascend.domain.entity.community_feed.Comment
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.dto.CommentsDTO
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toRequest
@@ -180,7 +182,7 @@ class CommunityFeedGateway(
         coroutineScope.launch(Dispatchers.IO) {
             val response = communityRemote.leaveComment(postId, postComment)
             if (response.isSuccessful) {
-                //TODO insert comment locally
+                communityLocal.insertComment(response.successModel!!.toEntity().toLocal())
                 baseCallback.onSuccess(Unit)
             } else {
                 baseCallback.onError(response.message)
@@ -199,6 +201,53 @@ class CommunityFeedGateway(
                 communityRemote.createPost(description, attachments.map { it.toRequest() })
             if (response.isSuccessful) {
                 baseCallback.onSuccess(response.successModel!!.toEntity())
+            } else {
+                baseCallback.onError(response.message)
+            }
+        }
+    }
+
+    override fun loadComments(
+        scope: CoroutineScope,
+        postId: Long,
+        commentsDTO: CommentsDTO
+    ) : LiveData<PagedList<Comment>> = liveData {
+        emitSource(
+            PaginationDataSource.Builder<Comment>()
+                .coroutineScope(scope)
+                .localSource(object : PaginationSourceLocal<Comment> {
+                    override suspend fun loadData(page: Int, limit: Int): List<Comment>? {
+                        return communityLocal.getComments(page * limit, limit).map { it.toEntity() }
+                    }
+
+                    override suspend fun save(data: List<Comment>) {
+                        communityLocal.insertComments(data.map { it.toLocal() })
+                    }
+                })
+                .pageLimit(commentsDTO.perPage ?: 10)
+                .remoteSource(object : PaginationSourceRemote<Comment> {
+                    override suspend fun loadData(page: Int, limit: Int): List<Comment>? {
+                        return communityRemote.getComments(postId, commentsDTO.toRequest(page))
+                            .successModel
+                            ?.comments
+                            ?.map { it.toEntity() }
+                    }
+                })
+                .build()
+        )
+    }
+
+    override fun deleteComment(
+        scope: CoroutineScope,
+        postId: Long,
+        commentId: Long,
+        baseCallback: BaseCallback<Unit>
+    ) {
+        scope.launch(Dispatchers.IO) {
+            val response = communityRemote.deleteComment(postId, commentId)
+            if (response.isSuccessful) {
+                communityLocal.deleteComment(commentId)
+                baseCallback.onSuccess(Unit)
             } else {
                 baseCallback.onError(response.message)
             }

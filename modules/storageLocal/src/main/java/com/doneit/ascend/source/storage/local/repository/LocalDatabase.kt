@@ -8,6 +8,7 @@ import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
 import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
 import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
 import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
+import com.doneit.ascend.source.storage.local.data.community_feed.CommentLocal
 import com.doneit.ascend.source.storage.local.data.community_feed.PostAttachmentLocal
 import com.doneit.ascend.source.storage.local.data.community_feed.PostLocal
 import com.doneit.ascend.source.storage.local.data.converters.ListIntConverter
@@ -51,7 +52,8 @@ import com.doneit.ascend.source.storage.local.repository.webinar_question.Webina
         BlockedUserLocal::class,
         WebinarQuestionLocal::class,
         PostAttachmentLocal::class,
-        PostLocal::class
+        PostLocal::class,
+        CommentLocal::class
     ],
     version = 1
 )

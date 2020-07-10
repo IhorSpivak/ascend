@@ -5,9 +5,12 @@ import android.net.Uri
 import com.doneit.ascend.source.storage.remote.api.CommunityFeedApi
 import com.doneit.ascend.source.storage.remote.data.request.AttachmentRequest
 import com.doneit.ascend.source.storage.remote.data.request.LeaveCommentRequest
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.CommentsRequest
 import com.doneit.ascend.source.storage.remote.data.request.community_feed.PostsRequest
 import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
+import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
+import com.doneit.ascend.source.storage.remote.data.response.community_feed.CommentsResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostsResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
@@ -88,6 +91,35 @@ internal class CommunityFeedRepository(
                 }
                 api.createPostAsync(build().parts)
             }
+        }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun getComments(
+        commentId: Long,
+        commentsRequest: CommentsRequest
+    ): RemoteResponse<CommentsResponse, ErrorsListResponse> {
+        return execute({
+            api.getCommentsAsync(
+                postId = commentId,
+                page = commentsRequest.page,
+                perPage = commentsRequest.perPage,
+                sortColumn = commentsRequest.sortColumn,
+                sortType = commentsRequest.sortType,
+                createdAtFrom = commentsRequest.createdAtFrom,
+                createdAtTo = commentsRequest.createdAtTo,
+                updatedAtFrom = commentsRequest.updatedAtFrom,
+                updatedAtTo = commentsRequest.updatedAtTo,
+                text = commentsRequest.text
+            )
+        }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun deleteComment(
+        postId: Long,
+        commentId: Long
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({
+            api.deleteCommentAsync(postId, commentId)
         }, ErrorsListResponse::class.java)
     }
 
