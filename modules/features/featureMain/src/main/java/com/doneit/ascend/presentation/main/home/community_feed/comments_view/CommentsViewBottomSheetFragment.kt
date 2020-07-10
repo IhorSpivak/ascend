@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.community_feed.Comment
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.FragmentCommentsViewBinding
+import com.doneit.ascend.presentation.main.home.community_feed.comments_view.common.CommentsAdapter
+import com.doneit.ascend.presentation.main.home.community_feed.comments_view.common.CommentsClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -38,7 +41,17 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
     private lateinit var binding: FragmentCommentsViewBinding
     private val viewModel: CommentsViewContract.ViewModel by instance()
     private val commentsAdapter by lazy {
-        //TODO
+        CommentsAdapter(
+            requireArguments().getParcelable(KEY_USER)!!,
+            commentsClickListener()
+        )
+    }
+
+    private fun commentsClickListener(): CommentsClickListener {
+        return CommentsClickListener(
+            onUserClick = {},
+            onDeleteClick = {}
+        )
     }
 
     override fun onCreateView(
@@ -81,9 +94,11 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
 
     companion object {
         private const val KEY_POST_ID = "KEY_POST_ID"
-        fun newInstance(postId: Long) = CommentsViewBottomSheetFragment().apply {
+        private const val KEY_USER = "KEY_USER"
+        fun newInstance(postId: Long, user: UserEntity) = CommentsViewBottomSheetFragment().apply {
             arguments = Bundle().apply {
                 putLong(KEY_POST_ID, postId)
+                putParcelable(KEY_USER, user)
             }
         }
     }

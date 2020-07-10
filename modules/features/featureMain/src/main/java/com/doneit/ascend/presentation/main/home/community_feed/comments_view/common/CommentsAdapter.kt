@@ -7,17 +7,29 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.common.PaginationAdapter
 
 class CommentsAdapter(
-    private val user: UserEntity
+    private val user: UserEntity,
+    private val commentsClickListener: CommentsClickListener
 ) : PaginationAdapter<Comment, RecyclerView.ViewHolder>(CommentItemCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            VT_OWN_MESSAGE -> OwnCommentHolder.create(parent)
+            VT_OWN_MESSAGE -> OwnCommentHolder.create(parent, commentsClickListener.onDeleteClick)
             VT_OTHER_MESSAGE -> OtherCommentHolder.create(parent)
             else -> throw IllegalStateException("Unknown type $viewType")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (getItemViewType(position)) {
+            VT_OWN_MESSAGE -> {
+                (holder as OwnCommentHolder).bind(getItem(position))
+            }
+            VT_OTHER_MESSAGE -> {
+                (holder as OtherCommentHolder).bind(getItem(position))
+            }
+            else -> throw IllegalArgumentException(
+                "Unsupported view type: ${getItemViewType(position)}"
+            )
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

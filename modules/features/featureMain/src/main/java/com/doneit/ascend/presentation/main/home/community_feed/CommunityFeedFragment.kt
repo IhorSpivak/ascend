@@ -74,7 +74,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             onSeeAllClickListener = viewModel::onSeeAllClick,
             onChannelClick = viewModel::onChannelClick,
             onCommentClick = {
-                CommentsViewBottomSheetFragment()
+                CommentsViewBottomSheetFragment.newInstance(it, requireArguments().getParcelable(KEY_USER)!!)
                     .show(
                         childFragmentManager,
                         CommentsViewBottomSheetFragment::class.java.simpleName

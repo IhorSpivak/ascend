@@ -9,24 +9,31 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemOwnMessageBinding
 
 class OwnCommentHolder private constructor(
-    itemView: View
+    itemView: View,
+    private val onDeleteClick: (comment: Comment) -> Unit
 ) : BaseCommentHolder(itemView) {
 
     private val binding: ListItemOwnMessageBinding = DataBindingUtil.bind(itemView)!!
 
     override fun bind(comment: Comment) {
-
+        binding.ibDelete.setOnClickListener {
+            onDeleteClick(comment)
+        }
     }
 
     companion object {
-        fun create(parent: ViewGroup): OwnCommentHolder {
+        fun create(
+            parent: ViewGroup,
+            onDeleteClick: (comment: Comment) -> Unit
+        ): OwnCommentHolder {
             return OwnCommentHolder(
                 DataBindingUtil.inflate<ListItemOwnMessageBinding>(
                     LayoutInflater.from(parent.context),
                     R.layout.list_item_own_message,
                     parent,
                     false
-                ).root
+                ).root,
+                onDeleteClick = onDeleteClick
             )
         }
     }
