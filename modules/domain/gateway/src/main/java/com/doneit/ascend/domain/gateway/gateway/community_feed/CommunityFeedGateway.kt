@@ -207,6 +207,28 @@ class CommunityFeedGateway(
         }
     }
 
+    override fun updatePost(
+        coroutineScope: CoroutineScope,
+        postId: Long,
+        description: String,
+        deletedAttachments: Array<String>,
+        attachments: List<Attachment>,
+        baseCallback: BaseCallback<Post>
+    ) {
+        coroutineScope.launch(Dispatchers.IO) {
+            val response = communityRemote.updatePost(
+                postId,
+                description,
+                deletedAttachments,
+                attachments.map { it.toRequest() })
+            if (response.isSuccessful) {
+                baseCallback.onSuccess(response.successModel!!.toEntity())
+            } else {
+                baseCallback.onError(response.message)
+            }
+        }
+    }
+
     override fun loadComments(
         scope: CoroutineScope,
         postId: Long,

@@ -28,4 +28,11 @@ interface ICommunityFeedRepository {
     suspend fun getComments(postId: Long, commentsRequest: CommentsRequest): RemoteResponse<CommentsResponse, ErrorsListResponse>
 
     suspend fun deleteComment(postId: Long, commentId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
+
+    suspend fun updatePost(
+        postId: Long,
+        description: String,
+        deletedAttachments: Array<String>,
+        attachments: List<AttachmentRequest>
+    ): RemoteResponse<PostResponse, ErrorsListResponse>
 }

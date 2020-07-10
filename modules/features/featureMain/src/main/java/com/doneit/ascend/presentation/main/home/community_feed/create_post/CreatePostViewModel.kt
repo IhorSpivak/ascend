@@ -13,7 +13,6 @@ import com.doneit.ascend.presentation.models.ValidationResult
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
-import java.util.*
 
 @CreateFactory
 @ViewModelDiModule
@@ -28,6 +27,8 @@ class CreatePostViewModel(
     override val showPopupEvent = SingleLiveEvent<String>()
     override val result = SingleLiveEvent<Post>()
 
+    private var post: Post? = null
+
     init {
         createPostModel.description.validator = {
             canComplete.value = it.length > 2
@@ -40,6 +41,34 @@ class CreatePostViewModel(
     }
 
     override fun createPost() {
+        if (post == null) {
+            create()
+        } else {
+            update()
+        }
+    }
+
+    fun update() {
+        val post = post ?: return
+        communityFeedUseCase.updatePost(
+            viewModelScope,
+            post.id,
+            createPostModel.description.observableField.get().orEmpty(),
+            createPostModel.deletedItemsId.toTypedArray(),
+            createPostModel.media,
+            BaseCallback(
+                onSuccess = {
+                    result.postValue(it)
+                    router.onBack()
+                },
+                onError = {
+                    showPopupEvent.postValue(it)
+                }
+            )
+        )
+    }
+
+    fun create() {
         communityFeedUseCase.createPost(
             viewModelScope,
             createPostModel.description.observableField.get().orEmpty(),
@@ -56,11 +85,18 @@ class CreatePostViewModel(
         )
     }
 
+    override fun setEditMode(post: Post) {
+        this.post = post
+        createPostModel.description.observableField.set(post.description)
+        createPostModel.media.addAll(post.attachments)
+        attachments.postValue(createPostModel.media)
+    }
+
     override fun processSingleItem(uri: String, mimeType: String) {
         if (createPostModel.media.size >= 5) return
         val index = createPostModel.media.indexOfFirst { it.url == uri }
         val newAttachment = Attachment(
-            id = UUID.randomUUID().toString(),
+            id = "",
             contentType = getContentTypeFromMime(mimeType),
             url = uri
         )
@@ -70,7 +106,10 @@ class CreatePostViewModel(
     }
 
     override fun deleteItemAt(pos: Int) {
-        createPostModel.media.removeAt(pos)
+        val item = createPostModel.media.removeAt(pos)
+        if (item.id.isNotBlank()) {
+            createPostModel.deletedItemsId.add(item.id)
+        }
         attachments.value = createPostModel.media
     }
 }

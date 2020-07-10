@@ -61,9 +61,12 @@ class PagedList<T> internal constructor(
         return super.add(element).also { notifyChanged() }
     }
 
+    override fun set(index: Int, element: T): T {
+        return dataSource.set(index, element)
+    }
+
     override fun add(index: Int, element: T) {
         dataSource.insert(index, element)
-        notifyChanged()
     }
 
     override fun get(index: Int): T {

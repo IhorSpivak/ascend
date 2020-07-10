@@ -61,4 +61,12 @@ interface CommunityFeedApi {
         @Path("post_id") postId: Long,
         @Path("comment_id") commentId: Long
     ): Deferred<Response<OKResponse>>
+
+    @Multipart
+    @PATCH("posts/{post_id}")
+    fun updatePostAsync(
+        @Path("post_id") postId: Long,
+        @Query("delete_attachment_ids[]") deleted: Array<String>,
+        @Part attachments: List<MultipartBody.Part>
+    ): Deferred<Response<PostResponse>>
 }

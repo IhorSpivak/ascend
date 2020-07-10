@@ -79,4 +79,22 @@ class CommunityFeedInteractor(
     ) {
         return gateway.deleteComment(coroutineScope, postId = postId, commentId = commentId, baseCallback = baseCallback)
     }
+
+    override fun updatePost(
+        coroutineScope: CoroutineScope,
+        postId: Long,
+        description: String,
+        deletedAttachments: Array<String>,
+        attachments: List<Attachment>,
+        baseCallback: BaseCallback<Post>
+    ) {
+        return gateway.updatePost(
+            coroutineScope,
+            postId,
+            description,
+            deletedAttachments,
+            attachments,
+            baseCallback
+        )
+    }
 }

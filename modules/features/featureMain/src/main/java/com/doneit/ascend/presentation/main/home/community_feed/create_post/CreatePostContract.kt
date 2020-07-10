@@ -17,6 +17,7 @@ interface CreatePostContract {
 
         fun backClick()
         fun createPost()
+        fun setEditMode(post: Post)
         fun processSingleItem(uri: String, mimeType: String)
         fun deleteItemAt(pos: Int)
     }

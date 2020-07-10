@@ -11,6 +11,7 @@ interface CommunityFeedContract {
         val posts: LiveData<PagedList<Post>>
         val channels: LiveData<PagedList<Channel>>
 
+        fun onEditPostClick(post: Post)
         fun onNewPostClick()
         fun onChannelClick(channel: Channel)
         fun onSeeAllClick()
@@ -22,6 +23,6 @@ interface CommunityFeedContract {
     }
 
     interface Router {
-        fun navigateToCreatePost()
+        fun navigateToCreatePost(post: Post? = null)
     }
 }

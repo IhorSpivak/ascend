@@ -13,6 +13,9 @@
             name="viewModel"
             type="com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract.ViewModel" />
 
+        <variable
+            name="isInUpdateMode"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +65,7 @@
                         style="@style/Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/create_post_title"
+                        android:text="@{isInUpdateMode?@string/update_post_title:@string/create_post_title}"
                         android:textColor="@color/colorAccent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="parent"
@@ -75,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:enabled="@{viewModel.canComplete}"
-                        android:text="@string/create_post_complete"
+                        android:text="@{isInUpdateMode?@string/create_post_update:@string/create_post_complete}"
                         android:textColor="@color/button_text_color_selector"
                         android:textSize="17sp"
                         app:layout_constraintBottom_toBottomOf="parent"

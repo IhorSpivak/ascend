@@ -60,4 +60,13 @@ interface ICommunityFeedGateway {
         commentId: Long,
         baseCallback: BaseCallback<Unit>
     )
+
+    fun updatePost(
+        coroutineScope: CoroutineScope,
+        postId: Long,
+        description: String,
+        deletedAttachments: Array<String>,
+        attachments: List<Attachment>,
+        baseCallback: BaseCallback<Post>
+    )
 }
