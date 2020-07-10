@@ -103,6 +103,18 @@ class PaginationDataSource<T> private constructor(
         private const val BASE_OFFSET = 0
         private const val BASE_LIMIT = 10
     }
+
+    override fun removeAt(index: Int): T {
+        return dataContainer.removeAt(index).also {
+            notifyChanged()
+        }
+    }
+
+    override fun remove(item: T): Boolean {
+        return dataContainer.remove(item).also {
+            notifyChanged()
+        }
+    }
 }
 
 interface PaginationSourceRemote<T> {
@@ -117,6 +129,8 @@ interface PaginationSourceLocal<T> {
 interface DataSource<T> {
     fun notifyChanged()
     fun loadNext()
+    fun remove(item: T): Boolean
+    fun removeAt(index: Int): T
     fun insert(index: Int, element: T)
     fun set(index: Int, element: T): T
 }

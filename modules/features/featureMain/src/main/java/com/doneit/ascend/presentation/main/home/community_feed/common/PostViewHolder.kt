@@ -75,7 +75,7 @@ class PostViewHolder(
         }
         btnBlock.setOnClickListener {
             if (post.isOwner) {
-                postClickListeners.onOptionsClick(post)
+                postClickListeners.onOptionsClick(it, post)
             } else postClickListeners.onComplainClick(post.id)
         }
         btnSend.setOnClickListener {

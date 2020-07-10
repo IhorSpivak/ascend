@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.local.data.community_feed
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
@@ -14,5 +15,5 @@ data class CommentLocal(
     val isPostOwner: Boolean,
     val postCommentsCount: Int,
     val text: String,
-    val user: BlockedUserLocal
+    @Embedded(prefix = "user") val user: BlockedUserLocal
 )

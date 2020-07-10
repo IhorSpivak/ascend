@@ -39,6 +39,17 @@ class CommunityFeedViewModel(
         router.navigateToCreatePost(post)
     }
 
+    override fun onDeletePostClick(post: Post) {
+        postsUseCase.deletePost(viewModelScope, postId = post.id, baseCallback = BaseCallback(
+            onSuccess = {
+                posts.value?.remove(post)
+            },
+            onError = {
+
+            }
+        ))
+    }
+
     override fun onChannelClick(channel: Channel) {
 
     }

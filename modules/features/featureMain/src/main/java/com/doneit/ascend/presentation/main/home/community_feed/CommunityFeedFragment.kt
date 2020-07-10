@@ -5,11 +5,17 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.view.Gravity
+import android.view.View
+import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
 import com.doneit.ascend.domain.entity.community_feed.Channel
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.presentation.common.RvLazyAdapter
+import com.doneit.ascend.presentation.dialog.DeleteDialog
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCommunityFeedBinding
 import com.doneit.ascend.presentation.main.home.community_feed.common.PostClickListeners
@@ -41,6 +47,8 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
         ) to { binding.rvPosts }
     }
 
+    private var currentDialog: AlertDialog? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         context.registerReceiver(newPostReceiver, IntentFilter(ACTION_NEW_POST))
@@ -55,7 +63,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
                     viewModel.likePost(id)
                 else viewModel.unlikePost(id)
             },
-            onOptionsClick = viewModel::onEditPostClick,
+            onOptionsClick = { view, post ->  showSetting(view, post)},
             onSendCommentClick = { id, text, _ -> viewModel.leaveComment(id, text) },
             onShareClick = {},
             onCreatePostListener = viewModel::onNewPostClick,
@@ -97,6 +105,38 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             arguments = Bundle().apply {
                 putParcelable(KEY_USER, user)
             }
+        }
+    }
+
+    private fun showSetting(view: View, post: Post){
+        PopupMenu(view.context, view, Gravity.START).apply {
+            menuInflater.inflate(R.menu.post_menu, this.menu)
+            setOnMenuItemClickListener {
+                when(it.itemId){
+                    R.id.post_edit ->{
+                        viewModel.onEditPostClick(post)
+                        true
+                    }
+                    R.id.post_delete ->{
+                        currentDialog = createDeleteDialog(post)
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }.show()
+    }
+
+    private fun createDeleteDialog(post: Post): AlertDialog {
+        return DeleteDialog.create(
+            requireContext(),
+            getString(R.string.delete_post_title_dialog),
+            R.string.delete_post_description_dialog,
+            R.string.delete_post_ok,
+            R.string.delete_post_cancel
+        ) {
+            currentDialog?.dismiss()
+            viewModel.onDeletePostClick(post)
         }
     }
 }

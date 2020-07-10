@@ -667,4 +667,9 @@
     <string name="create_post_update">Update</string>
     <string name="add_image_or_video">Add Image or Video</string>
     <string name="error">Error</string>
+    <string name="delete">Delete</string>
+    <string name="delete_post_title_dialog">Delete this post?</string>
+    <string name="delete_post_description_dialog">If you delete this post,\n it cannot be restored.</string>
+    <string name="delete_post_ok">Yes, delete</string>
+    <string name="delete_post_cancel">Cancel</string>
 </resources>

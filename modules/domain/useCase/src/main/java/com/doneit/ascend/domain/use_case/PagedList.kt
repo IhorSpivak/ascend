@@ -38,11 +38,11 @@ class PagedList<T> internal constructor(
     }
 
     override fun remove(element: T): Boolean {
-        return super.remove(element).also { notifyChanged() }
+        return dataSource.remove(element)
     }
 
     override fun removeAt(index: Int): T {
-        return super.removeAt(index).also { notifyChanged() }
+        return dataSource.removeAt(index)
     }
 
     override fun removeAll(elements: Collection<T>): Boolean {

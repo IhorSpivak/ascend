@@ -12,6 +12,7 @@ interface CommunityFeedContract {
         val channels: LiveData<PagedList<Channel>>
 
         fun onEditPostClick(post: Post)
+        fun onDeletePostClick(post: Post)
         fun onNewPostClick()
         fun onChannelClick(channel: Channel)
         fun onSeeAllClick()
