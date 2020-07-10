@@ -13,5 +13,6 @@ data class PostClickListeners(
     val onShareClick: (Long) -> Unit,
     val onCreatePostListener: () -> Unit,
     val onSeeAllClickListener: () -> Unit,
-    val onChannelClick: (Channel) -> Unit
+    val onChannelClick: (Channel) -> Unit,
+    val onCommentClick: (Long) -> Unit
 )

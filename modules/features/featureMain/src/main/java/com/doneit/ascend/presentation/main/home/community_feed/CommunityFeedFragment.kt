@@ -18,6 +18,7 @@ import com.doneit.ascend.presentation.dialog.DeleteDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCommunityFeedBinding
+import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewBottomSheetFragment
 import com.doneit.ascend.presentation.main.home.community_feed.common.PostClickListeners
 import com.doneit.ascend.presentation.main.home.community_feed.common.PostsAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
@@ -68,7 +69,14 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             onShareClick = {},
             onCreatePostListener = viewModel::onNewPostClick,
             onSeeAllClickListener = viewModel::onSeeAllClick,
-            onChannelClick = viewModel::onChannelClick
+            onChannelClick = viewModel::onChannelClick,
+            onCommentClick = {
+                CommentsViewBottomSheetFragment()
+                    .show(
+                        childFragmentManager,
+                        CommentsViewBottomSheetFragment::class.java.simpleName
+                    )
+            }
         )
     }
 

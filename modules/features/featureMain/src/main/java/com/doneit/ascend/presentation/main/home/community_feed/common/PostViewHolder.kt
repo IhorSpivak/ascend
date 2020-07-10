@@ -60,6 +60,9 @@ class PostViewHolder(
     private fun ListItemFeedBinding.setClickListeners(
         post: Post
     ) {
+        btnComments.setOnClickListener {
+            postClickListeners.onCommentClick(post.id)
+        }
         mmiAvatar.setOnClickListener {
             postClickListeners.onUserClick(post.owner.id)
         }
