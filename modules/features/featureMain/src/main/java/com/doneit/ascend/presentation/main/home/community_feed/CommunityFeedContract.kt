@@ -18,6 +18,7 @@ interface CommunityFeedContract {
         fun likePost(postId: Long)
         fun unlikePost(postId: Long)
         fun onUserClick(userId: Long)
+        fun newItem(post: Post)
     }
 
     interface Router {

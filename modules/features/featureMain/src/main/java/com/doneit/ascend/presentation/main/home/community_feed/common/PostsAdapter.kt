@@ -12,7 +12,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.diffutil.PostDiff
 class PostsAdapter(
     private val onPostClickListeners: PostClickListeners,
     private val user: UserEntity
-) : PaginationAdapter<Post, RecyclerView.ViewHolder>(PostDiffUtilCallback()) {
+) : PaginationAdapter<Post, RecyclerView.ViewHolder>(PostDiffUtilCallback(), 1) {
 
     private var channelList: PagedList<Channel>? = null
 
@@ -48,7 +48,7 @@ class PostsAdapter(
                 (holder as PostsHeaderViewHolder).bind(channelList ?: return)
             }
             TYPE_OTHER -> {
-                (holder as PostViewHolder).bind(currentList.orEmpty()[position - 1])
+                (holder as PostViewHolder).bind(getItem(position))
             }
             else -> throw IllegalArgumentException(
                 "Unsupported view type: ${getItemViewType(position)}"
@@ -73,7 +73,7 @@ class PostsAdapter(
             TYPE_OTHER -> with(holder as PostViewHolder) {
                 if (payloads.isNotEmpty()) {
                     updateFromPayloads(payloads)
-                } else bind(currentList.orEmpty()[position - 1])
+                } else bind(getItem(position))
             }
             else -> throw IllegalArgumentException(
                 "Unsupported view type: ${getItemViewType(position)}"
@@ -92,10 +92,6 @@ class PostsAdapter(
             0 -> TYPE_HEADER
             else -> TYPE_OTHER
         }
-    }
-
-    override fun getItemCount(): Int {
-        return (currentList?.size ?: 0) + 1
     }
 
     companion object {

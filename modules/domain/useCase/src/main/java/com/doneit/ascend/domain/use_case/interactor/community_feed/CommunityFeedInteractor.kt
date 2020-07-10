@@ -56,7 +56,7 @@ class CommunityFeedInteractor(
         coroutineScope: CoroutineScope,
         description: String,
         attachments: List<Attachment>,
-        baseCallback: BaseCallback<Unit>
+        baseCallback: BaseCallback<Post>
     ) {
         return gateway.createPost(coroutineScope, description, attachments, baseCallback)
     }

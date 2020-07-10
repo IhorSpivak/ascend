@@ -13,6 +13,6 @@ class ChannelAdapter(
     }
 
     override fun onBindViewHolder(holder: ChannelViewHolder, position: Int) {
-        holder.bind(currentList.orEmpty()[position])
+        holder.bind(getItem(position))
     }
 }

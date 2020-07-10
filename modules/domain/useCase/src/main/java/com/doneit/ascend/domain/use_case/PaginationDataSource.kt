@@ -47,6 +47,10 @@ class PaginationDataSource<T> private constructor(
         postValue(PagedList(this, 0.7f, dataContainer))
     }
 
+    override fun insert(index: Int, element: T) {
+        dataContainer.add(index, element)
+    }
+
     class Builder<T> {
         private var coroutineScope: CoroutineScope = GlobalScope
         private var offset = BASE_OFFSET
@@ -108,4 +112,5 @@ interface PaginationSourceLocal<T> {
 interface DataSource<T> {
     fun notifyChanged()
     fun loadNext()
+    fun insert(index: Int, element: T)
 }

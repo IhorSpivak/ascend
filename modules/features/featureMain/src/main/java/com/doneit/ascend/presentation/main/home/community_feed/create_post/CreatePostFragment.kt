@@ -7,9 +7,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import com.androidisland.ezpermission.EzPermission
+import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCreatePostBinding
+import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedFragment
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.common.CreatePostAdapter
 import com.doneit.ascend.presentation.utils.extensions.requestPermissions
 import com.doneit.ascend.presentation.utils.showErrorDialog
@@ -64,7 +66,16 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         with(viewModel) {
             observe(attachments, adapter::submitItems)
             observe(showPopupEvent, ::showPopup)
+            observe(result, ::setResult)
         }
+    }
+
+    private fun setResult(post: Post) {
+        val result = Intent().apply {
+            action = CommunityFeedFragment.ACTION_NEW_POST
+            putExtra(RESULT, post)
+        }
+        requireContext().sendBroadcast(result)
     }
 
     private fun showPopup(text: String) {
@@ -120,6 +131,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     }
 
     companion object {
+        const val RESULT = "result"
         private const val REQUEST_CODE_MEDIA = 101
         private const val MIME_TYPE_IMAGE = "image/*"
         private const val MIME_TYPE_VIDEO = "video/*"

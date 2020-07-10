@@ -192,13 +192,13 @@ class CommunityFeedGateway(
         coroutineScope: CoroutineScope,
         description: String,
         attachments: List<Attachment>,
-        baseCallback: BaseCallback<Unit>
+        baseCallback: BaseCallback<Post>
     ) {
         coroutineScope.launch(Dispatchers.IO) {
-            val response = communityRemote.createPost(description, attachments.map { it.toRequest() })
+            val response =
+                communityRemote.createPost(description, attachments.map { it.toRequest() })
             if (response.isSuccessful) {
-
-                baseCallback.onSuccess(Unit)
+                baseCallback.onSuccess(response.successModel!!.toEntity())
             } else {
                 baseCallback.onError(response.message)
             }

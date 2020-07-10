@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.home.community_feed
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Channel
+import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
@@ -74,5 +75,9 @@ class CommunityFeedViewModel(
     }
 
     override fun onUserClick(userId: Long) {
+    }
+
+    override fun newItem(post: Post) {
+        posts.value?.add(0, post)
     }
 }

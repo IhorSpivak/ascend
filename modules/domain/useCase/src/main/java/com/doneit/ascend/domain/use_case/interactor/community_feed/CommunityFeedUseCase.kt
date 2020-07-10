@@ -43,6 +43,6 @@ interface CommunityFeedUseCase {
         coroutineScope: CoroutineScope,
         description: String,
         attachments: List<Attachment>,
-        baseCallback: BaseCallback<Unit>
+        baseCallback: BaseCallback<Post>
     )
 }

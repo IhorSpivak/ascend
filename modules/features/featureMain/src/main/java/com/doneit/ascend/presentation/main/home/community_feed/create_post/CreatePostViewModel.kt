@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.community_feed.getContentTypeFromMime
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -25,6 +26,7 @@ class CreatePostViewModel(
     override val canComplete = MutableLiveData(false)
     override val attachments = MutableLiveData<List<Attachment>>(createPostModel.media)
     override val showPopupEvent = SingleLiveEvent<String>()
+    override val result = SingleLiveEvent<Post>()
 
     init {
         createPostModel.description.validator = {
@@ -44,6 +46,7 @@ class CreatePostViewModel(
             createPostModel.media,
             BaseCallback(
                 onSuccess = {
+                    result.postValue(it)
                     router.onBack()
                 },
                 onError = {

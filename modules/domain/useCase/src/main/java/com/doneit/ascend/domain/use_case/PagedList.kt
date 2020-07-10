@@ -61,6 +61,11 @@ class PagedList<T> internal constructor(
         return super.add(element).also { notifyChanged() }
     }
 
+    override fun add(index: Int, element: T) {
+        dataSource.insert(index, element)
+        notifyChanged()
+    }
+
     override fun get(index: Int): T {
         if ((index + 1).toFloat() / size >= threshold && !isLocked) {
             dataSource.loadNext()
