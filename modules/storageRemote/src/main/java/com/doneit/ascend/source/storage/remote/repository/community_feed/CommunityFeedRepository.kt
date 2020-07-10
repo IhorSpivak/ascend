@@ -115,12 +115,12 @@ internal class CommunityFeedRepository(
     }
 
     override suspend fun getComments(
-        commentId: Long,
+        postId: Long,
         commentsRequest: CommentsRequest
     ): RemoteResponse<CommentsResponse, ErrorsListResponse> {
         return execute({
             api.getCommentsAsync(
-                postId = commentId,
+                postId = postId,
                 page = commentsRequest.page,
                 perPage = commentsRequest.perPage,
                 sortColumn = commentsRequest.sortColumn,
@@ -140,6 +140,12 @@ internal class CommunityFeedRepository(
     ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({
             api.deleteCommentAsync(postId, commentId)
+        }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun deletePost(postId: Long): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({
+            api.deletePostAsync(postId)
         }, ErrorsListResponse::class.java)
     }
 

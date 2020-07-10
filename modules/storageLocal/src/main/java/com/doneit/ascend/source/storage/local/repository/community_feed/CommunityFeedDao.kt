@@ -29,9 +29,6 @@ interface CommunityFeedDao {
     @Delete
     suspend fun delete(attachment: PostAttachmentLocal)
 
-    @Delete
-    suspend fun delete(post: PostLocal)
-
     @Query("DELETE FROM post")
     suspend fun deleteAll()
 
@@ -46,4 +43,7 @@ interface CommunityFeedDao {
 
     @Query("DELETE FROM comment WHERE id = :commentId")
     suspend fun deleteCommentById(commentId: Long)
+
+    @Query("DELETE FROM post WHERE id = :postId")
+    suspend fun deletePostById(postId: Long)
 }

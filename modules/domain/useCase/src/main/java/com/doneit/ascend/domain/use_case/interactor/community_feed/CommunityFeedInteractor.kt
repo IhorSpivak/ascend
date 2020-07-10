@@ -71,13 +71,21 @@ class CommunityFeedInteractor(
         return gateway.loadComments(coroutineScope, postId, commentsRequest)
     }
 
-    override fun deletePost(
+    override fun deleteComment(
         coroutineScope: CoroutineScope,
         postId: Long,
         commentId: Long,
         baseCallback: BaseCallback<Unit>
     ) {
         return gateway.deleteComment(coroutineScope, postId = postId, commentId = commentId, baseCallback = baseCallback)
+    }
+
+    override fun deletePost(
+        coroutineScope: CoroutineScope,
+        postId: Long,
+        baseCallback: BaseCallback<Unit>
+    ) {
+        return gateway.deletePost(coroutineScope, postId = postId, baseCallback = baseCallback)
     }
 
     override fun updatePost(

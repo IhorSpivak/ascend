@@ -69,4 +69,11 @@ interface ICommunityFeedGateway {
         attachments: List<Attachment>,
         baseCallback: BaseCallback<Post>
     )
+
+    fun deletePost(
+        scope: CoroutineScope,
+        postId: Long,
+        baseCallback: BaseCallback<Unit>
+    )
+
 }

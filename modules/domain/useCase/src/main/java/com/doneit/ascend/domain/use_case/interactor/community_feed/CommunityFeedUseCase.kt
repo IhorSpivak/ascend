@@ -54,10 +54,16 @@ interface CommunityFeedUseCase {
         commentsRequest: CommentsDTO
     ): LiveData<PagedList<Comment>>
 
-    fun deletePost(
+    fun deleteComment(
         coroutineScope: CoroutineScope,
         postId: Long,
         commentId: Long,
+        baseCallback: BaseCallback<Unit>
+    )
+
+    fun deletePost(
+        coroutineScope: CoroutineScope,
+        postId: Long,
         baseCallback: BaseCallback<Unit>
     )
 

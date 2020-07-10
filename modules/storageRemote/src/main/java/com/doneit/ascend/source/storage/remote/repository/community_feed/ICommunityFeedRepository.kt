@@ -29,6 +29,8 @@ interface ICommunityFeedRepository {
 
     suspend fun deleteComment(postId: Long, commentId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
 
+    suspend fun deletePost(postId: Long): RemoteResponse<OKResponse, ErrorsListResponse>
+
     suspend fun updatePost(
         postId: Long,
         description: String,

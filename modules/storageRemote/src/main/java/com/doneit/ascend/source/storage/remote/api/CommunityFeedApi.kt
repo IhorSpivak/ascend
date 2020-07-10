@@ -56,11 +56,17 @@ interface CommunityFeedApi {
         @Query("text") text: String?
     ): Deferred<Response<CommentsResponse>>
 
-    @POST("posts/{post_id}/comments/{comment_id}")
+    @DELETE("posts/{post_id}/comments/{comment_id}")
     fun deleteCommentAsync(
         @Path("post_id") postId: Long,
         @Path("comment_id") commentId: Long
     ): Deferred<Response<OKResponse>>
+
+    @DELETE("posts/{post_id}")
+    fun deletePostAsync(
+        @Path("post_id") postId: Long
+    ): Deferred<Response<OKResponse>>
+
 
     @Multipart
     @PATCH("posts/{post_id}")

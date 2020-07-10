@@ -229,6 +229,18 @@ class CommunityFeedGateway(
         }
     }
 
+    override fun deletePost(scope: CoroutineScope, postId: Long, baseCallback: BaseCallback<Unit>) {
+        scope.launch(Dispatchers.IO) {
+            val response = communityRemote.deletePost(postId)
+            if (response.isSuccessful) {
+                communityLocal.deletePost(postId)
+                baseCallback.onSuccess(Unit)
+            } else {
+                baseCallback.onError(response.message)
+            }
+        }
+    }
+
     override fun loadComments(
         scope: CoroutineScope,
         postId: Long,

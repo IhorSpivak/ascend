@@ -12,5 +12,6 @@ interface ICommunityFeedRepository {
     suspend fun insertComment(comment: CommentLocal)
     suspend fun insertComments(comments: List<CommentLocal>)
     suspend fun deleteComment(id: Long)
+    suspend fun deletePost(id: Long)
     suspend fun deleteAll()
 }

@@ -39,6 +39,10 @@ internal class CommunityFeedRepository(
         communityFeedDao.deleteCommentById(id)
     }
 
+    override suspend fun deletePost(id: Long) {
+        communityFeedDao.deletePostById(id)
+    }
+
     override suspend fun insertComments(comments: List<CommentLocal>) {
         communityFeedDao.insertAllComments(comments)
     }
