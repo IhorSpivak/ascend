@@ -21,6 +21,7 @@ interface CommunityFeedContract {
         fun unlikePost(postId: Long)
         fun onUserClick(userId: Long)
         fun newItem(post: Post)
+        fun reportUser(reason: String, userId: Long)
     }
 
     interface Router {

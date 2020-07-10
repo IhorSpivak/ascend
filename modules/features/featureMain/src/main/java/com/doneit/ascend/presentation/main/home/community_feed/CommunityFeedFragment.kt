@@ -15,6 +15,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.presentation.common.RvLazyAdapter
 import com.doneit.ascend.presentation.dialog.DeleteDialog
+import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCommunityFeedBinding
@@ -58,7 +59,9 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     private fun postClickListeners(): PostClickListeners {
         return PostClickListeners(
             onUserClick = viewModel::onUserClick,
-            onComplainClick = {},
+            onComplainClick = {
+               showAbuseDialog(it)
+            },
             onLikeClick = { liked, id, _ ->
                 if (!liked)
                     viewModel.likePost(id)
@@ -133,6 +136,16 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
                 }
             }
         }.show()
+    }
+
+    private fun showAbuseDialog(userId: Long) {
+        currentDialog = ReportAbuseDialog.create(
+            requireContext()
+        ) {
+            currentDialog?.dismiss()
+            viewModel.reportUser(it, userId)
+        }
+        currentDialog?.show()
     }
 
     private fun createDeleteDialog(post: Post): AlertDialog {

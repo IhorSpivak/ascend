@@ -7,14 +7,18 @@ import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
+import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import kotlinx.coroutines.launch
 
 @CreateFactory
 @ViewModelDiModule
 class CommunityFeedViewModel(
     private val postsUseCase: CommunityFeedUseCase,
+    private val userUseCase: UserUseCase,
     private val router: CommunityFeedContract.Router
 ) : BaseViewModelImpl(), CommunityFeedContract.ViewModel {
     override val posts = postsUseCase.loadPosts(
@@ -98,6 +102,16 @@ class CommunityFeedViewModel(
             posts.value?.add(0, post)
         } else {
             posts.value?.set(index, post)
+        }
+    }
+
+    override fun reportUser(reason: String, userId: Long) {
+        viewModelScope.launch {
+                userUseCase.report(reason, userId.toString()).let {
+                    if (it.isSuccessful.not()) {
+                        showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                    }
+                }
         }
     }
 }
