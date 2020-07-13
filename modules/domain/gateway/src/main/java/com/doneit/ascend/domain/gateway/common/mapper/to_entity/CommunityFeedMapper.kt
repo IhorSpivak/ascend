@@ -4,13 +4,11 @@ import com.doneit.ascend.domain.entity.ImageEntity
 import com.doneit.ascend.domain.entity.OwnerEntity
 import com.doneit.ascend.domain.entity.ThumbnailEntity
 import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
-import com.doneit.ascend.domain.entity.community_feed.Attachment
-import com.doneit.ascend.domain.entity.community_feed.Comment
-import com.doneit.ascend.domain.entity.community_feed.ContentType
-import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.community_feed.*
 import com.doneit.ascend.source.storage.remote.data.request.AttachmentRequest
 import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.AttachmentResponse
+import com.doneit.ascend.source.storage.remote.data.response.community_feed.CommunityFeedEventMessage
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
 import com.vrgsoft.core.gateway.orMinusOne
 import com.vrgsoft.core.gateway.orZero
@@ -67,5 +65,13 @@ fun Attachment.toRequest(): AttachmentRequest {
     return AttachmentRequest(
         contentType = contentType.mimeType,
         url = url
+    )
+}
+
+fun CommunityFeedEventMessage.toEntity(): CommunityFeedSocketEntity {
+    return CommunityFeedSocketEntity(
+        postId = postId,
+        commentsCount = commentsCount,
+        event = CommunityFeedSocketEvent.fromRemoteString(event.orEmpty())
     )
 }

@@ -7,10 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.community_feed.Comment
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemOtherCommentBinding
-import com.doneit.ascend.presentation.utils.extensions.MESSAGE_FORMATTER
-import com.doneit.ascend.presentation.utils.extensions.calculateDate
-import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
-import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
+import com.doneit.ascend.presentation.utils.extensions.*
 
 class OtherCommentHolder(
     itemView: View
@@ -19,6 +16,7 @@ class OtherCommentHolder(
 
     override fun bind(comment: Comment, nextComment: Comment?): Unit = with(binding){
         this.comment = comment
+        this.memberEntity = comment.user
         time.apply {
             text = MESSAGE_FORMATTER.toDefaultFormatter().format(comment.createdAt)
             visibleOrGone(
@@ -27,6 +25,10 @@ class OtherCommentHolder(
                     nextComment.createdAt
                 )
             )
+            userImage.visible(comment.user.id != nextComment?.user?.id)
+            corner.visible(nextComment == null || comment.user.id != nextComment.user.id)
+            //TODO: check if we need online status
+            isOnline.visible(false)
         }
     }
 

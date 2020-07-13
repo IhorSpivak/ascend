@@ -2,16 +2,20 @@ package com.doneit.ascend.domain.use_case.gateway
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.common.BaseCallback
-import com.doneit.ascend.domain.entity.community_feed.Attachment
-import com.doneit.ascend.domain.entity.community_feed.Channel
-import com.doneit.ascend.domain.entity.community_feed.Comment
-import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.community_feed.*
 import com.doneit.ascend.domain.entity.dto.CommentsDTO
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
 import com.doneit.ascend.domain.use_case.PagedList
 import kotlinx.coroutines.CoroutineScope
 
 interface ICommunityFeedGateway {
+
+    val commentStream: LiveData<CommunityFeedSocketEntity?>
+
+    fun connectToChannel(community: String)
+
+    fun disconnect()
+
     fun loadPosts(
         scope: CoroutineScope,
         communityFeedDTO: CommunityFeedDTO

@@ -15,6 +15,17 @@ import kotlinx.coroutines.CoroutineScope
 class CommunityFeedInteractor(
     private val gateway: ICommunityFeedGateway
 ) : CommunityFeedUseCase {
+    override val commentStream = gateway.commentStream
+
+
+    override fun connectToChannel(community: String) {
+        gateway.connectToChannel(community)
+    }
+
+    override fun disconnect() {
+        gateway.disconnect()
+    }
+
     override fun loadPosts(
         coroutineScope: CoroutineScope,
         feedRequest: CommunityFeedDTO

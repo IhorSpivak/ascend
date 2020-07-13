@@ -1,7 +1,9 @@
 package com.doneit.ascend.domain.gateway.gateway.community_feed
 
+import android.accounts.AccountManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Channel
@@ -20,18 +22,49 @@ import com.doneit.ascend.domain.use_case.PaginationDataSource
 import com.doneit.ascend.domain.use_case.PaginationSourceLocal
 import com.doneit.ascend.domain.use_case.PaginationSourceRemote
 import com.doneit.ascend.domain.use_case.gateway.ICommunityFeedGateway
+import com.doneit.ascend.source.storage.remote.data.request.group.CommunityFeedCookies
 import com.doneit.ascend.source.storage.remote.repository.community_feed.ICommunityFeedRepository
+import com.doneit.ascend.source.storage.remote.repository.community_feed.socket.ICommunityFeedSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.doneit.ascend.source.storage.local.repository.community_feed.ICommunityFeedRepository as ILocalCommunityFeedRepository
 
 class CommunityFeedGateway(
     networkManager: NetworkManager,
     private val communityRemote: ICommunityFeedRepository,
-    private val communityLocal: ILocalCommunityFeedRepository
+    private val communityLocal: ILocalCommunityFeedRepository,
+    private val remoteSocket: ICommunityFeedSocketRepository,
+    private val accountManager: AccountManager,
+    private val packageName: String
 ) : BaseGateway(networkManager), ICommunityFeedGateway {
+
+    override val commentStream = remoteSocket.commentStream.map { it?.toEntity() }
+
+    override fun connectToChannel(community: String) {
+        GlobalScope.launch {
+
+            //TODO: create gateway for account manager:
+            val accounts = accountManager.getAccountsByType(packageName)
+
+            if (accounts.isNotEmpty()) {
+                val account = accounts[0]
+                val token = accountManager.blockingGetAuthToken(account, "Bearer", false)
+                val cookies =
+                    CommunityFeedCookies(
+                        token,
+                        community
+                    )
+                remoteSocket.connect(cookies)
+            }
+        }
+    }
+
+    override fun disconnect() {
+        remoteSocket.disconnect()
+    }
 
     override fun loadPosts(
         scope: CoroutineScope,

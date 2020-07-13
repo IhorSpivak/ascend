@@ -84,6 +84,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
+        viewModel.initUser(requireArguments().getParcelable(KEY_USER)!!)
         initPostsAdapter
         binding.rvPosts.itemAnimator = null
         observeData()
