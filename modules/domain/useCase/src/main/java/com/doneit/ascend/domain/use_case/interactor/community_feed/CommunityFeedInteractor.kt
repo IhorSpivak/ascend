@@ -49,7 +49,7 @@ class CommunityFeedInteractor(
         coroutineScope: CoroutineScope,
         postId: Long,
         postComment: String,
-        baseCallback: BaseCallback<Unit>
+        baseCallback: BaseCallback<Comment>
     ) {
         gateway.createPostComment(coroutineScope, postId, postComment, baseCallback)
     }

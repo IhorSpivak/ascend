@@ -8,5 +8,9 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 interface CommentsViewContract {
     interface ViewModel : BaseViewModel {
         val comments: LiveData<PagedList<Comment>>
+        val commentsCount: LiveData<Int>
+        fun onDeleteComment(comment: Comment)
+        fun leaveComment(message: String)
+        fun setCommentsCount(count: Int)
     }
 }

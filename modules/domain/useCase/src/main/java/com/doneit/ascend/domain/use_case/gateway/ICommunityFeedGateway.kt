@@ -38,7 +38,7 @@ interface ICommunityFeedGateway {
         coroutineScope: CoroutineScope,
         postId: Long,
         postComment: String,
-        baseCallback: BaseCallback<Unit>
+        baseCallback: BaseCallback<Comment>
     )
 
     fun createPost(

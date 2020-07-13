@@ -7,5 +7,5 @@ import com.doneit.ascend.domain.entity.community_feed.Comment
 abstract class BaseCommentHolder(
     itemView: View
 ) : RecyclerView.ViewHolder(itemView) {
-    abstract fun bind(comment: Comment)
+    abstract fun bind(comment: Comment, nextComment: Comment?)
 }

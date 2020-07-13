@@ -19,12 +19,13 @@ class CommentsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val nextMessage = if (position != itemCount - 1) getItem(position + 1) else null
         when (getItemViewType(position)) {
             VT_OWN_MESSAGE -> {
-                (holder as OwnCommentHolder).bind(getItem(position))
+                (holder as OwnCommentHolder).bind(getItem(position), nextMessage)
             }
             VT_OTHER_MESSAGE -> {
-                (holder as OtherCommentHolder).bind(getItem(position))
+                (holder as OtherCommentHolder).bind(getItem(position), nextMessage)
             }
             else -> throw IllegalArgumentException(
                 "Unsupported view type: ${getItemViewType(position)}"

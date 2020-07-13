@@ -4,7 +4,7 @@
         <item name="colorPrimary">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/white</item>
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="buttonStyle">@style/AppTheme.Button</item>
         <item name="android:buttonStyle">@style/AppTheme.Button</item>
 
@@ -354,6 +354,16 @@
         <item name="android:textSize">14sp</item>
         <item name="android:colorControlNormal">@null</item>
 
+    </style>
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_white_round_top</item>
     </style>
 
 </resources>

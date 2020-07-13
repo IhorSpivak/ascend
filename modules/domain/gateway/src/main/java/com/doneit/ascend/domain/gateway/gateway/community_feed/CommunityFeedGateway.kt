@@ -177,13 +177,13 @@ class CommunityFeedGateway(
         coroutineScope: CoroutineScope,
         postId: Long,
         postComment: String,
-        baseCallback: BaseCallback<Unit>
+        baseCallback: BaseCallback<Comment>
     ) {
         coroutineScope.launch(Dispatchers.IO) {
             val response = communityRemote.leaveComment(postId, postComment)
             if (response.isSuccessful) {
                 communityLocal.insertComment(response.successModel!!.toEntity().toLocal())
-                baseCallback.onSuccess(Unit)
+                baseCallback.onSuccess(response.successModel!!.toEntity())
             } else {
                 baseCallback.onError(response.message)
             }

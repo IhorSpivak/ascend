@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.community_feed.Comment
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
+import com.doneit.ascend.presentation.common.RvLazyAdapter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.FragmentCommentsViewBinding
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.common.CommentsAdapter
@@ -40,17 +41,19 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
     }
     private lateinit var binding: FragmentCommentsViewBinding
     private val viewModel: CommentsViewContract.ViewModel by instance()
-    private val commentsAdapter by lazy {
+    private val commentsAdapter by RvLazyAdapter {
         CommentsAdapter(
             requireArguments().getParcelable(KEY_USER)!!,
             commentsClickListener()
-        )
+        ) to { binding.rvComments }
     }
 
     private fun commentsClickListener(): CommentsClickListener {
         return CommentsClickListener(
             onUserClick = {},
-            onDeleteClick = {}
+            onDeleteClick = {
+                viewModel.onDeleteComment(it)
+            }
         )
     }
 
@@ -70,14 +73,25 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.model = viewModel
+        commentsAdapter
         binding.apply {
+            lifecycleOwner = this@CommentsViewBottomSheetFragment
+            rvComments.itemAnimator = null
+            send.setOnClickListener {
+                if (message.text.toString().isNotBlank()) {
+                    viewModel.leaveComment(message.text.toString())
+                    message.text.clear()
+                }
 
+            }
         }
         observeData()
     }
 
     private fun onGetComments(comments: PagedList<Comment>) {
-
+        viewModel.setCommentsCount(comments.last.postCommentsCount)
+        commentsAdapter.submitList(comments)
     }
 
     private fun observeData() {
