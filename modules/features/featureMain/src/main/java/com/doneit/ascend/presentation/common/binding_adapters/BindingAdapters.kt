@@ -17,6 +17,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.SearchEntity
 import com.doneit.ascend.domain.entity.group.GroupType
@@ -80,9 +81,9 @@ fun setAdapter(
 
 @BindingAdapter("app:setImage", "app:placeholder", requireAll = false)
 fun setImage(view: AppCompatImageView, url: String?, placeholder: Drawable?) {
-
     Glide.with(view)
         .load(url)
+        .transition(DrawableTransitionOptions.withCrossFade())
         .placeholder(placeholder)
         .into(view)
 }

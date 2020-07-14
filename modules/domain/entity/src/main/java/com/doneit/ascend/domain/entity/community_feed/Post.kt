@@ -9,7 +9,7 @@ import java.util.*
 data class Post(
     val id: Long,
     val attachments: List<Attachment>,
-    var commentsCount: Int,
+    val commentsCount: Int,
     val createdAt: Date,
     val description: String,
     var isLikedMe: Boolean,
