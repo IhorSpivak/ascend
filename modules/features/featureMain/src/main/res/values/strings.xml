@@ -674,4 +674,11 @@
     <string name="delete_post_description_dialog">If you delete this post,\n it cannot be restored.</string>
     <string name="delete_post_ok">Yes, delete</string>
     <string name="delete_post_cancel">Cancel</string>
+
+    <!--Share Post-->
+    <string name="filter_chat">Chat</string>
+    <string name="filter_channel">Channel</string>
+    <string name="filter_user">User</string>
+    <string name="share_to">Share To</string>
+
 </resources>

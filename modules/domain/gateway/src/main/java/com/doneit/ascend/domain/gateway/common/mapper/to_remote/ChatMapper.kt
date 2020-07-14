@@ -5,29 +5,33 @@ import com.doneit.ascend.source.storage.remote.data.request.*
 
 fun ChatListDTO.toRequest(): MyChatsListRequest {
     return MyChatsListRequest(
-        page,
-        perPage,
-        sortColumn,
-        sortType?.toString(),
-        title,
-        createdAtFrom,
-        createdAtTo,
-        updatedAtTo,
-        updatedAtFrom
+        page = page,
+        perPage = perPage,
+        sortColumn = sortColumn,
+        sortType = sortType?.toString(),
+        title = title,
+        createdAtFrom = createdAtFrom,
+        createdAtTo = createdAtTo,
+        updatedAtTo = updatedAtTo,
+        updatedAtFrom = updatedAtFrom,
+        chatType = chatType?.toString(),
+        allChannels = allChannels
     )
 }
 
 fun ChatListDTO.toRequest(page: Int): MyChatsListRequest {
     return MyChatsListRequest(
-        page,
-        perPage,
-        sortColumn,
-        sortType?.toString(),
-        title,
-        createdAtFrom,
-        createdAtTo,
-        updatedAtTo,
-        updatedAtFrom
+        page = page,
+        perPage = perPage,
+        sortColumn = sortColumn,
+        sortType = sortType?.toString(),
+        title = title,
+        createdAtFrom = createdAtFrom,
+        createdAtTo = createdAtTo,
+        updatedAtTo = updatedAtTo,
+        updatedAtFrom = updatedAtFrom,
+        chatType = chatType?.toString(),
+        allChannels = allChannels
     )
 }
 

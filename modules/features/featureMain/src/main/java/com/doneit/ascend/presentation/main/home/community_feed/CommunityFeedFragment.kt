@@ -23,6 +23,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.comments_view.Com
 import com.doneit.ascend.presentation.main.home.community_feed.common.PostClickListeners
 import com.doneit.ascend.presentation.main.home.community_feed.common.PostsAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
 
@@ -67,7 +68,13 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             },
             onOptionsClick = ::showSetting,
             onSendCommentClick = { id, text, _ -> viewModel.leaveComment(id, text) },
-            onShareClick = {},
+            onShareClick = {
+                SharePostBottomSheetFragment.newInstance(it, requireArguments().getParcelable(KEY_USER)!!)
+                    .show(
+                        childFragmentManager,
+                        SharePostBottomSheetFragment::class.java.simpleName
+                    )
+            },
             onCreatePostListener = viewModel::onNewPostClick,
             onSeeAllClickListener = viewModel::onSeeAllClick,
             onChannelClick = viewModel::onChannelClick,
