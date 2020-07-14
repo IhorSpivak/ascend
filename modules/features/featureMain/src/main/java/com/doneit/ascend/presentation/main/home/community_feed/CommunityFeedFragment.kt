@@ -59,28 +59,32 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     private fun postClickListeners(): PostClickListeners {
         return PostClickListeners(
             onUserClick = viewModel::onUserClick,
-            onComplainClick = {
-               showAbuseDialog(it)
-            },
+            onComplainClick = ::showAbuseDialog,
             onLikeClick = { liked, id, _ ->
                 if (!liked)
                     viewModel.likePost(id)
                 else viewModel.unlikePost(id)
             },
-            onOptionsClick = { view, post ->  showSetting(view, post)},
+            onOptionsClick = ::showSetting,
             onSendCommentClick = { id, text, _ -> viewModel.leaveComment(id, text) },
             onShareClick = {},
             onCreatePostListener = viewModel::onNewPostClick,
             onSeeAllClickListener = viewModel::onSeeAllClick,
             onChannelClick = viewModel::onChannelClick,
-            onCommentClick = {
-                CommentsViewBottomSheetFragment.newInstance(it, requireArguments().getParcelable(KEY_USER)!!)
-                    .show(
-                        childFragmentManager,
-                        CommentsViewBottomSheetFragment::class.java.simpleName
-                    )
-            }
+            onCommentClick = ::showComments,
+            onMediaClick = viewModel::attachmentClicked
         )
+    }
+
+    private fun showComments(it: Long) {
+        CommentsViewBottomSheetFragment.newInstance(
+            it,
+            requireArguments().getParcelable(KEY_USER)!!
+        )
+            .show(
+                childFragmentManager,
+                CommentsViewBottomSheetFragment::class.java.simpleName
+            )
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -120,16 +124,16 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
         }
     }
 
-    private fun showSetting(view: View, post: Post){
+    private fun showSetting(view: View, post: Post) {
         PopupMenu(view.context, view, Gravity.START).apply {
             menuInflater.inflate(R.menu.post_menu, this.menu)
             setOnMenuItemClickListener {
-                when(it.itemId){
-                    R.id.post_edit ->{
+                when (it.itemId) {
+                    R.id.post_edit -> {
                         viewModel.onEditPostClick(post)
                         true
                     }
-                    R.id.post_delete ->{
+                    R.id.post_delete -> {
                         currentDialog = createDeleteDialog(post)
                         true
                     }

@@ -90,7 +90,7 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
     }
 
     private fun onGetComments(comments: PagedList<Comment>) {
-        viewModel.setCommentsCount(comments.last.postCommentsCount)
+        viewModel.setCommentsCount(comments.last().postCommentsCount)
         commentsAdapter.submitList(comments)
     }
 

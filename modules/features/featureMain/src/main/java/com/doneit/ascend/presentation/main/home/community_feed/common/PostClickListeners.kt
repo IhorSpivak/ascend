@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.home.community_feed.common
 
 import android.view.View
+import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Channel
 import com.doneit.ascend.domain.entity.community_feed.Post
 
@@ -14,5 +15,6 @@ data class PostClickListeners(
     val onCreatePostListener: () -> Unit,
     val onSeeAllClickListener: () -> Unit,
     val onChannelClick: (Channel) -> Unit,
-    val onCommentClick: (Long) -> Unit
+    val onCommentClick: (Long) -> Unit,
+    val onMediaClick: (List<Attachment>, Int) -> Unit
 )

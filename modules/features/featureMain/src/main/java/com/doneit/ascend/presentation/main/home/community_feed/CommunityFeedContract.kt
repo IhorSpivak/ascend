@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.home.community_feed
 
 import androidx.lifecycle.LiveData
+import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Channel
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -24,9 +25,11 @@ interface CommunityFeedContract {
         fun onUserClick(userId: Long)
         fun newItem(post: Post)
         fun reportUser(reason: String, userId: Long)
+        fun attachmentClicked(attachments: List<Attachment>, selected: Int)
     }
 
     interface Router {
         fun navigateToCreatePost(post: Post? = null)
+        fun navigateToPreview(attachments: List<Attachment>, selected: Int)
     }
 }

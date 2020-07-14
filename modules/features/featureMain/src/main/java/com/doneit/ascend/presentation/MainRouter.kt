@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.entity.ascension.goal.GoalEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
@@ -61,6 +62,7 @@ import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
+import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
 import com.doneit.ascend.presentation.main.home.master_mind.filter.FilterFragment
 import com.doneit.ascend.presentation.main.home.webinars.WebinarsContract
@@ -562,5 +564,9 @@ class MainRouter(
 
     override fun navigateToCreatePost(post: Post?) {
         manager.replaceWithBackStack(containerIdFull, CreatePostFragment.newInstance(post))
+    }
+
+    override fun navigateToPreview(attachments: List<Attachment>, selected: Int) {
+        manager.replaceWithBackStack(containerIdFull, PreviewFragment.newInstance(attachments))
     }
 }

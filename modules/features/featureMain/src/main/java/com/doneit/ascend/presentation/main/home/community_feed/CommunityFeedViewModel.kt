@@ -3,10 +3,7 @@ package com.doneit.ascend.presentation.main.home.community_feed
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.common.BaseCallback
-import com.doneit.ascend.domain.entity.community_feed.Channel
-import com.doneit.ascend.domain.entity.community_feed.CommunityFeedSocketEntity
-import com.doneit.ascend.domain.entity.community_feed.CommunityFeedSocketEvent
-import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.community_feed.*
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -131,6 +128,10 @@ class CommunityFeedViewModel(
         }
     }
 
+    override fun attachmentClicked(attachments: List<Attachment>, selected: Int) {
+        router.navigateToPreview(attachments, selected)
+    }
+
     override fun onCleared() {
         super.onCleared()
         postsUseCase.disconnect()
@@ -146,7 +147,10 @@ class CommunityFeedViewModel(
                         val index = posts.value?.indexOf(post)
                         post?.let {
                             if (index != null && index != -1) {
-                                posts.value?.set(index, it.copy(commentsCount = socketEvent.commentsCount))
+                                posts.value?.set(
+                                    index,
+                                    it.copy(commentsCount = socketEvent.commentsCount)
+                                )
                             }
                         }
                     }

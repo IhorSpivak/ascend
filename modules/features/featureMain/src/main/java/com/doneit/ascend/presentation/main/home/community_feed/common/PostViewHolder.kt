@@ -92,6 +92,11 @@ class PostViewHolder(
                 etInputMessage.hideKeyboard()
             }
         }
+        vdFirst.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 0) }
+        imvFirst.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 0) }
+        vdSecond.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 1) }
+        imvSecond.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 1) }
+        imvThird.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 2) }
     }
 
     private fun ListItemFeedBinding.setupAttachments(attachments: List<Attachment>) {
@@ -112,17 +117,6 @@ class PostViewHolder(
     }
 
     private fun ImageView.loadImage(url: String) {
-        Glide.with(this)
-            .asBitmap()
-            .load(url)
-            .error(R.drawable.ic_action_block)
-            .centerCrop()
-            .placeholder(ColorDrawable(Color.LTGRAY))
-            .transition(BitmapTransitionOptions.withCrossFade())
-            .into(this)
-    }
-
-    private fun ImageView.loadFirstVideoFrame(url: String) {
         Glide.with(this)
             .asBitmap()
             .load(url)

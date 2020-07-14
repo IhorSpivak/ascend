@@ -245,7 +245,7 @@
                     android:layout_height="0dp"
                     android:background="@color/background_attachments_alpha"
                     android:gravity="center"
-                    android:text="@{Integer.toString(postModel.attachments.size() - 3)}"
+                    android:text='@{"+" + Integer.toString(postModel.attachments.size() - 3)}'
                     android:textAlignment="center"
                     android:textAppearance="@style/TextBold.White"
                     android:textSize="16sp"

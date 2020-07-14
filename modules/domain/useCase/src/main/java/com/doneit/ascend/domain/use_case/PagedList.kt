@@ -1,11 +1,9 @@
 package com.doneit.ascend.domain.use_case
 
-import java.util.*
-
 class PagedList<T> internal constructor(
     private val dataSource: DataSource<T>,
     private val threshold: Float
-) : LinkedList<T>() {
+) : ArrayList<T>() {
 
     private var isLocked = false
 
