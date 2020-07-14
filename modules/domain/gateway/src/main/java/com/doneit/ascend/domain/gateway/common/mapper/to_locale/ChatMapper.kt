@@ -12,18 +12,21 @@ import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
 
 fun ChatEntity.toLocal(): ChatLocal {
     return ChatLocal(
-        id,
-        membersCount,
-        createdAt?.toRemoteString(),
-        lastMessage?.let { it.createdAt?.toRemoteString() } ?: updatedAt?.toRemoteString(),
-        online,
-        blocked,
-        unreadMessageCount,
-        chatOwnerId,
-        title,
-        image?.toLocal(),
-        lastMessage?.toLocal(id),
-        members?.map { it.toLocal() }
+        id = id,
+        membersCount = membersCount,
+        createdAt = createdAt?.toRemoteString(),
+        updatedAt = lastMessage?.let { it.createdAt?.toRemoteString() } ?: updatedAt?.toRemoteString(),
+        online = online,
+        blocked = blocked,
+        unreadMessageCount = unreadMessageCount,
+        chatOwnerId = chatOwnerId,
+        title = title,
+        image = image?.toLocal(),
+        lastMessage = lastMessage?.toLocal(id),
+        members = members?.map { it.toLocal() },
+        chatType = chatType.toString(),
+        isPrivate = isPrivate,
+        subscribed = isSubscribed
     )
 }
 

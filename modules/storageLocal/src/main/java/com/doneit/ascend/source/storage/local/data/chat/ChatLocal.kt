@@ -21,5 +21,8 @@ data class ChatLocal(
     @Embedded(prefix = "img") val image: ImageLocal?,
     @Embedded(prefix = "last_message_") val lastMessage: MessageLocal?,
     @TypeConverters(MembersConverter::class)
-    val members: List<MemberLocal>?
+    val members: List<MemberLocal>?,
+    val chatType: String,
+    val isPrivate: Boolean,
+    val subscribed: Boolean
 )
