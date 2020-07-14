@@ -4,7 +4,7 @@
         <item name="colorPrimary">@android:color/white</item>
         <item name="colorPrimaryDark">@android:color/white</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <!--<item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>-->
         <item name="buttonStyle">@style/AppTheme.Button</item>
         <item name="android:buttonStyle">@style/AppTheme.Button</item>
 

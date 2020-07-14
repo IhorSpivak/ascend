@@ -57,6 +57,11 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
         )
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
