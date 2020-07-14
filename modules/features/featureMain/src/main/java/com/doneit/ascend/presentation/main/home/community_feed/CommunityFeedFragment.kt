@@ -15,6 +15,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.presentation.common.RvLazyAdapter
 import com.doneit.ascend.presentation.dialog.DeleteDialog
+import com.doneit.ascend.presentation.dialog.QuestionButtonType
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -169,7 +170,9 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             R.string.delete_post_cancel
         ) {
             currentDialog?.dismiss()
-            viewModel.onDeletePostClick(post)
+            when (it) {
+                QuestionButtonType.POSITIVE -> viewModel.onDeletePostClick(post)
+            }
         }
     }
 }

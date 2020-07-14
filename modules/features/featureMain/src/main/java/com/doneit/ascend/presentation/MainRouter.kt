@@ -63,6 +63,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedCont
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostContract
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
 import com.doneit.ascend.presentation.main.home.master_mind.filter.FilterFragment
 import com.doneit.ascend.presentation.main.home.webinars.WebinarsContract
@@ -170,6 +171,7 @@ class MainRouter(
     ChatMembersContract.Router,
     BlockedUsersContract.Router,
     CommunityFeedContract.Router,
+    SharePostContract.Router,
     CreatePostContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
@@ -568,5 +570,17 @@ class MainRouter(
 
     override fun navigateToPreview(attachments: List<Attachment>, selected: Int) {
         manager.replaceWithBackStack(containerIdFull, PreviewFragment.newInstance(attachments))
+    }
+
+    override fun navigateToSharedPostChat(chatId: Long) {
+
+    }
+
+    override fun navigateToSharedPostChannel(channelId: Long) {
+
+    }
+
+    override fun navigateToSharedPostUser(userId: Long) {
+
     }
 }

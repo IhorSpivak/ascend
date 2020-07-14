@@ -91,9 +91,12 @@ internal class CommunityFeedRepository(
         }, ErrorsListResponse::class.java)
     }
 
-    override suspend fun sharePost(postId: Long, sharePostRequest: SharePostRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
+    override suspend fun sharePost(
+        postId: Long,
+        sharePostRequest: SharePostRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({
-            api.sharePost(sharePostRequest)
+            api.sharePost(postId, sharePostRequest)
         }, ErrorsListResponse::class.java)
     }
 

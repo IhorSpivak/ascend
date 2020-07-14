@@ -6,10 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.chats.common.MyChatsAdapter
+import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentSharePostBinding
+import com.doneit.ascend.presentation.utils.extensions.visible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -31,7 +36,7 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
     private val _parentKodein: Kodein by closestKodein()
     private val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<SharePostContract.ViewModel>() with singleton {
-            SharePostViewModel(instance(), instance(tag = "postId"))
+            SharePostViewModel(instance(), instance(), instance(), instance(), instance(tag = "postId"))
         }
 
         bind<Long>(tag = "postId") with provider {
@@ -64,6 +69,16 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
         return binding.root
     }
 
+    private val adapter: MyChatsAdapter by lazy {
+        MyChatsAdapter(
+            {
+                viewModel.shareChat(it.id)
+            }, {
+
+            }
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //TODO: refactor if possible, for opening view on full screen
@@ -84,10 +99,26 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
                 bottomSheet.layoutParams = viewGroupLayoutParams
             }
         })
-        binding.model = viewModel
+        viewModel.chats.observe(viewLifecycleOwner, Observer {
+            adapter.updateUser(requireArguments().getParcelable<UserEntity>(KEY_USER)!!)
+            adapter.submitList(it)
+            //scrollIfNeed(it)
+        })
         binding.apply {
+            model = viewModel
             lifecycleOwner = this@SharePostBottomSheetFragment
+            clearSearch.setOnClickListener {
+                tvSearch.text.clear()
+                clearSearch.gone()
+            }
+            tvSearch.doAfterTextChanged {
+                viewModel.filterTextAll.value = it.toString()
+                clearSearch.visible(it.isNullOrEmpty().not())
+            }
+            rvShareTo.adapter = adapter
+
         }
+
     }
 
 

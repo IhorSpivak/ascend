@@ -78,5 +78,5 @@ interface CommunityFeedApi {
     ): Deferred<Response<PostResponse>>
 
     @POST(" /api/v1/posts/{post_id}/share")
-    fun sharePost(@Body sharePostRequest: SharePostRequest): Deferred<Response<OKResponse>>
+    fun sharePost(@Path("post_id") postId: Long, @Body sharePostRequest: SharePostRequest): Deferred<Response<OKResponse>>
 }

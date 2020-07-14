@@ -84,7 +84,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="@string/chats_enter_text_hint"
+                android:hint="@string/comments_enter_text_hint"
                 android:maxLength="500"
                 android:maxLines="5" />
 

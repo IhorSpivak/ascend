@@ -680,5 +680,6 @@
     <string name="filter_channel">Channel</string>
     <string name="filter_user">User</string>
     <string name="share_to">Share To</string>
+    <string name="comments_enter_text_hint">Enter your comment here</string>
 
 </resources>
