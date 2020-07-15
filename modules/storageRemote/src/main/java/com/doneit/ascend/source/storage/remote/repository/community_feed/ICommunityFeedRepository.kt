@@ -35,7 +35,7 @@ interface ICommunityFeedRepository {
     suspend fun updatePost(
         postId: Long,
         description: String,
-        deletedAttachments: Array<String>,
+        deletedAttachments: Array<Long>,
         attachments: List<AttachmentRequest>
     ): RemoteResponse<PostResponse, ErrorsListResponse>
 

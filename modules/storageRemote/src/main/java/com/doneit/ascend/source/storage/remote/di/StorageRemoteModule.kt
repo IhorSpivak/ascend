@@ -157,6 +157,7 @@ object StorageRemoteModule {
             CommunityFeedRepository(
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }

@@ -1,7 +1,9 @@
 package com.doneit.ascend.source.storage.remote.repository.community_feed
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
+import androidx.core.content.FileProvider
 import com.doneit.ascend.source.storage.remote.api.CommunityFeedApi
 import com.doneit.ascend.source.storage.remote.data.request.AttachmentRequest
 import com.doneit.ascend.source.storage.remote.data.request.LeaveCommentRequest
@@ -20,11 +22,13 @@ import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import java.util.*
 
 internal class CommunityFeedRepository(
     gson: Gson,
     private val contentResolver: ContentResolver,
+    private val context: Context,
     private val api: CommunityFeedApi
 ) : BaseRepository(gson), ICommunityFeedRepository {
     override suspend fun loadPosts(postsRequest: PostsRequest): RemoteResponse<PostsResponse, ErrorsListResponse> {
@@ -79,7 +83,7 @@ internal class CommunityFeedRepository(
     override suspend fun updatePost(
         postId: Long,
         description: String,
-        deletedAttachments: Array<String>,
+        deletedAttachments: Array<Long>,
         attachments: List<AttachmentRequest>
     ): RemoteResponse<PostResponse, ErrorsListResponse> {
         return execute({
@@ -116,12 +120,22 @@ internal class CommunityFeedRepository(
                 MultipartBody.Part.createFormData(
                     "attachment${attachment.index + 1}",
                     UUID.randomUUID().toString() + "." +
-                            contentResolver.getType(Uri.parse(attachment.value.url))!!
+                            getContentType(attachment.value)
                                 .substringAfterLast("/"),
                     body
                 )
             )
         }
+    }
+
+    private fun getContentType(attachment: AttachmentRequest): String {
+        return contentResolver.getType(Uri.parse(attachment.url)) ?: contentResolver.getType(
+            FileProvider.getUriForFile(
+                context,
+                context.packageName + ".fileprovider",
+                File(attachment.url)
+            )
+        ).toString()
     }
 
     override suspend fun getComments(

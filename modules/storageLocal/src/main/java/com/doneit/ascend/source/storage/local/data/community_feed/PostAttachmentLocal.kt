@@ -24,7 +24,7 @@ import androidx.room.PrimaryKey
 )
 data class PostAttachmentLocal(
     @PrimaryKey
-    val id: String,
+    val id: Long,
     val contentType: Int,
     val post_id: Long,
     val url: String

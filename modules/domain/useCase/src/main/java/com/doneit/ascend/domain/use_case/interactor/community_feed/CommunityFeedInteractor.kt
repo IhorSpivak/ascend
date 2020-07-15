@@ -104,7 +104,7 @@ class CommunityFeedInteractor(
         coroutineScope: CoroutineScope,
         postId: Long,
         description: String,
-        deletedAttachments: Array<String>,
+        deletedAttachments: Array<Long>,
         attachments: List<Attachment>,
         baseCallback: BaseCallback<Post>
     ) {

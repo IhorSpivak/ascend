@@ -6,8 +6,13 @@ import android.content.ClipData
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.provider.MediaStore.ACTION_IMAGE_CAPTURE
+import androidx.core.content.FileProvider
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCreatePostBinding
@@ -17,6 +22,8 @@ import com.doneit.ascend.presentation.utils.extensions.requestPermissions
 import com.doneit.ascend.presentation.utils.showErrorDialog
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
+import java.io.File
+import java.util.*
 
 
 class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
@@ -33,6 +40,8 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         requireArguments().getParcelable<Post>(KEY_POST)
     }
 
+    private var lastFileUri = Uri.EMPTY
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         post?.let {
             viewModel.setEditMode(it)
@@ -42,7 +51,12 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             viewModel = this@CreatePostFragment.viewModel
             dashRectangleBackground.setOnClickListener {
                 doIfPermissionsGranted {
-                    startActivityForResult(getImageIntent(), REQUEST_CODE_MEDIA)
+                    ChooseImageBottomDialog.create(
+                        ChooseImageBottomDialog.AllowedIntents.values(),
+                        { startActivityForResult(getCameraIntent(), REQUEST_CODE_CAMERA) },
+                        { startActivityForResult(getMediaIntent(), REQUEST_CODE_GALLERY) },
+                        { startActivityForResult(getVideoIntent(), REQUEST_CODE_VIDEO) }
+                    ).show(childFragmentManager, ChooseImageBottomDialog::class.java.simpleName)
                 }
             }
             buttonComplete.setOnClickListener { this@CreatePostFragment.viewModel.createPost() }
@@ -52,14 +66,19 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
     }
 
     private fun doIfPermissionsGranted(action: () -> Unit) {
-        val isGranted = EzPermission.isGranted(
+        val isGrantedStorage = EzPermission.isGranted(
             requireContext(),
             Manifest.permission.READ_EXTERNAL_STORAGE
         )
-        if (!isGranted) {
+        val isGrantedCamera = EzPermission.isGranted(
+            requireContext(),
+            Manifest.permission.CAMERA
+        )
+        if (!isGrantedCamera || !isGrantedStorage) {
             requireContext().requestPermissions(
                 listOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
                 ),
                 onGranted = {
                     action()
@@ -94,27 +113,77 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         )
     }
 
-    private fun getImageIntent(): Intent {
-        return Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-            type = MIME_TYPE_IMAGE
-            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(MIME_TYPE_IMAGE, MIME_TYPE_VIDEO))
+    private fun getCameraIntent(): Intent {
+        return Intent(ACTION_IMAGE_CAPTURE).apply {
+            lastFileUri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().applicationContext.packageName + ".fileprovider",
+                createImageFile()
+            )
+            putExtra(
+                MediaStore.EXTRA_OUTPUT, lastFileUri
+            )
         }
     }
 
+    private fun createImageFile(): File {
+        return File(
+            requireContext()
+                .getExternalFilesDir(
+                    Environment.DIRECTORY_PICTURES
+                ), "${IMAGE_FILENAME}${UUID.randomUUID()}.jpg"
+        )
+    }
+
+    private fun getMediaIntent(): Intent {
+        return Intent.createChooser(
+            Intent(Intent.ACTION_GET_CONTENT).apply {
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                type = MIME_TYPE_IMAGE
+            }, getString(R.string.select_from_gallery)
+        )
+    }
+
+    private fun getVideoIntent(): Intent {
+        return Intent.createChooser(
+            Intent(Intent.ACTION_GET_CONTENT).apply {
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                type = MIME_TYPE_VIDEO
+            }, getString(R.string.take_video)
+        )
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_CODE_MEDIA && resultCode == RESULT_OK) {
-            if (data != null) {
-                processClipData(data.clipData)
-                viewModel.processSingleItem(
-                    uri = data.data?.toString() ?: return,
-                    mimeType = getMimeTypeFromUri(data.data ?: return)
-                )
-                adapter.submitItems(viewModel.attachments.value.orEmpty())
+        fun getMimeType() = if (requestCode == REQUEST_CODE_VIDEO)
+            MIME_TYPE_VIDEO
+        else MIME_TYPE_IMAGE
+
+        fun doOnData(ifSingleItem: () -> Unit, ifMultiple: () -> Unit) {
+            if (data?.data != null) {
+                ifSingleItem()
+            } else {
+                ifMultiple()
             }
+        }
+        if (resultCode == RESULT_OK && data != null) {
+            doOnData(
+                ifSingleItem = {
+                    viewModel.processSingleItem(
+                        data.data!!.toString(),
+                        getMimeType()
+                    )
+                },
+                ifMultiple = {
+                    if (data.clipData == null) {
+                        viewModel.processSingleItem(
+                            lastFileUri.toString(),
+                            getMimeType()
+                        )
+                    }
+                    processClipData(data.clipData)
+                }
+            )
+            adapter.submitItems(viewModel.attachments.value.orEmpty())
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
@@ -140,8 +209,11 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
 
     companion object {
         const val RESULT = "result"
+        private const val IMAGE_FILENAME = "temp_image"
         private const val KEY_POST = "POST"
-        private const val REQUEST_CODE_MEDIA = 101
+        private const val REQUEST_CODE_CAMERA = 101
+        private const val REQUEST_CODE_VIDEO = 102
+        private const val REQUEST_CODE_GALLERY = 103
         private const val MIME_TYPE_IMAGE = "image/*"
         private const val MIME_TYPE_VIDEO = "video/*"
         fun newInstance(post: Post? = null) = CreatePostFragment().also {

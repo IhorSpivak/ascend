@@ -96,7 +96,7 @@ class CreatePostViewModel(
         if (createPostModel.media.size >= 5) return
         val index = createPostModel.media.indexOfFirst { it.url == uri }
         val newAttachment = Attachment(
-            id = "",
+            id = -1,
             contentType = getContentTypeFromMime(mimeType),
             url = uri
         )
@@ -107,7 +107,7 @@ class CreatePostViewModel(
 
     override fun deleteItemAt(pos: Int) {
         val item = createPostModel.media.removeAt(pos)
-        if (item.id.isNotBlank()) {
+        if (item.id != -1L) {
             createPostModel.deletedItemsId.add(item.id)
         }
         attachments.value = createPostModel.media

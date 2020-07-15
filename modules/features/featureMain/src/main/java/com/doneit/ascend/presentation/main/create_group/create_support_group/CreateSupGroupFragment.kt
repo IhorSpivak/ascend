@@ -401,6 +401,10 @@ class CreateSupGroupFragment :
 
     private fun createImageBottomDialog(): ChooseImageBottomDialog {
         return ChooseImageBottomDialog.create(
+            arrayOf(
+                ChooseImageBottomDialog.AllowedIntents.CAMERA,
+                ChooseImageBottomDialog.AllowedIntents.IMAGE
+            ),
             { takeAPhoto() },
             { selectFromGallery() }
         )

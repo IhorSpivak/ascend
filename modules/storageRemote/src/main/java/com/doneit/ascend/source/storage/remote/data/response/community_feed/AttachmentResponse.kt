@@ -7,7 +7,7 @@ data class AttachmentResponse(
     @SerializedName("content_type")
     val contentType: String? = null,
     @SerializedName("id")
-    val id: String? = null,
+    val id: Long,
     @SerializedName("url")
     val url: String? = null
 )

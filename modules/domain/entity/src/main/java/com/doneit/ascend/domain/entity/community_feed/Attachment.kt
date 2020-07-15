@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Attachment(
-    val id: String,
+    val id: Long,
     val contentType: ContentType,
     val url: String
 ) : Parcelable

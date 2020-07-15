@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000000">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="24dp"
+        android:background="@android:color/transparent"
         android:gravity="bottom"
         android:orientation="vertical"
         android:padding="8dp"
@@ -35,7 +32,9 @@
                     android:layout_height="58dp"
                     android:gravity="center"
                     android:text="@string/take_photo"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:visibility="gone" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -48,7 +47,23 @@
                     android:layout_height="58dp"
                     android:gravity="center"
                     android:text="@string/take_gallery"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/dark_gray" />
+
+                <TextView
+                    android:id="@+id/tvVideo"
+                    style="@style/TextSFBlue"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:gravity="center"
+                    android:text="@string/take_video"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -65,5 +80,4 @@
             android:textSize="20sp" />
 
     </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -44,7 +44,7 @@ fun PostResponse.toEntity(): Post {
 
 fun AttachmentResponse.toEntity(): Attachment {
     return Attachment(
-        id = id.orEmpty(),
+        id = id,
         contentType = ContentType.valueOf(contentType.orEmpty().toUpperCase(Locale.getDefault())),
         url = url.orEmpty()
     )
