@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.doneit.ascend.domain.entity.community_feed.Attachment
-import com.doneit.ascend.domain.entity.community_feed.ContentType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentPreviewBinding
@@ -26,15 +25,7 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
     }
 
     private val attachments: ArrayList<Attachment> by lazy {
-        requireArguments().getParcelableArrayList<Attachment>(KEY_ATTACHMENTS)!!.apply {
-            add(
-                Attachment(
-                    1,
-                    ContentType.VIDEO,
-                    "http://techslides.com/demos/sample-videos/small.mp4"
-                )
-            )
-        }
+        requireArguments().getParcelableArrayList(KEY_ATTACHMENTS)!!
     }
 
     private val selectedItem by lazy {

@@ -105,7 +105,7 @@ internal class CommunityFeedRepository(
     }
 
     private fun MultipartBody.Builder.addAttachments(attachments: List<AttachmentRequest>) {
-        for (attachment in attachments.withIndex()) {
+        for (attachment in attachments.filter { !it.url.startsWith("http") }.withIndex()) {
             val inputStream = contentResolver.openInputStream(
                 Uri.parse(attachment.value.url)
             )!!
