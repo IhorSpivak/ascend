@@ -165,20 +165,21 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 ifMultiple()
             }
         }
-        if (resultCode == RESULT_OK && data != null) {
+        if (resultCode == RESULT_OK) {
             doOnData(
                 ifSingleItem = {
                     viewModel.processSingleItem(
-                        data.data!!.toString(),
+                        data!!.data!!.toString(),
                         getMimeType()
                     )
                 },
                 ifMultiple = {
-                    if (data.clipData == null) {
+                    if (data?.clipData == null) {
                         viewModel.processSingleItem(
                             lastFileUri.toString(),
                             getMimeType()
                         )
+                        return@doOnData
                     }
                     processClipData(data.clipData)
                 }
