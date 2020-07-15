@@ -24,8 +24,8 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
         }
     }
 
-    private val attachments: ArrayList<Attachment> by lazy {
-        requireArguments().getParcelableArrayList(KEY_ATTACHMENTS)!!
+    private val attachments by lazy {
+        requireArguments().getParcelableArrayList<Attachment>(KEY_ATTACHMENTS)!!
     }
 
     private val selectedItem by lazy {
