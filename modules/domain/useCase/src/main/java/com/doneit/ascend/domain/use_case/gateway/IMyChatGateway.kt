@@ -13,6 +13,8 @@ import com.doneit.ascend.domain.entity.dto.*
 interface IMyChatGateway {
     fun getMyChatListLive(request: ChatListDTO): LiveData<PagedList<ChatEntity>>
 
+    fun getChatsList(request: ChatListDTO): PagedList<ChatEntity>
+
     suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>>
 
     fun getMessages(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>>

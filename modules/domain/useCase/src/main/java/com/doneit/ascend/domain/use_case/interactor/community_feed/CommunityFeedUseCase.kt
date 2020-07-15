@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.use_case.interactor.community_feed
 
 import androidx.lifecycle.LiveData
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.*
 import com.doneit.ascend.domain.entity.dto.CommentsDTO
@@ -86,4 +87,10 @@ interface CommunityFeedUseCase {
         sharePostDTO: SharePostDTO,
         baseCallback: BaseCallback<Unit>
     )
+
+    fun getUsersListPaged(
+        coroutineScope: CoroutineScope,
+        query: String,
+        userId: Long
+    ): androidx.paging.PagedList<AttendeeEntity>
 }

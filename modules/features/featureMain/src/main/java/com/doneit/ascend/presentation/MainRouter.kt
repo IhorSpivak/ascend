@@ -576,14 +576,10 @@ class MainRouter(
     }
 
     override fun navigateToSharedPostChat(chatId: Long) {
-
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chatId))
     }
 
     override fun navigateToSharedPostChannel(channelId: Long) {
-
-    }
-
-    override fun navigateToSharedPostUser(userId: Long) {
-
+        //TODO
     }
 }

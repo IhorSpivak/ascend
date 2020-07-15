@@ -17,6 +17,10 @@ class ChatInteractor(
         return chatGateway.getMyChatListLive(request)
     }
 
+    override fun getChatList(request: ChatListDTO): PagedList<ChatEntity> {
+        return chatGateway.getChatsList(request)
+    }
+
     override fun getMessageList(
         chatId: Long,
         request: MessageListDTO

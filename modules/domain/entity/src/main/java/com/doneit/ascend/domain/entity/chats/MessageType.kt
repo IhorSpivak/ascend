@@ -4,7 +4,7 @@ enum class MessageType {
     MESSAGE,
     INVITE,
     USER_REMOVED,
-    LEAVE;
+    LEAVE, POST_SHARE;
     override fun toString(): String {
         return super.toString().toLowerCase()
     }

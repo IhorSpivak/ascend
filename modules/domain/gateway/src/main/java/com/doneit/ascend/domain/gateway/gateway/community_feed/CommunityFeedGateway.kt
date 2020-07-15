@@ -4,6 +4,7 @@ import android.accounts.AccountManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Channel
@@ -17,7 +18,9 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
+import com.doneit.ascend.domain.gateway.gateway.MainThreadExecutor
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
+import com.doneit.ascend.domain.gateway.gateway.data_source.UsersDataSource
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.domain.use_case.PaginationDataSource
 import com.doneit.ascend.domain.use_case.PaginationSourceLocal
@@ -26,6 +29,7 @@ import com.doneit.ascend.domain.use_case.gateway.ICommunityFeedGateway
 import com.doneit.ascend.source.storage.remote.data.request.group.CommunityFeedCookies
 import com.doneit.ascend.source.storage.remote.repository.community_feed.ICommunityFeedRepository
 import com.doneit.ascend.source.storage.remote.repository.community_feed.socket.ICommunityFeedSocketRepository
+import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
 import com.vrgsoft.networkmanager.NetworkManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +42,7 @@ class CommunityFeedGateway(
     private val communityRemote: ICommunityFeedRepository,
     private val communityLocal: ILocalCommunityFeedRepository,
     private val remoteSocket: ICommunityFeedSocketRepository,
+    private val remoteGroupRepository: IGroupRepository,
     private val accountManager: AccountManager,
     private val packageName: String
 ) : BaseGateway(networkManager), ICommunityFeedGateway {
@@ -289,6 +294,26 @@ class CommunityFeedGateway(
                 baseCallback.onError(response.message)
             }
         }
+    }
+
+    override fun getUsersPagedList(
+        scope: CoroutineScope,
+        query: String,
+        userId: Long,
+        memberList: List<AttendeeEntity>?
+    ): androidx.paging.PagedList<AttendeeEntity> {
+        val config = androidx.paging.PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(10)
+            .build()
+
+        val dataSource = UsersDataSource(GlobalScope, remoteGroupRepository, query, userId, memberList)
+        val executor = MainThreadExecutor()
+
+        return androidx.paging.PagedList.Builder<Int, AttendeeEntity>(dataSource, config)
+            .setFetchExecutor(executor)
+            .setNotifyExecutor(executor)
+            .build()
     }
 
     override fun loadComments(

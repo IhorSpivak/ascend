@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.use_case.interactor.community_feed
 
 import androidx.lifecycle.LiveData
+import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Channel
@@ -130,5 +131,13 @@ class CommunityFeedInteractor(
             sharePostDTO,
             baseCallback
         )
+    }
+
+    override fun getUsersListPaged(
+        coroutineScope: CoroutineScope,
+        query: String,
+        userId: Long
+    ): androidx.paging.PagedList<AttendeeEntity> {
+        return gateway.getUsersPagedList(coroutineScope, query, userId, null)
     }
 }

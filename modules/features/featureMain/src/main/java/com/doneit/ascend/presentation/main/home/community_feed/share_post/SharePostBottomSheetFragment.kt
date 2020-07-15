@@ -11,9 +11,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.chats.common.MyChatsAdapter
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentSharePostBinding
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.common.ShareChatAdapter
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.common.ShareUserAdapter
+import com.doneit.ascend.presentation.models.community_feed.SharePostFilter
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -36,11 +38,21 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
     private val _parentKodein: Kodein by closestKodein()
     private val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<SharePostContract.ViewModel>() with singleton {
-            SharePostViewModel(instance(), instance(), instance(), instance(), instance(tag = "postId"))
+            SharePostViewModel(
+                instance(),
+                instance(),
+                instance(),
+                instance(tag = "postId"),
+                instance(tag= "userId")
+            )
         }
 
         bind<Long>(tag = "postId") with provider {
             requireArguments().getLong(KEY_POST_ID)
+        }
+
+        bind<Long>(tag = "userId") with provider {
+            requireArguments().getParcelable<UserEntity>(KEY_USER)!!.id
         }
     }
 
@@ -69,14 +81,16 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
         return binding.root
     }
 
-    private val adapter: MyChatsAdapter by lazy {
-        MyChatsAdapter(
-            {
-                viewModel.shareChat(it.id)
-            }, {
+    private val chatAdapter: ShareChatAdapter by lazy {
+        ShareChatAdapter {
+            viewModel.shareChat(it.id)
+        }
+    }
 
-            }
-        )
+    private val userAdapter: ShareUserAdapter by lazy {
+        ShareUserAdapter {
+            viewModel.shareToUser(it)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,23 +114,47 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
             }
         })
         viewModel.chats.observe(viewLifecycleOwner, Observer {
-            adapter.updateUser(requireArguments().getParcelable<UserEntity>(KEY_USER)!!)
-            adapter.submitList(it)
-            //scrollIfNeed(it)
+            chatAdapter.submitList(it)
+        })
+        viewModel.channels.observe(viewLifecycleOwner, Observer {
+            chatAdapter.submitList(it)
+        })
+        viewModel.users.observe(viewLifecycleOwner, Observer {
+            userAdapter.submitList(it)
+        })
+        viewModel.sharePostFilter.observe(viewLifecycleOwner, Observer {
+            viewModel.updateSearch(viewModel.filterTextAll.value!!)
         })
         binding.apply {
             model = viewModel
+            rgFilter.setOnCheckedChangeListener { radioGroup, i ->
+                when (i) {
+                    R.id.radio0 -> {
+                        viewModel.sharePostFilter.postValue(SharePostFilter.CHAT)
+                        rvShareTo.adapter = chatAdapter
+                    }
+                    R.id.radio1 -> {
+                        viewModel.sharePostFilter.postValue(SharePostFilter.CHANNEL)
+                        rvShareTo.adapter = chatAdapter
+                    }
+                    R.id.radio2 -> {
+                        viewModel.sharePostFilter.postValue(SharePostFilter.USER)
+                        rvShareTo.adapter = userAdapter
+                    }
+                }
+            }
+
             lifecycleOwner = this@SharePostBottomSheetFragment
             clearSearch.setOnClickListener {
                 tvSearch.text.clear()
                 clearSearch.gone()
             }
             tvSearch.doAfterTextChanged {
-                viewModel.filterTextAll.value = it.toString()
+                viewModel.filterTextAll.postValue(it.toString())
+                viewModel.updateSearch(it.toString())
                 clearSearch.visible(it.isNullOrEmpty().not())
             }
-            rvShareTo.adapter = adapter
-
+            rvShareTo.adapter = chatAdapter
         }
 
     }
