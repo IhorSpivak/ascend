@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.ContentType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentPreviewBinding
@@ -24,17 +25,25 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
         }
     }
 
-    private val attachments
-        get() = requireArguments().getParcelableArrayList<Attachment>(KEY_ATTACHMENTS)!!
+    private val attachments: ArrayList<Attachment> by lazy {
+        requireArguments().getParcelableArrayList<Attachment>(KEY_ATTACHMENTS)!!.apply {
+            add(
+                Attachment(
+                    1,
+                    ContentType.VIDEO,
+                    "http://techslides.com/demos/sample-videos/small.mp4"
+                )
+            )
+        }
+    }
 
-    private val selectedItem
-        get() = requireArguments().getInt(KEY_SELECTED_ITEM, 0) + 1
+    private val selectedItem by lazy {
+        requireArguments().getInt(KEY_SELECTED_ITEM, 0) + 1
+    }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
-            vpMedia.adapter = PreviewAdapter(
-                requireArguments().getParcelableArrayList(KEY_ATTACHMENTS)!!
-            )
+            vpMedia.adapter = PreviewAdapter(attachments)
             vpMedia.setCurrentItem(selectedItem - 1, false)
             vpMedia.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
                 override fun onPageScrollStateChanged(state: Int) {
@@ -44,7 +53,8 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
                     position: Int,
                     positionOffset: Float,
                     positionOffsetPixels: Int
-                ) {}
+                ) {
+                }
 
                 override fun onPageSelected(position: Int) {
                     tvCounter.text = getString(

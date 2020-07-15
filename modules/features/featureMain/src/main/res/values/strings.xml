@@ -659,12 +659,12 @@
 
 
     <!--Create Post-->
-    <string name="update_post_title">Update Post</string>
+    <string name="update_post_title">Edit Post</string>
     <string name="create_post_title">Create Post</string>
     <string name="post_header">Post Header</string>
     <string name="post_description">Post Description</string>
     <string name="create_post_complete">Post</string>
-    <string name="create_post_update">Update</string>
+    <string name="create_post_update">Save</string>
     <string name="add_image_or_video">Add Image or Video</string>
     <string name="error">Error</string>
 
