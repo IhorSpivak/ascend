@@ -569,7 +569,10 @@ class MainRouter(
     }
 
     override fun navigateToPreview(attachments: List<Attachment>, selected: Int) {
-        manager.replaceWithBackStack(containerIdFull, PreviewFragment.newInstance(attachments))
+        manager.replaceWithBackStack(
+            containerIdFull,
+            PreviewFragment.newInstance(attachments, selected)
+        )
     }
 
     override fun navigateToSharedPostChat(chatId: Long) {

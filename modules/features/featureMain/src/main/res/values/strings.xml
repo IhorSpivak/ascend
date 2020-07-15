@@ -682,5 +682,6 @@
     <string name="share_to">Share To</string>
     <string name="comments_enter_text_hint">Enter your comment here</string>
     <string name="take_video">Select Video</string>
+    <string name="format_quantity">%d/%d</string>
 
 </resources>

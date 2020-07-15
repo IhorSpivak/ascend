@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.home.community_feed.preview
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -19,22 +20,42 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
 
     override val kodeinModule: Kodein.Module = Kodein.Module(this::class.java.simpleName) {
         bind(tag = KEY_ATTACHMENTS) from provider {
-            requireArguments().getParcelableArrayList<Attachment>(KEY_ATTACHMENTS)!!
+            attachments
         }
     }
 
-    override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.vpMedia.adapter =
-            PreviewAdapter(requireArguments().getParcelableArrayList(KEY_ATTACHMENTS)!!)
-        setupToolbar()
-    }
+    private val attachments
+        get() = requireArguments().getParcelableArrayList<Attachment>(KEY_ATTACHMENTS)!!
 
-    private fun setupToolbar() {
-        (activity as? AppCompatActivity)?.apply {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.title = ""
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
+    private val selectedItem
+        get() = requireArguments().getInt(KEY_SELECTED_ITEM, 0) + 1
+
+    override fun viewCreated(savedInstanceState: Bundle?) {
+        binding.apply {
+            vpMedia.adapter = PreviewAdapter(
+                requireArguments().getParcelableArrayList(KEY_ATTACHMENTS)!!
+            )
+            vpMedia.setCurrentItem(selectedItem - 1, false)
+            vpMedia.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrollStateChanged(state: Int) {
+                }
+
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {}
+
+                override fun onPageSelected(position: Int) {
+                    tvCounter.text = getString(
+                        R.string.format_quantity,
+                        position + 1,
+                        attachments.size
+                    )
+                }
+            })
+            ivBack.setOnClickListener { activity?.onBackPressed() }
+            tvCounter.text = getString(R.string.format_quantity, selectedItem, attachments.size)
         }
     }
 
@@ -48,11 +69,14 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
     companion object {
 
         internal const val KEY_ATTACHMENTS = "key_attachments"
+        internal const val KEY_SELECTED_ITEM = "key_selected_item"
 
-        fun newInstance(attachments: Collection<Attachment>) = PreviewFragment().apply {
-            arguments = Bundle().apply {
-                putParcelableArrayList(KEY_ATTACHMENTS, ArrayList(attachments))
+        fun newInstance(attachments: Collection<Attachment>, selectedItem: Int) =
+            PreviewFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelableArrayList(KEY_ATTACHMENTS, ArrayList(attachments))
+                    putInt(KEY_SELECTED_ITEM, selectedItem)
+                }
             }
-        }
     }
 }
