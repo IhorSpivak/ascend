@@ -265,6 +265,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:alpha="0.2"
                 android:background="@android:color/darker_gray" />
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -292,6 +293,7 @@
                 android:layout_alignBottom="@id/etInputMessage"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="8dp"
+                android:alpha="@{etInputMessage.text.length() > 2?1f:0.4f}"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
