@@ -143,7 +143,7 @@ class CommunityFeedViewModel(
             socketEvent?.let {
                 when (socketEvent.event) {
                     CommunityFeedSocketEvent.POST_COMMENTED -> {
-                        val post = posts.value?.first { it.id == socketEvent.postId }
+                        val post = posts.value?.firstOrNull { it.id == socketEvent.postId }
                         val index = posts.value?.indexOf(post)
                         post?.let {
                             if (index != null && index != -1) {

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.viewpager.widget.PagerAdapter
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.ContentType
@@ -30,26 +31,48 @@ open class PreviewAdapter(
         val item = items[position]
         return when (item.contentType) {
             ContentType.IMAGE -> {
-                LayoutInflater.from(container.context)
-                    .inflate(R.layout.pager_item_image, container, false)
-                    .also {
-                        container.addView(it)
-                        setImage(it.ivImage, item.url, null)
-                    }
+                instantiateImage(container, item)
             }
             ContentType.VIDEO -> {
-                LayoutInflater.from(container.context)
-                    .inflate(R.layout.pager_item_video, container, false)
-                    .also {
-                        val player = SimpleExoPlayer.Builder(container.context)
-                            .build()
-                        it.pvPlayer.player = player
-                        player.playWhenReady = false
-                        player.prepare(createMediaSource(container.context, item.url))
-                        container.addView(it)
-                    }
+                instantiateVideo(container, item)
             }
         }
+    }
+
+    private fun instantiateVideo(
+        container: ViewGroup,
+        item: Attachment
+    ) {
+        LayoutInflater.from(container.context)
+            .inflate(R.layout.pager_item_video, container, false)
+            .also {
+                val player = SimpleExoPlayer.Builder(container.context)
+                    .build()
+                it.pvPlayer.player = player
+                player.playWhenReady = false
+                player.prepare(createMediaSource(container.context, item.url))
+                container.addView(it)
+            }
+    }
+
+    private fun instantiateImage(
+        container: ViewGroup,
+        item: Attachment
+    ) {
+        LayoutInflater.from(container.context)
+            .inflate(R.layout.pager_item_image, container, false)
+            .also {
+                container.addView(it)
+                setImage(
+                    it.ivImage,
+                    item.url,
+                    CircularProgressDrawable(it.context).apply {
+                        strokeWidth = 5f
+                        centerRadius = 20f
+                        start()
+                    }
+                )
+            }
     }
 
     protected open fun createMediaSource(context: Context, url: String): MediaSource {
