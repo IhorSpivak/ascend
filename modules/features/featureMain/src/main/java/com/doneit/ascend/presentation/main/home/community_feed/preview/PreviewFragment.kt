@@ -8,6 +8,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentPreviewBinding
 import com.doneit.ascend.presentation.main.home.community_feed.preview.common.PreviewAdapter
+import kotlinx.android.synthetic.main.pager_item_video.view.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -35,8 +36,12 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             vpMedia.adapter = PreviewAdapter(attachments)
+            vpMedia.offscreenPageLimit = OFFSCREEN_PAGE_LIMIT
             vpMedia.setCurrentItem(selectedItem - 1, false)
             vpMedia.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+
+                private var previousPos = vpMedia.currentItem
+
                 override fun onPageScrollStateChanged(state: Int) {
                 }
 
@@ -53,11 +58,24 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
                         position + 1,
                         attachments.size
                     )
+                    val child = vpMedia.getChildAt(previousPos)
+                    previousPos = position
+                    if (child.pvPlayer != null) {
+                        child.pvPlayer.player?.playWhenReady = false
+                    }
                 }
             })
             ivBack.setOnClickListener { activity?.onBackPressed() }
             tvCounter.text = getString(R.string.format_quantity, selectedItem, attachments.size)
         }
+    }
+
+    override fun onPause() {
+        val child = binding.vpMedia.getChildAt(binding.vpMedia.currentItem)
+        if (child.pvPlayer != null) {
+            child.pvPlayer.player?.playWhenReady = false
+        }
+        super.onPause()
     }
 
     override fun onDestroyView() {
@@ -69,6 +87,7 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
 
     companion object {
 
+        internal const val OFFSCREEN_PAGE_LIMIT = 3
         internal const val KEY_ATTACHMENTS = "key_attachments"
         internal const val KEY_SELECTED_ITEM = "key_selected_item"
 

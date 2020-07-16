@@ -44,7 +44,7 @@ open class PreviewAdapter(
                         val player = SimpleExoPlayer.Builder(container.context)
                             .build()
                         it.pvPlayer.player = player
-                        player.playWhenReady = true
+                        player.playWhenReady = false
                         player.prepare(createMediaSource(container.context, item.url))
                         container.addView(it)
                     }
