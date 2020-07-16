@@ -26,6 +26,7 @@ interface CommunityFeedContract {
         fun newItem(post: Post)
         fun reportUser(reason: String, userId: Long)
         fun attachmentClicked(attachments: List<Attachment>, selected: Int)
+        fun updateCommentsCount(postId: Long, commentsCount: Int)
     }
 
     interface Router {

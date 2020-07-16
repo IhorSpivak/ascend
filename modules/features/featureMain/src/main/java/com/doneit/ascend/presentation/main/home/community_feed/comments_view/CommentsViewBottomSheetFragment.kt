@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.main.home.community_feed.comments_view
 
+import android.app.Activity.RESULT_OK
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,11 +44,14 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
         }
 
         bind<Long>(tag = "postId") with provider {
-            requireArguments().getLong(KEY_POST_ID)
+            postId
         }
     }
     private lateinit var binding: FragmentCommentsViewBinding
     private val viewModel: CommentsViewContract.ViewModel by instance()
+    private val postId by lazy {
+        requireArguments().getLong(KEY_POST_ID)
+    }
     private val commentsAdapter by RvLazyAdapter {
         CommentsAdapter(
             requireArguments().getParcelable(KEY_USER)!!,
@@ -139,8 +144,19 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
         }
     }
 
+    override fun onDestroy() {
+        requireParentFragment()
+            .onActivityResult(REQUEST_CODE_COMMENTS, RESULT_OK, Intent().apply {
+                putExtra(KEY_POST_ID, postId)
+                putExtra(KEY_COMMENTS_COUNT, viewModel.commentsCount.value ?: 0)
+            })
+        super.onDestroy()
+    }
+
     companion object {
-        private const val KEY_POST_ID = "KEY_POST_ID"
+        const val REQUEST_CODE_COMMENTS = 1233
+        const val KEY_COMMENTS_COUNT = "KEY_COMMENTS_COUNT"
+        const val KEY_POST_ID = "KEY_POST_ID"
         private const val KEY_USER = "KEY_USER"
         fun newInstance(postId: Long, user: UserEntity) = CommentsViewBottomSheetFragment().apply {
             arguments = Bundle().apply {

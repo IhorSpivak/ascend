@@ -93,7 +93,10 @@ class CommunityFeedViewModel(
                     val index = it.indexOfFirst { it.id == postId }
                     if (index != -1) {
                         val item = it[index]
-                        it.set(index, item.copy(likesCount = item.likesCount.inc(), isLikedMe = true))
+                        it.set(
+                            index,
+                            item.copy(likesCount = item.likesCount.inc(), isLikedMe = true)
+                        )
                     }
                 }
             },
@@ -110,7 +113,10 @@ class CommunityFeedViewModel(
                     val index = it.indexOfFirst { it.id == postId }
                     if (index != -1) {
                         val item = it[index]
-                        it.set(index, item.copy(likesCount = item.likesCount.dec(), isLikedMe = false))
+                        it.set(
+                            index,
+                            item.copy(likesCount = item.likesCount.dec(), isLikedMe = false)
+                        )
                     }
                 }
             },
@@ -144,6 +150,16 @@ class CommunityFeedViewModel(
 
     override fun attachmentClicked(attachments: List<Attachment>, selected: Int) {
         router.navigateToPreview(attachments, selected)
+    }
+
+    override fun updateCommentsCount(postId: Long, commentsCount: Int) {
+        posts.value?.let {
+            val index = it.indexOfFirst { it.id == postId }
+            if (index != -1) {
+                val item = it[index]
+                it.set(index, item.copy(commentsCount = commentsCount))
+            }
+        }
     }
 
     override fun onCleared() {

@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.home.community_feed
 
+import android.app.Activity.RESULT_OK
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -70,7 +71,10 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             onOptionsClick = ::showSetting,
             onSendCommentClick = { id, text, _ -> viewModel.leaveComment(id, text) },
             onShareClick = {
-                SharePostBottomSheetFragment.newInstance(it, requireArguments().getParcelable(KEY_USER)!!)
+                SharePostBottomSheetFragment.newInstance(
+                    it,
+                    requireArguments().getParcelable(KEY_USER)!!
+                )
                     .show(
                         childFragmentManager,
                         SharePostBottomSheetFragment::class.java.simpleName
@@ -118,17 +122,23 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         requireContext().unregisterReceiver(newPostReceiver)
+        super.onDestroy()
     }
 
-    companion object {
-        const val ACTION_NEW_POST = "NEW_POST"
-        private const val KEY_USER = "USER"
-        fun newInstance(user: UserEntity) = CommunityFeedFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(KEY_USER, user)
-            }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        data ?: return
+        if (requestCode == CommentsViewBottomSheetFragment.REQUEST_CODE_COMMENTS && resultCode == RESULT_OK) {
+            val postId = data.getLongExtra(
+                CommentsViewBottomSheetFragment.KEY_POST_ID,
+                0
+            )
+            val commentsCount = data.getIntExtra(
+                CommentsViewBottomSheetFragment.KEY_COMMENTS_COUNT,
+                0
+            )
+            viewModel.updateCommentsCount(postId, commentsCount)
         }
     }
 
@@ -172,6 +182,16 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             currentDialog?.dismiss()
             when (it) {
                 QuestionButtonType.POSITIVE -> viewModel.onDeletePostClick(post)
+            }
+        }
+    }
+
+    companion object {
+        const val ACTION_NEW_POST = "NEW_POST"
+        private const val KEY_USER = "USER"
+        fun newInstance(user: UserEntity) = CommunityFeedFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(KEY_USER, user)
             }
         }
     }

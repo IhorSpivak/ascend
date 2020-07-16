@@ -30,6 +30,7 @@ class PostViewHolder(
     fun bind(post: Post) {
         with(binding) {
             postModel = post
+            visibilityOfSend = true
             setupAttachments(post.attachments)
             setClickListeners(post)
         }
