@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemGroupAttachmentVideoBinding
+import com.doneit.ascend.presentation.utils.extensions.getDurationBreakdown
 
 class VideoAttachmentHolder(
     itemView: View,
@@ -20,6 +21,7 @@ class VideoAttachmentHolder(
         binding.apply {
             vvVideo.setVideoURI(Uri.parse(attachment.url))
             vvVideo.setOnPreparedListener {
+                duration.text = it.duration.getDurationBreakdown()
                 it.seekTo(1)
             }
             vvVideo.setOnCompletionListener {
