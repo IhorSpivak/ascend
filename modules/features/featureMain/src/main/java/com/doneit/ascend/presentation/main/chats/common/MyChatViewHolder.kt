@@ -61,6 +61,12 @@ class MyChatViewHolder(
                         getMemberNameById(item, it.userId, user, binding.root.context)
                     )
                 }
+                MessageType.POST_SHARE -> {
+                    itemView.message.text = binding.root.context.resources.getString(
+                        R.string.shared_message_post,
+                        getMemberNameById(item, it.userId, user, binding.root.context)
+                    )
+                }
                 else -> itemView.message.text = it.message
             }
         } ?: run {

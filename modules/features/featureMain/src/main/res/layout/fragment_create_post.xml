@@ -114,7 +114,7 @@
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
                     app:digits="@{@string/allow_description_digits}"
                     app:error="@{viewModel.createPostModel.description.observableError}"
-                    app:hint="@{@string/create_webinar_group_description}"
+                    app:hint="@{@string/post_description}"
                     app:layout_constraintBottom_toTopOf="@id/dash_rectangle_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

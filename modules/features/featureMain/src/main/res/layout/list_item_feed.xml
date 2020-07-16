@@ -174,7 +174,7 @@
                 android:layout_toEndOf="@id/btnShare"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:gravity="end|center_vertical"
-                android:text="@{@string/likes_comments_format(likesCount, commentsCount)}"
+                android:text="@{@plurals/x_likes(likesCount, likesCount)+`, `+@plurals/x_comments(commentsCount, commentsCount)}"
                 android:textAppearance="@style/TextNormal"
                 android:textSize="12sp"
                 tools:text="128 comments, 21 like" />

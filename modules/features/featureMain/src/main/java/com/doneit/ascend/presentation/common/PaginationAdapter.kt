@@ -22,6 +22,7 @@ abstract class PaginationAdapter<T, VH : RecyclerView.ViewHolder>(
         val current = currentList ?: kotlin.run {
             currentList = list
             notifyDataSetChanged()
+            doAfterListUpdated()
             return
         }
         current.lock()

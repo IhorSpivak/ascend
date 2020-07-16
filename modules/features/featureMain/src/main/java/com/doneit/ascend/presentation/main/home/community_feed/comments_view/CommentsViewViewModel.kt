@@ -59,7 +59,6 @@ class CommentsViewViewModel(
 
     fun newItem(comment: Comment) {
         val index = comments.value?.indexOfFirst { it.id == comment.id }
-        setCommentsCount(comment.postCommentsCount)
         if (index == null || index == -1) {
             comments.value?.add(0, comment)
         } else {

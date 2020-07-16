@@ -110,6 +110,16 @@
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plurals>
+
+    <plurals name="x_comments">
+        <item quantity="one">%d comment</item>
+        <item quantity="other">%d comments</item>
+    </plurals>
+
+    <plurals name="x_likes">
+        <item quantity="one">%d like</item>
+        <item quantity="other">%d likes</item>
+    </plurals>
     <string name="duration_hours">Duration</string>
 
     <string-array name="meeting_formats">
@@ -636,6 +646,7 @@
     <string name="invite_message"><b>%s</b> invited <b>%s</b></string>
     <string name="leave_message"><b>%s</b> left this chat</string>
     <string name="remove_message"><b>%s</b> was removed from chat</string>
+    <string name="shared_message_post"><b>%s</b> shared a post</string>
     <string name="chats_member_online">online</string>
     <string name="chats_member_offline">offline</string>
     <string name="search_hint">Search</string>
@@ -655,7 +666,6 @@
     <string name="label_like">Like</string>
     <string name="label_share">Share</string>
     <string name="community_feed_title">Community Feed</string>
-    <string name="likes_comments_format">%d likes, %d comments</string>
 
 
     <!--Create Post-->
