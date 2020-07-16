@@ -1,9 +1,11 @@
 package com.doneit.ascend.presentation.main.home.community_feed.comments_view
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +17,8 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.FragmentCommentsViewBinding
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.common.CommentsAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.common.CommentsClickListener
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -23,6 +27,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+
 
 class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
 
@@ -78,6 +83,17 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
         return binding.root
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return super.onCreateDialog(savedInstanceState).apply {
+            setOnShowListener {
+                val d = this as BottomSheetDialog
+                BottomSheetBehavior.from(
+                    d.findViewById(com.google.android.material.R.id.design_bottom_sheet)!!
+                ).setState(BottomSheetBehavior.STATE_EXPANDED)
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.model = viewModel
@@ -99,7 +115,9 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
     private fun scrollToStart() {
         if (isResumed) {
             with(binding.rvComments.layoutManager as LinearLayoutManager) {
-                scrollToPosition(0)
+                binding.rvComments.doOnPreDraw {
+                    scrollToPosition(0)
+                }
             }
         }
     }
