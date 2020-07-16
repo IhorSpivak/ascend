@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.doneit.ascend.domain.entity.community_feed.Comment
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
@@ -44,7 +45,8 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
     private val commentsAdapter by RvLazyAdapter {
         CommentsAdapter(
             requireArguments().getParcelable(KEY_USER)!!,
-            commentsClickListener()
+            commentsClickListener(),
+            doAfterListUpdated = ::scrollToStart
         ) to { binding.rvComments }
     }
 
@@ -59,7 +61,7 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme);
+        setStyle(STYLE_NORMAL, R.style.AppBottomSheetDialogTheme)
     }
 
     override fun onCreateView(
@@ -92,6 +94,14 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
             }
         }
         observeData()
+    }
+
+    private fun scrollToStart() {
+        if (isResumed) {
+            with(binding.rvComments.layoutManager as LinearLayoutManager) {
+                scrollToPosition(0)
+            }
+        }
     }
 
     private fun onGetComments(comments: PagedList<Comment>) {

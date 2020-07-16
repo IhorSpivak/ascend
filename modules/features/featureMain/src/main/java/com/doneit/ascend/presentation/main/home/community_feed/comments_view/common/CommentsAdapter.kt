@@ -8,8 +8,10 @@ import com.doneit.ascend.presentation.common.PaginationAdapter
 
 class CommentsAdapter(
     private val user: UserEntity,
-    private val commentsClickListener: CommentsClickListener
+    private val commentsClickListener: CommentsClickListener,
+    override val doAfterListUpdated: () -> Unit = {}
 ) : PaginationAdapter<Comment, RecyclerView.ViewHolder>(CommentItemCallback()) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VT_OWN_MESSAGE -> OwnCommentHolder.create(parent, commentsClickListener.onDeleteClick)

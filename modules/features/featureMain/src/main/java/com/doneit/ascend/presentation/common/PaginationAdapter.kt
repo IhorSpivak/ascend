@@ -12,9 +12,11 @@ abstract class PaginationAdapter<T, VH : RecyclerView.ViewHolder>(
 
     protected var currentList: PagedList<T>? = null
 
-    private val adapterCallback by lazy {
+    protected open val adapterCallback by lazy {
         OffsetListUpdateCallback(this, diffOffset)
     }
+
+    protected open val doAfterListUpdated: () -> Unit = {}
 
     open fun submitList(list: PagedList<T>) {
         val current = currentList ?: kotlin.run {
@@ -44,6 +46,7 @@ abstract class PaginationAdapter<T, VH : RecyclerView.ViewHolder>(
         DiffUtil.calculateDiff(diffCallback).apply {
             currentList = list
             dispatchUpdatesTo(adapterCallback)
+            doAfterListUpdated()
         }
         current.unlock()
         list.unlock()
@@ -57,12 +60,12 @@ abstract class PaginationAdapter<T, VH : RecyclerView.ViewHolder>(
         return currentList.orEmpty().size + diffOffset
     }
 
-    private class OffsetListUpdateCallback(
+    protected open class OffsetListUpdateCallback(
         private val adapter: RecyclerView.Adapter<*>,
         private val offset: Int
     ) : ListUpdateCallback {
 
-        fun offsetPosition(originalPosition: Int): Int {
+        open fun offsetPosition(originalPosition: Int): Int {
             return originalPosition + offset
         }
 
