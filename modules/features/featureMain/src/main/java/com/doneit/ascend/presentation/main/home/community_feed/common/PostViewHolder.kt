@@ -30,30 +30,8 @@ class PostViewHolder(
     fun bind(post: Post) {
         with(binding) {
             postModel = post
-            isLiked = post.isLikedMe
-            likesCount = post.likesCount
-            commentsCount = post.commentsCount
-            isOwner = post.isOwner
             setupAttachments(post.attachments)
             setClickListeners(post)
-        }
-    }
-
-    fun updateFromPayloads(payloads: List<Any>) {
-        if (payloads.isEmpty()) return
-        val payload = (payloads.first() as? PostPayload) ?: return
-        with(binding) {
-            payload.likeStatus?.let {
-                likesCount = if (it) {
-                    likesCount?.inc()
-                } else likesCount?.dec()
-                postModel?.isLikedMe = it
-                isLiked = it
-                postModel?.likesCount = likesCount ?: 0
-            }
-            payload.commentsCount?.let {
-                commentsCount = commentsCount?.plus(it)
-            }
         }
     }
 

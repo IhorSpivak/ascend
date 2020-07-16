@@ -36,9 +36,6 @@ class ShareViewHolder(
             this.messageEntity = messageEntity
             messageEntity.post?.let {
                 postModel = it
-                isLiked = it.isLikedMe
-                likesCount = it.likesCount
-                commentsCount = it.commentsCount
                 isOwner = it.isOwner
                 setupAttachments(it.attachments)
             }

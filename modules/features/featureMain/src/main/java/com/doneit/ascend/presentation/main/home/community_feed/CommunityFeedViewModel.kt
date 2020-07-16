@@ -89,6 +89,13 @@ class CommunityFeedViewModel(
     override fun likePost(postId: Long) {
         postsUseCase.likePost(viewModelScope, postId, BaseCallback(
             onSuccess = {
+                posts.value?.let {
+                    val index = it.indexOfFirst { it.id == postId }
+                    if (index != -1) {
+                        val item = it[index]
+                        it.set(index, item.copy(likesCount = item.likesCount.inc(), isLikedMe = true))
+                    }
+                }
             },
             onError = {
 
@@ -99,6 +106,13 @@ class CommunityFeedViewModel(
     override fun unlikePost(postId: Long) {
         postsUseCase.unlikePost(viewModelScope, postId, BaseCallback(
             onSuccess = {
+                posts.value?.let {
+                    val index = it.indexOfFirst { it.id == postId }
+                    if (index != -1) {
+                        val item = it[index]
+                        it.set(index, item.copy(likesCount = item.likesCount.dec(), isLikedMe = false))
+                    }
+                }
             },
             onError = {
 

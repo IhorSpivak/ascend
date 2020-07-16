@@ -19,25 +19,7 @@ class PostsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             TYPE_HEADER -> PostsHeaderViewHolder.create(parent, user, onPostClickListeners)
-            TYPE_OTHER -> PostViewHolder.create(
-                parent,
-                onPostClickListeners.copy(
-                    onLikeClick = { isLiked, id, i ->
-                        onPostClickListeners.onLikeClick(isLiked, id, i)
-                        notifyItemChanged(
-                            i,
-                            PostViewHolder.buildPayload(!isLiked)
-                        )
-                    },
-                    onSendCommentClick = { id, text, i ->
-                        onPostClickListeners.onSendCommentClick(id, text, i)
-                        notifyItemChanged(
-                            i,
-                            PostViewHolder.buildPayload(commentsCount = 1)
-                        )
-                    }
-                )
-            )
+            TYPE_OTHER -> PostViewHolder.create(parent, onPostClickListeners)
             else -> throw IllegalArgumentException("Unsupported view type: $viewType")
         }
     }
@@ -49,31 +31,6 @@ class PostsAdapter(
             }
             TYPE_OTHER -> {
                 (holder as PostViewHolder).bind(getItem(position))
-            }
-            else -> throw IllegalArgumentException(
-                "Unsupported view type: ${getItemViewType(position)}"
-            )
-        }
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
-    ) {
-        when (getItemViewType(position)) {
-            TYPE_HEADER -> {
-                with(holder as PostsHeaderViewHolder) {
-                    if (payloads.isEmpty()) {
-                        bind(channelList ?: return)
-                    } else bind(payloads.first() as PagedList<Channel>)
-                }
-            }
-            TYPE_OTHER -> with(holder as PostViewHolder) {
-                if (payloads.isNotEmpty()) {
-                    updateFromPayloads(payloads)
-                } else bind(getItem(position))
             }
             else -> throw IllegalArgumentException(
                 "Unsupported view type: ${getItemViewType(position)}"

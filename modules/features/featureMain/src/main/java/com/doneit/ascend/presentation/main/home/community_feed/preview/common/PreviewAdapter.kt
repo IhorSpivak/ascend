@@ -5,7 +5,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import androidx.viewpager.widget.PagerAdapter
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.ContentType
@@ -42,8 +41,8 @@ open class PreviewAdapter(
     private fun instantiateVideo(
         container: ViewGroup,
         item: Attachment
-    ) {
-        LayoutInflater.from(container.context)
+    ): View {
+        return LayoutInflater.from(container.context)
             .inflate(R.layout.pager_item_video, container, false)
             .also {
                 val player = SimpleExoPlayer.Builder(container.context)
@@ -58,19 +57,15 @@ open class PreviewAdapter(
     private fun instantiateImage(
         container: ViewGroup,
         item: Attachment
-    ) {
-        LayoutInflater.from(container.context)
+    ): View {
+        return LayoutInflater.from(container.context)
             .inflate(R.layout.pager_item_image, container, false)
             .also {
                 container.addView(it)
                 setImage(
                     it.ivImage,
                     item.url,
-                    CircularProgressDrawable(it.context).apply {
-                        strokeWidth = 5f
-                        centerRadius = 20f
-                        start()
-                    }
+                    null
                 )
             }
     }
