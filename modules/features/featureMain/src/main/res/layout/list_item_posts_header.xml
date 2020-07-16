@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="@string/community_feed_welcome_title"
+            android:text="@{@string/community_feed_welcome_title(user.community)}"
             android:textAllCaps="true"
             android:textSize="20sp" />
 
@@ -87,8 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="8dp"
             app:onClick="@{onNewPostClick}"
             app:user="@{user}" />
     </LinearLayout>
