@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.utils.extensions
 
 import android.content.Context
 import android.text.format.DateFormat
+import android.text.format.DateUtils
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.presentation.utils.Constants.AM
@@ -87,6 +88,14 @@ fun Date.toRateDate(): String {
     return "MMM dd, yyyy".toDefaultFormatter().getFormatted(this)
 }
 
+fun Date.formatPostDate(): String {
+    return when {
+        isYesterday() -> formatYesterday()
+        DateUtils.isToday(time) -> formatToday()
+        else -> MESSAGE_FORMATTER.toDefaultFormatter().getFormatted(this)
+    }
+}
+
 fun Date.isYesterday(): Boolean {
     val c1 = Calendar.getInstance()
     c1.add(Calendar.DAY_OF_YEAR, -1)
@@ -96,6 +105,10 @@ fun Date.isYesterday(): Boolean {
 
     return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
             && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR))
+}
+
+fun Date.formatToday(): String {
+    return "Today at " + HOUR_12_ONLY_FORMAT.toDefaultFormatter().format(this)
 }
 
 fun Date.formatYesterday(): String {

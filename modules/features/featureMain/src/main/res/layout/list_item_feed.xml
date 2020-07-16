@@ -92,7 +92,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@id/btnBlock"
                 android:layout_toEndOf="@+id/mmiAvatar"
-                android:text="@{DateExtensionsKt.isYesterday(postModel.updatedAt)?DateExtensionsKt.formatYesterday(postModel.updatedAt):DateExtensionsKt.toDefaultFormatter(DateExtensionsKt.MESSAGE_FORMATTER).format(postModel.updatedAt)}"
+                android:text="@{DateExtensionsKt.formatPostDate(postModel.updatedAt)}"
                 android:textAppearance="@style/TextNormal"
                 android:textColor="@color/light_gray_8f"
                 android:textSize="12sp"
