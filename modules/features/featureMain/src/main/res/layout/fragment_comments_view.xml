@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewContract.ViewModel" />
@@ -62,8 +61,8 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
-                android:text="@string/no_messages"
-                android:visibility="gone"
+                android:text="@string/no_comments_yet"
+                android:visibility="@{model.commentsCount == 0}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="@+id/rvComments"
                 app:layout_constraintEnd_toEndOf="parent"

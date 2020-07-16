@@ -684,4 +684,7 @@
     <string name="take_video">Select Video</string>
     <string name="format_quantity">%d/%d</string>
 
+    <!--CommunityFeed-->
+    <string name="no_comments_yet">No comments yet</string>
+
 </resources>
