@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="com.doneit.ascend.presentation.utils.extensions.DateExtensionsKt" />
+
+        <import type="com.doneit.ascend.presentation.main.R" />
+
+        <import type="com.doneit.ascend.domain.entity.community_feed.ContentType" />
+
         <variable
             name="member"
             type="com.doneit.ascend.domain.entity.chats.MemberEntity" />

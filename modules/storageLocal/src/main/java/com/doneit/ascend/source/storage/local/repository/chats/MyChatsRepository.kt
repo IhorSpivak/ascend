@@ -3,14 +3,14 @@ package com.doneit.ascend.source.storage.local.repository.chats
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
-import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
+import com.doneit.ascend.source.storage.local.data.chat.ChatWithLastMessage
 import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
-import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
+import com.doneit.ascend.source.storage.local.data.chat.MessageWithPost
 
 class MyChatsRepository(
     private val dao: MyChatsDao
 ) : IMyChatsRepository {
-    override fun getList(title: String?): DataSource.Factory<Int, ChatLocal> {
+    override fun getList(title: String?): DataSource.Factory<Int, ChatWithLastMessage> {
         return if (title.isNullOrEmpty()) {
             dao.getAll()
         } else {
@@ -18,15 +18,15 @@ class MyChatsRepository(
         }
     }
 
-    override fun getListLive(): LiveData<List<ChatLocal>> {
+    override fun getListLive(): LiveData<List<ChatWithLastMessage>> {
         return dao.getAllLive()
     }
 
-    override fun getMessageList(chatId: Long): DataSource.Factory<Int, MessageLocal> {
+    override fun getMessageList(chatId: Long): DataSource.Factory<Int, MessageWithPost> {
         return dao.getAllMessages(chatId)
     }
 
-    override fun getMessageListLive(): LiveData<List<MessageLocal>> {
+    override fun getMessageListLive(): LiveData<List<MessageWithPost>> {
         return dao.getAllMessagesLive()
     }
 
@@ -42,20 +42,20 @@ class MyChatsRepository(
         return dao.getAllBlockedUsers("%$query%")
     }
 
-    override suspend fun insert(chat: ChatLocal) {
-        dao.insert(chat)
+    override suspend fun insert(chat: ChatWithLastMessage) {
+        dao.insertChatWithLastMessage(chat)
     }
 
-    override suspend fun insertAll(chats: List<ChatLocal>) {
-        dao.insertAll(chats)
+    override suspend fun insertAll(chats: List<ChatWithLastMessage>) {
+        dao.insertAllChatsWithLastMessage(chats)
     }
 
-    override suspend fun insertMessage(message: MessageLocal) {
-        dao.insertMessage(message)
+    override suspend fun insertMessage(message: MessageWithPost) {
+        dao.insertMessageWithPost(message)
     }
 
-    override suspend fun insertAllMessages(messages: List<MessageLocal>) {
-        dao.insertAllMessages(messages)
+    override suspend fun insertAllMessages(messages: List<MessageWithPost>) {
+        dao.insertAllMessageWithPost(messages)
     }
 
     override suspend fun getLocalMessagesCount(): Int {

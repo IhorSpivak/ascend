@@ -3,7 +3,8 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_entity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.domain.entity.chats.MessageType
-import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
+import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toEntity
+import com.doneit.ascend.source.storage.local.data.chat.MessageWithPost
 import com.doneit.ascend.source.storage.remote.data.response.MessageResponse
 import java.util.*
 
@@ -21,16 +22,17 @@ fun MessageResponse.toEntity(): MessageEntity {
     )
 }
 
-fun MessageLocal.toEntity(): MessageEntity {
+fun MessageWithPost.toEntity(): MessageEntity {
     return MessageEntity(
-        id,
-        message,
-        edited,
-        type.toMessageType(),
-        userId,
-        createdAt?.let{ Date(it) },
-        updatedAt?.let{Date(it)},
-        status = status.toMessageStatus()
+        messageLocal.id,
+        messageLocal.message,
+        messageLocal.edited,
+        messageLocal.type.toMessageType(),
+        messageLocal.userId,
+        messageLocal.createdAt?.let{ Date(it) },
+        messageLocal.updatedAt?.let{Date(it)},
+        status = messageLocal.status.toMessageStatus(),
+        post = post?.toEntity()
     )
 }
 fun String.toMessageType(): MessageType {

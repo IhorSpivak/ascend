@@ -31,7 +31,8 @@ object StorageLocalModule {
     fun get() = Kodein.Module("StorageLocalModule") {
         bind<LocalDatabase>() with singleton {
             Room.databaseBuilder(instance(), LocalDatabase::class.java, LocalDatabase.NAME)
-                .addMigrations(MIGRATION_1_2)
+                    //TODO: use migrations instead:
+                .fallbackToDestructiveMigration()
                 .build()
         }
 

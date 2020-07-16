@@ -3,22 +3,22 @@ package com.doneit.ascend.source.storage.local.repository.chats
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
-import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
+import com.doneit.ascend.source.storage.local.data.chat.ChatWithLastMessage
 import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
-import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
+import com.doneit.ascend.source.storage.local.data.chat.MessageWithPost
 
 interface IMyChatsRepository {
-    fun getList(title: String?): DataSource.Factory<Int, ChatLocal>
-    fun getListLive(): LiveData<List<ChatLocal>>
-    fun getMessageList(chatId: Long): DataSource.Factory<Int, MessageLocal>
-    fun getMessageListLive(): LiveData<List<MessageLocal>>
+    fun getList(title: String?): DataSource.Factory<Int, ChatWithLastMessage>
+    fun getListLive(): LiveData<List<ChatWithLastMessage>>
+    fun getMessageList(chatId: Long): DataSource.Factory<Int, MessageWithPost>
+    fun getMessageListLive(): LiveData<List<MessageWithPost>>
     fun getMemberList(): DataSource.Factory<Int, MemberLocal>
     fun getMemberListLive(): LiveData<List<MemberLocal>>
     fun getBlockedUsersLive(query: String?): DataSource.Factory<Int, BlockedUserLocal>
-    suspend fun insert(chat: ChatLocal)
-    suspend fun insertAll(chats: List<ChatLocal>)
-    suspend fun insertMessage(message: MessageLocal)
-    suspend fun insertAllMessages(messages: List<MessageLocal>)
+    suspend fun insert(chat: ChatWithLastMessage)
+    suspend fun insertAll(chats: List<ChatWithLastMessage>)
+    suspend fun insertMessage(message: MessageWithPost)
+    suspend fun insertAllMessages(messages: List<MessageWithPost>)
     suspend fun getLocalMessagesCount(): Int
     suspend fun insertMember(memberLocal: MemberLocal)
     suspend fun insertAllMembers(members: List<MemberLocal>)
