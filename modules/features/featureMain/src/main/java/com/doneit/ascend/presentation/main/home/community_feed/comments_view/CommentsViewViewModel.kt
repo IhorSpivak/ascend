@@ -32,7 +32,6 @@ class CommentsViewViewModel(
             baseCallback = BaseCallback(
                 onSuccess = {
                     comments.value?.remove(comment)
-                    setCommentsCount(commentsCount.value!!.dec())
                 },
                 onError = {
 
