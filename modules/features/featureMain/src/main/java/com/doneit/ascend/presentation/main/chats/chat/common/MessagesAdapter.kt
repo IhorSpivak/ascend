@@ -38,6 +38,7 @@ class MessagesAdapter(
                 onImageWebinarClick,
                 type
             )
+            Type.SHARE.ordinal -> ShareViewHolder.create(parent)
             else -> throw IllegalArgumentException("Unsupported view type $viewType")
         }
     }

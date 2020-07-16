@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.remote.data.response
 
+import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
 import com.google.gson.annotations.SerializedName
 
 data class MessageResponse(
@@ -18,5 +19,7 @@ data class MessageResponse(
     @SerializedName("updated_at")
     val updatedAt: String,
     @SerializedName("status")
-    val status: String?
+    val status: String?,
+    @SerializedName("post")
+    val post: PostResponse?
 )

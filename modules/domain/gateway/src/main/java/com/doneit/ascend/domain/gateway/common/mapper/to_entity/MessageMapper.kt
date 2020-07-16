@@ -16,7 +16,8 @@ fun MessageResponse.toEntity(): MessageEntity {
         userId,
         createdAt.toDate(),
         updatedAt.toDate(),
-        status = status.toMessageStatus()
+        status = status.toMessageStatus(),
+        post = post?.toEntity()
     )
 }
 
@@ -34,6 +35,7 @@ fun MessageLocal.toEntity(): MessageEntity {
 }
 fun String.toMessageType(): MessageType {
     return when{
+        this == MessageType.POST_SHARE.toString() -> MessageType.POST_SHARE
         this == MessageType.INVITE.toString() -> MessageType.INVITE
         this == MessageType.LEAVE.toString() -> MessageType.LEAVE
         this == MessageType.USER_REMOVED.toString() -> MessageType.USER_REMOVED

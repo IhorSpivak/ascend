@@ -13,5 +13,6 @@ data class MessageLocal(
     val createdAt: Long?,
     val updatedAt: Long?,
     val status: String,
-    val chatId: Long
+    val chatId: Long,
+    val postId: Long?
 )

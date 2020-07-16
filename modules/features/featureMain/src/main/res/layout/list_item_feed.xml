@@ -28,6 +28,11 @@
         <variable
             name="commentsCount"
             type="Integer" />
+
+        <variable
+            name="visibilityOfSend"
+            type="Boolean" />
+
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -260,6 +265,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
+                android:visibility="@{visibilityOfSend, default = visible}"
                 android:id="@+id/line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -271,6 +277,7 @@
                 android:background="@android:color/darker_gray" />
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:visibility="@{visibilityOfSend, default = visible}"
                 android:id="@+id/etInputMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -288,6 +295,7 @@
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:visibility="@{visibilityOfSend, default = visible}"
                 android:id="@+id/btnSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

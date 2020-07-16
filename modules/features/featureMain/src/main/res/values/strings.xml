@@ -683,6 +683,7 @@
     <string name="comments_enter_text_hint">Enter your comment here</string>
     <string name="take_video">Select Video</string>
     <string name="format_quantity">%d/%d</string>
+    <string name="shared_post">Shared a post</string>
 
     <!--CommunityFeed-->
     <string name="no_comments_yet">No comments yet</string>
