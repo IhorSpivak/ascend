@@ -1,7 +1,7 @@
 package com.doneit.ascend.source.storage.remote.repository.community_feed.socket
 
 import android.util.Log
-import com.doneit.ascend.source.Constants
+import com.doneit.ascend.source.storage.remote.BuildConfig
 import com.doneit.ascend.source.storage.remote.data.request.group.CommunityFeedCookies
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.CommunityFeedEventMessage
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.CommunityFeedEventResponse
@@ -26,7 +26,7 @@ class CommunityFeedSocketRepository(
         val client = builder.build()
 
         val request =
-            Request.Builder().url(Constants.SOCKET_URL)
+            Request.Builder().url(BuildConfig.SOCKET_URL)
                 .addHeader(COOKIE_KEY, cookies.toString())//required for authorization
                 .addHeader(
                     "Origin",
