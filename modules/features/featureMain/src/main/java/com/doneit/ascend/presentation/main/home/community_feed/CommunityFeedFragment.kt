@@ -126,6 +126,10 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
         super.onDestroy()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         data ?: return
