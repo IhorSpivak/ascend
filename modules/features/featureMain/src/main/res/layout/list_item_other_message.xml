@@ -95,6 +95,8 @@
                     android:text="@{memberEntity.fullName}"
                     android:textColor="@color/light_gray_8f"
                     android:textSize="12sp"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintHorizontal_bias="0"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintEnd_toStartOf="@id/message_time"
                     app:layout_constraintStart_toStartOf="parent"
@@ -125,7 +127,7 @@
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="@id/user_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@+id/user_name"
                     tools:ignore="SmallSp"
                     tools:text="123kl1;2" />
