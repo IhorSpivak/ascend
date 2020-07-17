@@ -26,18 +26,14 @@ android {
         dev {
             dimension "type"
             versionNameSuffix ""
-            //todo move to Build from res
-            resValue "string", "base_url", "https://ascend-backend.herokuapp.com/api/v1/"
-            resValue "string", "socket_url", "wss://ascend-backend.herokuapp.com/cable"
-            buildConfigField "boolean", "IS_DEV_SERVER", "true"
+            buildConfigField "String", "BASE_URL", "\"https://ascend-backend.herokuapp.com/api/v1/\""
         }
 
         prod {
             dimension "type"
             versionNameSuffix "-prod"
-
-            resValue "string", "base_url", "https://app.ascend.video/api/v1/"
-            resValue "string", "socket_url", "wss://ascend-backend.herokuapp.com/cable"
+            buildConfigField "String", "BASE_URL", "\"https://app.ascend.video/api/v1/\""
+            signingConfig signingConfigs.prod
         }
     }
 
@@ -55,6 +51,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.prod
         }
         android.applicationVariants.all { variant ->
             variant.outputs.all {

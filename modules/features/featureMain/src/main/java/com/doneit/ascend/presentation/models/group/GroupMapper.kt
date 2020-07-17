@@ -18,7 +18,7 @@ fun PresentationCreateGroupModel.toWebinarEntity(is24TimeFormat: Boolean): Creat
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         actualStartTime.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         participants.get(),
@@ -26,7 +26,7 @@ fun PresentationCreateGroupModel.toWebinarEntity(is24TimeFormat: Boolean): Creat
         numberOfMeetings.observableField.getNotNull().toInt(),
         meetingFormat.observableField.get(),
         isPrivate.get(),
-        tags,
+        null,
         timeList.map {
             TIME_24_FORMAT_DROP_DAY.toGMTFormatter().format(it.time)
         },
@@ -41,14 +41,14 @@ fun PresentationCreateGroupModel.toUpdateWebinarEntity(group: GroupEntity): Upda
     participants.get()?.let {
         emails.addAll(it.toMutableList())
     }
-    (group.attendees?.map { it.email ?: "" } ?: emptyList()).forEach {
+    (group.attendees?.map { it.email.orEmpty() } ?: emptyList()).forEach {
         emails.remove(it)
     }
     return UpdateGroupDTO(
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         actualStartTime.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         emails,
@@ -57,7 +57,7 @@ fun PresentationCreateGroupModel.toUpdateWebinarEntity(group: GroupEntity): Upda
         numberOfMeetings.observableField.getNotNull().toInt(),
         meetingFormat.observableField.get(),
         isPrivate.get(),
-        tags,
+        null,
         timeList.map {
             TIME_24_FORMAT_DROP_DAY.toGMTFormatter().format(it.time)
         },
@@ -79,7 +79,7 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         calendar.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         participants.get(),
@@ -87,7 +87,7 @@ fun PresentationCreateGroupModel.toEntity(): CreateGroupDTO {
         Integer.parseInt(numberOfMeetings.observableField.getNotNull()),
         meetingFormat.observableField.get(),
         isPrivate.get(),
-        tags,
+        tagToInt(tags.observableField.getNotNull()),
         null,
         null,
         duration.observableField.getNotNull().toInt()
@@ -113,7 +113,7 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
         name.observableField.getNotNull(),
         description.observableField.getNotNull(),
         calendar.time,
-        groupType?.toString() ?: "",
+        groupType?.toString().orEmpty(),
         price.observableField.get()?.toFloatS(),
         image.observableField.getNotNull(),
         emails,
@@ -122,7 +122,7 @@ fun PresentationCreateGroupModel.toUpdateEntity(invitedMembers: List<String>): U
         Integer.parseInt(numberOfMeetings.observableField.getNotNull()),
         meetingFormat.observableField.get(),
         isPrivate.get(),
-        tags,
+        tagToInt(tags.observableField.getNotNull()),
         null,
         null,
         duration.observableField.getNotNull().toInt()
@@ -188,6 +188,14 @@ private fun List<CalendarDayEntity>.toDays(): List<Int> {
 
 private fun String.toHours(): Int {
     return this.toInt() % 12 //% 12to avoid day increment
+}
+
+private fun tagToInt(tag: String): Int{
+    return if(tag.isEmpty()){
+        0
+    } else {
+        tag.toInt()
+    }
 }
 
 private fun String.toAM_PM(hours: String): Int {

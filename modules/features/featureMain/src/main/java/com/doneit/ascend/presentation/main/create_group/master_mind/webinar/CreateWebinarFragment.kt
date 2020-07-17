@@ -29,6 +29,7 @@ import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
+import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
@@ -67,7 +68,10 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
 
     private val membersAdapter: InvitedMembersAdapter by lazy {
         InvitedMembersAdapter {
-            viewModel.removeMember(it)
+            val removedIndex = viewModel.removeMember(it)
+            if (removedIndex != -1) {
+                membersAdapter.remove(removedIndex)
+            }
         }
     }
 
@@ -114,6 +118,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
                     viewModel.createGroupModel.duration.observableField.set(Duration.values()[p2].time.toString())
+                    binding.durationTitle.visible()
                 }
             }
 

@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.profile.master_mind
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -38,14 +39,22 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
     private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
     private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
     private val cropPhotoUri by lazy { context!!.createCropPhotoUri() }
+    var listener: MainActivityListener? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = (context as MainActivityListener).apply {
+            setTitle(getString(R.string.profile_title))
+        }
+    }
 
     override fun onResume() {
         super.onResume()
-        val listener = (context as MainActivityListener)
-        listener.setTitle(getString(R.string.profile_title))
-        listener.setSearchEnabled(false)
-        listener.setFilterEnabled(false)
-        listener.setChatEnabled(false)
+        listener?.apply {
+            setSearchEnabled(false)
+            setFilterEnabled(false)
+            setChatEnabled(false)
+        }
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -61,7 +70,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                 R.string.edit_full_name,
                 R.string.error_full_name,
                 R.string.enter_full_name,
-                viewModel.user.value?.fullName ?: ""
+                viewModel.user.value?.fullName.orEmpty()
             ) {
                 viewModel.updateFullName(it)
             }).show()
@@ -72,7 +81,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                 R.string.edit_display_name,
                 R.string.error_display_name,
                 R.string.hint_enter_display_name,
-                viewModel.user.value?.displayName ?: ""
+                viewModel.user.value?.displayName.orEmpty()
             ) {
                 viewModel.updateDisplayName(it)
             }).show()
@@ -87,7 +96,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                 R.string.edit_short_description,
                 R.string.error_short_description,
                 R.string.hint_enter_short_description,
-                viewModel.user.value?.description ?: ""
+                viewModel.user.value?.description.orEmpty()
             ) {
                 viewModel.updateShortDescription(it)
             }).show()
@@ -215,6 +224,11 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                 }
             }
         }
+    }
+
+    override fun onDetach() {
+        listener = null
+        super.onDetach()
     }
 
     private fun handleImageURI(source: Uri) {

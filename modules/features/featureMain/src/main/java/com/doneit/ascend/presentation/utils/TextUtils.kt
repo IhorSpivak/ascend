@@ -32,11 +32,11 @@ fun Context.applyLinkStyle(source: SpannableString, start: Int, end: Int) {
 }
 
 fun ObservableField<String?>.getNotNull(): String {
-    return get() ?: ""
+    return get().orEmpty()
 }
 
 fun ObservableField<String>.getNotNullString(): String {
-    return get() ?: ""
+    return get().orEmpty()
 }
 
 fun ObservableField<Boolean>.getNotNull(): Boolean {
@@ -274,8 +274,7 @@ fun convertCommunityToResId(community: String, type: GroupType?): Int? {
 
 fun applyMultilineFilter(editText: MultilineEditWithError) {
     editText.addOnTextChangedListener { text ->
-        if (text.startsWith("\r\n")
-            || text.startsWith("\r") ||
+        if (text.startsWith("\r") ||
             text.startsWith("\n")
         ) {
             editText.text = text.trim()

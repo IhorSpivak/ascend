@@ -343,7 +343,7 @@ internal class UserGateway(
             .addOnCompleteListener { task ->
                 val token = task.result?.token
                 GlobalScope.launch {
-                    result.send(token ?: "")
+                    result.send(token.orEmpty())
                 }
             }
         return result.receive()

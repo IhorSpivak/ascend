@@ -9,7 +9,7 @@ internal class AuthInterceptor(
 
     override fun intercept(chain: Interceptor.Chain): Response {
         return chain.request().newBuilder().let {
-            it.addHeader(HEADER_AUTHORIZATION, auth?.createAuthHeaderString() ?: "")
+            it.addHeader(HEADER_AUTHORIZATION, auth?.createAuthHeaderString().orEmpty())
             chain.proceed(it.build())
         }
     }

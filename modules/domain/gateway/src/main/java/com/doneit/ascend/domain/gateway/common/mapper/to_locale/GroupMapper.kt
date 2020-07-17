@@ -12,11 +12,14 @@ import com.doneit.ascend.source.storage.local.data.OwnerLocal
 import com.doneit.ascend.source.storage.local.data.TagLocal
 import com.doneit.ascend.source.storage.local.data.dto.GroupFilter
 
-fun GroupListDTO.toLocal(): GroupFilter {
+fun GroupListDTO.toLocal(isUpcoming: Boolean = false): GroupFilter {
     return GroupFilter(
         sortType?.ordinal,
         groupStatus?.ordinal,
-        groupType = groupType?.ordinal
+        groupType = groupType?.ordinal,
+        userId = userId,
+        isUpcoming = isUpcoming
+
     )
 }
 

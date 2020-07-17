@@ -29,7 +29,9 @@ class GroupAdapter(
     }
 
     fun setUser(user: UserEntity) {
-        this.user = user
+        if(this.user == null) {
+            this.user = user
+        }
     }
 
     fun submitList(newItems: List<GroupEntity>) {

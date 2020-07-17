@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.home
 
+import androidx.lifecycle.MediatorLiveData
 import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
@@ -15,6 +16,15 @@ class HomeViewModel(
 ) : BaseViewModelImpl(), HomeContract.ViewModel {
 
     override val user = userUseCase.getUserLive()
+    override val community: MediatorLiveData<String?> = MediatorLiveData()
+
+    init {
+        community.addSource(user){
+            if (it?.community != null && community.value != it.community){
+                community.postValue(it.community)
+            }
+        }
+    }
 
     override fun getListOfTitles(): List<Int> {
         user.value?.let {

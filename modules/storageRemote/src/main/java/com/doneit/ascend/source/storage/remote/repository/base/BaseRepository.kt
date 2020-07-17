@@ -22,7 +22,7 @@ abstract class BaseRepository(
             RemoteResponse(
                 false,
                 -1,
-                exception.message ?: "",
+                exception.message.orEmpty(),
                 null,
                 expectedErrorType.newInstance()
             )

@@ -9,7 +9,7 @@ fun PresentationSignUpModel.toEntity(): SignUpDTO {
     return SignUpDTO(
         email.observableField.getNotNullString(),
         getPhoneNumber(),
-        name.observableField.get() ?: "",
+        name.observableField.get().orEmpty(),
         password.observableField.getNotNullString(),
         passwordConfirmation.observableField.getNotNullString(),
         code.observableField.getNotNullString()

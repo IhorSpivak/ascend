@@ -148,7 +148,7 @@ ext {
     ]
     def amazonaws = [
             sdk: "com.amazonaws:aws-android-sdk-mobile-client:$amazonaws_version",
-            s3 : "com.amazonaws:aws-android-sdk-s3:$amazonaws_version"
+            s3: "com.amazonaws:aws-android-sdk-s3:$amazonaws_version"
     ]
 
     app = [

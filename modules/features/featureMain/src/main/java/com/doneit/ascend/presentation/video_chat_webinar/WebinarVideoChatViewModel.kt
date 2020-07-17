@@ -430,22 +430,22 @@ class WebinarVideoChatViewModel(
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_PREVIEW)
             }
             VideoChatState.PROGRESS -> {
-                //TODO:
-                if (chatRole == ChatRole.OWNER) {
-                    if (credentials.value?.link == null) {
-                        if (chatRole == ChatRole.OWNER) createLiveEvent()
-                    } else if (credentials.value?.key == null) {
-                        if (chatRole == ChatRole.OWNER)
+                when (chatRole) {
+                    ChatRole.OWNER -> {
+                        if (credentials.value?.link == null) {
+                            createLiveEvent()
+                        } else if (credentials.value?.key == null) {
                             viewModelScope.launch {
                                 activateLiveStream(credentials.value?.link!!)
                             }
+                        }
                     }
-                }
-                if (chatRole == ChatRole.VISITOR) {
-                    if (credentials.value?.link != null && credentials.value?.link != null) {
-                        getM3u8Playback()
-                    } else {
-                        getCredentials()
+                    ChatRole.VISITOR -> {
+                        if (credentials.value?.link != null && credentials.value?.link != null) {
+                            getM3u8Playback()
+                        } else {
+                            getCredentials()
+                        }
                     }
                 }
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT_IN_PROGRESS)
@@ -563,7 +563,7 @@ class WebinarVideoChatViewModel(
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
                         viewModelScope.launch {
                             delay(LIVESTREAM_DELAY)
-                            if(groupInfo.value?.owner?.id.toString() != currentUserId) {
+                            if (groupInfo.value?.owner?.id.toString() != currentUserId) {
                                 getM3u8Playback()
                             }
                             isMMConnected.value = true

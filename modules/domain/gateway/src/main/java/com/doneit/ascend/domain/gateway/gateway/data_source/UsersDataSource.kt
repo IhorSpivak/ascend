@@ -62,7 +62,8 @@ class UsersDataSource(
                     callback.onResult(emptyList(), params.key.inc())
                     return@runBlocking
                 }
-                val data = remoteGroup.searchUsers(searchQuery.toSearchRequest(1))
+                val page = params.key
+                val data = remoteGroup.searchUsers(searchQuery.toSearchRequest(page))
                 if (data.isSuccessful) {
                     if (memberList == null) {
                         callback.onResult(data.successModel?.users?.filter { it.id != userId }

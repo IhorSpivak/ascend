@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.video_chat_webinar.preview
 
 import android.os.Bundle
+import androidx.core.view.doOnNextLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,6 +47,9 @@ class WebinarChatPreviewFragment : BaseFragment<FragmentWebinarChatPreviewBindin
 
     private fun observeEvents() {
         viewModel.questions.observe(this, Observer {
+            binding.rvQuestions.doOnNextLayout {
+                (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPosition(0)
+            }
             adapter.submitList(it)
         })
         viewModel.showMessgeSent.observe(this, Observer {
@@ -62,7 +66,7 @@ class WebinarChatPreviewFragment : BaseFragment<FragmentWebinarChatPreviewBindin
         adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 if (itemCount > 0) {
-                        (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
+                    (binding.rvQuestions.layoutManager as LinearLayoutManager).scrollToPosition(0)
                 }
             }
         })

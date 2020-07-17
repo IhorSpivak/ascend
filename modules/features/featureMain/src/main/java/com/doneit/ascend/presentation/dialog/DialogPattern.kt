@@ -39,6 +39,9 @@ class DialogPattern {
                 btnNegative.setOnClickListener {
                     dialog.dismiss()
                 }
+                binding.btnClose.setOnClickListener {
+                    dialog.dismiss()
+                }
             }
             return dialog
         }

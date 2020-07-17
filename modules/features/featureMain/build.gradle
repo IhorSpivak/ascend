@@ -70,4 +70,6 @@ dependencies {
 
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
     api 'com.redmadrobot:inputmask:4.0.0'
+
+
 }
