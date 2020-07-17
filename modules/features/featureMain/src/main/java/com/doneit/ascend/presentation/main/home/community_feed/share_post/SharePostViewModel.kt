@@ -65,10 +65,6 @@ class SharePostViewModel(
         users.value = response
     }
 
-    override fun onBackPressed() {
-
-    }
-
     override fun updateSearch(filter: String) {
         when(sharePostFilter.value!!){
             SharePostFilter.CHAT -> getChats(filter)

@@ -1,11 +1,10 @@
 package com.doneit.ascend.presentation.main.home.community_feed.share_post
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.widget.FrameLayout
 import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -43,7 +42,7 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
                 instance(),
                 instance(),
                 instance(tag = "postId"),
-                instance(tag= "userId")
+                instance(tag = "userId")
             )
         }
 
@@ -70,14 +69,6 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
             container,
             false
         )
-        dialog!!.setOnShowListener { dialog ->
-            val d = dialog as BottomSheetDialog
-            val bottomSheetInternal =
-                d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            bottomSheetInternal?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
-            BottomSheetBehavior.from<View?>(bottomSheetInternal!!).state =
-                BottomSheetBehavior.STATE_EXPANDED
-        }
         return binding.root
     }
 
@@ -93,41 +84,29 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
         }
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return super.onCreateDialog(savedInstanceState).apply {
+            setOnShowListener {
+                val d = this as BottomSheetDialog
+                d.findViewById<View>(
+                    com.google.android.material.R.id.design_bottom_sheet
+                )!!.apply {
+                    BottomSheetBehavior.from<View>(this).state = BottomSheetBehavior.STATE_EXPANDED
+                    val newHeight = activity?.window?.decorView?.measuredHeight
+                    layoutParams.height = newHeight ?: 0
+                    layoutParams = layoutParams
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO: refactor if possible, for opening view on full screen
-        view.viewTreeObserver.addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
-
-                val dialog = dialog as BottomSheetDialog
-                val bottomSheet =
-                    dialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout?
-                val behavior = BottomSheetBehavior.from(bottomSheet!!)
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
-
-                val newHeight = activity?.window?.decorView?.measuredHeight
-                val viewGroupLayoutParams = bottomSheet.layoutParams
-                viewGroupLayoutParams.height = newHeight ?: 0
-                bottomSheet.layoutParams = viewGroupLayoutParams
-            }
-        })
-        viewModel.chats.observe(viewLifecycleOwner, Observer {
-            chatAdapter.submitList(it)
-        })
-        viewModel.channels.observe(viewLifecycleOwner, Observer {
-            chatAdapter.submitList(it)
-        })
-        viewModel.users.observe(viewLifecycleOwner, Observer {
-            userAdapter.submitList(it)
-        })
-        viewModel.sharePostFilter.observe(viewLifecycleOwner, Observer {
-            viewModel.updateSearch(viewModel.filterTextAll.value!!)
-        })
+        observeData()
         binding.apply {
+            lifecycleOwner = this@SharePostBottomSheetFragment
             model = viewModel
-            rgFilter.setOnCheckedChangeListener { radioGroup, i ->
+            rgFilter.setOnCheckedChangeListener { _, i ->
                 when (i) {
                     R.id.radio0 -> {
                         viewModel.sharePostFilter.postValue(SharePostFilter.CHAT)
@@ -143,8 +122,9 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
                     }
                 }
             }
-
-            lifecycleOwner = this@SharePostBottomSheetFragment
+            buttonCancel.setOnClickListener {
+                dialog?.dismiss()
+            }
             clearSearch.setOnClickListener {
                 tvSearch.text.clear()
                 clearSearch.gone()
@@ -157,6 +137,21 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
             rvShareTo.adapter = chatAdapter
         }
 
+    }
+
+    private fun observeData() {
+        viewModel.chats.observe(viewLifecycleOwner, Observer {
+            chatAdapter.submitList(it)
+        })
+        viewModel.channels.observe(viewLifecycleOwner, Observer {
+            chatAdapter.submitList(it)
+        })
+        viewModel.users.observe(viewLifecycleOwner, Observer {
+            userAdapter.submitList(it)
+        })
+        viewModel.sharePostFilter.observe(viewLifecycleOwner, Observer {
+            viewModel.updateSearch(viewModel.filterTextAll.value!!)
+        })
     }
 
 

@@ -22,7 +22,6 @@ interface SharePostContract {
 
         fun shareChat(chatId: Long)
         fun shareToUser(userId: Long)
-        fun onBackPressed()
 
         fun updateSearch(filter: String)
         fun getChats(filter: String)
