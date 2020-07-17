@@ -26,7 +26,7 @@ class CreatePostViewModel(
     override val attachments = MutableLiveData<List<Attachment>>(createPostModel.media)
     override val showPopupEvent = SingleLiveEvent<String>()
     override val result = SingleLiveEvent<Post>()
-
+    override val canAddAttachments = MutableLiveData(true)
     private var post: Post? = null
 
     init {
@@ -90,10 +90,12 @@ class CreatePostViewModel(
         createPostModel.description.observableField.set(post.description)
         createPostModel.media.addAll(post.attachments)
         attachments.postValue(createPostModel.media)
+        canAddAttachments.value = createPostModel.media.size < ATTACHMENTS_COUNT
     }
 
     override fun processSingleItem(uri: String, mimeType: String) {
-        if (createPostModel.media.size >= 5) return
+        if (createPostModel.media.size >= ATTACHMENTS_COUNT) return
+
         val index = createPostModel.media.indexOfFirst { it.url == uri }
         val newAttachment = Attachment(
             id = -1,
@@ -105,6 +107,7 @@ class CreatePostViewModel(
             canComplete.value = createPostModel.description.observableField.get()
                 .orEmpty().length > 2 || createPostModel.media.size > 0
         } else createPostModel.media[index] = newAttachment
+        canAddAttachments.value = createPostModel.media.size < ATTACHMENTS_COUNT
     }
 
     override fun deleteItemAt(pos: Int) {
@@ -115,5 +118,10 @@ class CreatePostViewModel(
             createPostModel.deletedItemsId.add(item.id)
         }
         attachments.value = createPostModel.media
+        canAddAttachments.value = createPostModel.media.size < ATTACHMENTS_COUNT
+    }
+
+    companion object {
+        const val ATTACHMENTS_COUNT = 5
     }
 }

@@ -166,6 +166,12 @@
                     app:layout_constraintStart_toStartOf="@id/dash_rectangle_background"
                     app:layout_constraintTop_toBottomOf="@+id/image_view_upload_image_group" />
 
+                <androidx.constraintlayout.widget.Group
+                    android:visibility="@{viewModel.canAddAttachments}"
+                    app:constraint_referenced_ids="dash_rectangle_background,image_view_upload_image_group, text_view_upload_group_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_media"
                     android:layout_width="match_parent"
