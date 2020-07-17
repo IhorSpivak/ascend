@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.home.community_feed.share_post
 
 import android.app.Dialog
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -92,8 +93,8 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
                     com.google.android.material.R.id.design_bottom_sheet
                 )!!.apply {
                     BottomSheetBehavior.from<View>(this).state = BottomSheetBehavior.STATE_EXPANDED
-                    val newHeight = activity?.window?.decorView?.measuredHeight
-                    layoutParams.height = newHeight ?: 0
+                    val rectangle = Rect()
+                    layoutParams.height = rectangle.bottom - rectangle.top
                     layoutParams = layoutParams
                 }
             }
