@@ -14,10 +14,6 @@
             type="com.doneit.ascend.domain.entity.community_feed.Post" />
 
         <variable
-            name="isOwner"
-            type="Boolean" />
-
-        <variable
             name="visibilityOfSend"
             type="Boolean" />
 
@@ -73,7 +69,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                app:imageResource="@{isOwner?R.drawable.ic_more_vert:R.drawable.ic_info}" />
+                app:imageResource="@{postModel.isOwner?R.drawable.ic_more_vert:R.drawable.ic_info}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTime"
