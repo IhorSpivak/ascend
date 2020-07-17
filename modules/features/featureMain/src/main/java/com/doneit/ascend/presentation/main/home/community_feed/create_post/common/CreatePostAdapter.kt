@@ -39,6 +39,10 @@ open class CreatePostAdapter(
         return items[position].contentType.ordinal
     }
 
+    override fun onViewDetachedFromWindow(holder: AttachmentHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.clear()
+    }
 
     override fun getItemCount() = items.size
 }

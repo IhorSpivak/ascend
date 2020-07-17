@@ -6,4 +6,5 @@ import com.doneit.ascend.domain.entity.community_feed.Attachment
 
 abstract class AttachmentHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
     abstract fun bind(attachment: Attachment)
+    open fun clear(){}
 }

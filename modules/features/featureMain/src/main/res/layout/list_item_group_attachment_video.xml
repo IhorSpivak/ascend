@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="isPlaying"
-            type="Boolean" />
-    </data>
-
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -19,10 +12,28 @@
             android:layout_width="match_parent"
             android:layout_height="200dp">
 
-            <VideoView
-                android:id="@+id/vvVideo"
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/pvPlayer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:controller_layout_id="@layout/exo_player_view_create_post"
+                app:resize_mode="fixed_width"
+                app:show_buffering="when_playing" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/duration"
+                style="@style/TextNormal.White"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:background="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="12sp"
+                tools:text="03:07" />
+
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btnDelete"
@@ -32,24 +43,6 @@
                 android:layout_margin="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_delete" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btnPlay"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_baseline_play"
-                android:visibility="@{!isPlaying}"
-                app:fabCustomSize="40dp" />
-
-            <TextView
-                android:layout_margin="8dp"
-                android:textColor="@android:color/white"
-                android:id="@+id/duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|top"
-                tools:text="12:00" />
         </FrameLayout>
     </androidx.cardview.widget.CardView>
 </layout>

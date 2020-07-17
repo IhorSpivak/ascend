@@ -207,13 +207,10 @@ fun calculateDate(currentMessageTime: Date, previousMessageTime: Date): Boolean 
             (previous.get(Calendar.YEAR) * 365 + previous.get(Calendar.DAY_OF_YEAR))) > 0
 }
 
-fun Int.getDurationBreakdown(): String? {
-    val milliseconds = this.toLong()
-    val seconds = (milliseconds / 1000) % 60
-    val minutes = (milliseconds / (1000 * 60) % 60)
-    val hours = (milliseconds / (1000 * 60 * 60) % 24)
-    return String.format("%02d:%02d:%02d",
-        hours, minutes, seconds)
+fun Long.getDurationBreakdown(): String? {
+    val seconds = (this / 1000) % 60
+    val minutes = (this / (1000 * 60) % 60)
+    return String.format("%02d:%02d", minutes, seconds)
 }
 
 const val MESSAGE_FORMATTER = "dd MMMM yyyy"
