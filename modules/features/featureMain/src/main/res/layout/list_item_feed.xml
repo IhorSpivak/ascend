@@ -109,6 +109,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:visibility="@{postModel.description.length() > 0}"
                 android:text="@{postModel.description}"
                 android:textAppearance="@style/TextNormal"
                 android:textSize="16sp"

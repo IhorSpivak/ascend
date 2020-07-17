@@ -31,7 +31,7 @@ class CreatePostViewModel(
 
     init {
         createPostModel.description.validator = {
-            canComplete.value = it.length > 2
+            canComplete.value = it.length > 2 || createPostModel.media.size > 0
             ValidationResult(it.length > 2)
         }
     }
@@ -102,11 +102,15 @@ class CreatePostViewModel(
         )
         if (index == -1) {
             createPostModel.media.add(newAttachment)
+            canComplete.value = createPostModel.description.observableField.get()
+                .orEmpty().length > 2 || createPostModel.media.size > 0
         } else createPostModel.media[index] = newAttachment
     }
 
     override fun deleteItemAt(pos: Int) {
         val item = createPostModel.media.removeAt(pos)
+        canComplete.value = createPostModel.description.observableField.get()
+            .orEmpty().length > 2 || createPostModel.media.size > 0
         if (item.id != -1L) {
             createPostModel.deletedItemsId.add(item.id)
         }
