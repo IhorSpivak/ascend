@@ -92,8 +92,9 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
                 d.findViewById<View>(
                     com.google.android.material.R.id.design_bottom_sheet
                 )!!.apply {
-                    BottomSheetBehavior.from<View>(this).state = BottomSheetBehavior.STATE_EXPANDED
                     val rectangle = Rect()
+                    getWindow()?.decorView?.getWindowVisibleDisplayFrame(rectangle)
+                    BottomSheetBehavior.from<View>(this).state = BottomSheetBehavior.STATE_EXPANDED
                     layoutParams.height = rectangle.bottom - rectangle.top
                     layoutParams = layoutParams
                 }

@@ -38,7 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
         binding.tlGroups.setupWithViewPager(binding.vpGroups)
-        binding.vpGroups.offscreenPageLimit = 0
+        binding.vpGroups.offscreenPageLimit = 3
 
         viewModel.user.observe(this, Observer {
             it ?: return@Observer

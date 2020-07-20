@@ -126,10 +126,6 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
         super.onDestroy()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         data ?: return
@@ -149,6 +145,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     private fun showSetting(view: View, post: Post) {
         PopupMenu(view.context, view, Gravity.START).apply {
             menuInflater.inflate(R.menu.post_menu, this.menu)
+            menu.findItem(R.id.post_edit)?.isVisible = post.likesCount == 0 && post.commentsCount == 0
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.post_edit -> {

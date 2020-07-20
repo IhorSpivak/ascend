@@ -15,8 +15,9 @@
             <com.google.android.exoplayer2.ui.PlayerView
                 android:id="@+id/pvPlayer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                app:surface_type="texture_view"
                 app:controller_layout_id="@layout/exo_player_view_create_post"
                 app:resize_mode="fixed_width"
                 app:show_buffering="when_playing" />

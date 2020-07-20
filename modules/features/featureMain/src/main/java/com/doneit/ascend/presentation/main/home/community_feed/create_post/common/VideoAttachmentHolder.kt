@@ -31,8 +31,9 @@ class VideoAttachmentHolder(
     private suspend fun runObserverTask() {
         while (true) {
             binding.apply {
-                duration.text = ((pvPlayer.player?.duration ?: 0 )-
-                (pvPlayer.player?.currentPosition ?: 0))
+                duration.text = ((pvPlayer.player?.duration ?: 0) -
+                        (pvPlayer.player?.currentPosition ?: 0))
+                    .coerceIn(0..Long.MAX_VALUE)
                     .getDurationBreakdown()
             }
             delay(1000)
