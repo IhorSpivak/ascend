@@ -19,12 +19,15 @@ import com.doneit.ascend.domain.gateway.gateway.boundaries.MembersBoundaryCallba
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MessagesBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MyChatsBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.data_source.ChatSearchDataSource
+import com.doneit.ascend.domain.use_case.PaginationDataSource
+import com.doneit.ascend.domain.use_case.PaginationSourceRemote
 import com.doneit.ascend.domain.use_case.gateway.IMyChatGateway
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.source.storage.remote.data.request.group.ChatSocketCookies
 import com.doneit.ascend.source.storage.remote.repository.chats.IMyChatsRepository
 import com.doneit.ascend.source.storage.remote.repository.chats.socket.IChatSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -470,4 +473,26 @@ class MyChatGateway(
             0
         }
     }
+
+    override fun loadChats(
+        scope: CoroutineScope,
+        request: ChatListDTO
+    ): LiveData<com.doneit.ascend.domain.use_case.PagedList<ChatEntity>> =
+        liveData {
+            emitSource(
+                PaginationDataSource.Builder<ChatEntity>()
+                    .coroutineScope(scope)
+                        //todo: local source
+                    .pageLimit(request.perPage ?: 10)
+                    .remoteSource(object : PaginationSourceRemote<ChatEntity> {
+                        override suspend fun loadData(page: Int, limit: Int): List<ChatEntity>? {
+                            return remote.getMyChats(request.toRequest(page))
+                                .successModel
+                                ?.chats
+                                ?.map { it.toEntity() }
+                        }
+                    })
+                    .build()
+            )
+        }
 }

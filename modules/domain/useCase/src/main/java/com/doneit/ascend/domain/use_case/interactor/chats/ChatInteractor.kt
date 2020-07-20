@@ -9,6 +9,7 @@ import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.use_case.gateway.IMyChatGateway
+import kotlinx.coroutines.CoroutineScope
 
 class ChatInteractor(
     private val chatGateway: IMyChatGateway
@@ -122,5 +123,12 @@ class ChatInteractor(
 
     override suspend fun getUnreadMessageCount(): Long {
         return chatGateway.getUnreadMessageCount()
+    }
+
+    override fun loadChats(
+        coroutineScope: CoroutineScope,
+        request: ChatListDTO
+    ): LiveData<com.doneit.ascend.domain.use_case.PagedList<ChatEntity>> {
+        return chatGateway.loadChats(coroutineScope, request)
     }
 }

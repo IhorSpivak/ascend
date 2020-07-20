@@ -10,7 +10,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
-import com.doneit.ascend.domain.entity.community_feed.Channel
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
@@ -117,7 +117,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
         initPostsAdapter.submitList(posts)
     }
 
-    private fun onChannelsReceived(channels: PagedList<Channel>) {
+    private fun onChannelsReceived(channels: PagedList<ChatEntity>) {
         initPostsAdapter.submitChannels(channels)
     }
 

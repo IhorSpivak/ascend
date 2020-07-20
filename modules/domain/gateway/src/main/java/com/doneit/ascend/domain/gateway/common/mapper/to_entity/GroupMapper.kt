@@ -33,12 +33,12 @@ fun ImageResponse.toEntity(): ImageEntity {
 fun OwnerResponse.toEntity(): OwnerEntity {
     return OwnerEntity(
         id,
-        fullName,
+        fullName.orEmpty(),
         image?.toEntity(),
         rating,
         followed,
         location,
-        connected
+        connected ?: false
     )
 }
 

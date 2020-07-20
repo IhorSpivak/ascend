@@ -2,11 +2,18 @@ package com.doneit.ascend.presentation.main.home.community_feed
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.common.BaseCallback
-import com.doneit.ascend.domain.entity.community_feed.*
+import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.CommunityFeedSocketEntity
+import com.doneit.ascend.domain.entity.community_feed.CommunityFeedSocketEvent
+import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.dto.ChatListDTO
+import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -20,6 +27,7 @@ import kotlinx.coroutines.launch
 class CommunityFeedViewModel(
     private val postsUseCase: CommunityFeedUseCase,
     private val userUseCase: UserUseCase,
+    private val chatUseCase: ChatUseCase,
     private val router: CommunityFeedContract.Router
 ) : BaseViewModelImpl(), CommunityFeedContract.ViewModel {
     override val posts = postsUseCase.loadPosts(
@@ -28,11 +36,12 @@ class CommunityFeedViewModel(
             sortType = SortType.DESC
         )
     )
-    override val channels = postsUseCase.loadChannels(
+    override val channels = chatUseCase.loadChats(
         viewModelScope,
-        CommunityFeedDTO(
+        ChatListDTO(
             perPage = 10,
-            sortType = SortType.DESC
+            sortType = SortType.DESC,
+            chatType = ChatType.CHANNEL
         )
     )
 
@@ -67,7 +76,7 @@ class CommunityFeedViewModel(
         ))
     }
 
-    override fun onChannelClick(channel: Channel) {
+    override fun onChannelClick(channel: ChatEntity) {
 
     }
 

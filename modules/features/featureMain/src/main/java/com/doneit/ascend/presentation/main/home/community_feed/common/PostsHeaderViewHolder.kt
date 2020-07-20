@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.community_feed.Channel
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.presentation.main.R
@@ -30,7 +30,7 @@ class PostsHeaderViewHolder(
         }
     }
 
-    fun bind(channelList: PagedList<Channel>) {
+    fun bind(channelList: PagedList<ChatEntity>) {
         bind()
         adapter.submitList(channelList)
     }

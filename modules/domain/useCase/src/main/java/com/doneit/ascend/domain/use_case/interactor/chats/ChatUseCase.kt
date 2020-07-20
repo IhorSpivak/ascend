@@ -9,6 +9,7 @@ import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import kotlinx.coroutines.CoroutineScope
 
 interface ChatUseCase {
     fun getMyChatListLive(request: ChatListDTO): LiveData<PagedList<ChatEntity>>
@@ -47,4 +48,9 @@ interface ChatUseCase {
     suspend fun blockUser(userId: Long): ResponseEntity<Unit, List<String>>
     fun getBlockedUsers(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>>
     suspend fun getUnreadMessageCount(): Long
+
+    fun loadChats(
+        coroutineScope: CoroutineScope,
+        request: ChatListDTO
+    ): LiveData<com.doneit.ascend.domain.use_case.PagedList<ChatEntity>>
 }

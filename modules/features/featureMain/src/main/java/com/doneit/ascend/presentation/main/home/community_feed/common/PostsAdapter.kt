@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.main.home.community_feed.common
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.doneit.ascend.domain.entity.community_feed.Channel
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
@@ -14,7 +14,7 @@ class PostsAdapter(
     private val user: UserEntity
 ) : PaginationAdapter<Post, RecyclerView.ViewHolder>(PostDiffUtilCallback(), 1) {
 
-    private var channelList: PagedList<Channel>? = null
+    private var channelList: PagedList<ChatEntity>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -38,7 +38,7 @@ class PostsAdapter(
         }
     }
 
-    fun submitChannels(channelList: PagedList<Channel>) {
+    fun submitChannels(channelList: PagedList<ChatEntity>) {
         this.channelList = channelList
         notifyItemChanged(0, channelList)
     }

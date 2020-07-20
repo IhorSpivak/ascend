@@ -5,7 +5,7 @@
 
         <variable
             name="channelModel"
-            type="com.doneit.ascend.domain.entity.community_feed.Channel" />
+            type="com.doneit.ascend.domain.entity.chats.ChatEntity" />
 
         <variable
             name="onChannelClick"
@@ -23,7 +23,7 @@
         <com.doneit.ascend.presentation.views.MasterMindIcon
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:url="@{channelModel.imageUrl}" />
+            app:url="@{channelModel.image.thumbnail.url}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/TextNormal.White"
@@ -31,10 +31,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:gravity="center"
+            android:minLines="2"
+            android:lines="2"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:gravity="top|center_horizontal"
             android:text="@{channelModel.title}"
             android:textSize="12sp"
-            tools:text="Celebrate Recovery" />
+            tools:text="Celebrate Recovery Celebrate Recovery" />
 
     </LinearLayout>
 </layout>
