@@ -570,6 +570,12 @@
     <string name="search_member_hint">Search by name or email</string>
     <string name="add_attendee_hint">Add attendee by username or email</string>
     <string name="view_attendees">View</string>
+    <string name="add_members">Add Members</string>
+    <string name="chat_name_default">Chat Name</string>
+    <string name="public_chat">Public Chat</string>
+    <string name="private_chat">Private Chat</string>
+    <string name="channel_description_title">Channel Description</string>
+    <string name="description_footer">You can add additional description of your channel, if you want.</string>
 
     <!--Custom price keyboard-->
     <string name="number_zero">0</string>
@@ -609,6 +615,7 @@
     <string name="new_chat_add_members">Add More</string>
     <string name="new_chat_title_hint">Chat Title</string>
     <string name="no_results">No Results</string>
+    <string name="new_channel">New Channel</string>
 
     <!--Blocked Users-->
     <string name="blocked_users_title">Blocked Users</string>
