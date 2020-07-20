@@ -129,11 +129,16 @@ internal class GroupGateway(
 
     override fun getGroupsListPaged(
         coroutineScope: CoroutineScope,
-        listRequest: GroupListDTO
+        listRequest: GroupListDTO,
+        isUpcoming: Boolean
     ) = liveData {
         groupLocal.removeAllByType(listRequest.groupType?.ordinal ?: 0)
         val config = getDefaultPagedConfig(listRequest)
-        val factory = groupLocal.getGroupList(listRequest.toLocal()).map { it.toEntity() }
+        val factory = if (isUpcoming) {
+            groupLocal.getUpcomingGroupList(listRequest.toLocal(isUpcoming)).map { it.toEntity() }
+        } else {
+            groupLocal.getGroupList(listRequest.toLocal()).map { it.toEntity() }
+        }
 
         val boundary = GroupBoundaryCallback(
             coroutineScope,
@@ -151,7 +156,6 @@ internal class GroupGateway(
 
         boundary.loadInitial()
     }
-
     override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>> {
         val res = executeRemote { remote.getGroupDetails(groupId) }.toResponseEntity(
             {

@@ -132,7 +132,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
     }
 
     private fun startVideo(model: StartWebinarVideoModel) {
-        context!!.requestPermissions(
+        requireContext().requestPermissions(
             listOf(
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.CAMERA

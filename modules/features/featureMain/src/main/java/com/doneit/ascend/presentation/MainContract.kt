@@ -9,6 +9,7 @@ interface MainContract {
         val hasUnread: LiveData<Boolean>
         val hasUnreadMessages: LiveData<Boolean>
 
+        fun getUnreadMessageCount()
         fun onNotificationClick()
         fun onSearchClick()
         fun onFilterClick()

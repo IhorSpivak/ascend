@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.main.home
 
+import androidx.lifecycle.MediatorLiveData
 import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
@@ -10,11 +11,20 @@ import com.vrgsoft.annotations.ViewModelDiModule
 @CreateFactory
 @ViewModelDiModule
 class HomeViewModel(
-    private val userUseCase: UserUseCase,
+    userUseCase: UserUseCase,
     private val router: HomeContract.Router
 ) : BaseViewModelImpl(), HomeContract.ViewModel {
 
     override val user = userUseCase.getUserLive()
+    override val community: MediatorLiveData<String?> = MediatorLiveData()
+
+    init {
+        community.addSource(user){
+            if (it?.community != null && community.value != it.community){
+                community.postValue(it.community)
+            }
+        }
+    }
 
     override fun getListOfTitles(): List<Int> {
         user.value?.let {
@@ -23,30 +33,35 @@ class HomeViewModel(
                 Community.INDUSTRY.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.community_feed_title,
                     R.string.collaboration,
                     R.string.master_mind
                 )
-                Community.FITNESS.title  -> listOf(
+                Community.FITNESS.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.community_feed_title,
                     R.string.collaboration,
                     R.string.coaching
                 )
-                Community.RECOVERY.title  -> listOf(
+                Community.RECOVERY.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.community_feed_title,
                     R.string.groups,
                     R.string.master_mind
                 )
-                Community.FAMILY.title  -> listOf(
+                Community.FAMILY.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.community_feed_title,
                     R.string.groups,
                     R.string.coaching
                 )
-                Community.SPIRITUAL.title  -> listOf(
+                Community.SPIRITUAL.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.community_feed_title,
                     R.string.collaboration,
                     R.string.coaching
                 )

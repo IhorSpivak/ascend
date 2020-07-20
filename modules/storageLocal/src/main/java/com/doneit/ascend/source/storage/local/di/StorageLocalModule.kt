@@ -1,11 +1,15 @@
 package com.doneit.ascend.source.storage.local.di
 
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.doneit.ascend.source.storage.local.repository.LocalDatabase
 import com.doneit.ascend.source.storage.local.repository.attachments.AttachmentRepository
 import com.doneit.ascend.source.storage.local.repository.attachments.IAttachmentRepository
 import com.doneit.ascend.source.storage.local.repository.chats.IMyChatsRepository
 import com.doneit.ascend.source.storage.local.repository.chats.MyChatsRepository
+import com.doneit.ascend.source.storage.local.repository.community_feed.CommunityFeedRepository
+import com.doneit.ascend.source.storage.local.repository.community_feed.ICommunityFeedRepository
 import com.doneit.ascend.source.storage.local.repository.groups.GroupRepository
 import com.doneit.ascend.source.storage.local.repository.groups.IGroupRepository
 import com.doneit.ascend.source.storage.local.repository.master_minds.IMasterMindRepository
@@ -27,6 +31,8 @@ object StorageLocalModule {
     fun get() = Kodein.Module("StorageLocalModule") {
         bind<LocalDatabase>() with singleton {
             Room.databaseBuilder(instance(), LocalDatabase::class.java, LocalDatabase.NAME)
+                    //TODO: use migrations instead:
+                .fallbackToDestructiveMigration()
                 .build()
         }
 
@@ -38,5 +44,14 @@ object StorageLocalModule {
         bind<INotificationRepository>() with singleton { NotificationRepository(instance<LocalDatabase>().notificationDao()) }
         bind<IMyChatsRepository>() with singleton { MyChatsRepository(instance<LocalDatabase>().myChatsDao()) }
         bind<IWebinarQuestionRepository>() with singleton { WebinarQuestionRepository(instance<LocalDatabase>().webinarQuestionDao()) }
+        bind<ICommunityFeedRepository>() with singleton { CommunityFeedRepository(instance<LocalDatabase>().communityFeedDao()) }
+    }
+
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("ALTER TABLE `chat` ADD COLUMN chatType TEXT NOT NULL DEFAULT 'chat'")
+            database.execSQL("ALTER TABLE `chat` ADD COLUMN isPrivate INTEGER NOT NULL DEFAULT 0")
+            database.execSQL("ALTER TABLE `chat` ADD COLUMN subscribed INTEGER NOT NULL DEFAULT 0")
+        }
     }
 }

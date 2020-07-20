@@ -110,6 +110,16 @@
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plurals>
+
+    <plurals name="x_comments">
+        <item quantity="one">%d comment</item>
+        <item quantity="other">%d comments</item>
+    </plurals>
+
+    <plurals name="x_likes">
+        <item quantity="one">%d like</item>
+        <item quantity="other">%d likes</item>
+    </plurals>
     <string name="duration_hours">Duration</string>
 
     <string-array name="meeting_formats">
@@ -463,7 +473,7 @@
     <string name="unmute_this_user">Unmute this user</string>
     <string name="mute_this_user">Mute this user</string>
     <string name="report">Report</string>
-    <string name="allow_say">Allow to say</string>
+    <string name="allow_say">Remove Hand</string>
     <string name="attachments">Attachments</string>
     <string name="file_size_format">%.1f MB</string>
     <string name="notes">Notes</string>
@@ -640,6 +650,7 @@
     <string name="invite_message"><b>%s</b> invited <b>%s</b></string>
     <string name="leave_message"><b>%s</b> left this chat</string>
     <string name="remove_message"><b>%s</b> was removed from chat</string>
+    <string name="shared_message_post"><b>%s</b> shared a post</string>
     <string name="chats_member_online">online</string>
     <string name="chats_member_offline">offline</string>
     <string name="search_hint">Search</string>
@@ -651,4 +662,44 @@
     <string name="questions">Questions</string>
     <string name="chat">Chat</string>
     <string name="title_chats_members">Chat Members</string>
+    <string name="community_feed_post_something">Post Something...</string>
+    <string name="community_feed_welcome_title">Welcome to the %s community feed</string>
+    <string name="community_feed_recommended_channels_title">Recommended Channels</string>
+    <string name="community_feed_see_all">See All</string>
+    <string name="community_feed_post_hint">Enter your comment here</string>
+    <string name="label_like">Like</string>
+    <string name="label_share">Share</string>
+    <string name="community_feed_title">Community Feed</string>
+
+
+    <!--Create Post-->
+    <string name="update_post_title">Edit Post</string>
+    <string name="create_post_title">Create Post</string>
+    <string name="post_header">Post Header</string>
+    <string name="post_description">Post Description</string>
+    <string name="create_post_complete">Post</string>
+    <string name="create_post_update">Save</string>
+    <string name="add_image_or_video">Add Image or Video</string>
+    <string name="error">Error</string>
+
+    <string name="comments_view_comments">%d Comments</string>
+    <string name="delete">Delete</string>
+    <string name="delete_post_title_dialog">Delete this post?</string>
+    <string name="delete_post_description_dialog">If you delete this post,\n it cannot be restored.</string>
+    <string name="delete_post_ok">Yes, delete</string>
+    <string name="delete_post_cancel">Cancel</string>
+
+    <!--Share Post-->
+    <string name="filter_chat">Chat</string>
+    <string name="filter_channel">Channel</string>
+    <string name="filter_user">User</string>
+    <string name="share_to">Share To</string>
+    <string name="comments_enter_text_hint">Enter your comment here</string>
+    <string name="take_video">Select Video</string>
+    <string name="format_quantity">%d/%d</string>
+    <string name="shared_post">Shared a post</string>
+
+    <!--CommunityFeed-->
+    <string name="no_comments_yet">No comments yet</string>
+
 </resources>

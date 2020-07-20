@@ -20,7 +20,7 @@ interface GroupUseCase {
 
     suspend fun getGroupList(model: GroupListDTO): ResponseEntity<List<GroupEntity>, List<String>>
 
-    fun getGroupListPaged(scope: CoroutineScope, model: GroupListDTO): LiveData<PagedList<GroupEntity>>
+    fun getGroupListPaged(scope: CoroutineScope, model: GroupListDTO, isUpcoming: Boolean = false): LiveData<PagedList<GroupEntity>>
 
     suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>>
 

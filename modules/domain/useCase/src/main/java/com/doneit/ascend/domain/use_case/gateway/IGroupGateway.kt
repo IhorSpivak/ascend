@@ -20,7 +20,7 @@ interface IGroupGateway {
 
     suspend fun getGroupsList(groupListModel: GroupListDTO): ResponseEntity<List<GroupEntity>, List<String>>
 
-    fun getGroupsListPaged(coroutineScope: CoroutineScope, listRequest: GroupListDTO): LiveData<PagedList<GroupEntity>>
+    fun getGroupsListPaged(coroutineScope: CoroutineScope, listRequest: GroupListDTO, isUpcoming: Boolean = false): LiveData<PagedList<GroupEntity>>
 
     suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>>
 

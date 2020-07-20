@@ -19,7 +19,10 @@ data class ChatLocal(
     val chatOwnerId: Long,
     val title: String,
     @Embedded(prefix = "img") val image: ImageLocal?,
-    @Embedded(prefix = "last_message_") val lastMessage: MessageLocal?,
+    val lastMessageId: Long?,
     @TypeConverters(MembersConverter::class)
-    val members: List<MemberLocal>?
+    val members: List<MemberLocal>?,
+    val chatType: String,
+    val isPrivate: Boolean,
+    val subscribed: Boolean
 )

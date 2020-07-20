@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -54,6 +55,11 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     abstract val viewModel: BaseViewModel
 
     //endregion
+    protected fun <T> observe(ld: LiveData<T>, handler: (T) -> Unit) {
+        ld.observe(viewLifecycleOwner::getLifecycle) {
+            handler(it)
+        }
+    }
 
     private var noConnectionDialog: ConnectionSnackbar? = null
     protected val connectionObserver: ConnectionObserver by lazy {
@@ -156,7 +162,8 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
             progressDialog.dismiss()
         }
     }
-    protected open fun onNetworkStateChanged(hasConnection: Boolean){
+
+    protected open fun onNetworkStateChanged(hasConnection: Boolean) {
         this.hasConnection = hasConnection
         if (hasConnection) {
             noConnectionDialog?.dismiss()
@@ -170,7 +177,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
         if (progressDialog != null) {
             outState.putBoolean(IS_PROGRESS_SHOWN_KEY, progressDialog.isShowing)
         }
-        progressDialog?.dismiss()
+        progressDialog.dismiss()
         noConnectionDialog?.dismiss()
     }
 

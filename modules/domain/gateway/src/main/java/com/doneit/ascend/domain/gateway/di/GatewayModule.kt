@@ -1,9 +1,12 @@
 package com.doneit.ascend.domain.gateway.di
 
 import com.doneit.ascend.domain.gateway.gateway.*
+import com.doneit.ascend.domain.gateway.gateway.community_feed.CommunityFeedGateway
 import com.doneit.ascend.domain.use_case.gateway.*
 import com.doneit.ascend.source.storage.remote.repository.chats.socket.ChatSocketRepository
 import com.doneit.ascend.source.storage.remote.repository.chats.socket.IChatSocketRepository
+import com.doneit.ascend.source.storage.remote.repository.community_feed.socket.CommunityFeedSocketRepository
+import com.doneit.ascend.source.storage.remote.repository.community_feed.socket.ICommunityFeedSocketRepository
 import com.doneit.ascend.source.storage.remote.repository.group.questions_socket.IQuestionSocketRepository
 import com.doneit.ascend.source.storage.remote.repository.group.questions_socket.QuestionSocketRepository
 import com.vrgsoft.networkmanager.NetworkManager
@@ -119,6 +122,12 @@ object GatewayModule {
             )
         }
 
+        bind<ICommunityFeedSocketRepository>() with singleton {
+            CommunityFeedSocketRepository(
+                instance()
+            )
+        }
+
         bind<IMyChatGateway>() with singleton {
             MyChatGateway(
                 instance(),
@@ -152,6 +161,18 @@ object GatewayModule {
             VimeoGateway(
                 instance(),
                 instance()
+            )
+        }
+
+        bind<ICommunityFeedGateway>() with singleton {
+            CommunityFeedGateway(
+                instance(),
+                instance(),
+                instance(),
+                instance(),
+                instance(),
+                instance(),
+                instance(tag = "appPackageName")
             )
         }
     }

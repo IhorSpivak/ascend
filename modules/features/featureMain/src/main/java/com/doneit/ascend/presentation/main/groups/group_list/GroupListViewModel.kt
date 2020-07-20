@@ -27,7 +27,7 @@ class GroupListViewModel(
     private lateinit var user: UserEntity
     private val groupListModel = MutableLiveData<GroupListDTO>()
     override val groups = groupListModel.switchMap {
-        groupUseCase.getGroupListPaged(viewModelScope, it).map {
+        groupUseCase.getGroupListPaged(viewModelScope, it, true).map {
             GroupListWithUserPaged(
                 it,
                 user

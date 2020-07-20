@@ -19,6 +19,7 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
@@ -87,6 +88,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
                     viewModel.createGroupModel.duration.observableField.set(Duration.values()[p2].time.toString())
+                    binding.durationTitle.visible()
                 }
             }
 
@@ -298,6 +300,10 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
     private fun createImageBottomDialog(): ChooseImageBottomDialog {
         return ChooseImageBottomDialog.create(
+            arrayOf(
+                ChooseImageBottomDialog.AllowedIntents.CAMERA,
+                ChooseImageBottomDialog.AllowedIntents.IMAGE
+            ),
             { takeAPhoto() },
             { selectFromGallery() }
         )

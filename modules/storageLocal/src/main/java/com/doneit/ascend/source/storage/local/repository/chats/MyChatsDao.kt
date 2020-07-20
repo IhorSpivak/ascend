@@ -3,111 +3,150 @@ package com.doneit.ascend.source.storage.local.repository.chats
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
-import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
-import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
-import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
-import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
+import com.doneit.ascend.source.storage.local.data.chat.*
+import com.doneit.ascend.source.storage.local.data.community_feed.PostAttachmentLocal
+import com.doneit.ascend.source.storage.local.data.community_feed.PostLocal
 
 @Dao
-interface MyChatsDao {
+abstract class MyChatsDao {
     @Query("SELECT * FROM chat ORDER BY updatedAt DESC")
-    fun getAll(): DataSource.Factory<Int, ChatLocal>
+    abstract fun getAll(): DataSource.Factory<Int, ChatWithLastMessage>
 
     @Query("SELECT * FROM chat where title LIKE  :title order by updatedAt DESC")
-    fun getAllChatByTitle(title: String): DataSource.Factory<Int, ChatLocal>
+    abstract fun getAllChatByTitle(title: String): DataSource.Factory<Int, ChatWithLastMessage>
 
     @Query("SELECT * FROM messages where chatId LIKE :chatId ORDER BY createdAt DESC")
-    fun getAllMessages(chatId: Long): DataSource.Factory<Int, MessageLocal>
+    abstract fun getAllMessages(chatId: Long): DataSource.Factory<Int, MessageWithPost>
 
     @Query("SELECT COUNT(*) FROM messages")
-    fun getMessagesCount(): Int
+    abstract fun getMessagesCount(): Int
 
     @Query("SELECT * FROM members ORDER BY fullName ASC")
-    fun getAllMembers(): DataSource.Factory<Int, MemberLocal>
+    abstract fun getAllMembers(): DataSource.Factory<Int, MemberLocal>
 
     @Transaction
     @Query("SELECT * FROM chat ORDER BY updatedAt DESC")
-    fun getAllLive(): LiveData<List<ChatLocal>>
+    abstract fun getAllLive(): LiveData<List<ChatWithLastMessage>>
 
     @Transaction
     @Query("SELECT * FROM members ORDER BY fullName ASC")
-    fun getAllMembersLive(): LiveData<List<MemberLocal>>
+    abstract fun getAllMembersLive(): LiveData<List<MemberLocal>>
 
     @Transaction
     @Query("SELECT * FROM messages ORDER BY createdAt DESC")
-    fun getAllMessagesLive(): LiveData<List<MessageLocal>>
+    abstract fun getAllMessagesLive(): LiveData<List<MessageWithPost>>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(chats: List<ChatLocal>)
+    abstract suspend fun insertAll(chats: List<ChatLocal>)
 
     @Query("UPDATE messages SET status = :status WHERE id LIKE :id")
-    suspend fun markMessageAsRead(id: Long, status: String)
+    abstract suspend fun markMessageAsRead(id: Long, status: String)
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(chat: ChatLocal)
+    abstract suspend fun insert(chat: ChatLocal)
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllMessages(chats: List<MessageLocal>)
+    abstract suspend fun insertAllMessages(chats: List<MessageLocal>)
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllMembers(member: List<MemberLocal>)
+    abstract suspend fun insertAllMembers(member: List<MemberLocal>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertMessage(message: MessageLocal)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertPost(post: PostLocal)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insertAllAttachments(attachments: List<PostAttachmentLocal>)
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMessage(message: MessageLocal)
-
-    @Transaction
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMember(member: MemberLocal)
+    abstract suspend fun insertMember(member: MemberLocal)
 
     @Transaction
     @Query("DELETE FROM chat WHERE id = :id")
-    suspend fun remove(id: Long)
+    abstract suspend fun remove(id: Long)
 
     @Transaction
     @Query("DELETE FROM messages WHERE id = :id")
-    suspend fun removeMessage(id: Long)
+    abstract suspend fun removeMessage(id: Long)
 
     @Transaction
     @Query("DELETE FROM chat WHERE id NOT IN (:ids)")
-    suspend fun removeUnavailableChats(ids: List<Long>)
+    abstract suspend fun removeUnavailableChats(ids: List<Long>)
 
     @Transaction
     @Query("DELETE FROM members WHERE id = :id")
-    suspend fun removeMember(id: Long)
+    abstract suspend fun removeMember(id: Long)
 
     @Transaction
     @Query("DELETE FROM chat")
-    suspend fun removeAll()
+    abstract suspend fun removeAll()
 
     @Transaction
     @Query("DELETE FROM messages")
-    suspend fun removeAllMessages()
+    abstract suspend fun removeAllMessages()
 
     @Transaction
     @Query("DELETE FROM members")
-    suspend fun removeAllMembers()
+    abstract suspend fun removeAllMembers()
 
     @Query("SELECT * FROM blocked_users where fullName LIKE :query ORDER BY fullName ASC")
-    fun getAllBlockedUsers(query: String): DataSource.Factory<Int, BlockedUserLocal>
+    abstract fun getAllBlockedUsers(query: String): DataSource.Factory<Int, BlockedUserLocal>
 
     @Transaction
     @Query("DELETE FROM blocked_users")
-    suspend fun removeAllBlockedUsers()
+    abstract suspend fun removeAllBlockedUsers()
 
     @Transaction
     @Query("DELETE FROM blocked_users WHERE id = :id")
-    suspend fun removeBlockedUser(id: Long)
+    abstract suspend fun removeBlockedUser(id: Long)
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllBlockedUsers(users: List<BlockedUserLocal>)
+    abstract suspend fun insertAllBlockedUsers(users: List<BlockedUserLocal>)
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBlockedUser(user: BlockedUserLocal)
+    abstract suspend fun insertBlockedUser(user: BlockedUserLocal)
+
+    @Transaction
+    open suspend fun insertChatWithLastMessage(chat: ChatWithLastMessage) {
+        insert(chat.chatLocal)
+        chat.lastMessage?.let {
+            insertMessageWithPost(chat.lastMessage)
+        }
+    }
+
+    @Transaction
+    open suspend fun insertAllChatsWithLastMessage(chats: List<ChatWithLastMessage>) {
+        chats.forEach { chat ->
+            insert(chat.chatLocal)
+            chat.lastMessage?.let {
+                insertMessageWithPost(chat.lastMessage)
+            }
+        }
+    }
+
+    @Transaction
+    open suspend fun insertMessageWithPost(message: MessageWithPost) {
+        insertMessage(message.messageLocal)
+        message.post?.let {
+            insertPost(it.postLocal)
+            insertAllAttachments(it.attachments)
+        }
+
+    }
+
+    @Transaction
+    open suspend fun insertAllMessageWithPost(messages: List<MessageWithPost>) {
+        messages.forEach { message ->
+            insertMessageWithPost(message)
+        }
+    }
 }

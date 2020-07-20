@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.utils.extensions
 
 import android.content.Context
 import android.text.format.DateFormat
+import android.text.format.DateUtils
 import com.doneit.ascend.domain.entity.MonthEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.presentation.utils.Constants.AM
@@ -64,7 +65,6 @@ fun Date.toChatDate(context: Context): String {
     val nowTime = Calendar.getInstance()
     val neededTime = Calendar.getInstance()
     neededTime.time = this
-
     return if (neededTime[Calendar.YEAR] == nowTime[Calendar.YEAR]) {
         return if (neededTime[Calendar.MONTH] == nowTime[Calendar.MONTH]) {
             if (nowTime[Calendar.DATE] == neededTime[Calendar.DATE]) {
@@ -86,6 +86,33 @@ fun Date.toAttachmentDate(): String {
 
 fun Date.toRateDate(): String {
     return "MMM dd, yyyy".toDefaultFormatter().getFormatted(this)
+}
+
+fun Date.formatPostDate(): String {
+    return when {
+        isYesterday() -> formatYesterday()
+        DateUtils.isToday(time) -> formatToday()
+        else -> MESSAGE_FORMATTER.toDefaultFormatter().getFormatted(this)
+    }
+}
+
+fun Date.isYesterday(): Boolean {
+    val c1 = Calendar.getInstance()
+    c1.add(Calendar.DAY_OF_YEAR, -1)
+
+    val c2 = Calendar.getInstance()
+    c2.time = this
+
+    return (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
+            && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR))
+}
+
+fun Date.formatToday(): String {
+    return "Today at " + HOUR_12_ONLY_FORMAT.toDefaultFormatter().format(this)
+}
+
+fun Date.formatYesterday(): String {
+    return "Yesterday at " + HOUR_12_ONLY_FORMAT.toDefaultFormatter().format(this)
 }
 
 fun Date.toTimerFormat(): String {
@@ -129,7 +156,7 @@ fun String.toLocaleTime(): Date {
         set(Calendar.HOUR_OF_DAY, substringBefore(":").toInt())
         set(Calendar.HOUR, substringBefore(":").toInt() % 12)
         set(Calendar.MINUTE, substringAfter(":").toInt())
-        set(Calendar.AM_PM, if(substringBefore(":").toInt() < 12) Calendar.AM else Calendar.PM)
+        set(Calendar.AM_PM, if (substringBefore(":").toInt() < 12) Calendar.AM else Calendar.PM)
     }.time
 }
 
@@ -178,6 +205,12 @@ fun calculateDate(currentMessageTime: Date, previousMessageTime: Date): Boolean 
     val previous = getDefaultCalendar().apply { time = previousMessageTime }
     return ((current.get(Calendar.YEAR) * 365 + current.get(Calendar.DAY_OF_YEAR)) -
             (previous.get(Calendar.YEAR) * 365 + previous.get(Calendar.DAY_OF_YEAR))) > 0
+}
+
+fun Long.getDurationBreakdown(): String? {
+    val seconds = (this / 1000) % 60
+    val minutes = (this / (1000 * 60) % 60)
+    return String.format("%02d:%02d", minutes, seconds)
 }
 
 const val MESSAGE_FORMATTER = "dd MMMM yyyy"

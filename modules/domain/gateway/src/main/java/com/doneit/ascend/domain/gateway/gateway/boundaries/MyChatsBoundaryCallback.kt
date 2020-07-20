@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.source.storage.local.repository.chats.IMyChatsRepository
+import com.vrgsoft.core.gateway.orZero
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -28,7 +29,7 @@ class MyChatsBoundaryCallback(
             model?.let {
                 val loadedCount = model.size
                 val remoteCount = response.successModel!!.count
-                receivedItems(loadedCount, remoteCount)
+                receivedItems(loadedCount, remoteCount.orZero())
                 coroutineScope {
                     launch {
                         val availableChatResponse = remote.getAvailableChats()

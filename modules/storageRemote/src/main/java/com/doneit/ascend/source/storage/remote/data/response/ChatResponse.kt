@@ -22,5 +22,10 @@ data class ChatResponse(
     @SerializedName("image")
     val image: ImageResponse?,
     @SerializedName("last_message")
-    val lastMessage: MessageResponse?
+    val lastMessage: MessageResponse?,
+    @SerializedName("type")
+    val chatType: String,
+    @SerializedName("private")
+    val isPrivate: Boolean,
+    val subscribed: Boolean
 )

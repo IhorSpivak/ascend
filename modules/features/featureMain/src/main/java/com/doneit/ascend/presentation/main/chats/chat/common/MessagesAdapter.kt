@@ -34,8 +34,11 @@ class MessagesAdapter(
                     if (chat?.membersCount == ChatFragment.PRIVATE_CHAT_MEMBER_COUNT && chat?.chatOwnerId == user?.id)
                         onImageLongClick.invoke(view, id)
                 },
-                onImageClick
+                onImageClick,
+                onImageWebinarClick,
+                type
             )
+            Type.SHARE.ordinal -> ShareViewHolder.create(parent)
             else -> throw IllegalArgumentException("Unsupported view type $viewType")
         }
     }
@@ -75,6 +78,7 @@ class MessagesAdapter(
 
     private fun convertItemToType(message: MessageEntity): Type {
         return when (message.type) {
+            MessageType.POST_SHARE -> Type.SHARE
             MessageType.MESSAGE -> if (message.userId == user?.id) {
                 Type.OWN
             } else Type.OTHER
@@ -87,6 +91,7 @@ class MessagesAdapter(
     enum class Type {
         OWN,
         SYSTEM,
-        OTHER
+        OTHER,
+        SHARE
     }
 }

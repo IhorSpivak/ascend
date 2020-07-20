@@ -17,6 +17,10 @@ class ChatInteractor(
         return chatGateway.getMyChatListLive(request)
     }
 
+    override fun getChatList(request: ChatListDTO): PagedList<ChatEntity> {
+        return chatGateway.getChatsList(request)
+    }
+
     override fun getMessageList(
         chatId: Long,
         request: MessageListDTO
@@ -114,5 +118,9 @@ class ChatInteractor(
 
     override fun getBlockedUsers(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>> {
         return chatGateway.getBlockedUsersLive(blockedUsersDTO)
+    }
+
+    override suspend fun getUnreadMessageCount(): Long {
+        return chatGateway.getUnreadMessageCount()
     }
 }

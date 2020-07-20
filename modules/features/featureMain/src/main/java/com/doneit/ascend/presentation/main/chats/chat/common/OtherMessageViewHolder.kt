@@ -13,7 +13,9 @@ import com.doneit.ascend.presentation.utils.extensions.*
 class OtherMessageViewHolder(
     itemView: View,
     private val onImageLongClick: (view: View, id: Long) -> Unit,
-    private val onImageClick: (view: View, id: Long) -> Unit
+    private val onImageClick: (view: View, id: Long) -> Unit,
+    private val onImageWebinarClick: (view: View, member: MemberEntity) -> Unit,
+    private val chatType: ChatType
 ) : BaseMessageHolder(itemView) {
 
     override fun bind(
@@ -31,7 +33,11 @@ class OtherMessageViewHolder(
                 true
             }
             userImage.setOnClickListener {
-                onImageClick(it, memberEntity.id)
+                if(chatType == ChatType.CHAT) {
+                    onImageClick(it, memberEntity.id)
+                } else {
+                    onImageWebinarClick(it, memberEntity)
+                }
             }
             messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt!!)
             time.apply {
@@ -53,13 +59,17 @@ class OtherMessageViewHolder(
         fun create(
             parent: ViewGroup,
             onImageLongClick: (view: View, id: Long) -> Unit,
-            onImageClick: (view: View, id: Long) -> Unit
+            onImageClick: (view: View, id: Long) -> Unit,
+            onImageWebinarClick: (view: View, member: MemberEntity) -> Unit,
+            chatType: ChatType
         ): OtherMessageViewHolder {
             return OtherMessageViewHolder(
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.list_item_other_message, parent, false),
                 onImageLongClick,
-                onImageClick
+                onImageClick,
+                onImageWebinarClick,
+                chatType
             )
         }
     }

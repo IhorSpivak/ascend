@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.source.storage.remote.data.request.SearchUserRequest
 import com.doneit.ascend.source.storage.remote.repository.group.IGroupRepository
+import com.vrgsoft.core.gateway.orZero
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 
@@ -32,7 +33,7 @@ class UsersDataSource(
             val data = remoteGroup.searchUsers(searchQuery.toSearchRequest(1))
             if (data.isSuccessful) {
                 data.successModel?.apply {
-                    loadCount = count
+                    loadCount = count.orZero()
                     loaded = users.size
                 }
                 if (memberList == null) {

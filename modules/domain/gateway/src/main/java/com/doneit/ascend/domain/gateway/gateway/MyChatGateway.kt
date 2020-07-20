@@ -18,6 +18,7 @@ import com.doneit.ascend.domain.gateway.gateway.boundaries.BlockedUsersBoundaryC
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MembersBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MessagesBoundaryCallback
 import com.doneit.ascend.domain.gateway.gateway.boundaries.MyChatsBoundaryCallback
+import com.doneit.ascend.domain.gateway.gateway.data_source.ChatSearchDataSource
 import com.doneit.ascend.domain.use_case.gateway.IMyChatGateway
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.source.storage.remote.data.request.group.ChatSocketCookies
@@ -63,6 +64,26 @@ class MyChatGateway(
 
             boundary.loadInitial()
         }
+
+    override fun getChatsList(request: ChatListDTO): PagedList<ChatEntity> {
+
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(request.perPage ?: 10)
+            .build()
+
+        val dataSource = ChatSearchDataSource(
+            GlobalScope,
+            remote,
+            request
+        )
+        val executor = MainThreadExecutor()
+
+        return PagedList.Builder<Int, ChatEntity>(dataSource, config)
+            .setFetchExecutor(executor)
+            .setNotifyExecutor(executor)
+            .build()
+    }
 
     override suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>> {
         val result = executeRemote {

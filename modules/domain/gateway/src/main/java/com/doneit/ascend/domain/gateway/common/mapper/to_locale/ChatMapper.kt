@@ -5,39 +5,46 @@ import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRemoteString
-import com.doneit.ascend.source.storage.local.data.chat.BlockedUserLocal
-import com.doneit.ascend.source.storage.local.data.chat.ChatLocal
-import com.doneit.ascend.source.storage.local.data.chat.MemberLocal
-import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
+import com.doneit.ascend.source.storage.local.data.chat.*
 
-fun ChatEntity.toLocal(): ChatLocal {
-    return ChatLocal(
-        id,
-        membersCount,
-        createdAt?.toRemoteString(),
-        lastMessage?.let { it.createdAt?.toRemoteString() } ?: updatedAt?.toRemoteString(),
-        online,
-        blocked,
-        unreadMessageCount,
-        chatOwnerId,
-        title,
-        image?.toLocal(),
-        lastMessage?.toLocal(id),
-        members?.map { it.toLocal() }
+fun ChatEntity.toLocal(): ChatWithLastMessage {
+    return ChatWithLastMessage(
+        ChatLocal(
+            id = id,
+            membersCount = membersCount,
+            createdAt = createdAt?.toRemoteString(),
+            updatedAt = lastMessage?.let { it.createdAt?.toRemoteString() }
+                ?: updatedAt?.toRemoteString(),
+            online = online,
+            blocked = blocked,
+            unreadMessageCount = unreadMessageCount,
+            chatOwnerId = chatOwnerId,
+            title = title,
+            image = image?.toLocal(),
+            lastMessageId = lastMessage?.id,
+            members = members?.map { it.toLocal() },
+            chatType = chatType.toString(),
+            isPrivate = isPrivate,
+            subscribed = isSubscribed
+        ), lastMessage?.toLocal(id)
     )
 }
 
-fun MessageEntity.toLocal(chatId: Long): MessageLocal {
-    return MessageLocal(
-        id,
-        message,
-        userId,
-        edited,
-        type.toString(),
-        createdAt?.time,
-        updatedAt?.time,
-        status.toString(),
-        chatId
+fun MessageEntity.toLocal(chatId: Long): MessageWithPost {
+    return MessageWithPost(
+        MessageLocal(
+            id,
+            message,
+            userId,
+            edited,
+            type.toString(),
+            createdAt?.time,
+            updatedAt?.time,
+            status.toString(),
+            chatId,
+            postId = post?.id
+        ),
+        post = post?.toLocal()
     )
 }
 
@@ -52,7 +59,7 @@ fun MemberEntity.toLocal(): MemberLocal {
     )
 }
 
-fun BlockedUserEntity.toLocal(): BlockedUserLocal{
+fun BlockedUserEntity.toLocal(): BlockedUserLocal {
     return BlockedUserLocal(
         id,
         fullName,

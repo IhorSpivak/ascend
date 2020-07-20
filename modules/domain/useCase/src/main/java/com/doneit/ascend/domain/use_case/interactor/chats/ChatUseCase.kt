@@ -12,6 +12,7 @@ import com.doneit.ascend.domain.entity.dto.*
 
 interface ChatUseCase {
     fun getMyChatListLive(request: ChatListDTO): LiveData<PagedList<ChatEntity>>
+    fun getChatList(request: ChatListDTO): PagedList<ChatEntity>
     fun getMessageList(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>>
     suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>>
 
@@ -45,4 +46,5 @@ interface ChatUseCase {
     suspend fun unblockUser(userId: Long): ResponseEntity<Unit, List<String>>
     suspend fun blockUser(userId: Long): ResponseEntity<Unit, List<String>>
     fun getBlockedUsers(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>>
+    suspend fun getUnreadMessageCount(): Long
 }

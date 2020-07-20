@@ -38,9 +38,10 @@ internal class GroupInteractor(
 
     override fun getGroupListPaged(
         scope: CoroutineScope,
-        model: GroupListDTO
+        model: GroupListDTO,
+        isUpcoming: Boolean
     ): LiveData<PagedList<GroupEntity>> {
-        return groupGateway.getGroupsListPaged(scope, model)
+        return groupGateway.getGroupsListPaged(scope, model, isUpcoming)
     }
 
     override suspend fun getGroupDetails(groupId: Long): ResponseEntity<GroupEntity, List<String>> {

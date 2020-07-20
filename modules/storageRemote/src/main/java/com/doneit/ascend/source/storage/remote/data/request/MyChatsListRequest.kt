@@ -16,5 +16,9 @@ class MyChatsListRequest(
     @SerializedName("updated_at_from")
     val updatedAtFrom: String?,
     @SerializedName("updated_at_to")
-    val updatedAtTo: String?
+    val updatedAtTo: String?,
+    @SerializedName("chat_type")
+    val chatType: String?,
+    @SerializedName("all_channels")
+    val allChannels: Boolean?
 ) : BasePagedModel(page, perPage, sortColumn, sortType)

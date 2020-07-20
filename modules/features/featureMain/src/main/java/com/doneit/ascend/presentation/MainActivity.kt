@@ -21,6 +21,7 @@ import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -142,8 +143,9 @@ class MainActivity : BaseActivity(), MainActivityListener {
         }
     }
 
-    override fun setTitle(title: String) {
+    override fun setTitle(title: String, isLogoVisible: Boolean) {
         binding.tvTitle.text = title
+        binding.ascendLogo.visibleOrGone(isLogoVisible)
     }
 
     override fun setSearchEnabled(isVisible: Boolean) {
@@ -156,6 +158,13 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
     override fun setChatEnabled(isVisible: Boolean) {
         binding.btnChat.visible(isVisible)
+        if(isVisible.not()) {
+            binding.hasChatMessages.visible(false)
+        }
+    }
+
+    override fun getUnreadMessageCount() {
+        viewModel.getUnreadMessageCount()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

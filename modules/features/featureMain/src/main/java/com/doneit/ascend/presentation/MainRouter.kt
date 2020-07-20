@@ -10,6 +10,8 @@ import com.doneit.ascend.domain.entity.ascension.goal.GoalEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
@@ -57,6 +59,11 @@ import com.doneit.ascend.presentation.main.groups.daily_group_list.GroupDailyLis
 import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
+import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedContract
+import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
+import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
+import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostContract
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
 import com.doneit.ascend.presentation.main.home.master_mind.filter.FilterFragment
 import com.doneit.ascend.presentation.main.home.webinars.WebinarsContract
@@ -162,7 +169,10 @@ class MainRouter(
     NewChatContract.Router,
     ChatContract.Router,
     ChatMembersContract.Router,
-    BlockedUsersContract.Router {
+    BlockedUsersContract.Router,
+    CommunityFeedContract.Router,
+    SharePostContract.Router,
+    CreatePostContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }
@@ -552,5 +562,24 @@ class MainRouter(
             .replace(containerIdFull, fragment, T::class.java.simpleName)
             .addToBackStack(fragment::class.java.simpleName)
             .commit()
+    }
+
+    override fun navigateToCreatePost(post: Post?) {
+        manager.replaceWithBackStack(containerIdFull, CreatePostFragment.newInstance(post))
+    }
+
+    override fun navigateToPreview(attachments: List<Attachment>, selected: Int) {
+        manager.replaceWithBackStack(
+            containerIdFull,
+            PreviewFragment.newInstance(attachments, selected)
+        )
+    }
+
+    override fun navigateToSharedPostChat(chatId: Long) {
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chatId))
+    }
+
+    override fun navigateToSharedPostChannel(channelId: Long) {
+        //TODO
     }
 }
