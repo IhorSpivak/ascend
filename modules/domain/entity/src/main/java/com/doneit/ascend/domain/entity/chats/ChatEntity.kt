@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.entity.chats
 
 import android.os.Parcelable
 import com.doneit.ascend.domain.entity.ImageEntity
+import com.doneit.ascend.domain.entity.OwnerEntity
 import com.doneit.ascend.domain.entity.dto.ChatType
 import kotlinx.android.parcel.Parcelize
 import java.util.*
@@ -22,5 +23,6 @@ data class ChatEntity(
     var members: List<MemberEntity>?,
     val chatType: ChatType,
     val isPrivate: Boolean,
-    val isSubscribed: Boolean
+    val isSubscribed: Boolean,
+    val owner: OwnerEntity?
 ): Parcelable

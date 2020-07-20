@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.doneit.ascend.domain.entity.chats.ChatEntity" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.doneit.ascend.presentation.views.MasterMindIcon
+            android:id="@+id/channelImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:name="@{model.title}"
+            app:url="@{model.image.thumbnail.url}" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/TextBold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="24dp"
+            android:text="@{model.title}"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/user_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/channelImage"
+            app:layout_constraintTop_toTopOf="@+id/channelImage"
+            tools:text="channel" />
+
+        <com.doneit.ascend.presentation.views.MasterMindIcon
+            android:id="@+id/userIcon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/user_name"
+            app:layout_constraintStart_toEndOf="@+id/channelImage"
+            app:layout_constraintTop_toTopOf="@+id/user_name"
+            app:name="@{model.owner.fullName}"
+            app:url="@{model.owner.image.thumbnail.url}" />
+
+        <TextView
+            android:id="@+id/user_name"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:gravity="start|top"
+            android:maxLines="1"
+            android:text="@{model.owner.fullName}"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/members_count"
+            app:layout_constraintEnd_toEndOf="@+id/title"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/userIcon"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:text="user" />
+
+        <TextView
+            android:id="@+id/members_count"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/channelImage"
+            app:layout_constraintEnd_toEndOf="@+id/user_name"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/channelImage"
+            app:layout_constraintTop_toBottomOf="@+id/user_name"
+            tools:text="members" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

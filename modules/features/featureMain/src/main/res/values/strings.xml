@@ -615,7 +615,6 @@
     <string name="new_chat_add_members">Add More</string>
     <string name="new_chat_title_hint">Chat Title</string>
     <string name="no_results">No Results</string>
-    <string name="new_channel">New Channel</string>
 
     <!--Blocked Users-->
     <string name="blocked_users_title">Blocked Users</string>
@@ -709,7 +708,12 @@
     <!--CommunityFeed-->
     <string name="no_comments_yet">No comments yet</string>
 
-    <!--Group Users List-->
+    <!--Channels -->
     <string name="channel_members">Channel members</string>
+    <string name="channels_title">Channels</string>
+    <string name="new_channel">New Channel</string>
+    <string name="channel_search_hint">Search Channel</string>
+    <string name="no_channels">No channels</string>
+    <string name="channel_member_count">%s members</string>
 
 </resources>

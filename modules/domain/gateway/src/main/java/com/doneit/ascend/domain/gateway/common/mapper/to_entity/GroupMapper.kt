@@ -35,9 +35,9 @@ fun OwnerResponse.toEntity(): OwnerEntity {
         id,
         fullName.orEmpty(),
         image?.toEntity(),
-        rating,
-        followed,
-        location,
+        rating?: 0.0f,
+        followed ?: false,
+        location.orEmpty(),
         connected ?: false
     )
 }

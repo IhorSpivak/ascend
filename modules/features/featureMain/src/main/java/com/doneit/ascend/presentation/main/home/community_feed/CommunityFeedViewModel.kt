@@ -81,6 +81,7 @@ class CommunityFeedViewModel(
     }
 
     override fun onSeeAllClick() {
+        router.navigateToChannels()
     }
 
     override fun leaveComment(postId: Long, message: String) {

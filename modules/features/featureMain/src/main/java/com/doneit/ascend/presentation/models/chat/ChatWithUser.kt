@@ -15,3 +15,8 @@ data class ChatsWithUser(
     val chat: PagedList<ChatEntity>,
     val user: UserEntity
 )
+
+data class ChannelsWithUser(
+    val chat: com.doneit.ascend.domain.use_case.PagedList<ChatEntity>,
+    val user: UserEntity
+)
