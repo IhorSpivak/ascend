@@ -702,4 +702,7 @@
     <!--CommunityFeed-->
     <string name="no_comments_yet">No comments yet</string>
 
+    <!--Group Users List-->
+    <string name="channel_members">Channel members</string>
+
 </resources>
