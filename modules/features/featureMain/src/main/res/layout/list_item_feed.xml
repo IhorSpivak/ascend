@@ -104,10 +104,10 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:visibility="@{postModel.description.length() > 0}"
                 android:text="@{postModel.description}"
                 android:textAppearance="@style/TextNormal"
                 android:textSize="16sp"
+                android:visibility="@{postModel.description.length() > 0}"
                 tools:text="Veniam proident ut consequat in commodo non. Occaecat dolor pariatur ipsum non eu anim pariatur consectetur ex voluptate laboris. Incididunt sit eu enim amet." />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -176,7 +176,7 @@
                     android:id="@+id/imvFirst"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitXY"
                     android:visibility="@{postModel.attachments.size() > 0}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/imvSecond"
@@ -200,7 +200,7 @@
                     android:id="@+id/imvSecond"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitXY"
                     app:layout_constraintBottom_toTopOf="@id/imvThird"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -223,7 +223,30 @@
                     android:id="@+id/imvThird"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imvFirst"
+                    app:layout_constraintTop_toBottomOf="@id/imvSecond"
+                    tools:src="@tools:sample/backgrounds/scenic" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imvFourth"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/imvFirst"
+                    app:layout_constraintTop_toBottomOf="@id/imvSecond"
+                    tools:src="@tools:sample/backgrounds/scenic"
+                    tools:visibility="gone" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imvFifth"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="fitXY"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -249,7 +272,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
-                android:visibility="@{visibilityOfSend, default = visible}"
                 android:id="@+id/line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -258,10 +280,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:alpha="0.2"
-                android:background="@android:color/darker_gray" />
+                android:background="@android:color/darker_gray"
+                android:visibility="@{visibilityOfSend, default = visible}" />
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:visibility="@{visibilityOfSend, default = visible}"
                 android:id="@+id/etInputMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -276,10 +298,10 @@
                 android:hint="@string/community_feed_post_hint"
                 android:maxLines="5"
                 android:textAppearance="@style/TextNormal"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:visibility="@{visibilityOfSend, default = visible}" />
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:visibility="@{visibilityOfSend, default = visible}"
                 android:id="@+id/btnSend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -292,6 +314,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:visibility="@{visibilityOfSend, default = visible}"
                 app:srcCompat="@drawable/ic_send" />
 
         </RelativeLayout>

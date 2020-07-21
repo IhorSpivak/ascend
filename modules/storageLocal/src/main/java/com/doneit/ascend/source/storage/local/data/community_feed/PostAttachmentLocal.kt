@@ -27,5 +27,8 @@ data class PostAttachmentLocal(
     val id: Long,
     val contentType: Int,
     val post_id: Long,
-    val url: String
+    val url: String,
+    val width: Int,
+    val height: Int,
+    val thumbnail: String
 )
