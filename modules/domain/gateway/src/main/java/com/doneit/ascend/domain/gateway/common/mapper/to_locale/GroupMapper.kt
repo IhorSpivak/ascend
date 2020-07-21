@@ -57,13 +57,13 @@ fun GroupEntity.toLocal(): GroupLocal {
 
 fun OwnerEntity.toLocal(): OwnerLocal {
     return OwnerLocal(
-        id,
-        fullName,
-        image?.toLocal(),
-        rating,
-        followed,
-        location?:"",
-        connected
+        id = id,
+        fullName = fullName,
+        image = image?.toLocal(),
+        rating = rating,
+        followed = followed,
+        location = location.orEmpty(),
+        connected = connected
     )
 }
 

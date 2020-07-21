@@ -570,6 +570,12 @@
     <string name="search_member_hint">Search by name or email</string>
     <string name="add_attendee_hint">Add attendee by username or email</string>
     <string name="view_attendees">View</string>
+    <string name="add_members">Add Members</string>
+    <string name="chat_name_default">Chat Name</string>
+    <string name="public_chat">Public Chat</string>
+    <string name="private_chat">Private Chat</string>
+    <string name="channel_description_title">Channel Description</string>
+    <string name="description_footer">You can add additional description of your channel, if you want.</string>
 
     <!--Custom price keyboard-->
     <string name="number_zero">0</string>
@@ -702,7 +708,12 @@
     <!--CommunityFeed-->
     <string name="no_comments_yet">No comments yet</string>
 
-    <!--Group Users List-->
+    <!--Channels -->
     <string name="channel_members">Channel members</string>
+    <string name="channels_title">Channels</string>
+    <string name="new_channel">New Channel</string>
+    <string name="channel_search_hint">Search Channel</string>
+    <string name="no_channels">No channels</string>
+    <string name="channel_member_count">%s members</string>
 
 </resources>

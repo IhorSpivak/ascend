@@ -60,6 +60,8 @@ import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedContract
+import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsContract
+import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsFragment
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
@@ -172,7 +174,8 @@ class MainRouter(
     BlockedUsersContract.Router,
     CommunityFeedContract.Router,
     SharePostContract.Router,
-    CreatePostContract.Router {
+    CreatePostContract.Router,
+    ChannelsContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }
@@ -582,4 +585,18 @@ class MainRouter(
     override fun navigateToSharedPostChannel(channelId: Long) {
         //TODO
     }
+
+
+    override fun navigateToChannel(id: Long) {
+        //todo
+    }
+
+    override fun navigateToNewChannel() {
+        //todo
+    }
+
+    override fun navigateToChannels() {
+        replaceFullWithMainUpdate(ChannelsFragment())
+    }
+
 }

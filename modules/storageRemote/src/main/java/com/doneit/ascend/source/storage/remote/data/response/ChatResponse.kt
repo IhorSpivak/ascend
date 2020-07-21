@@ -27,5 +27,7 @@ data class ChatResponse(
     val chatType: String,
     @SerializedName("private")
     val isPrivate: Boolean,
-    val subscribed: Boolean
+    val subscribed: Boolean,
+    @SerializedName("owner")
+    val owner: OwnerResponse?
 )

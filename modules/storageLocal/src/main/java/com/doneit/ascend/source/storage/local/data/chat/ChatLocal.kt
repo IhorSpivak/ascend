@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.doneit.ascend.source.storage.local.data.ImageLocal
+import com.doneit.ascend.source.storage.local.data.OwnerLocal
 import com.doneit.ascend.source.storage.local.data.converters.MembersConverter
 
 @Entity(tableName = "chat")
@@ -24,5 +25,6 @@ data class ChatLocal(
     val members: List<MemberLocal>?,
     val chatType: String,
     val isPrivate: Boolean,
-    val subscribed: Boolean
+    val subscribed: Boolean,
+    @Embedded(prefix = "owner") val owner: OwnerLocal?
 )

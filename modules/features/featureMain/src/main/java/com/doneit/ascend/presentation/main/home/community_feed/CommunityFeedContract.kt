@@ -32,5 +32,6 @@ interface CommunityFeedContract {
     interface Router {
         fun navigateToCreatePost(post: Post? = null)
         fun navigateToPreview(attachments: List<Attachment>, selected: Int)
+        fun navigateToChannels()
     }
 }
