@@ -620,6 +620,7 @@
     <string name="blocked_users_title">Blocked Users</string>
 
     <!--Chats-->
+
     <string name="chats_typing">typing…</string>
     <string name="chats_enter_text_hint">Enter your message here…</string>
     <string name="chats_someone_left">%s left</string>
@@ -710,10 +711,13 @@
 
     <!--Channels -->
     <string name="channel_members">Channel members</string>
+    <string name="channel_name_default">Channel name</string>
     <string name="channels_title">Channels</string>
     <string name="new_channel">New Channel</string>
+    <string name="edit_channel">Edit Channel</string>
     <string name="channel_search_hint">Search Channel</string>
     <string name="no_channels">No channels</string>
     <string name="channel_member_count">%s members</string>
+
 
 </resources>
