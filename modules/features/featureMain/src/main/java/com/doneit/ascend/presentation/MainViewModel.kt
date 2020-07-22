@@ -4,12 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.ChatSocketEvent
+import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.models.toEntity
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -17,7 +20,11 @@ class MainViewModel(
     private val userUseCase: UserUseCase,
     private val notificationUseCase: NotificationUseCase,
     private val chatUseCase: ChatUseCase
+
 ) : BaseViewModelImpl(), MainContract.ViewModel {
+
+
+
     override fun onFilterClick() {
         //TODO:
     }
@@ -25,6 +32,11 @@ class MainViewModel(
     override fun onChatClick() {
         router.navigateToMyChats()
     }
+
+
+
+
+
 
     override val hasUnread =
         notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }
@@ -34,6 +46,8 @@ class MainViewModel(
     override fun getUnreadMessageCount() {
         viewModelScope.launch {
             hasUnreadMessages.value = chatUseCase.getUnreadMessageCount() > 0
+
+
         }
     }
 
