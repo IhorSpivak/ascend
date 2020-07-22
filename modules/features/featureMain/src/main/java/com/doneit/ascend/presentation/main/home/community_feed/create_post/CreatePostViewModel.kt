@@ -70,16 +70,19 @@ class CreatePostViewModel(
     }
 
     fun create() {
+        canComplete.value = false
         communityFeedUseCase.createPost(
             viewModelScope,
             createPostModel.description.observableField.get().orEmpty(),
             createPostModel.media,
             BaseCallback(
                 onSuccess = {
+                    canComplete.postValue(true)
                     result.postValue(it)
                     router.onBack()
                 },
                 onError = {
+                    canComplete.postValue(true)
                     showPopupEvent.postValue(it)
                 }
             )
