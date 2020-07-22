@@ -77,12 +77,12 @@ class CreatePostViewModel(
             createPostModel.media,
             BaseCallback(
                 onSuccess = {
-                    canComplete.postValue(true)
+                    canComplete.postValue(isModelValid())
                     result.postValue(it)
                     router.onBack()
                 },
                 onError = {
-                    canComplete.postValue(true)
+                    canComplete.postValue(isModelValid())
                     showPopupEvent.postValue(it)
                 }
             )
@@ -126,6 +126,9 @@ class CreatePostViewModel(
         attachments.value = createPostModel.media
         canAddAttachments.value = createPostModel.media.size < ATTACHMENTS_COUNT
     }
+
+    private fun isModelValid() = createPostModel.description.observableField.get()
+        .orEmpty().length > 2 || createPostModel.media.size > 0
 
     companion object {
         const val ATTACHMENTS_COUNT = 5
