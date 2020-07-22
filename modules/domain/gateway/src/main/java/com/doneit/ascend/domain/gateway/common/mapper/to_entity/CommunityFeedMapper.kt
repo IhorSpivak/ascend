@@ -81,7 +81,8 @@ fun SizeResponse.toEntity(): Size {
 fun CommunityFeedEventMessage.toEntity(): CommunityFeedSocketEntity {
     return CommunityFeedSocketEntity(
         postId = postId,
-        commentsCount = commentsCount,
+        commentsCount = commentsCount ?: -1,
+        likesCount = likesCount ?: -1,
         event = CommunityFeedSocketEvent.fromRemoteString(event.orEmpty())
     )
 }

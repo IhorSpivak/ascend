@@ -30,8 +30,9 @@ class MainViewModel(
         notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }
 
     override val hasUnreadMessages = MutableLiveData<Boolean>(false)
+    override val isMasterMind = MutableLiveData<Boolean>(false)
 
-    override fun getUnreadMessageCount() {
+            override fun getUnreadMessageCount() {
         viewModelScope.launch {
             hasUnreadMessages.value = chatUseCase.getUnreadMessageCount() > 0
         }
@@ -42,6 +43,7 @@ class MainViewModel(
     private val userObserver: Observer<UserEntity?> = Observer {
         it?.let {
             user.postValue(it)
+            isMasterMind.postValue(it.isMasterMind)
         }
     }
 

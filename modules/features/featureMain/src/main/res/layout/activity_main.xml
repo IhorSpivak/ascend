@@ -199,6 +199,7 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <androidx.cardview.widget.CardView
+            android:visibility="@{model.isMasterMind, default = gone}"
             android:id="@+id/fabCreateGroup"
             android:layout_width="56dp"
             android:layout_height="56dp"

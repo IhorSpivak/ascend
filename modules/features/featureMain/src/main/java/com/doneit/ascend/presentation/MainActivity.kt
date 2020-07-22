@@ -100,6 +100,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.fabCreateGroup.setOnClickListener {
             viewModel.onCreateGroupClick()
         }
+        viewModel
 
         setBottomNavigationListeners()
         setBackStackHandler()
