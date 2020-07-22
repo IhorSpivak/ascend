@@ -64,6 +64,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.channels.Channels
 import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsFragment
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
+import com.doneit.ascend.presentation.main.home.community_feed.post_details.PostDetailsFragment
 import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostContract
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
@@ -597,6 +598,10 @@ class MainRouter(
 
     override fun navigateToChannels() {
         replaceFullWithMainUpdate(ChannelsFragment())
+    }
+
+    override fun showDetails(user: UserEntity, post: Post) {
+        manager.replaceWithBackStack(containerIdFull, PostDetailsFragment.newInstance(user, post))
     }
 
 }

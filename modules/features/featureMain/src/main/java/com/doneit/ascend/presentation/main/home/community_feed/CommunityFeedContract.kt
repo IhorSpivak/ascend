@@ -24,6 +24,7 @@ interface CommunityFeedContract {
         fun unlikePost(postId: Long)
         fun onUserClick(userId: Long)
         fun newItem(post: Post)
+        fun showDetails(user:UserEntity, post: Post)
         fun reportUser(reason: String, userId: Long)
         fun attachmentClicked(attachments: List<Attachment>, selected: Int)
         fun updateCommentsCount(postId: Long, commentsCount: Int)
@@ -33,5 +34,6 @@ interface CommunityFeedContract {
         fun navigateToCreatePost(post: Post? = null)
         fun navigateToPreview(attachments: List<Attachment>, selected: Int)
         fun navigateToChannels()
+        fun showDetails(user: UserEntity, post: Post)
     }
 }

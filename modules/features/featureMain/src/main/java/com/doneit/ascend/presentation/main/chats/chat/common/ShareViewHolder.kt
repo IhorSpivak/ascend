@@ -43,16 +43,16 @@ class ShareViewHolder(
     }
 
     private fun ListItemSharedMessageBinding.setupAttachments(attachments: List<Attachment>) {
-        if (attachments.isEmpty()) postView.mivAttachments.gone()
-        postView.imvFirst.glideLoad(attachments.getOrNull(0))
-        postView.imvSecond.glideLoad(attachments.getOrNull(1))
-        postView.imvThird.glideLoad(attachments.getOrNull(2))
+        if (attachments.isEmpty()) postView.viewPostContent.mivAttachments.gone()
+        postView.viewPostContent.imvFirst.glideLoad(attachments.getOrNull(0))
+        postView.viewPostContent.imvSecond.glideLoad(attachments.getOrNull(1))
+        postView.viewPostContent.imvThird.glideLoad(attachments.getOrNull(2))
     }
 
     private fun ImageView.glideLoad(attachment: Attachment?) {
         visibleOrGone(attachment != null)
         attachment ?: return
-        binding.postView.mivAttachments.visible()
+        binding.postView.viewPostContent.mivAttachments.visible()
         when (attachment.contentType) {
             ContentType.IMAGE -> loadImage(attachment.url)
             ContentType.VIDEO -> loadImage(attachment.url)

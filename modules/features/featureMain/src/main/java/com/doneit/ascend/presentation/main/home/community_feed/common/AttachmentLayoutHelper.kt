@@ -1,11 +1,23 @@
 package com.doneit.ascend.presentation.main.home.community_feed.common
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.util.Log
+import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
+import androidx.core.view.updateLayoutParams
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.ContentType
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.databinding.ListItemFeedBinding
+import com.doneit.ascend.presentation.main.common.gone
+import com.doneit.ascend.presentation.main.databinding.ViewPostContentBinding
+import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
+import com.doneit.ascend.presentation.views.attachment_view.AttachmentView
 
 fun applyPortraitLayoutFor2(set: ConstraintSet) {
     set.connect(
@@ -334,7 +346,7 @@ fun applyLandscapeLayoutFor3(set: ConstraintSet) {
     )
 }
 
-fun ListItemFeedBinding.applyLayoutFor4(
+fun ViewPostContentBinding.applyLayoutFor4(
     attachments: List<Attachment>,
     set: ConstraintSet
 ) {
@@ -569,7 +581,7 @@ fun applyLayoutFor5(
     )
 }
 
-fun ListItemFeedBinding.calculateHeight(
+fun ViewPostContentBinding.calculateHeight(
     attachments: List<Attachment>,
     dividerWidth: Float = 1f,
     multiplierResult: Float = 1f,
@@ -580,4 +592,100 @@ fun ListItemFeedBinding.calculateHeight(
     return (multiplierResult * attachments[attachmentIndex].size.aspectHeight(
         (width / dividerWidth).toInt()
     )).toInt()
+}
+
+fun AttachmentView.glideLoad(attachment: Attachment?) {
+    visibleOrGone(attachment != null)
+    attachment ?: return
+    shouldDrawMediaIcon = attachment.contentType == ContentType.VIDEO
+    when (attachment.contentType) {
+        ContentType.IMAGE -> loadImage(attachment.url)
+        ContentType.VIDEO -> loadImage(attachment.thumbnail)
+    }
+}
+
+fun ViewPostContentBinding.resizeContainerByAttachments(
+    attachments: List<Attachment>
+) {
+    mivAttachments.visibleOrGone(attachments.isNotEmpty())
+    fun updateParams() {
+        mivAttachments.updateLayoutParams {
+            height = when (attachments.size) {
+                1 -> calculateHeight(attachments)
+                2, 3 -> when {
+                    attachments[0].isPortrait() -> {
+                        calculateHeight(attachments, dividerWidth = 2f)
+                    }
+                    attachments[0].isEqual() -> {
+                        calculateHeight(attachments, dividerWidth = 3f)
+                    }
+                    else -> {
+                        calculateHeight(attachments, multiplierResult = 2f)
+                    }
+                }
+                4 -> calculateHeight(attachments) + calculateHeight(
+                    attachments,
+                    dividerWidth = 3f
+                )
+                5 -> calculateHeight(attachments, dividerWidth = 2f, multiplierResult = 2f)
+                else -> 0
+            }
+            Log.d("SADAD", "HEIGHT: $height")
+        }
+    }
+    if (mivAttachments.measuredHeight == 0) {
+        mivAttachments.post {
+            updateParams()
+        }
+        return
+    }
+    updateParams()
+}
+
+private fun ImageView.loadImage(url: String) {
+    Glide.with(this)
+        .load(url)
+        .error(R.drawable.ic_action_block)
+        .placeholder(ColorDrawable(Color.LTGRAY))
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .transform(ScaleToTarget())
+        .into(this)
+}
+
+fun ViewPostContentBinding.setupAttachments(attachments: List<Attachment>) {
+    if (attachments.isEmpty()) mivAttachments.gone()
+    imvFirst.glideLoad(attachments.getOrNull(0))
+    imvSecond.glideLoad(attachments.getOrNull(1))
+    imvThird.glideLoad(attachments.getOrNull(2))
+    imvFourth.glideLoad(attachments.getOrNull(3))
+    imvFifth.glideLoad(attachments.getOrNull(4))
+}
+
+fun ViewPostContentBinding.applyResizing(attachments: List<Attachment>) {
+    if (attachments.isEmpty()) return
+    resizeContainerByAttachments(attachments)
+    val set = ConstraintSet().apply { clone(mivAttachments) }
+    val isPortraitMode = attachments[0].isPortrait()
+    when (attachments.size) {
+        1, 2 -> {
+            if (!isPortraitMode) {
+                applyLandscapeLayoutFor2(set)
+            } else {
+                applyPortraitLayoutFor2(set)
+            }
+        }
+        3 -> {
+            if (attachments[0].isEqual()) {
+                applyEqualLayoutFor3(set)
+            } else if (!isPortraitMode) {
+                applyLandscapeLayoutFor3(set)
+            } else {
+                applyPortraitLayoutFor3(set)
+            }
+        }
+        4 -> applyLayoutFor4(attachments, set)
+        5 -> applyLayoutFor5(set)
+    }
+    set.applyTo(mivAttachments)
 }
