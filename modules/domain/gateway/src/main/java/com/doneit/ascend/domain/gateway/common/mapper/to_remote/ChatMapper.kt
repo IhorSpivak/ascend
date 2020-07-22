@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.source.storage.remote.data.request.*
+import java.io.File
 
 fun ChatListDTO.toRequest(): MyChatsListRequest {
     return MyChatsListRequest(
@@ -39,6 +40,16 @@ fun CreateChatDTO.toRequest(): CreateChatRequest {
     return CreateChatRequest(
         title,
         members
+    )
+}
+
+fun NewChannelDTO.toRequest(): CreateChannelRequest {
+    return CreateChannelRequest(
+        title = title,
+        image = image?.let { File(it) },
+        description = description,
+        isPrivate = isPrivate,
+        invites = invites
     )
 }
 

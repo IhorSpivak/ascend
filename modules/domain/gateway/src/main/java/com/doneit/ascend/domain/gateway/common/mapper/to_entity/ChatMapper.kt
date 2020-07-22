@@ -22,7 +22,8 @@ fun ChatResponse.toEntity(): ChatEntity {
         chatType = ChatType.valueOf(chatType.toUpperCase()),
         isPrivate = isPrivate,
         isSubscribed = subscribed,
-        owner = owner?.toEntity()
+        owner = owner?.toEntity(),
+        description = description.orEmpty()
     )
 }
 
@@ -45,7 +46,8 @@ fun ChatWithLastMessage.toEntity(): ChatEntity {
             chatType = ChatType.valueOf(chatType.toUpperCase()),
             isPrivate = isPrivate,
             isSubscribed = subscribed,
-            owner = owner?.toEntity()
+            owner = owner?.toEntity(),
+            description = description
         )
     }
 }

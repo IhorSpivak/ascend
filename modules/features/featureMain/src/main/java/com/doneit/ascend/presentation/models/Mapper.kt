@@ -4,10 +4,7 @@ import com.doneit.ascend.domain.entity.*
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.domain.entity.chats.MessageType
-import com.doneit.ascend.domain.entity.dto.ChangeEmailDTO
-import com.doneit.ascend.domain.entity.dto.ChangePasswordDTO
-import com.doneit.ascend.domain.entity.dto.ChangePhoneDTO
-import com.doneit.ascend.domain.entity.dto.CreateAttachmentDTO
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.webinar_question.QuestionSocketEntity
 import com.doneit.ascend.domain.entity.webinar_question.WebinarQuestionEntity
 import com.doneit.ascend.presentation.models.group.ParticipantSourcePriority
@@ -184,6 +181,16 @@ fun QuestionSocketEntity.toEntity(): WebinarQuestionEntity {
         userId,
         fullName,
         image
+    )
+}
+
+fun PresentationCreateChannelModel.toEntity(): NewChannelDTO {
+    return NewChannelDTO(
+        title = title.observableField.getNotNull(),
+        description = description.observableField.getNotNull(),
+        image = image.observableField.getNotNull(),
+        isPrivate = isPrivate.getNotNull(),
+        invites = participants.get().orEmpty()
     )
 }
 

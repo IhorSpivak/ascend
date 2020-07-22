@@ -474,6 +474,103 @@ class MyChatGateway(
         }
     }
 
+    override suspend fun getChannelDetails(
+        scope: CoroutineScope,
+        id: Long
+    ): ResponseEntity<ChatEntity, List<String>> {
+        val result = executeRemote {
+            remote.getChatDetails(id)
+        }.toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+        if (result.isSuccessful) {
+            scope.launch {
+                val chatEntity = result.successModel!!
+                //TODO: it wouldn't work for channel where more than 50 ppl. Need to change response for messages on the server side:
+                val membersResponse =
+                    remote.getMembers(chatEntity.id, MemberListDTO(perPage = 50).toRequest(1))
+                if (membersResponse.isSuccessful) {
+                    val memberModel =
+                        membersResponse.successModel!!.users?.map { it.toEntity() }
+                    chatEntity.members = memberModel
+                }
+                local.insert(chatEntity.toLocal())
+            }
+        }
+        return result
+    }
+
+    override suspend fun createChannel(scope: CoroutineScope, request: NewChannelDTO): ResponseEntity<ChatEntity, List<String>> {
+        return executeRemote {
+            remote.createChannel(
+
+                request.toRequest()
+            )
+        }.toResponseEntity(
+            {
+                val model = it?.toEntity()
+
+                model?.let {
+
+                    scope.launch {
+                        val membersResponse =
+                            remote.getMembers(it.id, MemberListDTO(perPage = 50).toRequest(1))
+                        if (membersResponse.isSuccessful) {
+                            val memberModel =
+                                membersResponse.successModel!!.users?.map { it.toEntity() }
+                            it.members = memberModel
+                        }
+                        local.insert(model.toLocal())
+                    }
+
+                }
+                return@toResponseEntity model
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun updateChannel(
+        scope: CoroutineScope,
+        channelId: Long,
+        request: NewChannelDTO
+    ): ResponseEntity<ChatEntity, List<String>> {
+        return executeRemote {
+            remote.updateChannel(channelId,
+                request.toRequest()
+            )
+        }.toResponseEntity(
+            {
+                val model = it?.toEntity()
+                model?.let {
+
+                    scope.launch {
+                        val membersResponse =
+                            remote.getMembers(it.id, MemberListDTO(perPage = 50).toRequest(1))
+                        if (membersResponse.isSuccessful) {
+                            val memberModel =
+                                membersResponse.successModel!!.users?.map { it.toEntity() }
+                            it.members = memberModel
+                        }
+                        local.insert(model.toLocal())
+                    }
+
+                }
+                return@toResponseEntity model
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override fun loadChats(
         scope: CoroutineScope,
         request: ChatListDTO

@@ -65,6 +65,15 @@ interface IMyChatGateway {
     fun getBlockedUsersLive(blockedUsersDTO: BlockedUsersDTO): LiveData<PagedList<BlockedUserEntity>>
     suspend fun getUnreadMessageCount(): Long
 
+    suspend fun getChannelDetails(
+        scope: CoroutineScope,
+        id: Long
+    ): ResponseEntity<ChatEntity, List<String>>
+
+    suspend fun createChannel(scope: CoroutineScope, request: NewChannelDTO): ResponseEntity<ChatEntity, List<String>>
+
+    suspend fun updateChannel(scope: CoroutineScope, channelId: Long, request: NewChannelDTO): ResponseEntity<ChatEntity, List<String>>
+
     //experimental:
 
     fun loadChats(

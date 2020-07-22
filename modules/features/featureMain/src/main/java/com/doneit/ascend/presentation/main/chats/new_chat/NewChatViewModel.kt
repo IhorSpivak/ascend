@@ -55,7 +55,6 @@ class NewChatViewModel(
 
     override val searchResult: LiveData<PagedList<AttendeeEntity>>
         get() = searchQuery.switchMap {
-            //TODO:
             groupUseCase.searchMembers(it, currentUser.id)
         }
 
@@ -100,7 +99,6 @@ class NewChatViewModel(
         selectedMembers.firstOrNull { it.id == id }?.let {
             selectedMembers.remove(it)
             members.postValue(selectedMembers)
-            //todo: refactor
             searchQuery.postValue(searchQuery.value)
         }
     }

@@ -7,6 +7,8 @@ data class ChatResponse(
     val id: Long,
     @SerializedName("title")
     val title: String,
+    @SerializedName("description")
+    val description: String?,
     @SerializedName("members_count")
     val membersCount: Int,
     @SerializedName("created_at")
