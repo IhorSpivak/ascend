@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.use_case.interactor.user
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.user.AuthEntity
 import com.doneit.ascend.domain.entity.RateEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -9,6 +10,7 @@ import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 
 interface UserUseCase {
+
     suspend fun signIn(logInDTO: LogInUserDTO): ResponseEntity<AuthEntity, List<String>>
 
     suspend fun signOut(): ResponseEntity<Unit, List<String>>

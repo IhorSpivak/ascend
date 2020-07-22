@@ -9,6 +9,9 @@ import com.doneit.ascend.domain.entity.user.AuthEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 
 interface IUserGateway {
+
+
+
     suspend fun signIn(loginMode: LogInUserDTO): ResponseEntity<AuthEntity, List<String>>
 
     suspend fun signOut(): ResponseEntity<Unit, List<String>>

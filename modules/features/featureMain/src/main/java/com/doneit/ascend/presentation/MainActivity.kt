@@ -23,6 +23,7 @@ import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
+import kotlinx.android.synthetic.main.list_item_shared_message.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -92,6 +93,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.model = viewModel
         super.onCreate(savedInstanceState)
         viewModel.onHomeClick()
+//        viewModel.initSocketConnect()
         if (intent.extras?.containsKey(Constants.KEY_GROUP_ID) == true) {
             intent.extras?.get(Constants.KEY_GROUP_ID)?.let {
                 viewModel.tryToNavigateToGroupInfo(it.toString().toLong())
@@ -101,6 +103,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
             viewModel.onCreateGroupClick()
         }
         viewModel
+
 
         setBottomNavigationListeners()
         setBackStackHandler()
