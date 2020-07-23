@@ -4,17 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.ChatSocketEvent
-import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.presentation.MainActivityListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.chats.chat.ChatViewModel
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
-import com.doneit.ascend.presentation.models.toEntity
-import kotlinx.coroutines.launch
 import org.kodein.di.generic.instance
 import java.util.*
 
@@ -25,7 +19,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val viewModel: HomeContract.ViewModel by instance()
 
 
+
     var listener: MainActivityListener? = null
+    var handler: Handler? = null
+    var runnable: Runnable? = null
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -82,9 +80,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         listener?.apply {
             getUnreadMessageCount()
         }
-        Handler().postDelayed({ listener?.apply { onTrackNewChatMessage() }
-        }, 3000)
 
+        handler = Handler()
+        runnable = Runnable {
+            onTrackNewChatMessage()
+        }
+
+        handler!!.postDelayed(runnable, 3000)
+
+    }
+
+    override fun onPause() {
+        handler?.removeCallbacks(runnable)
+        super.onPause()
     }
 
     override fun onDetach() {
