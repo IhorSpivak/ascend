@@ -715,5 +715,6 @@
     <string name="channel_search_hint">Search Channel</string>
     <string name="no_channels">No channels</string>
     <string name="channel_member_count">%s members</string>
+    <string name="view_post_label">View Post</string>
 
 </resources>

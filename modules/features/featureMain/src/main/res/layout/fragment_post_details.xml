@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="postModel"
-            type="com.doneit.ascend.domain.entity.community_feed.Post" />
+            name="model"
+            type="com.doneit.ascend.presentation.main.home.community_feed.post_details.PostDetailsContract.ViewModel" />
     </data>
 
     <LinearLayout
@@ -22,6 +22,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/post_details_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />
 
@@ -47,7 +48,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        app:postModel="@{postModel}"
+                        app:postModel="@{model.currentPost}"
                         app:visibilityOfSend="@{false}" />
 
                     <include

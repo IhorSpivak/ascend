@@ -198,9 +198,7 @@ class CommunityFeedViewModel(
                             }
                         }
                     }
-                    else -> {
-                        throw IllegalArgumentException("unknown socket type")
-                    }
+                    else -> null
                 }
             }
         }
