@@ -23,9 +23,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override val viewModelModule = HomeViewModelModule.get(this)
 
     override val viewModel: HomeContract.ViewModel by instance()
-
-
     var listener: MainActivityListener? = null
+    var handler: Handler? = null
+    var runnable: Runnable? = null
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -82,9 +83,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         listener?.apply {
             getUnreadMessageCount()
         }
-        Handler().postDelayed({ listener?.apply { onTrackNewChatMessage() }
-        }, 3000)
 
+        handler = Handler()
+        runnable = Runnable {
+            onTrackNewChatMessage()
+        }
+
+        handler!!.postDelayed(runnable, 3000)
+
+    }
+
+    override fun onPause() {
+        handler?.removeCallbacks(runnable)
+        super.onPause()
     }
 
     override fun onDetach() {

@@ -184,6 +184,7 @@
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.AppBarLayout>
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/messageList"
                 android:layout_width="match_parent"

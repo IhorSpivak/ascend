@@ -105,6 +105,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
         viewModel
 
 
+
         setBottomNavigationListeners()
         setBackStackHandler()
     }

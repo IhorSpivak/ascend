@@ -3,6 +3,10 @@ package com.doneit.ascend.presentation.main.chats
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
+import android.view.MenuItem
+import android.view.View
+import android.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.chats.ChatEntity
@@ -17,7 +21,7 @@ import com.doneit.ascend.presentation.utils.extensions.visible
 import kotlinx.android.synthetic.main.fragment_my_chats.*
 import org.kodein.di.generic.instance
 
-class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
+class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
     override val viewModelModule = MyChatsViewModelModule.get(this)
     override val viewModel: MyChatsContract.ViewModel by instance()
 
@@ -40,7 +44,7 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             }
             rvChats.adapter = adapter
             tvNewChat.setOnClickListener {
-                viewModel.onNewChatPressed()
+                showMenu(it)
             }
         }
 
@@ -96,8 +100,34 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
         ) { viewModel.onDelete(id) }.show()
     }
 
+    private fun showMenu(v: View) {
+        PopupMenu(view?.context, v, Gravity.TOP).apply {
+            menuInflater.inflate(R.menu.create_new_chat_channels_menu, this.menu)
+
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.post_chat -> {
+                        viewModel.onNewChatPressed()
+                        true
+                    }
+                    R.id.post_channel -> {
+
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }.show()
+    }
+
+
     override fun onDestroyView() {
         rvChats.adapter = null
         super.onDestroyView()
     }
+
+
+
+
+
 }
