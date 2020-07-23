@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
+
         tools:context="com.journaldev.collapsingtoolbarlayout.ScrollingActivity">
 
 
@@ -171,130 +172,8 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:clipToPadding="true"
-            app:behavior_hideable="true"
-            app:elevation="8dp"
-            app:behavior_peekHeight="0dp"
-            android:elevation="16dp"
-            android:outlineProvider="bounds"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            >
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="375dp"
-                android:orientation="vertical"
-                app:elevation="8dp">
+        <include layout="@layout/dialog_bottom_sheet_channels" />
 
 
-
-                        <com.doneit.ascend.presentation.views.MasterMindIcon
-                            android:id="@+id/channelImage"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="24dp"
-                            android:layout_marginBottom="8dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                             />
-
-                        <TextView
-                            android:id="@+id/titleChannel"
-                            style="@style/TextBold"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginEnd="20dp"
-                            android:textSize="16sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/channelImage"
-                            app:layout_constraintTop_toTopOf="@+id/channelImage"
-                            tools:text="channel" />
-
-                        <com.doneit.ascend.presentation.views.MasterMindIcon
-                            android:id="@+id/userIcon"
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_marginStart="20dp"
-                            app:layout_constraintBottom_toBottomOf="@+id/user_name"
-                            app:layout_constraintStart_toEndOf="@+id/channelImage"
-                            app:layout_constraintTop_toTopOf="@+id/user_name"
-                           />
-
-                        <TextView
-                            android:id="@+id/user_name"
-                            style="@style/TextNormal"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:textSize="12sp"
-                            app:layout_constraintTop_toBottomOf="@+id/channelType"
-                            app:layout_constraintStart_toEndOf="@id/userIcon"
-                            tools:text="user" />
-
-                        <TextView
-                            android:id="@+id/channelType"
-                            style="@style/TextNormal"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="8dp"
-                            android:textSize="12sp"
-                            app:layout_constraintTop_toBottomOf="@+id/titleChannel"
-                            app:layout_constraintEnd_toEndOf="@+id/titleChannel"
-                            app:layout_constraintHorizontal_bias="0.5"
-                            app:layout_constraintStart_toEndOf="@+id/channelImage"
-
-                            tools:text="members" />
-
-
-                <TextView
-                    android:id="@+id/descriptionChannel"
-                    style="@style/TextBold"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="28dp"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/channelImage"
-                    app:layout_constraintTop_toBottomOf="@+id/user_name"
-                    tools:text="channel" />
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/descriptionChannel"
-                android:layout_marginTop="16dp"
-                android:id="@+id/rl_separator"
-                android:layout_height="35dp">
-
-            </RelativeLayout>
-
-                <Button
-                    android:id="@+id/bntJoinToChannel"
-                    style="@style/AppTheme.Button"
-                    android:layout_width="match_parent"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="@string/join_to_channel"
-                    app:layout_constraintTop_toBottomOf="@+id/rl_separator"
-                   />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

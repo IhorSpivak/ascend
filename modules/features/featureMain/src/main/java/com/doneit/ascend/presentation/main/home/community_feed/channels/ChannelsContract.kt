@@ -16,6 +16,8 @@ interface ChannelsContract {
         fun onBackPressed()
         fun onNewChannelPressed()
         fun onChannelPressed(channel: ChatEntity)
+        fun onJoinChannel(channel: ChatEntity)
+        fun onLeaveChannel(channel: ChatEntity)
     }
 
     interface Router {

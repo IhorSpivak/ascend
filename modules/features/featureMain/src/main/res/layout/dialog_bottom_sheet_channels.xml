@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_container"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    android:outlineProvider="bounds"
+
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    app:elevation="8dp">
+
+
+
+        <com.doneit.ascend.presentation.views.MasterMindIcon
+            android:id="@+id/channelImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+
+            />
+
+        <TextView
+            android:id="@+id/titleChannel"
+            style="@style/TextBold"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/channelImage"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="18sp"
+            android:textColor="@color/default_font_color"
+            android:text="Channel" />
+
+
+        <TextView
+            android:id="@+id/channelType"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/channelImage"
+            android:layout_below="@+id/titleChannel"
+
+            android:text="PUBLIC CHAT" />
+
+        <com.doneit.ascend.presentation.views.MasterMindIcon
+            android:id="@+id/userIcon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="20dp"
+            android:layout_toRightOf="@+id/channelImage"
+            android:layout_below="@+id/channelType"
+            />
+
+        <TextView
+            android:id="@+id/user_name"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/userIcon"
+            android:layout_below="@+id/channelType"
+            android:text="user" />
+
+
+
+        <TextView
+            android:id="@+id/descriptionChannel"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="28dp"
+            android:textSize="16sp"
+            android:layout_below="@+id/user_name"
+            android:textColor="@color/colorAccent"
+            android:text="Lobortis convallis viverra tellus vestibulum facilisi diam augue. Sed nunc rhoncus enim morbi sit." />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_below="@+id/descriptionChannel"
+            android:layout_marginTop="16dp"
+            android:background="@color/light_gray_e9f0"
+            android:id="@+id/rl_separator"
+            android:layout_height="35dp">
+
+            <TextView
+                android:id="@+id/qtyMembers"
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentStart="true"
+                android:textSize="12sp"
+                android:text="0 members" />
+
+            <TextView
+                android:id="@+id/qtyPublications"
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/colorAccent"
+                android:layout_centerInParent="true"
+                android:textSize="12sp"
+                android:text="0 publications" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_action"
+            style="@style/AppTheme.Button"
+            android:layout_width="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="36dp"
+            android:text="@string/join_to_channel"
+            android:layout_below="@+id/rl_separator"
+            />
+
+
+    </RelativeLayout>
+

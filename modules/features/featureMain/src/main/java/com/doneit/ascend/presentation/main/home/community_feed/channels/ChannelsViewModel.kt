@@ -60,6 +60,14 @@ class ChannelsViewModel(
         router.navigateToChannel(channel.id)
     }
 
+    override fun onJoinChannel(channel: ChatEntity) {
+        router.navigateToChannel(channel.id)
+    }
+
+    override fun onLeaveChannel(channel: ChatEntity) {
+        TODO("Not yet implemented")
+    }
+
     private fun applyData(chatEntity: PagedList<ChatEntity>?, user: UserEntity?) {
         if (chatEntity != null && user != null) {
             channelWithCurrentUser.postValue(
