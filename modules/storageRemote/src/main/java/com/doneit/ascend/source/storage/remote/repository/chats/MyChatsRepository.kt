@@ -7,6 +7,10 @@ import com.doneit.ascend.source.storage.remote.data.response.common.RemoteRespon
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 
 internal class MyChatsRepository(
     gson: Gson,
@@ -148,5 +152,82 @@ internal class MyChatsRepository(
 
     override suspend fun getUnreadMessageCount(): RemoteResponse<UnreadMessageCountResponse, ErrorsListResponse> {
         return execute({ api.getUnreadMessageCount() }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun getChannelDetails(id: Long): RemoteResponse<ChatResponse, ErrorsListResponse> {
+        return execute({
+            api.getChannelAsync(
+                id
+            )
+        }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun createChannel(request: CreateChannelRequest): RemoteResponse<ChatResponse, ErrorsListResponse> {
+        return execute({
+            val parts = getChannelMultipart(request)
+            api.createChannelAsync(parts)
+        }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun updateChannel(
+        id: Long,
+        request: CreateChannelRequest
+    ): RemoteResponse<ChatResponse, ErrorsListResponse> {
+        return execute({
+            val builder = MultipartBody.Builder().apply {
+                request.let {
+
+                }
+            }
+            api.updateChannelAsync(id, builder.build().parts)
+        }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun subscribeToChannel(id: Long): RemoteResponse<ChatResponse, ErrorsListResponse> {
+        return execute({
+            api.subscribeToChannelAsync(id)
+        }, ErrorsListResponse::class.java)
+    }
+
+    private fun getChannelMultipart(request: CreateChannelRequest): List<MultipartBody.Part> {
+        return MultipartBody.Builder().apply {
+            addPart(MultipartBody.Part.createFormData("title", request.title))
+            request.description?.let {
+                addPart(MultipartBody.Part.createFormData("description", it))
+            }
+
+            addPart(
+                MultipartBody.Part.createFormData(
+                    "private",
+                    request.isPrivate.let { isPrivate ->
+                        if (isPrivate) {
+                            "1"
+                        } else {
+                            "0"
+                        }
+                    })
+            )
+            request.invites?.let {
+                it.forEach { id ->
+                    addPart(
+                        MultipartBody.Part.createFormData(
+                            "invites[]",
+                            id.toString()
+                        )
+                    )
+                }
+            }
+            request.image?.let { image ->
+                if (image.isNotEmpty()) {
+                    val file = File(image)
+                    val filePart = MultipartBody.Part.createFormData(
+                        "image", file.name, RequestBody.create(
+                            "image/*".toMediaTypeOrNull(), file
+                        )
+                    )
+                    addPart(filePart)
+                }
+            }
+        }.build().parts
     }
 }

@@ -26,5 +26,6 @@ data class ChatLocal(
     val chatType: String,
     val isPrivate: Boolean,
     val subscribed: Boolean,
-    @Embedded(prefix = "owner") val owner: OwnerLocal?
+    @Embedded(prefix = "owner") val owner: OwnerLocal?,
+    val description: String
 )

@@ -720,6 +720,7 @@
     <string name="channel_member_count">%s members</string>
     <string name="join_to_channel">Join to Channel</string>
     <string name="channel">Channel</string>
+    <string name="btn_create">Create</string>
 
 
 </resources>

@@ -42,6 +42,16 @@ fun CreateChatDTO.toRequest(): CreateChatRequest {
     )
 }
 
+fun NewChannelDTO.toRequest(): CreateChannelRequest {
+    return CreateChannelRequest(
+        title = title,
+        image = image,
+        description = description,
+        isPrivate = isPrivate,
+        invites = invites
+    )
+}
+
 fun MessageListDTO.toRequest(page: Int): MessageListRequest {
     return MessageListRequest(
         page,

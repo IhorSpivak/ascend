@@ -53,4 +53,13 @@ interface ChatUseCase {
         coroutineScope: CoroutineScope,
         request: ChatListDTO
     ): LiveData<com.doneit.ascend.domain.use_case.PagedList<ChatEntity>>
+
+    suspend fun getChannelDetails(
+        coroutineScope: CoroutineScope,
+        channelId: Long
+    ): ResponseEntity<ChatEntity, List<String>>
+
+    suspend fun createChannel(coroutineScope: CoroutineScope, newChannelDTO: NewChannelDTO): ResponseEntity<ChatEntity, List<String>>
+
+    suspend fun updateChannel(coroutineScope: CoroutineScope, channelId: Long, newChannelDTO: NewChannelDTO): ResponseEntity<ChatEntity, List<String>>
 }

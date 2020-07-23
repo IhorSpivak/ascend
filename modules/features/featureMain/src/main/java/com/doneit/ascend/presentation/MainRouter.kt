@@ -62,6 +62,9 @@ import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsFragment
+import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelContract
+import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelFragment
+import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.add_members.AddMembersFragment
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
@@ -175,6 +178,7 @@ class MainRouter(
     CommunityFeedContract.Router,
     SharePostContract.Router,
     CreatePostContract.Router,
+    CreateChannelContract.Router,
     ChannelsContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
@@ -190,6 +194,7 @@ class MainRouter(
         manager.popBackStack()
         replaceFullWithMainUpdate(ChatFragment.getInstance(chat.id))
     }
+
 
 
     override fun onBack() {
@@ -592,11 +597,20 @@ class MainRouter(
     }
 
     override fun navigateToNewChannel() {
-        //todo
+        manager.replaceWithBackStack(containerIdFull, CreateChannelFragment.newInstance())
+    }
+
+
+    override fun navigateToAddChannelMembers() {
+        manager.replaceWithBackStack(containerIdFull, AddMembersFragment())
     }
 
     override fun navigateToChannels() {
         replaceFullWithMainUpdate(ChannelsFragment())
+    }
+
+    override fun onBackWithOpenChannel(channel: ChatEntity) {
+
     }
 
 }
