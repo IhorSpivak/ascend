@@ -131,14 +131,14 @@ interface ChatApi {
     @Multipart
     @POST("/api/v1/channels")
     fun createChannelAsync(
-        @Part parts: List<MultipartBody.Part>
+        @Part part: List<MultipartBody.Part>
     ): Deferred<Response<ChatResponse>>
 
     @Multipart
     @PUT("/api/v1/channels/{id}")
     fun updateChannelAsync(
         @Path("id") id: Long,
-        @Part parts: List<MultipartBody.Part>
+        @Part part: List<MultipartBody.Part>
     ): Deferred<Response<ChatResponse>>
 
     @POST("/api/v1/channels/{id}/subscribe")

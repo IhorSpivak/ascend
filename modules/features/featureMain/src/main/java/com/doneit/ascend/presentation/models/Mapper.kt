@@ -187,8 +187,8 @@ fun QuestionSocketEntity.toEntity(): WebinarQuestionEntity {
 fun PresentationCreateChannelModel.toEntity(): NewChannelDTO {
     return NewChannelDTO(
         title = title.observableField.getNotNull(),
-        description = description.observableField.getNotNull(),
-        image = image.observableField.getNotNull(),
+        description = description.observableField.get(),
+        image = image.observableField.get(),
         isPrivate = isPrivate.getNotNull(),
         invites = participants.get().orEmpty()
     )

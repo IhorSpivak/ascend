@@ -1,5 +1,7 @@
 package com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel
 
+import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.add_members.AddMembersFragment
+import com.doneit.ascend.presentation.utils.extensions.add
 import com.vrgsoft.core.presentation.router.FragmentRouter
 
 class NewChannelLocalRouter(
@@ -17,6 +19,6 @@ class NewChannelLocalRouter(
     }
 
     override fun navigateToAddChannelMembers() {
-        //parent.childFragmentManager.add(containerId,  AddMemberFragment())
+        parent.childFragmentManager.add(containerId, AddMembersFragment())
     }
 }

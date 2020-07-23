@@ -64,6 +64,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.channels.Channels
 import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsFragment
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelFragment
+import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.add_members.AddMembersFragment
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
@@ -596,7 +597,12 @@ class MainRouter(
     }
 
     override fun navigateToNewChannel() {
-        manager.add(containerIdFull, CreateChannelFragment.newInstance())
+        manager.replaceWithBackStack(containerIdFull, CreateChannelFragment.newInstance())
+    }
+
+
+    override fun navigateToAddChannelMembers() {
+        manager.replaceWithBackStack(containerIdFull, AddMembersFragment())
     }
 
     override fun navigateToChannels() {

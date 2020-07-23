@@ -18,217 +18,224 @@
             type="Boolean" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
+    <FrameLayout
+        android:id="@+id/new_chat_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         android:clickable="true"
         android:focusable="true">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="152dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:focusable="true">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/searchToolbar"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:contentInsetStart="0dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/btnCancel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="11dp"
-                        android:lineSpacingExtra="0sp"
-                        android:text="@string/cancel_group"
-                        android:textColor="@color/light_gray_8f"
-                        android:textSize="17sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvTitle"
-                        style="@style/Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="11dp"
-                        android:text="@{isInUpdateMode ? @string/edit_channel : @string/new_channel}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="24dp"
-                        app:cardBackgroundColor="@color/light_gray_f4f7"
-                        app:cardCornerRadius="4dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvTitle">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/btnAddImage"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginStart="20dp"
-                            android:src="@drawable/ic_add_members_camera"
-                            app:path="@{model.newChannelModel.image.observableField}" />
-
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/tvChannelName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="20dp"
-
-                            android:theme="@style/TextInputLayoutAppearance"
-                            app:hintTextAppearance="@style/HintStyle">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/etChannelName"
-                                style="@style/TextNormal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:hint="@string/channel_name_default"
-                                android:lines="1"
-                                android:singleLine="true"
-                                android:text="@{model.newChannelModel.title.observableField}" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-
-                    </LinearLayout>
-
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/btnAdd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="11dp"
-                        android:layout_marginEnd="16dp"
-                        android:lineSpacingExtra="-0.2sp"
-                        android:text="@string/add_members"
-                        android:textColor="@color/green_font_color"
-                        android:textSize="17sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-        <LinearLayout
-            android:id="@+id/content_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/app_bar">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/privacyChannelContainer"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="20dp"
-                android:background="@drawable/bg_round_grey"
+                android:layout_height="152dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    style="@style/TextNormal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:enabled="@{!model.newChannelModel.isPrivate()}"
-                    android:gravity="end"
-                    android:text="@string/public_chat"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/isPrivate"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/searchToolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:contentInsetStart="0dp">
 
-                <Switch
-                    android:id="@+id/isPrivate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/switch_button"
-                    android:enabled="@{!isInUpdateMode}"
-                    android:theme="@style/SwitchTheme"
-                    android:track="@drawable/bg_round_solid_grey"
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/btnCancel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="11dp"
+                            android:lineSpacingExtra="0sp"
+                            android:text="@string/cancel_group"
+                            android:onClick="@{() -> model.onBackPressed()}"
+                            android:textColor="@color/light_gray_8f"
+                            android:textSize="17sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    style="@style/TextNormal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:alpha="0.5"
-                    android:enabled="@{model.newChannelModel.isPrivate()}"
-                    android:text="@string/private_chat"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/isPrivate"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvTitle"
+                            style="@style/Title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="11dp"
+                            android:text="@{isInUpdateMode ? @string/edit_channel : @string/new_channel}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="24dp"
+                            app:cardBackgroundColor="@color/light_gray_f4f7"
+                            app:cardCornerRadius="4dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/btnAddImage"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:layout_marginStart="20dp"
+                                app:circlePlaceholder="@{@drawable/ic_add_members_camera}"
+                                app:setCircleImage="@{model.newChannelModel.image.observableField}" />
 
 
-            <com.doneit.ascend.presentation.views.MultilineEditWithError
-                android:id="@+id/edInputDescription"
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/tvChannelName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="16dp"
+                                android:layout_marginEnd="20dp"
+
+                                android:theme="@style/TextInputLayoutAppearance"
+                                app:hintTextAppearance="@style/HintStyle">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/etChannelName"
+                                    style="@style/TextNormal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:hint="@string/channel_name_default"
+                                    android:lines="1"
+                                    android:singleLine="true"
+                                    android:text="@{model.newChannelModel.title.observableField}" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                        </LinearLayout>
+
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/btnAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="11dp"
+                            android:layout_marginEnd="16dp"
+                            android:lineSpacingExtra="-0.2sp"
+                            android:text="@string/add_members"
+                            android:textColor="@color/green_font_color"
+                            android:textSize="17sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.AppBarLayout>
+
+
+            <LinearLayout
+                android:id="@+id/content_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="44dp"
-                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                app:digits="@{@string/allow_description_digits}"
-                app:error="@{model.newChannelModel.description.observableError}"
-                app:hint="@{@string/channel_description_title}"
-                app:maxLength="@{5000}"
-                app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
-                app:saveState="@{false}"
-                app:text="@={model.newChannelModel.description.observableField}" />
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/app_bar">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvDescriptionFooter"
-                style="@style/TextNormal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="18dp"
-                android:text="@string/description_footer"
-                android:textColor="@color/light_gray_8f"
-                android:textSize="14sp" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/privacyChannelContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/bg_round_grey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        </LinearLayout>
+                    <TextView
+                        style="@style/TextNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:enabled="@{!model.newChannelModel.isPrivate()}"
+                        android:gravity="end"
+                        android:text="@string/public_chat"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/isPrivate"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Switch
+                        android:id="@+id/isPrivate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/switch_button"
+                        android:enabled="@{!isInUpdateMode}"
+                        android:theme="@style/SwitchTheme"
+                        android:track="@drawable/bg_round_solid_grey"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        style="@style/TextNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:alpha="0.5"
+                        android:enabled="@{model.newChannelModel.isPrivate()}"
+                        android:text="@string/private_chat"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/isPrivate"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.doneit.ascend.presentation.views.MultilineEditWithError
+                    android:id="@+id/edInputDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="44dp"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:digits="@{@string/allow_description_digits}"
+                    app:error="@{model.newChannelModel.description.observableError}"
+                    app:hint="@{@string/channel_description_title}"
+                    app:maxLength="@{5000}"
+                    app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
+                    app:saveState="@{false}"
+                    app:text="@={model.newChannelModel.description.observableField}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDescriptionFooter"
+                    style="@style/TextNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="18dp"
+                    android:text="@string/description_footer"
+                    android:textColor="@color/light_gray_8f"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>

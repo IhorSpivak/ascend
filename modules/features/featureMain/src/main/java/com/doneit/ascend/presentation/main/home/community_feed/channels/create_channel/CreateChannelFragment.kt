@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.androidisland.ezpermission.EzPermission
@@ -21,8 +22,14 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.FragmentNewChannelBinding
+import com.doneit.ascend.presentation.utils.copyCompressed
 import com.doneit.ascend.presentation.utils.copyToStorage
+import com.doneit.ascend.presentation.utils.createCropPhotoUri
 import com.doneit.ascend.presentation.utils.extensions.requestPermissions
+import com.doneit.ascend.presentation.utils.getCompressedImagePath
+import com.yalantis.ucrop.UCrop
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -68,6 +75,9 @@ class CreateChannelFragment : BaseFragment<FragmentNewChannelBinding>() {
         requireArguments().getParcelable<ChatEntity>(KEY_CHANNEL)
     }
 
+    private val cropPhotoUri by lazy { context!!.createCropPhotoUri() }
+    private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         channel?.let {
             viewModel.setEditMode(it)
@@ -90,8 +100,14 @@ class CreateChannelFragment : BaseFragment<FragmentNewChannelBinding>() {
             isInUpdateMode = channel != null
             btnAddImage.setOnClickListener {
                 doIfPermissionsGranted {
-                    createImageBottomDialog().show(childFragmentManager, ChooseImageBottomDialog::class.java.simpleName)
+                    createImageBottomDialog().show(
+                        childFragmentManager,
+                        ChooseImageBottomDialog::class.java.simpleName
+                    )
                 }
+            }
+            etChannelName.doAfterTextChanged {
+                viewModel.newChannelModel.title.observableField.set(it.toString())
             }
             btnAdd.setOnClickListener {
                 viewModel.addMembers()
@@ -100,9 +116,28 @@ class CreateChannelFragment : BaseFragment<FragmentNewChannelBinding>() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            viewModel.newChannelModel.image.observableField.set(data!!.data!!.toString())
-            super.onActivityResult(requestCode, resultCode, data)
+            when (requestCode) {
+                UCrop.REQUEST_CROP -> {
+                    val uri = data?.data ?: return
+                    handleImageURI(source = uri)
+                }
+                REQUEST_CODE_GALLERY -> {
+                    viewModel.onPhotoSelected(data!!.data!!, cropPhotoUri, this)
+                }
+                REQUEST_CODE_CAMERA -> {
+                    viewModel.onPhotoSelected(lastFileUri, cropPhotoUri, this)
+                }
+            }
+        }
+    }
+
+    private fun handleImageURI(source: Uri) {
+        GlobalScope.launch {
+            //todo: not working in some cases (didn't get why, android 9)
+            val compressed = activity!!.copyCompressed(source, compressedPhotoPath)
+            viewModel.newChannelModel.image.observableField.set(compressed)
         }
     }
 

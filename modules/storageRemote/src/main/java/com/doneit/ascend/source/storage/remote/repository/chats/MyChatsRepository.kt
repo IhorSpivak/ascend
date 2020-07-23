@@ -10,6 +10,7 @@ import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.io.File
 
 internal class MyChatsRepository(
     gson: Gson,
@@ -211,19 +212,21 @@ internal class MyChatsRepository(
                     addPart(
                         MultipartBody.Part.createFormData(
                             "invites[]",
-                            Gson().toJson(id)
+                            id.toString()
                         )
                     )
                 }
             }
-            request.image?.let { file ->
-                addPart(
-                    MultipartBody.Part.createFormData(
-                        "image",
-                        file.name,
-                        RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            request.image?.let { image ->
+                if (image.isNotEmpty()) {
+                    val file = File(image)
+                    val filePart = MultipartBody.Part.createFormData(
+                        "image", file.name, RequestBody.create(
+                            "image/*".toMediaTypeOrNull(), file
+                        )
                     )
-                )
+                    addPart(filePart)
+                }
             }
         }.build().parts
     }
