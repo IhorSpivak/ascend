@@ -334,7 +334,7 @@ fun applyLandscapeLayoutFor3(set: ConstraintSet) {
     )
 }
 
-fun ListItemFeedBinding.applyLayoutFor4(
+fun ListItemFeedBinding.applyLayoutFor4Landscape(
     attachments: List<Attachment>,
     set: ConstraintSet
 ) {
@@ -442,6 +442,106 @@ fun ListItemFeedBinding.applyLayoutFor4(
             ))
     set.setVerticalWeight(R.id.imvFirst, weight)
     set.setVerticalWeight(R.id.imvSecond, 1 - weight)
+}
+
+fun applyLayoutFor4Portrait(set: ConstraintSet) {
+    set.connect(
+        R.id.imvFirst,
+        ConstraintSet.END,
+        R.id.imvSecond,
+        ConstraintSet.START
+    )
+    set.connect(
+        R.id.imvFirst,
+        ConstraintSet.BOTTOM,
+        ConstraintSet.PARENT_ID,
+        ConstraintSet.BOTTOM
+    )
+    set.connect(
+        R.id.imvFirst,
+        ConstraintSet.START,
+        ConstraintSet.PARENT_ID,
+        ConstraintSet.START
+    )
+    set.connect(
+        R.id.imvFirst,
+        ConstraintSet.TOP,
+        ConstraintSet.PARENT_ID,
+        ConstraintSet.TOP
+    )
+    set.connect(
+        R.id.imvSecond,
+        ConstraintSet.START,
+        R.id.imvFirst,
+        ConstraintSet.END
+    )
+    set.connect(
+        R.id.imvSecond,
+        ConstraintSet.TOP,
+        ConstraintSet.PARENT_ID,
+        ConstraintSet.TOP
+    )
+    set.connect(
+        R.id.imvSecond,
+        ConstraintSet.END,
+        ConstraintSet.PARENT_ID,
+        ConstraintSet.END
+    )
+    set.connect(
+        R.id.imvSecond,
+        ConstraintSet.BOTTOM,
+        R.id.imvThird,
+        ConstraintSet.TOP
+    )
+    set.connect(
+        R.id.imvThird,
+        ConstraintSet.BOTTOM,
+        R.id.imvFourth,
+        ConstraintSet.TOP
+    )
+    set.connect(
+        R.id.imvThird,
+        ConstraintSet.END,
+        ConstraintSet.PARENT_ID,
+        ConstraintSet.END
+    )
+    set.connect(
+        R.id.imvThird,
+        ConstraintSet.START,
+        R.id.imvFirst,
+        ConstraintSet.END
+    )
+    set.connect(
+        R.id.imvThird,
+        ConstraintSet.TOP,
+        R.id.imvSecond,
+        ConstraintSet.BOTTOM
+    )
+
+    set.connect(
+        R.id.imvFourth,
+        ConstraintSet.BOTTOM,
+        ConstraintSet.PARENT_ID,
+        ConstraintSet.BOTTOM
+    )
+    set.connect(
+        R.id.imvFourth,
+        ConstraintSet.END,
+        ConstraintSet.PARENT_ID,
+        ConstraintSet.END
+    )
+    set.connect(
+        R.id.imvFourth,
+        ConstraintSet.START,
+        R.id.imvFirst,
+        ConstraintSet.END
+    )
+    set.connect(
+        R.id.imvFourth,
+        ConstraintSet.TOP,
+        R.id.imvThird,
+        ConstraintSet.BOTTOM
+    )
 }
 
 fun applyLayoutFor5(

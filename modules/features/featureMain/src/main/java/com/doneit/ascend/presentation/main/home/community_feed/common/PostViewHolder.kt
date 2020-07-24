@@ -115,7 +115,13 @@ class PostViewHolder(
                     applyPortraitLayoutFor3(set)
                 }
             }
-            4 -> applyLayoutFor4(attachments, set)
+            4 -> {
+                if (attachments[0].isPortrait()) {
+                    applyLayoutFor4Portrait(set)
+                } else {
+                    applyLayoutFor4Landscape(attachments, set)
+                }
+            }
             5 -> applyLayoutFor5(set)
         }
         set.applyTo(mivAttachments)
@@ -140,10 +146,16 @@ class PostViewHolder(
                             calculateHeight(attachments, multiplierResult = 2f)
                         }
                     }
-                    4 -> calculateHeight(attachments) + calculateHeight(
-                        attachments,
-                        dividerWidth = 3f
-                    )
+                    4 -> when {
+                        attachments[0].isPortrait() -> calculateHeight(
+                            attachments,
+                            dividerWidth = 2f
+                        )
+                        else -> calculateHeight(attachments) + calculateHeight(
+                            attachments,
+                            dividerWidth = 3f
+                        )
+                    }
                     5 -> calculateHeight(attachments, dividerWidth = 2f, multiplierResult = 2f)
                     else -> 0
                 }

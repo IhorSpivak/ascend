@@ -235,15 +235,15 @@
                     android:layout_height="0dp"
                     android:background="@color/background_attachments_alpha"
                     android:gravity="center"
-                    android:text='@{"+" + Integer.toString(postModel.attachments.size() - 3)}'
+                    android:text='@{"+" + Integer.toString(postModel.attachments.size() - 5)}'
                     android:textAlignment="center"
                     android:textAppearance="@style/TextBold.White"
                     android:textSize="16sp"
-                    android:visibility="@{postModel.attachments.size() > 3}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/imvFirst"
-                    app:layout_constraintTop_toBottomOf="@id/imvSecond"
+                    android:visibility="@{postModel.attachments.size() > 5}"
+                    app:layout_constraintBottom_toBottomOf="@id/imvFifth"
+                    app:layout_constraintEnd_toEndOf="@id/imvFifth"
+                    app:layout_constraintStart_toStartOf="@id/imvFifth"
+                    app:layout_constraintTop_toTopOf="@id/imvFifth"
                     tools:text="+8" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
