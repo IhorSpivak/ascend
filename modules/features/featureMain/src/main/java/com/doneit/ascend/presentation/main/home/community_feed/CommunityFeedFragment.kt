@@ -48,11 +48,14 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     private val initPostsAdapter: PostsAdapter by RvLazyAdapter {
         PostsAdapter(
             postClickListeners(),
-            requireArguments().getParcelable(KEY_USER)!!
+            user
         ) to { binding.rvPosts }
     }
 
     private var currentDialog: AlertDialog? = null
+    private val user by lazy {
+        requireArguments().getParcelable<UserEntity>(KEY_USER)!!
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -73,7 +76,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             onShareClick = {
                 SharePostBottomSheetFragment.newInstance(
                     it,
-                    requireArguments().getParcelable(KEY_USER)!!
+                    user
                 )
                     .show(
                         childFragmentManager,
@@ -100,7 +103,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        viewModel.initUser(requireArguments().getParcelable(KEY_USER)!!)
+        viewModel.initUser(user)
         initPostsAdapter
         binding.rvPosts.itemAnimator = null
         observeData()
@@ -145,7 +148,8 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     private fun showSetting(view: View, post: Post) {
         PopupMenu(view.context, view, Gravity.START).apply {
             menuInflater.inflate(R.menu.post_menu, this.menu)
-            menu.findItem(R.id.post_edit)?.isVisible = post.likesCount == 0 && post.commentsCount == 0
+            menu.findItem(R.id.post_edit)?.isVisible =
+                post.likesCount == 0 && post.commentsCount == 0
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.post_edit -> {

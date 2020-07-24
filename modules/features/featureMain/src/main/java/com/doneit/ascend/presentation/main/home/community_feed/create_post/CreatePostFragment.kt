@@ -60,6 +60,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 }
             }
             buttonComplete.setOnClickListener { this@CreatePostFragment.viewModel.createPost() }
+            rvMedia.setItemViewCacheSize(10)
             rvMedia.adapter = adapter
         }
         observeData()

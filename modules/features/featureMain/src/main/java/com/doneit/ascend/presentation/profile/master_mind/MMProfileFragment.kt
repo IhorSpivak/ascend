@@ -54,6 +54,8 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             setSearchEnabled(false)
             setFilterEnabled(false)
             setChatEnabled(false)
+
+
         }
     }
 

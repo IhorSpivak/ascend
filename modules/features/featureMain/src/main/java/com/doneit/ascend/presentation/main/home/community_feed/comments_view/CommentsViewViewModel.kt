@@ -9,7 +9,7 @@ import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 
-class CommentsViewViewModel(
+open class CommentsViewViewModel(
     private val communityFeedUseCase: CommunityFeedUseCase,
     private val postId: Long
 ) : BaseViewModelImpl(), CommentsViewContract.ViewModel {
