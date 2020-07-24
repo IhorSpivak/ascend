@@ -80,7 +80,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun onTrackNewChatMessage() {
-        listener?.apply {
+    listener?.apply {
             getUnreadMessageCount()
         }
 
@@ -91,10 +91,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         handler!!.postDelayed(runnable, 3000)
 
+
     }
 
     override fun onPause() {
-        handler?.removeCallbacks(runnable)
+        handler!!.removeCallbacksAndMessages(runnable)
+        handler!!.removeMessages(0)
         super.onPause()
     }
 
