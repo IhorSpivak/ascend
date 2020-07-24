@@ -14,7 +14,7 @@
 
 
 
-        <com.doneit.ascend.presentation.views.MasterMindIcon
+        <ImageView
             android:id="@+id/channelImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -53,7 +53,7 @@
 
             android:text="PUBLIC CHAT" />
 
-        <com.doneit.ascend.presentation.views.MasterMindIcon
+        <ImageView
             android:id="@+id/userIcon"
             android:layout_width="16dp"
             android:layout_height="16dp"
@@ -110,29 +110,35 @@
                 android:layout_marginTop="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:layout_centerInParent="true"
                 android:layout_centerHorizontal="true"
-                android:layout_alignParentStart="true"
+
                 android:textSize="12sp"
                 android:text="0 members" />
 
-            <TextView
-                android:id="@+id/qtyPublications"
-                style="@style/TextNormal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorAccent"
-                android:layout_centerInParent="true"
-                android:textSize="12sp"
-                android:text="0 publications" />
+
 
         </RelativeLayout>
 
         <Button
-            android:id="@+id/btn_action"
+            android:id="@+id/btn_leave"
+            android:layout_height="60dp"
+
+            android:layout_width="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="24dp"
+            android:textSize="24sp"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/red_hat_font"
+            android:layout_marginBottom="36dp"
+            android:background="@drawable/mm_delete_background"
+            android:text="@string/leave_this_channel"
+            android:layout_below="@+id/rl_separator"
+            />
+
+        <Button
+            android:id="@+id/btn_join"
             style="@style/AppTheme.Button"
             android:layout_width="match_parent"
             android:layout_marginStart="20dp"

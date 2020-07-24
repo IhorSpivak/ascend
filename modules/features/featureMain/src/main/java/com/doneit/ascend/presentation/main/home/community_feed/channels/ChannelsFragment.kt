@@ -11,6 +11,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.presentation.common.RvLazyAdapter
 import com.doneit.ascend.presentation.main.R
@@ -19,6 +20,7 @@ import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChannelsBinding
 import com.doneit.ascend.presentation.main.home.community_feed.channels.common.ChannelAdapter
 import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_bottom_sheet_channels.view.*
@@ -79,14 +81,23 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
         val view = layoutInflater.inflate(R.layout.dialog_bottom_sheet_channels, null)
         val dialog = BottomSheetDialog(context!!)
         dialog.setContentView(view)
+        view.btn_join.visibleOrGone(channel.isSubscribed)
+        view.btn_leave.visibleOrGone(!channel.isSubscribed)
         view.titleChannel.text = channel.title
         view.user_name.text = channel.owner?.fullName
-        view.btn_action.setOnClickListener {
-            when(channel.isSubscribed){
-                true ->   viewModel.onJoinChannel(channel)
-                false ->   viewModel.onLeaveChannel(channel)
-            }
-        }
+        view.qtyMembers.text = """${channel.membersCount} members"""
+        Glide.with(this)
+            .load(channel.image?.url)
+            .apply(RequestOptions.circleCropTransform())
+            .into(view.channelImage)
+
+        Glide.with(this)
+            .load(channel.owner?.image?.url)
+            .apply(RequestOptions.circleCropTransform())
+            .into(view.userIcon)
+
+        view.btn_join.setOnClickListener { viewModel.onJoinChannel(channel) }
+        view.btn_leave.setOnClickListener { viewModel.onLeaveChannel(channel) }
         dialog.show()
     }
 
