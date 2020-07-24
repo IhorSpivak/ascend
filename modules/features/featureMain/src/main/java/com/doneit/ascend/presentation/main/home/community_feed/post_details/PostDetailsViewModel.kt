@@ -32,7 +32,8 @@ class PostDetailsViewModel(
     init {
         currentPost.value = post
         currentPost.addSource(commentsCount) {
-            currentPost.value = post.copy(commentsCount = it)
+            this.post.commentsCount = it
+            currentPost.value = this.post
         }
     }
 
@@ -60,12 +61,9 @@ class PostDetailsViewModel(
     override fun likePost() {
         postsUseCase.likePost(viewModelScope, post.id, BaseCallback(
             onSuccess = {
-                currentPost.postValue(
-                    post.copy(
-                        isLikedMe = true,
-                        likesCount = ++post.likesCount
-                    )
-                )
+                post.isLikedMe = true
+                post.likesCount = ++post.likesCount
+                currentPost.postValue(post)
             },
             onError = {
 
@@ -76,12 +74,9 @@ class PostDetailsViewModel(
     override fun unlikePost() {
         postsUseCase.unlikePost(viewModelScope, post.id, BaseCallback(
             onSuccess = {
-                currentPost.postValue(
-                    post.copy(
-                        isLikedMe = false,
-                        likesCount = --post.likesCount
-                    )
-                )
+                post.isLikedMe = false
+                post.likesCount = --post.likesCount
+                currentPost.postValue(post)
             },
             onError = {
 

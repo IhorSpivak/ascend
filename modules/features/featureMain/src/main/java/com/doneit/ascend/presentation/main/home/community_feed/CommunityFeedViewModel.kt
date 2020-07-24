@@ -139,10 +139,6 @@ class CommunityFeedViewModel(
     override fun onUserClick(userId: Long) {
     }
 
-    override fun showDetails(user: UserEntity, post: Post) {
-        router.showDetails(user, post)
-    }
-
     override fun newItem(post: Post) {
         val index = posts.value?.indexOfFirst { it.id == post.id }
         if (index == null || index == -1) {

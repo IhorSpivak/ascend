@@ -71,7 +71,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
                     viewModel.likePost(id)
                 else viewModel.unlikePost(id)
             },
-            onOptionsClick = { view, post -> viewModel.showDetails(user, post) },
+            onOptionsClick = ::showSetting,
             onSendCommentClick = { id, text, _ -> viewModel.leaveComment(id, text) },
             onShareClick = {
                 SharePostBottomSheetFragment.newInstance(
