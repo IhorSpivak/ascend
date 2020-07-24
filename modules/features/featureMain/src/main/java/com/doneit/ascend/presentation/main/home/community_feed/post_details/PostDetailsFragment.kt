@@ -18,6 +18,7 @@ import com.doneit.ascend.presentation.dialog.QuestionButtonType
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentPostDetailsBinding
 import com.doneit.ascend.presentation.main.databinding.ViewPostContentBinding
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewBottomSheetFragment
@@ -39,7 +40,7 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
 
     override val kodeinModule: Kodein.Module = Kodein.Module(this::class.java.simpleName) {
         bind<Post>() with provider {
-            post
+            requireArguments().getParcelable<Post>(KEY_POST)!!
         }
     }
 
@@ -64,18 +65,19 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
         requireArguments().getParcelable<UserEntity>(CommentsViewBottomSheetFragment.KEY_USER)!!
     }
 
-    private val post by lazy {
-        requireArguments().getParcelable<Post>(KEY_POST)!!
-    }
+    private val viewModelPost
+        get() = requireNotNull(viewModel.currentPost.value)
 
     private var currentDialog: AlertDialog? = null
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         commentsAdapter
+        val post = requireArguments().getParcelable<Post>(KEY_POST)!!
         binding.apply {
             viewPostContent.setupAttachments(post.attachments)
             viewPostContent.applyResizing(post.attachments)
-            viewPostContent.setClickListeners(post)
+            viewPostContent.setClickListeners()
+            if (post.isOwner) viewPostContent.btnBlock.gone()
             commentsView.model = viewModel
             model = viewModel
             commentsView.rvComments.itemAnimator = null
@@ -104,9 +106,7 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
         }
     }
 
-    private fun ViewPostContentBinding.setClickListeners(
-        post: Post
-    ) {
+    private fun ViewPostContentBinding.setClickListeners() {
         mmiAvatar.setOnClickListener {
             viewModel.showUserDetails()
         }
@@ -114,7 +114,7 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
             viewModel.showUserDetails()
         }
         btnLike.setOnClickListener {
-            if (post.isLikedMe) {
+            if (viewModelPost.isLikedMe) {
                 viewModel.unlikePost()
             } else {
                 viewModel.likePost()
@@ -122,7 +122,7 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
         }
         btnShare.setOnClickListener {
             SharePostBottomSheetFragment.newInstance(
-                post.id,
+                viewModelPost.id,
                 user
             ).show(
                 childFragmentManager,
@@ -130,17 +130,17 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
             )
         }
         btnBlock.setOnClickListener {
-            if (post.isOwner) {
+            if (viewModelPost.isOwner) {
                 showSetting(it)
             } else {
                 showAbuseDialog()
             }
         }
-        imvFirst.setOnClickListener { viewModel.attachmentClicked(post.attachments, 0) }
-        imvSecond.setOnClickListener { viewModel.attachmentClicked(post.attachments, 1) }
-        imvThird.setOnClickListener { viewModel.attachmentClicked(post.attachments, 2) }
-        imvFourth.setOnClickListener { viewModel.attachmentClicked(post.attachments, 3) }
-        imvFifth.setOnClickListener { viewModel.attachmentClicked(post.attachments, 4) }
+        imvFirst.setOnClickListener { viewModel.attachmentClicked(viewModelPost.attachments, 0) }
+        imvSecond.setOnClickListener { viewModel.attachmentClicked(viewModelPost.attachments, 1) }
+        imvThird.setOnClickListener { viewModel.attachmentClicked(viewModelPost.attachments, 2) }
+        imvFourth.setOnClickListener { viewModel.attachmentClicked(viewModelPost.attachments, 3) }
+        imvFifth.setOnClickListener { viewModel.attachmentClicked(viewModelPost.attachments, 4) }
     }
 
     private fun scrollToStart() {

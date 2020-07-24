@@ -26,10 +26,13 @@ class PostDetailsViewModel(
 
     override val currentPost = MediatorLiveData<Post>()
 
+    private val post
+        get() = requireNotNull(currentPost.value)
+
     init {
         currentPost.value = post
         currentPost.addSource(commentsCount) {
-            currentPost.value = requireNotNull(currentPost.value).copy(commentsCount = it)
+            currentPost.value = post.copy(commentsCount = it)
         }
     }
 
@@ -38,24 +41,31 @@ class PostDetailsViewModel(
     }
 
     override fun onEditPostClick() {
-        router.navigateToCreatePost(requireNotNull(currentPost.value))
+        router.navigateToCreatePost(post)
     }
 
     override fun onDeletePostClick() {
-        postsUseCase.deletePost(viewModelScope, postId = requireNotNull(currentPost.value).id, baseCallback = BaseCallback(
-            onSuccess = {
+        postsUseCase.deletePost(viewModelScope,
+            postId = post.id,
+            baseCallback = BaseCallback(
+                onSuccess = {
 
-            },
-            onError = {
+                },
+                onError = {
 
-            }
-        ))
+                }
+            ))
     }
 
     override fun likePost() {
-        postsUseCase.likePost(viewModelScope, requireNotNull(currentPost.value).id, BaseCallback(
+        postsUseCase.likePost(viewModelScope, post.id, BaseCallback(
             onSuccess = {
-                currentPost.postValue(requireNotNull(currentPost.value).copy(isLikedMe = true))
+                currentPost.postValue(
+                    post.copy(
+                        isLikedMe = true,
+                        likesCount = ++post.likesCount
+                    )
+                )
             },
             onError = {
 
@@ -64,9 +74,14 @@ class PostDetailsViewModel(
     }
 
     override fun unlikePost() {
-        postsUseCase.unlikePost(viewModelScope, requireNotNull(currentPost.value).id, BaseCallback(
+        postsUseCase.unlikePost(viewModelScope, post.id, BaseCallback(
             onSuccess = {
-                currentPost.postValue(requireNotNull(currentPost.value).copy(isLikedMe = false))
+                currentPost.postValue(
+                    post.copy(
+                        isLikedMe = false,
+                        likesCount = --post.likesCount
+                    )
+                )
             },
             onError = {
 
@@ -76,7 +91,7 @@ class PostDetailsViewModel(
 
     override fun reportUser(reason: String) {
         viewModelScope.launch {
-            userUseCase.report(reason, requireNotNull(currentPost.value).owner.id.toString()).let {
+            userUseCase.report(reason, post.owner.id.toString()).let {
                 if (it.isSuccessful.not()) {
                     showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                 }
