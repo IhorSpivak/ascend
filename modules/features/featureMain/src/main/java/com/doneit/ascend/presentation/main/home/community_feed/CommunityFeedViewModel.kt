@@ -105,7 +105,7 @@ class CommunityFeedViewModel(
                         val item = it[index]
                         it.set(
                             index,
-                            item.copy(likesCount = item.likesCount.inc(), isLikedMe = true)
+                            item.copy(isLikedMe = true)
                         )
                     }
                 }
@@ -125,7 +125,7 @@ class CommunityFeedViewModel(
                         val item = it[index]
                         it.set(
                             index,
-                            item.copy(likesCount = item.likesCount.dec(), isLikedMe = false)
+                            item.copy(isLikedMe = false)
                         )
                     }
                 }
@@ -198,7 +198,21 @@ class CommunityFeedViewModel(
                             }
                         }
                     }
-                    else -> null
+                    CommunityFeedSocketEvent.POST_LIKED -> {
+                        val post = posts.value?.firstOrNull { it.id == socketEvent.postId }
+                        val index = posts.value?.indexOf(post)
+                        post?.let {
+                            if (index != null && index != -1) {
+                                posts.value?.set(
+                                    index,
+                                    it.copy(likesCount = socketEvent.likesCount)
+                                )
+                            }
+                        }
+                    }
+                    else -> {
+                        throw IllegalArgumentException("unknown socket type")
+                    }
                 }
             }
         }

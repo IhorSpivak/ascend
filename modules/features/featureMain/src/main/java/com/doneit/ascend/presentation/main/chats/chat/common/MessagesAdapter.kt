@@ -62,6 +62,7 @@ class MessagesAdapter(
         if (this.chat != chat) {
             this.chat = chat
             notifyItemRangeChanged(0, itemCount - 1)
+
         }
     }
 
@@ -69,6 +70,7 @@ class MessagesAdapter(
         if (this.user != user) {
             this.user = user
             notifyItemRangeChanged(0, itemCount - 1)
+
         }
     }
 

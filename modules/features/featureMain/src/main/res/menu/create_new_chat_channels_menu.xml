@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/post_chat"
+        android:title="@string/new_chat">
+    </item>
+
+    <item
+        android:id="@+id/post_channel"
+        android:title="@string/new_channel">
+    </item>
+</menu>
