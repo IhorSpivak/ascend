@@ -31,9 +31,10 @@ class ChannelsViewModel(
         channels = Transformations.switchMap(filterTextAll) { query ->
             val model = ChatListDTO(
                 perPage = 10,
-                sortColumn = "last_message",
+                sortColumn = "members_count",
                 sortType = SortType.DESC,
                 title = query,
+                allChannels = true,
                 chatType = ChatType.CHANNEL
             )
             return@switchMap chatUseCase.loadChats(viewModelScope, model)

@@ -28,7 +28,8 @@ internal class MyChatsRepository(
                 request.createdAtTo,
                 request.updatedAtFrom,
                 request.updatedAtTo,
-                request.chatType
+                request.chatType,
+                request.allChannels
             )
         }, ErrorsListResponse::class.java)
     }

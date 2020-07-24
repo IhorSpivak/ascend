@@ -40,11 +40,12 @@ class CommunityFeedViewModel(
         viewModelScope,
         ChatListDTO(
             perPage = 10,
+            sortColumn = "members_count",
             sortType = SortType.DESC,
+            allChannels = true,
             chatType = ChatType.CHANNEL
         )
     )
-
 
     private val socketMessage = postsUseCase.commentStream
     private lateinit var observer: Observer<CommunityFeedSocketEntity?>
