@@ -157,7 +157,7 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
         const val REQUEST_CODE_COMMENTS = 1233
         const val KEY_COMMENTS_COUNT = "KEY_COMMENTS_COUNT"
         const val KEY_POST_ID = "KEY_POST_ID"
-        private const val KEY_USER = "KEY_USER"
+        const val KEY_USER = "KEY_USER"
         fun newInstance(postId: Long, user: UserEntity) = CommentsViewBottomSheetFragment().apply {
             arguments = Bundle().apply {
                 putLong(KEY_POST_ID, postId)

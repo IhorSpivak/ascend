@@ -9,5 +9,14 @@ data class AttachmentResponse(
     @SerializedName("id")
     val id: Long,
     @SerializedName("url")
-    val url: String? = null
+    val url: String? = null,
+    @SerializedName("size")
+    val size: SizeResponse,
+    @SerializedName("thumbnail")
+    val thumbnail: String? = null
+)
+
+data class SizeResponse(
+    val width: Int? = null,
+    val height: Int? = null
 )

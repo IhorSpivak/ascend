@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.doneit.ascend.presentation.utils.extensions.DateExtensionsKt" />
+
+        <import type="com.doneit.ascend.presentation.main.R" />
+
+        <import type="com.doneit.ascend.domain.entity.community_feed.ContentType" />
+
+        <variable
+            name="postModel"
+            type="com.doneit.ascend.domain.entity.community_feed.Post" />
+
+        <variable
+            name="visibilityOfSend"
+            type="Boolean" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.doneit.ascend.presentation.views.MasterMindIcon
+            android:id="@+id/mmiAvatar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:name="@{postModel.owner.fullName}"
+            app:url="@{postModel.owner.image.url}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
+            style="@style/TextNormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/btnBlock"
+            android:layout_toEndOf="@+id/mmiAvatar"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{postModel.owner.fullName}"
+            android:textSize="16sp"
+            tools:text="@string/community_feed_post_something" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnBlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            app:imageResource="@{postModel.isOwner?R.drawable.ic_more_vert:R.drawable.ic_info}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvName"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/btnBlock"
+            android:layout_toEndOf="@+id/mmiAvatar"
+            android:text="@{DateExtensionsKt.formatPostDate(postModel.updatedAt)}"
+            android:textAppearance="@style/TextNormal"
+            android:textColor="@color/light_gray_8f"
+            android:textSize="12sp"
+            tools:text="Yesterday at 8:34 AM" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTime"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTime"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{postModel.description}"
+            android:textAppearance="@style/TextNormal"
+            android:textSize="16sp"
+            android:visibility="@{postModel.description.length() > 0}"
+            tools:text="Veniam proident ut consequat in commodo non. Occaecat dolor pariatur ipsum non eu anim pariatur consectetur ex voluptate laboris. Incididunt sit eu enim amet." />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLike"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            iconTint="@{postModel.likedMe?@color/colorAccent:@color/light_gray_b1bf}"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mivAttachments"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:drawableStart="@drawable/ic_like"
+            android:drawablePadding="8dp"
+            android:gravity="start|center_vertical"
+            android:padding="0dp"
+            android:text="@string/label_like"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextNormal.TextButton"
+            android:textColor="@{postModel.likedMe?@color/colorAccent:@color/light_gray_b1bf,default=@color/light_gray_b1bf}"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnShare"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            iconTint="@{@color/light_gray_b1bf}"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mivAttachments"
+            android:layout_toEndOf="@id/btnLike"
+            android:drawableStart="@drawable/ic_arrow_share"
+            android:drawablePadding="8dp"
+            android:gravity="start|center_vertical"
+            android:padding="0dp"
+            android:text="@string/label_share"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextNormal.TextButton"
+            android:textColor="@color/light_gray_b1bf"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btnComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/btnShare"
+            android:layout_alignBottom="@id/btnShare"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_toEndOf="@id/btnShare"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="end|center_vertical"
+            android:text="@{@plurals/x_likes(postModel.likesCount, postModel.likesCount)+`, `+@plurals/x_comments(postModel.commentsCount, postModel.commentsCount)}"
+            android:textAppearance="@style/TextNormal"
+            android:textSize="12sp"
+            tools:text="128 comments, 21 like" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mivAttachments"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/tvDescription"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp">
+
+            <com.doneit.ascend.presentation.views.attachment_view.AttachmentView
+                android:id="@+id/imvFirst"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:visibility="@{postModel.attachments.size() > 0}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/imvSecond"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <com.doneit.ascend.presentation.views.attachment_view.AttachmentView
+                android:id="@+id/imvSecond"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@id/imvThird"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imvFirst"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <com.doneit.ascend.presentation.views.attachment_view.AttachmentView
+                android:id="@+id/imvThird"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imvFirst"
+                app:layout_constraintTop_toBottomOf="@id/imvSecond"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <com.doneit.ascend.presentation.views.attachment_view.AttachmentView
+                android:id="@+id/imvFourth"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imvFirst"
+                app:layout_constraintTop_toBottomOf="@id/imvSecond"
+                tools:src="@tools:sample/backgrounds/scenic"
+                tools:visibility="gone" />
+
+            <com.doneit.ascend.presentation.views.attachment_view.AttachmentView
+                android:id="@+id/imvFifth"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imvFirst"
+                app:layout_constraintTop_toBottomOf="@id/imvSecond"
+                tools:src="@tools:sample/backgrounds/scenic" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAttachmentsCount"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/background_attachments_alpha"
+                android:gravity="center"
+                android:text='@{"+" + Integer.toString(postModel.attachments.size() - 3)}'
+                android:textAlignment="center"
+                android:textAppearance="@style/TextBold.White"
+                android:textSize="16sp"
+                android:visibility="@{postModel.attachments.size() > 3}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imvFirst"
+                app:layout_constraintTop_toBottomOf="@id/imvSecond"
+                tools:text="+8" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/btnShare"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:alpha="0.2"
+            android:background="@android:color/darker_gray"
+            android:visibility="@{visibilityOfSend, default = visible}" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etInputMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toStartOf="@id/btnSend"
+            android:background="@null"
+            android:hint="@string/community_feed_post_hint"
+            android:maxLines="5"
+            android:textAppearance="@style/TextNormal"
+            android:textSize="16sp"
+            android:visibility="@{visibilityOfSend, default = visible}" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line"
+            android:layout_alignTop="@id/etInputMessage"
+            android:layout_alignBottom="@id/etInputMessage"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:alpha="@{etInputMessage.text.length() > 2?1f:0.4f}"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:visibility="@{visibilityOfSend, default = visible}"
+            app:srcCompat="@drawable/ic_send" />
+
+    </RelativeLayout>
+</layout>

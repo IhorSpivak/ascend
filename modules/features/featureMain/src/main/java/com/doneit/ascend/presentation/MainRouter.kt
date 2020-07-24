@@ -67,6 +67,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.channels.create_c
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.add_members.AddMembersFragment
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
+import com.doneit.ascend.presentation.main.home.community_feed.post_details.PostDetailsContract
 import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostContract
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
@@ -178,8 +179,9 @@ class MainRouter(
     CommunityFeedContract.Router,
     SharePostContract.Router,
     CreatePostContract.Router,
-    CreateChannelContract.Router,
-    ChannelsContract.Router {
+    ChannelsContract.Router,
+    PostDetailsContract.Router,
+    CreateChannelContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }
@@ -194,7 +196,6 @@ class MainRouter(
         manager.popBackStack()
         replaceFullWithMainUpdate(ChatFragment.getInstance(chat.id))
     }
-
 
 
     override fun onBack() {

@@ -9,6 +9,7 @@ data class CommunityFeedEventResponse(
 
 data class CommunityFeedEventMessage(
     @SerializedName("post_id") val postId: Long,
-    @SerializedName("comments_count") val commentsCount: Int,
+    @SerializedName("comments_count") val commentsCount: Int?,
+    @SerializedName("likes_count") val likesCount: Int?,
     @SerializedName("event") val event: String?
 )

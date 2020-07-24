@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.community_feed.Size
 import com.doneit.ascend.domain.entity.community_feed.getContentTypeFromMime
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -69,16 +70,19 @@ class CreatePostViewModel(
     }
 
     fun create() {
+        canComplete.value = false
         communityFeedUseCase.createPost(
             viewModelScope,
             createPostModel.description.observableField.get().orEmpty(),
             createPostModel.media,
             BaseCallback(
                 onSuccess = {
+                    canComplete.postValue(isModelValid())
                     result.postValue(it)
                     router.onBack()
                 },
                 onError = {
+                    canComplete.postValue(isModelValid())
                     showPopupEvent.postValue(it)
                 }
             )
@@ -100,7 +104,9 @@ class CreatePostViewModel(
         val newAttachment = Attachment(
             id = -1,
             contentType = getContentTypeFromMime(mimeType),
-            url = uri
+            url = uri,
+            size = Size(0, 0),
+            thumbnail = ""
         )
         if (index == -1) {
             createPostModel.media.add(newAttachment)
@@ -120,6 +126,9 @@ class CreatePostViewModel(
         attachments.value = createPostModel.media
         canAddAttachments.value = createPostModel.media.size < ATTACHMENTS_COUNT
     }
+
+    private fun isModelValid() = createPostModel.description.observableField.get()
+        .orEmpty().length > 2 || createPostModel.media.size > 0
 
     companion object {
         const val ATTACHMENTS_COUNT = 5

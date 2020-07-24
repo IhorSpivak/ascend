@@ -4,6 +4,7 @@ enum class CommunityFeedSocketEvent(
     val command: String
 ) {
     POST_COMMENTED("PostCommented"),
+    POST_LIKED("PostLiked"),
     UNEXPECTED("");
 
     override fun toString(): String {

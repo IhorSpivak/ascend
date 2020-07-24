@@ -10,6 +10,7 @@ import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.AttachmentResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.CommunityFeedEventMessage
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
+import com.doneit.ascend.source.storage.remote.data.response.community_feed.SizeResponse
 import com.vrgsoft.core.gateway.orMinusOne
 import com.vrgsoft.core.gateway.orZero
 import java.util.*
@@ -46,7 +47,9 @@ fun AttachmentResponse.toEntity(): Attachment {
     return Attachment(
         id = id,
         contentType = ContentType.valueOf(contentType.orEmpty().toUpperCase(Locale.getDefault())),
-        url = url.orEmpty()
+        url = url.orEmpty(),
+        size = size.toEntity(),
+        thumbnail = thumbnail.orEmpty()
     )
 }
 
@@ -68,10 +71,18 @@ fun Attachment.toRequest(): AttachmentRequest {
     )
 }
 
+fun SizeResponse.toEntity(): Size {
+    return Size(
+        width = width.orZero(),
+        height = height.orZero()
+    )
+}
+
 fun CommunityFeedEventMessage.toEntity(): CommunityFeedSocketEntity {
     return CommunityFeedSocketEntity(
         postId = postId,
-        commentsCount = commentsCount,
+        commentsCount = commentsCount ?: -1,
+        likesCount = likesCount ?: -1,
         event = CommunityFeedSocketEvent.fromRemoteString(event.orEmpty())
     )
 }
