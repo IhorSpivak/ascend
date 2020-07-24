@@ -24,7 +24,7 @@ class ChannelsViewModel(
     override val channelWithCurrentUser: MediatorLiveData<ChannelsWithUser> = MediatorLiveData()
     override lateinit var channels: LiveData<PagedList<ChatEntity>>
     override val filterTextAll: MutableLiveData<String> = MutableLiveData("")
-    val user = userUseCase.getUserLive()
+    override val user = userUseCase.getUserLive()
 
 
     init {
@@ -53,6 +53,10 @@ class ChannelsViewModel(
     }
 
     override fun onNewChannelPressed() {
+        router.navigateToNewChannel()
+    }
+
+    override fun onNewChatPressed() {
         router.navigateToNewChannel()
     }
 

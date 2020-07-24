@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.chat.ChannelsWithUser
@@ -13,8 +14,10 @@ interface ChannelsContract {
         val channelWithCurrentUser: MediatorLiveData<ChannelsWithUser>
         val channels: LiveData<PagedList<ChatEntity>>
         val filterTextAll: MutableLiveData<String>
+        val user: LiveData<UserEntity?>
         fun onBackPressed()
         fun onNewChannelPressed()
+        fun onNewChatPressed()
         fun onChannelPressed(channel: ChatEntity)
         fun onJoinChannel(channel: ChatEntity)
         fun onLeaveChannel(channel: ChatEntity)
@@ -24,5 +27,6 @@ interface ChannelsContract {
         fun onBack()
         fun navigateToChannel(id: Long)
         fun navigateToNewChannel()
+        fun navigateToNewChat()
     }
 }

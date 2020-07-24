@@ -36,6 +36,9 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
     }
     private var lastChecked: ChatEntity? = null
 
+
+
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
@@ -44,8 +47,12 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
             }
             rvChats.adapter = adapter
             tvNewChat.setOnClickListener {
-                showMenu(it)
+                when(viewModel.user.value?.isMasterMind){
+                    true -> showMenu(it)
+                    false -> viewModel.onNewChatPressed()
+                }
             }
+
         }
 
         viewModel.chatsWithCurrentUser.observe(viewLifecycleOwner, Observer {
@@ -111,7 +118,7 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
                         true
                     }
                     R.id.post_channel -> {
-
+                        viewModel.onNewChannelPressed()
                         true
                     }
                     else -> false

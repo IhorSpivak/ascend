@@ -27,7 +27,7 @@ class MyChatsViewModel(
     private val chatUseCase: ChatUseCase
 ) : BaseViewModelImpl(), MyChatsContract.ViewModel {
     override lateinit var chats: LiveData<PagedList<ChatEntity>>
-    val user = userUseCase.getUserLive()
+    override val user = userUseCase.getUserLive()
     override val filterTextAll: MutableLiveData<String> = MutableLiveData("")
     override val chatsWithCurrentUser: MediatorLiveData<ChatsWithUser> = MediatorLiveData()
     private var repeatJob: Job
@@ -70,6 +70,10 @@ class MyChatsViewModel(
 
     override fun onNewChatPressed() {
         router.navigateToNewChat()
+    }
+
+    override fun onNewChannelPressed() {
+       router.navigateToNewChannel()
     }
 
     override fun onChatPressed(chat: ChatEntity) {

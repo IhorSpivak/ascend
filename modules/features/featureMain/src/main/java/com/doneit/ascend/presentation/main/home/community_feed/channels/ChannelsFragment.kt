@@ -1,8 +1,10 @@
 package com.doneit.ascend.presentation.main.home.community_feed.channels
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
+import android.widget.PopupMenu
 import android.widget.RelativeLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.NestedScrollView
@@ -46,8 +48,11 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             btnBack.setOnClickListener {
                 viewModel.onBackPressed()
             }
-            tvNewChat.setOnClickListener {
-                viewModel.onNewChannelPressed()
+            tvNewСhannel.setOnClickListener {
+                when(viewModel.user.value?.isMasterMind){
+                    true -> showMenu(it)
+                    false -> viewModel.onNewChannelPressed()
+                }
             }
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = true
@@ -83,6 +88,26 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             }
         }
         dialog.show()
+    }
+
+
+    private fun showMenu(v: View) {
+        PopupMenu(view?.context, v, Gravity.TOP).apply {
+            menuInflater.inflate(R.menu.create_new_chat_channels_menu, this.menu)
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.post_chat -> {
+                        viewModel.onNewChatPressed()
+                        true
+                    }
+                    R.id.post_channel -> {
+                        viewModel.onNewChannelPressed()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }.show()
     }
 
 
