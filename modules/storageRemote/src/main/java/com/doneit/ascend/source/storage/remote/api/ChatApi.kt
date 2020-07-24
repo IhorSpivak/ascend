@@ -21,7 +21,8 @@ interface ChatApi {
         @Query("created_at_to") createdAtTo: String?,
         @Query("updated_at_from") updatedAtFrom: String?,
         @Query("updated_at_to") updatedAtTo: String?,
-        @Query("chat_type") chatType: String?
+        @Query("chat_type") chatType: String?,
+        @Query("all_channels") allChannels: Boolean?
     ): Deferred<Response<MyChatsListResponse>>
 
     @GET("chats/{id}")
