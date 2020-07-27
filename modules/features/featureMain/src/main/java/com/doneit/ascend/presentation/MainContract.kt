@@ -3,12 +3,14 @@ package com.doneit.ascend.presentation
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.models.PresentationCommunityModel
 
 interface MainContract {
     interface ViewModel: BaseViewModel {
         val hasUnread: LiveData<Boolean>
         val hasUnreadMessages: LiveData<Boolean>
         val isMasterMind: LiveData<Boolean>
+        val communities: LiveData<List<PresentationCommunityModel>>
 
         fun getUnreadMessageCount()
         fun onNotificationClick()

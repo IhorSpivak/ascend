@@ -4,17 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.ChatSocketEvent
-import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.presentation.MainActivityListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.chats.chat.ChatViewModel
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
-import com.doneit.ascend.presentation.models.toEntity
-import kotlinx.coroutines.launch
 import org.kodein.di.generic.instance
 import java.util.*
 
