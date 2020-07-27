@@ -4,8 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.MasterMindEntity
+import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.models.group.toDTO
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -15,6 +17,7 @@ import kotlinx.coroutines.launch
 @ViewModelDiModule
 class MMFollowingViewModel(
     private val masterMindUseCase: MasterMindUseCase,
+
     private val router: MMFollowingContract.Router
 ) : BaseViewModelImpl(), MMFollowingContract.ViewModel {
 
@@ -34,6 +37,8 @@ class MMFollowingViewModel(
             }
         }
     }
+
+
 
     override fun openInfo(entity: MasterMindEntity) {
         router.navigateToMMInfo(entity.id)

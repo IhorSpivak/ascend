@@ -265,6 +265,7 @@
     <!--Dialogs-->
     <string name="btn_positive">OK</string>
     <string name="btn_negative">Cancel</string>
+    <string name="btn_message">Message</string>
     <string name="btn_delete">Yes, delete</string>
     <string name="btn_leave">Yes, Leave</string>
     <string name="delete_content">If you delete a group, it cannot be restored and all funds will be returned to the participants.</string>

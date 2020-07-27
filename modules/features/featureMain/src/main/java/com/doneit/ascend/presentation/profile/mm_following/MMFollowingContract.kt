@@ -14,6 +14,8 @@ interface MMFollowingContract {
         fun openInfo(entity: MasterMindEntity)
         fun onAddMasterMindClick()
         fun onBackClick()
+
+
     }
 
     interface Router {
