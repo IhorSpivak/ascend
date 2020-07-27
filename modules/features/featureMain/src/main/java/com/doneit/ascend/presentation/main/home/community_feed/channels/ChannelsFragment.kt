@@ -85,6 +85,7 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
         view.btn_leave.visibleOrGone(!channel.isSubscribed)
         view.titleChannel.text = channel.title
         view.user_name.text = channel.owner?.fullName
+        view.descriptionChannel.text = channel.description
         view.qtyMembers.text = """${channel.membersCount} members"""
         Glide.with(this)
             .load(channel.image?.url)

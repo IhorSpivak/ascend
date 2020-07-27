@@ -11,7 +11,7 @@ import java.util.*
 data class ChatEntity(
     val id: Long,
     var title: String,
-    val description: String,
+    val description: String?,
     val membersCount: Int,
     val createdAt: Date?,
     val updatedAt: Date?,
