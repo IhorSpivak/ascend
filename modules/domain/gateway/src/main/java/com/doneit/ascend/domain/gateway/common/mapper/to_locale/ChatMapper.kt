@@ -27,7 +27,7 @@ fun ChatEntity.toLocal(): ChatWithLastMessage {
             isPrivate = isPrivate,
             subscribed = isSubscribed,
             owner = owner?.toLocal(),
-            description = description
+            description = description.orEmpty()
         ), lastMessage?.toLocal(id)
     )
 }
