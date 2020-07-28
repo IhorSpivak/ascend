@@ -17,6 +17,8 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
+import com.doneit.ascend.presentation.main.common.gone
+import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ActivityMainBinding
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract
@@ -28,7 +30,6 @@ import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.visible
-import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -73,6 +74,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
                 instance(),
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }
@@ -111,9 +113,13 @@ class MainActivity : BaseActivity(), MainActivityListener {
         }
         viewModel.communities.observe(this, Observer {
             val adapter =
-                ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, it.map { it.title })
+                ArrayAdapter<String>(this, R.layout.community_spinner_item, it.map { it.title })
 
-            initSpinner(binding.communityDropDown, communityListener, adapter)
+            initSpinner(
+                binding.communityDropDown,
+                communityListener,
+                adapter,
+                it.indexOfFirst { it.isSelected })
         })
 
         setBottomNavigationListeners()
@@ -158,10 +164,21 @@ class MainActivity : BaseActivity(), MainActivityListener {
         }
     }
 
-    override fun setTitle(title: String, isLogoVisible: Boolean) {
+    override fun setTitle(title: String) {
         binding.tvTitle.text = title
-        binding.ascendLogo.visibleOrGone(isLogoVisible)
-        binding.communityDropDown.visibleOrGone(isLogoVisible)
+        binding.tvTitle.visible()
+        binding.ascendLogo.gone()
+        binding.communityDropDown.gone()
+    }
+
+    override fun setCommunityTitle(title: String) {
+        binding.tvTitle.gone()
+        binding.ascendLogo.visible()
+        binding.communityDropDown.visible()
+        viewModel.communities.value?.indexOfFirst { it.title.toUpperCase() == title.trim() }?.also {
+            binding.communityDropDown.setSelection(it)
+        }
+
     }
 
     override fun setSearchEnabled(isVisible: Boolean) {
@@ -174,7 +191,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
     override fun setChatEnabled(isVisible: Boolean) {
         binding.btnChat.visible(isVisible)
-        if(isVisible.not()) {
+        if (isVisible.not()) {
             binding.hasChatMessages.visible(false)
         }
     }
@@ -211,19 +228,22 @@ class MainActivity : BaseActivity(), MainActivityListener {
     private fun initSpinner(
         spinner: Spinner,
         listener: AdapterView.OnItemSelectedListener,
-        spinnerAdapter: SpinnerAdapter
+        spinnerAdapter: SpinnerAdapter,
+        selectedCommunity: Int
     ) {
         spinner.adapter = spinnerAdapter
+        spinner.setSelection(selectedCommunity)
         spinner.onItemSelectedListener = listener
     }
 
     private val communityListener: AdapterView.OnItemSelectedListener by lazy {
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
+                viewModel.saveCommunity(binding.communityDropDown.selectedItem as String)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
+
             }
         }
     }

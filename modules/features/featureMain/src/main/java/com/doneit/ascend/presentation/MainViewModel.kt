@@ -4,8 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.doneit.ascend.domain.entity.dto.AnswersDTO
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.use_case.interactor.answer.AnswerUseCase
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
@@ -21,7 +23,8 @@ class MainViewModel(
     private val userUseCase: UserUseCase,
     private val notificationUseCase: NotificationUseCase,
     private val chatUseCase: ChatUseCase,
-    private val questionUseCase: QuestionUseCase
+    private val questionUseCase: QuestionUseCase,
+    private val answerUseCase: AnswerUseCase
 
 ) : BaseViewModelImpl(), MainContract.ViewModel {
 
@@ -31,12 +34,6 @@ class MainViewModel(
     override val hasUnreadMessages = MutableLiveData<Boolean>(false)
     override val isMasterMind = MutableLiveData<Boolean>(false)
     override val communities = MutableLiveData<List<PresentationCommunityModel>>()
-
-            override fun getUnreadMessageCount() {
-        viewModelScope.launch {
-            hasUnreadMessages.value = chatUseCase.getUnreadMessageCount() > 0
-        }
-    }
 
     private val user = MutableLiveData<UserEntity?>()
     private val localUser = userUseCase.getUserLive()
@@ -61,6 +58,27 @@ class MainViewModel(
             } else {
                 showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
             }
+        }
+    }
+
+    override fun saveCommunity(community: String) {
+        community.let { newCommunity ->
+            if (newCommunity != localUser.value?.community) {
+                viewModelScope.launch {
+                    val result = answerUseCase.createAnswers(AnswersDTO(newCommunity, listOf()))
+                    if (result.isSuccessful) {
+                        router.navigateToHome()
+                    } else {
+                        showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                    }
+                }
+            }
+        }
+    }
+
+    override fun getUnreadMessageCount() {
+        viewModelScope.launch {
+            hasUnreadMessages.value = chatUseCase.getUnreadMessageCount() > 0
         }
     }
 

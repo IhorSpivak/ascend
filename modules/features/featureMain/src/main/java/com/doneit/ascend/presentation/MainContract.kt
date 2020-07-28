@@ -12,6 +12,7 @@ interface MainContract {
         val isMasterMind: LiveData<Boolean>
         val communities: LiveData<List<PresentationCommunityModel>>
 
+        fun saveCommunity(community: String)
         fun getUnreadMessageCount()
         fun onNotificationClick()
         fun onSearchClick()

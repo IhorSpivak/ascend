@@ -25,7 +25,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = (context as MainActivityListener).apply {
-            setTitle(getString(R.string.main_title), true)
+            setCommunityTitle(getString(R.string.main_title))
         }
     }
 
@@ -70,7 +70,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         community?.let {
             title = " $community".toUpperCase(Locale.ROOT)
         }
-        listener?.setTitle(title, true)
+        listener?.setCommunityTitle(title)
     }
 
     private fun onTrackNewChatMessage() {
