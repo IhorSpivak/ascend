@@ -273,6 +273,7 @@ fun Button.setOkBackground(groupType: GroupType) {
 fun AppCompatButton.setIconTint(color: Int) {
     for (drawable in compoundDrawablesRelative) {
         if (drawable != null) {
+            drawable.mutate()
             drawable.colorFilter = PorterDuffColorFilter(
                 color,
                 PorterDuff.Mode.SRC_IN
