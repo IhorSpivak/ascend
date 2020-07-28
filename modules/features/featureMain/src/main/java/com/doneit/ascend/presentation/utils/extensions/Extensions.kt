@@ -61,3 +61,7 @@ fun Context.createPlaceholderDrawable(title: String, overrideSize: Boolean = fal
     if (overrideSize) textOvalDrawable.overrideSize(256, 256)
     return textOvalDrawable
 }
+
+fun String.toCapitalLetter(): String {
+    return this.substring(0, 1).toUpperCase() + this.substring(1).toLowerCase();
+}

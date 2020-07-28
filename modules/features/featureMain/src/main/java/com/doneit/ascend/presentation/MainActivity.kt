@@ -29,6 +29,7 @@ import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.extensions.toCapitalLetter
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import org.kodein.di.Kodein
@@ -113,7 +114,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
         }
         viewModel.communities.observe(this, Observer {
             val adapter =
-                ArrayAdapter<String>(this, R.layout.community_spinner_item, it.map { it.title })
+                ArrayAdapter<String>(this, R.layout.community_spinner_item, it.map { it.title.toUpperCase() })
 
             initSpinner(
                 binding.communityDropDown,
@@ -175,7 +176,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.tvTitle.gone()
         binding.ascendLogo.visible()
         binding.communityDropDown.visible()
-        viewModel.communities.value?.indexOfFirst { it.title.toUpperCase() == title.trim() }?.also {
+        viewModel.communities.value?.indexOfFirst { it.title.toUpperCase() == title.toUpperCase() }?.also {
             binding.communityDropDown.setSelection(it)
         }
 
@@ -239,7 +240,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
     private val communityListener: AdapterView.OnItemSelectedListener by lazy {
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                viewModel.saveCommunity(binding.communityDropDown.selectedItem as String)
+                viewModel.saveCommunity((binding.communityDropDown.selectedItem as String).toCapitalLetter())
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

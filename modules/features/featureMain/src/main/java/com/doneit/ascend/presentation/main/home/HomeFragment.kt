@@ -10,7 +10,6 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import org.kodein.di.generic.instance
-import java.util.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -68,7 +67,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun setTitle(community: String?) {
         var title = getString(R.string.main_title)
         community?.let {
-            title = " $community".toUpperCase(Locale.ROOT)
+            title = it
         }
         listener?.setCommunityTitle(title)
     }
