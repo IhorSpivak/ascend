@@ -7,6 +7,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.models.chat.ChatsWithUser
 
 interface MyChatsContract {
@@ -24,7 +25,7 @@ interface MyChatsContract {
 
     interface Router {
         fun onBack()
-        fun navigateToChat(id: Long)
+        fun navigateToChat(chat: ChatEntity, user: UserEntity, chatType: ChatType)
         fun navigateToNewChat()
         fun navigateToNewChannel()
     }

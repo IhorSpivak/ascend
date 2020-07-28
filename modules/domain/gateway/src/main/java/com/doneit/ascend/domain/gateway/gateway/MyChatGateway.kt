@@ -110,11 +110,11 @@ class MyChatGateway(
                     if (membersResponse.isSuccessful) {
                         val memberModel =
                             membersResponse.successModel!!.users?.map { it.toEntity() }
-                        chatEntity.members = memberModel
+                        chatEntity.members = memberModel.orEmpty()
                         val user = userUseCase.getUser()?.id
-                        if (chatEntity.members?.count() == 2) {
+                        if (chatEntity.members.count() == 2) {
                             val member =
-                                chatEntity.members?.firstOrNull { it.id != user }
+                                chatEntity.members.firstOrNull { it.id != user }
                             member?.let { member -> chatEntity.title = member.fullName }
                         }
                     }
@@ -132,7 +132,7 @@ class MyChatGateway(
     ): LiveData<PagedList<MessageEntity>> =
         liveData<PagedList<MessageEntity>> {
             val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(true)
+                .setEnablePlaceholders(false)
                 .setPageSize(request.perPage ?: 10)
                 .build()
             val factory = local.getMessageList(chatId).map { it.toEntity() }
@@ -268,7 +268,7 @@ class MyChatGateway(
                         if (membersResponse.isSuccessful) {
                             val memberModel =
                                 membersResponse.successModel!!.users?.map { it.toEntity() }
-                            it.members = memberModel
+                            it.members = memberModel.orEmpty()
                         }
                         local.insert(model.toLocal())
                     }
@@ -325,7 +325,7 @@ class MyChatGateway(
                         if (membersResponse.isSuccessful) {
                             val memberModel =
                                 membersResponse.successModel!!.users?.map { it.toEntity() }
-                            it.members = memberModel
+                            it.members = memberModel.orEmpty()
                         }
                         local.insert(model.toLocal())
                     }
@@ -497,7 +497,7 @@ class MyChatGateway(
                 if (membersResponse.isSuccessful) {
                     val memberModel =
                         membersResponse.successModel!!.users?.map { it.toEntity() }
-                    chatEntity.members = memberModel
+                    chatEntity.members = memberModel.orEmpty()
                 }
                 local.insert(chatEntity.toLocal())
             }
@@ -523,7 +523,7 @@ class MyChatGateway(
                         if (membersResponse.isSuccessful) {
                             val memberModel =
                                 membersResponse.successModel!!.users?.map { it.toEntity() }
-                            it.members = memberModel
+                            it.members = memberModel.orEmpty()
                         }
                         local.insert(model.toLocal())
                     }
@@ -557,7 +557,7 @@ class MyChatGateway(
                         if (membersResponse.isSuccessful) {
                             val memberModel =
                                 membersResponse.successModel!!.users?.map { it.toEntity() }
-                            it.members = memberModel
+                            it.members = memberModel.orEmpty()
                         }
                         local.insert(model.toLocal())
                     }

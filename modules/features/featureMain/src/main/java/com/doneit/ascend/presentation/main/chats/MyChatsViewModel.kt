@@ -9,6 +9,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.models.chat.ChatsWithUser
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
@@ -31,6 +32,7 @@ class MyChatsViewModel(
     override val filterTextAll: MutableLiveData<String> = MutableLiveData("")
     override val chatsWithCurrentUser: MediatorLiveData<ChatsWithUser> = MediatorLiveData()
     private var repeatJob: Job
+
     init {
         chats = Transformations.switchMap(filterTextAll) { query ->
             val model = ChatListDTO(
@@ -73,11 +75,11 @@ class MyChatsViewModel(
     }
 
     override fun onNewChannelPressed() {
-       router.navigateToNewChannel()
+        router.navigateToNewChannel()
     }
 
     override fun onChatPressed(chat: ChatEntity) {
-        router.navigateToChat(chat.id)
+        router.navigateToChat(chat, user.value!!, ChatType.CHAT)
     }
 
     override fun onDelete(chatId: Long) {
@@ -92,7 +94,7 @@ class MyChatsViewModel(
 
     private fun repeatRequest(): Job {
         return viewModelScope.launch {
-            while(isActive) {
+            while (isActive) {
                 filterTextAll.postValue(filterTextAll.value)
                 delay(3000)
             }
@@ -101,7 +103,7 @@ class MyChatsViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        if(repeatJob.isActive) repeatJob.cancel()
+        if (repeatJob.isActive) repeatJob.cancel()
     }
 
 //Cancel the loop

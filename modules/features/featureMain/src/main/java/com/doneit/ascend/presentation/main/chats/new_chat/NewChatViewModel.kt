@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.models.PresentationCreateChatModel
 import com.doneit.ascend.presentation.models.group.toDTO
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -63,7 +64,7 @@ class NewChatViewModel(
             isCompletable.postValue(false)
             chatUseCase.createChat(newChatModel.toDTO()).let {
                 if (it.isSuccessful) {
-                    router.onBackWithOpenChat(it.successModel!!)
+                    router.onBackWithOpenChat(it.successModel!!, currentUser, ChatType.CHAT)
                 } else {
                     showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                 }

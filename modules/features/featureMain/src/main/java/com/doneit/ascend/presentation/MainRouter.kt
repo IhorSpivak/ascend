@@ -32,6 +32,7 @@ import com.doneit.ascend.presentation.main.chats.MyChatsContract
 import com.doneit.ascend.presentation.main.chats.MyChatsFragment
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.chats.chat.livestream_user_actions.LivestreamUserActionsFragment
 import com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersContract
 import com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersFragment
@@ -192,9 +193,9 @@ class MainRouter(
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
-    override fun onBackWithOpenChat(chat: ChatEntity) {
+    override fun onBackWithOpenChat(chat: ChatEntity, user: UserEntity, chatType: ChatType) {
         manager.popBackStack()
-        replaceFullWithMainUpdate(ChatFragment.getInstance(chat.id))
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chat, user, chatType))
     }
 
 
@@ -228,14 +229,13 @@ class MainRouter(
         )
     }
 
-    override fun navigateToChat(id: Long) {
-        replaceFullWithMainUpdate(ChatFragment.getInstance(id))
+    override fun navigateToChat(chat: ChatEntity, user: UserEntity, chatType: ChatType) {
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chat, user, chatType))
     }
 
     override fun navigateToNewChat() {
         replaceFullWithMainUpdate(NewChatFragment())
     }
-
 
 
     override fun navigateToAddChatMember() {
@@ -586,8 +586,8 @@ class MainRouter(
         )
     }
 
-    override fun navigateToSharedPostChat(chatId: Long) {
-        replaceFullWithMainUpdate(ChatFragment.getInstance(chatId))
+    override fun navigateToSharedPostChat(chat: ChatEntity, user: UserEntity, chatType: ChatType) {
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chat, user, chatType))
     }
 
     override fun navigateToSharedPostChannel(channelId: Long) {

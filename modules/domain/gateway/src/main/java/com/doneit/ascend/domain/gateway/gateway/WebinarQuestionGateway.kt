@@ -40,7 +40,7 @@ class WebinarQuestionGateway(
     ): LiveData<PagedList<WebinarQuestionEntity>> {
         return liveData {
             val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(true)
+                .setEnablePlaceholders(false)
                 .setPageSize(request.perPage ?: Constants.PER_PAGE)
                 .build()
             val factory = local.getAll().map { it.toEntity() }

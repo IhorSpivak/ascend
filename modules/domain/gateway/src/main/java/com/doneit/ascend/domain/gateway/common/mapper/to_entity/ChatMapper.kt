@@ -30,7 +30,6 @@ fun ChatResponse.toEntity(): ChatEntity {
 fun ChatWithLastMessage.toEntity(): ChatEntity {
     with(chatLocal) {
         return ChatEntity(
-
             id = id,
             title = title,
             membersCount = membersCount,
@@ -42,7 +41,7 @@ fun ChatWithLastMessage.toEntity(): ChatEntity {
             chatOwnerId = chatOwnerId,
             image = image?.toEntity(),
             lastMessage = lastMessage?.toEntity(),
-            members = members?.map { it.toEntity() },
+            members = members?.map { it.toEntity() }.orEmpty(),
             chatType = ChatType.valueOf(chatType.toUpperCase()),
             isPrivate = isPrivate,
             isSubscribed = subscribed,

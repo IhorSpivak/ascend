@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.entity.dto.ChatListDTO
 import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.dto.SharePostDTO
 import com.doneit.ascend.domain.entity.dto.SortType
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -18,13 +19,14 @@ import com.doneit.ascend.presentation.models.community_feed.SharePostFilter
 import com.doneit.ascend.presentation.models.group.toDTO
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import kotlinx.coroutines.launch
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType as GeneralChatType
 
 class SharePostViewModel(
     private val router: SharePostContract.Router,
     private val communityFeedUseCase: CommunityFeedUseCase,
     private val chatUseCase: ChatUseCase,
     private val postId: Long,
-    private val userId: Long
+    private val user: UserEntity
 ) : BaseViewModelImpl(), SharePostContract.ViewModel {
     override val chats = MutableLiveData<PagedList<ChatEntity>>()
     override val channels = MutableLiveData<PagedList<ChatEntity>>()
@@ -61,12 +63,12 @@ class SharePostViewModel(
     }
 
     override fun getUsers(filter: String) {
-        val response = communityFeedUseCase.getUsersListPaged(viewModelScope, filter, userId)
+        val response = communityFeedUseCase.getUsersListPaged(viewModelScope, filter, user.id)
         users.value = response
     }
 
     override fun updateSearch(filter: String) {
-        when(sharePostFilter.value!!){
+        when (sharePostFilter.value!!) {
             SharePostFilter.CHAT -> getChats(filter)
             SharePostFilter.CHANNEL -> getChannels(filter)
             SharePostFilter.USER -> getUsers(filter)
@@ -74,13 +76,12 @@ class SharePostViewModel(
     }
 
 
-    override fun shareChat(chatId: Long) {
-        //TODO: 500 internal server error
-        val model = SharePostDTO(chatIds = listOf(chatId))
+    override fun shareChat(chatEntity: ChatEntity) {
+        val model = SharePostDTO(chatIds = listOf(chatEntity.id))
         communityFeedUseCase.sharePost(
             viewModelScope, postId, model, baseCallback = BaseCallback(
                 onSuccess = {
-                    router.navigateToSharedPostChat(chatId)
+                    router.navigateToSharedPostChat(chatEntity, user, GeneralChatType.CHAT)
                 },
                 onError = {}
             )
@@ -88,7 +89,6 @@ class SharePostViewModel(
     }
 
     override fun shareToUser(userId: Long) {
-        //TODO: 500 internal server error
         val model = SharePostDTO(userIds = listOf(userId))
         communityFeedUseCase.sharePost(
             viewModelScope, postId, model, baseCallback = BaseCallback(
@@ -100,7 +100,11 @@ class SharePostViewModel(
                         }
                         chatUseCase.createChat(chatModel.toDTO()).let {
                             if (it.isSuccessful) {
-                                router.navigateToSharedPostChat(it.successModel!!.id)
+                                router.navigateToSharedPostChat(
+                                    it.successModel!!,
+                                    user,
+                                    GeneralChatType.CHAT
+                                )
                             } else {
                                 showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                             }

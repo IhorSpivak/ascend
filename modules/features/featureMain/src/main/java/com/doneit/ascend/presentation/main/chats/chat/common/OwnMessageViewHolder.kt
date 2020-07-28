@@ -37,6 +37,7 @@ class OwnMessageViewHolder(
                     nextMessage.createdAt!!
                 ))
             }
+            root.requestLayout()
         }
     }
 
