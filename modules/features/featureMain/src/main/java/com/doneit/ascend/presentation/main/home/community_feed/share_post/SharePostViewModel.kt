@@ -100,7 +100,7 @@ class SharePostViewModel(
                         }
                         chatUseCase.createChat(chatModel.toDTO()).let {
                             if (it.isSuccessful) {
-                                router.navigateToSharedPostChat(it.successModel!!.id)
+                                shareChat(chatId = it.successModel!!.id)
                             } else {
                                 showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                             }
