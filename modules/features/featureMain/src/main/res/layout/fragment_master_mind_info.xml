@@ -167,7 +167,7 @@
                                     android:layout_height="60dp"
                                     android:layout_marginStart="20dp"
                                     android:fontFamily="@font/red_hat_font"
-                                    android:visibility="@{model.isFollowVisible(),default=gone}"
+
                                     android:background="@drawable/button_message_bg"
                                     android:layout_marginTop="16dp"
                                     android:textAllCaps="false"
