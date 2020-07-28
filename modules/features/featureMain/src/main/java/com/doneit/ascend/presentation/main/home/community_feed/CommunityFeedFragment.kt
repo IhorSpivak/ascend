@@ -26,6 +26,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.common.PostClickL
 import com.doneit.ascend.presentation.main.home.community_feed.common.PostsAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
 
@@ -43,6 +44,12 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
                 viewModel.newItem(intent.getParcelableExtra(CreatePostFragment.RESULT)!!)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hideKeyboard()
+        activity?.currentFocus?.clearFocus()
     }
 
     private val initPostsAdapter: PostsAdapter by RvLazyAdapter {
@@ -105,6 +112,8 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
         binding.rvPosts.itemAnimator = null
         observeData()
     }
+
+
 
     private fun observeData() {
         with(viewModel) {
