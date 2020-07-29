@@ -54,7 +54,9 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
 
     private fun commentsClickListener(): CommentsClickListener {
         return CommentsClickListener(
-            onUserClick = {},
+            onUserClick = {
+                viewModel.showUserDetails(it)
+            },
             onDeleteClick = {
                 viewModel.onDeleteComment(it)
             }
@@ -108,10 +110,10 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
 
     private fun ViewPostContentBinding.setClickListeners() {
         mmiAvatar.setOnClickListener {
-            viewModel.showUserDetails()
+            viewModel.showUserDetails(viewModelPost.owner.id)
         }
         tvName.setOnClickListener {
-            viewModel.showUserDetails()
+            viewModel.showUserDetails(viewModelPost.owner.id)
         }
         btnLike.setOnClickListener {
             if (viewModelPost.isLikedMe) {

@@ -112,8 +112,8 @@
     </plurals>
 
     <plurals name="x_comments">
-        <item quantity="one">%d comment</item>
-        <item quantity="other">%d comments</item>
+        <item quantity="one">%d Comment</item>
+        <item quantity="other">%d Comments</item>
     </plurals>
 
     <plurals name="x_likes">

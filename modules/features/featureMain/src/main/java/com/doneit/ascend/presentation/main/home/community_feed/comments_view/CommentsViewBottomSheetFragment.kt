@@ -40,7 +40,7 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
     private val _parentKodein: Kodein by closestKodein()
     private val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<CommentsViewContract.ViewModel>() with singleton {
-            CommentsViewViewModel(instance(), instance(tag = "postId"))
+            CommentsViewViewModel(instance(), instance(tag = "postId"), instance())
         }
 
         bind<Long>(tag = "postId") with provider {
@@ -62,7 +62,9 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
 
     private fun commentsClickListener(): CommentsClickListener {
         return CommentsClickListener(
-            onUserClick = {},
+            onUserClick = {
+                viewModel.onUserClick(it)
+            },
             onDeleteClick = {
                 viewModel.onDeleteComment(it)
             }
