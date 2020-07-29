@@ -84,10 +84,13 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
 
     private fun scrollIfNeed(list: PagedList<ChatEntity>) {
         val currentChecked = lastChecked
-        val firstUnread = list.indexOfFirst {
-            lastChecked = it
-            it.lastMessage?.status != MessageStatus.READ
-        }
+        val firstUnread = list
+            .indexOfFirst {
+                lastChecked = it
+                it.lastMessage != null &&
+                        it.lastMessage?.status != MessageStatus.READ &&
+                        it.lastMessage?.userId != viewModel.user.value?.id
+            }
         val lm = binding.rvChats.layoutManager as LinearLayoutManager
         val first = lm.findFirstVisibleItemPosition()
         if (firstUnread != -1 && currentChecked?.id != lastChecked?.id) {

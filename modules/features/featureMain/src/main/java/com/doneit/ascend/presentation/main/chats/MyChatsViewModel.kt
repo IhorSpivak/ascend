@@ -36,7 +36,7 @@ class MyChatsViewModel(
     init {
         chats = Transformations.switchMap(filterTextAll) { query ->
             val model = ChatListDTO(
-                perPage = chatsWithCurrentUser.value?.chat?.size ?: 5,
+                perPage = chatsWithCurrentUser.value?.chat?.size ?: 20,
                 sortColumn = "last_message",
                 sortType = SortType.DESC,
                 title = query
