@@ -1,6 +1,7 @@
 package com.doneit.ascend.domain.entity.chats
 
 import android.os.Parcelable
+import com.doneit.ascend.domain.entity.MessageAttachment
 import com.doneit.ascend.domain.entity.community_feed.Post
 import kotlinx.android.parcel.Parcelize
 import java.util.*
@@ -16,5 +17,6 @@ data class MessageEntity(
     val updatedAt: Date?,
     val status: MessageStatus,
     var isMarkAsReadSentToApprove: Boolean = false,
-    val post: Post? = null
+    val post: Post? = null,
+    val attachment: MessageAttachment? = null
 ) : Parcelable

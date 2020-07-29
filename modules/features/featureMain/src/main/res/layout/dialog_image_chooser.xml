@@ -64,6 +64,16 @@
                     android:text="@string/take_video"
                     android:textSize="20sp"
                     android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvFile"
+                    style="@style/TextSFBlue"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:gravity="center"
+                    android:text="@string/take_file"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

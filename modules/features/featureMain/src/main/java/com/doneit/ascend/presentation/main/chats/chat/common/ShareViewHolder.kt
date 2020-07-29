@@ -19,7 +19,7 @@ import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ListItemSharedMessageBinding
 import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
 
-class ShareViewHolder(
+class ShareViewHolder private constructor(
     itemView: View
 ) : BaseMessageHolder(itemView) {
 

@@ -150,9 +150,16 @@ class ChatViewModel(
         localRouter.navigateToInviteChatMember()
     }
 
-    override fun sendMessage(message: String) {
+    override fun sendMessage(message: String, attachmentType: String, attachmentUrl: String) {
         viewModelScope.launch {
-            chatUseCase.sendMessage(MessageDTO(chatWithUser.chat.id, message))
+            chatUseCase.sendMessage(
+                MessageDTO(
+                    chatWithUser.chat.id,
+                    message,
+                    attachmentUrl,
+                    attachmentType
+                )
+            )
         }
     }
 

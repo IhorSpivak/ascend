@@ -39,10 +39,12 @@ interface ChatApi {
         @Body request: CreateChatRequest
     ): Deferred<Response<ChatResponse>>
 
+    @Multipart
     @POST("chats/{id}/message")
     fun sendMessageAsync(
         @Path("id") id: Long,
-        @Query("message") message: String
+        @Query("message") message: String,
+        @Part attachments: List<MultipartBody.Part>
     ): Deferred<Response<OKResponse>>
 
     @GET("chats/{id}/members")

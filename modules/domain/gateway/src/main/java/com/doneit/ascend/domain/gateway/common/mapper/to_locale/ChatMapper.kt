@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_locale
 
+import com.doneit.ascend.domain.entity.MessageAttachment
 import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
@@ -22,7 +23,7 @@ fun ChatEntity.toLocal(): ChatWithLastMessage {
             title = title,
             image = image?.toLocal(),
             lastMessageId = lastMessage?.id,
-            members = members?.map { it.toLocal() },
+            members = members.map { it.toLocal() },
             chatType = chatType.toString(),
             isPrivate = isPrivate,
             subscribed = isSubscribed,
@@ -44,9 +45,19 @@ fun MessageEntity.toLocal(chatId: Long): MessageWithPost {
             updatedAt?.time,
             status.toString(),
             chatId,
-            postId = post?.id
+            postId = post?.id,
+            attachment = attachment?.toLocal()
         ),
         post = post?.toLocal()
+    )
+}
+
+fun MessageAttachment.toLocal(): MessageAttachmentLocal {
+    return MessageAttachmentLocal(
+        name,
+        size,
+        type.ordinal,
+        url
     )
 }
 

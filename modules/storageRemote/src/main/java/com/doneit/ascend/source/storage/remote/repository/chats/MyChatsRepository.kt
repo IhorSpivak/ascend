@@ -1,20 +1,23 @@
 package com.doneit.ascend.source.storage.remote.repository.chats
 
+import android.content.Context
 import com.doneit.ascend.source.storage.remote.api.ChatApi
 import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.*
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
+import com.doneit.ascend.source.storage.remote.util.MultipartConverter.addAttachment
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 internal class MyChatsRepository(
     gson: Gson,
-    private val api: ChatApi
+    private val api: ChatApi,
+    private val context: Context
 ) : BaseRepository(gson), IMyChatsRepository {
     override suspend fun getMyChats(request: MyChatsListRequest): RemoteResponse<MyChatsListResponse, ErrorsListResponse> {
         return execute({
@@ -88,7 +91,14 @@ internal class MyChatsRepository(
 
     override suspend fun sendMessage(request: MessageRequest): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute(
-            { api.sendMessageAsync(request.id, request.message) },
+            {
+                with(MultipartBody.Builder()) {
+                    request.attachment?.let {
+                        addAttachment(context, request.attachment)
+                    }
+                    api.sendMessageAsync(request.id, request.message, build().parts)
+                }
+            },
             ErrorsListResponse::class.java
         )
     }
@@ -222,9 +232,8 @@ internal class MyChatsRepository(
                 if (image.isNotEmpty()) {
                     val file = File(image)
                     val filePart = MultipartBody.Part.createFormData(
-                        "image", file.name, RequestBody.create(
-                            "image/*".toMediaTypeOrNull(), file
-                        )
+                        "image", file.name, file
+                            .asRequestBody("image/*".toMediaTypeOrNull())
                     )
                     addPart(filePart)
                 }

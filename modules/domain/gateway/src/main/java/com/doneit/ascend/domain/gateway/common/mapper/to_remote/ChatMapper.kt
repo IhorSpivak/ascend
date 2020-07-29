@@ -95,7 +95,15 @@ fun MemberListDTO.toRequest(page: Int): MemberListRequest {
 fun MessageDTO.toRequest(): MessageRequest {
     return MessageRequest(
         id,
-        message
+        message,
+        if (attachmentUrl.isEmpty()) {
+            null
+        } else {
+            AttachmentRequest(
+                contentType = attachmentType,
+                url = attachmentUrl
+            )
+        }
     )
 }
 

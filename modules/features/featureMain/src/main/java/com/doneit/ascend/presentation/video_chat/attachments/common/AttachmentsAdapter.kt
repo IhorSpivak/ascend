@@ -5,9 +5,11 @@ import androidx.paging.PagedListAdapter
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.AttachmentType
 
-class AttachmentsAdapter(private val onDownloadClick: (model: AttachmentEntity)->Unit,
-                         private val onCopyClick: (model: AttachmentEntity)->Unit,
-                         private val onDeleteListener: (id: Long)->Unit) :
+class AttachmentsAdapter(
+    private val onDownloadClick: (model: AttachmentEntity) -> Unit,
+    private val onCopyClick: (model: AttachmentEntity) -> Unit,
+    private val onDeleteListener: (id: Long) -> Unit
+) :
     PagedListAdapter<AttachmentEntity, AttachmentViewHolder>(AttachmentDiffCallback()) {
 
     init {
@@ -31,19 +33,27 @@ class AttachmentsAdapter(private val onDownloadClick: (model: AttachmentEntity)-
     }
 
     override fun onBindViewHolder(holder: AttachmentViewHolder, position: Int) {
-        val model =  getItem(position)
+        val model = getItem(position)
         when (model?.attachmentType) {
             AttachmentType.FILE -> {
-                (holder as AttachmentFileViewHolder).bind(model, onDownloadClick, {onDeleteListener.invoke(it)})
+                (holder as AttachmentFileViewHolder).bind(
+                    model,
+                    onDownloadClick,
+                    { onDeleteListener.invoke(it) })
             }
             AttachmentType.IMAGE -> {
-                (holder as AttachmentImageViewHolder).bind(model, onDownloadClick, {onDeleteListener.invoke(it)})
+                (holder as AttachmentImageViewHolder).bind(
+                    model,
+                    onDownloadClick,
+                    { onDeleteListener.invoke(it) })
             }
             //TODO: is link type is exist??
             else -> {
-                (holder as AttachmentLinkViewHolder).bind(model!!, onCopyClick, {onDeleteListener.invoke(it)})
+                (holder as AttachmentLinkViewHolder).bind(
+                    model!!,
+                    onCopyClick,
+                    { onDeleteListener.invoke(it) })
             }
         }
     }
-
 }

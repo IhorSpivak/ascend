@@ -39,6 +39,7 @@ class MessagesAdapter(
                 chatWithUser.chatType
             )
             Type.SHARE.ordinal -> ShareViewHolder.create(parent)
+            Type.ATTACHMENT_OWN.ordinal -> AttachmentOwnViewHolder.create(parent, onButtonClick)
             else -> throw IllegalArgumentException("Unsupported view type $viewType")
         }
     }
@@ -65,12 +66,16 @@ class MessagesAdapter(
     private fun convertItemToType(message: MessageEntity): Type {
         return when (message.type) {
             MessageType.POST_SHARE -> Type.SHARE
+            MessageType.ATTACHMENT -> if (message.userId == chatWithUser.user.id) {
+                Type.ATTACHMENT_OWN
+            } else Type.ATTACHMENT_OTHER
             MessageType.MESSAGE -> if (message.userId == chatWithUser.user.id) {
                 Type.OWN
             } else Type.OTHER
             MessageType.INVITE,
             MessageType.USER_REMOVED,
             MessageType.LEAVE -> Type.SYSTEM
+            else -> Type.OTHER
         }
     }
 
@@ -78,6 +83,8 @@ class MessagesAdapter(
         OWN,
         SYSTEM,
         OTHER,
-        SHARE
+        SHARE,
+        ATTACHMENT_OWN,
+        ATTACHMENT_OTHER
     }
 }

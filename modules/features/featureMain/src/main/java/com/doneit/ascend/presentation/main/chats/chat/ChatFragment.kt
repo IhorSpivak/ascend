@@ -1,22 +1,32 @@
 package com.doneit.ascend.presentation.main.chats.chat
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
 import androidx.core.view.doOnLayout
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.androidisland.ezpermission.EzPermission
 import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
+import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
+import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog.AllowedIntents
 import com.doneit.ascend.presentation.dialog.EditChatNameDialog
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
@@ -28,6 +38,7 @@ import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 import com.doneit.ascend.presentation.utils.extensions.doOnGlobalLayout
+import com.doneit.ascend.presentation.utils.extensions.requestPermissions
 import com.doneit.ascend.presentation.utils.extensions.visible
 import kotlinx.android.synthetic.main.fragment_chat.*
 import org.kodein.di.Kodein
@@ -36,6 +47,8 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+import java.io.File
+import java.util.*
 
 
 class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemClickListener {
@@ -76,6 +89,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private var menuResId: Int = -1
     private var kickOrReportUserId: Long = -1
     private var isFirstLaunch = true
+    private var lastFileUri = Uri.EMPTY
 
     private val chatWithUser: ChatWithUser by lazy {
         ChatWithUser(
@@ -213,6 +227,112 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 message.text.clear()
             }
         }
+        addAttachments.setOnClickListener {
+            doIfPermissionsGranted {
+                ChooseImageBottomDialog.create(
+                    arrayOf(
+                        AllowedIntents.IMAGE,
+                        AllowedIntents.CAMERA,
+                        AllowedIntents.VIDEO,
+                        AllowedIntents.FILE
+                    ),
+                    {
+                        startActivityForResult(
+                            getCameraIntent(),
+                            REQUEST_CODE_CAMERA
+                        )
+                    },
+                    {
+                        startActivityForResult(
+                            getMediaIntent(),
+                            REQUEST_CODE_GALLERY
+                        )
+                    },
+                    {
+                        startActivityForResult(
+                            getVideoIntent(),
+                            REQUEST_CODE_VIDEO
+                        )
+                    },
+                    {
+                        startActivityForResult(
+                            getFileIntent(),
+                            REQUEST_CODE_FILE
+                        )
+                    }
+                ).show(childFragmentManager, ChooseImageBottomDialog::class.java.simpleName)
+            }
+        }
+    }
+
+    private fun getCameraIntent(): Intent {
+        return Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            lastFileUri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().applicationContext.packageName + ".fileprovider",
+                createImageFile()
+            )
+            putExtra(
+                MediaStore.EXTRA_OUTPUT, lastFileUri
+            )
+        }
+    }
+
+    private fun getMediaIntent(): Intent {
+        return Intent.createChooser(
+            Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = MIME_TYPE_IMAGE
+            }, getString(R.string.select_from_gallery)
+        )
+    }
+
+    private fun getVideoIntent(): Intent {
+        return Intent.createChooser(
+            Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = MIME_TYPE_VIDEO
+            }, getString(R.string.take_video)
+        )
+    }
+
+    private fun getFileIntent(): Intent {
+        return Intent.createChooser(
+            Intent(Intent.ACTION_GET_CONTENT).apply {
+                type = MIME_TYPE_ALL
+            }, getString(R.string.take_file)
+        )
+    }
+
+    private fun createImageFile(): File {
+        return File(
+            requireContext()
+                .getExternalFilesDir(
+                    Environment.DIRECTORY_PICTURES
+                ), "${IMAGE_FILENAME}${UUID.randomUUID()}.jpg"
+        )
+    }
+
+    private fun doIfPermissionsGranted(action: () -> Unit) {
+        val isGrantedStorage = EzPermission.isGranted(
+            requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        val isGrantedCamera = EzPermission.isGranted(
+            requireContext(),
+            Manifest.permission.CAMERA
+        )
+        if (!isGrantedCamera || !isGrantedStorage) {
+            requireContext().requestPermissions(
+                listOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
+                ),
+                onGranted = {
+                    action()
+                },
+                onDenied = {
+                }
+            )
+        } else action()
     }
 
     private fun defineMenuResId() {
@@ -476,16 +596,48 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        fun getMimeType() = when (requestCode) {
+            REQUEST_CODE_VIDEO -> MIME_TYPE_VIDEO
+            REQUEST_CODE_FILE -> MIME_TYPE_ALL
+            else -> MIME_TYPE_IMAGE
+        }
+
+        if (resultCode == Activity.RESULT_OK) {
+            data?.data?.let {
+                lastFileUri = it
+            }
+            viewModel.sendMessage(
+                message = "",
+                attachmentType = getMimeType(),
+                attachmentUrl = lastFileUri.toString()
+            )
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
     override fun onDestroyView() {
         messageList.adapter = null
         super.onDestroyView()
     }
 
     companion object {
+        private const val REQUEST_CODE_CAMERA = 104
+        private const val REQUEST_CODE_VIDEO = 105
+        private const val REQUEST_CODE_GALLERY = 106
+        private const val REQUEST_CODE_FILE = 107
+
+        private const val IMAGE_FILENAME = "temp_image"
+
+        private const val MIME_TYPE_IMAGE = "image/*"
+        private const val MIME_TYPE_VIDEO = "video/*"
+        private const val MIME_TYPE_ALL = "*/*"
+
         const val PRIVATE_CHAT_MEMBER_COUNT = 2 //server sent members count without you.
         const val CHAT_KEY = "chat"
         const val CHAT_TYPE = "chat_type"
         const val CHAT_USER = "chat_user"
+
         fun getInstance(
             chat: ChatEntity,
             user: UserEntity,

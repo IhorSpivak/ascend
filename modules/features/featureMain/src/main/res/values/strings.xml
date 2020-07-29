@@ -726,6 +726,7 @@
     <string name="report_channel">Report channel</string>
     <string name="user_list">User list</string>
     <string name="delete_channel">Delete Channel</string>
+    <string name="take_file">File</string>
 
 
 </resources>
