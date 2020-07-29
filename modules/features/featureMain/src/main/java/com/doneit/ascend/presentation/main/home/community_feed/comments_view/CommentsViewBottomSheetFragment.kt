@@ -19,6 +19,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.FragmentCommentsViewBinding
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.common.CommentsAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.common.CommentsClickListener
+import com.doneit.ascend.presentation.utils.applyFilter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -110,11 +111,12 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
             rvComments.itemAnimator = null
             send.setOnClickListener {
                 if (message.text.toString().isNotBlank()) {
-                    viewModel.leaveComment(message.text.toString())
+                    viewModel.leaveComment(message.text.toString().trim())
                     message.text.clear()
                 }
 
             }
+            message.applyFilter()
         }
         observeData()
     }

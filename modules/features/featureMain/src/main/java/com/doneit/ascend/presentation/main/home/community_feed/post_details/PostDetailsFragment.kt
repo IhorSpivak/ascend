@@ -27,6 +27,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.comments_view.com
 import com.doneit.ascend.presentation.main.home.community_feed.common.applyResizing
 import com.doneit.ascend.presentation.main.home.community_feed.common.setupAttachments
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
+import com.doneit.ascend.presentation.utils.applyFilter
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -85,10 +86,11 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
             commentsView.rvComments.itemAnimator = null
             commentsView.send.setOnClickListener {
                 if (commentsView.message.text.toString().isNotBlank()) {
-                    viewModel.leaveComment(commentsView.message.text.toString())
+                    viewModel.leaveComment(commentsView.message.text.toString().trim())
                     commentsView.message.text.clear()
                 }
             }
+            commentsView.message.applyFilter()
             setupToolbar()
             observeData()
         }

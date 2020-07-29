@@ -10,6 +10,7 @@ import com.doneit.ascend.presentation.common.setOnSingleClickListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemFeedBinding
 import com.doneit.ascend.presentation.main.databinding.ViewPostContentBinding
+import com.doneit.ascend.presentation.utils.applyFilter
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 
 class PostViewHolder(
@@ -57,13 +58,14 @@ class PostViewHolder(
             if (etInputMessage.length() > 2) {
                 postClickListeners.onSendCommentClick(
                     post.id,
-                    etInputMessage.text?.toString().orEmpty(),
+                    etInputMessage.text?.toString().orEmpty().trim(),
                     adapterPosition
                 )
                 etInputMessage.text?.clear()
                 etInputMessage.hideKeyboard()
             }
         }
+        etInputMessage.applyFilter()
         imvFirst.setOnSingleClickListener { postClickListeners.onMediaClick(post.attachments, 0) }
         imvSecond.setOnSingleClickListener { postClickListeners.onMediaClick(post.attachments, 1) }
         imvThird.setOnSingleClickListener { postClickListeners.onMediaClick(post.attachments, 2) }
