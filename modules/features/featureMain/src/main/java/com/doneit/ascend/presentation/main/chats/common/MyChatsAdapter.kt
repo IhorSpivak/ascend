@@ -32,7 +32,7 @@ class MyChatsAdapter(
     fun updateUser(user: UserEntity) {
         if (this.user == null) {
             this.user = user
-            notifyDataSetChanged()
+            notifyItemRangeChanged(0, itemCount - 1)
         }
     }
 }

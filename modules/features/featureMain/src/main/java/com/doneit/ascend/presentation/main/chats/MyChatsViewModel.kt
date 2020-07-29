@@ -36,7 +36,7 @@ class MyChatsViewModel(
     init {
         chats = Transformations.switchMap(filterTextAll) { query ->
             val model = ChatListDTO(
-                perPage = 10,
+                perPage = chatsWithCurrentUser.value?.chat?.size ?: 5,
                 sortColumn = "last_message",
                 sortType = SortType.DESC,
                 title = query
@@ -96,7 +96,7 @@ class MyChatsViewModel(
         return viewModelScope.launch {
             while (isActive) {
                 filterTextAll.postValue(filterTextAll.value)
-                delay(3000)
+                delay(5000)
             }
         }
     }

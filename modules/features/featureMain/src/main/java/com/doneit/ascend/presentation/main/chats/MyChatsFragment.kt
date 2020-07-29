@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
-import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
@@ -21,7 +21,7 @@ import com.doneit.ascend.presentation.utils.extensions.visible
 import kotlinx.android.synthetic.main.fragment_my_chats.*
 import org.kodein.di.generic.instance
 
-class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
+class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
     override val viewModelModule = MyChatsViewModelModule.get(this)
     override val viewModel: MyChatsContract.ViewModel by instance()
 
@@ -36,9 +36,6 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
     }
     private var lastChecked: ChatEntity? = null
 
-
-
-
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
@@ -47,12 +44,11 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
             }
             rvChats.adapter = adapter
             tvNewChat.setOnClickListener {
-                when(viewModel.user.value?.isMasterMind){
+                when (viewModel.user.value?.isMasterMind) {
                     true -> showMenu(it)
                     false -> viewModel.onNewChatPressed()
                 }
             }
-
         }
 
         viewModel.chatsWithCurrentUser.observe(viewLifecycleOwner, Observer {
@@ -92,8 +88,12 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
             lastChecked = it
             it.lastMessage?.status != MessageStatus.READ
         }
+        val lm = binding.rvChats.layoutManager as LinearLayoutManager
+        val first = lm.findFirstVisibleItemPosition()
         if (firstUnread != -1 && currentChecked?.id != lastChecked?.id) {
-            binding.rvChats.scrollToPosition(firstUnread)
+            if (first < 5) {
+                binding.rvChats.scrollToPosition(firstUnread)
+            }
         }
     }
 
@@ -132,9 +132,6 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
         rvChats.adapter = null
         super.onDestroyView()
     }
-
-
-
 
 
 }
