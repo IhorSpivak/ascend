@@ -8,6 +8,6 @@
 
     <item
         android:id="@+id/post_channel"
-        android:title="@string/new_channel">
+        android:title="@string/create_channel">
     </item>
 </menu>

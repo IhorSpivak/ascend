@@ -14,6 +14,10 @@
             type="Boolean" />
 
         <variable
+            name="isInUpdateMode"
+            type="Boolean" />
+
+        <variable
             name="model"
             type="com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.add_members.AddMembersContract.ViewModel" />
     </data>
@@ -70,7 +74,7 @@
                             style="@style/Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/new_channel"
+                            android:text="@{isInUpdateMode ? @string/edit_channel : @string/new_channel}"
                             android:textColor="@color/colorAccent"
                             app:layout_constraintEnd_toStartOf="parent"
                             app:layout_constraintStart_toEndOf="parent"
