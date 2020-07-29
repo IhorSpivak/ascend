@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.master_mind_info
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.doneit.ascend.domain.entity.dto.CreateChatDTO
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindInfoBinding
@@ -41,6 +42,11 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
 
         btnBack.setOnClickListener {
             viewModel.goBack()
+        }
+
+        btnMessage.setOnClickListener {
+
+            viewModel.startChatWithMM(mmId = id)
         }
 
         rbRatingSet.setOnRatingBarChangeListener { _, rating, fromUser ->

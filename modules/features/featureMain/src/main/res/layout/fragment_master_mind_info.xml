@@ -141,21 +141,43 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
 
-                            <Button
-                                android:id="@+id/btnFollow"
-                                style="@style/AppTheme.Button"
-                                android:layout_marginStart="20dp"
-                                android:layout_marginTop="16dp"
-                                android:layout_marginEnd="20dp"
-                                android:background="@drawable/bg_btn_default_enabled"
-                                android:enabled="@{model.enableFollow}"
-                                android:onClick="@{() -> model.onFollowClick()}"
-                                android:text="@string/btn_follow"
-                                android:visibility="@{model.isFollowVisible(),default=gone}"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tvFollowersCount" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:orientation="horizontal"
+                                app:layout_constraintTop_toBottomOf="@id/tvFollowersCount"
+                                android:layout_height="wrap_content">
+                                <Button
+                                    android:id="@+id/btnFollow"
+                                    style="@style/AppTheme.Button"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_weight="1"
+                                    android:layout_marginTop="16dp"
+
+                                    android:background="@drawable/bg_btn_default_enabled"
+                                    android:visibility="@{model.isFollowVisible(),default=gone}"
+                                    android:enabled="@{model.enableFollow}"
+                                    android:onClick="@{() -> model.onFollowClick()}"
+                                    android:text="@string/btn_follow"
+                                  />
+
+                                <Button
+                                    android:id="@+id/btnMessage"
+                                    android:textColor="@color/colorPrimary"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="60dp"
+                                    android:layout_marginStart="20dp"
+                                    android:fontFamily="@font/red_hat_font"
+
+                                    android:background="@drawable/button_message_bg"
+                                    android:layout_marginTop="16dp"
+                                    android:textAllCaps="false"
+                                    android:textSize="24sp"
+                                    android:layout_weight="1"
+                                    android:layout_marginEnd="20dp"
+                                    android:enabled="@{model.enableFollow}"
+                                    android:text="@string/btn_message" />
+                            </LinearLayout>
+
 
                             <Button
                                 android:id="@+id/btnUnFollow"
