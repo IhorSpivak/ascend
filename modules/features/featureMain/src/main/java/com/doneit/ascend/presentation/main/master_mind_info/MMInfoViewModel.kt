@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -57,7 +58,7 @@ class MMInfoViewModel(
         viewModelScope.launch {
             chatUseCase.createChat(CreateChatDTO("", listOf(id.toInt() ))).let {
                 if (it.isSuccessful) {
-                    router.navigateToChat(it.successModel?.id!!)
+                    router.navigateToChat(it.successModel!!, user.value!!, ChatType.CHAT)
                 } else {
                     showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                 }
