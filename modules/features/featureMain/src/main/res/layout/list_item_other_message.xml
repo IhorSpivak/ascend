@@ -106,7 +106,7 @@
                 <TextView
                     android:autoLink="web"
                     android:linksClickable="true"
-                    android:textColorLink="@android:color/white"
+                    android:textColorLink="@color/default_font_color"
                     android:id="@+id/message"
                     style="@style/TextNormal"
                     android:layout_width="wrap_content"
