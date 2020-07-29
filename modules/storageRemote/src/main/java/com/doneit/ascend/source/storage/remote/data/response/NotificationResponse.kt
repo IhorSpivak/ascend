@@ -7,7 +7,7 @@ data class NotificationResponse(
     val id: Long,
     @SerializedName("notification_type")
     val notificationType: String,
-    @SerializedName("group_id")
+    @SerializedName("entity_id")
     val groupId: Long,
     @SerializedName("group_name")
     val groupName: String,
