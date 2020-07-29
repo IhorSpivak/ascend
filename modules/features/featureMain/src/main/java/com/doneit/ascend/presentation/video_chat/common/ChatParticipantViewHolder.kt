@@ -40,7 +40,6 @@ class ChatParticipantViewHolder(
     }
 
     fun clear() {
-        lastModel?.get()?.getVideoTrack()?.removeRenderer(binding.videoView)
         lastModel?.get()?.removeSecondaryVideoListener()
     }
 
