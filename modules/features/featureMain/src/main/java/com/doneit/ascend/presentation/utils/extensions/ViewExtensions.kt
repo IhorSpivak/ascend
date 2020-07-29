@@ -28,6 +28,8 @@ fun EditText.focusRequest() {
     requestFocus()
 }
 
+
+
 inline fun View.waitForLayout(crossinline f: () -> Unit) {
     viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
