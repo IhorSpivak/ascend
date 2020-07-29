@@ -166,7 +166,7 @@
                         android:layout_marginEnd="16dp"
                         android:enabled="@{!model.newChannelModel.isPrivate()}"
                         android:gravity="end"
-                        android:text="@string/public_chat"
+                        android:text="@string/public_channel"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -196,7 +196,7 @@
                         android:layout_marginEnd="8dp"
                         android:alpha="0.5"
                         android:enabled="@{model.newChannelModel.isPrivate()}"
-                        android:text="@string/private_chat"
+                        android:text="@string/private_channel"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -220,6 +220,8 @@
                     app:maxLength="@{5000}"
                     app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
                     app:saveState="@{false}"
+                    app:src="@{@drawable/ic_description}"
+                    app:tint="@{@color/colorAccent}"
                     app:text="@={model.newChannelModel.description.observableField}" />
 
                 <androidx.appcompat.widget.AppCompatTextView

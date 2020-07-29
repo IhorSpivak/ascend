@@ -728,6 +728,8 @@
     <string name="user_list">User list</string>
     <string name="delete_channel">Delete Channel</string>
     <string name="take_file">File</string>
+    <string name="public_channel">Public Channel</string>
+    <string name="private_channel">Private Channel</string>
 
 
 </resources>
