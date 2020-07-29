@@ -113,6 +113,10 @@ class ProfileViewModel(
                 val birthday = it.birthday ?: minBirthday
                 birthdaySelected.postValue(birthday)
                 bioValue.observableField.set(it.bio.orEmpty())
+                questions.value?.map { model ->
+                    model.title.toPresentationCommunity(model.title == it.community)
+                }.also { questions.postValue(it) }
+
             }
         }
         userLocal.observeForever(userObserver)

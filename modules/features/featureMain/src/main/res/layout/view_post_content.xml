@@ -89,6 +89,9 @@
             android:background="?attr/selectableItemBackgroundBorderless" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:textColorLink="@color/default_font_color"
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -169,6 +172,8 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:padding="1dp"
                 android:visibility="@{postModel.attachments.size() > 0}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/imvSecond"
@@ -181,6 +186,8 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:padding="1dp"
                 app:layout_constraintBottom_toTopOf="@id/imvThird"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -192,6 +199,8 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:padding="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -203,6 +212,8 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                android:cropToPadding="true"
+                android:padding="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -212,6 +223,8 @@
 
             <com.doneit.ascend.presentation.views.attachment_view.AttachmentView
                 android:id="@+id/imvFifth"
+                android:cropToPadding="true"
+                android:padding="1dp"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
@@ -224,6 +237,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAttachmentsCount"
                 android:layout_width="0dp"
+                android:padding="1dp"
                 android:layout_height="0dp"
                 android:background="@color/background_attachments_alpha"
                 android:gravity="center"

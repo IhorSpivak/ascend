@@ -15,7 +15,7 @@ class CommentsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VT_OWN_MESSAGE -> OwnCommentHolder.create(parent, commentsClickListener.onDeleteClick)
-            VT_OTHER_MESSAGE -> OtherCommentHolder.create(parent)
+            VT_OTHER_MESSAGE -> OtherCommentHolder.create(parent, commentsClickListener.onUserClick)
             else -> throw IllegalStateException("Unknown type $viewType")
         }
     }

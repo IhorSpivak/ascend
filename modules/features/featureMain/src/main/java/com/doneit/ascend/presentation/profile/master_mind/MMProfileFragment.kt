@@ -54,14 +54,12 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             setSearchEnabled(false)
             setFilterEnabled(false)
             setChatEnabled(false)
-
-
+            setTitle(getString(R.string.profile_title))
         }
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
-
         viewModel.fetchData()
         viewModel.showPhotoDialog.observe(this) {
             showPhotoDialog()

@@ -1,4 +1,4 @@
-package com.twilio.video
+package com.doneit.ascend.presentation.video_chat.common
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,6 +9,10 @@ import com.doneit.ascend.presentation.main.databinding.TemplateChatParticipantBi
 import com.doneit.ascend.presentation.models.group.PresentationChatParticipant
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.in_progress.twilio_listeners.RemoteParticipantListener
+import com.twilio.video.RemoteAudioTrackPublication
+import com.twilio.video.RemoteParticipant
+import com.twilio.video.RemoteVideoTrackPublication
+import com.twilio.video.VideoTrack
 import java.lang.ref.WeakReference
 
 class ChatParticipantViewHolder(
@@ -23,6 +27,7 @@ class ChatParticipantViewHolder(
         binding.isSpeaker = model.isSpeaker
         binding.isMuted = model.isMuted
         lastModel?.get()?.getVideoTrack()?.removeRenderer(binding.videoView)
+        lastModel?.get()?.localParticipant?.videoTracks?.firstOrNull()?.videoTrack?.removeRenderer { binding.videoView }
         model.getVideoTrack()?.let {
             lastModel = WeakReference(model)
             it.addRenderer(binding.videoView)
@@ -35,13 +40,8 @@ class ChatParticipantViewHolder(
     }
 
     fun clear() {
-        lastModel?.get()?.localParticipant?.videoTracks?.firstOrNull()?.videoTrack?.let {
-            if((it as LocalVideoTrack).isReleased.not()){
-                lastModel?.get()?.getVideoTrack()?.removeRenderer(binding.videoView)
-            }
-        }
+        lastModel?.get()?.getVideoTrack()?.removeRenderer(binding.videoView)
         lastModel?.get()?.removeSecondaryVideoListener()
-        lastModel = null
     }
 
     private fun PresentationChatParticipant.getVideoTrack(): VideoTrack? {

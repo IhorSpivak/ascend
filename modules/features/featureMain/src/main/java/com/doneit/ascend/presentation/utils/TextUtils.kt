@@ -7,8 +7,10 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Patterns
+import android.widget.EditText
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.ObservableField
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
@@ -274,10 +276,20 @@ fun convertCommunityToResId(community: String, type: GroupType?): Int? {
 
 fun applyMultilineFilter(editText: MultilineEditWithError) {
     editText.addOnTextChangedListener { text ->
-        if (text.startsWith("\r") ||
+        if (text.startsWith(" ") || text.startsWith("\r") ||
             text.startsWith("\n")
         ) {
             editText.text = text.trim()
+        }
+    }
+}
+
+fun EditText.applyFilter() {
+    this.doAfterTextChanged { text ->
+        if (text.toString().startsWith(" ") || text.toString().startsWith("\r") ||
+            text.toString().startsWith("\n")
+        ) {
+            this.setText(text.toString().trim())
         }
     }
 }

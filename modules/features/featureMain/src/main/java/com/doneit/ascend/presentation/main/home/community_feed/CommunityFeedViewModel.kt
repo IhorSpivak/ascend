@@ -138,6 +138,7 @@ class CommunityFeedViewModel(
     }
 
     override fun onUserClick(userId: Long) {
+        router.navigateToMMInfo(userId)
     }
 
     override fun newItem(post: Post) {

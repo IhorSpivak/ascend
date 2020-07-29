@@ -88,6 +88,8 @@ class MMInfoViewModel(
             viewModelScope.launch {
                 enableFollow.postValue(false)
                 masterMindUseCase.follow(it.id)
+                isFollowVisible.postValue(false)
+                isUnfollowVisible.postValue(true)
                 enableFollow.postValue(true)
             }
         }
@@ -98,6 +100,8 @@ class MMInfoViewModel(
             viewModelScope.launch {
                 enableUnfollow.postValue(false)
                 masterMindUseCase.unfollow(it.id)
+                isFollowVisible.postValue(true)
+                isUnfollowVisible.postValue(false)
                 enableUnfollow.postValue(true)
             }
         }

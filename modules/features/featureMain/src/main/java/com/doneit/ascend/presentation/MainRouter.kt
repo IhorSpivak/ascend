@@ -66,6 +66,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.channels.Channels
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelFragment
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.add_members.AddMembersFragment
+import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.post_details.PostDetailsContract
@@ -182,6 +183,7 @@ class MainRouter(
     CreatePostContract.Router,
     ChannelsContract.Router,
     PostDetailsContract.Router,
+    CommentsViewContract.Router,
     CreateChannelContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later

@@ -8,7 +8,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.comments_view.Com
 interface PostDetailsContract {
     interface ViewModel : CommentsViewContract.ViewModel {
         val currentPost: LiveData<Post>
-        fun showUserDetails()
+        fun showUserDetails(userId: Long)
         fun onEditPostClick()
         fun onDeletePostClick()
         fun likePost()
@@ -17,7 +17,7 @@ interface PostDetailsContract {
         fun attachmentClicked(attachments: List<Attachment>, selected: Int)
     }
 
-    interface Router {
+    interface Router : CommentsViewContract.Router {
         fun navigateToCreatePost(post: Post?)
         fun navigateToPreview(attachments: List<Attachment>, selected: Int)
     }

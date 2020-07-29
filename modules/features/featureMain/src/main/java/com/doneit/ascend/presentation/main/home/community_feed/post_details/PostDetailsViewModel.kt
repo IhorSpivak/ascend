@@ -21,7 +21,7 @@ class PostDetailsViewModel(
     private val userUseCase: UserUseCase,
     private val router: PostDetailsContract.Router,
     post: Post
-) : CommentsViewViewModel(communityFeedUseCase, postId = post.id),
+) : CommentsViewViewModel(communityFeedUseCase, postId = post.id, router = router),
     PostDetailsContract.ViewModel {
 
     override val currentPost = MediatorLiveData<Post>()
@@ -37,8 +37,8 @@ class PostDetailsViewModel(
         }
     }
 
-    override fun showUserDetails() {
-
+    override fun showUserDetails(userId: Long) {
+        router.navigateToMMInfo(userId)
     }
 
     override fun onEditPostClick() {

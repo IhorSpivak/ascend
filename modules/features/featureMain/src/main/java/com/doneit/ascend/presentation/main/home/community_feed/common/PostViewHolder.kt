@@ -6,9 +6,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.presentation.common.setOnSingleClickListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemFeedBinding
 import com.doneit.ascend.presentation.main.databinding.ViewPostContentBinding
+import com.doneit.ascend.presentation.utils.applyFilter
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 
 class PostViewHolder(
@@ -31,43 +33,44 @@ class PostViewHolder(
     private fun ViewPostContentBinding.setClickListeners(
         post: Post
     ) {
-        btnComments.setOnClickListener {
+        btnComments.setOnSingleClickListener {
             postClickListeners.onCommentClick(post.id)
         }
-        mmiAvatar.setOnClickListener {
+        mmiAvatar.setOnSingleClickListener {
             postClickListeners.onUserClick(post.owner.id)
         }
-        tvName.setOnClickListener {
+        tvName.setOnSingleClickListener {
             postClickListeners.onUserClick(post.owner.id)
         }
-        btnLike.setOnClickListener {
+        btnLike.setOnSingleClickListener {
             postClickListeners.onLikeClick(post.isLikedMe, post.id, adapterPosition)
             post.isLikedMe = !post.isLikedMe
         }
-        btnShare.setOnClickListener {
+        btnShare.setOnSingleClickListener {
             postClickListeners.onShareClick(post.id)
         }
-        btnBlock.setOnClickListener {
+        btnBlock.setOnSingleClickListener {
             if (post.isOwner) {
                 postClickListeners.onOptionsClick(it, post)
             } else postClickListeners.onComplainClick(post.owner.id)
         }
-        btnSend.setOnClickListener {
+        btnSend.setOnSingleClickListener {
             if (etInputMessage.length() > 2) {
                 postClickListeners.onSendCommentClick(
                     post.id,
-                    etInputMessage.text?.toString().orEmpty(),
+                    etInputMessage.text?.toString().orEmpty().trim(),
                     adapterPosition
                 )
                 etInputMessage.text?.clear()
                 etInputMessage.hideKeyboard()
             }
         }
-        imvFirst.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 0) }
-        imvSecond.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 1) }
-        imvThird.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 2) }
-        imvFourth.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 3) }
-        imvFifth.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 4) }
+        etInputMessage.applyFilter()
+        imvFirst.setOnSingleClickListener { postClickListeners.onMediaClick(post.attachments, 0) }
+        imvSecond.setOnSingleClickListener { postClickListeners.onMediaClick(post.attachments, 1) }
+        imvThird.setOnSingleClickListener { postClickListeners.onMediaClick(post.attachments, 2) }
+        imvFourth.setOnSingleClickListener { postClickListeners.onMediaClick(post.attachments, 3) }
+        imvFifth.setOnSingleClickListener { postClickListeners.onMediaClick(post.attachments, 4) }
     }
 
     companion object {

@@ -1,8 +1,15 @@
 package com.doneit.ascend.presentation
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.SpinnerAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.dialog.PermissionsRequiredDialog
@@ -10,6 +17,8 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
+import com.doneit.ascend.presentation.main.common.gone
+import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ActivityMainBinding
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract
@@ -20,16 +29,16 @@ import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.extensions.toCapitalLetter
 import com.doneit.ascend.presentation.utils.extensions.visible
-import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
-import kotlinx.android.synthetic.main.list_item_shared_message.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+
 
 class MainActivity : BaseActivity(), MainActivityListener {
 
@@ -65,6 +74,8 @@ class MainActivity : BaseActivity(), MainActivityListener {
                 instance(),
                 instance(),
                 instance(),
+                instance(),
+                instance(),
                 instance()
             )
         }
@@ -93,7 +104,6 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.model = viewModel
         super.onCreate(savedInstanceState)
         viewModel.onHomeClick()
-//        viewModel.initSocketConnect()
         if (intent.extras?.containsKey(Constants.KEY_GROUP_ID) == true) {
             intent.extras?.get(Constants.KEY_GROUP_ID)?.let {
                 viewModel.tryToNavigateToGroupInfo(it.toString().toLong())
@@ -102,9 +112,16 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.fabCreateGroup.setOnClickListener {
             viewModel.onCreateGroupClick()
         }
-        viewModel
+        viewModel.communities.observe(this, Observer {
+            val adapter =
+                ArrayAdapter<String>(this, R.layout.community_spinner_item, it.map { it.title.toUpperCase() })
 
-
+            initSpinner(
+                binding.communityDropDown,
+                communityListener,
+                adapter,
+                it.indexOfFirst { it.isSelected })
+        })
 
         setBottomNavigationListeners()
         setBackStackHandler()
@@ -148,9 +165,21 @@ class MainActivity : BaseActivity(), MainActivityListener {
         }
     }
 
-    override fun setTitle(title: String, isLogoVisible: Boolean) {
+    override fun setTitle(title: String) {
         binding.tvTitle.text = title
-        binding.ascendLogo.visibleOrGone(isLogoVisible)
+        binding.tvTitle.visible()
+        binding.ascendLogo.gone()
+        binding.communityDropDown.gone()
+    }
+
+    override fun setCommunityTitle(title: String) {
+        binding.tvTitle.gone()
+        binding.ascendLogo.visible()
+        binding.communityDropDown.visible()
+        viewModel.communities.value?.indexOfFirst { it.title.toUpperCase() == title.toUpperCase() }?.also {
+            binding.communityDropDown.setSelection(it)
+        }
+
     }
 
     override fun setSearchEnabled(isVisible: Boolean) {
@@ -163,7 +192,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
     override fun setChatEnabled(isVisible: Boolean) {
         binding.btnChat.visible(isVisible)
-        if(isVisible.not()) {
+        if (isVisible.not()) {
             binding.hasChatMessages.visible(false)
         }
     }
@@ -193,6 +222,30 @@ class MainActivity : BaseActivity(), MainActivityListener {
         super.onNewIntent(intent)
         intent?.extras?.get(Constants.KEY_GROUP_ID)?.let {
             viewModel.tryToNavigateToGroupInfo(it as Long)
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun initSpinner(
+        spinner: Spinner,
+        listener: AdapterView.OnItemSelectedListener,
+        spinnerAdapter: SpinnerAdapter,
+        selectedCommunity: Int
+    ) {
+        spinner.adapter = spinnerAdapter
+        spinner.setSelection(selectedCommunity)
+        spinner.onItemSelectedListener = listener
+    }
+
+    private val communityListener: AdapterView.OnItemSelectedListener by lazy {
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                viewModel.saveCommunity((binding.communityDropDown.selectedItem as String).toCapitalLetter())
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
         }
     }
 
