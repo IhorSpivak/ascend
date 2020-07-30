@@ -47,6 +47,10 @@ class WebinarVideoChatRouter(
         TODO("Not yet implemented")
     }
 
+    override fun navigateToAddChannelMembers() {
+        TODO("Not yet implemented")
+    }
+
     override fun goToDetailedUser(id: Long) {
     }
 

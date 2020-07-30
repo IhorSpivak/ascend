@@ -34,11 +34,13 @@ interface ChatContract {
         fun  goToUserList(channel: ChatEntity)
         fun onReport(content: String, id: Long)
         fun onLeave()
+        fun addMembers()
     }
 
     interface Router {
         fun onBack()
         fun navigateToEditChannel(channel: ChatEntity)
+        fun navigateToAddChannelMembers()
         fun goToDetailedUser(id: Long)
         fun goToChatMembers(
             chatId: Long,

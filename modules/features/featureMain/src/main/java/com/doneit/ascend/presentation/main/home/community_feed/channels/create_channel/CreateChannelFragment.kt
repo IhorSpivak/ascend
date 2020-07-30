@@ -81,16 +81,18 @@ class CreateChannelFragment : BaseFragment<FragmentNewChannelBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         channel?.let {
             viewModel.setEditMode(it)
+            viewModel.newChannelModel.title.observableField.set(it.title)
+            viewModel.newChannelModel.description.observableField.set(it.description)
+            viewModel.newChannelModel.isPrivate.set(it.isPrivate)
             Glide.with(requireContext())
                 .asBitmap()
                 .load(it.image!!.url)
-
                 .into(object : SimpleTarget<Bitmap>() {
                     override fun onResourceReady(
                         resource: Bitmap,
                         transition: Transition<in Bitmap>?
                     ) {
-                        viewModel.newChannelModel.image.observableField.set(context?.copyToStorage(resource))
+//                        viewModel.newChannelModel.image.observableField.set(context?.copyToStorage(resource))
                     }
 
                 })
