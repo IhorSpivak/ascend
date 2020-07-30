@@ -35,6 +35,7 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
 import com.doneit.ascend.presentation.main.common.gone
+import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 import com.doneit.ascend.presentation.utils.extensions.doOnGlobalLayout
@@ -341,9 +342,17 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private fun defineMenuResId() {
         menuResId = if (chatWithUser.chat.members.size != PRIVATE_CHAT_MEMBER_COUNT) {
             if (chatWithUser.user.id == chatWithUser.chat.chatOwnerId) {
-                R.menu.chat_mm_group_menu
+                if(chatWithUser.chat.chatType.type == "chat"){
+                    R.menu.chat_mm_group_menu
+                } else {
+                    R.menu.mm_channel_menu
+                }
             } else {
-                R.menu.chat_ru_group_menu
+                if(chatWithUser.chat.chatType.type == "chat"){
+                    R.menu.chat_ru_group_menu
+                } else{
+                    R.menu.channel_menu
+                }
             }
         } else {
             if (chatWithUser.chat.blocked) {
@@ -456,6 +465,34 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         menuItem ?: return false
         if (hasConnection) {
             return when (menuItem.itemId) {
+
+                R.id.mm_user_list -> {
+
+                    true
+                }
+                R.id.mm_add_members -> {
+
+                    true
+                }
+
+                R.id.mm_edit_channel -> {
+
+                    true
+                }
+
+                R.id.mm_delete_channel -> {
+                    showDeleteChannelDialog()
+                    true
+                }
+
+                R.id.leave_channel -> {
+                    showLeaveChannelDialog()
+                    true
+                }
+                R.id.report_channel -> {
+                    reportOnOwner()
+                    true
+                }
                 R.id.ru_leave -> {
                     showLeaveChatDialog()
                     true
@@ -565,11 +602,31 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         ) { viewModel.onDeleteChat() }.show()
     }
 
+    private fun showDeleteChannelDialog() {
+        BlockUserDialog.create(
+            requireContext(),
+            getString(R.string.delete_this_channel),
+            getString(R.string.delete_channel_description),
+            getString(R.string.yes_delete),
+            getString(R.string.chats_delete_cancel)
+        ) { viewModel.onDeleteChat() }.show()
+    }
+
     private fun showLeaveChatDialog() {
         BlockUserDialog.create(
             requireContext(),
             getString(R.string.chats_leave),
             getString(R.string.chats_leave_description),
+            getString(R.string.chats_leave_button),
+            getString(R.string.chats_leave_cancel)
+        ) { viewModel.onLeave() }.show()
+    }
+
+    private fun showLeaveChannelDialog() {
+        BlockUserDialog.create(
+            requireContext(),
+            getString(R.string.leave_channel),
+            getString(R.string.leave_channel_description),
             getString(R.string.chats_leave_button),
             getString(R.string.chats_leave_cancel)
         ) { viewModel.onLeave() }.show()

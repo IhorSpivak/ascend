@@ -112,7 +112,7 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
 
     private fun showMenu(v: View) {
         PopupMenu(view?.context, v, Gravity.TOP).apply {
-            menuInflater.inflate(R.menu.create_new_chat_channels_menu, this.menu)
+            menuInflater.inflate(R.menu.create_new_chat_menu, this.menu)
 
             setOnMenuItemClickListener {
                 when (it.itemId) {
