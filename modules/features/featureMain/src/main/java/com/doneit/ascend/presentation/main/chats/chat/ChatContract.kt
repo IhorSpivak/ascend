@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.chats.chat
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -26,15 +27,18 @@ interface ChatContract {
         fun onUnblockUserClick(member: MemberEntity)
         fun showDetailedUser(userId: Long)
         fun showLiveStreamUser(member: MemberEntity)
+        fun goToEditChannel(channel: ChatEntity)
         fun onDelete(message: MessageEntity)
         fun onDeleteChat()
         fun onReportChatOwner(content: String)
+        fun  goToUserList(channel: ChatEntity)
         fun onReport(content: String, id: Long)
         fun onLeave()
     }
 
     interface Router {
         fun onBack()
+        fun navigateToEditChannel(channel: ChatEntity)
         fun goToDetailedUser(id: Long)
         fun goToChatMembers(
             chatId: Long,

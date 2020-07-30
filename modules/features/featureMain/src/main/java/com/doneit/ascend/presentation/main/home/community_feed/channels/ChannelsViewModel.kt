@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.dto.ChatListDTO
 import com.doneit.ascend.domain.entity.dto.ChatType
+
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
@@ -60,7 +61,7 @@ class ChannelsViewModel(
     }
 
     override fun onChatPressed(chat: ChatEntity) {
-        router.navigateToChat(chat, user.value!!, ChatType.CHAT)
+        router.navigateToChat(chat, user.value!!, com.doneit.ascend.presentation.main.chats.chat.common.ChatType.CHAT)
     }
 
     override fun onNewChatPressed() {

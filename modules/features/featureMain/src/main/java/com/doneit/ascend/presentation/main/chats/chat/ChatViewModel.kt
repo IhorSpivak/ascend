@@ -5,10 +5,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ChatSocketEvent
 import com.doneit.ascend.domain.entity.MessageSocketEntity
-import com.doneit.ascend.domain.entity.chats.BlockedUserEntity
-import com.doneit.ascend.domain.entity.chats.MemberEntity
-import com.doneit.ascend.domain.entity.chats.MessageEntity
-import com.doneit.ascend.domain.entity.chats.MessageStatus
+import com.doneit.ascend.domain.entity.chats.*
 import com.doneit.ascend.domain.entity.dto.MessageDTO
 import com.doneit.ascend.domain.entity.dto.MessageListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
@@ -199,8 +196,24 @@ class ChatViewModel(
         router.goToDetailedUser(userId)
     }
 
+    override fun goToUserList(channel: ChatEntity) {
+        router.goToChatMembers(
+            chatWithUser.chat.id,
+            chatWithUser.chat.chatOwnerId,
+            chatWithUser.chat.members.filter {
+                !it.leaved && !it.removed
+            }, chatWithUser.user
+        )
+    }
+
+
+
     override fun showLiveStreamUser(member: MemberEntity) {
         router.goToLiveStreamUser(member)
+    }
+
+    override fun goToEditChannel(channel: ChatEntity) {
+        router.navigateToEditChannel(channel)
     }
 
     override fun onUnblockUserClick(member: MemberEntity) {

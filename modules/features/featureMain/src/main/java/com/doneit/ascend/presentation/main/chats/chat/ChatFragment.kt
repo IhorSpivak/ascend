@@ -35,7 +35,6 @@ import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
 import com.doneit.ascend.presentation.main.common.gone
-import com.doneit.ascend.presentation.main.create_group.add_member.AddMemberFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 import com.doneit.ascend.presentation.utils.extensions.doOnGlobalLayout
@@ -351,7 +350,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 if(chatWithUser.chat.chatType.type == "chat"){
                     R.menu.chat_ru_group_menu
                 } else{
-                    R.menu.channel_menu
+                    R.menu.channel_ru_menu
                 }
             }
         } else {
@@ -467,7 +466,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             return when (menuItem.itemId) {
 
                 R.id.mm_user_list -> {
-
+                    viewModel.goToUserList(chatWithUser.chat)
                     true
                 }
                 R.id.mm_add_members -> {
@@ -476,7 +475,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 }
 
                 R.id.mm_edit_channel -> {
-
+                    viewModel.goToEditChannel(chatWithUser.chat)
                     true
                 }
 
