@@ -3,11 +3,7 @@ package com.doneit.ascend.presentation.main.home.community_feed.channels
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import android.widget.Button
 import android.widget.PopupMenu
-import android.widget.RelativeLayout
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.widget.NestedScrollView
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -21,13 +17,9 @@ import com.doneit.ascend.presentation.main.databinding.FragmentChannelsBinding
 import com.doneit.ascend.presentation.main.home.community_feed.channels.common.ChannelAdapter
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_bottom_sheet_channels.view.*
-import kotlinx.android.synthetic.main.fragment_channels.*
 import kotlinx.android.synthetic.main.fragment_my_chats.*
-import kotlinx.android.synthetic.main.fragment_my_chats.emptyList
-import kotlinx.android.synthetic.main.fragment_my_chats.swipeRefresh
 import org.kodein.di.generic.instance
 
 class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
@@ -36,7 +28,7 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
 
     private val initChannelAdapter: ChannelAdapter by RvLazyAdapter {
         ChannelAdapter {
-           showChannelsDialogInfo(it)
+            showChannelsDialogInfo(it)
         } to { binding.rvChats }
     }
     private var lastChecked: ChatEntity? = null
@@ -51,7 +43,7 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
                 viewModel.onBackPressed()
             }
             tvNewСhannel.setOnClickListener {
-                when(viewModel.user.value?.isMasterMind){
+                when (viewModel.user.value?.isMasterMind) {
                     true -> showMenu(it)
                     false -> viewModel.onNewChannelPressed()
                 }
@@ -77,12 +69,13 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             initChannelAdapter.submitList(it.chat)
         })
     }
+
     private fun showChannelsDialogInfo(channel: ChatEntity) {
         val view = layoutInflater.inflate(R.layout.dialog_bottom_sheet_channels, null)
         val dialog = BottomSheetDialog(context!!)
         dialog.setContentView(view)
-        view.btn_join.visibleOrGone(channel.isSubscribed)
-        view.btn_leave.visibleOrGone(!channel.isSubscribed)
+        view.btn_join.visibleOrGone(!channel.isSubscribed)
+        view.btn_leave.visibleOrGone(channel.isSubscribed)
         view.titleChannel.text = channel.title
         view.user_name.text = channel.owner?.fullName
         view.descriptionChannel.text = channel.description
@@ -97,8 +90,14 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             .apply(RequestOptions.circleCropTransform())
             .into(view.userIcon)
 
-        view.btn_join.setOnClickListener { viewModel.onJoinChannel(channel) }
-        view.btn_leave.setOnClickListener { viewModel.onLeaveChannel(channel) }
+        view.btn_join.setOnClickListener {
+            dialog.dismiss()
+            viewModel.onJoinChannel(channel)
+        }
+        view.btn_leave.setOnClickListener {
+            viewModel.onLeaveChannel(channel)
+            dialog.dismiss()
+        }
         dialog.show()
     }
 

@@ -25,7 +25,7 @@ interface ChannelsContract {
 
     interface Router {
         fun onBack()
-        fun navigateToChannel(id: Long)
+        fun navigateToChannel(channel: ChatEntity, userEntity: UserEntity)
         fun navigateToNewChannel()
         fun navigateToNewChat()
     }

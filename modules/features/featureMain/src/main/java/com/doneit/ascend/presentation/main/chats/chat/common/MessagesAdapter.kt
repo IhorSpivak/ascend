@@ -40,6 +40,7 @@ class MessagesAdapter(
             )
             Type.SHARE.ordinal -> ShareViewHolder.create(parent)
             Type.ATTACHMENT_OWN.ordinal -> AttachmentOwnViewHolder.create(parent, onButtonClick)
+            Type.ATTACHMENT_OTHER.ordinal -> AttachmentOwnViewHolder.create(parent, onButtonClick)
             else -> throw IllegalArgumentException("Unsupported view type $viewType")
         }
     }

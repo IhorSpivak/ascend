@@ -116,6 +116,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             messageList.adapter = messagesAdapter
             messageList.layoutManager?.isAutoMeasureEnabled = false
             messageList.setHasFixedSize(false)
+            messageList.itemAnimator = null
             menu.visible(chatWithUser.chatType == ChatType.CHAT)
             chatHeader.visible(chatWithUser.chatType == ChatType.CHAT)
             tvTitle.visible(chatWithUser.chatType == ChatType.WEBINAR_CHAT)

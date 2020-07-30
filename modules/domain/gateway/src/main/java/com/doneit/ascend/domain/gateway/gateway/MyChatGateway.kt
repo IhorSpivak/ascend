@@ -505,7 +505,10 @@ class MyChatGateway(
         return result
     }
 
-    override suspend fun createChannel(scope: CoroutineScope, request: NewChannelDTO): ResponseEntity<ChatEntity, List<String>> {
+    override suspend fun createChannel(
+        scope: CoroutineScope,
+        request: NewChannelDTO
+    ): ResponseEntity<ChatEntity, List<String>> {
         return executeRemote {
             remote.createChannel(
 
@@ -543,7 +546,8 @@ class MyChatGateway(
         request: NewChannelDTO
     ): ResponseEntity<ChatEntity, List<String>> {
         return executeRemote {
-            remote.updateChannel(channelId,
+            remote.updateChannel(
+                channelId,
                 request.toRequest()
             )
         }.toResponseEntity(
@@ -579,7 +583,7 @@ class MyChatGateway(
             emitSource(
                 PaginationDataSource.Builder<ChatEntity>()
                     .coroutineScope(scope)
-                        //todo: local source
+                    //todo: local source
                     .pageLimit(request.perPage ?: 10)
                     .remoteSource(object : PaginationSourceRemote<ChatEntity> {
                         override suspend fun loadData(page: Int, limit: Int): List<ChatEntity>? {
@@ -592,4 +596,13 @@ class MyChatGateway(
                     .build()
             )
         }
+
+    override suspend fun joinChannel(
+        coroutineScope: CoroutineScope,
+        channelId: Long
+    ): ResponseEntity<ChatEntity, List<String>> {
+        return executeRemote { remote.subscribeToChannel(channelId) }.toResponseEntity(
+            { it?.toEntity() },
+            { it?.errors })
+    }
 }
