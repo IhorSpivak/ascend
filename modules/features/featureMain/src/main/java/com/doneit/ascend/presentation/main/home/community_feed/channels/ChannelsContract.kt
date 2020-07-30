@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.models.chat.ChannelsWithUser
 
 interface ChannelsContract {
@@ -17,6 +18,7 @@ interface ChannelsContract {
         val user: LiveData<UserEntity?>
         fun onBackPressed()
         fun onNewChannelPressed()
+        fun onChatPressed(chat: ChatEntity)
         fun onNewChatPressed()
         fun onChannelPressed(channel: ChatEntity)
         fun onJoinChannel(channel: ChatEntity)
@@ -27,6 +29,7 @@ interface ChannelsContract {
         fun onBack()
         fun navigateToChannel(channel: ChatEntity, userEntity: UserEntity)
         fun navigateToNewChannel()
+        fun navigateToChat(chat: ChatEntity, user: UserEntity, chatType: ChatType)
         fun navigateToNewChat()
     }
 }

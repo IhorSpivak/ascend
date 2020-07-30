@@ -28,7 +28,11 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
 
     private val initChannelAdapter: ChannelAdapter by RvLazyAdapter {
         ChannelAdapter {
-            showChannelsDialogInfo(it)
+            when(it.chatType.type){
+                "channel" ->  showChannelsDialogInfo(it)
+                "chat" ->   viewModel.onChatPressed(it)
+            }
+
         } to { binding.rvChats }
     }
     private var lastChecked: ChatEntity? = null
@@ -44,7 +48,7 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             }
             tvNewChanel.setOnClickListener {
                 when (viewModel.user.value?.isMasterMind) {
-                    true -> showMenu(root)
+                    true -> showMenu(it)
                     false -> viewModel.onNewChannelPressed()
                 }
             }
@@ -77,6 +81,10 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
         view.btn_join.visibleOrGone(!channel.isSubscribed)
         view.btn_leave.visibleOrGone(channel.isSubscribed)
         view.titleChannel.text = channel.title
+        when(channel.isPrivate){
+            true ->  view.channelType.text = resources.getString(R.string.private_channel)
+            false ->  view.channelType.text = resources.getString(R.string.public_channel)
+        }
         view.user_name.text = channel.owner?.fullName
         view.descriptionChannel.text = channel.description
         view.qtyMembers.text = """${channel.membersCount} members"""
@@ -104,7 +112,7 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
 
     private fun showMenu(v: View) {
         PopupMenu(view?.context, v, Gravity.TOP).apply {
-            menuInflater.inflate(R.menu.create_new_chat_channels_menu, this.menu)
+            menuInflater.inflate(R.menu.create_new_channel_menu, this.menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.post_chat -> {
@@ -120,6 +128,8 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             }
         }.show()
     }
+
+
 
 
 }

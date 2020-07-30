@@ -59,6 +59,10 @@ class ChannelsViewModel(
         router.navigateToNewChannel()
     }
 
+    override fun onChatPressed(chat: ChatEntity) {
+        router.navigateToChat(chat, user.value!!, ChatType.CHAT)
+    }
+
     override fun onNewChatPressed() {
         router.navigateToNewChannel()
     }

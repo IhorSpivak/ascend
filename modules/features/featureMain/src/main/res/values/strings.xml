@@ -728,6 +728,13 @@
     <string name="user_list">User list</string>
     <string name="delete_channel">Delete Channel</string>
     <string name="take_file">File</string>
+    <string name="private_channel">Private Channel</string>
+    <string name="public_channel">Public Channel</string>
+    <string name="delete_this_channel">Delete this Channel</string>
+    <string name="delete_channel_description">If you delete a channel, it cannot be restored</string>
+    <string name="yes_delete">Yes, Delete</string>
+    <string name="leave_channel_description">Are you sure you want to leave this Channel?</string>
+    <string name="leave_channel">Leave Channel</string>
 
 
 </resources>
