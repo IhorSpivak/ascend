@@ -10,9 +10,14 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCreateChannelModel
+import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toEntity
+import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
+import com.doneit.ascend.presentation.utils.isValidChatTitle
+import com.doneit.ascend.presentation.utils.isWebinarDescriptionValid
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import kotlinx.coroutines.launch
@@ -27,8 +32,7 @@ class CreateChannelViewModel(
     private val groupUseCase: GroupUseCase
 ) : BaseViewModelImpl(), CreateChannelContract.ViewModel {
     override val newChannelModel: PresentationCreateChannelModel = PresentationCreateChannelModel()
-    private val isCompletable: MutableLiveData<Boolean> = MutableLiveData(true)
-    override val canComplete: LiveData<Boolean> = isCompletable.switchMap { liveData { emit(it) } }
+    override val canComplete: MutableLiveData<Boolean> = MutableLiveData(false)
 
     private var channel: ChatEntity? = null
     override val connectionAvailable: MutableLiveData<Boolean> = MutableLiveData(true)
@@ -54,6 +58,51 @@ class CreateChannelViewModel(
         viewModelScope.launch {
             currentUser = userUseCase.getUser()!!
         }
+
+        newChannelModel.title.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isValidChatTitle().not()) {
+                result.isSucceed = false
+                result.errors.add(R.string.error_channel_title)
+            }
+
+            result
+        }
+
+        newChannelModel.description.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isWebinarDescriptionValid().not()) {
+                result.isSucceed = false
+                result.errors.add(R.string.error_channel_description)
+            }
+
+            result
+        }
+
+        newChannelModel.image.validator = { s ->
+            val result = ValidationResult()
+
+            if (s.isEmpty()) {
+                result.isSucceed = false
+            }
+
+            result
+        }
+
+        val invalidationListener = { updateCanCreate() }
+        newChannelModel.title.onFieldInvalidate = invalidationListener
+        newChannelModel.description.onFieldInvalidate = invalidationListener
+        newChannelModel.image.onFieldInvalidate = invalidationListener
+    }
+
+    private fun updateCanCreate() {
+        var isFormValid = true
+        isFormValid = isFormValid and newChannelModel.title.isValid
+        isFormValid = isFormValid and newChannelModel.description.isValid
+        isFormValid = isFormValid and newChannelModel.image.isValid
+        canComplete.postValue(isFormValid)
     }
 
     override fun setEditMode(channel: ChatEntity) {
@@ -110,7 +159,13 @@ class CreateChannelViewModel(
                     newChannelModel.toEntity()
                 )
             } ?: run {
-                chatUseCase.createChannel(viewModelScope, newChannelModel.toEntity())
+                val response = chatUseCase.createChannel(viewModelScope, newChannelModel.toEntity())
+                if(response.isSuccessful){
+                    router.onBackWithOpenChannel(response.successModel!!)
+                } else {
+                    showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+                }
+
             }
         }
     }

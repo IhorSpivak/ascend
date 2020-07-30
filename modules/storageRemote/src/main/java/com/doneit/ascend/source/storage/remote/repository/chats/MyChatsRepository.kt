@@ -95,8 +95,10 @@ internal class MyChatsRepository(
                 with(MultipartBody.Builder()) {
                     request.attachment?.let {
                         addAttachment(context, request.attachment)
+                        api.sendMessageAsync(request.id, request.message, build().parts)
+                    } ?: run {
+                        api.sendMessageAsync(request.id, request.message)
                     }
-                    api.sendMessageAsync(request.id, request.message, build().parts)
                 }
             },
             ErrorsListResponse::class.java

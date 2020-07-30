@@ -28,11 +28,7 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
 
     private val initChannelAdapter: ChannelAdapter by RvLazyAdapter {
         ChannelAdapter {
-            when(it.chatType.type){
-                "channel" ->  showChannelsDialogInfo(it)
-                "chat" ->   viewModel.onChatPressed(it)
-            }
-
+            handleChatNavigation(it)
         } to { binding.rvChats }
     }
     private var lastChecked: ChatEntity? = null
@@ -74,6 +70,13 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
         })
     }
 
+    private fun handleChatNavigation(channel: ChatEntity){
+        when(channel.chatOwnerId == viewModel.user.value!!.id){
+            true -> showChannelsDialogInfo(channel)
+            false -> viewModel.onChannelPressed(channel)
+        }
+    }
+
     private fun showChannelsDialogInfo(channel: ChatEntity) {
         val view = layoutInflater.inflate(R.layout.dialog_bottom_sheet_channels, null)
         val dialog = BottomSheetDialog(context!!)
@@ -109,7 +112,6 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
         dialog.show()
     }
 
-
     private fun showMenu(v: View) {
         PopupMenu(view?.context, v, Gravity.TOP).apply {
             menuInflater.inflate(R.menu.create_new_channel_menu, this.menu)
@@ -128,8 +130,4 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             }
         }.show()
     }
-
-
-
-
 }

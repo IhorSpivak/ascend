@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.androidisland.ezpermission.EzPermission
@@ -106,12 +105,13 @@ class CreateChannelFragment : BaseFragment<FragmentNewChannelBinding>() {
                     )
                 }
             }
-            etChannelName.doAfterTextChanged {
-                viewModel.newChannelModel.title.observableField.set(it.toString())
-            }
             btnAdd.setOnClickListener {
                 viewModel.addMembers()
             }
+            isPrivate.setOnCheckedChangeListener { _, b ->
+                viewModel.newChannelModel.isPrivate.set(b)
+            }
+
         }
     }
 
@@ -137,6 +137,7 @@ class CreateChannelFragment : BaseFragment<FragmentNewChannelBinding>() {
         GlobalScope.launch {
             //todo: not working in some cases (didn't get why, android 9)
             val compressed = activity!!.copyCompressed(source, compressedPhotoPath)
+            viewModel.newChannelModel.image.observableField.set(null)
             viewModel.newChannelModel.image.observableField.set(compressed)
         }
     }
