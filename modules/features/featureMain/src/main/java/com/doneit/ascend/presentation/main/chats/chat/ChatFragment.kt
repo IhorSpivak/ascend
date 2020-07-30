@@ -161,7 +161,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
     private fun FragmentChatBinding.closeInputIfBlocked() {
         //if chat is blocked Enter message = gone
-        if (chatWithUser.chat.blocked) {
+        if (chatWithUser.chat.blocked || chatWithUser.chat.isPrivate) {
             message.gone()
             send.gone()
         }

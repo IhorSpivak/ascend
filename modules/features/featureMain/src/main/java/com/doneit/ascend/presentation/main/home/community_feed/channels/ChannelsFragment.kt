@@ -42,9 +42,9 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             btnBack.setOnClickListener {
                 viewModel.onBackPressed()
             }
-            tvNewСhannel.setOnClickListener {
+            tvNewChanel.setOnClickListener {
                 when (viewModel.user.value?.isMasterMind) {
-                    true -> showMenu(it)
+                    true -> showMenu(root)
                     false -> viewModel.onNewChannelPressed()
                 }
             }
