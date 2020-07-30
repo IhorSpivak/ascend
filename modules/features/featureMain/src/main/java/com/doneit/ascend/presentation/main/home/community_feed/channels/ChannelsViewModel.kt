@@ -13,6 +13,8 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.chat.ChannelsWithUser
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @CreateFactory
 @ViewModelDiModule
@@ -62,15 +64,23 @@ class ChannelsViewModel(
     }
 
     override fun onChannelPressed(channel: ChatEntity) {
-        router.navigateToChannel(channel.id)
+        router.navigateToChannel(channel, user.value!!)
     }
 
     override fun onJoinChannel(channel: ChatEntity) {
-        router.navigateToChannel(channel.id)
+        viewModelScope.launch {
+            if (chatUseCase.joinChannel(viewModelScope, channel.id).isSuccessful) {
+                router.navigateToChannel(channel, user.value!!)
+            }
+        }
     }
 
     override fun onLeaveChannel(channel: ChatEntity) {
-        TODO("Not yet implemented")
+        viewModelScope.launch(Dispatchers.IO) {
+            if (chatUseCase.leave(channel.id).isSuccessful) {
+                channel.isSubscribed = false
+            }
+        }
     }
 
     private fun applyData(chatEntity: PagedList<ChatEntity>?, user: UserEntity?) {

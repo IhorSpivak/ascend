@@ -10,7 +10,7 @@ import com.doneit.ascend.domain.entity.AttachmentType
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.databinding.ListItemOwnMessageAttachmentBinding
+import com.doneit.ascend.presentation.main.databinding.ListItemOtherMessageAttachmentBinding
 import com.doneit.ascend.presentation.utils.extensions.MESSAGE_FORMATTER
 import com.doneit.ascend.presentation.utils.extensions.calculateDate
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
@@ -21,9 +21,8 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
-class AttachmentOwnViewHolder private constructor(
-    itemView: View,
-    private val onDeleteClick: (message: MessageEntity) -> Unit
+class AttachmentOtherViewHolder private constructor(
+    itemView: View
 ) : BaseMessageHolder(itemView) {
 
 
@@ -34,12 +33,9 @@ class AttachmentOwnViewHolder private constructor(
         chatOwner: MemberEntity,
         currentUserId: Long
     ) {
-        DataBindingUtil.bind<ListItemOwnMessageAttachmentBinding>(itemView)?.apply {
+        DataBindingUtil.bind<ListItemOtherMessageAttachmentBinding>(itemView)?.apply {
             val attachment = messageEntity.attachment ?: return
             this.messageEntity = messageEntity
-            ibDelete.setOnClickListener {
-                onDeleteClick(messageEntity)
-            }
             time.apply {
                 text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
                 visibleOrGone(
@@ -77,17 +73,15 @@ class AttachmentOwnViewHolder private constructor(
 
     companion object {
         fun create(
-            parent: ViewGroup,
-            onDeleteClick: (message: MessageEntity) -> Unit
-        ): AttachmentOwnViewHolder {
-            return AttachmentOwnViewHolder(
-                DataBindingUtil.inflate<ListItemOwnMessageAttachmentBinding>(
+            parent: ViewGroup
+        ): AttachmentOtherViewHolder {
+            return AttachmentOtherViewHolder(
+                DataBindingUtil.inflate<ListItemOtherMessageAttachmentBinding>(
                     LayoutInflater.from(parent.context),
-                    R.layout.list_item_own_message_attachment,
+                    R.layout.list_item_other_message_attachment,
                     parent,
                     false
-                ).root,
-                onDeleteClick
+                ).root
             )
         }
     }

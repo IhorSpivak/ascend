@@ -116,6 +116,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             messageList.adapter = messagesAdapter
             messageList.layoutManager?.isAutoMeasureEnabled = false
             messageList.setHasFixedSize(false)
+            messageList.itemAnimator = null
             menu.visible(chatWithUser.chatType == ChatType.CHAT)
             chatHeader.visible(chatWithUser.chatType == ChatType.CHAT)
             tvTitle.visible(chatWithUser.chatType == ChatType.WEBINAR_CHAT)
@@ -160,9 +161,10 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
     private fun FragmentChatBinding.closeInputIfBlocked() {
         //if chat is blocked Enter message = gone
-        if (chatWithUser.chat.blocked) {
+        if (chatWithUser.chat.blocked || chatWithUser.chat.isPrivate) {
             message.gone()
             send.gone()
+            addAttachments.gone()
         }
         //check when user leaved group chat
         if (chatWithUser.chat.chatOwnerId != chatWithUser.user.id) {
@@ -173,6 +175,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                         if (it.leaved) {
                             message.gone()
                             send.gone()
+                            addAttachments.gone()
                         }
                     }
             }

@@ -59,7 +59,19 @@ interface ChatUseCase {
         channelId: Long
     ): ResponseEntity<ChatEntity, List<String>>
 
-    suspend fun createChannel(coroutineScope: CoroutineScope, newChannelDTO: NewChannelDTO): ResponseEntity<ChatEntity, List<String>>
+    suspend fun createChannel(
+        coroutineScope: CoroutineScope,
+        newChannelDTO: NewChannelDTO
+    ): ResponseEntity<ChatEntity, List<String>>
 
-    suspend fun updateChannel(coroutineScope: CoroutineScope, channelId: Long, newChannelDTO: NewChannelDTO): ResponseEntity<ChatEntity, List<String>>
+    suspend fun updateChannel(
+        coroutineScope: CoroutineScope,
+        channelId: Long,
+        newChannelDTO: NewChannelDTO
+    ): ResponseEntity<ChatEntity, List<String>>
+
+    suspend fun joinChannel(
+        coroutineScope: CoroutineScope,
+        channelId: Long
+    ): ResponseEntity<ChatEntity, List<String>>
 }

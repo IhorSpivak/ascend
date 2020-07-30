@@ -70,9 +70,16 @@ interface IMyChatGateway {
         id: Long
     ): ResponseEntity<ChatEntity, List<String>>
 
-    suspend fun createChannel(scope: CoroutineScope, request: NewChannelDTO): ResponseEntity<ChatEntity, List<String>>
+    suspend fun createChannel(
+        scope: CoroutineScope,
+        request: NewChannelDTO
+    ): ResponseEntity<ChatEntity, List<String>>
 
-    suspend fun updateChannel(scope: CoroutineScope, channelId: Long, request: NewChannelDTO): ResponseEntity<ChatEntity, List<String>>
+    suspend fun updateChannel(
+        scope: CoroutineScope,
+        channelId: Long,
+        request: NewChannelDTO
+    ): ResponseEntity<ChatEntity, List<String>>
 
     //experimental:
 
@@ -80,4 +87,9 @@ interface IMyChatGateway {
         scope: CoroutineScope,
         request: ChatListDTO
     ): LiveData<com.doneit.ascend.domain.use_case.PagedList<ChatEntity>>
+
+    suspend fun joinChannel(
+        coroutineScope: CoroutineScope,
+        channelId: Long
+    ): ResponseEntity<ChatEntity, List<String>>
 }

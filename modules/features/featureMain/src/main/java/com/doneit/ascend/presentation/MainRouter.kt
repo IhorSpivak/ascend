@@ -597,8 +597,11 @@ class MainRouter(
     }
 
 
-    override fun navigateToChannel(id: Long) {
-        //todo
+    override fun navigateToChannel(channel: ChatEntity, userEntity: UserEntity) {
+        manager.replaceWithBackStack(
+            containerIdFull,
+            ChatFragment.getInstance(channel, user = userEntity, chatType = ChatType.CHAT)
+        )
     }
 
     override fun navigateToNewChannel() {

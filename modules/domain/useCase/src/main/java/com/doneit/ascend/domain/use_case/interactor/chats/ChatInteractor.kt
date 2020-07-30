@@ -153,4 +153,8 @@ class ChatInteractor(
     ): ResponseEntity<ChatEntity, List<String>> {
         return chatGateway.updateChannel(coroutineScope, channelId, newChannelDTO)
     }
+
+    override suspend fun joinChannel(coroutineScope: CoroutineScope, channelId: Long): ResponseEntity<ChatEntity, List<String>> {
+        return chatGateway.joinChannel(coroutineScope, channelId)
+    }
 }

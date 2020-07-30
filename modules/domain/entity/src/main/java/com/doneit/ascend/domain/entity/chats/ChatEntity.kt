@@ -24,7 +24,7 @@ data class ChatEntity(
     var members: List<MemberEntity>,
     val chatType: ChatType,
     val isPrivate: Boolean,
-    val isSubscribed: Boolean,
+    var isSubscribed: Boolean,
     val owner: OwnerEntity?
 ) : Parcelable {
 
