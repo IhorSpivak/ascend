@@ -129,6 +129,7 @@
                             android:id="@+id/attachmentImage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
                             app:setImage="@{messageEntity.attachment.url}" />
 
                     </FrameLayout>

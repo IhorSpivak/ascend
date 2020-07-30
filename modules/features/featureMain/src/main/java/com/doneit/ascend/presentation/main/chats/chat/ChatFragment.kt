@@ -164,6 +164,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         if (chatWithUser.chat.blocked || chatWithUser.chat.isPrivate) {
             message.gone()
             send.gone()
+            addAttachments.gone()
         }
         //check when user leaved group chat
         if (chatWithUser.chat.chatOwnerId != chatWithUser.user.id) {
@@ -174,6 +175,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                         if (it.leaved) {
                             message.gone()
                             send.gone()
+                            addAttachments.gone()
                         }
                     }
             }
