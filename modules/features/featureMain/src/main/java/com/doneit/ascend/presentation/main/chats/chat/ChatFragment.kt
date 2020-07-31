@@ -183,10 +183,20 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private fun FragmentChatBinding.applyDefaultChatLayout() {
         if (chatWithUser.chatType != ChatType.WEBINAR_CHAT) {
             chat = chatWithUser.chat
-            Glide.with(groupPlaceholder)
-                .load(R.drawable.ic_group_placeholder)
-                .circleCrop()
-                .into(groupPlaceholder)
+            when(chatWithUser.chat.chatType){
+                com.doneit.ascend.domain.entity.dto.ChatType.CHAT -> {
+                    Glide.with(groupPlaceholder)
+                        .load(R.drawable.ic_group_placeholder)
+                        .circleCrop()
+                        .into(groupPlaceholder)
+                }
+                com.doneit.ascend.domain.entity.dto.ChatType.CHANNEL -> {
+                    Glide.with(groupPlaceholder)
+                        .load(chatWithUser.chat.image)
+                        .circleCrop()
+                        .into(groupPlaceholder)
+                }
+            }
             if (chatWithUser.chat.members.size != PRIVATE_CHAT_MEMBER_COUNT) {
                 url = chatWithUser.chat.image?.url
                 statusOrCount = resources.getString(
