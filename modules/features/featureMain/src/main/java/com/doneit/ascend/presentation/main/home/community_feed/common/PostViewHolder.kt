@@ -17,6 +17,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ListItemFeedBinding
+import com.doneit.ascend.presentation.utils.addReadMoreTo
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
 
@@ -71,6 +72,9 @@ class PostViewHolder(
                 etInputMessage.hideKeyboard()
             }
         }
+
+
+        tvDescription.addReadMoreTo(post.description)
         vdFirst.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 0) }
         imvFirst.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 0) }
         vdSecond.setOnClickListener { postClickListeners.onMediaClick(post.attachments, 1) }

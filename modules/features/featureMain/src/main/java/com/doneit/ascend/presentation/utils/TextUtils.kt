@@ -1,15 +1,19 @@
 package com.doneit.ascend.presentation.utils
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.Typeface
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Patterns
+import android.view.View
+import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.databinding.ObservableField
+import com.devs.readmoreoption.ReadMoreOption
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import com.doneit.ascend.domain.entity.getDefaultCalendar
 import com.doneit.ascend.domain.entity.group.GroupType
@@ -270,6 +274,19 @@ fun convertCommunityToResId(community: String, type: GroupType?): Int? {
         GroupType.SUPPORT -> titlePair.first
         else -> null
     }
+}
+
+fun TextView.addReadMoreTo( text: String) {
+    val readMoreOption = ReadMoreOption.Builder(this.context)
+        .textLength(300, ReadMoreOption.TYPE_CHARACTER)
+        .moreLabel(resources.getString(R.string.read_more))
+        .moreLabelColor(Color.BLACK)
+        .lessLabelColor(Color.WHITE)
+        .labelUnderLine(true)
+        .expandAnimation(true)
+        .build();
+
+    readMoreOption.addReadMoreTo(this, text)
 }
 
 fun applyMultilineFilter(editText: MultilineEditWithError) {
