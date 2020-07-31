@@ -71,9 +71,12 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
     }
 
     private fun handleChatNavigation(channel: ChatEntity){
-        when(channel.chatOwnerId == viewModel.user.value!!.id){
-            true -> showChannelsDialogInfo(channel)
-            false -> viewModel.onChannelPressed(channel)
+        if(channel.chatOwnerId == viewModel.user.value!!.id){
+             viewModel.onChannelPressed(channel)
+        }
+        when(channel.isSubscribed){
+            true->  viewModel.onChannelPressed(channel)
+            false->  showChannelsDialogInfo(channel)
         }
     }
 
@@ -81,8 +84,6 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
         val view = layoutInflater.inflate(R.layout.dialog_bottom_sheet_channels, null)
         val dialog = BottomSheetDialog(context!!)
         dialog.setContentView(view)
-        view.btn_join.visibleOrGone(!channel.isSubscribed)
-        view.btn_leave.visibleOrGone(channel.isSubscribed)
         view.titleChannel.text = channel.title
         when(channel.isPrivate){
             true ->  view.channelType.text = resources.getString(R.string.private_channel)
@@ -104,10 +105,6 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
         view.btn_join.setOnClickListener {
             dialog.dismiss()
             viewModel.onJoinChannel(channel)
-        }
-        view.btn_leave.setOnClickListener {
-            viewModel.onLeaveChannel(channel)
-            dialog.dismiss()
         }
         dialog.show()
     }

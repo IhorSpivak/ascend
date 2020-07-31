@@ -120,22 +120,7 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/btn_leave"
-            android:layout_height="60dp"
 
-            android:layout_width="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="24dp"
-            android:textSize="24sp"
-            android:textColor="@color/colorPrimary"
-            android:fontFamily="@font/red_hat_font"
-            android:layout_marginBottom="36dp"
-            android:background="@drawable/mm_delete_background"
-            android:text="@string/leave_this_channel"
-            android:layout_below="@+id/rl_separator"
-            />
 
         <Button
             android:id="@+id/btn_join"
