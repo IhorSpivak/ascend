@@ -3,7 +3,6 @@ package com.doneit.ascend.presentation.main.home.community_feed.channels.create_
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -12,9 +11,6 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.androidisland.ezpermission.EzPermission
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.R
@@ -22,7 +18,6 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.FragmentNewChannelBinding
 import com.doneit.ascend.presentation.utils.copyCompressed
-import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.createCropPhotoUri
 import com.doneit.ascend.presentation.utils.extensions.requestPermissions
 import com.doneit.ascend.presentation.utils.getCompressedImagePath
@@ -74,8 +69,8 @@ class CreateChannelFragment : BaseFragment<FragmentNewChannelBinding>() {
         requireArguments().getParcelable<ChatEntity>(KEY_CHANNEL)
     }
 
-    private val cropPhotoUri by lazy { context!!.createCropPhotoUri() }
-    private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
+    private val cropPhotoUri by lazy { requireContext().createCropPhotoUri() }
+    private val compressedPhotoPath by lazy { requireContext().getCompressedImagePath() }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         channel?.let {
@@ -83,18 +78,7 @@ class CreateChannelFragment : BaseFragment<FragmentNewChannelBinding>() {
             viewModel.newChannelModel.title.observableField.set(it.title)
             viewModel.newChannelModel.description.observableField.set(it.description)
             viewModel.newChannelModel.isPrivate.set(it.isPrivate)
-            Glide.with(requireContext())
-                .asBitmap()
-                .load(it.image!!.url)
-                .into(object : SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(
-                        resource: Bitmap,
-                        transition: Transition<in Bitmap>?
-                    ) {
-//                        viewModel.newChannelModel.image.observableField.set(context?.copyToStorage(resource))
-                    }
-
-                })
+            viewModel.newChannelModel.image.observableField.set(it.image?.thumbnail?.url)
         }
         binding.apply {
             model = viewModel

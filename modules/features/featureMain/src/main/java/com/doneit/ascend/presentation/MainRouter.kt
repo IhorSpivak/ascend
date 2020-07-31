@@ -621,8 +621,4 @@ class MainRouter(
         replaceFullWithMainUpdate(ChannelsFragment())
     }
 
-    override fun onBackWithOpenChannel(channel: ChatEntity) {
-
-    }
-
 }

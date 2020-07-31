@@ -17,6 +17,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.SearchEntity
@@ -102,6 +103,8 @@ fun setCircleImage(view: AppCompatImageView, url: String?, placeholder: Drawable
         .load(url)
         .circleCrop()
         .placeholder(placeholder)
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .skipMemoryCache(true)
         .into(view)
 }
 
