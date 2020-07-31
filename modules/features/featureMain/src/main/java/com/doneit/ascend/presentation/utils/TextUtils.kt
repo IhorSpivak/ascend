@@ -225,7 +225,7 @@ fun convertGroupTypeToString(
     }
 
     val res = when (community) {
-        Community.FITNESS.title,
+        Community.LIFESTYLE.title,
         Community.SPIRITUAL.title -> supportOrMM(
             R.string.public_collaboration_title,
             R.string.private_collaboration_title,
@@ -258,7 +258,7 @@ fun convertGroupTypeToString(
 
 fun convertCommunityToResId(community: String, type: GroupType?): Int? {
     val titlePair = when (community) {
-        Community.FITNESS.title,
+        Community.LIFESTYLE.title,
         Community.SPIRITUAL.title -> R.string.collaboration to R.string.group
         Community.RECOVERY.title -> R.string.group_title to R.string.workshop
         Community.FAMILY.title -> R.string.group_title to R.string.group

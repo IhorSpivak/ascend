@@ -598,7 +598,7 @@
 
     <!--Home Webinars list-->
     <string name="webinars_list_recovery">Recovery</string>
-    <string name="webinars_list_fitness">Fitness</string>
+    <string name="webinars_list_lifestyle">Lifestyle</string>
     <string name="webinars_list_industry">Industry</string>
     <string name="webinars_list_family">Family</string>
     <string name="webinars_list_spiritual">Spiritual</string>
