@@ -69,6 +69,13 @@ dependencies {
     implementation 'com.github.florent37:singledateandtimepicker:2.2.3'
     implementation 'cn.aigestudio.wheelpicker:WheelPicker:1.1.3'
 
+    //OkDownload
+    implementation 'com.liulishuo.okdownload:okdownload:1.0.7'
+    implementation 'com.liulishuo.okdownload:sqlite:1.0.7'
+    implementation 'com.liulishuo.okdownload:okhttp:1.0.7'
+    implementation 'com.liulishuo.okdownload:filedownloader:1.0.7'
+    implementation 'com.liulishuo.okdownload:ktx:1.0.7'
+
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
     api 'com.redmadrobot:inputmask:4.0.0'
 

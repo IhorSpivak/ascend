@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageType
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
+import com.doneit.ascend.presentation.main.chats.chat.holder.*
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 
 class MessagesAdapter(
@@ -16,6 +17,7 @@ class MessagesAdapter(
     private val onImageClick: (view: View, id: Long) -> Unit,
     private val onImageWebinarClick: (view: View, member: MemberEntity) -> Unit
 ) : PagedListAdapter<MessageEntity, BaseMessageHolder>(MessageDiffUtil()) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseMessageHolder {
         return when (viewType) {
             Type.OWN.ordinal -> OwnMessageViewHolder.create(
@@ -39,8 +41,13 @@ class MessagesAdapter(
                 chatWithUser.chatType
             )
             Type.SHARE.ordinal -> ShareViewHolder.create(parent)
-            Type.ATTACHMENT_OWN.ordinal -> AttachmentOwnViewHolder.create(parent, onButtonClick)
-            Type.ATTACHMENT_OTHER.ordinal -> AttachmentOtherViewHolder.create(parent)
+            Type.ATTACHMENT_OWN.ordinal -> AttachmentOwnViewHolder.create(
+                parent,
+                onButtonClick
+            )
+            Type.ATTACHMENT_OTHER.ordinal -> AttachmentOtherViewHolder.create(
+                parent
+            )
             else -> throw IllegalArgumentException("Unsupported view type $viewType")
         }
     }

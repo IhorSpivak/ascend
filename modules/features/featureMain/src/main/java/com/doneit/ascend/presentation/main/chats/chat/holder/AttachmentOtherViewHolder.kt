@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.chats.chat.common
+package com.doneit.ascend.presentation.main.chats.chat.holder
 
 import android.content.Context
 import android.net.Uri
@@ -23,7 +23,7 @@ import com.google.android.exoplayer2.util.Util
 
 class AttachmentOtherViewHolder private constructor(
     itemView: View
-) : BaseMessageHolder(itemView) {
+) : BaseAttachmentHolder(itemView) {
 
 
     override fun bind(
@@ -36,6 +36,7 @@ class AttachmentOtherViewHolder private constructor(
         DataBindingUtil.bind<ListItemOtherMessageAttachmentBinding>(itemView)?.apply {
             val attachment = messageEntity.attachment ?: return
             this.messageEntity = messageEntity
+            this.memberEntity = memberEntity
             time.apply {
                 text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
                 visibleOrGone(
@@ -49,6 +50,15 @@ class AttachmentOtherViewHolder private constructor(
             attachmentImage.visibleOrGone(attachment.type == AttachmentType.IMAGE)
             attachmentVideo.visibleOrGone(attachment.type == AttachmentType.UNEXPECTED)
             attachmentFile.visibleOrGone(attachment.type == AttachmentType.FILE)
+            val res = if (!isFileExist(attachment.name)) {
+                R.drawable.ic_download
+            } else R.drawable.ic_sent_message
+            download.setImageResource(res)
+            download.setOnClickListener {
+                if (!isFileExist(attachment.name)) {
+                    downloadFile(attachment.url, attachment.name)
+                }
+            }
             when (attachment.type) {
                 AttachmentType.VIDEO -> {
                     val player = SimpleExoPlayer.Builder(itemView.context)
@@ -69,6 +79,12 @@ class AttachmentOtherViewHolder private constructor(
                 Util.getUserAgent(context, context.getString(R.string.app_name))
             )
         ).createMediaSource(Uri.parse(url))
+    }
+
+    override fun resourceDownloaded() {
+        DataBindingUtil.bind<ListItemOtherMessageAttachmentBinding>(itemView)?.apply {
+            download.setImageResource(R.drawable.ic_sent_message)
+        }
     }
 
     companion object {

@@ -4,7 +4,9 @@ object Constants {
 
     const val REMOTE_DATE_FORMAT_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
     const val AWS_BUCKET: String = "bucket-ascend"
+    const val AWS_BUCKET_MSG: String = "ascend2u"
     const val AWS_REGION: String = "us-east-1"
+    const val AWS_REGION_2: String = "us-east-2"
     const val COGNITO_POOL_REGION: String = "us-east-1"
     const val COGNITO_POOL_ID: String = "us-east-1:16288c3c-c8eb-4c4f-8219-a38737f3438e"
 
