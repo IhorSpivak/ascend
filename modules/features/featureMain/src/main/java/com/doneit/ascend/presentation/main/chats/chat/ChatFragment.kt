@@ -114,8 +114,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         binding.apply {
             model = viewModel
             messageList.adapter = messagesAdapter
-            messageList.layoutManager?.isAutoMeasureEnabled = false
-            messageList.setHasFixedSize(false)
             messageList.itemAnimator = null
             menu.visible(chatWithUser.chatType == ChatType.CHAT)
             chatHeader.visible(chatWithUser.chatType == ChatType.CHAT)

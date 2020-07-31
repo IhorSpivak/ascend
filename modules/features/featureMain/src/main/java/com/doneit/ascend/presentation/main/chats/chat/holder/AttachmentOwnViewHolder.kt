@@ -35,7 +35,6 @@ class AttachmentOwnViewHolder private constructor(
         currentUserId: Long
     ) {
         DataBindingUtil.bind<ListItemOwnMessageAttachmentBinding>(itemView)?.apply {
-            val attachment = messageEntity.attachment ?: return
             this.messageEntity = messageEntity
             ibDelete.setOnClickListener {
                 onDeleteClick(messageEntity)
@@ -49,9 +48,10 @@ class AttachmentOwnViewHolder private constructor(
                     )
                 )
             }
+            val attachment = messageEntity.attachment ?: return
             mediaContainer.visibleOrGone(attachment.type != AttachmentType.FILE)
             attachmentImage.visibleOrGone(attachment.type == AttachmentType.IMAGE)
-            attachmentVideo.visibleOrGone(attachment.type == AttachmentType.UNEXPECTED)
+            attachmentVideo.visibleOrGone(attachment.type == AttachmentType.VIDEO)
             attachmentFile.visibleOrGone(attachment.type == AttachmentType.FILE)
             val res = if (!isFileExist(attachment.name)) {
                 R.drawable.ic_download
