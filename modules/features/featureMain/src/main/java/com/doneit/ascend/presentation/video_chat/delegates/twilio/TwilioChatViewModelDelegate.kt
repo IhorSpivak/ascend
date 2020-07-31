@@ -13,6 +13,8 @@ import com.doneit.ascend.presentation.video_chat.states.ChatRole
 import com.doneit.ascend.presentation.video_chat.states.ChatStrategy
 import com.doneit.ascend.presentation.video_chat.states.VideoChatState
 import com.twilio.video.*
+import tvi.webrtc.voiceengine.WebRtcAudioManager
+import tvi.webrtc.voiceengine.WebRtcAudioUtils
 
 class TwilioChatViewModelDelegate(val viewModel: VideoChatViewModel) :
     ITwilioChatViewModelDelegate {
@@ -172,6 +174,11 @@ class TwilioChatViewModelDelegate(val viewModel: VideoChatViewModel) :
     ) {
         val context = fragment.activity?.applicationContext ?: return
         if (room == null) {
+
+            WebRtcAudioManager.setBlacklistDeviceForOpenSLESUsage(true)
+            WebRtcAudioUtils.setWebRtcBasedAcousticEchoCanceler(true)
+            WebRtcAudioUtils.setWebRtcBasedNoiseSuppressor(true)
+            WebRtcAudioUtils.setWebRtcBasedAutomaticGainControl(true)
 
             if (localAudioTrack == null) {
                 localAudioTrack =
