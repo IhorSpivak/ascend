@@ -608,6 +608,10 @@ class MainRouter(
         manager.replaceWithBackStack(containerIdFull, CreateChannelFragment.newInstance())
     }
 
+    override fun navigateToEditChannel(channel: ChatEntity) {
+        manager.replaceWithBackStack(containerIdFull, CreateChannelFragment.newInstance(channel))
+    }
+
 
     override fun navigateToAddChannelMembers() {
         manager.replaceWithBackStack(containerIdFull, AddMembersFragment())

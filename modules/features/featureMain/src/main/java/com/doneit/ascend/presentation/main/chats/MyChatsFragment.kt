@@ -30,7 +30,11 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             {
                 viewModel.onChatPressed(it)
             }, {
-                showDeleteDialog(it)
+                when(it.chatType.type){
+                    "channel"->  showDeleteChannelDialog(it.id)
+                    "chat"->  showDeleteDialog(it.id)
+                }
+
             }
         )
     }
@@ -101,10 +105,21 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
     }
 
     private fun showDeleteDialog(id: Long) {
+
         BlockUserDialog.create(
             requireContext(),
             getString(R.string.chats_delete),
             getString(R.string.chats_delete_description),
+            getString(R.string.chats_delete_button),
+            getString(R.string.chats_delete_cancel)
+        ) { viewModel.onDelete(id) }.show()
+    }
+
+    private fun showDeleteChannelDialog(id: Long) {
+        BlockUserDialog.create(
+            requireContext(),
+            getString(R.string.delete_channel),
+            getString(R.string.delete_channel_description),
             getString(R.string.chats_delete_button),
             getString(R.string.chats_delete_cancel)
         ) { viewModel.onDelete(id) }.show()

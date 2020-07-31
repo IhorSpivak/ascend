@@ -27,7 +27,7 @@ class MyChatViewHolder(
 
     fun bind(
         item: ChatEntity,
-        onDeleteListener: (id: Long) -> Unit,
+        onDeleteListener: (chat: ChatEntity) -> Unit,
         onClickListener: (chat: ChatEntity) -> Unit,
         user: UserEntity
     ) {
@@ -36,7 +36,7 @@ class MyChatViewHolder(
         binding.date = item.lastMessage?.let { it.createdAt?.toChatDate(itemView.context) }
             ?: item.updatedAt?.toChatDate(itemView.context)
         binding.ibDelete.setOnClickListener {
-            onDeleteListener.invoke(item.id)
+            onDeleteListener.invoke(item)
         }
 
 

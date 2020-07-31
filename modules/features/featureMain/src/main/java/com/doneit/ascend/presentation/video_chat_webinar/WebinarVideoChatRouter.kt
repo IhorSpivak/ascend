@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.content.Intent
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -40,6 +41,14 @@ class WebinarVideoChatRouter(
     override fun onBack() {
         activity.userInteractionListener = null
         activity.supportFragmentManager.popBackStack()
+    }
+
+    override fun navigateToEditChannel(channel: ChatEntity) {
+        TODO("Not yet implemented")
+    }
+
+    override fun navigateToAddChannelMembers() {
+        TODO("Not yet implemented")
     }
 
     override fun goToDetailedUser(id: Long) {
