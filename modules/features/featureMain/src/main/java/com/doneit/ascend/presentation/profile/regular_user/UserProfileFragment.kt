@@ -79,6 +79,17 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
             viewModel.onLocationClick()
         }
 
+        shortDescriptionField.setOnClickListener {
+            EditFieldDialog.create(requireContext(), EditFieldDialogOptions(
+                R.string.edit_short_description,
+                R.string.error_short_description,
+                R.string.hint_enter_short_description,
+                viewModel.user.value?.description.orEmpty()
+            ) {
+                viewModel.updateShortDescription(it)
+            }).show()
+        }
+
         changePassword.setOnClickListener {
             viewModel.onChangePasswordClick()
         }

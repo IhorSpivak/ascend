@@ -217,6 +217,14 @@
                     app:fieldValueIfEmpty="@{@string/tap_to_choose_location}"
                     app:iconRes="@{@drawable/ic_location}" />
 
+                <include
+                    android:id="@+id/shortDescriptionField"
+                    layout="@layout/template_profile_long_field"
+                    app:fieldName="@{@string/short_description}"
+                    app:fieldValue="@{model.user.description}"
+                    app:fieldValueIfEmpty="@{@string/tap_to_change}"
+                    app:iconRes="@{@drawable/ic_short_description}" />
+
             </LinearLayout>
 
             <LinearLayout
