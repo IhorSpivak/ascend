@@ -160,8 +160,8 @@ class CreateChannelViewModel(
                 )
             } ?: run {
                 val response = chatUseCase.createChannel(viewModelScope, newChannelModel.toEntity())
-                if(response.isSuccessful){
-                    router.onBackWithOpenChannel(response.successModel!!)
+                if (response.isSuccessful) {
+                    router.onBackWithOpenChannel(response.successModel!!, currentUser)
                 } else {
                     showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
                 }

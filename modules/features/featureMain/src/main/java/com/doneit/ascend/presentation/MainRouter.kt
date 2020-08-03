@@ -622,8 +622,9 @@ class MainRouter(
         replaceFullWithMainUpdate(ChannelsFragment())
     }
 
-    override fun onBackWithOpenChannel(channel: ChatEntity) {
-
+    override fun onBackWithOpenChannel(channel: ChatEntity, user: UserEntity) {
+        manager.popBackStackImmediate()
+        navigateToChannel(channel, user)
     }
 
 }
