@@ -709,6 +709,7 @@
 
     <!--CommunityFeed-->
     <string name="no_comments_yet">No comments yet</string>
+    <string name="read_more">Read more</string>
 
     <!--Channels -->
     <string name="channel_members">Channel members</string>

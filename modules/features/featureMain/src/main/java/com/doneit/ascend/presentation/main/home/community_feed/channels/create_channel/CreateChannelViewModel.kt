@@ -12,6 +12,7 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.models.PresentationCreateChannelModel
 import com.doneit.ascend.presentation.models.ValidationResult
 import com.doneit.ascend.presentation.models.toEntity
@@ -152,20 +153,20 @@ class CreateChannelViewModel(
 
     override fun complete() {
         viewModelScope.launch {
-            channel?.let {
+            val response = channel?.let {
                 chatUseCase.updateChannel(
                     viewModelScope,
                     it.id,
                     newChannelModel.toEntity()
                 )
             } ?: run {
-                val response = chatUseCase.createChannel(viewModelScope, newChannelModel.toEntity())
-                if (response.isSuccessful) {
-                    router.onBackWithOpenChannel(response.successModel!!, currentUser)
-                } else {
-                    showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
-                }
-
+                chatUseCase.createChannel(viewModelScope, newChannelModel.toEntity())
+            }
+            if (response.isSuccessful) {
+                channel?.let { router.onBack() }
+                router.onBackWithOpenChat(response.successModel!!, currentUser, ChatType.CHAT)
+            } else {
+                showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
             }
         }
     }

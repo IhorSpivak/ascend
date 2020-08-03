@@ -11,6 +11,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemFeedBinding
 import com.doneit.ascend.presentation.main.databinding.ViewPostContentBinding
 import com.doneit.ascend.presentation.utils.applyFilter
+import com.doneit.ascend.presentation.utils.addReadMoreTo
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 
 class PostViewHolder(
@@ -65,6 +66,7 @@ class PostViewHolder(
                 etInputMessage.hideKeyboard()
             }
         }
+        tvDescription.addReadMoreTo(post.description)
         etInputMessage.applyFilter()
         imvFirst.setOnSingleClickListener { postClickListeners.onMediaClick(post.attachments, 0) }
         imvSecond.setOnSingleClickListener { postClickListeners.onMediaClick(post.attachments, 1) }
