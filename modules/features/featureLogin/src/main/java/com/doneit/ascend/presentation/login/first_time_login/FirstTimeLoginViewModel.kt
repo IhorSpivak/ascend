@@ -77,16 +77,20 @@ class FirstTimeLoginViewModel(
     private fun updateCanComplete(isSelectedCommunity: Boolean = false) {
         var isFormValid = true
 
-        questionsStates.values.forEach {
-            if (!it) {
-                isFormValid = false
+        val isCommunitySelected = community.value != null || isSelectedCommunity
+
+        questionsStates.forEach { entry ->
+            val questionId = entry.key
+            val isQuestionValid = entry.value
+            if (!isQuestionValid) {
+                val answer = questionsAnswers[questionId]?.answer
+                if (isCommunitySelected && !answer.isNullOrEmpty()) {
+                    isFormValid = false
+                }
                 return@forEach
             }
         }
 
-        canComplete.postValue(
-            (isFormValid && isSelectedCommunity) ||
-                    (isFormValid && community.value != null)
-        )
+        canComplete.postValue(isFormValid && isCommunitySelected)
     }
 }

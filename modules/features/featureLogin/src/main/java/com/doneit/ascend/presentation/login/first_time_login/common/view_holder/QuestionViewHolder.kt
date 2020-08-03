@@ -44,8 +44,8 @@ class QuestionViewHolder(
                 result.errors.add(R.string.answer_error)
             }
 
-            listener.setState(id, result.isSussed)
             listener.setQuestionAnswer(id, s)
+            listener.setState(id, result.isSussed)
 
             model.answer.onFieldInvalidate = {
                 itemView.requestLayout()
