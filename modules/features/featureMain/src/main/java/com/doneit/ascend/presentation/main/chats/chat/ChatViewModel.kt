@@ -208,8 +208,6 @@ class ChatViewModel(
         )
     }
 
-
-
     override fun showLiveStreamUser(member: MemberEntity) {
         router.goToLiveStreamUser(member)
     }
@@ -323,9 +321,7 @@ class ChatViewModel(
                             chatUseCase.markMessageAsReadLocal(socketEvent.id)
                         }
                     }
-                    else -> {
-                        throw IllegalArgumentException("unknown socket type")
-                    }
+                    else -> Unit
                 }
             }
         }
