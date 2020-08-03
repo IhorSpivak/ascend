@@ -5,6 +5,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberContract
@@ -31,10 +32,9 @@ interface ChatContract {
         fun onDelete(message: MessageEntity)
         fun onDeleteChat()
         fun onReportChatOwner(content: String)
-        fun  goToUserList(channel: ChatEntity)
+        fun goToUserList(channel: ChatEntity)
         fun onReport(content: String, id: Long)
         fun onLeave()
-        fun addMembers()
     }
 
     interface Router {
@@ -45,6 +45,7 @@ interface ChatContract {
         fun goToChatMembers(
             chatId: Long,
             chatOwner: Long,
+            chatType: ChatType,
             members: List<MemberEntity>,
             user: UserEntity
         )

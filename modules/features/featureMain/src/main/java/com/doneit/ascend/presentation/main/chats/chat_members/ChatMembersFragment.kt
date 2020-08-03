@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.chats.chat_members
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.chats.new_chat.common.ChatMemberAdapter
@@ -33,6 +34,7 @@ class ChatMembersFragment : BaseFragment<FragmentChatMembersBinding>() {
     private fun initView() {
         binding.apply {
             model = viewModel
+            chatType = requireArguments().getSerializable(KEY_CHAT_TYPE) as ChatType
             rvMembers.adapter = chatMembersAdapter
         }
     }
@@ -76,10 +78,12 @@ class ChatMembersFragment : BaseFragment<FragmentChatMembersBinding>() {
         private const val KEY_MEMBERS_LIST = "MEMBERS_LIST"
         private const val KEY_USER = "USER"
         private const val KEY_CHAT_OWNER = "CHAT_OWNER"
+        private const val KEY_CHAT_TYPE = "CHAT_TYPE"
 
         fun newInstance(
             chatId: Long,
             chatOwnerId: Long,
+            chatType: ChatType,
             members: List<MemberEntity>,
             user: UserEntity
         ): ChatMembersFragment {
@@ -88,6 +92,7 @@ class ChatMembersFragment : BaseFragment<FragmentChatMembersBinding>() {
                     putLong(KEY_CHAT_ID, chatId)
                     putLong(KEY_CHAT_OWNER, chatOwnerId)
                     putParcelable(KEY_USER, user)
+                    putSerializable(KEY_CHAT_TYPE, chatType)
                     putParcelableArray(KEY_MEMBERS_LIST, members.toTypedArray())
                 }
             }

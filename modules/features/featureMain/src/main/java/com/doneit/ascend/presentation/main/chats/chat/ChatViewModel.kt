@@ -169,6 +169,7 @@ class ChatViewModel(
             router.goToChatMembers(
                 chatWithUser.chat.id,
                 chatWithUser.chat.chatOwnerId,
+                chatWithUser.chat.chatType,
                 chatWithUser.chat.members.filter {
                     !it.leaved && !it.removed
                 }, chatWithUser.user
@@ -200,13 +201,12 @@ class ChatViewModel(
         router.goToChatMembers(
             chatWithUser.chat.id,
             chatWithUser.chat.chatOwnerId,
+            chatWithUser.chat.chatType,
             chatWithUser.chat.members.filter {
                 !it.leaved && !it.removed
             }, chatWithUser.user
         )
     }
-
-
 
     override fun showLiveStreamUser(member: MemberEntity) {
         router.goToLiveStreamUser(member)
@@ -282,10 +282,6 @@ class ChatViewModel(
         }
     }
 
-    override fun addMembers() {
-        TODO("Not yet implemented")
-    }
-
     override fun markMessageAsRead(message: MessageEntity) {
         if (message.userId != chatWithUser.user.id && message.status != MessageStatus.READ && message.isMarkAsReadSentToApprove.not()) {
             message.isMarkAsReadSentToApprove = true
@@ -325,9 +321,7 @@ class ChatViewModel(
                             chatUseCase.markMessageAsReadLocal(socketEvent.id)
                         }
                     }
-                    else -> {
-                        throw IllegalArgumentException("unknown socket type")
-                    }
+                    else -> Unit
                 }
             }
         }

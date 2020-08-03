@@ -215,12 +215,13 @@ class MainRouter(
     override fun goToChatMembers(
         chatId: Long,
         chatOwner: Long,
+        chatType: com.doneit.ascend.domain.entity.dto.ChatType,
         members: List<MemberEntity>,
         user: UserEntity
     ) {
         manager.replaceWithBackStack(
             containerIdFull,
-            ChatMembersFragment.newInstance(chatId, chatOwner, members, user)
+            ChatMembersFragment.newInstance(chatId, chatOwner, chatType, members, user)
         )
     }
 

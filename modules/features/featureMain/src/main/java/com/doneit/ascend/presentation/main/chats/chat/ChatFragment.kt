@@ -49,6 +49,7 @@ import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 import java.io.File
 import java.util.*
+import com.doneit.ascend.domain.entity.dto.ChatType as InnerChatType
 
 
 class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemClickListener {
@@ -166,7 +167,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         }
         //check when user leaved group chat
         if (chatWithUser.chat.chatOwnerId != chatWithUser.user.id) {
-            if (chatWithUser.chat.members.size != PRIVATE_CHAT_MEMBER_COUNT) {
+            if (!chatWithUser.chat.isPrivate) {
                 chatWithUser.chat.members
                     .firstOrNull { it.id == chatWithUser.user.id }
                     ?.let {
@@ -183,42 +184,41 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private fun FragmentChatBinding.applyDefaultChatLayout() {
         if (chatWithUser.chatType != ChatType.WEBINAR_CHAT) {
             chat = chatWithUser.chat
-            when(chatWithUser.chat.chatType){
-                com.doneit.ascend.domain.entity.dto.ChatType.CHAT -> {
+            when (chatWithUser.chat.chatType) {
+                InnerChatType.CHAT -> {
                     Glide.with(groupPlaceholder)
                         .load(R.drawable.ic_group_placeholder)
                         .circleCrop()
                         .into(groupPlaceholder)
+                    if (chatWithUser.chat.isPrivate) {
+                        image.setOnClickListener {
+                            viewModel.showDetailedUser(
+                                chatWithUser.chat.members.firstOrNull {
+                                    it.id != chatWithUser.user.id
+                                }?.id ?: return@setOnClickListener
+                            )
+                        }
+                        chatWithUser.chat.members.firstOrNull { it.id != chatWithUser.user.id }
+                            ?.let {
+                                url = it.image?.url
+                                statusOrCount = resources.getString(
+                                    if (it.online) {
+                                        R.string.chats_member_online
+                                    } else {
+                                        R.string.chats_member_offline
+                                    }
+                                )
+                            }
+                    }
                 }
-                com.doneit.ascend.domain.entity.dto.ChatType.CHANNEL -> {
+                InnerChatType.CHANNEL -> {
                     Glide.with(groupPlaceholder)
-                        .load(chatWithUser.chat.image)
+                        .load(chatWithUser.chat.image?.url)
                         .circleCrop()
                         .into(groupPlaceholder)
-                }
-            }
-            if (chatWithUser.chat.members.size != PRIVATE_CHAT_MEMBER_COUNT) {
-                url = chatWithUser.chat.image?.url
-                statusOrCount = resources.getString(
-                    R.string.chats_member_count,
-                    chatWithUser.chat.membersCount
-                )
-            } else {
-                image.setOnClickListener {
-                    viewModel.showDetailedUser(
-                        chatWithUser.chat.members.firstOrNull {
-                            it.id != chatWithUser.user.id
-                        }?.id ?: return@setOnClickListener
-                    )
-                }
-                chatWithUser.chat.members.firstOrNull { it.id != chatWithUser.user.id }?.let {
-                    url = it.image?.url
                     statusOrCount = resources.getString(
-                        if (it.online) {
-                            R.string.chats_member_online
-                        } else {
-                            R.string.chats_member_offline
-                        }
+                        R.string.chats_member_count,
+                        chatWithUser.chat.membersCount
                     )
                 }
             }
@@ -347,17 +347,17 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     }
 
     private fun defineMenuResId() {
-        menuResId = if (chatWithUser.chat.members.size != PRIVATE_CHAT_MEMBER_COUNT) {
+        menuResId = if (!chatWithUser.chat.isPrivate) {
             if (chatWithUser.user.id == chatWithUser.chat.chatOwnerId) {
-                if(chatWithUser.chat.chatType.type == "chat"){
+                if (chatWithUser.chat.chatType.type == "chat") {
                     R.menu.chat_mm_group_menu
                 } else {
                     R.menu.mm_channel_menu
                 }
             } else {
-                if(chatWithUser.chat.chatType.type == "chat"){
+                if (chatWithUser.chat.chatType.type == "chat") {
                     R.menu.chat_ru_group_menu
-                } else{
+                } else {
                     R.menu.channel_ru_menu
                 }
             }
@@ -380,7 +380,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
     private fun handleChat(chat: ChatWithUser) {
         binding.chat = chat.chat
-        if (chat.chat.members.size != PRIVATE_CHAT_MEMBER_COUNT) {
+        if (!chat.chat.isPrivate) {
             binding.url = chatWithUser.chat.image?.url
             binding.statusOrCount = resources.getString(
                 R.string.chats_member_count,
@@ -478,7 +478,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                     true
                 }
                 R.id.mm_add_members -> {
-
+                    viewModel.inviteUser()
                     true
                 }
 
