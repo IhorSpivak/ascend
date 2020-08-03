@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:ellipsize="end"
                         android:text='@{@string/action_group(actionTitle, context.getString(model.supportTitle))??""}'
                         app:layout_constraintBottom_toBottomOf="parent"
