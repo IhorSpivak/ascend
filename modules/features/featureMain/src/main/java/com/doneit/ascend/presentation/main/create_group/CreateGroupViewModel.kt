@@ -910,7 +910,7 @@ class CreateGroupViewModel(
 
     private fun canAddMembers(): Boolean {
         return when (createGroupModel.groupType) {
-            GroupType.INDIVIDUAL -> 1
+            GroupType.INDIVIDUAL -> 50
             GroupType.WEBINAR -> 3
             GroupType.MASTER_MIND -> 50
             GroupType.SUPPORT -> 50
