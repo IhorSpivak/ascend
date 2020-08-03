@@ -169,6 +169,7 @@ class ChatViewModel(
             router.goToChatMembers(
                 chatWithUser.chat.id,
                 chatWithUser.chat.chatOwnerId,
+                chatWithUser.chat.chatType,
                 chatWithUser.chat.members.filter {
                     !it.leaved && !it.removed
                 }, chatWithUser.user
@@ -200,6 +201,7 @@ class ChatViewModel(
         router.goToChatMembers(
             chatWithUser.chat.id,
             chatWithUser.chat.chatOwnerId,
+            chatWithUser.chat.chatType,
             chatWithUser.chat.members.filter {
                 !it.leaved && !it.removed
             }, chatWithUser.user

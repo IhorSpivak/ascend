@@ -4,6 +4,7 @@ import android.content.Intent
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
@@ -57,6 +58,7 @@ class WebinarVideoChatRouter(
     override fun goToChatMembers(
         chatId: Long,
         chatOwner: Long,
+        chatType: ChatType,
         members: List<MemberEntity>,
         user: UserEntity
     ) {
