@@ -13,6 +13,8 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.chat.ChannelsWithUser
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @CreateFactory
 @ViewModelDiModule
@@ -24,16 +26,17 @@ class ChannelsViewModel(
     override val channelWithCurrentUser: MediatorLiveData<ChannelsWithUser> = MediatorLiveData()
     override lateinit var channels: LiveData<PagedList<ChatEntity>>
     override val filterTextAll: MutableLiveData<String> = MutableLiveData("")
-    val user = userUseCase.getUserLive()
+    override val user = userUseCase.getUserLive()
 
 
     init {
         channels = Transformations.switchMap(filterTextAll) { query ->
             val model = ChatListDTO(
                 perPage = 10,
-                sortColumn = "last_message",
+                sortColumn = "members_count",
                 sortType = SortType.DESC,
                 title = query,
+                allChannels = true,
                 chatType = ChatType.CHANNEL
             )
             return@switchMap chatUseCase.loadChats(viewModelScope, model)
@@ -56,8 +59,32 @@ class ChannelsViewModel(
         router.navigateToNewChannel()
     }
 
+    override fun onChatPressed(chat: ChatEntity) {
+            router.navigateToChat(chat, user.value!!, com.doneit.ascend.presentation.main.chats.chat.common.ChatType.CHAT)
+    }
+
+    override fun onNewChatPressed() {
+        router.navigateToNewChat()
+    }
+
     override fun onChannelPressed(channel: ChatEntity) {
-        router.navigateToChannel(channel.id)
+        router.navigateToChannel(channel, user.value!!)
+    }
+
+    override fun onJoinChannel(channel: ChatEntity) {
+        viewModelScope.launch {
+            if (chatUseCase.joinChannel(viewModelScope, channel.id).isSuccessful) {
+                router.navigateToChannel(channel, user.value!!)
+            }
+        }
+    }
+
+    override fun onLeaveChannel(channel: ChatEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (chatUseCase.leave(channel.id).isSuccessful) {
+                channel.isSubscribed = false
+            }
+        }
     }
 
     private fun applyData(chatEntity: PagedList<ChatEntity>?, user: UserEntity?) {

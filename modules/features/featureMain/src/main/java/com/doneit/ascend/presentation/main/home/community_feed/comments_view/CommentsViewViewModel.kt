@@ -9,9 +9,10 @@ import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 
-class CommentsViewViewModel(
+open class CommentsViewViewModel(
     private val communityFeedUseCase: CommunityFeedUseCase,
-    private val postId: Long
+    private val postId: Long,
+    private val router: CommentsViewContract.Router
 ) : BaseViewModelImpl(), CommentsViewContract.ViewModel {
     override val comments = communityFeedUseCase.loadComments(
         coroutineScope = viewModelScope,
@@ -37,6 +38,10 @@ class CommentsViewViewModel(
 
                 }
             ))
+    }
+
+    override fun onUserClick(userId: Long) {
+        router.navigateToMMInfo(userId)
     }
 
     override fun leaveComment(message: String) {

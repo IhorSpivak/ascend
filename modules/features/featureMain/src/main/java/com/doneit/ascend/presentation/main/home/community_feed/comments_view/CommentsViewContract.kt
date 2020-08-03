@@ -10,7 +10,12 @@ interface CommentsViewContract {
         val comments: LiveData<PagedList<Comment>>
         val commentsCount: LiveData<Int>
         fun onDeleteComment(comment: Comment)
+        fun onUserClick(userId: Long)
         fun leaveComment(message: String)
         fun setCommentsCount(count: Int)
+    }
+
+    interface Router {
+        fun navigateToMMInfo(userId: Long)
     }
 }

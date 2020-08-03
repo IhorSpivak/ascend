@@ -135,6 +135,7 @@ object StorageRemoteModule {
         bind<IMyChatsRepository>() with singleton {
             MyChatsRepository(
                 instance(),
+                instance(),
                 instance()
             )
         }
@@ -155,7 +156,6 @@ object StorageRemoteModule {
 
         bind<ICommunityFeedRepository>() with singleton {
             CommunityFeedRepository(
-                instance(),
                 instance(),
                 instance(),
                 instance()

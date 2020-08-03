@@ -1,5 +1,6 @@
 package com.doneit.ascend.source.storage.local.data.chat
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -14,5 +15,7 @@ data class MessageLocal(
     val updatedAt: Long?,
     val status: String,
     val chatId: Long,
-    val postId: Long?
+    val postId: Long?,
+    @Embedded(prefix = "attachment")
+    val attachment: MessageAttachmentLocal?
 )

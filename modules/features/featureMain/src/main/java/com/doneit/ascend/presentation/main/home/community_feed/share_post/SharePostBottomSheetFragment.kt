@@ -43,7 +43,7 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
                 instance(),
                 instance(),
                 instance(tag = "postId"),
-                instance(tag = "userId")
+                instance(tag = "user")
             )
         }
 
@@ -51,8 +51,8 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
             requireArguments().getLong(KEY_POST_ID)
         }
 
-        bind<Long>(tag = "userId") with provider {
-            requireArguments().getParcelable<UserEntity>(KEY_USER)!!.id
+        bind<UserEntity>(tag = "user") with provider {
+            requireArguments().getParcelable<UserEntity>(KEY_USER)!!
         }
     }
 
@@ -75,7 +75,7 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
 
     private val chatAdapter: ShareChatAdapter by lazy {
         ShareChatAdapter {
-            viewModel.shareChat(it.id)
+            viewModel.shareChat(it)
         }
     }
 
@@ -108,37 +108,41 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
         binding.apply {
             lifecycleOwner = this@SharePostBottomSheetFragment
             model = viewModel
-            rgFilter.setOnCheckedChangeListener { _, i ->
-                when (i) {
-                    R.id.radio0 -> {
-                        viewModel.sharePostFilter.postValue(SharePostFilter.CHAT)
-                        rvShareTo.adapter = chatAdapter
-                    }
-                    R.id.radio1 -> {
-                        viewModel.sharePostFilter.postValue(SharePostFilter.CHANNEL)
-                        rvShareTo.adapter = chatAdapter
-                    }
-                    R.id.radio2 -> {
-                        viewModel.sharePostFilter.postValue(SharePostFilter.USER)
-                        rvShareTo.adapter = userAdapter
-                    }
-                }
-            }
-            buttonCancel.setOnClickListener {
-                dialog?.dismiss()
-            }
-            clearSearch.setOnClickListener {
-                tvSearch.text.clear()
-                clearSearch.gone()
-            }
-            tvSearch.doAfterTextChanged {
-                viewModel.filterTextAll.postValue(it.toString())
-                viewModel.updateSearch(it.toString())
-                clearSearch.visible(it.isNullOrEmpty().not())
-            }
+            setListeners()
             rvShareTo.adapter = chatAdapter
         }
 
+    }
+
+    private fun FragmentSharePostBinding.setListeners() {
+        rgFilter.setOnCheckedChangeListener { _, i ->
+            when (i) {
+                R.id.radio0 -> {
+                    viewModel.sharePostFilter.postValue(SharePostFilter.CHAT)
+                    rvShareTo.adapter = chatAdapter
+                }
+                R.id.radio1 -> {
+                    viewModel.sharePostFilter.postValue(SharePostFilter.CHANNEL)
+                    rvShareTo.adapter = chatAdapter
+                }
+                R.id.radio2 -> {
+                    viewModel.sharePostFilter.postValue(SharePostFilter.USER)
+                    rvShareTo.adapter = userAdapter
+                }
+            }
+        }
+        buttonCancel.setOnClickListener {
+            dialog?.dismiss()
+        }
+        clearSearch.setOnClickListener {
+            tvSearch.text.clear()
+            clearSearch.gone()
+        }
+        tvSearch.doAfterTextChanged {
+            viewModel.filterTextAll.postValue(it.toString())
+            viewModel.updateSearch(it.toString())
+            clearSearch.visible(it.isNullOrEmpty().not())
+        }
     }
 
     private fun observeData() {

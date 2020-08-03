@@ -45,10 +45,10 @@ class MyChatsBoundaryCallback(
                             if (membersResponse.isSuccessful) {
                                 val memberModel =
                                     membersResponse.successModel!!.users?.map { it.toEntity() }
-                                it.members = memberModel
-                                if (it.members?.count() == 2) {
+                                it.members = memberModel.orEmpty()
+                                if (it.members.count() == 2) {
                                     val member =
-                                        it.members?.firstOrNull { it.id != user}
+                                        it.members.firstOrNull { it.id != user}
                                     member?.let { member -> it.title = member.fullName }
                                 }
                             }

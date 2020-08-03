@@ -238,49 +238,53 @@ class VideoChatViewModel(
     }
 
     override fun init(groupId: Long) {
-        this.groupId = groupId
-        postDefaultValues()
+        if(this.groupId == -1L) {
+            this.groupId = groupId
+            postDefaultValues()
 
-        viewModelScope.launch {
+            viewModelScope.launch {
 
-            val groupEntity = async {
-                val result = groupUseCase.getGroupDetails(groupId)
+                val groupEntity = async {
+                    val result = groupUseCase.getGroupDetails(groupId)
 
-                if (result.isSuccessful) {
-                    groupInfo.value = result.successModel!!
-                    result.successModel!!
-                } else {
-                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
-                    null
+                    if (result.isSuccessful) {
+                        groupInfo.value = result.successModel!!
+                        result.successModel!!
+                    } else {
+                        showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                        null
+                    }
                 }
-            }
 
-            val userEntity = async {
-                val user = userUseCase.getUser()
-                currentUserId = user!!.id.toString()
-                user
-            }
-
-            val creds = async {
-                val result = groupUseCase.getCredentials(groupId)
-
-                if (result.isSuccessful) {
-                    result.successModel!!
-                } else {
-                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
-                    null
+                val userEntity = async {
+                    val user = userUseCase.getUser()
+                    currentUserId = user!!.id.toString()
+                    user
                 }
+
+                val creds = async {
+                    val result = groupUseCase.getCredentials(groupId)
+
+                    if (result.isSuccessful) {
+                        result.successModel!!
+                    } else {
+                        showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                        null
+                    }
+                }
+
+                initializeChatState(groupEntity.await(), creds.await(), userEntity.await())
+
+                loadParticipants()
+
+                delay(PARTICIPANTS_RESYNC_DELAY)
+                loadParticipants()
             }
 
-            initializeChatState(groupEntity.await(), creds.await(), userEntity.await())
-
-            loadParticipants()
-
-            delay(PARTICIPANTS_RESYNC_DELAY)
-            loadParticipants()
+            changeState(VideoChatState.PREVIEW)
+        } else {
+            changeState(VideoChatState.PREVIEW_DATA_LOADED)
         }
-
-        changeState(VideoChatState.PREVIEW)
     }
 
     private fun postDefaultValues() {

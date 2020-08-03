@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.chats.chat.common
+package com.doneit.ascend.presentation.main.chats.chat.holder
 
 import android.graphics.Color
 import android.view.Gravity
@@ -113,7 +113,12 @@ class WebinarMessageViewHolder(
                 parent,
                 false
             )
-            return WebinarMessageViewHolder(binding, onDeleteClick, onMenuClick, onImageClick)
+            return WebinarMessageViewHolder(
+                binding,
+                onDeleteClick,
+                onMenuClick,
+                onImageClick
+            )
         }
     }
 }

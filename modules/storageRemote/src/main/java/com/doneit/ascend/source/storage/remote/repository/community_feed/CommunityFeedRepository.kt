@@ -1,9 +1,6 @@
 package com.doneit.ascend.source.storage.remote.repository.community_feed
 
-import android.content.ContentResolver
 import android.content.Context
-import android.net.Uri
-import androidx.core.content.FileProvider
 import com.doneit.ascend.source.storage.remote.api.CommunityFeedApi
 import com.doneit.ascend.source.storage.remote.data.request.AttachmentRequest
 import com.doneit.ascend.source.storage.remote.data.request.LeaveCommentRequest
@@ -18,16 +15,12 @@ import com.doneit.ascend.source.storage.remote.data.response.community_feed.Post
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostsResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
+import com.doneit.ascend.source.storage.remote.util.MultipartConverter.addAttachment
 import com.google.gson.Gson
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
-import java.util.*
 
 internal class CommunityFeedRepository(
     gson: Gson,
-    private val contentResolver: ContentResolver,
     private val context: Context,
     private val api: CommunityFeedApi
 ) : BaseRepository(gson), ICommunityFeedRepository {
@@ -74,7 +67,13 @@ internal class CommunityFeedRepository(
         return execute({
             with(MultipartBody.Builder()) {
                 addPart(MultipartBody.Part.createFormData("description", description))
-                addAttachments(attachments)
+                for (attachment in attachments.withIndex()) {
+                    addAttachment(
+                        context,
+                        attachment.value,
+                        (attachment.index + 1).toString()
+                    )
+                }
                 api.createPostAsync(build().parts)
             }
         }, ErrorsListResponse::class.java)
@@ -89,7 +88,13 @@ internal class CommunityFeedRepository(
         return execute({
             with(MultipartBody.Builder()) {
                 addPart(MultipartBody.Part.createFormData("description", description))
-                addAttachments(attachments)
+                for (attachment in attachments.withIndex()) {
+                    addAttachment(
+                        context,
+                        attachment.value,
+                        (attachment.index + 1).toString()
+                    )
+                }
                 api.updatePostAsync(postId, deletedAttachments, build().parts)
             }
         }, ErrorsListResponse::class.java)
@@ -102,40 +107,6 @@ internal class CommunityFeedRepository(
         return execute({
             api.sharePost(postId, sharePostRequest)
         }, ErrorsListResponse::class.java)
-    }
-
-    private fun MultipartBody.Builder.addAttachments(attachments: List<AttachmentRequest>) {
-        for (attachment in attachments.filter { !it.url.startsWith("http") }.withIndex()) {
-            val inputStream = contentResolver.openInputStream(
-                Uri.parse(attachment.value.url)
-            )!!
-            val bytes = inputStream.use {
-                it.readBytes()
-            }
-            val body = bytes.toRequestBody(
-                contentType = attachment.value.contentType
-                    .toMediaTypeOrNull()
-            )
-            addPart(
-                MultipartBody.Part.createFormData(
-                    "attachment${attachment.index + 1}",
-                    UUID.randomUUID().toString() + "." +
-                            getContentType(attachment.value)
-                                .substringAfterLast("/"),
-                    body
-                )
-            )
-        }
-    }
-
-    private fun getContentType(attachment: AttachmentRequest): String {
-        return contentResolver.getType(Uri.parse(attachment.url)) ?: contentResolver.getType(
-            FileProvider.getUriForFile(
-                context,
-                context.packageName + ".fileprovider",
-                File(attachment.url)
-            )
-        ).toString()
     }
 
     override suspend fun getComments(

@@ -9,17 +9,16 @@ import com.doneit.ascend.domain.entity.chats.*
 import com.doneit.ascend.domain.entity.dto.MessageDTO
 import com.doneit.ascend.domain.entity.dto.MessageListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
-import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -30,17 +29,17 @@ class ChatViewModel(
     private val userUseCase: UserUseCase,
     private val router: ChatContract.Router,
     private val localRouter: ChatContract.LocalRouter,
-    private val groupUseCase: GroupUseCase
+    private val groupUseCase: GroupUseCase,
+    private val chatWithUser: ChatWithUser
 ) : BaseViewModelImpl(), ChatContract.ViewModel {
+
     override val membersCountGroup: MutableLiveData<Int> = MutableLiveData()
-    override val chat: MediatorLiveData<ChatWithUser> = MediatorLiveData()
-    override var chatType: ChatType = ChatType.CHAT
-    override val chatModel: MutableLiveData<ChatEntity> = MutableLiveData()
+    override val chat = MutableLiveData(chatWithUser)
 
     private val searchQuery = MutableLiveData<String>()
 
     override val canAddMember: Boolean
-        get() = (selectedMembers.size + chat.value!!.chat.members!!.size) < 50
+        get() = (selectedMembers.size + chatWithUser.chat.members.size) < 50
 
     override val selectedMembers: MutableList<AttendeeEntity> = mutableListOf()
 
@@ -48,69 +47,44 @@ class ChatViewModel(
         get() = searchQuery.switchMap {
             groupUseCase.searchMembers(
                 it,
-                user.value!!.id,
-                chat.value!!.chat.members?.filter { !it.removed }?.map { member -> member.toAttendeeEntity() })
+                chatWithUser.user.id,
+                chatWithUser.chat.members.filter { !it.removed }
+                    .map { member -> member.toAttendeeEntity() })
         }
 
     //don't used
     override val addedMembers: LiveData<List<AttendeeEntity>> = MutableLiveData()
 
     private val socketMessage = chatUseCase.messagesStream
-    private lateinit var observer: Observer<MessageSocketEntity?>
-    override val user = userUseCase.getUserLive()
-    override val messages: LiveData<PagedList<MessageEntity>> = chatModel.switchMap {
-        chatUseCase.getMessageList(
-            it.id, MessageListDTO(
-                perPage = 50,
-                sortColumn = "created_at",
-                sortType = SortType.DESC
-            )
+    private var observer: Observer<MessageSocketEntity?>
+    override val messages: LiveData<PagedList<MessageEntity>> = chatUseCase.getMessageList(
+        chatWithUser.chat.id, MessageListDTO(
+            perPage = 50,
+            sortColumn = "created_at",
+            sortType = SortType.DESC
         )
-    }
+    )
 
     init {
-        chat.addSource(user) {
-            applyData(chatModel.value, it)
-        }
-
-        chat.addSource(chatModel) {
-            applyData(it, user.value)
-        }
-
         viewModelScope.launch { initRequestCycle() }
+        chatUseCase.connectToChannel(chatWithUser.chat.id)
+        observer = getMessageObserver(chatWithUser.chat.id)
+        initMessageStream()
     }
 
     private suspend fun initRequestCycle() {
         while (true) {
             delay(5000)
-            chatModel.value = chatModel.value
+            refreshModel()
         }
     }
 
-    override fun applyData(chatEntity: ChatEntity?, user: UserEntity?) {
-
-        if (chatEntity != null && user != null) {
-            chat.postValue(
-                ChatWithUser(
-                    chatEntity,
-                    user,
-                    chatType
-                )
-            )
-        }
-    }
-
-    override fun setChat(id: Long) {
-        chatUseCase.connectToChannel(id)
-        observer = getMessageObserver(id)
-        initMessageStream()
-        viewModelScope.launch {
-            val response = chatUseCase.getChatDetails(id)
-
+    private suspend fun refreshModel() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = chatUseCase.getChatDetails(chatWithUser.chat.id)
             if (response.isSuccessful) {
-                response.successModel?.let {
-                    chatModel.postValue(it)
-                }
+                chatWithUser.chat.inheritFrom(response.successModel!!)
+                chat.postValue(chatWithUser)
             }
         }
     }
@@ -127,13 +101,14 @@ class ChatViewModel(
         if (selectedMembers.isNotEmpty()) {
             viewModelScope.launch {
                 val response = chatUseCase.updateChat(
-                    chat.value!!.chat.id,
+                    chatWithUser.chat.id,
                     null,
                     selectedMembers.map { it.id })
                 if (response.isSuccessful) {
-                    response.successModel?.membersCount?.let {
-                        membersCountGroup.postValue(it)
-                        chatModel.postValue(response.successModel)
+                    response.successModel?.let {
+                        membersCountGroup.postValue(it.membersCount)
+                        chatWithUser.chat.inheritFrom(it)
+                        chat.value = chatWithUser
                     }
                 }
                 clearResources()
@@ -161,9 +136,9 @@ class ChatViewModel(
 
     override fun updateChatName(newName: String) {
         viewModelScope.launch {
-            val response = chatUseCase.updateChat(chatModel.value!!.id, title = newName)
+            val response = chatUseCase.updateChat(chatWithUser.chat.id, title = newName)
             if (response.isSuccessful) {
-                chatModel.postValue(response.successModel)
+                chatWithUser.chat.title = newName
             }
         }
     }
@@ -172,29 +147,33 @@ class ChatViewModel(
         localRouter.navigateToInviteChatMember()
     }
 
-    override fun sendMessage(message: String) {
+    override fun sendMessage(message: String, attachmentType: String, attachmentUrl: String) {
         viewModelScope.launch {
-            chatUseCase.sendMessage(MessageDTO(chatModel.value!!.id, message))
+            chatUseCase.sendMessage(
+                MessageDTO(
+                    chatWithUser.chat.id,
+                    message,
+                    attachmentUrl,
+                    attachmentType
+                )
+            )
         }
     }
 
     override fun onChatDetailsClick() {
-        chat.value?.let { chatWithUser ->
-            if (chatWithUser.chat.members?.size == ChatFragment.PRIVATE_CHAT_MEMBER_COUNT) {
-                router.goToDetailedUser(chatWithUser.chat.members?.firstOrNull {
-                    it.id != chatWithUser.user.id && !it.removed && !it.leaved
-                }?.id ?: return@let)
-            } else {
-                user.value?.let {
-                    router.goToChatMembers(
-                        chatWithUser.chat.id,
-                        chatWithUser.chat.chatOwnerId,
-                        chatWithUser.chat.members.orEmpty().filter {
-                            !it.leaved && !it.removed
-                        }, it
-                    )
-                }
-            }
+        if (chatWithUser.chat.members.size == ChatFragment.PRIVATE_CHAT_MEMBER_COUNT) {
+            router.goToDetailedUser(chatWithUser.chat.members.firstOrNull {
+                it.id != chatWithUser.user.id && !it.removed && !it.leaved
+            }?.id ?: return)
+        } else {
+            router.goToChatMembers(
+                chatWithUser.chat.id,
+                chatWithUser.chat.chatOwnerId,
+                chatWithUser.chat.chatType,
+                chatWithUser.chat.members.filter {
+                    !it.leaved && !it.removed
+                }, chatWithUser.user
+            )
         }
     }
 
@@ -206,10 +185,8 @@ class ChatViewModel(
         viewModelScope.launch {
             chatUseCase.blockUser(member.id).let {
                 if (it.isSuccessful) {
-                    user.value?.let { user ->
-                        userUseCase.update(user.apply { blockedUsersCount += 1 })
-                        chatUseCase.addBlockedUser(member.toBlockedUser())
-                    }
+                    userUseCase.update(chatWithUser.user.apply { blockedUsersCount += 1 })
+                    chatUseCase.addBlockedUser(member.toBlockedUser())
                     router.onBack()
                 }
             }
@@ -220,18 +197,31 @@ class ChatViewModel(
         router.goToDetailedUser(userId)
     }
 
+    override fun goToUserList(channel: ChatEntity) {
+        router.goToChatMembers(
+            chatWithUser.chat.id,
+            chatWithUser.chat.chatOwnerId,
+            chatWithUser.chat.chatType,
+            chatWithUser.chat.members.filter {
+                !it.leaved && !it.removed
+            }, chatWithUser.user
+        )
+    }
+
     override fun showLiveStreamUser(member: MemberEntity) {
         router.goToLiveStreamUser(member)
+    }
+
+    override fun goToEditChannel(channel: ChatEntity) {
+        router.navigateToEditChannel(channel)
     }
 
     override fun onUnblockUserClick(member: MemberEntity) {
         viewModelScope.launch {
             chatUseCase.unblockUser(member.id).let {
                 if (it.isSuccessful) {
-                    user.value?.let { user ->
-                        userUseCase.update(user.apply { blockedUsersCount -= 1 })
-                        chatUseCase.removeBlockedUser(member.toBlockedUser())
-                    }
+                    userUseCase.update(chatWithUser.user.apply { blockedUsersCount -= 1 })
+                    chatUseCase.removeBlockedUser(member.toBlockedUser())
                     router.onBack()
                 }
             }
@@ -250,13 +240,11 @@ class ChatViewModel(
 
     override fun onDeleteChat() {
         viewModelScope.launch {
-            chatModel.value?.let { chat ->
-                chatUseCase.delete(chat.id).let {
-                    if (it.isSuccessful.not()) {
-                        showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
-                    } else {
-                        router.onBack()
-                    }
+            chatUseCase.delete(chatWithUser.chat.id).let {
+                if (it.isSuccessful.not()) {
+                    showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                } else {
+                    router.onBack()
                 }
             }
         }
@@ -264,11 +252,9 @@ class ChatViewModel(
 
     override fun onReportChatOwner(content: String) {
         viewModelScope.launch {
-            chatModel.value?.let { chat ->
-                userUseCase.report(content, chat.chatOwnerId.toString()).let {
-                    if (it.isSuccessful.not()) {
-                        showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
-                    }
+            userUseCase.report(content, chatWithUser.chat.chatOwnerId.toString()).let {
+                if (it.isSuccessful.not()) {
+                    showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                 }
             }
         }
@@ -286,20 +272,18 @@ class ChatViewModel(
 
     override fun onLeave() {
         viewModelScope.launch {
-            chatModel.value?.let { chat ->
-                chatUseCase.leave(chat.id).let {
-                    if (it.isSuccessful.not()) {
-                        showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
-                    } else {
-                        router.onBack()
-                    }
+            chatUseCase.leave(chatWithUser.chat.id).let {
+                if (it.isSuccessful.not()) {
+                    showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                } else {
+                    router.onBack()
                 }
             }
         }
     }
 
     override fun markMessageAsRead(message: MessageEntity) {
-        if (message.userId != user.value!!.id && message.status != MessageStatus.READ && message.isMarkAsReadSentToApprove.not()) {
+        if (message.userId != chatWithUser.user.id && message.status != MessageStatus.READ && message.isMarkAsReadSentToApprove.not()) {
             message.isMarkAsReadSentToApprove = true
             viewModelScope.launch {
                 chatUseCase.markMessageAsRead(message.id).let {
@@ -325,7 +309,6 @@ class ChatViewModel(
                         val message = socketEvent.toEntity()
                         message.let {
                             chatUseCase.insertMessage(message, chatId)
-                            messages.value?.dataSource?.invalidate()
                         }
                     }
                     ChatSocketEvent.DESTROY -> {
@@ -338,9 +321,7 @@ class ChatViewModel(
                             chatUseCase.markMessageAsReadLocal(socketEvent.id)
                         }
                     }
-                    else -> {
-                        throw IllegalArgumentException("unknown socket type")
-                    }
+                    else -> Unit
                 }
             }
         }

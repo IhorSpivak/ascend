@@ -93,7 +93,7 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
     companion object{
         private const val CHANNEL_NAME = "ascend_notification"
         private const val CHANNEL_ID = "ascend_n"
-        private const val GROUP_KEY = "group_id"
+        private const val GROUP_KEY = "entity_id"
         private const val MESSAGE_KEY = "message"
     }
 }

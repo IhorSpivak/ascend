@@ -5,7 +5,7 @@ import okhttp3.Response
 
 internal class VimeoAuthInterceptor(
     //todo: remove hardcoded token and add oAuth2 ??
-    private val token: String = "174aea31e8dac8e9884daf9a0d106b4f"
+    private val token: String = "9b98f9db41b7121d506e3238d9cb9629"
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

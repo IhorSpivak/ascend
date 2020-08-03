@@ -112,8 +112,8 @@
     </plurals>
 
     <plurals name="x_comments">
-        <item quantity="one">%d comment</item>
-        <item quantity="other">%d comments</item>
+        <item quantity="one">%d Comment</item>
+        <item quantity="other">%d Comments</item>
     </plurals>
 
     <plurals name="x_likes">
@@ -265,6 +265,7 @@
     <!--Dialogs-->
     <string name="btn_positive">OK</string>
     <string name="btn_negative">Cancel</string>
+    <string name="btn_message">Message</string>
     <string name="btn_delete">Yes, delete</string>
     <string name="btn_leave">Yes, Leave</string>
     <string name="delete_content">If you delete a group, it cannot be restored and all funds will be returned to the participants.</string>
@@ -597,7 +598,7 @@
 
     <!--Home Webinars list-->
     <string name="webinars_list_recovery">Recovery</string>
-    <string name="webinars_list_fitness">Fitness</string>
+    <string name="webinars_list_lifestyle">Lifestyle</string>
     <string name="webinars_list_industry">Industry</string>
     <string name="webinars_list_family">Family</string>
     <string name="webinars_list_spiritual">Spiritual</string>
@@ -605,7 +606,7 @@
 
     <!--My Chats-->
     <string name="my_chats_title">My Chats</string>
-    <string name="new_chat">New Chat</string>
+    <string name="new_chat">Create New Chat</string>
     <string name="no_chats">No chats</string>
     <string name="no_blocked_users">No Blocked Users</string>
     <string name="no_messages">No Messages</string>
@@ -715,12 +716,29 @@
     <string name="channel_name_default">Channel name</string>
     <string name="channels_title">Channels</string>
     <string name="new_channel">New Channel</string>
+    <string name="create_channel">Create Channel</string>
     <string name="edit_channel">Edit Channel</string>
     <string name="channel_search_hint">Search Channel</string>
     <string name="no_channels">No channels</string>
     <string name="channel_member_count">%s members</string>
+    <string name="view_post_label">View Post</string>
     <string name="join_to_channel">Join to Channel</string>
     <string name="channel">Channel</string>
+    <string name="btn_create">Create</string>
+    <string name="leave_this_channel">Leave this channel</string>
+    <string name="report_channel">Report channel</string>
+    <string name="user_list">User list</string>
+    <string name="delete_channel">Delete Channel</string>
+    <string name="take_file">File</string>
+    <string name="public_channel">Public Channel</string>
+    <string name="private_channel">Private Channel</string>
+    <string name="delete_this_channel">Delete this Channel</string>
+    <string name="delete_channel_description">If you delete a channel, it cannot be restored</string>
+    <string name="yes_delete">Yes, Delete</string>
+    <string name="leave_channel_description">Are you sure you want to leave this Channel?</string>
+    <string name="leave_channel">Leave Channel</string>
+    <string name="error_channel_title">Please, enter the Channel Name correctly</string>
+    <string name="error_channel_description">Please, enter the Channel Description correctly</string>
 
 
 </resources>

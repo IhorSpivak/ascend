@@ -4,6 +4,7 @@ package com.doneit.ascend.source.storage.remote.api
 import com.doneit.ascend.source.storage.remote.data.request.CreateChatRequest
 import com.doneit.ascend.source.storage.remote.data.response.*
 import kotlinx.coroutines.Deferred
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -20,7 +21,8 @@ interface ChatApi {
         @Query("created_at_to") createdAtTo: String?,
         @Query("updated_at_from") updatedAtFrom: String?,
         @Query("updated_at_to") updatedAtTo: String?,
-        @Query("chat_type") chatType: String?
+        @Query("chat_type") chatType: String?,
+        @Query("all_channels") allChannels: Boolean?
     ): Deferred<Response<MyChatsListResponse>>
 
     @GET("chats/{id}")
@@ -36,6 +38,14 @@ interface ChatApi {
         @Path("id") id: Long,
         @Body request: CreateChatRequest
     ): Deferred<Response<ChatResponse>>
+
+    @Multipart
+    @POST("chats/{id}/message")
+    fun sendMessageAsync(
+        @Path("id") id: Long,
+        @Query("message") message: String,
+        @Part attachments: List<MultipartBody.Part>?
+    ): Deferred<Response<OKResponse>>
 
     @POST("chats/{id}/message")
     fun sendMessageAsync(
@@ -123,4 +133,23 @@ interface ChatApi {
 
     @GET("/api/v1/chats/available_chats")
     fun getAvailableChatIds(): Deferred<Response<AvailableChatResponse>>
+
+    @GET("/api/v1/channels/{id}")
+    fun getChannelAsync(@Path("id") id: Long): Deferred<Response<ChatResponse>>
+
+    @Multipart
+    @POST("/api/v1/channels")
+    fun createChannelAsync(
+        @Part part: List<MultipartBody.Part>
+    ): Deferred<Response<ChatResponse>>
+
+    @Multipart
+    @PUT("/api/v1/channels/{id}")
+    fun updateChannelAsync(
+        @Path("id") id: Long,
+        @Part part: List<MultipartBody.Part>
+    ): Deferred<Response<ChatResponse>>
+
+    @POST("/api/v1/channels/{id}/subscribe")
+    fun subscribeToChannelAsync(@Path("id") id: Long): Deferred<Response<ChatResponse>>
 }

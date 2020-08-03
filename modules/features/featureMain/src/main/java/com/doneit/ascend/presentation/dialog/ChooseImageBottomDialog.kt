@@ -12,9 +12,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ChooseImageBottomDialog(
     private val types: Array<AllowedIntents>,
-    private val camera: (() -> Unit) = {},
-    private val gallery: (() -> Unit) = {},
-    private val video: (() -> Unit) = {}
+    private val camera: (() -> Unit),
+    private val gallery: (() -> Unit),
+    private val video: (() -> Unit),
+    private val file: (() -> Unit)
 ) : BottomSheetDialogFragment() {
     lateinit var binding: DialogImageChooserBinding
 
@@ -48,6 +49,10 @@ class ChooseImageBottomDialog(
                 dismiss()
                 video.invoke()
             }
+            tvFile.setOnClickListener {
+                dismiss()
+                file.invoke()
+            }
             tvCancel.setOnClickListener {
                 dismiss()
             }
@@ -61,6 +66,7 @@ class ChooseImageBottomDialog(
                     AllowedIntents.CAMERA -> tvCamera.visible()
                     AllowedIntents.IMAGE -> tvGallery.visible()
                     AllowedIntents.VIDEO -> tvVideo.visible()
+                    AllowedIntents.FILE -> tvFile.visible()
                 }
             }
         }
@@ -69,7 +75,8 @@ class ChooseImageBottomDialog(
     enum class AllowedIntents {
         CAMERA,
         IMAGE,
-        VIDEO
+        VIDEO,
+        FILE
     }
 
     companion object {
@@ -77,9 +84,10 @@ class ChooseImageBottomDialog(
             types: Array<AllowedIntents>,
             camera: (() -> Unit) = {},
             gallery: (() -> Unit) = {},
-            video: (() -> Unit) = {}
+            video: (() -> Unit) = {},
+            file: (() -> Unit) = {}
         ): ChooseImageBottomDialog {
-            return ChooseImageBottomDialog(types, camera, gallery, video)
+            return ChooseImageBottomDialog(types, camera, gallery, video, file)
         }
     }
 }

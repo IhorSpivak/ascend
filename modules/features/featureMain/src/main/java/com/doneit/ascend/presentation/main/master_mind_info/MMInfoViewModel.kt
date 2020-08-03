@@ -1,10 +1,13 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.*
+import com.doneit.ascend.domain.entity.dto.CreateChatDTO
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -17,6 +20,7 @@ import java.util.*
 class MMInfoViewModel(
     private val router: MMInfoContract.Router,
     private val userUseCase: UserUseCase,
+    private val chatUseCase: ChatUseCase,
     private val masterMindUseCase: MasterMindUseCase
 ) : BaseViewModelImpl(), MMInfoContract.ViewModel {
 
@@ -47,6 +51,18 @@ class MMInfoViewModel(
 
         showRatingBar.addSource(profile) {
             updateUIVisibility(user.value, it)
+        }
+    }
+
+    override fun startChatWithMM(id: Long) {
+        viewModelScope.launch {
+            chatUseCase.createChat(CreateChatDTO("", listOf(id.toInt() ))).let {
+                if (it.isSuccessful) {
+                    router.navigateToChat(it.successModel!!, user.value!!, ChatType.CHAT)
+                } else {
+                    showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                }
+            }
         }
     }
 
@@ -88,6 +104,8 @@ class MMInfoViewModel(
             viewModelScope.launch {
                 enableFollow.postValue(false)
                 masterMindUseCase.follow(it.id)
+                isFollowVisible.postValue(false)
+                isUnfollowVisible.postValue(true)
                 enableFollow.postValue(true)
             }
         }
@@ -98,6 +116,8 @@ class MMInfoViewModel(
             viewModelScope.launch {
                 enableUnfollow.postValue(false)
                 masterMindUseCase.unfollow(it.id)
+                isFollowVisible.postValue(true)
+                isUnfollowVisible.postValue(false)
                 enableUnfollow.postValue(true)
             }
         }

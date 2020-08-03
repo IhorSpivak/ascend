@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.chats.chat.common
+package com.doneit.ascend.presentation.main.chats.chat.holder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

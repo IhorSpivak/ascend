@@ -37,7 +37,7 @@ class HomeViewModel(
                     R.string.collaboration,
                     R.string.master_mind
                 )
-                Community.FITNESS.title -> listOf(
+                Community.LIFESTYLE.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
                     R.string.community_feed_title,

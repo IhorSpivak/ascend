@@ -22,14 +22,14 @@ fun ChatResponse.toEntity(): ChatEntity {
         chatType = ChatType.valueOf(chatType.toUpperCase()),
         isPrivate = isPrivate,
         isSubscribed = subscribed,
-        owner = owner?.toEntity()
+        owner = owner?.toEntity(),
+        description = description.orEmpty()
     )
 }
 
 fun ChatWithLastMessage.toEntity(): ChatEntity {
     with(chatLocal) {
         return ChatEntity(
-
             id = id,
             title = title,
             membersCount = membersCount,
@@ -41,11 +41,12 @@ fun ChatWithLastMessage.toEntity(): ChatEntity {
             chatOwnerId = chatOwnerId,
             image = image?.toEntity(),
             lastMessage = lastMessage?.toEntity(),
-            members = members?.map { it.toEntity() },
+            members = members?.map { it.toEntity() }.orEmpty(),
             chatType = ChatType.valueOf(chatType.toUpperCase()),
             isPrivate = isPrivate,
             isSubscribed = subscribed,
-            owner = owner?.toEntity()
+            owner = owner?.toEntity(),
+            description = description
         )
     }
 }

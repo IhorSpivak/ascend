@@ -4,7 +4,7 @@ enum class Community(
     val title: String
 ) {
     RECOVERY("Recovery"),
-    FITNESS("Fitness"),
+    LIFESTYLE("Lifestyle"),
     INDUSTRY("Industry"),
     FAMILY("Family"),
     SUCCESS("Success"),

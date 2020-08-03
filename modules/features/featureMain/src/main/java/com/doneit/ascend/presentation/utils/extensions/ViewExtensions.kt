@@ -38,3 +38,7 @@ inline fun View.waitForLayout(crossinline f: () -> Unit) {
         }
     })
 }
+
+inline fun View.doOnGlobalLayout(crossinline f: () -> Unit) {
+    viewTreeObserver.addOnGlobalLayoutListener { f() }
+}

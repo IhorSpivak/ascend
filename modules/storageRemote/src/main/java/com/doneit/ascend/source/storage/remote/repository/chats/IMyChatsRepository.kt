@@ -48,4 +48,12 @@ interface IMyChatsRepository {
     suspend fun getAvailableChats(): RemoteResponse<AvailableChatResponse, ErrorsListResponse>
 
     suspend fun getUnreadMessageCount(): RemoteResponse<UnreadMessageCountResponse, ErrorsListResponse>
+
+    suspend fun getChannelDetails(id: Long) : RemoteResponse<ChatResponse, ErrorsListResponse>
+
+    suspend fun createChannel(request: CreateChannelRequest): RemoteResponse<ChatResponse, ErrorsListResponse>
+
+    suspend fun updateChannel(id: Long, request: CreateChannelRequest): RemoteResponse<ChatResponse, ErrorsListResponse>
+
+    suspend fun subscribeToChannel(id: Long): RemoteResponse<ChatResponse, ErrorsListResponse>
 }

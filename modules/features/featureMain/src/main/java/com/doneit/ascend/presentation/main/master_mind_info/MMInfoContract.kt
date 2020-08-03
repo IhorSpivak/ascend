@@ -1,9 +1,11 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.LiveData
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface MMInfoContract {
@@ -30,10 +32,12 @@ interface MMInfoContract {
 
         fun setProfileId(id: Long)
         fun report(content: String)
+        fun startChatWithMM(mmId: Long)
         fun goBack()
     }
 
     interface Router {
+        fun navigateToChat(chatEntity: ChatEntity, user: UserEntity, chatType: ChatType)
         fun onBack()
         fun navigateToGroupList(
             userId: Long?,

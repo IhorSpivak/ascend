@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="com.doneit.ascend.domain.entity.dto.ChatType" />
+
+        <variable
+            name="chatType"
+            type="com.doneit.ascend.domain.entity.dto.ChatType" />
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersContract.ViewModel" />
@@ -61,7 +67,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="11dp"
-                        android:text="@string/title_chats_members"
+                        android:text="@{chatType == ChatType.CHAT?@string/title_chats_members:@string/channel_members}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

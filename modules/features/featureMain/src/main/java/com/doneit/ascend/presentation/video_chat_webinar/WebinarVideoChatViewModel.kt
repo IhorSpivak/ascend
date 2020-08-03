@@ -123,7 +123,7 @@ class WebinarVideoChatViewModel(
     var chatRole: ChatRole? = null
 
     private var groupId: Long = Constants.DEFAULT_MODEL_ID
-    private var currentUserId: String = Constants.DEFAULT_MODEL_ID.toString()
+    private lateinit var currentUser: UserEntity
     private var downTimer: CountDownTimer? = null
     private var timer: Timer? = null
 
@@ -167,46 +167,49 @@ class WebinarVideoChatViewModel(
     }
 
     override fun init(groupId: Long) {
-        this.groupId = groupId
-        getParticipants()
-        postDefaultValues()
+        if(this.groupId == -1L) {
+            this.groupId = groupId
+            getParticipants()
+            postDefaultValues()
 
-        viewModelScope.launch {
-            val groupEntity = async {
-                val result = groupUseCase.getGroupDetails(groupId)
+            viewModelScope.launch {
+                val groupEntity = async {
+                    val result = groupUseCase.getGroupDetails(groupId)
 
-                if (result.isSuccessful) {
-                    groupInfo.value = result.successModel!!
-                    isMMConnected.value = result.successModel!!.owner?.connected
-                    result.successModel!!
-                } else {
-                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
-                    null
+                    if (result.isSuccessful) {
+                        groupInfo.value = result.successModel!!
+                        isMMConnected.value = result.successModel!!.owner?.connected
+                        result.successModel!!
+                    } else {
+                        showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                        null
+                    }
                 }
-            }
 
-            val creds = async {
-                val result = groupUseCase.getWebinarCredentials(groupId)
+                val creds = async {
+                    val result = groupUseCase.getWebinarCredentials(groupId)
 
-                if (result.isSuccessful) {
-                    result.successModel!!
-                } else {
-                    showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
-                    null
+                    if (result.isSuccessful) {
+                        result.successModel!!
+                    } else {
+                        showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
+                        null
+                    }
                 }
+
+                val userEntity = async {
+                    currentUser = userUseCase.getUser()!!
+                    currentUser
+                }
+
+                initializeChatState(groupEntity.await(), creds.await(), userEntity.await())
+
             }
 
-            val userEntity = async {
-                val user = userUseCase.getUser()
-                currentUserId = user!!.id.toString()
-                user
-            }
-
-            initializeChatState(groupEntity.await(), creds.await(), userEntity.await())
-
+            changeState(VideoChatState.PREVIEW)
+        } else {
+            changeState(VideoChatState.PREVIEW_DATA_LOADED)
         }
-
-        changeState(VideoChatState.PREVIEW)
     }
 
     private fun postDefaultValues() {
@@ -365,7 +368,6 @@ class WebinarVideoChatViewModel(
             WebinarVideoChatContract.Navigation.TO_CHAT.data.putLong(CHAT_ID_KEY, it.chatId)
             navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT)
         }
-
     }
 
     override fun onQuestionsClick() {
@@ -388,7 +390,7 @@ class WebinarVideoChatViewModel(
     }
 
     private fun clearChatResources() {
-        groupUseCase.participantConnectionStatus(currentUserId, false)
+        groupUseCase.participantConnectionStatus(currentUser.id.toString(), false)
         groupUseCase.disconnect()
         webinarQuestionUseCase.disconnect()
         chatUseCase.disconnect()
@@ -407,7 +409,7 @@ class WebinarVideoChatViewModel(
                 viewModelScope.launch {
                     //todo: find a solution without delay
                     delay(1000)
-                    groupUseCase.participantConnectionStatus(currentUserId, true)
+                    groupUseCase.participantConnectionStatus(currentUser.id.toString(), true)
                 }
                 navigation.postValue(WebinarVideoChatContract.Navigation.TO_PREVIEW)
             }
@@ -563,7 +565,7 @@ class WebinarVideoChatViewModel(
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
                         viewModelScope.launch {
                             delay(LIVESTREAM_DELAY)
-                            if (groupInfo.value?.owner?.id.toString() != currentUserId) {
+                            if (groupInfo.value?.owner?.id != currentUser.id) {
                                 getM3u8Playback()
                             }
                             isMMConnected.value = true
@@ -597,7 +599,7 @@ class WebinarVideoChatViewModel(
                     }
                 }
                 SocketEvent.REMOVED_FROM_GROUP -> {
-                    if (user.userId == currentUserId) {
+                    if (user.userId == currentUser.id.toString()) {
                         finishCall()
                     } else {
                         participants.value = participants.value!!.minus(user)
@@ -641,11 +643,11 @@ class WebinarVideoChatViewModel(
     }
 
     private suspend fun activateLiveStream(streamLink: String) {
-        val streamId = getStreamId(streamLink);
+        val streamId = getStreamId(streamLink)
         val activateResponse =
             vimeoUseCase.activateLiveStream(streamId)
         if (activateResponse.isSuccessful) {
-            val response = setWebinarCredentials(
+            setWebinarCredentials(
                 WebinarCredentialsDTO(
                     key = activateResponse.successModel?.streamKey,
                     link = streamLink

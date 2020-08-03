@@ -13,6 +13,7 @@ import androidx.core.content.FileProvider
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
+import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog.AllowedIntents
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentCreatePostBinding
@@ -52,7 +53,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
             dashRectangleBackground.setOnClickListener {
                 doIfPermissionsGranted {
                     ChooseImageBottomDialog.create(
-                        ChooseImageBottomDialog.AllowedIntents.values(),
+                        arrayOf(AllowedIntents.IMAGE, AllowedIntents.CAMERA, AllowedIntents.VIDEO),
                         { startActivityForResult(getCameraIntent(), REQUEST_CODE_CAMERA) },
                         { startActivityForResult(getMediaIntent(), REQUEST_CODE_GALLERY) },
                         { startActivityForResult(getVideoIntent(), REQUEST_CODE_VIDEO) }
@@ -60,6 +61,7 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 }
             }
             buttonComplete.setOnClickListener { this@CreatePostFragment.viewModel.createPost() }
+            rvMedia.setItemViewCacheSize(10)
             rvMedia.adapter = adapter
         }
         observeData()
@@ -126,15 +128,6 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
         }
     }
 
-    private fun createImageFile(): File {
-        return File(
-            requireContext()
-                .getExternalFilesDir(
-                    Environment.DIRECTORY_PICTURES
-                ), "${IMAGE_FILENAME}${UUID.randomUUID()}.jpg"
-        )
-    }
-
     private fun getMediaIntent(): Intent {
         return Intent.createChooser(
             Intent(Intent.ACTION_GET_CONTENT).apply {
@@ -150,6 +143,15 @@ class CreatePostFragment : BaseFragment<FragmentCreatePostBinding>() {
                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 type = MIME_TYPE_VIDEO
             }, getString(R.string.take_video)
+        )
+    }
+
+    private fun createImageFile(): File {
+        return File(
+            requireContext()
+                .getExternalFilesDir(
+                    Environment.DIRECTORY_PICTURES
+                ), "${IMAGE_FILENAME}${UUID.randomUUID()}.jpg"
         )
     }
 

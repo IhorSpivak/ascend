@@ -32,6 +32,7 @@ import com.doneit.ascend.presentation.main.chats.MyChatsContract
 import com.doneit.ascend.presentation.main.chats.MyChatsFragment
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.chats.chat.livestream_user_actions.LivestreamUserActionsFragment
 import com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersContract
 import com.doneit.ascend.presentation.main.chats.chat_members.ChatMembersFragment
@@ -62,8 +63,13 @@ import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsFragment
+import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelContract
+import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelFragment
+import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.add_members.AddMembersFragment
+import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
+import com.doneit.ascend.presentation.main.home.community_feed.post_details.PostDetailsContract
 import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostContract
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
@@ -175,7 +181,10 @@ class MainRouter(
     CommunityFeedContract.Router,
     SharePostContract.Router,
     CreatePostContract.Router,
-    ChannelsContract.Router {
+    ChannelsContract.Router,
+    PostDetailsContract.Router,
+    CommentsViewContract.Router,
+    CreateChannelContract.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }
@@ -186,9 +195,9 @@ class MainRouter(
 
     override val containerId = activity.getContainerId()
     private val containerIdFull = activity.getContainerIdFull()
-    override fun onBackWithOpenChat(chat: ChatEntity) {
+    override fun onBackWithOpenChat(chat: ChatEntity, user: UserEntity, chatType: ChatType) {
         manager.popBackStack()
-        replaceFullWithMainUpdate(ChatFragment.getInstance(chat.id))
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chat, user, chatType))
     }
 
 
@@ -206,12 +215,13 @@ class MainRouter(
     override fun goToChatMembers(
         chatId: Long,
         chatOwner: Long,
+        chatType: com.doneit.ascend.domain.entity.dto.ChatType,
         members: List<MemberEntity>,
         user: UserEntity
     ) {
         manager.replaceWithBackStack(
             containerIdFull,
-            ChatMembersFragment.newInstance(chatId, chatOwner, members, user)
+            ChatMembersFragment.newInstance(chatId, chatOwner, chatType, members, user)
         )
     }
 
@@ -222,13 +232,14 @@ class MainRouter(
         )
     }
 
-    override fun navigateToChat(id: Long) {
-        replaceFullWithMainUpdate(ChatFragment.getInstance(id))
+    override fun navigateToChat(chat: ChatEntity, user: UserEntity, chatType: ChatType) {
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chat, user, chatType))
     }
 
     override fun navigateToNewChat() {
         replaceFullWithMainUpdate(NewChatFragment())
     }
+
 
     override fun navigateToAddChatMember() {
         manager.addWithBackStack(containerIdFull, AddMemberFragment())
@@ -578,8 +589,8 @@ class MainRouter(
         )
     }
 
-    override fun navigateToSharedPostChat(chatId: Long) {
-        replaceFullWithMainUpdate(ChatFragment.getInstance(chatId))
+    override fun navigateToSharedPostChat(chat: ChatEntity, user: UserEntity, chatType: ChatType) {
+        replaceFullWithMainUpdate(ChatFragment.getInstance(chat, user, chatType))
     }
 
     override fun navigateToSharedPostChannel(channelId: Long) {
@@ -587,12 +598,24 @@ class MainRouter(
     }
 
 
-    override fun navigateToChannel(id: Long) {
-        //todo
+    override fun navigateToChannel(channel: ChatEntity, userEntity: UserEntity) {
+        manager.replaceWithBackStack(
+            containerIdFull,
+            ChatFragment.getInstance(channel, user = userEntity, chatType = ChatType.CHAT)
+        )
     }
 
     override fun navigateToNewChannel() {
-        //todo
+        manager.replaceWithBackStack(containerIdFull, CreateChannelFragment.newInstance())
+    }
+
+    override fun navigateToEditChannel(channel: ChatEntity) {
+        manager.replaceWithBackStack(containerIdFull, CreateChannelFragment.newInstance(channel))
+    }
+
+
+    override fun navigateToAddChannelMembers() {
+        manager.replaceWithBackStack(containerIdFull, AddMembersFragment())
     }
 
     override fun navigateToChannels() {

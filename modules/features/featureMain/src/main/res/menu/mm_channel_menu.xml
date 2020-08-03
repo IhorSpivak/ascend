@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mm_user_list"
+        android:title="@string/user_list">
+    </item>
+
+    <item
+        android:id="@+id/mm_add_members"
+        android:title="@string/add_members">
+    </item>
+
+    <item
+        android:id="@+id/mm_edit_channel"
+        android:title="@string/edit_channel">
+    </item>
+
+    <item
+        android:id="@+id/mm_delete_channel"
+        android:title="@string/delete_channel">
+    </item>
+
+
+</menu>

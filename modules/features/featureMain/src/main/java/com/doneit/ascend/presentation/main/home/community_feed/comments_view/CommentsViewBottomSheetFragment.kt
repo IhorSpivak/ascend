@@ -19,6 +19,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.FragmentCommentsViewBinding
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.common.CommentsAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.common.CommentsClickListener
+import com.doneit.ascend.presentation.utils.applyFilter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -40,7 +41,7 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
     private val _parentKodein: Kodein by closestKodein()
     private val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<CommentsViewContract.ViewModel>() with singleton {
-            CommentsViewViewModel(instance(), instance(tag = "postId"))
+            CommentsViewViewModel(instance(), instance(tag = "postId"), instance())
         }
 
         bind<Long>(tag = "postId") with provider {
@@ -62,7 +63,9 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
 
     private fun commentsClickListener(): CommentsClickListener {
         return CommentsClickListener(
-            onUserClick = {},
+            onUserClick = {
+                viewModel.onUserClick(it)
+            },
             onDeleteClick = {
                 viewModel.onDeleteComment(it)
             }
@@ -108,11 +111,12 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
             rvComments.itemAnimator = null
             send.setOnClickListener {
                 if (message.text.toString().isNotBlank()) {
-                    viewModel.leaveComment(message.text.toString())
+                    viewModel.leaveComment(message.text.toString().trim())
                     message.text.clear()
                 }
 
             }
+            message.applyFilter()
         }
         observeData()
     }
@@ -157,7 +161,7 @@ class CommentsViewBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware
         const val REQUEST_CODE_COMMENTS = 1233
         const val KEY_COMMENTS_COUNT = "KEY_COMMENTS_COUNT"
         const val KEY_POST_ID = "KEY_POST_ID"
-        private const val KEY_USER = "KEY_USER"
+        const val KEY_USER = "KEY_USER"
         fun newInstance(postId: Long, user: UserEntity) = CommentsViewBottomSheetFragment().apply {
             arguments = Bundle().apply {
                 putLong(KEY_POST_ID, postId)

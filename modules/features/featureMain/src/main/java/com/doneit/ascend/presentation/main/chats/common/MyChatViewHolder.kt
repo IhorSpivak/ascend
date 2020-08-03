@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.domain.entity.chats.MessageType
+import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateMyChatItemBinding
@@ -27,7 +28,7 @@ class MyChatViewHolder(
 
     fun bind(
         item: ChatEntity,
-        onDeleteListener: (id: Long) -> Unit,
+        onDeleteListener: (chat: ChatEntity) -> Unit,
         onClickListener: (chat: ChatEntity) -> Unit,
         user: UserEntity
     ) {
@@ -36,7 +37,7 @@ class MyChatViewHolder(
         binding.date = item.lastMessage?.let { it.createdAt?.toChatDate(itemView.context) }
             ?: item.updatedAt?.toChatDate(itemView.context)
         binding.ibDelete.setOnClickListener {
-            onDeleteListener.invoke(item.id)
+            onDeleteListener.invoke(item)
         }
 
 
@@ -98,10 +99,20 @@ class MyChatViewHolder(
         }
         itemView.messageStatus.setImageResource(res)
         loadChatImage(item)
-        Glide.with(itemView.groupPlaceholder)
-            .load(R.drawable.ic_group_placeholder)
-            .circleCrop()
-            .into(itemView.groupPlaceholder)
+        when(item.chatType){
+            ChatType.CHAT -> {
+                Glide.with(itemView.groupPlaceholder)
+                    .load(R.drawable.ic_group_placeholder)
+                    .circleCrop()
+                    .into(itemView.groupPlaceholder)
+            }
+            ChatType.CHANNEL -> {
+                Glide.with(itemView.groupPlaceholder)
+                    .load(item.image)
+                    .circleCrop()
+                    .into(itemView.groupPlaceholder)
+            }
+        }
         itemView.setOnTouchListener { _, motionEvent ->
             var status = false
 
@@ -159,7 +170,7 @@ class MyChatViewHolder(
         user: UserEntity,
         context: Context
     ): String {
-        item.members?.firstOrNull {
+        item.members.firstOrNull {
             it.id == id
         }?.let { member ->
             return if (member.id == user.id) {

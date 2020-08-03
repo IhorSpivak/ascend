@@ -110,11 +110,11 @@ class MyChatGateway(
                     if (membersResponse.isSuccessful) {
                         val memberModel =
                             membersResponse.successModel!!.users?.map { it.toEntity() }
-                        chatEntity.members = memberModel
+                        chatEntity.members = memberModel.orEmpty()
                         val user = userUseCase.getUser()?.id
-                        if (chatEntity.members?.count() == 2) {
+                        if (chatEntity.members.count() == 2) {
                             val member =
-                                chatEntity.members?.firstOrNull { it.id != user }
+                                chatEntity.members.firstOrNull { it.id != user }
                             member?.let { member -> chatEntity.title = member.fullName }
                         }
                     }
@@ -132,7 +132,7 @@ class MyChatGateway(
     ): LiveData<PagedList<MessageEntity>> =
         liveData<PagedList<MessageEntity>> {
             val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(true)
+                .setEnablePlaceholders(false)
                 .setPageSize(request.perPage ?: 10)
                 .build()
             val factory = local.getMessageList(chatId).map { it.toEntity() }
@@ -268,7 +268,7 @@ class MyChatGateway(
                         if (membersResponse.isSuccessful) {
                             val memberModel =
                                 membersResponse.successModel!!.users?.map { it.toEntity() }
-                            it.members = memberModel
+                            it.members = memberModel.orEmpty()
                         }
                         local.insert(model.toLocal())
                     }
@@ -325,7 +325,7 @@ class MyChatGateway(
                         if (membersResponse.isSuccessful) {
                             val memberModel =
                                 membersResponse.successModel!!.users?.map { it.toEntity() }
-                            it.members = memberModel
+                            it.members = memberModel.orEmpty()
                         }
                         local.insert(model.toLocal())
                     }
@@ -474,6 +474,107 @@ class MyChatGateway(
         }
     }
 
+    override suspend fun getChannelDetails(
+        scope: CoroutineScope,
+        id: Long
+    ): ResponseEntity<ChatEntity, List<String>> {
+        val result = executeRemote {
+            remote.getChatDetails(id)
+        }.toResponseEntity(
+            {
+                it?.toEntity()
+            },
+            {
+                it?.errors
+            }
+        )
+        if (result.isSuccessful) {
+            scope.launch {
+                val chatEntity = result.successModel!!
+                //TODO: it wouldn't work for channel where more than 50 ppl. Need to change response for messages on the server side:
+                val membersResponse =
+                    remote.getMembers(chatEntity.id, MemberListDTO(perPage = 50).toRequest(1))
+                if (membersResponse.isSuccessful) {
+                    val memberModel =
+                        membersResponse.successModel!!.users?.map { it.toEntity() }
+                    chatEntity.members = memberModel.orEmpty()
+                }
+                local.insert(chatEntity.toLocal())
+            }
+        }
+        return result
+    }
+
+    override suspend fun createChannel(
+        scope: CoroutineScope,
+        request: NewChannelDTO
+    ): ResponseEntity<ChatEntity, List<String>> {
+        return executeRemote {
+            remote.createChannel(
+
+                request.toRequest()
+            )
+        }.toResponseEntity(
+            {
+                val model = it?.toEntity()
+
+                model?.let {
+
+                    scope.launch {
+                        val membersResponse =
+                            remote.getMembers(it.id, MemberListDTO(perPage = 50).toRequest(1))
+                        if (membersResponse.isSuccessful) {
+                            val memberModel =
+                                membersResponse.successModel!!.users?.map { it.toEntity() }
+                            it.members = memberModel.orEmpty()
+                        }
+                        local.insert(model.toLocal())
+                    }
+
+                }
+                return@toResponseEntity model
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
+    override suspend fun updateChannel(
+        scope: CoroutineScope,
+        channelId: Long,
+        request: NewChannelDTO
+    ): ResponseEntity<ChatEntity, List<String>> {
+        return executeRemote {
+            remote.updateChannel(
+                channelId,
+                request.toRequest()
+            )
+        }.toResponseEntity(
+            {
+                val model = it?.toEntity()
+                model?.let {
+
+                    scope.launch {
+                        val membersResponse =
+                            remote.getMembers(it.id, MemberListDTO(perPage = 50).toRequest(1))
+                        if (membersResponse.isSuccessful) {
+                            val memberModel =
+                                membersResponse.successModel!!.users?.map { it.toEntity() }
+                            it.members = memberModel.orEmpty()
+                        }
+                        local.insert(model.toLocal())
+                    }
+
+                }
+                return@toResponseEntity model
+            },
+            {
+                it?.errors
+            }
+        )
+    }
+
     override fun loadChats(
         scope: CoroutineScope,
         request: ChatListDTO
@@ -482,7 +583,7 @@ class MyChatGateway(
             emitSource(
                 PaginationDataSource.Builder<ChatEntity>()
                     .coroutineScope(scope)
-                        //todo: local source
+                    //todo: local source
                     .pageLimit(request.perPage ?: 10)
                     .remoteSource(object : PaginationSourceRemote<ChatEntity> {
                         override suspend fun loadData(page: Int, limit: Int): List<ChatEntity>? {
@@ -495,4 +596,13 @@ class MyChatGateway(
                     .build()
             )
         }
+
+    override suspend fun joinChannel(
+        coroutineScope: CoroutineScope,
+        channelId: Long
+    ): ResponseEntity<ChatEntity, List<String>> {
+        return executeRemote { remote.subscribeToChannel(channelId) }.toResponseEntity(
+            { it?.toEntity() },
+            { it?.errors })
+    }
 }

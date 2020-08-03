@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="default_margin">8dp</dimen>
     <dimen name="dialog_top_margin">10dp</dimen>
     <dimen name="dialog_title_hor_margin">20dp</dimen>
     <dimen name="dialog_content_bottom_margin">10dp</dimen>
@@ -33,4 +34,5 @@
     <dimen name="new_chat_add_member_bottom_margin">20dp</dimen>
 
     <dimen name="max_multiview_width">200dp</dimen>
+    <dimen name="fab_custom_size">40dp</dimen>
 </resources>

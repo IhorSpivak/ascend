@@ -131,4 +131,30 @@ class ChatInteractor(
     ): LiveData<com.doneit.ascend.domain.use_case.PagedList<ChatEntity>> {
         return chatGateway.loadChats(coroutineScope, request)
     }
+
+    override suspend fun getChannelDetails(
+        coroutineScope: CoroutineScope,
+        channelId: Long
+    ): ResponseEntity<ChatEntity, List<String>> {
+        return chatGateway.getChannelDetails(coroutineScope, channelId)
+    }
+
+    override suspend fun createChannel(
+        coroutineScope: CoroutineScope,
+        newChannelDTO: NewChannelDTO
+    ): ResponseEntity<ChatEntity, List<String>> {
+        return chatGateway.createChannel(coroutineScope, newChannelDTO)
+    }
+
+    override suspend fun updateChannel(
+        coroutineScope: CoroutineScope,
+        channelId: Long,
+        newChannelDTO: NewChannelDTO
+    ): ResponseEntity<ChatEntity, List<String>> {
+        return chatGateway.updateChannel(coroutineScope, channelId, newChannelDTO)
+    }
+
+    override suspend fun joinChannel(coroutineScope: CoroutineScope, channelId: Long): ResponseEntity<ChatEntity, List<String>> {
+        return chatGateway.joinChannel(coroutineScope, channelId)
+    }
 }

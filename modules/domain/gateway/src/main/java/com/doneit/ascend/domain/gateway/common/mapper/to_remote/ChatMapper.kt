@@ -42,6 +42,16 @@ fun CreateChatDTO.toRequest(): CreateChatRequest {
     )
 }
 
+fun NewChannelDTO.toRequest(): CreateChannelRequest {
+    return CreateChannelRequest(
+        title = title,
+        image = image,
+        description = description,
+        isPrivate = isPrivate,
+        invites = invites
+    )
+}
+
 fun MessageListDTO.toRequest(page: Int): MessageListRequest {
     return MessageListRequest(
         page,
@@ -85,7 +95,15 @@ fun MemberListDTO.toRequest(page: Int): MemberListRequest {
 fun MessageDTO.toRequest(): MessageRequest {
     return MessageRequest(
         id,
-        message
+        message,
+        if (attachmentUrl.isEmpty()) {
+            null
+        } else {
+            AttachmentRequest(
+                contentType = attachmentType,
+                url = attachmentUrl
+            )
+        }
     )
 }
 

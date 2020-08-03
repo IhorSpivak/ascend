@@ -11,18 +11,29 @@ import java.util.*
 data class ChatEntity(
     val id: Long,
     var title: String,
-    val membersCount: Int,
+    var description: String?,
+    var membersCount: Int,
     val createdAt: Date?,
-    val updatedAt: Date?,
-    val online: Boolean,
+    var updatedAt: Date?,
+    var online: Boolean,
     val blocked: Boolean,
     val unreadMessageCount: Int,
     val chatOwnerId: Long,
     val image: ImageEntity?,
-    val lastMessage: MessageEntity?,
-    var members: List<MemberEntity>?,
+    var lastMessage: MessageEntity?,
+    var members: List<MemberEntity>,
     val chatType: ChatType,
     val isPrivate: Boolean,
-    val isSubscribed: Boolean,
+    var isSubscribed: Boolean,
     val owner: OwnerEntity?
-): Parcelable
+) : Parcelable {
+
+    fun inheritFrom(chat: ChatEntity) {
+        title = chat.title
+        description = chat.description
+        membersCount = chat.membersCount
+        updatedAt = chat.updatedAt
+        lastMessage = chat.lastMessage
+        members = chat.members
+    }
+}

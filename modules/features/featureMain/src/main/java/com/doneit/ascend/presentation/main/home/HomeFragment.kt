@@ -10,16 +10,12 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import org.kodein.di.generic.instance
-import java.util.*
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override val viewModelModule = HomeViewModelModule.get(this)
 
     override val viewModel: HomeContract.ViewModel by instance()
-
-
-
     var listener: MainActivityListener? = null
     var handler: Handler? = null
     var runnable: Runnable? = null
@@ -28,7 +24,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = (context as MainActivityListener).apply {
-            setTitle(getString(R.string.main_title), true)
+            setCommunityTitle(getString(R.string.main_title))
         }
     }
 
@@ -71,13 +67,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private fun setTitle(community: String?) {
         var title = getString(R.string.main_title)
         community?.let {
-            title = " $community".toUpperCase(Locale.ROOT)
+            title = it
         }
-        listener?.setTitle(title, true)
+        listener?.setCommunityTitle(title)
     }
 
     private fun onTrackNewChatMessage() {
-        listener?.apply {
+    listener?.apply {
             getUnreadMessageCount()
         }
 
@@ -88,10 +84,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         handler!!.postDelayed(runnable, 3000)
 
+
     }
 
     override fun onPause() {
-        handler?.removeCallbacks(runnable)
+        handler!!.removeCallbacksAndMessages(runnable)
+        handler!!.removeMessages(0)
         super.onPause()
     }
 

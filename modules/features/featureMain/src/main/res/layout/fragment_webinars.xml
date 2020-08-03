@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!-- TODO: add radio group dinamically depending on servers community -->
             <RadioGroup
                 android:id="@+id/radio_group"
                 android:layout_width="match_parent"
@@ -60,7 +61,7 @@
                     android:background="@drawable/webinar_type_filter_button"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@string/webinars_list_fitness"
+                    android:text="@string/webinars_list_lifestyle"
                     android:textAlignment="center"
                     android:textSize="14sp" />
 

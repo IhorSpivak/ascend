@@ -8,7 +8,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 
 class MyChatsAdapter(
     private val onItemClick: (chat: ChatEntity) -> Unit,
-    private val onDeleteListener: (id: Long) -> Unit
+    private val onDeleteListener: (chat: ChatEntity) -> Unit
 ) : PagedListAdapter<ChatEntity, MyChatViewHolder>(ChatDiffCallback()) {
 
     private var user: UserEntity? = null
@@ -32,7 +32,7 @@ class MyChatsAdapter(
     fun updateUser(user: UserEntity) {
         if (this.user == null) {
             this.user = user
-            notifyDataSetChanged()
+            notifyItemRangeChanged(0, itemCount - 1)
         }
     }
 }

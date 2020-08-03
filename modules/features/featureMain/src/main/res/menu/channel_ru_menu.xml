@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/leave_channel"
+        android:title="@string/leave_this_channel">
+    </item>
+
+    <item
+        android:id="@+id/report_channel"
+        android:title="@string/report_channel">
+    </item>
+
+
+</menu>

@@ -3,7 +3,9 @@ package com.doneit.ascend.presentation.main.chats.new_chat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberContract
 import com.doneit.ascend.presentation.models.PresentationCreateChatModel
 
@@ -20,10 +22,11 @@ interface NewChatContract {
     }
 
     interface Router {
-        fun onBackWithOpenChat(chat: ChatEntity)
+        fun onBackWithOpenChat(chat: ChatEntity, user: UserEntity, chatType: ChatType)
         fun onBack()
         fun navigateToAddChatMember()
     }
+
     interface LocalRouter {
         fun onBack()
         fun navigateToAddChatMember()

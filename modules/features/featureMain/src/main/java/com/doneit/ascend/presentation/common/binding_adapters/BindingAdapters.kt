@@ -17,6 +17,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.SearchEntity
@@ -99,9 +100,11 @@ fun setImage(view: AppCompatImageView, uri: Uri?, placeholder: Drawable?) {
 @BindingAdapter("app:setCircleImage", "app:circlePlaceholder", requireAll = false)
 fun setCircleImage(view: AppCompatImageView, url: String?, placeholder: Drawable?) {
     Glide.with(view)
-        .load(placeholder)
+        .load(url)
         .circleCrop()
         .placeholder(placeholder)
+        .diskCacheStrategy(DiskCacheStrategy.NONE)
+        .skipMemoryCache(true)
         .into(view)
 }
 
@@ -271,8 +274,9 @@ fun Button.setOkBackground(groupType: GroupType) {
 
 @BindingAdapter("iconTint")
 fun AppCompatButton.setIconTint(color: Int) {
-    for (drawable in compoundDrawables) {
+    for (drawable in compoundDrawablesRelative) {
         if (drawable != null) {
+            drawable.mutate()
             drawable.colorFilter = PorterDuffColorFilter(
                 color,
                 PorterDuff.Mode.SRC_IN

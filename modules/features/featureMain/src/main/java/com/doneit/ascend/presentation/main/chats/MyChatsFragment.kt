@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
-import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MessageStatus
 import com.doneit.ascend.presentation.dialog.BlockUserDialog
@@ -21,7 +21,7 @@ import com.doneit.ascend.presentation.utils.extensions.visible
 import kotlinx.android.synthetic.main.fragment_my_chats.*
 import org.kodein.di.generic.instance
 
-class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
+class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
     override val viewModelModule = MyChatsViewModelModule.get(this)
     override val viewModel: MyChatsContract.ViewModel by instance()
 
@@ -30,7 +30,11 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
             {
                 viewModel.onChatPressed(it)
             }, {
-                showDeleteDialog(it)
+                when(it.chatType.type){
+                    "channel"->  showDeleteChannelDialog(it.id)
+                    "chat"->  showDeleteDialog(it.id)
+                }
+
             }
         )
     }
@@ -44,7 +48,10 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
             }
             rvChats.adapter = adapter
             tvNewChat.setOnClickListener {
-                showMenu(it)
+                when (viewModel.user.value?.isMasterMind) {
+                    true -> showMenu(it)
+                    false -> viewModel.onNewChatPressed()
+                }
             }
         }
 
@@ -81,16 +88,24 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
 
     private fun scrollIfNeed(list: PagedList<ChatEntity>) {
         val currentChecked = lastChecked
-        val firstUnread = list.indexOfFirst {
-            lastChecked = it
-            it.lastMessage?.status != MessageStatus.READ
-        }
+        val firstUnread = list
+            .indexOfFirst {
+                lastChecked = it
+                it.lastMessage != null &&
+                        it.lastMessage?.status != MessageStatus.READ &&
+                        it.lastMessage?.userId != viewModel.user.value?.id
+            }
+        val lm = binding.rvChats.layoutManager as LinearLayoutManager
+        val first = lm.findFirstVisibleItemPosition()
         if (firstUnread != -1 && currentChecked?.id != lastChecked?.id) {
-            binding.rvChats.scrollToPosition(firstUnread)
+            if (first < 5) {
+                binding.rvChats.scrollToPosition(firstUnread)
+            }
         }
     }
 
     private fun showDeleteDialog(id: Long) {
+
         BlockUserDialog.create(
             requireContext(),
             getString(R.string.chats_delete),
@@ -100,9 +115,19 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
         ) { viewModel.onDelete(id) }.show()
     }
 
+    private fun showDeleteChannelDialog(id: Long) {
+        BlockUserDialog.create(
+            requireContext(),
+            getString(R.string.delete_channel),
+            getString(R.string.delete_channel_description),
+            getString(R.string.chats_delete_button),
+            getString(R.string.chats_delete_cancel)
+        ) { viewModel.onDelete(id) }.show()
+    }
+
     private fun showMenu(v: View) {
         PopupMenu(view?.context, v, Gravity.TOP).apply {
-            menuInflater.inflate(R.menu.create_new_chat_channels_menu, this.menu)
+            menuInflater.inflate(R.menu.create_new_chat_menu, this.menu)
 
             setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -111,7 +136,7 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
                         true
                     }
                     R.id.post_channel -> {
-
+                        viewModel.onNewChannelPressed()
                         true
                     }
                     else -> false
@@ -125,9 +150,6 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>()  {
         rvChats.adapter = null
         super.onDestroyView()
     }
-
-
-
 
 
 }

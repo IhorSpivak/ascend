@@ -33,5 +33,6 @@ interface CommunityFeedContract {
         fun navigateToCreatePost(post: Post? = null)
         fun navigateToPreview(attachments: List<Attachment>, selected: Int)
         fun navigateToChannels()
+        fun navigateToMMInfo(userId: Long)
     }
 }

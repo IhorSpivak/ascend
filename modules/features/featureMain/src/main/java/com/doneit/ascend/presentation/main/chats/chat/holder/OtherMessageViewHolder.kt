@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.chats.chat.common
+package com.doneit.ascend.presentation.main.chats.chat.holder
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.databinding.ListItemOtherMessageBinding
 import com.doneit.ascend.presentation.utils.extensions.*
 

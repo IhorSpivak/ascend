@@ -8,10 +8,12 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Patterns
+import android.widget.EditText
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.ObservableField
 import com.devs.readmoreoption.ReadMoreOption
 import com.doneit.ascend.domain.entity.CalendarDayEntity
@@ -227,7 +229,7 @@ fun convertGroupTypeToString(
     }
 
     val res = when (community) {
-        Community.FITNESS.title,
+        Community.LIFESTYLE.title,
         Community.SPIRITUAL.title -> supportOrMM(
             R.string.public_collaboration_title,
             R.string.private_collaboration_title,
@@ -260,7 +262,7 @@ fun convertGroupTypeToString(
 
 fun convertCommunityToResId(community: String, type: GroupType?): Int? {
     val titlePair = when (community) {
-        Community.FITNESS.title,
+        Community.LIFESTYLE.title,
         Community.SPIRITUAL.title -> R.string.collaboration to R.string.group
         Community.RECOVERY.title -> R.string.group_title to R.string.workshop
         Community.FAMILY.title -> R.string.group_title to R.string.group
@@ -291,10 +293,20 @@ fun TextView.addReadMoreTo( text: String) {
 
 fun applyMultilineFilter(editText: MultilineEditWithError) {
     editText.addOnTextChangedListener { text ->
-        if (text.startsWith("\r") ||
+        if (text.startsWith(" ") || text.startsWith("\r") ||
             text.startsWith("\n")
         ) {
             editText.text = text.trim()
+        }
+    }
+}
+
+fun EditText.applyFilter() {
+    this.doAfterTextChanged { text ->
+        if (text.toString().startsWith(" ") || text.toString().startsWith("\r") ||
+            text.toString().startsWith("\n")
+        ) {
+            this.setText(text.toString().trim())
         }
     }
 }

@@ -21,5 +21,7 @@ data class MessageResponse(
     @SerializedName("status")
     val status: String?,
     @SerializedName("post")
-    val post: PostResponse?
+    val post: PostResponse?,
+    @SerializedName("attachment")
+    val attachment: MessageAttachmentResponse?
 )

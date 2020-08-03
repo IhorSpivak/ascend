@@ -2,12 +2,12 @@ package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.content.Intent
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
-import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
-import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.main.chats.chat.livestream_user_actions.LivestreamUserActionsFragment
 import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesContract
 import com.doneit.ascend.presentation.main.group_info.attendees.AttendeesFragment
@@ -44,12 +44,21 @@ class WebinarVideoChatRouter(
         activity.supportFragmentManager.popBackStack()
     }
 
+    override fun navigateToEditChannel(channel: ChatEntity) {
+        TODO("Not yet implemented")
+    }
+
+    override fun navigateToAddChannelMembers() {
+        TODO("Not yet implemented")
+    }
+
     override fun goToDetailedUser(id: Long) {
     }
 
     override fun goToChatMembers(
         chatId: Long,
         chatOwner: Long,
+        chatType: ChatType,
         members: List<MemberEntity>,
         user: UserEntity
     ) {
@@ -114,10 +123,10 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToChat(chatId: Long) {
-        activity.supportFragmentManager.replaceWithBackStack(
-            fullContainerId,
-            ChatFragment.getInstance(chatId, ChatType.WEBINAR_CHAT)
-        )
+//        activity.supportFragmentManager.replaceWithBackStack(
+//            fullContainerId,
+//            ChatFragment.getInstance(chatId, ChatType.WEBINAR_CHAT)
+//        )
     }
 
     override fun navigateToNotes(groupId: Long) {
