@@ -282,10 +282,6 @@ class ChatViewModel(
         }
     }
 
-    override fun addMembers() {
-        TODO("Not yet implemented")
-    }
-
     override fun markMessageAsRead(message: MessageEntity) {
         if (message.userId != chatWithUser.user.id && message.status != MessageStatus.READ && message.isMarkAsReadSentToApprove.not()) {
             message.isMarkAsReadSentToApprove = true

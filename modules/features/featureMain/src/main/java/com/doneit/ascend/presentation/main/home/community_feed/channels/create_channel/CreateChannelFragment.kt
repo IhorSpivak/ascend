@@ -22,7 +22,6 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.databinding.FragmentNewChannelBinding
 import com.doneit.ascend.presentation.utils.copyCompressed
-import com.doneit.ascend.presentation.utils.copyToStorage
 import com.doneit.ascend.presentation.utils.createCropPhotoUri
 import com.doneit.ascend.presentation.utils.extensions.requestPermissions
 import com.doneit.ascend.presentation.utils.getCompressedImagePath

@@ -31,10 +31,9 @@ interface ChatContract {
         fun onDelete(message: MessageEntity)
         fun onDeleteChat()
         fun onReportChatOwner(content: String)
-        fun  goToUserList(channel: ChatEntity)
+        fun goToUserList(channel: ChatEntity)
         fun onReport(content: String, id: Long)
         fun onLeave()
-        fun addMembers()
     }
 
     interface Router {
@@ -48,7 +47,6 @@ interface ChatContract {
             members: List<MemberEntity>,
             user: UserEntity
         )
-
         fun goToLiveStreamUser(member: MemberEntity)
     }
 
