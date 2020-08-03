@@ -4,17 +4,15 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.transition.Transition
 import com.doneit.ascend.presentation.utils.extensions.createPlaceholderDrawable
 import com.google.android.material.chip.Chip
 
 
 class GlideChip : Chip {
-    constructor(context: Context?) : super(context) {}
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
+    constructor(context: Context?) : super(context)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
     /**
      * Set an image from an URL for the [Chip] using [com.bumptech.glide.Glide]
@@ -28,28 +26,21 @@ class GlideChip : Chip {
         Glide.with(this)
             .load(url)
             .circleCrop()
-            .listener(object : RequestListener<Drawable?> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable?>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    chipIcon = this@GlideChip.context.createPlaceholderDrawable(placeholder!!)
-                    return false
+            .into(object : CustomViewTarget<GlideChip, Drawable>(this) {
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    chipIcon = context.createPlaceholderDrawable(placeholder.orEmpty())
+                }
+
+                override fun onResourceCleared(placeholder: Drawable?) {
                 }
 
                 override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable?>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
                     chipIcon = resource
-                    return false
                 }
-            }).preload()
+            })
         return this
     }
 }
