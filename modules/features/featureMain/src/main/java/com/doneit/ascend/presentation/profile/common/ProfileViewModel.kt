@@ -187,10 +187,6 @@ class ProfileViewModel(
         updateProfile(UpdateProfileDTO(displayName = newDisplayName))
     }
 
-    override fun updateShortDescription(newShortDescription: String) {
-        updateProfile(UpdateProfileDTO(description = newShortDescription))
-    }
-
     override fun onEditBioClick() {
         mmRouter.navigateToEditBio()
     }
@@ -291,6 +287,10 @@ class ProfileViewModel(
 
     override fun onLocationClick() {
         router.navigateToChangeLocation(userLocal.value?.location)
+    }
+
+    override fun updateShortDescription(newShortDescription: String) {
+        updateProfile(UpdateProfileDTO(description = newShortDescription))
     }
 
     override fun onChangePasswordClick() {

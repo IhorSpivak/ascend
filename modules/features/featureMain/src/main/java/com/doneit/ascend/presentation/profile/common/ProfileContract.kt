@@ -33,6 +33,7 @@ interface ProfileContract {
         fun onMMFollowedClick()
         fun onChangePhoneClick()
         fun onLocationClick()
+        fun updateShortDescription(newShortDescription: String)
         fun onChangePasswordClick()
         fun onEditEmailClick()
         fun onNotificationSettingsClick()
