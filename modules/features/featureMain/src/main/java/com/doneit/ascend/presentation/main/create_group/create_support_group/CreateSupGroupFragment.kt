@@ -106,6 +106,7 @@ class CreateSupGroupFragment :
                 }
             }
         }
+        viewModel.loadParticipants(group!!.id, what.orEmpty())
         binding.apply {
             model = viewModel
             adapter = adapter

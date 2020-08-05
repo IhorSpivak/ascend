@@ -12,13 +12,13 @@ class LogInActivityViewModel(
 ) : BaseViewModelImpl(), LogInActivityContract.ViewModel {
 
     override fun tryToLogin(bundle: Bundle) {
-        if(bundle.getString(LOGOUT).isNullOrEmpty().not()){
+        if (bundle.getString(LOGOUT).isNullOrEmpty().not()) {
             userUseCase.removeAccounts()
         }
         viewModelScope.launch {
             if (userUseCase.hasSignedInUser()) {
                 val userLocal = userUseCase.getUser()
-                if (userLocal?.unansweredQuestionsCount == 0) {
+                if (!userLocal?.community.isNullOrEmpty()) {
                     router.goToMain(bundle)
                 } else {
                     router.navigateToFirstTimeLogin()

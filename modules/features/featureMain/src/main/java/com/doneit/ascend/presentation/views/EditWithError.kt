@@ -109,6 +109,8 @@ class EditWithError @JvmOverloads constructor(
     var everWordWithCapitalLetter: Boolean = false
     var editing: Boolean = false
 
+    val editTextView
+        get() = this.editText
     private var listener: InverseBindingListener? = null
 
     fun setListener(listener: InverseBindingListener) {
@@ -200,8 +202,8 @@ class EditWithError @JvmOverloads constructor(
         )
     }
 
-    fun setTint(color: Int){
-        icon.setColorFilter(color , PorterDuff.Mode.SRC_IN)
+    fun setTint(color: Int) {
+        icon.setColorFilter(color, PorterDuff.Mode.SRC_IN)
         requestLayout()
     }
 
@@ -219,11 +221,11 @@ class EditWithError @JvmOverloads constructor(
         }
     }
 
-    fun setColor(color: Int){
+    fun setColor(color: Int) {
         editText.setTextColor(color)
     }
 
-    fun setImeOptions(key: Int){
+    fun setImeOptions(key: Int) {
         editText.imeOptions = key
     }
 

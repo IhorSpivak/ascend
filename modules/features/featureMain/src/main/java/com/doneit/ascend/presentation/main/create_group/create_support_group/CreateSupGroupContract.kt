@@ -27,6 +27,7 @@ interface CreateSupGroupContract {
         val tags: MutableLiveData<List<TagEntity>>
         val supportTitle: LiveData<Int>
 
+        fun loadParticipants(groupId: Long, what: String)
         fun addNewParticipant()
         fun removeMember(member: AttendeeEntity): Int
         fun completeClick()

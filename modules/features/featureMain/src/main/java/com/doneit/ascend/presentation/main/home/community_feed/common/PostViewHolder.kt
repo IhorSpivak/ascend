@@ -6,8 +6,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.community_feed.PostNullable
 import com.doneit.ascend.presentation.common.setOnSingleClickListener
 import com.doneit.ascend.presentation.main.R
+import com.doneit.ascend.presentation.main.chats.chat.holder.ShareViewHolder
 import com.doneit.ascend.presentation.main.databinding.ListItemFeedBinding
 import com.doneit.ascend.presentation.main.databinding.ViewPostContentBinding
 import com.doneit.ascend.presentation.utils.applyFilter
@@ -23,7 +25,7 @@ class PostViewHolder(
 
     fun bind(post: Post) {
         with(binding) {
-            postModel = post
+            postModel = PostNullable.create(post)
             visibilityOfSend = true
             viewPostContent.setupAttachments(post.attachments)
             viewPostContent.applyResizing(post.attachments)

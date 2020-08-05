@@ -177,6 +177,17 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 scrollableContainer.requestFocus()
                 viewModel.addMember(viewModel.createGroupModel.groupType!!)
             }
+            binding.webinarPrice.editTextView.apply {
+                setOnFocusChangeListener { _, b ->
+                    if (b) {
+                        hideKeyboard()
+                        viewModel.onPriceClick(binding.webinarPrice.editTextView)
+                    }
+                }
+                binding.webinarPrice.editTextView.setOnClickListener {
+                    viewModel.onPriceClick(binding.webinarPrice.editTextView)
+                }
+            }
             description.multilineEditText.setOnEditorActionListener(object :
                 TextView.OnEditorActionListener {
                 override fun onEditorAction(p0: TextView?, p1: Int, p2: KeyEvent?): Boolean {
