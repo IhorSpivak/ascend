@@ -401,7 +401,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     }
 
     private fun handleMessages(list: PagedList<MessageEntity>) {
-        binding.emptyList.visible(list.isNullOrEmpty())
         messagesAdapter.submitList(list) {
             binding.messageList.doOnLayout {
                 if (isFirstLaunch) {
