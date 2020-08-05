@@ -147,7 +147,7 @@ interface ChatApi {
     @PUT("/api/v1/channels/{id}")
     fun updateChannelAsync(
         @Path("id") id: Long,
-        @Part part: List<MultipartBody.Part>
+        @Part part: List<MultipartBody.Part>?
     ): Deferred<Response<ChatResponse>>
 
     @POST("/api/v1/channels/{id}/subscribe")

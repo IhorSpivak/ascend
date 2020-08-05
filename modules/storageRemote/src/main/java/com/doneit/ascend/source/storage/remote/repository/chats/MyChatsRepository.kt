@@ -1,6 +1,8 @@
 package com.doneit.ascend.source.storage.remote.repository.chats
 
 import android.content.Context
+import android.net.Uri
+import androidx.core.content.FileProvider
 import com.doneit.ascend.source.storage.remote.api.ChatApi
 import com.doneit.ascend.source.storage.remote.data.request.*
 import com.doneit.ascend.source.storage.remote.data.response.*
@@ -189,7 +191,8 @@ internal class MyChatsRepository(
     ): RemoteResponse<ChatResponse, ErrorsListResponse> {
         return execute({
             val parts = getChannelMultipart(request)
-            api.updateChannelAsync(id, parts)
+            val remoteParts = if (parts.isEmpty()) null else parts
+            api.updateChannelAsync(id, remoteParts)
         }, ErrorsListResponse::class.java)
     }
 
@@ -232,7 +235,7 @@ internal class MyChatsRepository(
                     val file = File(image)
                     if (file.exists()) {
                         val filePart = MultipartBody.Part.createFormData(
-                            "image", "${UUID.randomUUID()}", file
+                            "image", "${UUID.randomUUID()}.${getContentType(image)}", file
                                 .asRequestBody("image/*".toMediaTypeOrNull())
                         )
                         addPart(filePart)
@@ -240,5 +243,16 @@ internal class MyChatsRepository(
                 }
             }
         }.build().parts
+    }
+
+    private fun getContentType(uri: String): String {
+        return context.contentResolver.getType(Uri.parse(uri))
+            ?: context.contentResolver.getType(
+                FileProvider.getUriForFile(
+                    context,
+                    context.packageName + ".fileprovider",
+                    File(uri)
+                )
+            ).toString().substringAfterLast('/')
     }
 }
