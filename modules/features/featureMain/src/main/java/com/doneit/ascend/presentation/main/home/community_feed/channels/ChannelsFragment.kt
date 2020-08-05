@@ -34,6 +34,8 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
     private var lastChecked: ChatEntity? = null
 
 
+
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         initChannelAdapter
 
@@ -43,10 +45,7 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
                 viewModel.onBackPressed()
             }
             tvNewChanel.setOnClickListener {
-                when (viewModel.user.value?.isMasterMind) {
-                    true -> showMenu(it)
-                    false -> viewModel.onNewChannelPressed()
-                }
+                    viewModel.onNewChannelPressed()
             }
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = true
@@ -109,22 +108,5 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
         dialog.show()
     }
 
-    private fun showMenu(v: View) {
-        PopupMenu(view?.context, v, Gravity.TOP).apply {
-            menuInflater.inflate(R.menu.create_new_channel_menu, this.menu)
-            setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.post_chat -> {
-                        viewModel.onNewChatPressed()
-                        true
-                    }
-                    R.id.post_channel -> {
-                        viewModel.onNewChannelPressed()
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }.show()
-    }
+
 }

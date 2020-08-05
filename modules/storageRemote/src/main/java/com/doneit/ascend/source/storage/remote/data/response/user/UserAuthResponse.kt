@@ -31,5 +31,6 @@ data class UserAuthResponse(
     @SerializedName("followers_count") val followersCount: Int?,
     @SerializedName("role") val role: String?,
     @SerializedName("community") val community: String?,
+    @SerializedName("created_channels_count") val created_channels_count: Int?,
     @SerializedName("communities") val communities: List<String>?
 )

@@ -36,5 +36,6 @@ data class UserLocal(
     val visitedGroupCount: Int = 0,
     val community: String? = "",
     val birthday: String? = "",
+    val created_channels_count: Int,
     val communities: List<String>?
 )

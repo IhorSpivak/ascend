@@ -37,6 +37,7 @@ data class UserEntity(
     val community: String?,
     val visitedGroupCount: Int,
     val birthday: Date?,
+    val created_channels_count: Int,
     val communities: List<String>?
 ) : Parcelable {
     val age: Int?

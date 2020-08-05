@@ -68,13 +68,14 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/tv_new_chanel"
                         style="@style/TextNormalSecond"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="11dp"
                         android:layout_marginEnd="16dp"
+                        android:background="@android:color/transparent"
                         android:text="@string/new_channel"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

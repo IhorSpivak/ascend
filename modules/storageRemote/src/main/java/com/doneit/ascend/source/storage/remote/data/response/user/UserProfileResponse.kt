@@ -30,5 +30,6 @@ data class UserProfileResponse(
     @SerializedName("followers_count") val followersCount: Int?,
     @SerializedName("my_rating") val myRating: Int?,
     @SerializedName("community") val community: String?,
+    @SerializedName("created_channels_count") val created_channels_count: Int?,
     @SerializedName("communities") val communities: List<String>?
 )
