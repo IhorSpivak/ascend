@@ -37,9 +37,9 @@ class ChatParticipantsAdapter(
             )
         )
 
+        diff.dispatchUpdatesTo(this)
+
         items.clear()
         items.addAll(newItems)
-
-        diff.dispatchUpdatesTo(this)
     }
 }

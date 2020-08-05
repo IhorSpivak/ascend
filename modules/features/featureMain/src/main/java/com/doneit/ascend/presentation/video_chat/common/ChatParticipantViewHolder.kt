@@ -33,6 +33,7 @@ class ChatParticipantViewHolder(
             it.addRenderer(binding.videoView)
             binding.videoView.visible(true)
         }
+        model.removeSecondaryVideoListener()
         model.setSecondaryVideoListener(getParticipantsListener(model))
         if(binding.url != model.image?.thumbnail?.url) {
             binding.url = model.image?.thumbnail?.url
