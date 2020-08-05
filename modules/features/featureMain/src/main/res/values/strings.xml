@@ -740,5 +740,6 @@
     <string name="error_channel_title">Please, enter the Channel Name correctly</string>
     <string name="error_channel_description">Please, enter the Channel Description correctly</string>
 
+    <string name="nul">0</string>
 
 </resources>

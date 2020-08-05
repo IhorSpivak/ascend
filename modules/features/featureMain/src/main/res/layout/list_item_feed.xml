@@ -5,7 +5,7 @@
 
         <variable
             name="postModel"
-            type="com.doneit.ascend.domain.entity.community_feed.Post" />
+            type="com.doneit.ascend.domain.entity.community_feed.PostNullable" />
 
         <variable
             name="visibilityOfSend"

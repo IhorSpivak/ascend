@@ -11,6 +11,8 @@
 
         <import type="com.doneit.ascend.domain.entity.community_feed.ContentType" />
 
+        <import type="android.view.View" />
+
         <variable
             name="member"
             type="com.doneit.ascend.domain.entity.chats.MemberEntity" />
@@ -21,7 +23,7 @@
 
         <variable
             name="postModel"
-            type="com.doneit.ascend.domain.entity.community_feed.Post" />
+            type="com.doneit.ascend.domain.entity.community_feed.PostNullable" />
 
         <variable
             name="isOwner"
@@ -125,7 +127,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sharedPost"
+            android:visibility="@{postModel.id != null ? View.VISIBLE : View.GONE}"
             app:postModel="@{postModel}" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
