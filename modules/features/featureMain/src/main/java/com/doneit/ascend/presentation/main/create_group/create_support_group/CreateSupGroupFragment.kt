@@ -103,10 +103,10 @@ class CreateSupGroupFragment :
                 group = arguments!!.getParcelable(it.toString())
                 if (group != null) {
                     what = it.toString()
+                    viewModel.loadParticipants(group!!.id, what.orEmpty())
                 }
             }
         }
-        viewModel.loadParticipants(group!!.id, what.orEmpty())
         binding.apply {
             model = viewModel
             adapter = adapter
