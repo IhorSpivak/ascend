@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="com.doneit.ascend.presentation.utils.extensions.DateExtensionsKt" />
+
         <variable
             name="messageEntity"
             type="com.doneit.ascend.domain.entity.chats.MessageEntity" />
@@ -224,6 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="8dp"
+                    android:text="@{DateExtensionsKt.getTimeFormat(context).format(messageEntity.createdAt)}"
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="@id/user_name"
                     app:layout_constraintEnd_toEndOf="parent"

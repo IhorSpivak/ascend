@@ -214,6 +214,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp"
+                        android:text="@{DateExtensionsKt.getTimeFormat(context).format(messageEntity.createdAt)}"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@id/my_name"
                         app:layout_constraintEnd_toStartOf="@id/my_message_status"
