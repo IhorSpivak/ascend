@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.CreateAttachmentFileModel
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
+import java.io.File
 
 interface AttachmentsContract {
     interface ViewModel : BaseViewModel {
@@ -18,6 +19,7 @@ interface AttachmentsContract {
         val navigation: LiveData<Navigation>
         val showAddAttachmentDialog: SingleLiveManager<Unit>
         val transferEvents: LiveData<TransferEvent>
+        val showPreview: LiveData<File>
 
         fun backClick()
         fun onDelete(id: Long)
