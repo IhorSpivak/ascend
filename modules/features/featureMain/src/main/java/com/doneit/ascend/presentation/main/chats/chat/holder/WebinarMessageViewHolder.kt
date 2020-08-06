@@ -51,7 +51,7 @@ class WebinarMessageViewHolder(
             sendTime = root.context.getTimeFormat().format(messageEntity.createdAt!!)
             time.text =
                 START_TIME_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
-            time.visible(
+            time.visibleOrGone(
                 nextMessage == null || calculateDate(
                     messageEntity.createdAt!!,
                     nextMessage.createdAt!!
