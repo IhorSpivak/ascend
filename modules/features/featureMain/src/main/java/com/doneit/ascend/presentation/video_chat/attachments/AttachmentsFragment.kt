@@ -28,8 +28,8 @@ import com.doneit.ascend.presentation.utils.extensions.copyToClipboard
 import com.doneit.ascend.presentation.utils.showAddAttachmentDialog
 import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter
 import com.doneit.ascend.presentation.video_chat.attachments.listeners.PickiTListener
-import com.github.piasy.biv.BigImageViewer
-import com.github.piasy.biv.loader.glide.GlideImageLoader
+/*import com.github.piasy.biv.BigImageViewer
+import com.github.piasy.biv.loader.glide.GlideImageLoader*/
 import com.hbisoft.pickit.PickiT
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
