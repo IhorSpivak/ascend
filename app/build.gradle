@@ -11,14 +11,10 @@ android {
         prod {
             keyAlias 'ascend'
             keyPassword 'ascend'
-            storeFile file('$rootDir/../ascend_key.jks')
+            storeFile file("$projectDir/ascend_key.jks")
             storePassword 'ascend'
         }
         dev {
-            keyAlias 'ascend'
-            keyPassword 'ascend'
-            storeFile file('$rootDir/../ascend_key.jks')
-            storePassword 'ascend'
         }
     }
 
