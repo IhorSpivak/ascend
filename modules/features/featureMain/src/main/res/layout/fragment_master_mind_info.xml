@@ -124,6 +124,23 @@
                                 app:layout_constraintTop_toBottomOf="@+id/rbRating"
                                 tools:text="MasterMind" />
 
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvDescription"
+                                style="@style/TextNormal"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="20dp"
+                                android:gravity="center"
+                                android:text="@{model.profile.description}"
+                                android:textColor="#7E7D8F"
+                                android:visibility='@{model.profile.description.equals("") || model.profile.description == null ? View.GONE : View.VISIBLE}'
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvShortDescription"
+                                tools:text="MasterMind" />
+
                             <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/tvFollowersCount"
                                 style="@style/AppTheme.Button"
@@ -136,10 +153,10 @@
                                 android:textAllCaps="false"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="12sp"
-                                android:visibility="@{model.profile.masterMind?View.VISIBLE:View.INVISIBLE}"
+                                android:visibility="@{model.profile.masterMind?View.VISIBLE:View.GONE}"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
+                                app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"

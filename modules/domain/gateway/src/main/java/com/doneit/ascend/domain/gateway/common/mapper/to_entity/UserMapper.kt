@@ -76,7 +76,7 @@ fun UserProfileResponse.toEntity(): UserEntity {
         blockedUsersCount ?: 0,
         image?.toEntity(),
         null,
-        null,
+        description,
         null,
         null,
         rated ?: false,
