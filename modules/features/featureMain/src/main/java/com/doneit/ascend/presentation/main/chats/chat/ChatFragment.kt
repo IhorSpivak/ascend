@@ -49,6 +49,7 @@ import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 import java.io.File
 import java.util.*
+import com.doneit.ascend.domain.entity.dto.ChatType as GeneralChatType
 import com.doneit.ascend.domain.entity.dto.ChatType as InnerChatType
 
 
@@ -159,11 +160,14 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     }
 
     private fun FragmentChatBinding.closeInputIfBlocked() {
-        //if chat is blocked Enter message = gone
-        if (chatWithUser.chat.blocked || chatWithUser.chat.isPrivate) {
+        fun hide() {
             message.gone()
             send.gone()
             addAttachments.gone()
+        }
+        //if chat is blocked Enter message = gone
+        if (chatWithUser.chat.blocked || (chatWithUser.chat.isPrivate && !chatWithUser.isOwner())) {
+            hide()
         }
         //check when user leaved group chat
         if (chatWithUser.chat.chatOwnerId != chatWithUser.user.id) {
@@ -172,9 +176,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                     .firstOrNull { it.id == chatWithUser.user.id }
                     ?.let {
                         if (it.leaved) {
-                            message.gone()
-                            send.gone()
-                            addAttachments.gone()
+                            hide()
                         }
                     }
             }
@@ -349,23 +351,31 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private fun defineMenuResId() {
         menuResId = if (!chatWithUser.chat.isPrivate) {
             if (chatWithUser.user.id == chatWithUser.chat.chatOwnerId) {
-                if (chatWithUser.chat.chatType.type == "chat") {
+                if (chatWithUser.chat.chatType == GeneralChatType.CHAT) {
                     R.menu.chat_mm_group_menu
                 } else {
                     R.menu.mm_channel_menu
                 }
             } else {
-                if (chatWithUser.chat.chatType.type == "chat") {
+                if (chatWithUser.chat.chatType == GeneralChatType.CHAT) {
                     R.menu.chat_ru_group_menu
                 } else {
                     R.menu.channel_ru_menu
                 }
             }
         } else {
-            if (chatWithUser.chat.blocked) {
-                R.menu.chat_mm_menu_unblock
+            if (chatWithUser.chat.chatType == GeneralChatType.CHAT) {
+                if (chatWithUser.chat.blocked) {
+                    R.menu.chat_mm_menu_unblock
+                } else {
+                    R.menu.chat_mm_menu
+                }
             } else {
-                R.menu.chat_mm_menu
+                if (chatWithUser.user.id == chatWithUser.chat.chatOwnerId) {
+                    R.menu.mm_channel_menu
+                } else {
+                    R.menu.channel_ru_menu
+                }
             }
         }
     }
