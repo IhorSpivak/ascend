@@ -57,11 +57,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <com.github.piasy.biv.view.BigImageView
+        <!--<com.github.piasy.biv.view.BigImageView
             android:id="@+id/bigImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:optimizeDisplay="true" />
+            app:optimizeDisplay="true" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

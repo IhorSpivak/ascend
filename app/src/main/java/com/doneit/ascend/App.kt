@@ -5,8 +5,6 @@ import android.util.Log
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.video_chat.delegates.VideoChatUtils
 import com.doneit.ascend.retrofit.common.RetrofitConfig
-import com.github.piasy.biv.BigImageViewer
-import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.google.firebase.FirebaseApp
 import com.stripe.android.PaymentConfiguration
 import com.twitter.sdk.android.core.DefaultLogger
@@ -57,8 +55,6 @@ class App : Application(), KodeinAware {
             PaymentConfiguration.init(applicationContext, Constants.STRIPE_KEY_LIVE)
         }
         FirebaseApp.initializeApp(this)
-
-        BigImageViewer.initialize(GlideImageLoader.with(this))
 
         kodeinTrigger.trigger()
     }
