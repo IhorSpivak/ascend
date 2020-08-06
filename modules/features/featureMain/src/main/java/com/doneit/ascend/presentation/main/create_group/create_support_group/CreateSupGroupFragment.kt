@@ -28,6 +28,8 @@ import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
+import com.doneit.ascend.presentation.main.common.gone
+import com.doneit.ascend.presentation.main.common.invisible
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
@@ -154,7 +156,10 @@ class CreateSupGroupFragment :
             viewModel.createGroupModel.participants.set(it.map {
                 it.email.orEmpty()
             })
+
             membersAdapter.submitList(it)
+
+
         })
 
         viewModel.clearReservationSeat.observe(this) {

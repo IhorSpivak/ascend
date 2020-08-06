@@ -3,9 +3,11 @@ package com.doneit.ascend.presentation
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.SpinnerAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -30,7 +32,6 @@ import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.toCapitalLetter
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
 import org.kodein.di.generic.bind
@@ -111,13 +112,15 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.fabCreateGroup.setOnClickListener {
             viewModel.onCreateGroupClick()
         }
-
-        binding.tvTitle.setOnClickListener {
-           showMenu(btbNotification)
-        }
         viewModel.communities.observe(this, Observer {
+            val adapter =
+                ArrayAdapter<String>(this, R.layout.community_spinner_item, it.map { it.title.toUpperCase() })
 
-            it.indexOfFirst { it.isSelected }
+            initSpinner(
+                binding.communityDropDown,
+                communityListener,
+                adapter,
+                it.indexOfFirst { it.isSelected })
         })
 
         setBottomNavigationListeners()
@@ -165,16 +168,16 @@ class MainActivity : BaseActivity(), MainActivityListener {
     override fun setTitle(title: String) {
         binding.tvTitle.text = title
         binding.tvTitle.visible()
-
-//        binding.communityDropDown.gone()
+        binding.ascendLogo.gone()
+        binding.communityDropDown.gone()
     }
 
     override fun setCommunityTitle(title: String) {
-        binding.tvTitle.visible()
-
-//        binding.communityDropDown.visible()
+        binding.tvTitle.gone()
+        binding.ascendLogo.visible()
+        binding.communityDropDown.visible()
         viewModel.communities.value?.indexOfFirst { it.title.toUpperCase() == title.toUpperCase() }?.also {
-//            binding.communityDropDown.setSelection(it)
+            binding.communityDropDown.setSelection(it)
         }
 
     }
@@ -223,44 +226,28 @@ class MainActivity : BaseActivity(), MainActivityListener {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun initSpinner(spinner: Spinner, listener: AdapterView.OnItemSelectedListener, spinnerAdapter: SpinnerAdapter, selectedCommunity: Int) {
+    private fun initSpinner(
+        spinner: Spinner,
+        listener: AdapterView.OnItemSelectedListener,
+        spinnerAdapter: SpinnerAdapter,
+        selectedCommunity: Int
+    ) {
         spinner.adapter = spinnerAdapter
         spinner.setSelection(selectedCommunity)
         spinner.onItemSelectedListener = listener
     }
 
-//    private val communityListener: AdapterView.OnItemSelectedListener by lazy {
-//        object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                viewModel.saveCommunity((binding.communityDropDown.selectedItem as String).toCapitalLetter())
-//            }
-//
-//            override fun onNothingSelected(p0: AdapterView<*>?) {
-//
-//            }
-//        }
-//    }
-
-    private fun showMenu(v: View) {
-        PopupMenu(v.context, v, Gravity.CENTER).apply {
-            menuInflater.inflate(R.menu.create_new_chat_menu, this.menu)
-
-            setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.post_chat -> {
-
-                        true
-                    }
-                    R.id.post_channel -> {
-
-                        true
-                    }
-                    else -> false
-                }
+    private val communityListener: AdapterView.OnItemSelectedListener by lazy {
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                viewModel.saveCommunity((binding.communityDropDown.selectedItem as String).toCapitalLetter())
             }
-        }.show()
-    }
 
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+    }
 
     companion object {
         const val HOME_VM_TAG = "HOME_VM_TAG"

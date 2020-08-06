@@ -54,7 +54,7 @@ class AddMemberFragment : BaseFragment<FragmentAddMemberBinding>() {
                 }
             })
         when (arguments!!.getString(GROUP_TYPE)) {
-            GroupType.INDIVIDUAL.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 1)
+            GroupType.INDIVIDUAL.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 50)
             GroupType.MASTER_MIND.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 50)
             GroupType.WEBINAR.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 3)
             GroupType.SUPPORT.toString() -> viewModel.canAddMembers.postValue(viewModel.selectedMembers.size < 50)
