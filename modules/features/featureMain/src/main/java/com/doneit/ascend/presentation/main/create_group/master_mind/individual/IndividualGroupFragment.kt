@@ -33,6 +33,7 @@ import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualG
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
+import kotlinx.android.synthetic.main.fragment_create_individual_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -60,6 +61,9 @@ class IndividualGroupFragment(
             val removedIndex = viewModel.removeMember(it)
             if (removedIndex != -1) {
                 membersAdapter.remove(removedIndex)
+                if(membersAdapter.itemCount < 50){
+                    addMemberContainer.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -171,6 +175,9 @@ class IndividualGroupFragment(
         }
 
         viewModel.members.observe(this, Observer {
+            if(it.size > 49){
+                addMemberContainer.visibility = View.VISIBLE
+            }
             membersAdapter.submitList(it)
         })
 

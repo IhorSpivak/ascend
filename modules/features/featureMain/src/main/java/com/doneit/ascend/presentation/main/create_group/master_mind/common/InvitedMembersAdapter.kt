@@ -31,6 +31,7 @@ class InvitedMembersAdapter(
     fun remove(index: Int){
         list.removeAt(index)
         notifyItemRemoved(index)
+
     }
 
     private class AttendeeDiffCallback(
