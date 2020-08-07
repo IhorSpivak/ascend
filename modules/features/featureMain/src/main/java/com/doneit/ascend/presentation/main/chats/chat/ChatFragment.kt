@@ -390,7 +390,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
     private fun handleChat(chat: ChatWithUser) {
         binding.chat = chat.chat
-        if (!chat.chat.isPrivate) {
+        if (!chat.chat.isPrivate || chat.chat.chatType == InnerChatType.CHANNEL) {
             binding.url = chatWithUser.chat.image?.url
             binding.statusOrCount = resources.getString(
                 R.string.chats_member_count,
