@@ -35,7 +35,7 @@ interface VideoChatContract {
         fun navigateToMMChatOptions()
         fun navigateToChatParticipantActions(userId: String)
         fun navigateToPermissionsRequiredDialog(resultCode: VideoChatActivity.ResultStatus)
-        fun navigateToAttachments(groupId: Long)
+        fun navigateToAttachments(groupId: Long, isOwner: Boolean)
         fun navigateToNotes(groupId: Long)
         fun navigateToGoal(groupId: Long)
     }

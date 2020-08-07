@@ -6,12 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.os.Handler
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
@@ -30,7 +28,6 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.CreateAttachmentFileModel
 import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.Constants
-import com.doneit.ascend.presentation.utils.copyFile
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.doneit.ascend.presentation.video_chat.attachments.listeners.AmazoneTransferListener
 import com.vrgsoft.annotations.CreateFactory
@@ -90,6 +87,7 @@ class AttachmentsViewModel(
                     )
                     transferEvents.postValue(TransferEvent.COMPLETED)
                 }
+                else -> Unit
             }
         }
     }
@@ -162,16 +160,19 @@ class AttachmentsViewModel(
         }
     }
 
-    inner class DownloadListener(val file: File): AmazoneTransferListener() {
+    inner class DownloadListener(val file: File) : AmazoneTransferListener() {
 
         private fun copyFileData(destinationContentUri: Uri, fileToExport: File) {
-            context.contentResolver.openFileDescriptor(destinationContentUri, "w").use { parcelFileDescriptor ->
-                ParcelFileDescriptor.AutoCloseOutputStream(parcelFileDescriptor).write(fileToExport.readBytes())
-            }
+            context.contentResolver.openFileDescriptor(destinationContentUri, "w")
+                .use { parcelFileDescriptor ->
+                    ParcelFileDescriptor.AutoCloseOutputStream(parcelFileDescriptor)
+                        .write(fileToExport.readBytes())
+                }
         }
 
-        private fun saveFileToDownloads() {
-            val picturesDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        private fun saveFileToDownloads(): Uri {
+            val picturesDirectory =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             if (!picturesDirectory.exists()) {
                 picturesDirectory?.mkdirs()
             }
@@ -187,11 +188,13 @@ class AttachmentsViewModel(
 
             val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
             mediaScanIntent.data = fileExported.toUri()
+            return fileExported.toUri()
         }
 
         @RequiresApi(Build.VERSION_CODES.Q)
-        private fun saveFileToDownloadsQ() {
-            val imageCollection = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        private fun saveFileToDownloadsQ(): Uri {
+            val imageCollection =
+                MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
             val relativeLocation = "${Environment.DIRECTORY_DOWNLOADS}/ascent"
 
             val contentDetails = ContentValues().apply {
@@ -208,6 +211,7 @@ class AttachmentsViewModel(
                 contentDetails.put(MediaStore.Downloads.IS_PENDING, 0)
                 context.contentResolver.update(insertedContentUri, contentDetails, null, null)
             }
+            return contentUri?: Uri.EMPTY
         }
 
         override fun onStateChanged(id: Int, state: TransferState?) {
@@ -217,17 +221,17 @@ class AttachmentsViewModel(
                 }
 
                 TransferState.COMPLETED -> {
-                    showPreview.postValue(file)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    val exported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         saveFileToDownloadsQ()
                     } else {
                         saveFileToDownloads()
                     }
+                    showPreview.postValue(file)
 
                     transferEvents.postValue(TransferEvent.COMPLETED)
                 }
 
-                else -> {}
+                else -> Unit
             }
         }
 

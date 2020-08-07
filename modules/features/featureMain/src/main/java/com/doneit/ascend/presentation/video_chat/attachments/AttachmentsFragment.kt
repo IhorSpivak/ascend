@@ -1,13 +1,16 @@
 package com.doneit.ascend.presentation.video_chat.attachments
 
+/*import com.github.piasy.biv.BigImageViewer
+import com.github.piasy.biv.loader.glide.GlideImageLoader*/
 import android.Manifest
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Toast
-import androidx.core.net.toUri
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
@@ -28,8 +31,6 @@ import com.doneit.ascend.presentation.utils.extensions.copyToClipboard
 import com.doneit.ascend.presentation.utils.showAddAttachmentDialog
 import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter
 import com.doneit.ascend.presentation.video_chat.attachments.listeners.PickiTListener
-/*import com.github.piasy.biv.BigImageViewer
-import com.github.piasy.biv.loader.glide.GlideImageLoader*/
 import com.hbisoft.pickit.PickiT
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -110,9 +111,12 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.adapter = this.adapter
         binding.model = viewModel
+        binding.isOwner = requireArguments().getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)?.isOwner
 
         val decorator =
-            SideListDecorator(paddingTop = resources.getDimension(R.dimen.attachments_list_top_padding).toInt())
+            SideListDecorator(
+                paddingTop = resources.getDimension(R.dimen.attachments_list_top_padding).toInt()
+            )
         binding.rvAttachments.addItemDecoration(decorator)
         binding.addAttachments.setOnClickListener {
             viewModel.onAddAttachmentClick()
@@ -134,8 +138,20 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
             Toast.makeText(requireContext(), getString(it.messageRes), Toast.LENGTH_LONG).show()
         })
 
-        viewModel.showPreview.observe(viewLifecycleOwner, Observer {  file ->
-            //binding.bigImage.showImage(file.toUri())
+        viewModel.showPreview.observe(viewLifecycleOwner, Observer { file ->
+            Intent(Intent.ACTION_VIEW).apply {
+                val fileUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    requireContext().applicationContext.packageName + ".fileprovider",
+                    file
+                )
+                data = fileUri
+                try {
+                    startActivity(this)
+                } catch (e: ActivityNotFoundException) {
+                    1
+                }
+            }
         })
 
         val groupId = arguments!!.getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)!!.groupId

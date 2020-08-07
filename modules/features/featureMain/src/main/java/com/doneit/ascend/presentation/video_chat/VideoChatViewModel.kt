@@ -116,15 +116,15 @@ class VideoChatViewModel(
                 isAllMuted.value = false
             }
         }
-        showVideo.addSource(participants){
-            if(it.size == 2) {
+        showVideo.addSource(participants) {
+            if (it.size == 2) {
                 showVideo.value = it.firstOrNull { it.userId != currentUserId }
             } else {
                 showVideo.value = currentSpeaker.value
             }
         }
-        showVideo.addSource(currentSpeaker){
-            if(participants.value!!.size == 2) {
+        showVideo.addSource(currentSpeaker) {
+            if (participants.value!!.size == 2) {
                 showVideo.value = participants.value!!.firstOrNull { it.userId != currentUserId }
             } else {
                 if (it != null && it.isSpeaker) {
@@ -145,7 +145,7 @@ class VideoChatViewModel(
                 )
             }
 
-            when (socketEvent?.event) {
+            when (socketEvent.event) {
                 SocketEvent.PARTICIPANT_CONNECTED -> {
                     if (user.userId == groupInfo.value?.owner?.id.toString()) user.isOwner = true
                     participantsManager.addParticipant(user)
@@ -238,7 +238,7 @@ class VideoChatViewModel(
     }
 
     override fun init(groupId: Long) {
-        if(this.groupId == -1L) {
+        if (this.groupId == -1L) {
             this.groupId = groupId
             postDefaultValues()
 
@@ -319,10 +319,10 @@ class VideoChatViewModel(
                     newItem
                 }.toMutableList()
                 groupInfo.value?.owner?.apply {
-                    if(connected)
-                    toPresentation().let {
-                        joinedUsers.add(it)
-                    }
+                    if (connected)
+                        toPresentation().let {
+                            joinedUsers.add(it)
+                        }
                 }
 
                 participantsManager.addParticipants(joinedUsers)
@@ -470,6 +470,10 @@ class VideoChatViewModel(
 
     override fun onAttachmentsClick() {
         VideoChatContract.Navigation.TO_ATTACHMENTS.data.putLong(GROUP_ID_KEY, groupId)
+        VideoChatContract.Navigation.TO_ATTACHMENTS.data.putLong(
+            USER_ID_KEY,
+            currentUserId.toLong()
+        )
         navigation.postValue(VideoChatContract.Navigation.TO_ATTACHMENTS)
     }
 
