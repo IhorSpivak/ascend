@@ -108,7 +108,10 @@ class VideoChatActivity : BaseActivity() {
             }
             VideoChatContract.Navigation.TO_ATTACHMENTS -> {
                 val groupId = action.data.getLong(VideoChatViewModel.GROUP_ID_KEY)
-                router.navigateToAttachments(groupId)
+                val userId = action.data.getLong(VideoChatViewModel.USER_ID_KEY)
+                router.navigateToAttachments(
+                    groupId,
+                    viewModel.groupInfo.value?.owner?.id == userId)
             }
             VideoChatContract.Navigation.TO_NOTES -> {
                 val groupId = action.data.getLong(VideoChatViewModel.GROUP_ID_KEY)

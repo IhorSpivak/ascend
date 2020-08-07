@@ -7,7 +7,7 @@ import com.doneit.ascend.source.storage.local.data.AttachmentLocal
 @Dao
 interface AttachmentDao{
 
-    @Query("SELECT * FROM attachments")
+    @Query("SELECT * FROM attachments ORDER BY created_at")
     fun getAll(): DataSource.Factory<Int, AttachmentLocal>
 
     @Transaction

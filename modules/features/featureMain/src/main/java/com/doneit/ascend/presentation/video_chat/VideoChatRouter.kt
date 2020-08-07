@@ -76,10 +76,10 @@ class VideoChatRouter(
         )
     }
 
-    override fun navigateToAttachments(groupId: Long) {
+    override fun navigateToAttachments(groupId: Long, isOwner: Boolean) {
         activity.supportFragmentManager.add(
             fullContainerId, AttachmentsFragment.newInstance(
-                AttachmentsArg(groupId)
+                AttachmentsArg(groupId, isOwner)
             )
         )
     }
