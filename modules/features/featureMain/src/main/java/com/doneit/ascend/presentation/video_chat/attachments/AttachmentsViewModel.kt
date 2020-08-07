@@ -64,7 +64,7 @@ class AttachmentsViewModel(
     override val showAddAttachmentDialog = SingleLiveManager(Unit)
     override val navigation = SingleLiveEvent<AttachmentsContract.Navigation>()
     override val transferEvents = SingleLiveEvent<TransferEvent>()
-    override val showPreview = MutableLiveData<File>()
+    override val showPreview = MutableLiveData<Uri>()
 
     private val modelsToUpload = hashMapOf<Int, CreateAttachmentDTO>()
     private val observers: MutableList<TransferObserver> by lazy {
@@ -226,9 +226,8 @@ class AttachmentsViewModel(
                     } else {
                         saveFileToDownloads()
                     }
-                    showPreview.postValue(file)
-
                     transferEvents.postValue(TransferEvent.COMPLETED)
+                    showPreview.postValue(exported)
                 }
 
                 else -> Unit

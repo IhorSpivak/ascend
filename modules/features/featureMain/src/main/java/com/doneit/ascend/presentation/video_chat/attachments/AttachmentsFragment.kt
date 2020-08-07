@@ -37,6 +37,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+import java.io.File
 
 
 class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
@@ -111,7 +112,8 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.adapter = this.adapter
         binding.model = viewModel
-        binding.isOwner = requireArguments().getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)?.isOwner
+        binding.isOwner =
+            requireArguments().getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)?.isOwner
 
         val decorator =
             SideListDecorator(
@@ -138,16 +140,17 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
             Toast.makeText(requireContext(), getString(it.messageRes), Toast.LENGTH_LONG).show()
         })
 
-        viewModel.showPreview.observe(viewLifecycleOwner, Observer { file ->
+        viewModel.showPreview.observe(viewLifecycleOwner, Observer { uri ->
             Intent(Intent.ACTION_VIEW).apply {
                 val fileUri = FileProvider.getUriForFile(
                     requireContext(),
                     requireContext().applicationContext.packageName + ".fileprovider",
-                    file
+                    File(uri.path.orEmpty())
                 )
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
                 data = fileUri
                 try {
-                    startActivity(this)
+                    startActivity(Intent.createChooser(this,getString(R.string.preview)))
                 } catch (e: ActivityNotFoundException) {
                     1
                 }
