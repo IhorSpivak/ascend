@@ -67,6 +67,7 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             emptyList.visible(it.chat.isNullOrEmpty())
             initChannelAdapter.submitList(it.chat)
         })
+
     }
 
     private fun handleChatNavigation(channel: ChatEntity){
