@@ -230,8 +230,6 @@
                     android:textSize="10sp"
                     app:layout_constraintBottom_toBottomOf="@id/user_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@+id/user_name"
                     tools:ignore="SmallSp"
                     tools:text="123kl1;2" />
 
