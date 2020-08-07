@@ -17,8 +17,8 @@ internal class RedirectInterceptor(
         val response = chain.proceed(newRequest)
         if (response.code ==  HttpURLConnection.HTTP_UNAUTHORIZED && newRequest.url.toString() != RetrofitConfig.baseUrl + URL_UNAUTHORIZED) {
             Intent(context, LogInActivity::class.java).apply {
+                this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 this.putExtra(LOGOUT, LOGOUT)
                 context.startActivity(this)
             }

@@ -73,7 +73,7 @@
                         style="@style/TextNormalSecond"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="11dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:background="@android:color/transparent"
                         android:text="@string/new_channel"
