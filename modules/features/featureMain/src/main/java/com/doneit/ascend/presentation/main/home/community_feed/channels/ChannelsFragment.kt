@@ -1,9 +1,6 @@
 package com.doneit.ascend.presentation.main.home.community_feed.channels
 
 import android.os.Bundle
-import android.view.Gravity
-import android.view.View
-import android.widget.PopupMenu
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -16,7 +13,6 @@ import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChannelsBinding
 import com.doneit.ascend.presentation.main.home.community_feed.channels.common.ChannelAdapter
 import com.doneit.ascend.presentation.utils.extensions.visible
-import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_bottom_sheet_channels.view.*
 import kotlinx.android.synthetic.main.fragment_my_chats.*
@@ -31,9 +27,6 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             handleChatNavigation(it)
         } to { binding.rvChats }
     }
-    private var lastChecked: ChatEntity? = null
-
-
 
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -45,7 +38,7 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
                 viewModel.onBackPressed()
             }
             tvNewChanel.setOnClickListener {
-                    viewModel.onNewChannelPressed()
+                viewModel.onNewChannelPressed()
             }
             swipeRefresh.setOnRefreshListener {
                 swipeRefresh.isRefreshing = true
@@ -67,16 +60,15 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
             emptyList.visible(it.chat.isNullOrEmpty())
             initChannelAdapter.submitList(it.chat)
         })
-
     }
 
-    private fun handleChatNavigation(channel: ChatEntity){
-        if(channel.chatOwnerId == viewModel.user.value!!.id){
-             viewModel.onChannelPressed(channel)
+    private fun handleChatNavigation(channel: ChatEntity) {
+        if (channel.chatOwnerId == viewModel.user.value!!.id) {
+            viewModel.onChannelPressed(channel)
         }
-        when(channel.isSubscribed){
-            true->  viewModel.onChannelPressed(channel)
-            false->  showChannelsDialogInfo(channel)
+        when (channel.isSubscribed) {
+            true -> viewModel.onChannelPressed(channel)
+            false -> showChannelsDialogInfo(channel)
         }
     }
 
@@ -85,9 +77,9 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
         val dialog = BottomSheetDialog(context!!)
         dialog.setContentView(view)
         view.titleChannel.text = channel.title
-        when(channel.isPrivate){
-            true ->  view.channelType.text = resources.getString(R.string.private_channel)
-            false ->  view.channelType.text = resources.getString(R.string.public_channel)
+        when (channel.isPrivate) {
+            true -> view.channelType.text = resources.getString(R.string.private_channel)
+            false -> view.channelType.text = resources.getString(R.string.public_channel)
         }
         view.user_name.text = channel.owner?.fullName
         view.descriptionChannel.text = channel.description
