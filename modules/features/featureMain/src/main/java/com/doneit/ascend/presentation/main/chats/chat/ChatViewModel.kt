@@ -244,6 +244,7 @@ class ChatViewModel(
                 if (it.isSuccessful.not()) {
                     showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                 } else {
+                    userUseCase.updateCurrentUserData()
                     router.onBack()
                 }
             }

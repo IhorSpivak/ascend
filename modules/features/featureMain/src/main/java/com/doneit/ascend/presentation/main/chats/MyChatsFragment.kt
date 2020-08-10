@@ -49,7 +49,7 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
             rvChats.adapter = adapter
             tvNewChat.setOnClickListener {
                 when (viewModel.user.value?.isMasterMind) {
-                    true -> showMenu(it)
+                    true -> showMenu(it, viewModel.user.value?.created_channels_count ?: 0)
                     false -> viewModel.onNewChatPressed()
                 }
             }
@@ -125,10 +125,10 @@ class MyChatsFragment : BaseFragment<FragmentMyChatsBinding>() {
         ) { viewModel.onDelete(id) }.show()
     }
 
-    private fun showMenu(v: View) {
+    private fun showMenu(v: View, channelCount: Int) {
         PopupMenu(view?.context, v, Gravity.TOP).apply {
             menuInflater.inflate(R.menu.create_new_chat_menu, this.menu)
-
+            this.menu.findItem(R.id.post_channel).isEnabled = channelCount < 2
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.post_chat -> {

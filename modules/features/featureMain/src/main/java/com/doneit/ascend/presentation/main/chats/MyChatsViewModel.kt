@@ -88,6 +88,8 @@ class MyChatsViewModel(
 
             if (response.isSuccessful.not()) {
                 showDefaultErrorMessage(response.errorModel!!.toErrorMessage())
+            } else {
+                userUseCase.updateCurrentUserData()
             }
         }
     }

@@ -27,7 +27,13 @@ class PostsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             TYPE_HEADER -> {
-                (holder as PostsHeaderViewHolder).bind(channelList ?: return)
+                (holder as PostsHeaderViewHolder).apply {
+                    channelList?.let {
+                        bind(it)
+                    } ?: run {
+                        bind()
+                    }
+                }
             }
             TYPE_OTHER -> {
                 (holder as PostViewHolder).bind(getItem(position))

@@ -125,7 +125,7 @@ fun UserLocal.toUserEntity(): UserEntity {
         followed = followed,
         allowRating = allowRating,
         groupsCount = groupsCount,
-        created_channels_count = groupsCount,
+        created_channels_count = created_channels_count,
         followersCount = followersCount
     )
 }
