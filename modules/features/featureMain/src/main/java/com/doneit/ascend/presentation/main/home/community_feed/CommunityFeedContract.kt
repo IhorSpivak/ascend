@@ -12,6 +12,7 @@ interface CommunityFeedContract {
     interface ViewModel : BaseViewModel {
         val posts: LiveData<PagedList<Post>>
         val channels: LiveData<PagedList<ChatEntity>>
+        val user: UserEntity
 
         fun initUser(user: UserEntity)
         fun onEditPostClick(post: Post)
@@ -27,10 +28,12 @@ interface CommunityFeedContract {
         fun reportUser(reason: String, userId: Long)
         fun attachmentClicked(attachments: List<Attachment>, selected: Int)
         fun updateCommentsCount(postId: Long, commentsCount: Int)
+        fun onJoinChannel(channel: ChatEntity)
     }
 
     interface Router {
         fun navigateToCreatePost(post: Post? = null)
+        fun navigateToChannel(channel: ChatEntity, userEntity: UserEntity)
         fun navigateToPreview(attachments: List<Attachment>, selected: Int)
         fun navigateToChannels()
         fun navigateToMMInfo(userId: Long)
