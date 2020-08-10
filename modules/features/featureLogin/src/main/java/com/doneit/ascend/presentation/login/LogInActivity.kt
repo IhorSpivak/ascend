@@ -16,6 +16,7 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
+
 class LogInActivity : BaseActivity() {
     override fun diModule() = Kodein.Module("LogInActivity") {
         bind<LogInLocalRouter>() with singleton { LogInLocalRouter(this@LogInActivity, instance()) }

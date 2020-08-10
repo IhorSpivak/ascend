@@ -13,7 +13,7 @@
 
         <variable
             name="postModel"
-            type="com.doneit.ascend.domain.entity.community_feed.Post" />
+            type="com.doneit.ascend.domain.entity.community_feed.PostNullable" />
 
         <variable
             name="visibilityOfSend"
@@ -73,7 +73,7 @@
             android:layout_marginEnd="8dp"
             android:layout_toStartOf="@id/btnBlock"
             android:layout_toEndOf="@+id/mmiAvatar"
-            android:text="@{DateExtensionsKt.formatPostDate(postModel.updatedAt)}"
+            android:text="@{postModel.updatedAt != null ? DateExtensionsKt.formatPostDate(postModel.updatedAt) : @string/nul}"
             android:textAppearance="@style/TextNormal"
             android:textColor="@color/light_gray_8f"
             android:textSize="12sp"
@@ -104,6 +104,9 @@
             android:textSize="16sp"
             android:visibility="@{postModel.description.length() > 0}"
             tools:text="Veniam proident ut consequat in commodo non. Occaecat dolor pariatur ipsum non eu anim pariatur consectetur ex voluptate laboris. Incididunt sit eu enim amet." />
+
+
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLike"
@@ -153,7 +156,7 @@
             android:layout_toEndOf="@id/btnShare"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:gravity="end|center_vertical"
-            android:text="@{@plurals/x_likes(postModel.likesCount, postModel.likesCount)+`, `+@plurals/x_comments(postModel.commentsCount, postModel.commentsCount)}"
+            android:text="@{@plurals/x_likes(postModel.likesCount != null ? postModel.likesCount : 0, postModel.likesCount != null ? postModel.likesCount : 0)+`, `+@plurals/x_comments(postModel.commentsCount != null ? postModel.commentsCount : 0, postModel.commentsCount != null ? postModel.commentsCount : 0)}"
             android:textAppearance="@style/TextNormal"
             android:textSize="12sp"
             tools:text="128 comments, 21 like" />
@@ -171,9 +174,11 @@
                 android:id="@+id/imvFirst"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:cropToPadding="true"
+
                 android:padding="1dp"
                 android:scaleType="centerCrop"
+                android:cropToPadding="true"
+
                 android:visibility="@{postModel.attachments.size() > 0}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/imvSecond"
@@ -185,9 +190,11 @@
                 android:id="@+id/imvSecond"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+
+
+                android:scaleType="centerCrop"
                 android:cropToPadding="true"
                 android:padding="1dp"
-                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@id/imvThird"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -198,9 +205,10 @@
                 android:id="@+id/imvThird"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+
+                android:scaleType="centerCrop"
                 android:cropToPadding="true"
                 android:padding="1dp"
-                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -211,9 +219,10 @@
                 android:id="@+id/imvFourth"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+
+                android:scaleType="centerCrop"
                 android:cropToPadding="true"
                 android:padding="1dp"
-                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -223,6 +232,7 @@
 
             <com.doneit.ascend.presentation.views.attachment_view.AttachmentView
                 android:id="@+id/imvFifth"
+
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:cropToPadding="true"
@@ -237,6 +247,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvAttachmentsCount"
                 android:layout_width="0dp"
+
                 android:layout_height="0dp"
                 android:background="@color/background_attachments_alpha"
                 android:gravity="center"

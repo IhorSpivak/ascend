@@ -19,28 +19,29 @@ class ChatParticipantViewHolder(
     private val binding: TemplateChatParticipantBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private var lastModel: WeakReference<PresentationChatParticipant>? = null
+    private var lastModel: PresentationChatParticipant? = null
 
     fun bind(model: PresentationChatParticipant) {
         binding.name = model.fullName
         binding.isHandRisen = model.isHandRisen
         binding.isSpeaker = model.isSpeaker
         binding.isMuted = model.isMuted
-        lastModel?.get()?.getVideoTrack()?.removeRenderer(binding.videoView)
-        lastModel?.get()?.localParticipant?.videoTracks?.firstOrNull()?.videoTrack?.removeRenderer { binding.videoView }
+        lastModel?.getVideoTrack()?.removeRenderer(binding.videoView)
+        lastModel?.localParticipant?.videoTracks?.firstOrNull()?.videoTrack?.removeRenderer(binding.videoView)
         model.getVideoTrack()?.let {
-            lastModel = WeakReference(model)
+            lastModel = model
             it.addRenderer(binding.videoView)
             binding.videoView.visible(true)
         }
+        model.removeSecondaryVideoListener()
         model.setSecondaryVideoListener(getParticipantsListener(model))
-        if(binding.url != model.image?.thumbnail?.url) {
+        if (binding.url != model.image?.thumbnail?.url) {
             binding.url = model.image?.thumbnail?.url
         }
     }
 
     fun clear() {
-        lastModel?.get()?.removeSecondaryVideoListener()
+        lastModel?.removeSecondaryVideoListener()
     }
 
     private fun PresentationChatParticipant.getVideoTrack(): VideoTrack? {

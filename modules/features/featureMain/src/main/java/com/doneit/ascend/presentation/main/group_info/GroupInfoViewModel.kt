@@ -24,6 +24,7 @@ import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @CreateFactory
@@ -87,18 +88,20 @@ class GroupInfoViewModel(
     }
 
     private fun updateButtonsState(user: UserEntity, details: GroupEntity) {
-        details.apply {
-            btnJoinedVisible.postValue(subscribed)
-            btnJoinVisible.postValue((inProgress || isStarting) && subscribed!! && status != GroupStatus.CANCELLED && status != GroupStatus.ENDED)
-            isEditable.postValue(status != GroupStatus.ENDED)
-            starting.postValue(status == GroupStatus.ACTIVE)
-            btnStartVisible.postValue(status != GroupStatus.STARTED)
-            btnDeleteVisible.postValue(participantsCount == 0)
-            btnSubscribeVisible.postValue(subscribed != true && user.id != details.owner?.id)
-            if (user.id == details.owner?.id) {
-                btnJoinVisible.postValue(inProgress && status == GroupStatus.STARTED)
+        viewModelScope.launch(Dispatchers.Main) {
+            details.apply {
+                btnJoinedVisible.value = subscribed
+                btnJoinVisible.value = (inProgress || isStarting) && subscribed!! && status != GroupStatus.CANCELLED && status != GroupStatus.ENDED
+                isEditable.value = status != GroupStatus.ENDED
+                starting.value = status == GroupStatus.ACTIVE
+                btnStartVisible.value = status != GroupStatus.STARTED
+                btnDeleteVisible.value = participantsCount == 0
+                btnSubscribeVisible.value = subscribed != true && user.id != details.owner?.id && price == 0f
+                if (user.id == details.owner?.id) {
+                    btnJoinVisible.value = inProgress && status == GroupStatus.STARTED
+                }
+                isSubscribed.value = subscribed
             }
-            isSubscribed.postValue(subscribed)
         }
     }
 

@@ -3,11 +3,13 @@ package com.doneit.ascend.presentation.main.home.community_feed.post_details
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.community_feed.PostNullable
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewContract
 
 interface PostDetailsContract {
     interface ViewModel : CommentsViewContract.ViewModel {
         val currentPost: LiveData<Post>
+        val currentPostNullable: LiveData<PostNullable>
         fun showUserDetails(userId: Long)
         fun onEditPostClick()
         fun onDeletePostClick()

@@ -20,14 +20,14 @@ class MessagesAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseMessageHolder {
         return when (viewType) {
-            Type.OWN.ordinal -> OwnMessageViewHolder.create(
+            Type.OWN.ordinal -> if (chatWithUser.chatType != ChatType.WEBINAR_CHAT) OwnMessageViewHolder.create(
                 parent,
                 onButtonClick
-            )
+            ) else WebinarMessageViewHolder.create(parent, onButtonClick, { view: View, l: Long -> }, onImageWebinarClick)
             Type.SYSTEM.ordinal -> SystemMessageViewHolder.create(
                 parent
             )
-            Type.OTHER.ordinal -> OtherMessageViewHolder.create(
+            Type.OTHER.ordinal -> if (chatWithUser.chatType != ChatType.WEBINAR_CHAT) OtherMessageViewHolder.create(
                 parent,
                 { view: View, id: Long ->
                     with(chatWithUser) {
@@ -39,7 +39,7 @@ class MessagesAdapter(
                 onImageClick,
                 onImageWebinarClick,
                 chatWithUser.chatType
-            )
+            ) else WebinarMessageViewHolder.create(parent, onButtonClick, { view: View, l: Long -> }, onImageWebinarClick)
             Type.SHARE.ordinal -> ShareViewHolder.create(parent)
             Type.ATTACHMENT_OWN.ordinal -> AttachmentOwnViewHolder.create(
                 parent,

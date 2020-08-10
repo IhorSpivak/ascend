@@ -130,6 +130,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="36dp"
+            android:textAllCaps="true"
             android:text="@string/join_to_channel"
             android:layout_below="@+id/rl_separator"
             />

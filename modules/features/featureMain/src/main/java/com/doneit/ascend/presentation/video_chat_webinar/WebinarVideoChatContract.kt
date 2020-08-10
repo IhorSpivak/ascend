@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
+import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.group.WebinarChatParticipant
 
@@ -45,7 +47,7 @@ interface WebinarVideoChatContract {
         fun navigateToChatParticipantActions(userId: String)
         fun navigateToPermissionsRequiredDialog(resultCode: WebinarVideoChatActivity.ResultStatus)
         fun navigateToQuestions(groupId: Long)
-        fun navigateToChat(chatId: Long)
+        fun navigateToChat(chatEntity: ChatEntity, user: UserEntity)
         fun navigateToNotes(groupId: Long)
     }
 

@@ -67,11 +67,12 @@
                         android:id="@+id/tvTitle"
                         style="@style/Title"
                         android:layout_width="0dp"
+                        android:maxLines="2"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
                         android:gravity="center"
-                        android:maxLines="2"
+
                         android:text='@{model.supportTitle != null?@string/action_group(actionTitle, context.getString(model.supportTitle)) :""}'
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,5 +1,15 @@
 package com.doneit.ascend.presentation.video_chat.attachments
 
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.os.ParcelFileDescriptor
+import android.provider.MediaStore
+import androidx.annotation.RequiresApi
+import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
@@ -32,7 +42,8 @@ class AttachmentsViewModel(
     private val attachmentsUseCase: AttachmentUseCase,
     private val userUseCase: UserUseCase,
     private val transferUtility: TransferUtility,
-    private val s3Client: AmazonS3Client
+    private val s3Client: AmazonS3Client,
+    private val context: Context
 ) : BaseViewModelImpl(), AttachmentsContract.ViewModel {
 
     override val model = CreateAttachmentFileModel(
@@ -53,6 +64,7 @@ class AttachmentsViewModel(
     override val showAddAttachmentDialog = SingleLiveManager(Unit)
     override val navigation = SingleLiveEvent<AttachmentsContract.Navigation>()
     override val transferEvents = SingleLiveEvent<TransferEvent>()
+    override val showPreview = MutableLiveData<Uri>()
 
     private val modelsToUpload = hashMapOf<Int, CreateAttachmentDTO>()
     private val observers: MutableList<TransferObserver> by lazy {
@@ -75,19 +87,7 @@ class AttachmentsViewModel(
                     )
                     transferEvents.postValue(TransferEvent.COMPLETED)
                 }
-            }
-        }
-    }
-    private val downloadListener = object : AmazoneTransferListener() {
-        override fun onStateChanged(id: Int, state: TransferState?) {
-            when (state) {
-                TransferState.FAILED -> {
-                    transferEvents.postValue(TransferEvent.ERROR)
-                }
-
-                TransferState.COMPLETED -> {
-                    transferEvents.postValue(TransferEvent.COMPLETED)
-                }
+                else -> Unit
             }
         }
     }
@@ -136,7 +136,7 @@ class AttachmentsViewModel(
             Constants.AWS_BUCKET, attachment.fileName, file
         )
         observers.add(observer)
-        observer.setTransferListener(downloadListener)
+        observer.setTransferListener(DownloadListener(file))
         transferEvents.postValue(TransferEvent.STARTED)
     }
 
@@ -159,4 +159,81 @@ class AttachmentsViewModel(
             }
         }
     }
+
+    inner class DownloadListener(val file: File) : AmazoneTransferListener() {
+
+        private fun copyFileData(destinationContentUri: Uri, fileToExport: File) {
+            context.contentResolver.openFileDescriptor(destinationContentUri, "w")
+                .use { parcelFileDescriptor ->
+                    ParcelFileDescriptor.AutoCloseOutputStream(parcelFileDescriptor)
+                        .write(fileToExport.readBytes())
+                }
+        }
+
+        private fun saveFileToDownloads(): Uri {
+            val picturesDirectory =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            if (!picturesDirectory.exists()) {
+                picturesDirectory?.mkdirs()
+            }
+
+            val fileExported = File(picturesDirectory, file.name)
+            if (fileExported.createNewFile()) {
+                file.inputStream().use { inputStream ->
+                    fileExported.outputStream().use { outputStream ->
+                        inputStream.copyTo(outputStream)
+                    }
+                }
+            }
+
+            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+            mediaScanIntent.data = fileExported.toUri()
+            return fileExported.toUri()
+        }
+
+        @RequiresApi(Build.VERSION_CODES.Q)
+        private fun saveFileToDownloadsQ(): Uri {
+            val imageCollection =
+                MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            val relativeLocation = "${Environment.DIRECTORY_DOWNLOADS}/ascent"
+
+            val contentDetails = ContentValues().apply {
+                put(MediaStore.Downloads.DISPLAY_NAME, file.name)
+                put(MediaStore.Downloads.RELATIVE_PATH, relativeLocation)
+                put(MediaStore.Downloads.IS_PENDING, 1)
+            }
+
+            val contentUri = context.contentResolver.insert(imageCollection, contentDetails)
+            contentUri?.let { insertedContentUri ->
+                copyFileData(insertedContentUri, file)
+
+                contentDetails.clear()
+                contentDetails.put(MediaStore.Downloads.IS_PENDING, 0)
+                context.contentResolver.update(insertedContentUri, contentDetails, null, null)
+            }
+            return contentUri?: Uri.EMPTY
+        }
+
+        override fun onStateChanged(id: Int, state: TransferState?) {
+            when (state) {
+                TransferState.FAILED -> {
+                    transferEvents.postValue(TransferEvent.ERROR)
+                }
+
+                TransferState.COMPLETED -> {
+                    val exported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        saveFileToDownloadsQ()
+                    } else {
+                        saveFileToDownloads()
+                    }
+                    transferEvents.postValue(TransferEvent.COMPLETED)
+                    showPreview.postValue(exported)
+                }
+
+                else -> Unit
+            }
+        }
+
+    }
+
 }

@@ -51,6 +51,7 @@ import com.doneit.ascend.presentation.video_chat_webinar.preview.WebinarChatPrev
 import com.doneit.ascend.presentation.video_chat_webinar.questions.QuestionContract
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -365,8 +366,14 @@ class WebinarVideoChatViewModel(
     override fun onChatClick() {
         credentials.value?.let {
             hasUnreadMessage.value = false
-            WebinarVideoChatContract.Navigation.TO_CHAT.data.putLong(CHAT_ID_KEY, it.chatId)
-            navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT)
+            viewModelScope.launch(Dispatchers.IO) {
+                val response = chatUseCase.getChatDetails(it.chatId)
+                if(response.isSuccessful) {
+                    WebinarVideoChatContract.Navigation.TO_CHAT.data.putParcelable(CHAT_ID_KEY, response.successModel!!)
+                    WebinarVideoChatContract.Navigation.TO_CHAT.data.putParcelable(USER_ID_KEY, currentUser)
+                    navigation.postValue(WebinarVideoChatContract.Navigation.TO_CHAT)
+                }
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.doneit.ascend.presentation.video_chat.attachments
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttachmentEntity
@@ -18,6 +19,7 @@ interface AttachmentsContract {
         val navigation: LiveData<Navigation>
         val showAddAttachmentDialog: SingleLiveManager<Unit>
         val transferEvents: LiveData<TransferEvent>
+        val showPreview: LiveData<Uri>
 
         fun backClick()
         fun onDelete(id: Long)

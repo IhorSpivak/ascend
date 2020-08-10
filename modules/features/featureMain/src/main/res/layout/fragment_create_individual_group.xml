@@ -261,18 +261,31 @@
                 app:layout_constraintStart_toStartOf="@+id/dash_rectangle_background"
                 app:layout_constraintTop_toTopOf="@+id/dash_rectangle_background" />
 
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/addMemberContainer1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dash_rectangle_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+           >
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addMemberContainer"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginBottom="32dp"
                 android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dash_rectangle_background"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="@{model.members.size() == 0}">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/add_member_template_round"
@@ -311,6 +324,7 @@
                     app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
                     app:layout_constraintStart_toStartOf="@+id/add_member_template_round"
                     app:layout_constraintTop_toBottomOf="@id/add_member_template_round" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -319,15 +333,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal"
-                android:layout_marginTop="24dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dash_rectangle_background"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0"
                 android:visibility="@{model.members.size() > 0}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/addMemberContainer"
                 tools:listitem="@layout/attendee_list_item" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

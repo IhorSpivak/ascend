@@ -44,6 +44,7 @@ fun UserEntity.toUserLocal(): UserLocal {
         followed = followed,
         groupsCount = groupsCount,
         myRating = myRating,
+        created_channels_count = created_channels_count,
         followersCount = followersCount
     )
 }
@@ -79,7 +80,9 @@ fun UserLocal.merge(newModel: UserProfileResponse): UserLocal {
         followed = followed,
         groupsCount = groupsCount,
         myRating = myRating,
+        created_channels_count = newModel.created_channels_count ?: 0,
         followersCount = followersCount
+
     )
 }
 
@@ -114,6 +117,7 @@ fun UserLocal.merge(newModel: UserAuthResponse): UserLocal {
         followed = followed,
         groupsCount = groupsCount,
         myRating = myRating,
+        created_channels_count = newModel.created_channels_count ?: 0,
         followersCount = followersCount
     )
 }

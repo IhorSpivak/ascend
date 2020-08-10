@@ -135,15 +135,16 @@
                     android:layout_marginStart="@dimen/create_group_horizontal_margin"
                     android:layout_marginTop="@dimen/create_group_top_margin"
                     android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                    app:color="@{@color/light_gray_b1bf}"
+                    android:focusableInTouchMode="false"
                     app:hint="@{@string/price}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/webinar_name"
-                    app:noFocusable="@{true}"
                     app:saveState="@{false}"
+                    app:hasCursor="@{true}"
+                    app:error="@{model.createGroupModel.price.observableError}"
                     app:src="@{@drawable/ic_price}"
-                    app:text="@{@string/create_webinar_default_price}"
+                    app:text="@{model.createGroupModel.price.observableField}"
                     app:tint="@{@color/red_webinar_color}" />
 
                 <ImageView
@@ -158,15 +159,15 @@
                     app:tint="@color/red_webinar_color" />
 
                 <TextView
-                    android:layout_marginBottom="8dp"
-                    style="@style/HintStyle"
                     android:id="@+id/duration_title"
+                    style="@style/HintStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/duration_hours"
                     android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="@+id/durationPicker"
-                    app:layout_constraintBottom_toTopOf="@+id/durationPicker" />
+                    app:layout_constraintBottom_toTopOf="@+id/durationPicker"
+                    app:layout_constraintStart_toStartOf="@+id/durationPicker" />
 
                 <Spinner
                     android:id="@+id/durationPicker"

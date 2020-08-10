@@ -19,6 +19,7 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
@@ -102,6 +103,9 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
             val removedIndex = viewModel.removeMember(it)
             if (removedIndex != -1) {
                 membersAdapter.remove(removedIndex)
+                if(membersAdapter.itemCount < 50){
+                    add_member_container.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -176,8 +180,13 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         }
 
         viewModel.members.observe(this, Observer {
+            if(it.size > 49){
+                add_member_container.visibility = View.VISIBLE
+            }
             membersAdapter.submitList(it)
         })
+
+
 
         binding.addMemberContainer.setOnClickListener {
             viewModel.addMember(viewModel.createGroupModel.groupType!!)

@@ -9,7 +9,9 @@ data class ChatWithUser(
     val chat: ChatEntity,
     val user: UserEntity,
     val chatType: ChatType
-)
+) {
+    fun isOwner() = chat.chatOwnerId == user.id
+}
 
 data class ChatsWithUser(
     val chat: PagedList<ChatEntity>,

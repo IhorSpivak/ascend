@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.chats.chat.holder
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +10,20 @@ import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
+import com.doneit.ascend.domain.entity.OwnerEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.ContentType
+import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.community_feed.PostNullable
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ListItemSharedMessageBinding
 import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
+import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 class ShareViewHolder private constructor(
     itemView: View
@@ -34,10 +40,10 @@ class ShareViewHolder private constructor(
         with(binding) {
             member = memberEntity
             this.messageEntity = messageEntity
-            messageEntity.post?.let {
+            PostNullable.create(messageEntity.post).let {
                 postModel = it
-                isOwner = it.isOwner
-                setupAttachments(it.attachments)
+                isOwner = it.isOwner == true
+                it.attachments?.let { attachments -> setupAttachments(attachments) }
             }
         }
     }

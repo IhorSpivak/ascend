@@ -2,6 +2,7 @@ package com.doneit.ascend.domain.gateway.gateway.boundaries
 
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.dto.ChatListDTO
+import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.dto.MemberListDTO
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
@@ -46,9 +47,9 @@ class MyChatsBoundaryCallback(
                                 val memberModel =
                                     membersResponse.successModel!!.users?.map { it.toEntity() }
                                 it.members = memberModel.orEmpty()
-                                if (it.members.count() == 2) {
+                                if (it.members.count() == 2 && it.chatType != ChatType.CHANNEL) {
                                     val member =
-                                        it.members.firstOrNull { it.id != user}
+                                        it.members.firstOrNull { it.id != user }
                                     member?.let { member -> it.title = member.fullName }
                                 }
                             }

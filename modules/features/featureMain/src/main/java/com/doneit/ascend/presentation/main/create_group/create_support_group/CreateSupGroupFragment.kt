@@ -86,6 +86,10 @@ class CreateSupGroupFragment :
             val removedIndex = viewModel.removeMember(it)
             if (removedIndex != -1) {
                 membersAdapter.remove(removedIndex)
+                if(membersAdapter.itemCount < 50){
+                    add_member_container.visibility = View.VISIBLE
+                }
+
             }
         }
     }
@@ -103,6 +107,7 @@ class CreateSupGroupFragment :
                 group = arguments!!.getParcelable(it.toString())
                 if (group != null) {
                     what = it.toString()
+                    viewModel.loadParticipants(group!!.id, what.orEmpty())
                 }
             }
         }
@@ -150,9 +155,13 @@ class CreateSupGroupFragment :
             applyMultilineFilter(description)
         }
         viewModel.members.observe(this, Observer {
+            if(it.size > 49){
+                add_member_container.visibility = View.GONE
+            }
             viewModel.createGroupModel.participants.set(it.map {
-                it.email!!
+                it.email.orEmpty()
             })
+
             membersAdapter.submitList(it)
         })
 

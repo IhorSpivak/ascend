@@ -53,6 +53,7 @@ fun UserAuthResponse.toEntity(): UserEntity {
         community,
         visitedGroupsCount ?: 0,
         getDefaultCalendar().time,
+        created_channels_count ?: 0,
         communities
     )
 }
@@ -75,7 +76,7 @@ fun UserProfileResponse.toEntity(): UserEntity {
         blockedUsersCount ?: 0,
         image?.toEntity(),
         null,
-        null,
+        description,
         null,
         null,
         rated ?: false,
@@ -88,6 +89,7 @@ fun UserProfileResponse.toEntity(): UserEntity {
         community,
         visitedGroupsCount,
         birthday?.toDate(),
+        created_channels_count ?: 0,
         communities = communities
     )
 }
@@ -123,6 +125,7 @@ fun UserLocal.toUserEntity(): UserEntity {
         followed = followed,
         allowRating = allowRating,
         groupsCount = groupsCount,
+        created_channels_count = created_channels_count,
         followersCount = followersCount
     )
 }

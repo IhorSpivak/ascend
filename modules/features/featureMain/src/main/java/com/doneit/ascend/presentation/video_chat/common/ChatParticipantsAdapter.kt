@@ -31,15 +31,12 @@ class ChatParticipantsAdapter(
 
     fun submitList(newItems: List<PresentationChatParticipant>) {
         val diff = DiffUtil.calculateDiff(
-            ChatParticipantsDiffCallback(
-                items,
-                newItems
-            )
+            ChatParticipantsDiffCallback(items, newItems)
         )
+
+        diff.dispatchUpdatesTo(this)
 
         items.clear()
         items.addAll(newItems)
-
-        diff.dispatchUpdatesTo(this)
     }
 }

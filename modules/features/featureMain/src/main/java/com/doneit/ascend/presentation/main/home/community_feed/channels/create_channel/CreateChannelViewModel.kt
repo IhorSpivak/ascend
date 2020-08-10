@@ -164,6 +164,7 @@ class CreateChannelViewModel(
             }
             if (response.isSuccessful) {
                 channel?.let { router.onBack() }
+                userUseCase.updateCurrentUserData()
                 router.onBackWithOpenChat(response.successModel!!, currentUser, ChatType.CHAT)
             } else {
                 showDefaultErrorMessage(response.errorModel!!.toErrorMessage())

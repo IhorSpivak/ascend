@@ -5,6 +5,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
@@ -97,8 +99,9 @@ class WebinarVideoChatActivity : BaseActivity() {
                 router.navigateToPermissionsRequiredDialog(resultCode)
             }
             WebinarVideoChatContract.Navigation.TO_CHAT -> {
-                val groupId = action.data.getLong(WebinarVideoChatViewModel.CHAT_ID_KEY)
-                router.navigateToChat(groupId)
+                val chat = action.data.getParcelable<ChatEntity>(WebinarVideoChatViewModel.CHAT_ID_KEY)!!
+                val user = action.data.getParcelable<UserEntity>(WebinarVideoChatViewModel.USER_ID_KEY)!!
+                router.navigateToChat(chat, user)
             }
             WebinarVideoChatContract.Navigation.TO_NOTES -> {
                 val groupId = action.data.getLong(WebinarVideoChatViewModel.GROUP_ID_KEY)

@@ -4,9 +4,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="model"
             type="com.doneit.ascend.presentation.main.home.community_feed.post_details.PostDetailsContract.ViewModel" />
+
     </data>
 
     <LinearLayout
@@ -42,13 +45,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <include
+                   <include
                         android:id="@+id/view_post_content"
                         layout="@layout/view_post_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        app:postModel="@{model.currentPost}"
+                       android:visibility="@{model.currentPostNullable.id != null ? View.VISIBLE : View.GONE}"
+                       app:postModel="@{model.currentPostNullable}"
                         app:visibilityOfSend="@{false}" />
 
                     <include

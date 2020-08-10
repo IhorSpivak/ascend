@@ -204,8 +204,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             VideoChatActivity.RESULT_CODE -> {
-                val result =
-                    data!!.extras!!.get(VideoChatActivity.RESULT_TAG) as VideoChatActivity.ResultStatus
+                val result = data?.extras?.get(VideoChatActivity.RESULT_TAG) as? VideoChatActivity.ResultStatus
                 when (result) {
                     VideoChatActivity.ResultStatus.POPUP_REQUIRED -> {
                         PermissionsRequiredDialog.create(this).show()

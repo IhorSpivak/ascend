@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.community_feed.PostNullable
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewViewModel
@@ -25,12 +26,14 @@ class PostDetailsViewModel(
     PostDetailsContract.ViewModel {
 
     override val currentPost = MediatorLiveData<Post>()
+    override val currentPostNullable = MediatorLiveData<PostNullable>()
 
     private val post
         get() = requireNotNull(currentPost.value)
 
     init {
         currentPost.value = post
+        currentPostNullable.value = PostNullable.create(post)
         currentPost.addSource(commentsCount) {
             this.post.commentsCount = it
             currentPost.value = this.post
@@ -62,7 +65,7 @@ class PostDetailsViewModel(
         postsUseCase.likePost(viewModelScope, post.id, BaseCallback(
             onSuccess = {
                 post.isLikedMe = true
-                post.likesCount = ++post.likesCount
+                post.likesCount = post.likesCount.plus(1)
                 currentPost.postValue(post)
             },
             onError = {
@@ -75,7 +78,7 @@ class PostDetailsViewModel(
         postsUseCase.unlikePost(viewModelScope, post.id, BaseCallback(
             onSuccess = {
                 post.isLikedMe = false
-                post.likesCount = --post.likesCount
+                post.likesCount = post.likesCount.minus(1)
                 currentPost.postValue(post)
             },
             onError = {

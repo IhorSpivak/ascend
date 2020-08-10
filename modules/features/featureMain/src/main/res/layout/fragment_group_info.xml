@@ -156,24 +156,12 @@
                         app:layout_constraintTop_toTopOf="@id/icon"
                         tools:text="@string/meetings_count" />
 
-                    <TextView
-                        android:id="@+id/tvPrice"
-                        style="@style/TextNormal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{model.group.groupType != GroupType.SUPPORT}"
-                        app:html="@{model.group.price == 0f ? @string/free : @string/group_price(model.group.price)}"
-                        app:layout_constraintEnd_toEndOf="@id/tvMeetings"
-                        app:layout_constraintHorizontal_bias="0.487"
-                        app:layout_constraintTop_toBottomOf="@id/tvMeetings"
-                        tools:text="@string/group_price" />
-
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/brMaster"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="tvPrice,rbRating,icon" />
+                        app:constraint_referenced_ids="rbRating,icon" />
 
                     <Button
                         android:id="@+id/btnSubscribed"
@@ -189,6 +177,17 @@
                         android:visibility="@{!model.isOwner}"
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
                         app:setVisibility="@{model.btnJoinedVisible}" />
+
+                    <include
+                        android:id="@+id/paid_banner"
+                        layout="@layout/banner_paid_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="20dp"
+                        android:visibility="@{!model.isOwner &amp;&amp; !model.isSubscribed() &amp;&amp; group.status != GroupStatus.CANCELLED &amp;&amp; group.status != GroupStatus.ENDED, default=invisible}"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster" />
 
                     <Button
                         android:id="@+id/btnSubscribe"
@@ -310,7 +309,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe, btnLeaveThisGroup, btnGroupEnded, bntCanceled, user_banned_message" />
+                        app:constraint_referenced_ids="paid_banner,btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe, btnLeaveThisGroup, btnGroupEnded, bntCanceled, user_banned_message" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/mm_panel_buttons_container"

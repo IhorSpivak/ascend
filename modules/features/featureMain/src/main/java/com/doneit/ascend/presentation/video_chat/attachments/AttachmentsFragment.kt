@@ -1,12 +1,16 @@
 package com.doneit.ascend.presentation.video_chat.attachments
 
+/*import com.github.piasy.biv.BigImageViewer
+import com.github.piasy.biv.loader.glide.GlideImageLoader*/
 import android.Manifest
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
@@ -33,6 +37,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
+import java.io.File
 
 
 class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
@@ -75,7 +80,7 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
         }
 
         bind<ViewModelProvider.Factory>(tag = AttachmentsFragment::class.java) with singleton {
-            AttachmentsViewModelFactory(instance(), instance(), instance(), instance())
+            AttachmentsViewModelFactory(instance(), instance(), instance(), instance(), instance())
         }
 
         bind<AttachmentsContract.ViewModel>() with provider {
@@ -107,9 +112,13 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.adapter = this.adapter
         binding.model = viewModel
+        binding.isOwner =
+            requireArguments().getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)?.isOwner
 
         val decorator =
-            SideListDecorator(paddingTop = resources.getDimension(R.dimen.attachments_list_top_padding).toInt())
+            SideListDecorator(
+                paddingTop = resources.getDimension(R.dimen.attachments_list_top_padding).toInt()
+            )
         binding.rvAttachments.addItemDecoration(decorator)
         binding.addAttachments.setOnClickListener {
             viewModel.onAddAttachmentClick()
@@ -129,6 +138,23 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
 
         viewModel.transferEvents.observe(viewLifecycleOwner, Observer {
             Toast.makeText(requireContext(), getString(it.messageRes), Toast.LENGTH_LONG).show()
+        })
+
+        viewModel.showPreview.observe(viewLifecycleOwner, Observer { uri ->
+            Intent(Intent.ACTION_VIEW).apply {
+                val fileUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    requireContext().applicationContext.packageName + ".fileprovider",
+                    File(uri.path.orEmpty())
+                )
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+                data = fileUri
+                try {
+                    startActivity(Intent.createChooser(this,getString(R.string.preview)))
+                } catch (e: ActivityNotFoundException) {
+                    1
+                }
+            }
         })
 
         val groupId = arguments!!.getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)!!.groupId

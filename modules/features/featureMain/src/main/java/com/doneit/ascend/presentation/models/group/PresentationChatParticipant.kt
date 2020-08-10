@@ -55,6 +55,53 @@ data class PresentationChatParticipant(
     }
 
     override fun compareTo(other: PresentationChatParticipant): Int {
-        return source.ordinal - other.source.ordinal
+        var isEqual = true
+
+        if (source.ordinal != other.source.ordinal) {
+            isEqual = false
+        }
+
+        if (userId != other.userId) {
+            isEqual = false
+        }
+
+        if (fullName != other.fullName) {
+            isEqual = false
+        }
+
+        if (image?.url != other.image?.url) {
+            isEqual = false
+        }
+
+        if (isHandRisen != other.isHandRisen) {
+            isEqual = false
+        }
+
+        if (isSpeaker != other.isSpeaker) {
+            isEqual = false
+        }
+
+        if (isMuted != other.isMuted) {
+            isEqual = false
+        }
+
+        if (remoteParticipant != other.remoteParticipant) {
+            isEqual = false
+        }
+
+        if (localParticipant != other.localParticipant) {
+            isEqual = false
+        }
+
+        if (isOwner != other.isOwner) {
+            isEqual = false
+        }
+
+        return if (isEqual) {
+            0
+        } else {
+            source.ordinal - other.source.ordinal
+        }
     }
+
 }

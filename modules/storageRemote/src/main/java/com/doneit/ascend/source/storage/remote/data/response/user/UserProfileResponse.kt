@@ -21,6 +21,7 @@ data class UserProfileResponse(
     @SerializedName("blocked_users_count") val blockedUsersCount: Int?,
     @SerializedName("visited_groups_count") val visitedGroupsCount: Int,
     @SerializedName("image") val image: ImageResponse?,
+    @SerializedName("description") val description: String?,
     @SerializedName("birthday") val birthday: String?,
     @SerializedName("role") val role: String?,
     @SerializedName("rated") val rated: Boolean?,
@@ -30,5 +31,6 @@ data class UserProfileResponse(
     @SerializedName("followers_count") val followersCount: Int?,
     @SerializedName("my_rating") val myRating: Int?,
     @SerializedName("community") val community: String?,
+    @SerializedName("created_channels_count") val created_channels_count: Int?,
     @SerializedName("communities") val communities: List<String>?
 )
