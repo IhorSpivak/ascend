@@ -44,8 +44,9 @@ class AttachmentFileViewHolder(
     private fun isFileExist(filename: String): Boolean {
         val dir = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-        } else Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toUri()
-        return File(File("${dir.path}/${Environment.DIRECTORY_DOWNLOADS}/ascent"), filename).exists()
+        } else Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            .toUri()
+        return File("${dir.path}", filename).exists()
     }
 
     companion object {
