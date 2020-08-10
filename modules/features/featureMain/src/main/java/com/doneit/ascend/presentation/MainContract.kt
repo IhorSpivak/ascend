@@ -25,6 +25,7 @@ interface MainContract {
         fun navigateToAscensionPlan()
         fun navigateToProfile()
         fun tryToNavigateToGroupInfo(id: Long)
+        fun tryToNavigateToProfile(id: Long)
     }
 
     interface Router {
@@ -41,5 +42,6 @@ interface MainContract {
         fun navigateToAscensionPlan()
         fun navigateToMMProfile()
         fun navigateToRegularUserProfile()
+        fun navigateToMMInfo(id: Long)
     }
 }

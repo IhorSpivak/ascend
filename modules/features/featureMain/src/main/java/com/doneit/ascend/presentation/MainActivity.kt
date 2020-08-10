@@ -104,17 +104,24 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.model = viewModel
         super.onCreate(savedInstanceState)
         viewModel.onHomeClick()
-        if (intent.extras?.containsKey(Constants.KEY_GROUP_ID) == true) {
-            intent.extras?.get(Constants.KEY_GROUP_ID)?.let {
-                viewModel.tryToNavigateToGroupInfo(it.toString().toLong())
+
+        fun getExtra(key: String, action: (Long) -> Unit) {
+            intent?.extras?.getLong(key)?.let {
+                if(it > 0) action(it)
             }
         }
+        getExtra(Constants.KEY_GROUP_ID) { viewModel.tryToNavigateToGroupInfo(it) }
+        getExtra(Constants.KEY_PROFILE_ID) { viewModel.tryToNavigateToProfile(it) }
+
         binding.fabCreateGroup.setOnClickListener {
             viewModel.onCreateGroupClick()
         }
         viewModel.communities.observe(this, Observer {
             val adapter =
-                ArrayAdapter<String>(this, R.layout.community_spinner_item, it.map { it.title.toUpperCase() })
+                ArrayAdapter<String>(
+                    this,
+                    R.layout.community_spinner_item,
+                    it.map { it.title.toUpperCase() })
 
             initSpinner(
                 binding.communityDropDown,
@@ -176,9 +183,10 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.tvTitle.gone()
         binding.ascendLogo.visible()
         binding.communityDropDown.visible()
-        viewModel.communities.value?.indexOfFirst { it.title.toUpperCase() == title.toUpperCase() }?.also {
-            binding.communityDropDown.setSelection(it)
-        }
+        viewModel.communities.value?.indexOfFirst { it.title.toUpperCase() == title.toUpperCase() }
+            ?.also {
+                binding.communityDropDown.setSelection(it)
+            }
 
     }
 
@@ -204,7 +212,8 @@ class MainActivity : BaseActivity(), MainActivityListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             VideoChatActivity.RESULT_CODE -> {
-                val result = data?.extras?.get(VideoChatActivity.RESULT_TAG) as? VideoChatActivity.ResultStatus
+                val result =
+                    data?.extras?.get(VideoChatActivity.RESULT_TAG) as? VideoChatActivity.ResultStatus
                 when (result) {
                     VideoChatActivity.ResultStatus.POPUP_REQUIRED -> {
                         PermissionsRequiredDialog.create(this).show()

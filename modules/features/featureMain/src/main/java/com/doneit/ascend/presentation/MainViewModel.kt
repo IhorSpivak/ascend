@@ -133,6 +133,16 @@ class MainViewModel(
         }
     }
 
+    override fun tryToNavigateToProfile(id: Long) {
+        viewModelScope.launch {
+            if (userUseCase.hasSignedInUser()) {
+                router.navigateToMMInfo(id)
+            } else {
+                router.navigateToLogin()
+            }
+        }
+    }
+
     override fun onFilterClick() {
         //TODO:
     }

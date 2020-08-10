@@ -28,9 +28,22 @@
             android:name="com.doneit.ascend.presentation.splash.SplashActivity"
             android:noHistory="true"
             android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="ascend.com"
+                    android:scheme="http" />
+                <data
+                    android:host="www.ascend.com"
+                    android:scheme="http" />
+                <data
+                    android:host="www.ascend.com"
+                    android:scheme="https" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

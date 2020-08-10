@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.splash
 
 import android.animation.Animator
+import android.net.Uri
 import android.os.Bundle
 import android.view.animation.LinearInterpolator
 import androidx.lifecycle.ViewModel
@@ -39,8 +40,9 @@ class SplashActivity : BaseActivity() {
 
         val extras = intent?.extras?: Bundle()
         imageLogo.alpha = 0F
-
-        if (intent?.extras?.containsKey(KEY_GROUP_ID) == true){
+        intent?.data?.let {
+            openDeepLink(it)
+        } ?: if (intent?.extras?.containsKey(KEY_GROUP_ID) == true){
             router.goToLogin(extras)
         }else{
             imageLogo.animate()
@@ -69,7 +71,35 @@ class SplashActivity : BaseActivity() {
     private inline fun <reified VM : BaseViewModelImpl> vm(factory: ViewModelProvider.Factory): VM {
         return ViewModelProviders.of(this, factory)[VM::class.java]
     }
+
+    private fun openDeepLink(data: Uri) {
+        var path0 = "";
+
+        if (data.pathSegments.size >= 1) {
+            path0 = data.pathSegments[0]
+            when(path0){
+                DEEP_LINK_TYPE_GROUP -> {
+                    val bundle = Bundle().apply {
+                        putLong(KEY_GROUP_ID, data.pathSegments[1].toLong())
+                    }
+                    router.goToLogin(bundle)
+                }
+                DEEP_LINK_TYPE_PROFILE -> {
+                    val bundle = Bundle().apply {
+                        putLong(KEY_PROFILE_ID, data.pathSegments[1].toLong())
+                    }
+                    router.goToLogin(bundle)
+                }
+            }
+        }
+    }
+
+
     companion object{
+        const val DEEP_LINK_TYPE_PROFILE = "profile"
+        const val DEEP_LINK_TYPE_GROUP = "group"
+        const val DEEP_LINK = "ascend.com"
         const val KEY_GROUP_ID = "group_id"
+        const val KEY_PROFILE_ID = "profile_id"
     }
 }
