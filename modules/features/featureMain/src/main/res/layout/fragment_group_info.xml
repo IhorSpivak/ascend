@@ -156,24 +156,12 @@
                         app:layout_constraintTop_toTopOf="@id/icon"
                         tools:text="@string/meetings_count" />
 
-                    <TextView
-                        android:id="@+id/tvPrice"
-                        style="@style/TextNormal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{model.group.groupType != GroupType.SUPPORT}"
-                        app:html="@{model.group.price == 0f ? @string/free : @string/group_price(model.group.price)}"
-                        app:layout_constraintEnd_toEndOf="@id/tvMeetings"
-                        app:layout_constraintHorizontal_bias="0.487"
-                        app:layout_constraintTop_toBottomOf="@id/tvMeetings"
-                        tools:text="@string/group_price" />
-
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/brMaster"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="tvPrice,rbRating,icon" />
+                        app:constraint_referenced_ids="rbRating,icon" />
 
                     <Button
                         android:id="@+id/btnSubscribed"
