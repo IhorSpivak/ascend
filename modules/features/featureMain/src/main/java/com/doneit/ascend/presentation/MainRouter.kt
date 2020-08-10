@@ -60,9 +60,10 @@ import com.doneit.ascend.presentation.main.groups.daily_group_list.GroupDailyLis
 import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
+import com.doneit.ascend.presentation.main.home.channels.ChannelsContract as ChannelsContactTab
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedContract
-import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsFragment
+import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelFragment
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.add_members.AddMembersFragment
@@ -184,7 +185,9 @@ class MainRouter(
     ChannelsContract.Router,
     PostDetailsContract.Router,
     CommentsViewContract.Router,
-    CreateChannelContract.Router {
+    CreateChannelContract.Router,
+    ChannelsContactTab.Router
+{
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }

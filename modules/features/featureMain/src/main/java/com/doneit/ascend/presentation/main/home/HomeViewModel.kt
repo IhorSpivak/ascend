@@ -33,6 +33,7 @@ class HomeViewModel(
                 Community.INDUSTRY.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.channels_title,
                     R.string.community_feed_title,
                     R.string.collaboration,
                     R.string.master_mind
@@ -40,6 +41,7 @@ class HomeViewModel(
                 Community.LIFESTYLE.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.channels_title,
                     R.string.community_feed_title,
                     R.string.collaboration,
                     R.string.coaching
@@ -47,6 +49,7 @@ class HomeViewModel(
                 Community.RECOVERY.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.channels_title,
                     R.string.community_feed_title,
                     R.string.groups,
                     R.string.master_mind
@@ -54,6 +57,7 @@ class HomeViewModel(
                 Community.FAMILY.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.channels_title,
                     R.string.community_feed_title,
                     R.string.groups,
                     R.string.coaching
@@ -61,6 +65,7 @@ class HomeViewModel(
                 Community.SPIRITUAL.title -> listOf(
                     R.string.daily,
                     R.string.webinars,
+                    R.string.channels_title,
                     R.string.community_feed_title,
                     R.string.collaboration,
                     R.string.coaching
