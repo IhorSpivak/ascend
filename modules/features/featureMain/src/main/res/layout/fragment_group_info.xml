@@ -178,6 +178,17 @@
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
                         app:setVisibility="@{model.btnJoinedVisible}" />
 
+                    <include
+                        android:id="@+id/paid_banner"
+                        layout="@layout/banner_paid_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginEnd="20dp"
+                        android:visibility="@{!model.isOwner &amp;&amp; !model.isSubscribed() &amp;&amp; group.status != GroupStatus.CANCELLED &amp;&amp; group.status != GroupStatus.ENDED, default=invisible}"
+                        app:layout_constraintTop_toBottomOf="@id/brMaster" />
+
                     <Button
                         android:id="@+id/btnSubscribe"
                         style="@style/AppTheme.Button"
@@ -298,7 +309,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe, btnLeaveThisGroup, btnGroupEnded, bntCanceled, user_banned_message" />
+                        app:constraint_referenced_ids="paid_banner,btnSubscribed,btnJoinToDisc,btnStart,btnSubscribe, btnLeaveThisGroup, btnGroupEnded, bntCanceled, user_banned_message" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/mm_panel_buttons_container"

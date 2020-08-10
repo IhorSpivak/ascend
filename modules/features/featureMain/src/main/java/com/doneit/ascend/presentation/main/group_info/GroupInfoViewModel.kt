@@ -96,7 +96,7 @@ class GroupInfoViewModel(
                 starting.value = status == GroupStatus.ACTIVE
                 btnStartVisible.value = status != GroupStatus.STARTED
                 btnDeleteVisible.value = participantsCount == 0
-                btnSubscribeVisible.value = subscribed != true && user.id != details.owner?.id
+                btnSubscribeVisible.value = subscribed != true && user.id != details.owner?.id && price == 0f
                 if (user.id == details.owner?.id) {
                     btnJoinVisible.value = inProgress && status == GroupStatus.STARTED
                 }
