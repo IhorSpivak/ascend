@@ -3,10 +3,13 @@ package com.doneit.ascend.presentation.main.master_mind_info
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.dto.CreateChatDTO
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindInfoBinding
+import com.doneit.ascend.presentation.main.home.common.MMProfileTabAdapter
+import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import kotlinx.android.synthetic.main.fragment_master_mind_info.*
 import org.kodein.di.generic.instance
 
@@ -32,6 +35,23 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
             }
         }
 
+        binding.model = viewModel
+        binding.tlGroups.setupWithViewPager(binding.vpGroups)
+        binding.vpGroups.offscreenPageLimit = 3
+
+
+        viewModel.user.observe(this, Observer {
+            it ?: return@Observer
+
+            binding.vpGroups.adapter = MMProfileTabAdapter.newInstance(
+                childFragmentManager,
+                it,
+                viewModel.getListOfTitles().map {
+                    getString(it)
+                }
+            )
+        })
+
         btnInto.setOnClickListener {
             currentDialog = ReportAbuseDialog.create(context!!) {
                 currentDialog?.dismiss()
@@ -49,11 +69,7 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
             viewModel.startChatWithMM(mmId = id)
         }
 
-        rbRatingSet.setOnRatingBarChangeListener { _, rating, fromUser ->
-            if (fromUser) {
-                viewModel.setRating(rating.toInt())
-            }
-        }
+
 
         btnInto.setOnClickListener {
             currentDialog = ReportAbuseDialog.create(
