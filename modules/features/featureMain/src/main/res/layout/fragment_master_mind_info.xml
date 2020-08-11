@@ -14,8 +14,7 @@
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
@@ -32,14 +31,19 @@
                 android:id="@+id/cl_collapsing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:scrimAnimationDuration="200"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:background="@color/colorPrimary"
+
                 android:fitsSystemWindows="true"
+
+
                 app:collapsedTitleGravity="center"
                 app:contentScrim="@color/colorPrimary"
-                android:background="@color/colorPrimary"
+
+                app:expandedTitleGravity="center_horizontal"
+                app:expandedTitleMarginBottom="30dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:scrimAnimationDuration="200"
                 app:title="@{model.profile.fullName}"
-                app:expandedTitleGravity="center"
 
                 >
 
@@ -49,13 +53,11 @@
                     android:paddingBottom="24dp">
 
 
-
-
                     <com.doneit.ascend.presentation.views.MasterMindIcon
                         android:id="@+id/ivImage"
                         android:layout_width="160dp"
                         android:layout_height="160dp"
-                        android:layout_marginTop="56dp"
+                        android:layout_marginTop="20dp"
                         android:elevation="0dp"
                         app:cardCornerRadius="80dp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -64,21 +66,6 @@
                         app:name="@{model.profile.fullName}"
                         app:url="@{model.profile.image.url}" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvName"
-                        android:textColor="@color/colorPrimary"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="center"
-                        android:text="@{model.profile.fullName}"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ivImage"
-                        tools:text="Dr. Bill McDuck" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvLocation"
@@ -86,23 +73,22 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="28dp"
                         android:layout_marginEnd="20dp"
                         android:gravity="center"
                         android:text="@{model.profile.location}"
                         android:textColor="#7E7D8F"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvName"
-                        app:visibilityByData="@{model.profile.location}"
-                        tools:text="California, USA" />
+                        app:layout_constraintTop_toBottomOf="@+id/ivImage"
+                        tools:text="Location" />
 
                     <androidx.appcompat.widget.AppCompatRatingBar
                         android:id="@+id/rbRating"
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="6dp"
                         android:numStars="5"
                         android:rating="@{model.profile.rating}"
                         android:theme="@style/RatingBarTheme"
@@ -117,49 +103,36 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="6dp"
                         android:layout_marginEnd="20dp"
                         android:gravity="center"
-                        android:visibility="@{model.profile != null}"
                         android:text="@{model.profile.masterMind?model.masterMindDescription + @string/type_mastermind:@string/type_regular_user}"
+                        android:visibility="@{model.profile != null}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/rbRating"
                         tools:text="MasterMind" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvDescription"
-                        style="@style/TextNormal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="center"
-                        android:text="@{model.profile.description}"
-                        android:textColor="#7E7D8F"
-                        android:visibility='@{model.profile.description.equals("") || model.profile.description == null ? View.GONE : View.VISIBLE}'
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvShortDescription"
-                        tools:text="MasterMind" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/tvFollowersCount"
                         style="@style/AppTheme.Button"
                         android:layout_width="120dp"
-                        android:layout_height="32dp"
+                        android:layout_height="23dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/ic_bg_btn_joined"
-                        android:elevation="8dp"
+
+                        android:gravity="center"
                         android:text="@{@plurals/mm_followers_count(model.profile.followersCount,NumberUtilsKt.formatToKValue(model.profile.followersCount))}"
                         android:textAllCaps="false"
                         android:textColor="@color/colorAccent"
-                        android:textSize="12sp"
+                        android:textSize="10sp"
                         android:visibility="@{model.profile.masterMind?View.VISIBLE:View.GONE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+                        app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
+
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -215,17 +188,15 @@
                     </LinearLayout>
 
 
-
-
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/redeem_detail_toolbar"
                     android:layout_width="match_parent"
+                    android:layout_height="50dp"
                     android:background="@color/colorPrimary"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:layout_height="?attr/actionBarSize"
+                    android:backgroundTint="@android:color/transparent"
+                    app:contentInsetStart="0dp"
 
                     app:layout_collapseMode="pin"
 
@@ -234,15 +205,8 @@
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/btnBack"
                         android:layout_width="50dp"
-                        android:contentInsetLeft="0dp"
-                        android:contentInsetStart="0dp"
-                        app:contentInsetLeft="0dp"
-                        app:contentInsetStart="0dp"
-
                         android:layout_height="50dp"
-
                         android:background="@android:color/transparent"
-
                         android:src="@drawable/ic_back"
                         android:tint="@color/light_gray_8f" />
 
@@ -265,8 +229,8 @@
                         android:background="@android:color/transparent"
                         android:padding="16dp"
                         android:src="@drawable/ic_info"
-                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                        android:tint="@color/light_gray_8f" />
+                        android:tint="@color/light_gray_8f"
+                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
                 </androidx.appcompat.widget.Toolbar>
 
 
@@ -278,10 +242,11 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true"
+            android:layout_height="match_parent"
             android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_height="match_parent">
+            android:fitsSystemWindows="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/vpGroups"
                 android:layout_width="match_parent"
@@ -291,39 +256,38 @@
                     android:id="@+id/tlGroups"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    app:tabMode="scrollable"
+                    android:background="@android:color/white"
                     app:tabIndicatorFullWidth="false"
-                    app:tabPaddingStart="10dp"
+                    app:tabMode="scrollable"
                     app:tabPaddingEnd="10dp"
+                    app:tabPaddingStart="10dp"
                     app:tabSelectedTextColor="@color/colorAccent"
-                    app:tabTextAppearance="@style/TapTextAppearance"
-                    app:tabTextColor="@color/colorAccent_inactive"
-                    android:background="@android:color/white">
+                    app:tabTextAppearance="@style/TapTextMMProfile"
+                    app:tabTextColor="@color/colorAccent_inactive">
 
                     <com.google.android.material.tabs.TabItem
                         android:id="@+id/t1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/white"/>
+                        android:background="@android:color/white" />
 
                     <com.google.android.material.tabs.TabItem
                         android:id="@+id/t2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/white"/>
+                        android:background="@android:color/white" />
 
                     <com.google.android.material.tabs.TabItem
                         android:id="@+id/t3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/white"/>
+                        android:background="@android:color/white" />
 
                     <com.google.android.material.tabs.TabItem
                         android:id="@+id/t4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/white"/>
+                        android:background="@android:color/white" />
 
                 </com.google.android.material.tabs.TabLayout>
             </androidx.viewpager.widget.ViewPager>
