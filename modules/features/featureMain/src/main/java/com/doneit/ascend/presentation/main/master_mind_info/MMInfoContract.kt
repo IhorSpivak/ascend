@@ -24,6 +24,7 @@ interface MMInfoContract {
         val sendReportStatus: SingleLiveManager<Boolean>
         val masterMindDescription: LiveData<String>
 
+        fun getListOfTitles(): List<Int>
         fun onFollowClick()
         fun onUnfollowClick()
         fun setRating(rating: Int)

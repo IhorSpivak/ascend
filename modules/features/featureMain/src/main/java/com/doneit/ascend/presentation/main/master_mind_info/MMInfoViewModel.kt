@@ -2,10 +2,12 @@ package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.*
 import com.doneit.ascend.domain.entity.dto.CreateChatDTO
+import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.master_mind.MasterMindUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -64,6 +66,56 @@ class MMInfoViewModel(
                 }
             }
         }
+    }
+
+    override fun getListOfTitles(): List<Int> {
+        user.value?.let {
+            return when (it.community) {
+                Community.SUCCESS.title,
+                Community.INDUSTRY.title -> listOf(
+                    R.string.daily,
+                    R.string.webinars,
+                    R.string.channels_title,
+                    R.string.community_feed_title,
+                    R.string.collaboration,
+                    R.string.master_mind
+                )
+                Community.LIFESTYLE.title -> listOf(
+                    R.string.daily,
+                    R.string.webinars,
+                    R.string.channels_title,
+                    R.string.community_feed_title,
+                    R.string.collaboration,
+                    R.string.coaching
+                )
+                Community.RECOVERY.title -> listOf(
+                    R.string.daily,
+                    R.string.webinars,
+                    R.string.channels_title,
+                    R.string.community_feed_title,
+                    R.string.groups,
+                    R.string.master_mind
+                )
+                Community.FAMILY.title -> listOf(
+                    R.string.daily,
+                    R.string.webinars,
+                    R.string.channels_title,
+                    R.string.community_feed_title,
+                    R.string.groups,
+                    R.string.coaching
+                )
+                Community.SPIRITUAL.title -> listOf(
+                    R.string.daily,
+                    R.string.webinars,
+                    R.string.channels_title,
+                    R.string.community_feed_title,
+                    R.string.collaboration,
+                    R.string.coaching
+                )
+                else -> throw IllegalArgumentException("Unknown community: ${it.community}")
+            }
+        }
+        return emptyList()
     }
 
     private fun updateUIVisibility(currentUser: UserEntity?, displayedUser: UserEntity?) {

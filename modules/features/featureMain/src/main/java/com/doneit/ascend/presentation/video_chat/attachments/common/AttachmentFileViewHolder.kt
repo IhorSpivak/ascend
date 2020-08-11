@@ -32,7 +32,7 @@ class AttachmentFileViewHolder(
                 R.drawable.ic_sent_message
             else R.drawable.ic_download
         )
-        binding.download.setOnClickListener {
+        binding.root.setOnClickListener {
             if (!isFileExist(item.fileName))
                 onDownloadClick.invoke(item)
         }

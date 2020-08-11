@@ -49,8 +49,11 @@ class CommunityFeedViewModel(
 
     private val socketMessage = postsUseCase.commentStream
     private lateinit var observer: Observer<CommunityFeedSocketEntity?>
+    override lateinit var user: UserEntity
+        private set
 
     override fun initUser(user: UserEntity) {
+        this.user = user
         user.community?.let {
             postsUseCase.connectToChannel(it.toLowerCase())
             observer = getMessageObserver()
@@ -78,7 +81,11 @@ class CommunityFeedViewModel(
     }
 
     override fun onChannelClick(channel: ChatEntity) {
+        if (channel.isSubscribed) {
+            router.navigateToChannel(channel, user)
+        } else {
 
+        }
     }
 
     override fun onSeeAllClick() {
@@ -170,6 +177,14 @@ class CommunityFeedViewModel(
             if (index != -1) {
                 val item = it[index]
                 it.set(index, item.copy(commentsCount = commentsCount))
+            }
+        }
+    }
+
+    override fun onJoinChannel(channel: ChatEntity) {
+        viewModelScope.launch {
+            if (chatUseCase.joinChannel(viewModelScope, channel.id).isSuccessful) {
+                router.navigateToChannel(channel, user)
             }
         }
     }

@@ -10,6 +10,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -27,6 +29,8 @@ import com.doneit.ascend.presentation.main.home.community_feed.common.PostsAdapt
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.dialog_bottom_sheet_channels.view.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
 
@@ -92,7 +96,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             },
             onCreatePostListener = viewModel::onNewPostClick,
             onSeeAllClickListener = viewModel::onSeeAllClick,
-            onChannelClick = viewModel::onChannelClick,
+            onChannelClick = ::handleChatNavigation,
             onCommentClick = ::showComments,
             onMediaClick = viewModel::attachmentClicked
         )
@@ -198,6 +202,45 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
                 QuestionButtonType.POSITIVE -> viewModel.onDeletePostClick(post)
             }
         }
+    }
+
+    private fun handleChatNavigation(channel: ChatEntity) {
+        if (channel.chatOwnerId == viewModel.user.id) {
+            viewModel.onChannelClick(channel)
+        }
+        when (channel.isSubscribed) {
+            true -> viewModel.onChannelClick(channel)
+            false -> showChannelsDialogInfo(channel)
+        }
+    }
+
+    private fun showChannelsDialogInfo(channel: ChatEntity) {
+        val view = layoutInflater.inflate(R.layout.dialog_bottom_sheet_channels, null)
+        val dialog = BottomSheetDialog(context!!)
+        dialog.setContentView(view)
+        view.titleChannel.text = channel.title
+        when (channel.isPrivate) {
+            true -> view.channelType.text = resources.getString(R.string.private_channel)
+            false -> view.channelType.text = resources.getString(R.string.public_channel)
+        }
+        view.user_name.text = channel.owner?.fullName
+        view.descriptionChannel.text = channel.description
+        view.qtyMembers.text = """${channel.membersCount} members"""
+        Glide.with(this)
+            .load(channel.image?.url)
+            .apply(RequestOptions.circleCropTransform())
+            .into(view.channelImage)
+
+        Glide.with(this)
+            .load(channel.owner?.image?.url)
+            .apply(RequestOptions.circleCropTransform())
+            .into(view.userIcon)
+
+        view.btn_join.setOnClickListener {
+            dialog.dismiss()
+            viewModel.onJoinChannel(channel)
+        }
+        dialog.show()
     }
 
     companion object {
