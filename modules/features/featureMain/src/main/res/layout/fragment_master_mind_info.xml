@@ -32,16 +32,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-
                 android:fitsSystemWindows="true"
-
-
                 app:collapsedTitleGravity="center"
                 app:contentScrim="@color/colorPrimary"
-
                 app:expandedTitleGravity="center_horizontal"
                 app:expandedTitleMarginBottom="30dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:scrimAnimationDuration="200"
                 app:title="@{model.profile.fullName}"
 
@@ -133,14 +129,13 @@
                         app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
 
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:orientation="horizontal"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="20dp"
-                        app:layout_constraintTop_toBottomOf="@id/tvFollowersCount"
-                        android:layout_height="wrap_content">
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/tvFollowersCount">
 
                         <Button
                             android:id="@+id/btnUnFollow"
@@ -153,8 +148,7 @@
                             android:onClick="@{() -> model.onUnfollowClick()}"
                             android:text="@string/btn_unfollow"
                             android:textColor="@color/default_font_color"
-                            android:visibility="@{model.isUnfollowVisible(),default=gone}"
-                            />
+                            android:visibility="@{model.isUnfollowVisible(),default=gone}" />
 
 
                         <Button
@@ -163,27 +157,26 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="5dp"
                             android:layout_weight="1"
-                            android:visibility="@{model.isFollowVisible(),default=gone}"
                             android:background="@drawable/bg_btn_default_enabled"
                             android:enabled="@{model.enableFollow}"
                             android:onClick="@{() -> model.onFollowClick()}"
                             android:text="@string/btn_follow"
-                            />
+                            android:visibility="@{model.isFollowVisible(),default=gone}" />
 
                         <Button
                             android:id="@+id/btnMessage"
-                            android:textColor="@color/colorPrimary"
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
-                            android:fontFamily="@font/red_hat_font"
                             android:layout_marginStart="5dp"
-                            android:background="@drawable/button_message_bg"
                             android:layout_marginTop="16dp"
-                            android:textAllCaps="false"
-                            android:textSize="24sp"
                             android:layout_weight="1"
+                            android:background="@drawable/button_message_bg"
                             android:enabled="@{model.enableFollow}"
-                            android:text="@string/btn_message" />
+                            android:fontFamily="@font/red_hat_font"
+                            android:text="@string/btn_message"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="24sp" />
 
                     </LinearLayout>
 
@@ -210,16 +203,6 @@
                         android:src="@drawable/ic_back"
                         android:tint="@color/light_gray_8f" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btnShare"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_toStartOf="@id/btnInto"
-                        android:background="@android:color/transparent"
-                        android:padding="16dp"
-                        android:src="@drawable/ic_share"
-                        android:tint="@color/light_gray_8f" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/btnInto"
@@ -231,6 +214,18 @@
                         android:src="@drawable/ic_info"
                         android:tint="@color/light_gray_8f"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnShare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_gravity="end"
+                        android:layout_toStartOf="@id/btnInto"
+                        android:background="@android:color/transparent"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_share"
+                        android:tint="@color/light_gray_8f" />
                 </androidx.appcompat.widget.Toolbar>
 
 
