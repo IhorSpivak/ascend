@@ -1,5 +1,0 @@
-<androidx.appcompat.widget.AppCompatTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Title"
-    android:padding="2dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />

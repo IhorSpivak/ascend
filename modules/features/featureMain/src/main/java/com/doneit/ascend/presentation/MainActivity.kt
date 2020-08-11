@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.presentation.common.CommunityArrayAdapter
 import com.doneit.ascend.presentation.dialog.PermissionsRequiredDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
@@ -24,6 +25,7 @@ import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract
 import com.doneit.ascend.presentation.main.home.master_mind.MasterMindViewModel
 import com.doneit.ascend.presentation.main.home.master_mind.MasterMindViewModelFactory
+import com.doneit.ascend.presentation.models.PresentationCommunityModel
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
 import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
@@ -38,7 +40,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
-
+import java.util.*
 
 class MainActivity : BaseActivity(), MainActivityListener {
 
@@ -112,15 +114,15 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.fabCreateGroup.setOnClickListener {
             viewModel.onCreateGroupClick()
         }
-        viewModel.communities.observe(this, Observer {
-            val adapter =
-                ArrayAdapter<String>(this, R.layout.community_spinner_item, it.map { it.title.toUpperCase() })
+        viewModel.communities.observe(this, Observer { communities ->
+            val adapter = CommunityArrayAdapter(this, binding.communityDropDown, communities)
 
             initSpinner(
                 binding.communityDropDown,
                 communityListener,
                 adapter,
-                it.indexOfFirst { it.isSelected })
+                communities.indexOfFirst { it.isSelected }
+            )
         })
 
         setBottomNavigationListeners()
@@ -168,18 +170,15 @@ class MainActivity : BaseActivity(), MainActivityListener {
     override fun setTitle(title: String) {
         binding.tvTitle.text = title
         binding.tvTitle.visible()
-        binding.ascendLogo.gone()
         binding.communityDropDown.gone()
     }
 
     override fun setCommunityTitle(title: String) {
         binding.tvTitle.gone()
-        binding.ascendLogo.visible()
         binding.communityDropDown.visible()
-        viewModel.communities.value?.indexOfFirst { it.title.toUpperCase() == title.toUpperCase() }?.also {
+        viewModel.communities.value?.indexOfFirst { it.title.toUpperCase(Locale.getDefault()) == title.toUpperCase(Locale.getDefault()) }?.also {
             binding.communityDropDown.setSelection(it)
         }
-
     }
 
     override fun setSearchEnabled(isVisible: Boolean) {
@@ -239,7 +238,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
     private val communityListener: AdapterView.OnItemSelectedListener by lazy {
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                viewModel.saveCommunity((binding.communityDropDown.selectedItem as String).toCapitalLetter())
+                viewModel.saveCommunity((binding.communityDropDown.selectedItem as PresentationCommunityModel).title.toCapitalLetter())
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
