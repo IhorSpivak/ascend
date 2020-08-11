@@ -9,7 +9,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 
 interface GroupsContract {
-    interface ViewModel: BaseViewModel {
+    interface ViewModel : BaseViewModel {
         val isRefreshing: LiveData<Boolean>
         val userLiveData: LiveData<UserEntity>
         val groups: LiveData<GroupListWithUserPaged>
@@ -17,7 +17,7 @@ interface GroupsContract {
 
         fun onStartChatClick(groupId: Long, groupType: GroupType)
         fun onGroupClick(model: GroupEntity)
-        fun updateFilter(filter: TagEntity? = null)
+        fun updateFilter(filter: TagEntity? = null, userId: Long? = null)
         fun checkUser(user: UserEntity)
     }
 

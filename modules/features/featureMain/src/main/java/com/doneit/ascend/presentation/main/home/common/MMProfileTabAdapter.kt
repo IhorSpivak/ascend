@@ -28,24 +28,29 @@ class MMProfileTabAdapter(
     override fun getPageTitle(position: Int): CharSequence? {
         return titles[position]
     }
+
     companion object {
-        //todo change fragments when their be ready
+        //todo change fragments when they will be ready
         //todo for example
-        fun newInstance(fragmentManager: FragmentManager, userEntity: UserEntity, titles: List<String>): MMProfileTabAdapter {
+        fun newInstance(
+            fragmentManager: FragmentManager,
+            mmId: Long,
+            userEntity: UserEntity,
+            titles: List<String>
+        ): MMProfileTabAdapter {
 
             val fragments: ArrayList<() -> Fragment> = arrayListOf(
-                {DailyFragment()},
-                {WebinarsFragment()},
-                {ChannelsFragment.getInstance()},
-                {CommunityFeedFragment.newInstance(userEntity)},
-                {GroupsFragment()},
-                {MasterMindFragment()}
+                { DailyFragment() },
+                { WebinarsFragment() },
+                { ChannelsFragment.getInstance() },
+                { CommunityFeedFragment.newInstance(userEntity) },
+                { GroupsFragment.newInstance(mmId) },
+                { MasterMindFragment() }
             )
 
             return MMProfileTabAdapter(fragmentManager, fragments, titles)
         }
     }
-
 
 
 }

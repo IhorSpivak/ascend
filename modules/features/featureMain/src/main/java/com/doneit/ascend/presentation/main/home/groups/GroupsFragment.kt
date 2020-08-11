@@ -37,6 +37,10 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
         )
     }
 
+    private val userId: Long? by lazy {
+        requireArguments().getLong(KEY_USER_ID)
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
@@ -44,8 +48,8 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
 
             radioGroup.setOnCheckedChangeListener { radioGroup, i ->
                 val view = radioGroup.children.firstOrNull { it.id == i }
-                view?.let { viewModel.updateFilter(it.tag as TagEntity) }
-                    ?: viewModel.updateFilter()
+                view?.let { viewModel.updateFilter(it.tag as TagEntity, userId) }
+                    ?: viewModel.updateFilter(userId = userId)
             }
         }
 
@@ -56,8 +60,8 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
         })
         binding.swipeRefresh.setOnRefreshListener {
             binding.radioGroup.children.firstOrNull { (it as Chip).isChecked }.run {
-                this?.let { viewModel.updateFilter(it.tag as TagEntity?) }
-                    ?: viewModel.updateFilter()
+                this?.let { viewModel.updateFilter(it.tag as TagEntity?, userId) }
+                    ?: viewModel.updateFilter(userId = userId)
             }
         }
 
@@ -77,7 +81,7 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateFilter()
+        viewModel.updateFilter(userId = userId)
     }
 
     private fun addChipToViewGroup(chipGroup: ChipGroup, tags: List<TagEntity>) {
@@ -93,6 +97,21 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
             val chip = binding.root
             chip.tag = tag
             chipGroup.addView(chip)
+        }
+    }
+
+    companion object {
+
+        private const val KEY_USER_ID = "user_id"
+
+        fun newInstance(userId: Long? = null): GroupsFragment {
+            return GroupsFragment().apply {
+                arguments = Bundle().apply {
+                    userId?.let {
+                        putLong(KEY_USER_ID, userId)
+                    }
+                }
+            }
         }
     }
 
