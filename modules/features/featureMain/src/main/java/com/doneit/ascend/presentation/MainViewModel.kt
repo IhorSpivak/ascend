@@ -16,6 +16,7 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCommunityModel
 import com.doneit.ascend.presentation.models.toPresentationCommunity
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -34,7 +35,7 @@ class MainViewModel(
     override val hasUnreadMessages = MutableLiveData<Boolean>(false)
     override val isMasterMind = MutableLiveData<Boolean>(false)
     override val communities = MutableLiveData<List<PresentationCommunityModel>>()
-
+    override val userShare = SingleLiveEvent<UserEntity>()
     private val user = MutableLiveData<UserEntity?>()
     private val localUser = userUseCase.getUserLive()
     private val userObserver: Observer<UserEntity?> = Observer {
@@ -136,7 +137,11 @@ class MainViewModel(
     override fun tryToNavigateToProfile(id: Long) {
         viewModelScope.launch {
             if (userUseCase.hasSignedInUser()) {
-                router.navigateToMMInfo(id)
+                if (user.value!!.id == id) {
+                    navigateToProfile()
+                } else {
+                    router.navigateToMMInfo(id)
+                }
             } else {
                 router.navigateToLogin()
             }
@@ -149,6 +154,10 @@ class MainViewModel(
 
     override fun onChatClick() {
         router.navigateToMyChats()
+    }
+
+    override fun onShareClick() {
+        userShare.postValue(localUser.value)
     }
 
     override fun onCleared() {

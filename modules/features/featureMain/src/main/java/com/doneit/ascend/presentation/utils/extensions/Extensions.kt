@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.TextOvalDrawable
@@ -36,7 +37,7 @@ fun Activity.sendEmail(recipient: String) {
     }
 }
 
-fun Activity.openLink(url: String){
+fun Activity.openLink(url: String) {
     val i = Intent(Intent.ACTION_VIEW)
     i.data = Uri.parse(url)
     startActivity(i)
@@ -44,6 +45,28 @@ fun Activity.openLink(url: String){
 
 fun Long.toMb(): Float {
     return this.toFloat() / 1024 / 1024
+}
+
+fun Fragment.shareTo(text: String) {
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, text)
+        type = "text/plain"
+    }
+
+    val shareIntent = Intent.createChooser(sendIntent, null)
+    startActivity(shareIntent)
+}
+
+fun Activity.shareTo(text: String) {
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_TEXT, text)
+        type = "text/plain"
+    }
+
+    val shareIntent = Intent.createChooser(sendIntent, null)
+    startActivity(shareIntent)
 }
 
 fun String.copyToClipboard(context: Context) {

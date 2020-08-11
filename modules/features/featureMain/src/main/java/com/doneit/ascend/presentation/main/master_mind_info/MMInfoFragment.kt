@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindInfoBinding
+import com.doneit.ascend.presentation.utils.Constants
 import kotlinx.android.synthetic.main.fragment_master_mind_info.*
 import org.kodein.di.generic.instance
 
@@ -45,7 +46,10 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
             viewModel.onShareClick()
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, "https://ascend.com/profile/" + viewModel.profile.value!!.id)
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    Constants.DEEP_LINK_PROFILE_URL + viewModel.profile.value!!.id
+                )
                 type = "text/plain"
             }
 

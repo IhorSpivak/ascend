@@ -29,6 +29,7 @@ import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.extensions.shareTo
 import com.doneit.ascend.presentation.utils.extensions.toCapitalLetter
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
@@ -107,7 +108,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
         fun getExtra(key: String, action: (Long) -> Unit) {
             intent?.extras?.getLong(key)?.let {
-                if(it > 0) action(it)
+                if (it > 0) action(it)
             }
         }
         getExtra(Constants.KEY_GROUP_ID) { viewModel.tryToNavigateToGroupInfo(it) }
@@ -116,6 +117,9 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.fabCreateGroup.setOnClickListener {
             viewModel.onCreateGroupClick()
         }
+        viewModel.userShare.observe(this, Observer {
+            shareTo(Constants.DEEP_LINK_PROFILE_URL + it.id)
+        })
         viewModel.communities.observe(this, Observer {
             val adapter =
                 ArrayAdapter<String>(
@@ -203,6 +207,10 @@ class MainActivity : BaseActivity(), MainActivityListener {
         if (isVisible.not()) {
             binding.hasChatMessages.visible(false)
         }
+    }
+
+    override fun setShareEnabled(isVisible: Boolean) {
+        binding.btnShare.visible(isVisible)
     }
 
     override fun getUnreadMessageCount() {

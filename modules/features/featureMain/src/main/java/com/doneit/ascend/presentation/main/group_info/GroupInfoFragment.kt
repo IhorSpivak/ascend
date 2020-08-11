@@ -14,7 +14,9 @@ import com.doneit.ascend.presentation.main.databinding.FragmentGroupInfoBinding
 import com.doneit.ascend.presentation.main.group_info.common.InvitedParticipantAdapter
 import com.doneit.ascend.presentation.main.group_info.common.WebinarThemeAdapter
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
+import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
+import com.doneit.ascend.presentation.utils.extensions.shareTo
 import com.doneit.ascend.presentation.utils.extensions.toDayMonthYear
 import com.doneit.ascend.presentation.utils.extensions.toLocaleTimeString
 import com.doneit.ascend.presentation.utils.showDefaultError
@@ -116,6 +118,10 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         })
 
         binding.apply {
+
+            btnShare.setOnClickListener {
+                shareTo(Constants.DEEP_LINK_GROUP_URL + viewModel.group.value!!.id)
+            }
             mmDelete.setOnClickListener {
                 currentDialog = createDeleteDialog()
             }
