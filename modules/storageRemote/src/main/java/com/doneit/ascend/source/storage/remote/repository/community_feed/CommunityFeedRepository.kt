@@ -15,6 +15,7 @@ import com.doneit.ascend.source.storage.remote.data.response.community_feed.Post
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostsResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
+import com.doneit.ascend.source.storage.remote.util.MultipartConverter
 import com.doneit.ascend.source.storage.remote.util.MultipartConverter.addAttachment
 import com.google.gson.Gson
 import okhttp3.MultipartBody
@@ -74,7 +75,9 @@ internal class CommunityFeedRepository(
                         (attachment.index + 1).toString()
                     )
                 }
-                api.createPostAsync(build().parts)
+                api.createPostAsync(build().parts).also {
+                    MultipartConverter.clearTempDir(context)
+                }
             }
         }, ErrorsListResponse::class.java)
     }
@@ -95,7 +98,9 @@ internal class CommunityFeedRepository(
                         (attachment.index + 1).toString()
                     )
                 }
-                api.updatePostAsync(postId, deletedAttachments, build().parts)
+                api.updatePostAsync(postId, deletedAttachments, build().parts).also {
+                    MultipartConverter.clearTempDir(context)
+                }
             }
         }, ErrorsListResponse::class.java)
     }
