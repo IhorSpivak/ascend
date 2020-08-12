@@ -19,6 +19,7 @@ interface MMPostsContract {
         fun onEditPostClick(post: Post)
         fun onDeletePostClick(post: Post)
         fun onNewPostClick()
+        fun getPostList(postId: Int, community: String)
 
         fun onSeeAllClick()
         fun leaveComment(postId: Long, message: String)

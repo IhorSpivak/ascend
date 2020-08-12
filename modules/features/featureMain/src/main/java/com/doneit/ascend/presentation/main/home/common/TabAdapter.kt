@@ -35,7 +35,6 @@ class TabAdapter(
             val fragments: ArrayList<() -> Fragment> = arrayListOf(
                 {DailyFragment()},
                 {WebinarsFragment()},
-                {ChannelsFragment.getInstance()},
                 {CommunityFeedFragment.newInstance(userEntity)},
                 {GroupsFragment()},
                 {MasterMindFragment()}

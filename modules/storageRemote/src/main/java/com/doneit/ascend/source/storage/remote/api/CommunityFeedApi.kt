@@ -17,7 +17,9 @@ interface CommunityFeedApi {
     fun getPostsAsync(
         @Query("page") page: Int?,
         @Query("per_page") perPage: Int?,
+        @Query("user_id") user_id : Int?,
         @Query("sort_column") sortColumn: String?,
+        @Query("community") community : String?,
         @Query("sort_type") sortType: String?,
         @Query("created_at_from") createdAtFrom: String?,
         @Query("created_at_to") createdAtTo: String?,

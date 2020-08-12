@@ -18,6 +18,7 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
     override val viewModel: MMInfoContract.ViewModel by instance()
 
     private var currentDialog: AlertDialog? = null
+
     private val userId: Long by lazy {
         requireArguments().getLong(USER_ID)
     }
@@ -68,7 +69,10 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
         }
-    }
+
+        btnBack.setOnClickListener {
+            viewModel.goBack()
+        }
 
     private fun observeData() {
         viewModel.sendReportStatus.observe(this) {

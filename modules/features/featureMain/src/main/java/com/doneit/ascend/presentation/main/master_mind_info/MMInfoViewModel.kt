@@ -73,7 +73,6 @@ class MMInfoViewModel(
             return when (it.community) {
                 Community.SUCCESS.title,
                 Community.INDUSTRY.title -> listOf(
-                    R.string.daily,
                     R.string.webinars,
                     R.string.collaboration,
                     R.string.master_mind,
@@ -82,7 +81,6 @@ class MMInfoViewModel(
                     R.string.bio
                 )
                 Community.LIFESTYLE.title -> listOf(
-                    R.string.daily,
                     R.string.webinars,
                     R.string.collaboration,
                     R.string.coaching,
@@ -92,7 +90,6 @@ class MMInfoViewModel(
 
                 )
                 Community.RECOVERY.title -> listOf(
-                    R.string.daily,
                     R.string.webinars,
                     R.string.groups,
                     R.string.master_mind,
@@ -101,7 +98,6 @@ class MMInfoViewModel(
                     R.string.bio
                 )
                 Community.FAMILY.title -> listOf(
-                    R.string.daily,
                     R.string.webinars,
                     R.string.groups,
                     R.string.coaching,
@@ -110,7 +106,6 @@ class MMInfoViewModel(
                     R.string.bio
                 )
                 Community.SPIRITUAL.title -> listOf(
-                    R.string.daily,
                     R.string.webinars,
                     R.string.collaboration,
                     R.string.coaching,
