@@ -35,7 +35,10 @@ object MultipartConverter {
             }
         }
         val body = file.asRequestBody(
-            contentType = attachment.contentType
+            contentType = attachment.contentType.replace(
+                "*", getContentType(attachment, context)
+                    .substringAfterLast("/")
+            )
                 .toMediaTypeOrNull()
         )
         addPart(
