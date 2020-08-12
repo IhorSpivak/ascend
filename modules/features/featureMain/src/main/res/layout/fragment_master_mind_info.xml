@@ -34,8 +34,9 @@
                 android:fitsSystemWindows="true"
                 app:collapsedTitleGravity="center"
                 app:contentScrim="@color/colorPrimary"
-                app:expandedTitleGravity="center"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:expandedTitleGravity="center_horizontal"
+                app:expandedTitleMarginBottom="30dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:scrimAnimationDuration="200"
                 app:title="@{model.profile.fullName}">
 
@@ -49,7 +50,7 @@
                         android:id="@+id/ivImage"
                         android:layout_width="160dp"
                         android:layout_height="160dp"
-                        android:layout_marginTop="56dp"
+                        android:layout_marginTop="20dp"
                         android:elevation="0dp"
                         app:cardCornerRadius="80dp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -58,21 +59,6 @@
                         app:name="@{model.profile.fullName}"
                         app:url="@{model.profile.image.url}" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="center"
-                        android:text="@{model.profile.fullName}"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ivImage"
-                        tools:text="Dr. Bill McDuck" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvLocation"
@@ -80,23 +66,22 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="28dp"
                         android:layout_marginEnd="20dp"
                         android:gravity="center"
                         android:text="@{model.profile.location}"
                         android:textColor="#7E7D8F"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvName"
-                        app:visibilityByData="@{model.profile.location}"
-                        tools:text="California, USA" />
+                        app:layout_constraintTop_toBottomOf="@+id/ivImage"
+                        tools:text="Location" />
 
                     <androidx.appcompat.widget.AppCompatRatingBar
                         android:id="@+id/rbRating"
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="6dp"
                         android:numStars="5"
                         android:rating="@{model.profile.rating}"
                         android:theme="@style/RatingBarTheme"
@@ -111,7 +96,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="6dp"
                         android:layout_marginEnd="20dp"
                         android:gravity="center"
                         android:text="@{model.profile.masterMind?model.masterMindDescription + @string/type_mastermind:@string/type_regular_user}"
@@ -121,39 +106,25 @@
                         app:layout_constraintTop_toBottomOf="@+id/rbRating"
                         tools:text="MasterMind" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvDescription"
-                        style="@style/TextNormal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="center"
-                        android:text="@{model.profile.description}"
-                        android:textColor="#7E7D8F"
-                        android:visibility='@{model.profile.description.equals("") || model.profile.description == null ? View.GONE : View.VISIBLE}'
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvShortDescription"
-                        tools:text="MasterMind" />
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/tvFollowersCount"
                         style="@style/AppTheme.Button"
                         android:layout_width="120dp"
-                        android:layout_height="32dp"
+                        android:layout_height="23dp"
                         android:layout_marginTop="8dp"
                         android:background="@drawable/ic_bg_btn_joined"
-                        android:elevation="8dp"
+
+                        android:gravity="center"
                         android:text="@{@plurals/mm_followers_count(model.profile.followersCount,NumberUtilsKt.formatToKValue(model.profile.followersCount))}"
                         android:textAllCaps="false"
                         android:textColor="@color/colorAccent"
-                        android:textSize="12sp"
+                        android:textSize="10sp"
                         android:visibility="@{model.profile.masterMind?View.VISIBLE:View.GONE}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+                        app:layout_constraintTop_toBottomOf="@id/tvShortDescription" />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -176,6 +147,7 @@
                             android:textColor="@color/default_font_color"
                             android:visibility="@{model.isUnfollowVisible(),default=gone}" />
 
+
                         <Button
                             android:id="@+id/btnFollow"
                             style="@style/AppTheme.Button"
@@ -195,11 +167,11 @@
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="16dp"
                             android:layout_weight="1"
-                            android:insetBottom="0dp"
-                            android:insetTop="0dp"
                             android:backgroundTint="#46C762"
                             android:enabled="@{model.enableFollow}"
                             android:fontFamily="@font/red_hat_font"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
                             android:text="@string/btn_message"
                             android:textAllCaps="false"
                             android:textColor="@color/colorPrimary"
@@ -212,33 +184,23 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/redeem_detail_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="50dp"
                     android:background="@color/colorPrimary"
-                    android:backgroundTint="@color/colorPrimary"
-                    app:layout_collapseMode="pin">
+                    android:backgroundTint="@android:color/transparent"
+                    app:contentInsetStart="0dp"
+
+                    app:layout_collapseMode="pin"
+
+                    >
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/btnBack"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:background="@android:color/transparent"
-                        android:contentInsetStart="0dp"
-                        android:contentInsetLeft="0dp"
                         android:src="@drawable/ic_back"
-                        android:tint="@color/light_gray_8f"
-                        app:contentInsetLeft="0dp"
-                        app:contentInsetStart="0dp" />
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/btnShare"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_toStartOf="@id/btnInto"
-                        android:background="@android:color/transparent"
-                        android:padding="16dp"
-                        android:src="@drawable/ic_share"
                         android:tint="@color/light_gray_8f" />
+
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/btnInto"
@@ -250,6 +212,18 @@
                         android:src="@drawable/ic_info"
                         android:tint="@color/light_gray_8f"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnShare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_gravity="end"
+                        android:layout_toStartOf="@id/btnInto"
+                        android:background="@android:color/transparent"
+                        android:padding="16dp"
+                        android:src="@drawable/ic_share"
+                        android:tint="@color/light_gray_8f" />
                 </androidx.appcompat.widget.Toolbar>
 
 

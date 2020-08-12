@@ -5,11 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.home.channels.ChannelsFragment
-import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedFragment
-import com.doneit.ascend.presentation.main.home.daily.DailyFragment
-import com.doneit.ascend.presentation.main.home.groups.GroupsFragment
-import com.doneit.ascend.presentation.main.home.master_mind.MasterMindFragment
-import com.doneit.ascend.presentation.main.home.webinars.WebinarsFragment
+import com.doneit.ascend.presentation.main.master_mind_info.mm_content.posts.MMPostsFragment
 
 class MMProfileTabAdapter(
     fragmentManager: FragmentManager,
@@ -40,17 +36,16 @@ class MMProfileTabAdapter(
         ): MMProfileTabAdapter {
 
             val fragments: ArrayList<() -> Fragment> = arrayListOf(
-                { DailyFragment() },
-                { WebinarsFragment() },
                 { ChannelsFragment.getInstance() },
-                { CommunityFeedFragment.newInstance(userEntity) },
+                { ChannelsFragment.getInstance() },
+                { ChannelsFragment.getInstance() },
+                { ChannelsFragment.getInstance() },
                 { GroupsFragment.newInstance(mmId) },
-                { MasterMindFragment() }
+                { MMPostsFragment.newInstance(userEntity) },
+                { ChannelsFragment.getInstance() }
             )
 
             return MMProfileTabAdapter(fragmentManager, fragments, titles)
         }
     }
-
-
 }
