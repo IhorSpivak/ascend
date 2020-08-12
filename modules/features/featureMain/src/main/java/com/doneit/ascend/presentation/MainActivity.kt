@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.SpinnerAdapter
 import androidx.databinding.DataBindingUtil
@@ -31,6 +30,7 @@ import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.extensions.shareTo
 import com.doneit.ascend.presentation.utils.extensions.toCapitalLetter
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
@@ -106,14 +106,21 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.model = viewModel
         super.onCreate(savedInstanceState)
         viewModel.onHomeClick()
-        if (intent.extras?.containsKey(Constants.KEY_GROUP_ID) == true) {
-            intent.extras?.get(Constants.KEY_GROUP_ID)?.let {
-                viewModel.tryToNavigateToGroupInfo(it.toString().toLong())
+
+        fun getExtra(key: String, action: (Long) -> Unit) {
+            intent?.extras?.getLong(key)?.let {
+                if (it > 0) action(it)
             }
         }
+        getExtra(Constants.KEY_GROUP_ID) { viewModel.tryToNavigateToGroupInfo(it) }
+        getExtra(Constants.KEY_PROFILE_ID) { viewModel.tryToNavigateToProfile(it) }
+
         binding.fabCreateGroup.setOnClickListener {
             viewModel.onCreateGroupClick()
         }
+        viewModel.userShare.observe(this, Observer {
+            shareTo(Constants.DEEP_LINK_PROFILE_URL + it.id)
+        })
         viewModel.communities.observe(this, Observer { communities ->
             val adapter = CommunityArrayAdapter(this, binding.communityDropDown, communities)
 
@@ -196,6 +203,10 @@ class MainActivity : BaseActivity(), MainActivityListener {
         }
     }
 
+    override fun setShareEnabled(isVisible: Boolean) {
+        binding.btnShare.visible(isVisible)
+    }
+
     override fun getUnreadMessageCount() {
         viewModel.getUnreadMessageCount()
     }
@@ -203,7 +214,8 @@ class MainActivity : BaseActivity(), MainActivityListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             VideoChatActivity.RESULT_CODE -> {
-                val result = data?.extras?.get(VideoChatActivity.RESULT_TAG) as? VideoChatActivity.ResultStatus
+                val result =
+                    data?.extras?.get(VideoChatActivity.RESULT_TAG) as? VideoChatActivity.ResultStatus
                 when (result) {
                     VideoChatActivity.ResultStatus.POPUP_REQUIRED -> {
                         PermissionsRequiredDialog.create(this).show()

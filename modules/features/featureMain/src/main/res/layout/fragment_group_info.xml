@@ -50,6 +50,7 @@
                     app:setImage="@{model.group.image.url}"
                     tools:background="@color/light_gray_e9f0" />
 
+
                 <Space
                     android:id="@+id/contentSpace"
                     android:layout_width="match_parent"
@@ -1103,6 +1104,16 @@
             android:padding="16dp"
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@android:color/white"
+            android:padding="16dp"
+            android:src="@drawable/ic_share"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

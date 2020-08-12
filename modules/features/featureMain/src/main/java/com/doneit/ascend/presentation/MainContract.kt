@@ -2,8 +2,10 @@ package com.doneit.ascend.presentation
 
 import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.models.PresentationCommunityModel
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 
 interface MainContract {
     interface ViewModel: BaseViewModel {
@@ -11,6 +13,7 @@ interface MainContract {
         val hasUnreadMessages: LiveData<Boolean>
         val isMasterMind: LiveData<Boolean>
         val communities: LiveData<List<PresentationCommunityModel>>
+        val userShare: SingleLiveEvent<UserEntity>
 
         fun saveCommunity(community: String)
         fun getUnreadMessageCount()
@@ -18,6 +21,7 @@ interface MainContract {
         fun onSearchClick()
         fun onFilterClick()
         fun onChatClick()
+        fun onShareClick()
 
         fun onCreateGroupClick()
         fun onHomeClick()
@@ -25,6 +29,7 @@ interface MainContract {
         fun navigateToAscensionPlan()
         fun navigateToProfile()
         fun tryToNavigateToGroupInfo(id: Long)
+        fun tryToNavigateToProfile(id: Long)
     }
 
     interface Router {
@@ -41,5 +46,6 @@ interface MainContract {
         fun navigateToAscensionPlan()
         fun navigateToMMProfile()
         fun navigateToRegularUserProfile()
+        fun navigateToMMInfo(id: Long)
     }
 }

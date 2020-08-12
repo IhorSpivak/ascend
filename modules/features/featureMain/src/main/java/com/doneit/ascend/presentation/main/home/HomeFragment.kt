@@ -10,8 +10,6 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
 import org.kodein.di.generic.instance
-import java.nio.charset.StandardCharsets
-import java.security.MessageDigest
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -36,6 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             setSearchEnabled(true)
             setFilterEnabled(false)
             setChatEnabled(true)
+            setShareEnabled(false)
             getUnreadMessageCount()
         }
 

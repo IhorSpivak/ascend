@@ -67,6 +67,8 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
             }).show()
         }
 
+        viewModel
+
         mm_followed.setOnClickListener {
             viewModel.onMMFollowedClick()
         }
@@ -131,6 +133,7 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
             setSearchEnabled(false)
             setFilterEnabled(false)
             setChatEnabled(false)
+            setShareEnabled(true)
         }
     }
 

@@ -147,6 +147,10 @@ class MMInfoViewModel(
         }
     }
 
+    override fun onShareClick() {
+        
+    }
+
     override fun goBack() {
         router.onBack()
     }

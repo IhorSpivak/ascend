@@ -33,6 +33,7 @@ interface MMInfoContract {
 
         fun setProfileId(id: Long)
         fun report(content: String)
+        fun onShareClick()
         fun startChatWithMM(mmId: Long)
         fun goBack()
     }
