@@ -12,9 +12,8 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.chats.MemberEntity
+
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
@@ -24,20 +23,18 @@ import com.doneit.ascend.presentation.dialog.QuestionButtonType
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.chats.chat.livestream_user_actions.LivestreamUserActionsFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindPostBinding
 import com.doneit.ascend.presentation.main.home.channels.adapter.CommunityAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedFragment
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewBottomSheetFragment
 import com.doneit.ascend.presentation.main.home.community_feed.common.MMPostClickListener
 import com.doneit.ascend.presentation.main.home.community_feed.common.MMPostsAdapter
-import com.doneit.ascend.presentation.main.home.community_feed.common.PostClickListeners
-import com.doneit.ascend.presentation.main.home.community_feed.common.PostsAdapter
+
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.dialog_bottom_sheet_channels.view.*
-import kotlinx.android.synthetic.main.fragment_master_mind_post.*
+
 
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
@@ -67,7 +64,7 @@ class MMPostsFragment : BaseFragment<FragmentMasterMindPostBinding>() {
     private val communityAdapter by lazy {
         CommunityAdapter(
             onCommunitySelect = { community ->
-
+                viewModel.getPostList(id,community.title.toLowerCase())
             }
         )
     }
@@ -80,6 +77,7 @@ class MMPostsFragment : BaseFragment<FragmentMasterMindPostBinding>() {
     }
 
     private var currentDialog: AlertDialog? = null
+
     private val user by lazy {
         requireArguments().getParcelable<UserEntity>(KEY_USER)!!
     }
@@ -134,10 +132,12 @@ class MMPostsFragment : BaseFragment<FragmentMasterMindPostBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
+        val id =  requireArguments().getLong(KEY_MM_ID)
         binding.apply {
             communityList.adapter = communityAdapter
             rvPosts.itemAnimator = null
         }
+        viewModel.getPostList(id.toInt(),"recovery")
         viewModel.initUser(user)
         initPostsAdapter
         viewModel.apply {
@@ -146,6 +146,8 @@ class MMPostsFragment : BaseFragment<FragmentMasterMindPostBinding>() {
             })
             fetchCommunityList()
         }
+
+
         observeData()
     }
 
@@ -231,10 +233,13 @@ class MMPostsFragment : BaseFragment<FragmentMasterMindPostBinding>() {
     companion object {
         const val ACTION_NEW_POST = "NEW_POST"
         private const val KEY_USER = "USER"
-        fun newInstance(user: UserEntity) = MMPostsFragment()
+        private const val KEY_MM_ID = "ID"
+        fun newInstance(userId: Long, userEntity: UserEntity) = MMPostsFragment()
             .apply {
                 arguments = Bundle().apply {
-                    putParcelable(KEY_USER, user)
+                    putLong(KEY_MM_ID, userId)
+                    putParcelable(KEY_USER, userEntity)
+
                 }
             }
     }

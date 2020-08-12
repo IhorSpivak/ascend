@@ -9,12 +9,10 @@ import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.CommunityFeedSocketEntity
 import com.doneit.ascend.domain.entity.community_feed.CommunityFeedSocketEvent
 import com.doneit.ascend.domain.entity.community_feed.Post
-import com.doneit.ascend.domain.entity.dto.ChatListDTO
-import com.doneit.ascend.domain.entity.dto.ChatType
-import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
-import com.doneit.ascend.domain.entity.dto.SortType
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -33,18 +31,14 @@ class MMPostsViewModel(
     private val chatUseCase: ChatUseCase,
     private val router: CommunityFeedContract.Router
 ) : BaseViewModelImpl(),  MMPostsContract.ViewModel {
-    override val posts = postsUseCase.loadPosts(
-        viewModelScope, CommunityFeedDTO(
-            perPage = 10,
-            sortType = SortType.DESC
-        )
-    )
 
     override val communityList = MutableLiveData<List<Community>>()
     private val socketMessage = postsUseCase.commentStream
     private lateinit var observer: Observer<CommunityFeedSocketEntity?>
     override lateinit var user: UserEntity
+    override var posts = MutableLiveData<PagedList<Post>>()
         private set
+
 
     override fun initUser(user: UserEntity) {
         this.user = user
@@ -55,9 +49,18 @@ class MMPostsViewModel(
         }
     }
 
+    override fun getPostList(userId : Int, community : String) {
+        posts = postsUseCase.loadPosts(
+            viewModelScope, CommunityFeedDTO(user_id = userId, perPage = 10, community = community, sortType = SortType.DESC)
+        ) as MutableLiveData<PagedList<Post>>
+    }
+
+
     override fun onNewPostClick() {
         router.navigateToCreatePost()
     }
+
+
 
     override fun onEditPostClick(post: Post) {
         router.navigateToCreatePost(post)
@@ -73,6 +76,7 @@ class MMPostsViewModel(
             }
         ))
     }
+
 
     override fun fetchCommunityList() {
         communityList.postValue(Community.values().toList())

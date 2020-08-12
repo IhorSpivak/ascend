@@ -21,13 +21,14 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
     override val viewModel: MMInfoContract.ViewModel by instance()
 
     private var currentDialog: AlertDialog? = null
+    private var id: Long? = null
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
 
         //todo replace by ArgumentedFragment
-        val id = requireArguments().getLong(USER_ID)
-        viewModel.setProfileId(id)
+        id = requireArguments().getLong(USER_ID)
+        viewModel.setProfileId(id!!)
 
         viewModel.sendReportStatus.observe(this) {
             if (it == true) {
@@ -47,6 +48,7 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
 
             binding.vpGroups.adapter = MMProfileTabAdapter.newInstance(
                 childFragmentManager,
+                id!!,
                 it,
                 viewModel.getListOfTitles().map {
                     getString(it)
@@ -84,7 +86,7 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
 
         btnMessage.setOnClickListener {
 
-            viewModel.startChatWithMM(mmId = id)
+            viewModel.startChatWithMM(mmId = id!!)
         }
 
 

@@ -34,7 +34,10 @@ internal class CommunityFeedRepository(
                 createdAtFrom = postsRequest.createdAtFrom,
                 createdAtTo = postsRequest.createdAtTo,
                 updatedAtFrom = postsRequest.updatedAtFrom,
-                updatedAtTo = postsRequest.updatedAtTo
+                updatedAtTo = postsRequest.updatedAtTo,
+                user_id = postsRequest.user_id,
+                community = postsRequest.community
+
             )
         }, ErrorsListResponse::class.java)
     }

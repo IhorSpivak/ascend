@@ -27,7 +27,7 @@ class MMProfileTabAdapter(
     companion object {
         //todo change fragments when their be ready
         //todo for example
-        fun newInstance(fragmentManager: FragmentManager, userEntity: UserEntity, titles: List<String>): MMProfileTabAdapter {
+        fun newInstance(fragmentManager: FragmentManager, userId: Long,user: UserEntity, titles: List<String>): MMProfileTabAdapter {
 
             val fragments: ArrayList<() -> Fragment> = arrayListOf(
                 {ChannelsFragment.getInstance()},
@@ -35,7 +35,7 @@ class MMProfileTabAdapter(
                 {ChannelsFragment.getInstance()},
                 {ChannelsFragment.getInstance()},
                 {ChannelsFragment.getInstance()},
-                {MMPostsFragment.newInstance(userEntity)},
+                {MMPostsFragment.newInstance(userId,user)},
                 {ChannelsFragment.getInstance()}
             )
 

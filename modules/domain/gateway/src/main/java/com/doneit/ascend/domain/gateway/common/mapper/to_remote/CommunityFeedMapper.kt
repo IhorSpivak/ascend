@@ -16,7 +16,10 @@ fun CommunityFeedDTO.toRequest(page: Int): PostsRequest {
         createdAtFrom = createdAtFrom,
         createdAtTo = createdAtTo,
         updatedAtFrom = updatedAtFrom,
+        user_id = user_id,
+        community = community,
         updatedAtTo = updatedAtTo
+
     )
 }
 

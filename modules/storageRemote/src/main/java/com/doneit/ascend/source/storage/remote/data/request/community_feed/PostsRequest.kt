@@ -8,6 +8,10 @@ class PostsRequest(
     perPage: Int?,
     sortColumn: String?,
     sortType: String?,
+    @SerializedName("user_id")
+    val user_id: Int?,
+    @SerializedName("community")
+    val community: String?,
     @SerializedName("created_at_from")
     val createdAtFrom: String?,
     @SerializedName("created_at_to")

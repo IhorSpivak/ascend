@@ -17,7 +17,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:layout_above="@+id/bottom_navigation"
         android:fitsSystemWindows="true">
 
 
@@ -36,7 +36,7 @@
                 app:collapsedTitleGravity="center"
                 app:contentScrim="@color/colorPrimary"
                 app:expandedTitleGravity="center_horizontal"
-                app:expandedTitleMarginBottom="30dp"
+                app:expandedTitleMarginBottom="50dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:scrimAnimationDuration="200"
                 app:title="@{model.profile.fullName}"
@@ -88,7 +88,7 @@
                         android:numStars="5"
                         android:rating="@{model.profile.rating}"
                         android:theme="@style/RatingBarTheme"
-                        android:visibility="@{model.profile.masterMind?View.VISIBLE:View.GONE}"
+
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
@@ -97,6 +97,7 @@
                         android:id="@+id/tvShortDescription"
                         style="@style/TextNormal"
                         android:layout_width="0dp"
+                        android:maxLines="1"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="6dp"
@@ -235,59 +236,55 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <androidx.core.widget.NestedScrollView
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vpGroups"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:fitsSystemWindows="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="wrap_content">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/vpGroups"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tlGroups"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                app:tabIndicatorFullWidth="false"
+                app:tabMode="scrollable"
+                app:tabPaddingEnd="10dp"
+                app:tabPaddingStart="10dp"
+                app:tabSelectedTextColor="@color/colorAccent"
+                app:tabTextAppearance="@style/TapTextMMProfile"
+                app:tabTextColor="@color/colorAccent_inactive">
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tlGroups"
-                    android:layout_width="match_parent"
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/t1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    app:tabIndicatorFullWidth="false"
-                    app:tabMode="scrollable"
-                    app:tabPaddingEnd="10dp"
-                    app:tabPaddingStart="10dp"
-                    app:tabSelectedTextColor="@color/colorAccent"
-                    app:tabTextAppearance="@style/TapTextMMProfile"
-                    app:tabTextColor="@color/colorAccent_inactive">
+                    android:background="@android:color/white" />
 
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/t1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/white" />
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/t2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white" />
 
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/t2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/white" />
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/t3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white" />
 
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/t3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/white" />
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/t4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white" />
 
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/t4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/white" />
-
-                </com.google.android.material.tabs.TabLayout>
-            </androidx.viewpager.widget.ViewPager>
-        </androidx.core.widget.NestedScrollView>
+            </com.google.android.material.tabs.TabLayout>
+        </androidx.viewpager.widget.ViewPager>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
+
