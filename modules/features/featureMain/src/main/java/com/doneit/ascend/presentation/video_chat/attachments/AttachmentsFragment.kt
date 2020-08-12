@@ -1,16 +1,17 @@
 package com.doneit.ascend.presentation.video_chat.attachments
 
-/*import com.github.piasy.biv.BigImageViewer
-import com.github.piasy.biv.loader.glide.GlideImageLoader*/
 import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
@@ -106,7 +107,14 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
             Toast.makeText(requireContext(), "Copied", Toast.LENGTH_LONG).show()
         }, {
             viewModel.onDelete(it)
-        })
+        }) {
+            val dir = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            } else Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                .toUri()
+
+            previewFile(File("${dir.path}", it.fileName).toUri())
+        }
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
@@ -141,24 +149,28 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
         })
 
         viewModel.showPreview.observe(viewLifecycleOwner, Observer { uri ->
-            Intent(Intent.ACTION_VIEW).apply {
-                val fileUri = FileProvider.getUriForFile(
-                    requireContext(),
-                    requireContext().applicationContext.packageName + ".fileprovider",
-                    File(uri.path.orEmpty())
-                )
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
-                data = fileUri
-                try {
-                    startActivity(Intent.createChooser(this,getString(R.string.preview)))
-                } catch (e: ActivityNotFoundException) {
-                    1
-                }
-            }
+            previewFile(uri)
         })
 
         val groupId = arguments!!.getParcelable<AttachmentsArg>(ATTACHMENTS_ARGS)!!.groupId
         viewModel.init(groupId)
+    }
+
+    private fun previewFile(uri: Uri) {
+        Intent(Intent.ACTION_VIEW).apply {
+            val fileUri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().applicationContext.packageName + ".fileprovider",
+                File(uri.path.orEmpty())
+            )
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            data = fileUri
+            try {
+                startActivity(Intent.createChooser(this, getString(R.string.preview)))
+            } catch (e: ActivityNotFoundException) {
+                1
+            }
+        }
     }
 
     private fun showAttachmentDialog() {
