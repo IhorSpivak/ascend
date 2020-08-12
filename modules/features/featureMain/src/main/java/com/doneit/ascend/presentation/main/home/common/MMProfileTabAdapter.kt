@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.home.channels.ChannelsFragment
+import com.doneit.ascend.presentation.main.home.groups.GroupsFragment
 import com.doneit.ascend.presentation.main.master_mind_info.mm_content.posts.MMPostsFragment
 
 class MMProfileTabAdapter(

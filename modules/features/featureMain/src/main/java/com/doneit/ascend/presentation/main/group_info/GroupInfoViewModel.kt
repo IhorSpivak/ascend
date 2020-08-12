@@ -63,15 +63,15 @@ class GroupInfoViewModel(
         viewModelScope.launch {
             val response = groupUseCase.getGroupDetails(groupId)
             if (response.isSuccessful) {
+                val user = userUseCase.getUser()
+                isOwner.postValue(user?.id == response.successModel!!.owner?.id)
                 group.postValue(response.successModel!!)
                 isSupport.postValue(response.successModel?.groupType != GroupType.SUPPORT)
-                val user = userUseCase.getUser()
                 supportTitle.value = convertCommunityToResId(
                     user!!.community.orEmpty(),
                     group.value?.groupType
                 )
                 isMM.postValue(user.isMasterMind)
-                isOwner.postValue(user.id == response.successModel!!.owner?.id)
                 if (response.successModel!!.participantsCount!! > 0) {
                     groupUseCase.getParticipantList(groupId, null, null).let {
                         if (it.isSuccessful) {
