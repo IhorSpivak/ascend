@@ -87,7 +87,8 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             onShareClick = {
                 SharePostBottomSheetFragment.newInstance(
                     it,
-                    user
+                    user,
+                    SharePostBottomSheetFragment.ShareType.POST
                 )
                     .show(
                         childFragmentManager,

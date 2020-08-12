@@ -147,8 +147,10 @@ class MMInfoViewModel(
         }
     }
 
-    override fun onShareClick() {
-        
+    override fun onShareInAppClick() {
+        user.value?.let {
+            router.navigateToShareUser(it)
+        }
     }
 
     override fun goBack() {

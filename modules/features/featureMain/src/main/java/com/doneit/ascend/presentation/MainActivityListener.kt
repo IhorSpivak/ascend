@@ -7,5 +7,6 @@ interface MainActivityListener {
     fun setFilterEnabled(isVisible: Boolean)
     fun setChatEnabled(isVisible: Boolean)
     fun setShareEnabled(isVisible: Boolean)
+    fun setShareInAppEnabled(isVisible: Boolean)
     fun getUnreadMessageCount()
 }

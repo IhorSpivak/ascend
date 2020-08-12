@@ -160,6 +160,12 @@ class MainViewModel(
         userShare.postValue(localUser.value)
     }
 
+    override fun onShareInAppClick() {
+        localUser.value?.let {
+            router.navigateToShareUser(it)
+        }
+    }
+
     override fun onCleared() {
         user.removeObserver(userObserver)
         super.onCleared()

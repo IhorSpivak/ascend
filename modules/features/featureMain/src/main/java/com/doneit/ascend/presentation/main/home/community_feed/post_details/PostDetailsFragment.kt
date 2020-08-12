@@ -127,7 +127,8 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
         btnShare.setOnClickListener {
             SharePostBottomSheetFragment.newInstance(
                 viewModelPost.id,
-                user
+                user,
+                SharePostBottomSheetFragment.ShareType.POST
             ).show(
                 childFragmentManager,
                 SharePostBottomSheetFragment::class.java.simpleName

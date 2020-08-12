@@ -35,6 +35,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             setFilterEnabled(false)
             setChatEnabled(true)
             setShareEnabled(false)
+            setShareInAppEnabled(false)
             getUnreadMessageCount()
         }
 

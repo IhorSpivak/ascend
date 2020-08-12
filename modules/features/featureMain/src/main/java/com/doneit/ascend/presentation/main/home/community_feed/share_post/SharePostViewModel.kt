@@ -26,7 +26,9 @@ class SharePostViewModel(
     private val communityFeedUseCase: CommunityFeedUseCase,
     private val chatUseCase: ChatUseCase,
     private val postId: Long,
-    private val user: UserEntity
+    private val user: UserEntity,
+    private val shareType: SharePostBottomSheetFragment.ShareType,
+    private val id: Long
 ) : BaseViewModelImpl(), SharePostContract.ViewModel {
     override val chats = MutableLiveData<PagedList<ChatEntity>>()
     override val channels = MutableLiveData<PagedList<ChatEntity>>()
@@ -78,42 +80,73 @@ class SharePostViewModel(
 
     override fun shareChat(chatEntity: ChatEntity) {
         val model = SharePostDTO(chatIds = listOf(chatEntity.id))
-        communityFeedUseCase.sharePost(
-            viewModelScope, postId, model, baseCallback = BaseCallback(
-                onSuccess = {
-                    router.navigateToSharedPostChat(chatEntity, user, GeneralChatType.CHAT)
-                },
-                onError = {}
-            )
-        )
+
+        when (shareType) {
+            SharePostBottomSheetFragment.ShareType.PROFILE -> {
+
+            }
+            SharePostBottomSheetFragment.ShareType.GROUP -> {
+
+            }
+            SharePostBottomSheetFragment.ShareType.POST -> {
+                communityFeedUseCase.sharePost(
+                    viewModelScope,
+                    id,
+                    model,
+                    baseCallback = generateShareToUserCallback(chatEntity)
+                )
+            }
+        }
+
     }
 
     override fun shareToUser(userId: Long) {
         val model = SharePostDTO(userIds = listOf(userId))
+        when (shareType) {
+            SharePostBottomSheetFragment.ShareType.PROFILE -> {
+
+            }
+            SharePostBottomSheetFragment.ShareType.GROUP -> {
+
+            }
+            SharePostBottomSheetFragment.ShareType.POST -> {
+                communityFeedUseCase.sharePost(
+                    viewModelScope, id, model, baseCallback = generateCallback(userId)
+                )
+            }
+        }
         communityFeedUseCase.sharePost(
-            viewModelScope, postId, model, baseCallback = BaseCallback(
-                onSuccess = {
-
-                    viewModelScope.launch {
-                        val chatModel = PresentationCreateChatModel().apply {
-                            chatMembers = listOf(userId)
-                        }
-                        chatUseCase.createChat(chatModel.toDTO()).let {
-                            if (it.isSuccessful) {
-                                router.navigateToSharedPostChat(
-                                    it.successModel!!,
-                                    user,
-                                    GeneralChatType.CHAT
-                                )
-                            } else {
-                                showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
-                            }
-                        }
-                    }
-
-                },
-                onError = {}
-            )
+            viewModelScope, id, model, baseCallback = generateCallback(userId)
         )
     }
+
+    fun generateShareToUserCallback(chatEntity: ChatEntity) = BaseCallback<Unit>(
+        onSuccess = {
+            router.navigateToSharedPostChat(chatEntity, user, GeneralChatType.CHAT)
+        },
+        onError = {}
+    )
+
+    fun generateCallback(userId: Long) = BaseCallback<Unit>(
+        onSuccess = {
+            viewModelScope.launch {
+                val chatModel = PresentationCreateChatModel().apply {
+                    chatMembers = listOf(userId)
+                }
+                chatUseCase.createChat(chatModel.toDTO()).let {
+                    if (it.isSuccessful) {
+                        router.navigateToSharedPostChat(
+                            it.successModel!!,
+                            user,
+                            GeneralChatType.CHAT
+                        )
+                    } else {
+                        showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                    }
+                }
+            }
+
+        },
+        onError = {}
+    )
 }

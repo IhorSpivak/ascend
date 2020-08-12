@@ -33,7 +33,7 @@ interface MMInfoContract {
 
         fun setProfileId(id: Long)
         fun report(content: String)
-        fun onShareClick()
+        fun onShareInAppClick()
         fun startChatWithMM(mmId: Long)
         fun goBack()
     }
@@ -47,5 +47,7 @@ interface MMInfoContract {
             isMyGroups: Boolean?,
             mmName: String?
         )
+
+        fun navigateToShareUser(user: UserEntity)
     }
 }

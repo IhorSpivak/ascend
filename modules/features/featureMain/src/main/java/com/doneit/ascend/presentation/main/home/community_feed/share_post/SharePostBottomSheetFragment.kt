@@ -43,7 +43,9 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
                 instance(),
                 instance(),
                 instance(tag = "postId"),
-                instance(tag = "user")
+                instance(tag = "user"),
+                instance(tag = "shareType"),
+                instance(tag = "id")
             )
         }
 
@@ -53,6 +55,14 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
 
         bind<UserEntity>(tag = "user") with provider {
             requireArguments().getParcelable<UserEntity>(KEY_USER)!!
+        }
+
+        bind<Long>(tag = "id") with provider {
+            requireArguments().getLong(KEY_ID)
+        }
+
+        bind<ShareType>(tag = "shareType") with provider {
+            ShareType.valueOf(requireArguments().getString(SHARE_OBJECT_TYPE)!!)
         }
     }
 
@@ -163,12 +173,33 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
 
     companion object {
         private const val KEY_POST_ID = "KEY_POST_ID"
+        private const val KEY_ID = "ID"
+        private const val SHARE_OBJECT_TYPE = "SHARE_OBJECT_TYPE"
         private const val KEY_USER = "KEY_USER"
         fun newInstance(postId: Long, user: UserEntity) = SharePostBottomSheetFragment().apply {
             arguments = Bundle().apply {
                 putLong(KEY_POST_ID, postId)
                 putParcelable(KEY_USER, user)
             }
+        }
+
+        fun newInstance(id: Long, user: UserEntity, type: ShareType) =
+            SharePostBottomSheetFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(KEY_ID, id)
+                    putParcelable(KEY_USER, user)
+                    putString(SHARE_OBJECT_TYPE, type.toString())
+                }
+            }
+    }
+
+    public enum class ShareType {
+        POST,
+        PROFILE,
+        GROUP;
+
+        override fun toString(): String {
+            return super.toString()
         }
     }
 }

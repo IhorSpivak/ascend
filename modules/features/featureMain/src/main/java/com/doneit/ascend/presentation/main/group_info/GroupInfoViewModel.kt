@@ -58,6 +58,8 @@ class GroupInfoViewModel(
         }
     override val isSupport = MutableLiveData<Boolean>(false)
 
+    private val user = MutableLiveData<UserEntity>()
+
     override fun loadData(groupId: Long) {
         showProgress(true)
         viewModelScope.launch {
@@ -65,9 +67,10 @@ class GroupInfoViewModel(
             if (response.isSuccessful) {
                 group.postValue(response.successModel!!)
                 isSupport.postValue(response.successModel?.groupType != GroupType.SUPPORT)
-                val user = userUseCase.getUser()
+                user.postValue(userUseCase.getUser())
+                val user = user.value!!
                 supportTitle.value = convertCommunityToResId(
-                    user!!.community.orEmpty(),
+                    user.community.orEmpty(),
                     group.value?.groupType
                 )
                 isMM.postValue(user.isMasterMind)
@@ -202,6 +205,10 @@ class GroupInfoViewModel(
 
     override fun onBackPressed() {
         router.onBack()
+    }
+
+    override fun onShareInApp() {
+        router.navigateToShareGroup(group.value!!, user.value!!)
     }
 
     override fun report(content: String) {

@@ -1,17 +1,15 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import com.doneit.ascend.domain.entity.dto.CreateChatDTO
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindInfoBinding
-import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.main.home.common.MMProfileTabAdapter
-import com.doneit.ascend.presentation.main.home.common.TabAdapter
+import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.extensions.shareTo
 import kotlinx.android.synthetic.main.fragment_master_mind_info.*
 import org.kodein.di.generic.instance
 
@@ -63,19 +61,7 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
         }
 
         btnShare.setOnClickListener {
-            //TODO: share
-            viewModel.onShareClick()
-            val sendIntent: Intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(
-                    Intent.EXTRA_TEXT,
-                    Constants.DEEP_LINK_PROFILE_URL + viewModel.profile.value!!.id
-                )
-                type = "text/plain"
-            }
-
-            val shareIntent = Intent.createChooser(sendIntent, null)
-            startActivity(shareIntent)
+            shareTo(Constants.DEEP_LINK_PROFILE_URL + viewModel.profile.value!!.id)
         }
 
         btnBack.setOnClickListener {

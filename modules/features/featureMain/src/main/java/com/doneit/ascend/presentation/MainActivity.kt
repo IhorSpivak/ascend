@@ -207,6 +207,10 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.btnShare.visible(isVisible)
     }
 
+    override fun setShareInAppEnabled(isVisible: Boolean) {
+        binding.btnShareInApp.visible(isVisible)
+    }
+
     override fun getUnreadMessageCount() {
         viewModel.getUnreadMessageCount()
     }

@@ -22,6 +22,7 @@ interface MainContract {
         fun onFilterClick()
         fun onChatClick()
         fun onShareClick()
+        fun onShareInAppClick()
 
         fun onCreateGroupClick()
         fun onHomeClick()
@@ -47,5 +48,6 @@ interface MainContract {
         fun navigateToMMProfile()
         fun navigateToRegularUserProfile()
         fun navigateToMMInfo(id: Long)
+        fun navigateToShareUser(user: UserEntity)
     }
 }
