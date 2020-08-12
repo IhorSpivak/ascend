@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
 import android.content.Intent
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -9,8 +8,8 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindInfoBinding
-import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.main.home.common.MMProfileTabAdapter
+import com.doneit.ascend.presentation.utils.Constants
 import org.kodein.di.generic.instance
 
 class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
