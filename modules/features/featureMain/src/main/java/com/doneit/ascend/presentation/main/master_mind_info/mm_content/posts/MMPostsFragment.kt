@@ -1,19 +1,17 @@
 package com.doneit.ascend.presentation.main.master_mind_info.mm_content.posts
 
+
 import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import com.doneit.ascend.domain.entity.chats.MemberEntity
-
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
@@ -23,19 +21,15 @@ import com.doneit.ascend.presentation.dialog.QuestionButtonType
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.chats.chat.livestream_user_actions.LivestreamUserActionsFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindPostBinding
 import com.doneit.ascend.presentation.main.home.channels.adapter.CommunityAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedFragment
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewBottomSheetFragment
 import com.doneit.ascend.presentation.main.home.community_feed.common.MMPostClickListener
 import com.doneit.ascend.presentation.main.home.community_feed.common.MMPostsAdapter
-
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-
-
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
 

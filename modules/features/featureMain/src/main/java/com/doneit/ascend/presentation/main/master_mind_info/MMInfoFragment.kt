@@ -73,6 +73,7 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
         btnBack.setOnClickListener {
             viewModel.goBack()
         }
+    }
 
     private fun observeData() {
         viewModel.sendReportStatus.observe(this) {
