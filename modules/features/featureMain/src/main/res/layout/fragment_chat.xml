@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.doneit.ascend.domain.entity.dto.ChatType"/>
+
         <variable
             name="url"
             type="String" />
@@ -230,7 +230,6 @@
                 android:layout_marginEnd="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                android:visibility="@{chat.chatType == ChatType.CHANNEL, default=gone}"
                 android:src="@drawable/ic_clip"
                 android:tint="@color/light_gray_8f"
                 android:scaleType="centerInside"
