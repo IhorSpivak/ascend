@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/button_text_color_selector"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="7dp"
                         android:enabled="@{model.user.created_channels_count &lt; 2}"
                         android:layout_marginEnd="16dp"
                         android:visibility="@{model.user.masterMind}"
