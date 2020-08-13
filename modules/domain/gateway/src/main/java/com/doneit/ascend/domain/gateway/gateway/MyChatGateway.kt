@@ -270,7 +270,7 @@ class MyChatGateway(
                                 membersResponse.successModel!!.users?.map { it.toEntity() }
                             it.members = memberModel.orEmpty()
                         }
-                        local.insert(model.toLocal())
+                        local.insert(it.toLocal())
                     }
 
                 }
@@ -327,7 +327,7 @@ class MyChatGateway(
                                 membersResponse.successModel!!.users?.map { it.toEntity() }
                             it.members = memberModel.orEmpty()
                         }
-                        local.insert(model.toLocal())
+                        local.insert(it.toLocal())
                     }
 
                 }

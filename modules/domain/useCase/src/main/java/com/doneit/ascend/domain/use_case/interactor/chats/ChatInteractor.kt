@@ -33,11 +33,18 @@ class ChatInteractor(
         return chatGateway.getChatDetails(id)
     }
 
-    override fun getMemberList(
+    override fun getMemberListLive(
         chatId: Long,
         request: MemberListDTO
     ): LiveData<PagedList<MemberEntity>> {
         return chatGateway.getMembers(chatId, request)
+    }
+
+    override suspend fun getMembersList(
+        chatId: Long,
+        request: MemberListDTO
+    ): ResponseEntity<List<MemberEntity>, List<String>> {
+        return chatGateway.getMemberList(chatId, request)
     }
 
     override suspend fun createChat(createChatDTO: CreateChatDTO): ResponseEntity<ChatEntity, List<String>> {

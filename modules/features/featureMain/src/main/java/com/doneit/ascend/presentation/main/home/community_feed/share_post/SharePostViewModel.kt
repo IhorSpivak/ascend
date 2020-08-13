@@ -6,10 +6,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.common.BaseCallback
-import com.doneit.ascend.domain.entity.dto.ChatListDTO
-import com.doneit.ascend.domain.entity.dto.ChatType
-import com.doneit.ascend.domain.entity.dto.SharePostDTO
-import com.doneit.ascend.domain.entity.dto.SortType
+import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
@@ -83,10 +80,10 @@ class SharePostViewModel(
 
         when (shareType) {
             SharePostBottomSheetFragment.ShareType.PROFILE -> {
-
+                //TODO
             }
             SharePostBottomSheetFragment.ShareType.GROUP -> {
-
+                //TODO
             }
             SharePostBottomSheetFragment.ShareType.POST -> {
                 communityFeedUseCase.sharePost(
@@ -104,10 +101,10 @@ class SharePostViewModel(
         val model = SharePostDTO(userIds = listOf(userId))
         when (shareType) {
             SharePostBottomSheetFragment.ShareType.PROFILE -> {
-
+                //TODO
             }
             SharePostBottomSheetFragment.ShareType.GROUP -> {
-
+                //TODO
             }
             SharePostBottomSheetFragment.ShareType.POST -> {
                 communityFeedUseCase.sharePost(
@@ -120,14 +117,23 @@ class SharePostViewModel(
         )
     }
 
-    fun generateShareToUserCallback(chatEntity: ChatEntity) = BaseCallback<Unit>(
+    private fun generateShareToUserCallback(chatEntity: ChatEntity) = BaseCallback<Unit>(
         onSuccess = {
-            router.navigateToSharedPostChat(chatEntity, user, GeneralChatType.CHAT)
+            viewModelScope.launch {
+                val response =
+                    chatUseCase.getMembersList(chatEntity.id, MemberListDTO(perPage = 50))
+                if (response.isSuccessful) {
+                    chatEntity.members = response.successModel!!
+                    router.navigateToSharedPostChat(chatEntity, user, GeneralChatType.CHAT)
+                }
+
+            }
+
         },
         onError = {}
     )
 
-    fun generateCallback(userId: Long) = BaseCallback<Unit>(
+    private fun generateCallback(userId: Long) = BaseCallback<Unit>(
         onSuccess = {
             viewModelScope.launch {
                 val chatModel = PresentationCreateChatModel().apply {
