@@ -4,8 +4,11 @@ import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ChatSocketEvent
+import com.doneit.ascend.domain.entity.MessageAttachment
 import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.chats.*
+import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.Size
 import com.doneit.ascend.domain.entity.dto.MessageDTO
 import com.doneit.ascend.domain.entity.dto.MessageListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
@@ -240,6 +243,21 @@ class ChatViewModel(
                 }
             }
         }
+    }
+
+    override fun previewAttachment(attachment: MessageAttachment) {
+        router.navigateToPreview(
+            listOf(
+                Attachment(
+                    0L,
+                    attachment.contentType ?: return,
+                    attachment.url,
+                    "",
+                    Size()
+                )
+            ),
+            0
+        )
     }
 
     override fun onDeleteChat() {

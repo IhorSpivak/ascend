@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.chats.chat.common
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
+import com.doneit.ascend.domain.entity.MessageAttachment
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageType
@@ -15,7 +16,8 @@ class MessagesAdapter(
     private val onButtonClick: (message: MessageEntity) -> Unit,
     private val onImageLongClick: (v: View, id: Long) -> Unit,
     private val onImageClick: (view: View, id: Long) -> Unit,
-    private val onImageWebinarClick: (view: View, member: MemberEntity) -> Unit
+    private val onImageWebinarClick: (view: View, member: MemberEntity) -> Unit,
+    private val previewAttachment: (MessageAttachment) -> Unit
 ) : PagedListAdapter<MessageEntity, BaseMessageHolder>(MessageDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseMessageHolder {
@@ -53,10 +55,12 @@ class MessagesAdapter(
             Type.SHARE_POST.ordinal -> ShareViewHolder.create(parent)
             Type.ATTACHMENT_OWN.ordinal -> AttachmentOwnViewHolder.create(
                 parent,
-                onButtonClick
+                onButtonClick,
+                previewAttachment
             )
             Type.ATTACHMENT_OTHER.ordinal -> AttachmentOtherViewHolder.create(
-                parent
+                parent,
+                previewAttachment
             )
             Type.SHARE_GROUP.ordinal -> ShareGroupViewHolder.create(parent)
             Type.SHARE_PROFILE_OWN.ordinal -> ProfileShareOwnViewHolder.create(parent)

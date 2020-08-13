@@ -1,5 +1,6 @@
 package com.doneit.ascend.domain.entity
 
+import com.doneit.ascend.domain.entity.community_feed.ContentType
 import java.util.*
 
 data class AttachmentEntity(
@@ -26,6 +27,14 @@ enum class AttachmentType {
 
     override fun toString(): String {
         return super.toString().toLowerCase()
+    }
+
+    fun toContentType(): ContentType? {
+        return when (this) {
+            VIDEO -> ContentType.VIDEO
+            IMAGE -> ContentType.IMAGE
+            else -> null
+        }
     }
 
     companion object {

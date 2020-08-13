@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.AttachmentType
+import com.doneit.ascend.domain.entity.MessageAttachment
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.presentation.main.R
@@ -23,7 +24,8 @@ import com.google.android.exoplayer2.util.Util
 
 class AttachmentOwnViewHolder private constructor(
     itemView: View,
-    private val onDeleteClick: (message: MessageEntity) -> Unit
+    private val onDeleteClick: (message: MessageEntity) -> Unit,
+    private val previewAttachment: (MessageAttachment) -> Unit
 ) : BaseAttachmentHolder(itemView) {
 
 
@@ -57,10 +59,10 @@ class AttachmentOwnViewHolder private constructor(
                 R.drawable.ic_download
             } else R.drawable.ic_sent_message
             download.setImageResource(res)
-            download.setOnClickListener {
+            root.setOnClickListener {
                 if (!isFileExist(attachment.name)) {
                     downloadFile(attachment.url, attachment.name)
-                }
+                } else previewAttachment(attachment)
             }
             when (attachment.type) {
                 AttachmentType.VIDEO -> {
@@ -93,7 +95,8 @@ class AttachmentOwnViewHolder private constructor(
     companion object {
         fun create(
             parent: ViewGroup,
-            onDeleteClick: (message: MessageEntity) -> Unit
+            onDeleteClick: (message: MessageEntity) -> Unit,
+            previewAttachment: (MessageAttachment) -> Unit
         ): AttachmentOwnViewHolder {
             return AttachmentOwnViewHolder(
                 DataBindingUtil.inflate<ListItemOwnMessageAttachmentBinding>(
@@ -102,7 +105,8 @@ class AttachmentOwnViewHolder private constructor(
                     parent,
                     false
                 ).root,
-                onDeleteClick
+                onDeleteClick,
+                previewAttachment
             )
         }
     }

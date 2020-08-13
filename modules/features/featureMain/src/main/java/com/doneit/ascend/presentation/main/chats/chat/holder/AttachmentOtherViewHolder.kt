@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.AttachmentType
+import com.doneit.ascend.domain.entity.MessageAttachment
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.presentation.main.R
@@ -22,7 +23,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
 class AttachmentOtherViewHolder private constructor(
-    itemView: View
+    itemView: View,
+    private val previewAttachment: (MessageAttachment) -> Unit
 ) : BaseAttachmentHolder(itemView) {
 
 
@@ -54,10 +56,10 @@ class AttachmentOtherViewHolder private constructor(
                 R.drawable.ic_download
             } else R.drawable.ic_sent_message
             download.setImageResource(res)
-            download.setOnClickListener {
+            root.setOnClickListener {
                 if (!isFileExist(attachment.name)) {
                     downloadFile(attachment.url, attachment.name)
-                }
+                } else previewAttachment(attachment)
             }
             when (attachment.type) {
                 AttachmentType.VIDEO -> {
@@ -89,7 +91,8 @@ class AttachmentOtherViewHolder private constructor(
 
     companion object {
         fun create(
-            parent: ViewGroup
+            parent: ViewGroup,
+            previewAttachment: (MessageAttachment) -> Unit
         ): AttachmentOtherViewHolder {
             return AttachmentOtherViewHolder(
                 DataBindingUtil.inflate<ListItemOtherMessageAttachmentBinding>(
@@ -97,7 +100,8 @@ class AttachmentOtherViewHolder private constructor(
                     R.layout.list_item_other_message_attachment,
                     parent,
                     false
-                ).root
+                ).root,
+                previewAttachment
             )
         }
     }
