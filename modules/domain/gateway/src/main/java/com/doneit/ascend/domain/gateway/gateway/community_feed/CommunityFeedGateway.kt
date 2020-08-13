@@ -74,8 +74,7 @@ class CommunityFeedGateway(
 
     override fun loadPosts(
         scope: CoroutineScope,
-        communityFeedDTO: CommunityFeedDTO
-    ): LiveData<PagedList<Post>> = liveData {
+        communityFeedDTO: CommunityFeedDTO): LiveData<PagedList<Post>> = liveData {
         emitSource(
             PaginationDataSource.Builder<Post>()
                 .coroutineScope(scope)
