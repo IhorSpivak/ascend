@@ -17,6 +17,7 @@ import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -187,6 +188,10 @@ class CommunityFeedViewModel(
                 router.navigateToChannel(channel, user)
             }
         }
+    }
+
+    override fun onSharePostClick(id: Long) {
+        router.navigateToShare(id, user, SharePostBottomSheetFragment.ShareType.POST)
     }
 
     override fun onCleared() {

@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 
 interface CommunityFeedContract {
     interface ViewModel : BaseViewModel {
@@ -29,6 +30,7 @@ interface CommunityFeedContract {
         fun attachmentClicked(attachments: List<Attachment>, selected: Int)
         fun updateCommentsCount(postId: Long, commentsCount: Int)
         fun onJoinChannel(channel: ChatEntity)
+        fun onSharePostClick(id: Long)
     }
 
     interface Router {
@@ -37,5 +39,10 @@ interface CommunityFeedContract {
         fun navigateToPreview(attachments: List<Attachment>, selected: Int)
         fun navigateToChannels()
         fun navigateToMMInfo(userId: Long)
+        fun navigateToShare(
+            id: Long,
+            user: UserEntity,
+            shareType: SharePostBottomSheetFragment.ShareType
+        )
     }
 }

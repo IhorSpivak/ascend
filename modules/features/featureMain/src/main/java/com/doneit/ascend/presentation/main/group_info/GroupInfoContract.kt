@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.models.PresentationCardModel
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 
@@ -62,6 +63,10 @@ interface GroupInfoContract {
         fun navigateToViewAttendees(attendees: List<AttendeeEntity>, group: GroupEntity)
         fun navigateToEditGroup(group: GroupEntity)
         fun navigateToDuplicateGroup(group: GroupEntity)
-        fun navigateToShareGroup(group: GroupEntity, user: UserEntity)
+        fun navigateToShare(
+            id: Long,
+            user: UserEntity,
+            shareType: SharePostBottomSheetFragment.ShareType
+        )
     }
 }

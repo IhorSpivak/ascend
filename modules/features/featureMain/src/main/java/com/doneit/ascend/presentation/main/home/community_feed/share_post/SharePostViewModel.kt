@@ -15,6 +15,7 @@ import com.doneit.ascend.presentation.models.PresentationCreateChatModel
 import com.doneit.ascend.presentation.models.community_feed.SharePostFilter
 import com.doneit.ascend.presentation.models.group.toDTO
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 import kotlinx.coroutines.launch
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType as GeneralChatType
 
@@ -22,7 +23,6 @@ class SharePostViewModel(
     private val router: SharePostContract.Router,
     private val communityFeedUseCase: CommunityFeedUseCase,
     private val chatUseCase: ChatUseCase,
-    private val postId: Long,
     private val user: UserEntity,
     private val shareType: SharePostBottomSheetFragment.ShareType,
     private val id: Long
@@ -33,6 +33,7 @@ class SharePostViewModel(
     override val filterTextAll: MutableLiveData<String> = MutableLiveData("")
     override val sharePostFilter: MutableLiveData<SharePostFilter> =
         MutableLiveData(SharePostFilter.CHAT)
+    override val dismissDialog = SingleLiveEvent<Unit>()
 
 
     init {
@@ -124,7 +125,9 @@ class SharePostViewModel(
                     chatUseCase.getMembersList(chatEntity.id, MemberListDTO(perPage = 50))
                 if (response.isSuccessful) {
                     chatEntity.members = response.successModel!!
+                    dismissDialog.call()
                     router.navigateToSharedPostChat(chatEntity, user, GeneralChatType.CHAT)
+
                 }
 
             }
@@ -141,11 +144,13 @@ class SharePostViewModel(
                 }
                 chatUseCase.createChat(chatModel.toDTO()).let {
                     if (it.isSuccessful) {
+                        dismissDialog.call()
                         router.navigateToSharedPostChat(
                             it.successModel!!,
                             user,
                             GeneralChatType.CHAT
                         )
+
                     } else {
                         showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                     }

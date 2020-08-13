@@ -205,6 +205,7 @@ class MainRouter(
 
 
     override fun onBack() {
+        manager.popBackStack(SharePostBottomSheetFragment::class.java.simpleName, 0)
         manager.popBackStack()
     }
 
@@ -336,22 +337,15 @@ class MainRouter(
         replaceFullWithMainUpdate(MMInfoFragment.newInstance(id))
     }
 
-    override fun navigateToShareUser(user: UserEntity) {
+    override fun navigateToShare(
+        id: Long,
+        user: UserEntity,
+        shareType: SharePostBottomSheetFragment.ShareType
+    ) {
         SharePostBottomSheetFragment.newInstance(
-            user.id,
+            id,
             user,
-            SharePostBottomSheetFragment.ShareType.PROFILE
-        ).show(
-            manager,
-            SharePostBottomSheetFragment::class.java.simpleName
-        )
-    }
-
-    override fun navigateToShareGroup(group: GroupEntity, user: UserEntity) {
-        SharePostBottomSheetFragment.newInstance(
-            group.id,
-            user,
-            SharePostBottomSheetFragment.ShareType.GROUP
+            shareType
         ).show(
             manager,
             SharePostBottomSheetFragment::class.java.simpleName

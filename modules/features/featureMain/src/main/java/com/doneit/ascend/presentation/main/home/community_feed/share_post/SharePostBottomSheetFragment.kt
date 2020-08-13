@@ -42,15 +42,10 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
                 instance(),
                 instance(),
                 instance(),
-                instance(tag = "postId"),
                 instance(tag = "user"),
                 instance(tag = "shareType"),
                 instance(tag = "id")
             )
-        }
-
-        bind<Long>(tag = "postId") with provider {
-            requireArguments().getLong(KEY_POST_ID)
         }
 
         bind<UserEntity>(tag = "user") with provider {
@@ -156,6 +151,9 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
     }
 
     private fun observeData() {
+        viewModel.dismissDialog.observe(viewLifecycleOwner, Observer {
+            dialog?.dismiss()
+        })
         viewModel.chats.observe(viewLifecycleOwner, Observer {
             chatAdapter.submitList(it)
         })
@@ -176,12 +174,6 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
         private const val KEY_ID = "ID"
         private const val SHARE_OBJECT_TYPE = "SHARE_OBJECT_TYPE"
         private const val KEY_USER = "KEY_USER"
-        fun newInstance(postId: Long, user: UserEntity) = SharePostBottomSheetFragment().apply {
-            arguments = Bundle().apply {
-                putLong(KEY_POST_ID, postId)
-                putParcelable(KEY_USER, user)
-            }
-        }
 
         fun newInstance(id: Long, user: UserEntity, type: ShareType) =
             SharePostBottomSheetFragment().apply {

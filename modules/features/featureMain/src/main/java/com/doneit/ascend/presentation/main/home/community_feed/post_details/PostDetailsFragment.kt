@@ -26,7 +26,6 @@ import com.doneit.ascend.presentation.main.home.community_feed.comments_view.com
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.common.CommentsClickListener
 import com.doneit.ascend.presentation.main.home.community_feed.common.applyResizing
 import com.doneit.ascend.presentation.main.home.community_feed.common.setupAttachments
-import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.utils.applyFilter
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -125,14 +124,7 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
             }
         }
         btnShare.setOnClickListener {
-            SharePostBottomSheetFragment.newInstance(
-                viewModelPost.id,
-                user,
-                SharePostBottomSheetFragment.ShareType.POST
-            ).show(
-                childFragmentManager,
-                SharePostBottomSheetFragment::class.java.simpleName
-            )
+            viewModel.onSharePostClick(user)
         }
         btnBlock.setOnClickListener {
             if (viewModelPost.isOwner) {

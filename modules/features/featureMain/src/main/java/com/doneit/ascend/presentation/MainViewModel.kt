@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUse
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.models.PresentationCommunityModel
 import com.doneit.ascend.presentation.models.toPresentationCommunity
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -162,7 +163,7 @@ class MainViewModel(
 
     override fun onShareInAppClick() {
         localUser.value?.let {
-            router.navigateToShareUser(it)
+            router.navigateToShare(it.id, it, SharePostBottomSheetFragment.ShareType.PROFILE)
         }
     }
 

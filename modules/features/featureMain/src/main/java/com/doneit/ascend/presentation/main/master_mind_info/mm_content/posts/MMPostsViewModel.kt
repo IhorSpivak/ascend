@@ -3,13 +3,13 @@ package com.doneit.ascend.presentation.main.master_mind_info.mm_content.posts
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
-import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.CommunityFeedSocketEntity
 import com.doneit.ascend.domain.entity.community_feed.CommunityFeedSocketEvent
 import com.doneit.ascend.domain.entity.community_feed.Post
-import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
+import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
@@ -18,6 +18,7 @@ import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeed
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedContract
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -82,14 +83,19 @@ class MMPostsViewModel(
         communityList.postValue(Community.values().toList())
     }
 
+    override fun onShareClick(postId: Long) {
+        router.navigateToShare(postId, user, SharePostBottomSheetFragment.ShareType.POST)
+    }
+
     override fun onSeeAllClick() {
         router.navigateToChannels()
     }
 
     override fun leaveComment(postId: Long, message: String) {
         if (message.isBlank()) return
-        postsUseCase.createPostComment(viewModelScope, postId, message, BaseCallback(
-            onSuccess = {
+        postsUseCase.createPostComment(
+            viewModelScope, postId, message, BaseCallback(
+                onSuccess = {
 
             },
             onError = {

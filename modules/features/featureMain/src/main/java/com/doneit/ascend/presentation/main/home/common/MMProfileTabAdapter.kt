@@ -42,8 +42,7 @@ class MMProfileTabAdapter(
                 { ChannelsFragment.getInstance() },
                 { ChannelsFragment.getInstance() },
                 { GroupsFragment.newInstance(mmId) },
-                { MMPostsFragment.newInstance(mmId, userEntity) },
-                { ChannelsFragment.getInstance() }
+                { MMPostsFragment.newInstance(mmId, userEntity) }
             )
 
             return MMProfileTabAdapter(fragmentManager, fragments, titles)

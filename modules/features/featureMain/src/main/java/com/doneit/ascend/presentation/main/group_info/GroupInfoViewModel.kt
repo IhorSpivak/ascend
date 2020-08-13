@@ -16,6 +16,7 @@ import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.models.PresentationCardModel
 import com.doneit.ascend.presentation.models.group.toUpdatePrivacyGroupDTO
 import com.doneit.ascend.presentation.models.toPresentation
@@ -208,7 +209,11 @@ class GroupInfoViewModel(
     }
 
     override fun onShareInApp() {
-        router.navigateToShareGroup(group.value!!, user.value!!)
+        router.navigateToShare(
+            group.value!!.id,
+            user.value!!,
+            SharePostBottomSheetFragment.ShareType.GROUP
+        )
     }
 
     override fun report(content: String) {

@@ -10,7 +10,6 @@ import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindInfoBin
 import com.doneit.ascend.presentation.main.home.common.MMProfileTabAdapter
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.shareTo
-import kotlinx.android.synthetic.main.fragment_master_mind_info.*
 import org.kodein.di.generic.instance
 
 class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
