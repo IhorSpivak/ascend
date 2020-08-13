@@ -1,6 +1,8 @@
 package com.doneit.ascend.source.storage.remote.data.response
 
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.PostResponse
+import com.doneit.ascend.source.storage.remote.data.response.group.GroupResponse
+import com.doneit.ascend.source.storage.remote.data.response.user.UserProfileResponse
 import com.google.gson.annotations.SerializedName
 
 data class MessageResponse(
@@ -23,5 +25,10 @@ data class MessageResponse(
     @SerializedName("post")
     val post: PostResponse?,
     @SerializedName("attachment")
-    val attachment: MessageAttachmentResponse?
+    val attachment: MessageAttachmentResponse?,
+    //TODO: server is not ready, change values of serialized name:
+    @SerializedName("mock_shared_user")
+    val sharedUser: UserProfileResponse?,
+    @SerializedName("mock_shared_group")
+    val sharedGroup: GroupResponse?
 )

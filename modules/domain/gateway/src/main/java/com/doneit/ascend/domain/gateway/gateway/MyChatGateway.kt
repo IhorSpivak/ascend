@@ -88,7 +88,10 @@ class MyChatGateway(
             .build()
     }
 
-    override suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>> {
+    override suspend fun getChatDetails(
+        id: Long,
+        saveToLocal: Boolean
+    ): ResponseEntity<ChatEntity, List<String>> {
         val result = executeRemote {
             remote.getChatDetails(id)
         }.toResponseEntity(
@@ -120,7 +123,9 @@ class MyChatGateway(
                     }
                 }
             }
-            local.insert(chatEntity.toLocal())
+            if (saveToLocal) {
+                local.insert(chatEntity.toLocal())
+            }
         }
 
         return result

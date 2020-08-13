@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -81,7 +82,10 @@ class ChatViewModel(
 
     private suspend fun refreshModel() {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = chatUseCase.getChatDetails(chatWithUser.chat.id)
+            val response = chatUseCase.getChatDetails(
+                chatWithUser.chat.id,
+                chatWithUser.chatType == ChatType.CHAT
+            )
             if (response.isSuccessful) {
                 chatWithUser.chat.inheritFrom(response.successModel!!)
                 chat.postValue(chatWithUser)

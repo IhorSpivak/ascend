@@ -29,8 +29,11 @@ class ChatInteractor(
         return chatGateway.getMessages(chatId, request)
     }
 
-    override suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>> {
-        return chatGateway.getChatDetails(id)
+    override suspend fun getChatDetails(
+        id: Long,
+        saveToLocal: Boolean
+    ): ResponseEntity<ChatEntity, List<String>> {
+        return chatGateway.getChatDetails(id, saveToLocal)
     }
 
     override fun getMemberListLive(
