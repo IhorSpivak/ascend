@@ -42,7 +42,6 @@ class GroupsViewModel(
 
     init {
         viewModelScope.launch {
-
             val response = groupUseCase.getTags()
             tags.postValue(
                 if (response.isSuccessful) {
@@ -70,14 +69,14 @@ class GroupsViewModel(
         router.navigateToVideoChat(groupId, groupType)
     }
 
-    override fun updateFilter(filter: TagEntity?) {
+    override fun updateFilter(filter: TagEntity?, userId: Long?) {
         viewModelScope.launch {
             isRefreshing.postValue(true)
             val model = GroupListDTO(
                 perPage = 50,
                 sortType = SortType.ASC,
                 sortColumn = null,
-                userId = null,
+                userId = userId,
                 groupType = GroupType.SUPPORT,
                 groupStatus = null,
                 myGroups = null,

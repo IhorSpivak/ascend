@@ -9,6 +9,7 @@ import com.doneit.ascend.source.storage.remote.data.response.*
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
 import com.doneit.ascend.source.storage.remote.data.response.errors.ErrorsListResponse
 import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
+import com.doneit.ascend.source.storage.remote.util.MultipartConverter
 import com.doneit.ascend.source.storage.remote.util.MultipartConverter.addAttachment
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -98,9 +99,13 @@ internal class MyChatsRepository(
                 with(MultipartBody.Builder()) {
                     request.attachment?.let {
                         addAttachment(context, request.attachment)
-                        api.sendMessageAsync(request.id, request.message, build().parts)
+                        api.sendMessageAsync(request.id, request.message, build().parts).also {
+                            MultipartConverter.clearTempDir(context)
+                        }
                     } ?: run {
-                        api.sendMessageAsync(request.id, request.message)
+                        api.sendMessageAsync(request.id, request.message).also {
+                            MultipartConverter.clearTempDir(context)
+                        }
                     }
                 }
             },

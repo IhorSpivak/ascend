@@ -8,7 +8,8 @@ import com.doneit.ascend.domain.entity.AttachmentType
 class AttachmentsAdapter(
     private val onDownloadClick: (model: AttachmentEntity) -> Unit,
     private val onCopyClick: (model: AttachmentEntity) -> Unit,
-    private val onDeleteListener: (id: Long) -> Unit
+    private val onDeleteListener: (id: Long) -> Unit,
+    private val onPreviewClick: (AttachmentEntity) -> Unit
 ) :
     PagedListAdapter<AttachmentEntity, AttachmentViewHolder>(AttachmentDiffCallback()) {
 
@@ -18,8 +19,8 @@ class AttachmentsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttachmentViewHolder {
         return when (viewType) {
-            0 -> AttachmentFileViewHolder.create(parent)
-            1 -> AttachmentImageViewHolder.create(parent)
+            0 -> AttachmentFileViewHolder.create(parent, onPreviewClick)
+            1 -> AttachmentImageViewHolder.create(parent, onPreviewClick)
             else -> AttachmentLinkViewHolder.create(parent)
         }
     }

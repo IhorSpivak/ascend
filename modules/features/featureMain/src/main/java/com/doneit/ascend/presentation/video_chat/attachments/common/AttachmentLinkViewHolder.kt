@@ -11,20 +11,27 @@ import com.doneit.ascend.presentation.utils.extensions.toAttachmentDate
 class AttachmentLinkViewHolder(
     private val binding: ListItemAttachmentLinkBinding
 ) : AttachmentViewHolder(binding.root) {
-    fun bind(item: AttachmentEntity, onCopyClick: (AttachmentEntity) -> Unit, onDeleteListener: (id: Long) -> Unit){
+
+    fun bind(
+        item: AttachmentEntity,
+        onCopyClick: (AttachmentEntity) -> Unit,
+        onDeleteListener: (id: Long) -> Unit
+    ) {
         binding.item = item
-        binding.copy.setOnClickListener{
+        binding.copy.setOnClickListener {
             onCopyClick.invoke(item)
         }
         binding.date = item.createdAt.toAttachmentDate()
         binding.ibDelete.setOnClickListener {
-            onDeleteListener.invoke(item.id!!)
+            onDeleteListener.invoke(item.id)
         }
         binding.executePendingBindings()
     }
 
     companion object {
-        fun create(parent: ViewGroup): AttachmentLinkViewHolder {
+        fun create(
+            parent: ViewGroup
+        ): AttachmentLinkViewHolder {
             val binding: ListItemAttachmentLinkBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
                 R.layout.list_item_attachment_link,

@@ -73,44 +73,45 @@ class MMInfoViewModel(
             return when (it.community) {
                 Community.SUCCESS.title,
                 Community.INDUSTRY.title -> listOf(
-                    R.string.daily,
                     R.string.webinars,
-                    R.string.channels_title,
-                    R.string.community_feed_title,
                     R.string.collaboration,
-                    R.string.master_mind
+                    R.string.master_mind,
+                    R.string.channels_title,
+                    R.string.posts,
+                    R.string.bio
                 )
                 Community.LIFESTYLE.title -> listOf(
-                    R.string.daily,
                     R.string.webinars,
-                    R.string.channels_title,
-                    R.string.community_feed_title,
                     R.string.collaboration,
-                    R.string.coaching
+                    R.string.coaching,
+                    R.string.channels_title,
+                    R.string.posts,
+                    R.string.bio
+
                 )
                 Community.RECOVERY.title -> listOf(
-                    R.string.daily,
                     R.string.webinars,
-                    R.string.channels_title,
-                    R.string.community_feed_title,
                     R.string.groups,
-                    R.string.master_mind
+                    R.string.master_mind,
+                    R.string.channels_title,
+                    R.string.posts,
+                    R.string.bio
                 )
                 Community.FAMILY.title -> listOf(
-                    R.string.daily,
                     R.string.webinars,
-                    R.string.channels_title,
-                    R.string.community_feed_title,
                     R.string.groups,
-                    R.string.coaching
+                    R.string.coaching,
+                    R.string.channels_title,
+                    R.string.posts,
+                    R.string.bio
                 )
                 Community.SPIRITUAL.title -> listOf(
-                    R.string.daily,
                     R.string.webinars,
-                    R.string.channels_title,
-                    R.string.community_feed_title,
                     R.string.collaboration,
-                    R.string.coaching
+                    R.string.coaching,
+                    R.string.channels_title,
+                    R.string.posts,
+                    R.string.bio
                 )
                 else -> throw IllegalArgumentException("Unknown community: ${it.community}")
             }

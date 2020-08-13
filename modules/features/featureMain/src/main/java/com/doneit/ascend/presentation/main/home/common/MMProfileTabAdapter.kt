@@ -5,11 +5,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.home.channels.ChannelsFragment
-import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedFragment
-import com.doneit.ascend.presentation.main.home.daily.DailyFragment
 import com.doneit.ascend.presentation.main.home.groups.GroupsFragment
-import com.doneit.ascend.presentation.main.home.master_mind.MasterMindFragment
-import com.doneit.ascend.presentation.main.home.webinars.WebinarsFragment
+import com.doneit.ascend.presentation.main.master_mind_info.mm_content.posts.MMPostsFragment
 
 class MMProfileTabAdapter(
     fragmentManager: FragmentManager,
@@ -28,24 +25,28 @@ class MMProfileTabAdapter(
     override fun getPageTitle(position: Int): CharSequence? {
         return titles[position]
     }
+
     companion object {
-        //todo change fragments when their be ready
+        //todo change fragments when they will be ready
         //todo for example
-        fun newInstance(fragmentManager: FragmentManager, userEntity: UserEntity, titles: List<String>): MMProfileTabAdapter {
+        fun newInstance(
+            fragmentManager: FragmentManager,
+            mmId: Long,
+            userEntity: UserEntity,
+            titles: List<String>
+        ): MMProfileTabAdapter {
 
             val fragments: ArrayList<() -> Fragment> = arrayListOf(
-                {DailyFragment()},
-                {WebinarsFragment()},
-                {ChannelsFragment.getInstance()},
-                {CommunityFeedFragment.newInstance(userEntity)},
-                {GroupsFragment()},
-                {MasterMindFragment()}
+                { ChannelsFragment.getInstance() },
+                { ChannelsFragment.getInstance() },
+                { ChannelsFragment.getInstance() },
+                { ChannelsFragment.getInstance() },
+                { GroupsFragment.newInstance(mmId) },
+                { MMPostsFragment.newInstance(mmId, userEntity) },
+                { ChannelsFragment.getInstance() }
             )
 
             return MMProfileTabAdapter(fragmentManager, fragments, titles)
         }
     }
-
-
-
 }

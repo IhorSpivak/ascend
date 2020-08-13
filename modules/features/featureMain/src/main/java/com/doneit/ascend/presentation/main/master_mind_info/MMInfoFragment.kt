@@ -20,46 +20,41 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
 
     private var currentDialog: AlertDialog? = null
 
+    private val userId: Long by lazy {
+        requireArguments().getLong(USER_ID)
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.model = viewModel
+        viewModel.setProfileId(userId)
+        setupBinding()
+        observeData()
+        setClickListeners()
+    }
 
-        //todo replace by ArgumentedFragment
-        val id = requireArguments().getLong(USER_ID)
-        viewModel.setProfileId(id)
+    private fun setupBinding() = with(binding) {
+        model = viewModel
+        tlGroups.setupWithViewPager(vpGroups)
+        vpGroups.offscreenPageLimit = 3
+    }
 
-        viewModel.sendReportStatus.observe(this) {
-            if (it == true) {
-                currentDialog?.dismiss()
-            } else {
-                Toast.makeText(context!!, "Send Error", Toast.LENGTH_LONG).show()
-            }
-        }
-
-        binding.model = viewModel
-        binding.tlGroups.setupWithViewPager(binding.vpGroups)
-        binding.vpGroups.offscreenPageLimit = 3
-
-
-        viewModel.user.observe(this, Observer {
-            it ?: return@Observer
-
-            binding.vpGroups.adapter = MMProfileTabAdapter.newInstance(
-                childFragmentManager,
-                it,
-                viewModel.getListOfTitles().map {
-                    getString(it)
-                }
-            )
-        })
-
+    private fun setClickListeners() = with(binding) {
         btnInto.setOnClickListener {
-            currentDialog = ReportAbuseDialog.create(context!!) {
+            currentDialog = ReportAbuseDialog.create(requireContext()) {
                 currentDialog?.dismiss()
                 viewModel.report(it)
-            }
-            currentDialog?.show()
+            }.also { it.show() }
         }
-
+        btnBack.setOnClickListener {
+            viewModel.goBack()
+        }
+        btnMessage.setOnClickListener {
+            viewModel.startChatWithMM(mmId = userId)
+        }
+        btnInto.setOnClickListener {
+            currentDialog = ReportAbuseDialog.create(requireContext()) {
+                viewModel.sendReport(it)
+            }.also { it.show() }
+        }
         btnShare.setOnClickListener {
             shareTo(Constants.DEEP_LINK_PROFILE_URL + viewModel.profile.value!!.id)
         }
@@ -67,34 +62,38 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
         btnBack.setOnClickListener {
             viewModel.goBack()
         }
+    }
 
-        btnMessage.setOnClickListener {
-
-            viewModel.startChatWithMM(mmId = id)
-        }
-
-
-
-        btnInto.setOnClickListener {
-            currentDialog = ReportAbuseDialog.create(
-                context!!
-            ) {
-                viewModel.sendReport(it)
+    private fun observeData() {
+        viewModel.sendReportStatus.observe(this) {
+            if (it == true) {
+                currentDialog?.dismiss()
+            } else {
+                Toast.makeText(requireContext(), "Send Error", Toast.LENGTH_LONG).show()
             }
-
-            currentDialog?.show()
         }
+        viewModel.user.observe(this, Observer {
+            it ?: return@Observer
+            binding.vpGroups.adapter = MMProfileTabAdapter.newInstance(
+                childFragmentManager,
+                userId,
+                it,
+                viewModel.getListOfTitles().map { titleRes ->
+                    getString(titleRes)
+                }
+            )
+        })
     }
 
     companion object {
         const val USER_ID = "MM_ID"
 
         fun newInstance(id: Long): MMInfoFragment {
-            val fragment = MMInfoFragment()
-            fragment.arguments = Bundle().apply {
-                putLong(USER_ID, id)
+            return MMInfoFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(USER_ID, id)
+                }
             }
-            return fragment
         }
     }
 }
