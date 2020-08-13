@@ -15,7 +15,10 @@ interface ChatUseCase {
     fun getMyChatListLive(request: ChatListDTO): LiveData<PagedList<ChatEntity>>
     fun getChatList(request: ChatListDTO): PagedList<ChatEntity>
     fun getMessageList(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>>
-    suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>>
+    suspend fun getChatDetails(
+        id: Long,
+        saveToLocal: Boolean = true
+    ): ResponseEntity<ChatEntity, List<String>>
 
     fun getMemberListLive(chatId: Long, request: MemberListDTO): LiveData<PagedList<MemberEntity>>
     suspend fun getMembersList(

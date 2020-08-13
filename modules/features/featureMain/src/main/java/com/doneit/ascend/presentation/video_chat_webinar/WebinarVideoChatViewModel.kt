@@ -246,7 +246,7 @@ class WebinarVideoChatViewModel(
                 )
             credentials.value?.let {
                 viewModelScope.launch {
-                    val result = chatUseCase.getChatDetails(it.chatId)
+                    val result = chatUseCase.getChatDetails(it.chatId, false)
                     if (result.isSuccessful) {
                         chatUseCase.connectToChannel(it.chatId)
                     }
@@ -367,7 +367,7 @@ class WebinarVideoChatViewModel(
         credentials.value?.let {
             hasUnreadMessage.value = false
             viewModelScope.launch(Dispatchers.IO) {
-                val response = chatUseCase.getChatDetails(it.chatId)
+                val response = chatUseCase.getChatDetails(it.chatId, false)
                 if(response.isSuccessful) {
                     WebinarVideoChatContract.Navigation.TO_CHAT.data.putParcelable(CHAT_ID_KEY, response.successModel!!)
                     WebinarVideoChatContract.Navigation.TO_CHAT.data.putParcelable(USER_ID_KEY, currentUser)

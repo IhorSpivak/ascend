@@ -106,7 +106,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             viewModel::onDelete,
             ::showMenuOnUserClick,
             { _, id -> viewModel.showDetailedUser(id) },
-            { _, member -> viewModel.showLiveStreamUser(member) }
+            { _, member -> viewModel.showLiveStreamUser(member) },
+            { viewModel.previewAttachment(it) }
         )
     }
 

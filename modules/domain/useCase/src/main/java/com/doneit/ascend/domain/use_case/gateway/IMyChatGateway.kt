@@ -16,7 +16,10 @@ interface IMyChatGateway {
 
     fun getChatsList(request: ChatListDTO): PagedList<ChatEntity>
 
-    suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>>
+    suspend fun getChatDetails(
+        id: Long,
+        saveToLocal: Boolean = true
+    ): ResponseEntity<ChatEntity, List<String>>
 
     fun getMessages(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>>
 

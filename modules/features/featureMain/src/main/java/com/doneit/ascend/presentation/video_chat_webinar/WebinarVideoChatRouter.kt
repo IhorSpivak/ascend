@@ -4,6 +4,7 @@ import android.content.Intent
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
+import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -46,11 +47,9 @@ class WebinarVideoChatRouter(
     }
 
     override fun navigateToEditChannel(channel: ChatEntity) {
-        TODO("Not yet implemented")
     }
 
     override fun navigateToAddChannelMembers() {
-        TODO("Not yet implemented")
     }
 
     override fun goToDetailedUser(id: Long) {
@@ -63,6 +62,9 @@ class WebinarVideoChatRouter(
         members: List<MemberEntity>,
         user: UserEntity
     ) {
+    }
+
+    override fun navigateToPreview(attachments: List<Attachment>, selected: Int) {
     }
 
     override fun goToLiveStreamUser(member: MemberEntity) {

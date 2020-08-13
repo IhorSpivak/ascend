@@ -4,8 +4,11 @@ import androidx.lifecycle.*
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ChatSocketEvent
+import com.doneit.ascend.domain.entity.MessageAttachment
 import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.chats.*
+import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.Size
 import com.doneit.ascend.domain.entity.dto.MessageDTO
 import com.doneit.ascend.domain.entity.dto.MessageListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
@@ -13,6 +16,7 @@ import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
 import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
@@ -81,7 +85,10 @@ class ChatViewModel(
 
     private suspend fun refreshModel() {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = chatUseCase.getChatDetails(chatWithUser.chat.id)
+            val response = chatUseCase.getChatDetails(
+                chatWithUser.chat.id,
+                chatWithUser.chatType == ChatType.CHAT
+            )
             if (response.isSuccessful) {
                 chatWithUser.chat.inheritFrom(response.successModel!!)
                 chat.postValue(chatWithUser)
@@ -236,6 +243,21 @@ class ChatViewModel(
                 }
             }
         }
+    }
+
+    override fun previewAttachment(attachment: MessageAttachment) {
+        router.navigateToPreview(
+            listOf(
+                Attachment(
+                    0L,
+                    attachment.contentType ?: return,
+                    attachment.url,
+                    "",
+                    Size()
+                )
+            ),
+            0
+        )
     }
 
     override fun onDeleteChat() {

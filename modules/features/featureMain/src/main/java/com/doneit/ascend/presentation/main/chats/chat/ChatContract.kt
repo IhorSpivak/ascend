@@ -2,9 +2,11 @@ package com.doneit.ascend.presentation.main.chats.chat
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.doneit.ascend.domain.entity.MessageAttachment
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
@@ -30,6 +32,7 @@ interface ChatContract {
         fun showLiveStreamUser(member: MemberEntity)
         fun goToEditChannel(channel: ChatEntity)
         fun onDelete(message: MessageEntity)
+        fun previewAttachment(attachment: MessageAttachment)
         fun onDeleteChat()
         fun onReportChatOwner(content: String)
         fun goToUserList(channel: ChatEntity)
@@ -50,6 +53,7 @@ interface ChatContract {
             user: UserEntity
         )
 
+        fun navigateToPreview(attachments: List<Attachment>, selected: Int)
         fun goToLiveStreamUser(member: MemberEntity)
     }
 

@@ -6,7 +6,9 @@ enum class MessageType {
     USER_REMOVED,
     LEAVE,
     POST_SHARE,
-    ATTACHMENT;
+    ATTACHMENT,
+    PROFILE_SHARE,
+    GROUP_SHARE;
 
     override fun toString(): String {
         return super.toString().toLowerCase()

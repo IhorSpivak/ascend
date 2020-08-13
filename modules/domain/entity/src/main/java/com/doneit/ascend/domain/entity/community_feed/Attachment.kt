@@ -18,8 +18,8 @@ data class Attachment(
 
 @Parcelize
 data class Size(
-    val width: Int,
-    val height: Int
+    val width: Int = 0,
+    val height: Int = 0
 ) : Parcelable {
     fun aspectHeight(width: Int): Int {
         return ((width.toFloat() / this.width) * height).toInt()

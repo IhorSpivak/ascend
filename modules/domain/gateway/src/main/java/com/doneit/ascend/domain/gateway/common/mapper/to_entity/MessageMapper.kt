@@ -23,7 +23,9 @@ fun MessageResponse.toEntity(): MessageEntity {
         updatedAt.toDate(),
         status = status.toMessageStatus(),
         post = post?.toEntity(),
-        attachment = attachment?.toEntity()
+        attachment = attachment?.toEntity(),
+        sharedUser = sharedUser?.toEntity(),
+        sharedGroup = sharedGroup?.toEntity()
     )
 }
 
