@@ -144,7 +144,7 @@
                     app:hasCursor="@{true}"
                     app:error="@{model.createGroupModel.price.observableError}"
                     app:src="@{@drawable/ic_price}"
-                    app:text="@{model.createGroupModel.price.observableField}"
+                    app:text="@={model.createGroupModel.price.observableField}"
                     app:tint="@{@color/red_webinar_color}" />
 
                 <ImageView

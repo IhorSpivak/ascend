@@ -57,7 +57,7 @@ class GroupInfoViewModel(
             val isInitialized = group.value != null
             return isInitialized && group.value?.blocked == true
         }
-    override val isSupport = MutableLiveData<Boolean>(false)
+    override val isSupport = MutableLiveData(false)
 
     private val user = MutableLiveData<UserEntity>()
 
@@ -66,20 +66,20 @@ class GroupInfoViewModel(
         viewModelScope.launch {
             val response = groupUseCase.getGroupDetails(groupId)
             if (response.isSuccessful) {
-                group.postValue(response.successModel!!)
-                isSupport.postValue(response.successModel?.groupType != GroupType.SUPPORT)
-                user.postValue(userUseCase.getUser())
-                val user = user.value!!
-                isOwner.postValue(user?.id == response.successModel!!.owner?.id)
+                user.value = userUseCase.getUser()
+                val user = requireNotNull(user.value)
+                isOwner.value = user.id == response.successModel!!.owner?.id
+                group.value = requireNotNull(response.successModel)
+                isSupport.value = response.successModel?.groupType != GroupType.SUPPORT
                 supportTitle.value = convertCommunityToResId(
                     user.community.orEmpty(),
                     group.value?.groupType
                 )
-                isMM.postValue(user.isMasterMind)
+                isMM.value = user.isMasterMind
                 if (response.successModel!!.participantsCount!! > 0) {
                     groupUseCase.getParticipantList(groupId, null, null).let {
                         if (it.isSuccessful) {
-                            users.postValue(it.successModel)
+                            users.value = it.successModel
                         }
                     }
                 }

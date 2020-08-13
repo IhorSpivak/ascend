@@ -662,6 +662,7 @@ class CreateGroupViewModel(
                 }
             }
             isPrivate.set(group.isPrivate)
+            price.observableField.set(group.price.toString())
             numberOfMeetings.observableField.set(group.meetingsCount.toString())
             description.observableField.set(group.description)
             actualStartTime.time = group.startTime
