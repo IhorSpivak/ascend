@@ -32,6 +32,7 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
             setFilterEnabled(true)
             setChatEnabled(true)
             setShareEnabled(false)
+            setShareInAppEnabled(false)
             setTitle(getString(R.string.ascension_plan))
             getUnreadMessageCount()
         }

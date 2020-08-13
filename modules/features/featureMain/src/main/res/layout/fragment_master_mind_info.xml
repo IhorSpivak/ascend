@@ -208,7 +208,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:background="@android:color/transparent"
-                        android:padding="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:src="@drawable/ic_info"
                         android:tint="@color/light_gray_8f"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
@@ -217,12 +220,29 @@
                         android:id="@+id/btnShare"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@android:color/transparent"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:src="@drawable/ic_share"
+                        android:tint="@color/light_gray_8f" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnShareInApp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_gravity="end"
                         android:layout_toStartOf="@id/btnInto"
                         android:background="@android:color/transparent"
-                        android:padding="16dp"
-                        android:src="@drawable/ic_share"
+                        android:onClick="@{() -> model.onShareInAppClick()}"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:src="@drawable/ic_arrow_share"
                         android:tint="@color/light_gray_8f" />
                 </androidx.appcompat.widget.Toolbar>
 

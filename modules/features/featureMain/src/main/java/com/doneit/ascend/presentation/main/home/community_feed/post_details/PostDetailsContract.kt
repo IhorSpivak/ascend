@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.community_feed.PostNullable
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewContract
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 
 interface PostDetailsContract {
     interface ViewModel : CommentsViewContract.ViewModel {
@@ -17,10 +19,16 @@ interface PostDetailsContract {
         fun unlikePost()
         fun reportUser(reason: String)
         fun attachmentClicked(attachments: List<Attachment>, selected: Int)
+        fun onSharePostClick(user: UserEntity)
     }
 
     interface Router : CommentsViewContract.Router {
         fun navigateToCreatePost(post: Post?)
         fun navigateToPreview(attachments: List<Attachment>, selected: Int)
+        fun navigateToShare(
+            id: Long,
+            user: UserEntity,
+            shareType: SharePostBottomSheetFragment.ShareType
+        )
     }
 }

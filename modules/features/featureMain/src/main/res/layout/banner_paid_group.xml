@@ -20,7 +20,7 @@
             android:paddingEnd="32dp"
             android:paddingBottom="16dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ascend_small_logo" />
+            app:srcCompat="@drawable/ascend_logo_video_white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"

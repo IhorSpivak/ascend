@@ -60,10 +60,9 @@ import com.doneit.ascend.presentation.main.groups.daily_group_list.GroupDailyLis
 import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
-import com.doneit.ascend.presentation.main.home.channels.ChannelsContract as ChannelsContactTab
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedContract
-import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsFragment
 import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsContract
+import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsFragment
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelFragment
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.add_members.AddMembersFragment
@@ -72,6 +71,7 @@ import com.doneit.ascend.presentation.main.home.community_feed.create_post.Creat
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.post_details.PostDetailsContract
 import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostContract
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
 import com.doneit.ascend.presentation.main.home.master_mind.filter.FilterFragment
@@ -127,6 +127,7 @@ import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivit
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.vrgsoft.core.presentation.router.FragmentRouter
 import com.yalantis.ucrop.UCrop
+import com.doneit.ascend.presentation.main.home.channels.ChannelsContract as ChannelsContactTab
 
 class MainRouter(
     private val activity: MainActivity,
@@ -186,8 +187,7 @@ class MainRouter(
     PostDetailsContract.Router,
     CommentsViewContract.Router,
     CreateChannelContract.Router,
-    ChannelsContactTab.Router
-{
+    ChannelsContactTab.Router {
     override fun navigateToEditGoal(goal: GoalEntity) {
         //add later
     }
@@ -205,6 +205,7 @@ class MainRouter(
 
 
     override fun onBack() {
+        manager.popBackStack(SharePostBottomSheetFragment::class.java.simpleName, 0)
         manager.popBackStack()
     }
 
@@ -334,6 +335,21 @@ class MainRouter(
 
     override fun navigateToMMInfo(id: Long) {
         replaceFullWithMainUpdate(MMInfoFragment.newInstance(id))
+    }
+
+    override fun navigateToShare(
+        id: Long,
+        user: UserEntity,
+        shareType: SharePostBottomSheetFragment.ShareType
+    ) {
+        SharePostBottomSheetFragment.newInstance(
+            id,
+            user,
+            shareType
+        ).show(
+            manager,
+            SharePostBottomSheetFragment::class.java.simpleName
+        )
     }
 
     override fun navigateToViewAttendees(attendees: List<AttendeeEntity>, group: GroupEntity) {

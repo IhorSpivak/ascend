@@ -28,7 +28,6 @@ import com.doneit.ascend.presentation.main.home.community_feed.comments_view.Com
 import com.doneit.ascend.presentation.main.home.community_feed.common.MMPostClickListener
 import com.doneit.ascend.presentation.main.home.community_feed.common.MMPostsAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
-import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
@@ -97,14 +96,7 @@ class MMPostsFragment : BaseFragment<FragmentMasterMindPostBinding>() {
             onOptionsClick = ::showSetting,
             onSendCommentClick = { id, text, _ -> viewModel.leaveComment(id, text) },
             onShareClick = {
-                SharePostBottomSheetFragment.newInstance(
-                    it,
-                    user
-                )
-                    .show(
-                        childFragmentManager,
-                        SharePostBottomSheetFragment::class.java.simpleName
-                    )
+                viewModel.onShareClick(it)
             },
             onCreatePostListener = viewModel::onNewPostClick,
             onSeeAllClickListener = viewModel::onSeeAllClick,

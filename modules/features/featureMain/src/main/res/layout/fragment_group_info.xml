@@ -1107,6 +1107,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnShareInApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@android:color/white"
+            android:padding="16dp"
+            android:onClick="@{(v) -> model.onShareInApp()}"
+            android:src="@drawable/ic_arrow_share"
+            app:layout_constraintEnd_toStartOf="@id/btnShare"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btnShare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

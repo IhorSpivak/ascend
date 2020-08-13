@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 
 interface MMInfoContract {
@@ -33,7 +34,7 @@ interface MMInfoContract {
 
         fun setProfileId(id: Long)
         fun report(content: String)
-        fun onShareClick()
+        fun onShareInAppClick()
         fun startChatWithMM(mmId: Long)
         fun goBack()
     }
@@ -46,6 +47,12 @@ interface MMInfoContract {
             groupType: GroupType?,
             isMyGroups: Boolean?,
             mmName: String?
+        )
+
+        fun navigateToShare(
+            id: Long,
+            user: UserEntity,
+            shareType: SharePostBottomSheetFragment.ShareType
         )
     }
 }

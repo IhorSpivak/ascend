@@ -9,6 +9,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
 import com.doneit.ascend.presentation.models.community_feed.SharePostFilter
+import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 
 interface SharePostContract {
     interface ViewModel : BaseViewModel {
@@ -20,6 +21,7 @@ interface SharePostContract {
 
         val filterTextAll: MutableLiveData<String>
         val sharePostFilter: MutableLiveData<SharePostFilter>
+        val dismissDialog: SingleLiveEvent<Unit>
 
         fun shareChat(chatEntity: ChatEntity)
         fun shareToUser(userId: Long)

@@ -28,14 +28,14 @@
                 android:layout_marginTop="38dp"
                 android:fontFamily="@font/red_hat_font"
                 android:text="@string/title"
-                app:srcCompat="@drawable/ascend_logo"
                 android:textAllCaps="true"
                 android:textColor="@color/default_font_color"
                 android:textSize="32sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ascend_logo_video" />
 
             <TextView
                 android:id="@+id/tvSubtitle"

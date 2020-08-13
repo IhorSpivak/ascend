@@ -27,7 +27,6 @@ import com.doneit.ascend.presentation.main.home.community_feed.comments_view.Com
 import com.doneit.ascend.presentation.main.home.community_feed.common.PostClickListeners
 import com.doneit.ascend.presentation.main.home.community_feed.common.PostsAdapter
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
-import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_bottom_sheet_channels.view.*
@@ -85,14 +84,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
             onOptionsClick = ::showSetting,
             onSendCommentClick = { id, text, _ -> viewModel.leaveComment(id, text) },
             onShareClick = {
-                SharePostBottomSheetFragment.newInstance(
-                    it,
-                    user
-                )
-                    .show(
-                        childFragmentManager,
-                        SharePostBottomSheetFragment::class.java.simpleName
-                    )
+                viewModel.onSharePostClick(it)
             },
             onCreatePostListener = viewModel::onNewPostClick,
             onSeeAllClickListener = viewModel::onSeeAllClick,

@@ -55,6 +55,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             setFilterEnabled(false)
             setChatEnabled(false)
             setShareEnabled(true)
+            setShareInAppEnabled(true)
             setTitle(getString(R.string.profile_title))
         }
     }

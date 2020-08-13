@@ -134,6 +134,7 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
             setFilterEnabled(false)
             setChatEnabled(false)
             setShareEnabled(true)
+            setShareInAppEnabled(true)
         }
     }
 

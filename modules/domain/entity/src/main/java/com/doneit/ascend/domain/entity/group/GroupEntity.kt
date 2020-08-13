@@ -52,7 +52,7 @@ class GroupEntity(
 
     val inProgress: Boolean
         get() {
-            return (getDefaultCalendar().timeInMillis - startTime!!.time.apply { }) in 0..duration.minutesToMillis()
+            return (getDefaultCalendar().time > startTime)
         }
 
     val isStarting: Boolean

@@ -143,6 +143,25 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/btnShareInApp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{() -> model.onShareInAppClick()}"
+                        android:paddingStart="8dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="15dp"
+                        android:tint="@color/light_gray_8f"
+                        android:src="@drawable/ic_arrow_share"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btnShare"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/btnShare"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

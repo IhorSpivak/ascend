@@ -17,7 +17,12 @@ interface ChatUseCase {
     fun getMessageList(chatId: Long, request: MessageListDTO): LiveData<PagedList<MessageEntity>>
     suspend fun getChatDetails(id: Long): ResponseEntity<ChatEntity, List<String>>
 
-    fun getMemberList(chatId: Long, request: MemberListDTO): LiveData<PagedList<MemberEntity>>
+    fun getMemberListLive(chatId: Long, request: MemberListDTO): LiveData<PagedList<MemberEntity>>
+    suspend fun getMembersList(
+        chatId: Long,
+        request: MemberListDTO
+    ): ResponseEntity<List<MemberEntity>, List<String>>
+
     suspend fun createChat(createChatDTO: CreateChatDTO): ResponseEntity<ChatEntity, List<String>>
     suspend fun delete(id: Long): ResponseEntity<Unit, List<String>>
     suspend fun sendMessage(request: MessageDTO): ResponseEntity<Unit, List<String>>

@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.chats.chat.common.ChatType
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -148,8 +149,10 @@ class MMInfoViewModel(
         }
     }
 
-    override fun onShareClick() {
-        
+    override fun onShareInAppClick() {
+        user.value?.let {
+            router.navigateToShare(it.id, it, SharePostBottomSheetFragment.ShareType.PROFILE)
+        }
     }
 
     override fun goBack() {

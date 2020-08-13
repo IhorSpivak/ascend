@@ -6,9 +6,11 @@ import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.community_feed.PostNullable
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewViewModel
+import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
@@ -99,5 +101,9 @@ class PostDetailsViewModel(
 
     override fun attachmentClicked(attachments: List<Attachment>, selected: Int) {
         router.navigateToPreview(attachments, selected)
+    }
+
+    override fun onSharePostClick(user: UserEntity) {
+        router.navigateToShare(post.id, user, SharePostBottomSheetFragment.ShareType.POST)
     }
 }
