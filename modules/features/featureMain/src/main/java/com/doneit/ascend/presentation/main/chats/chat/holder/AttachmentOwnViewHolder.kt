@@ -59,7 +59,7 @@ class AttachmentOwnViewHolder private constructor(
                 R.drawable.ic_download
             } else R.drawable.ic_sent_message
             download.setImageResource(res)
-            root.setOnClickListener {
+            myMessageContainer.setOnClickListener {
                 if (!isFileExist(attachment.name)) {
                     downloadFile(attachment.url, attachment.name)
                 } else previewAttachment(attachment)

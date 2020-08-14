@@ -106,6 +106,10 @@
             android:name="com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivity"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name=".presentation.main.home.community_feed.preview.PreviewActivity"
+            android:theme="@style/AppTheme.Fullscreen" />
+
 
         <service android:name="com.doneit.ascend.presentation.login.AccountService">
             <intent-filter>

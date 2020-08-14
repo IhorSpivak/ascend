@@ -1,39 +1,36 @@
 package com.doneit.ascend.presentation.main.home.community_feed.preview
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.base.BaseFragment
-import com.doneit.ascend.presentation.main.databinding.FragmentPreviewBinding
+import com.doneit.ascend.presentation.main.base.BaseActivity
+import com.doneit.ascend.presentation.main.databinding.ActivityPreviewBinding
 import com.doneit.ascend.presentation.main.home.community_feed.preview.common.PreviewAdapter
 import kotlinx.android.synthetic.main.pager_item_video.view.*
 import org.kodein.di.Kodein
-import org.kodein.di.generic.bind
-import org.kodein.di.generic.instance
-import org.kodein.di.generic.provider
 
-class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
-    override val viewModel: PreviewContract.ViewModel by instance()
-    override val viewModelModule: Kodein.Module
-        get() = PreviewViewModelModule.get(this)
+class PreviewActivity : BaseActivity() {
 
-    override val kodeinModule: Kodein.Module = Kodein.Module(this::class.java.simpleName) {
-        bind(tag = KEY_ATTACHMENTS) from provider {
-            attachments
-        }
+    override fun diModule() = Kodein.Module(this::class.java.simpleName) {
     }
 
     private val attachments by lazy {
-        requireArguments().getParcelableArrayList<Attachment>(KEY_ATTACHMENTS)!!
+        requireNotNull(intent.extras).getParcelableArrayList<Attachment>(KEY_ATTACHMENTS)!!
     }
 
     private val selectedItem by lazy {
-        requireArguments().getInt(KEY_SELECTED_ITEM, 0) + 1
+        requireNotNull(intent.extras).getInt(KEY_SELECTED_ITEM, 0) + 1
     }
 
-    override fun viewCreated(savedInstanceState: Bundle?) {
+    private lateinit var binding: ActivityPreviewBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_preview)
         binding.apply {
             vpMedia.adapter = PreviewAdapter(attachments)
             vpMedia.offscreenPageLimit = OFFSCREEN_PAGE_LIMIT
@@ -60,29 +57,24 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
                     )
                     val child = vpMedia.getChildAt(previousPos)
                     previousPos = position
-                    if (child.pvPlayer != null) {
+                    if (child?.pvPlayer != null) {
                         child.pvPlayer.player?.playWhenReady = false
                     }
                 }
             })
-            ivBack.setOnClickListener { activity?.onBackPressed() }
+            ivBack.setOnClickListener { onBackPressed() }
             tvCounter.text = getString(R.string.format_quantity, selectedItem, attachments.size)
         }
     }
 
     override fun onPause() {
-        val child = binding.vpMedia.getChildAt(binding.vpMedia.currentItem)
-        if (child.pvPlayer != null) {
-            child.pvPlayer.player?.playWhenReady = false
+        with(binding) {
+            val child = vpMedia.getChildAt(vpMedia.currentItem)
+            if (child.pvPlayer != null) {
+                child.pvPlayer.player?.playWhenReady = false
+            }
         }
         super.onPause()
-    }
-
-    override fun onDestroyView() {
-        (activity as? AppCompatActivity)?.apply {
-            setSupportActionBar(null)
-        }
-        super.onDestroyView()
     }
 
     companion object {
@@ -91,12 +83,10 @@ class PreviewFragment : BaseFragment<FragmentPreviewBinding>() {
         internal const val KEY_ATTACHMENTS = "key_attachments"
         internal const val KEY_SELECTED_ITEM = "key_selected_item"
 
-        fun newInstance(attachments: Collection<Attachment>, selectedItem: Int) =
-            PreviewFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelableArrayList(KEY_ATTACHMENTS, ArrayList(attachments))
-                    putInt(KEY_SELECTED_ITEM, selectedItem)
-                }
+        fun createIntent(context: Context, attachments: Collection<Attachment>, selectedItem: Int) =
+            Intent(context, PreviewActivity::class.java).apply {
+                putExtra(KEY_ATTACHMENTS, ArrayList(attachments))
+                putExtra(KEY_SELECTED_ITEM, selectedItem)
             }
     }
 }
