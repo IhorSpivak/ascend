@@ -746,5 +746,6 @@
     <string name="nul">0</string>
     <string name="preview">Preview</string>
     <string name="workshops_cannot_be_purchased">Workshops cannot be purchased in the app</string>
+    <string name="file_not_supported">This file extension is not supported</string>
 
 </resources>

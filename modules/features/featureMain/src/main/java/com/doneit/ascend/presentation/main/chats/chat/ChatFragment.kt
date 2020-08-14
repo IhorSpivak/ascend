@@ -37,9 +37,11 @@ import com.doneit.ascend.presentation.main.chats.chat.common.MessagesAdapter
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChatBinding
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
+import com.doneit.ascend.presentation.utils.MediaValidator
 import com.doneit.ascend.presentation.utils.extensions.doOnGlobalLayout
 import com.doneit.ascend.presentation.utils.extensions.requestPermissions
 import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.utils.showDefaultError
 import kotlinx.android.synthetic.main.fragment_chat.*
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -684,11 +686,15 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             data?.data?.let {
                 lastFileUri = it
             }
-            viewModel.sendMessage(
-                message = "",
-                attachmentType = getMimeType(),
-                attachmentUrl = lastFileUri.toString()
-            )
+            if (MediaValidator.isUriSupported(requireContext(), lastFileUri)) {
+                viewModel.sendMessage(
+                    message = "",
+                    attachmentType = getMimeType(),
+                    attachmentUrl = lastFileUri.toString()
+                )
+            } else {
+                showDefaultError(getString(R.string.file_not_supported))
+            }
             super.onActivityResult(requestCode, resultCode, data)
         }
     }
