@@ -3,7 +3,7 @@ package com.doneit.ascend.source.storage.remote.repository.community_feed
 import com.doneit.ascend.source.storage.remote.data.request.AttachmentRequest
 import com.doneit.ascend.source.storage.remote.data.request.community_feed.CommentsRequest
 import com.doneit.ascend.source.storage.remote.data.request.community_feed.PostsRequest
-import com.doneit.ascend.source.storage.remote.data.request.community_feed.SharePostRequest
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.ShareRequest
 import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
@@ -41,6 +41,6 @@ interface ICommunityFeedRepository {
 
     suspend fun sharePost(
         postId: Long,
-        sharePostRequest: SharePostRequest
+        shareRequest: ShareRequest
     ): RemoteResponse<OKResponse, ErrorsListResponse>
 }

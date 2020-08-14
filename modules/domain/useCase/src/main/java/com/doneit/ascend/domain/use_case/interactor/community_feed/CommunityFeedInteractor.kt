@@ -9,7 +9,7 @@ import com.doneit.ascend.domain.entity.community_feed.Comment
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.CommentsDTO
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
-import com.doneit.ascend.domain.entity.dto.SharePostDTO
+import com.doneit.ascend.domain.entity.dto.ShareDTO
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.domain.use_case.gateway.ICommunityFeedGateway
 import kotlinx.coroutines.CoroutineScope
@@ -122,13 +122,13 @@ class CommunityFeedInteractor(
     override fun sharePost(
         coroutineScope: CoroutineScope,
         postId: Long,
-        sharePostDTO: SharePostDTO,
+        shareDTO: ShareDTO,
         baseCallback: BaseCallback<Unit>
     ) {
         return gateway.sharePost(
             coroutineScope,
             postId,
-            sharePostDTO,
+            shareDTO,
             baseCallback
         )
     }

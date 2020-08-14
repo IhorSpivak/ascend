@@ -10,6 +10,8 @@ import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
+import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
+import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.PresentationCreateChatModel
 import com.doneit.ascend.presentation.models.community_feed.SharePostFilter
@@ -25,7 +27,9 @@ class SharePostViewModel(
     private val chatUseCase: ChatUseCase,
     private val user: UserEntity,
     private val shareType: SharePostBottomSheetFragment.ShareType,
-    private val id: Long
+    private val id: Long,
+    private val userUseCase: UserUseCase,
+    private val groupUseCase: GroupUseCase
 ) : BaseViewModelImpl(), SharePostContract.ViewModel {
     override val chats = MutableLiveData<PagedList<ChatEntity>>()
     override val channels = MutableLiveData<PagedList<ChatEntity>>()
@@ -77,14 +81,24 @@ class SharePostViewModel(
 
 
     override fun shareChat(chatEntity: ChatEntity) {
-        val model = SharePostDTO(chatIds = listOf(chatEntity.id))
+        val model = ShareDTO(chatIds = listOf(chatEntity.id))
 
         when (shareType) {
             SharePostBottomSheetFragment.ShareType.PROFILE -> {
-                //TODO
+                userUseCase.shareUser(
+                    viewModelScope,
+                    id,
+                    model,
+                    baseCallback = generateShareToUserCallback(chatEntity)
+                )
             }
             SharePostBottomSheetFragment.ShareType.GROUP -> {
-                //TODO
+                groupUseCase.shareGroup(
+                    viewModelScope,
+                    id,
+                    model,
+                    baseCallback = generateShareToUserCallback(chatEntity)
+                )
             }
             SharePostBottomSheetFragment.ShareType.POST -> {
                 communityFeedUseCase.sharePost(
@@ -99,13 +113,17 @@ class SharePostViewModel(
     }
 
     override fun shareToUser(userId: Long) {
-        val model = SharePostDTO(userIds = listOf(userId))
+        val model = ShareDTO(userIds = listOf(userId))
         when (shareType) {
             SharePostBottomSheetFragment.ShareType.PROFILE -> {
-                //TODO
+                userUseCase.shareUser(
+                    viewModelScope, id, model, baseCallback = generateCallback(userId)
+                )
             }
             SharePostBottomSheetFragment.ShareType.GROUP -> {
-                //TODO
+                groupUseCase.shareGroup(
+                    viewModelScope, id, model, baseCallback = generateCallback(userId)
+                )
             }
             SharePostBottomSheetFragment.ShareType.POST -> {
                 communityFeedUseCase.sharePost(
@@ -113,9 +131,6 @@ class SharePostViewModel(
                 )
             }
         }
-        communityFeedUseCase.sharePost(
-            viewModelScope, id, model, baseCallback = generateCallback(userId)
-        )
     }
 
     private fun generateShareToUserCallback(chatEntity: ChatEntity) = BaseCallback<Unit>(
@@ -133,7 +148,9 @@ class SharePostViewModel(
             }
 
         },
-        onError = {}
+        onError = {
+            showDefaultErrorMessage(it)
+        }
     )
 
     private fun generateCallback(userId: Long) = BaseCallback<Unit>(
@@ -158,6 +175,8 @@ class SharePostViewModel(
             }
 
         },
-        onError = {}
+        onError = {
+            showDefaultErrorMessage(it)
+        }
     )
 }

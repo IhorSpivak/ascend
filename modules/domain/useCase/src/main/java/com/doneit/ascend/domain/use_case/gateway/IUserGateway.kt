@@ -3,14 +3,14 @@ package com.doneit.ascend.domain.use_case.gateway
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.RateEntity
+import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.user.AuthEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
+import kotlinx.coroutines.CoroutineScope
 
 interface IUserGateway {
-
-
 
     suspend fun signIn(loginMode: LogInUserDTO): ResponseEntity<AuthEntity, List<String>>
 
@@ -55,4 +55,11 @@ interface IUserGateway {
     suspend fun changeEmail(dto: ChangeEmailDTO): ResponseEntity<Unit, List<String>>
 
     suspend fun updateFirebase(firebaseId: String): ResponseEntity<Unit, List<String>>
+
+    fun shareUser(
+        scope: CoroutineScope,
+        userId: Long,
+        shareDTO: ShareDTO,
+        baseCallback: BaseCallback<Unit>
+    )
 }

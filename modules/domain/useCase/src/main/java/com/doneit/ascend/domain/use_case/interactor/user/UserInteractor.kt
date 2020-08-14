@@ -3,11 +3,13 @@ package com.doneit.ascend.domain.use_case.interactor.user
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.RateEntity
+import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.user.AuthEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.gateway.IUserGateway
+import kotlinx.coroutines.CoroutineScope
 
 internal class UserInteractor(
     private val userGateway: IUserGateway
@@ -98,6 +100,20 @@ internal class UserInteractor(
 
     override suspend fun updateFirebase(firebaseId: String): ResponseEntity<Unit, List<String>> {
         return userGateway.updateFirebase(firebaseId)
+    }
+
+    override fun shareUser(
+        coroutineScope: CoroutineScope,
+        userId: Long,
+        shareDTO: ShareDTO,
+        baseCallback: BaseCallback<Unit>
+    ) {
+        return userGateway.shareUser(
+            coroutineScope,
+            userId,
+            shareDTO,
+            baseCallback
+        )
     }
 
 }

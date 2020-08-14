@@ -5,6 +5,7 @@ import com.doneit.ascend.source.storage.remote.api.UserApi
 import com.doneit.ascend.source.storage.remote.data.request.SearchUserRequest
 import com.doneit.ascend.source.storage.remote.data.request.SetGroupCredentialsRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.ShareRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.*
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.SearchUserListResponse
@@ -362,6 +363,16 @@ internal class GroupRepository(
     override suspend fun getTags(): RemoteResponse<TagListResponse, ErrorsListResponse> {
         return execute(
             { api.getTags() }, ErrorsListResponse::class.java
+        )
+    }
+
+    override suspend fun shareGroup(
+        groupId: Long,
+        shareRequest: ShareRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute(
+            { api.shareGroup(groupId = groupId, shareRequest = shareRequest) },
+            ErrorsListResponse::class.java
         )
     }
 

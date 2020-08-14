@@ -69,6 +69,8 @@ fun String.toMessageType(): MessageType {
         MessageType.LEAVE.toString() -> MessageType.LEAVE
         MessageType.ATTACHMENT.toString() -> MessageType.ATTACHMENT
         MessageType.USER_REMOVED.toString() -> MessageType.USER_REMOVED
+        MessageType.GROUP_SHARE.toString() -> MessageType.GROUP_SHARE
+        MessageType.PROFILE_SHARE.toString() -> MessageType.PROFILE_SHARE
         else -> MessageType.MESSAGE
     }
 }

@@ -2,10 +2,10 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
 import com.doneit.ascend.domain.entity.dto.CommentsDTO
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
-import com.doneit.ascend.domain.entity.dto.SharePostDTO
+import com.doneit.ascend.domain.entity.dto.ShareDTO
 import com.doneit.ascend.source.storage.remote.data.request.community_feed.CommentsRequest
 import com.doneit.ascend.source.storage.remote.data.request.community_feed.PostsRequest
-import com.doneit.ascend.source.storage.remote.data.request.community_feed.SharePostRequest
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.ShareRequest
 
 fun CommunityFeedDTO.toRequest(page: Int): PostsRequest {
     return PostsRequest(
@@ -37,8 +37,8 @@ fun CommentsDTO.toRequest(page: Int): CommentsRequest {
     )
 }
 
-fun SharePostDTO.toRequest(): SharePostRequest {
-    return SharePostRequest(
+fun ShareDTO.toRequest(): ShareRequest {
+    return ShareRequest(
         chatIds = chatIds,
         userIds = userIds
     )

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.RateEntity
+import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.user.AuthEntity
@@ -25,6 +26,8 @@ import com.doneit.ascend.source.storage.remote.data.request.PhoneRequest
 import com.doneit.ascend.source.storage.remote.repository.master_minds.IMasterMindRepository
 import com.google.firebase.iid.FirebaseInstanceId
 import com.vrgsoft.networkmanager.NetworkManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
@@ -335,6 +338,22 @@ internal class UserGateway(
                 it?.errors
             }
         )
+    }
+
+    override fun shareUser(
+        scope: CoroutineScope,
+        userId: Long,
+        shareDTO: ShareDTO,
+        baseCallback: BaseCallback<Unit>
+    ) {
+        scope.launch(Dispatchers.IO) {
+            val response = remote.shareUser(userId, shareDTO.toRequest())
+            if (response.isSuccessful) {
+                baseCallback.onSuccess(Unit)
+            } else {
+                baseCallback.onError(response.message)
+            }
+        }
     }
 
     private suspend fun getToken(): String {

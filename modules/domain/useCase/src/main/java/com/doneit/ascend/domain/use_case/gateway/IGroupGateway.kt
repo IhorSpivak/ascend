@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.TagEntity
+import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
@@ -60,5 +61,12 @@ interface IGroupGateway {
 
     fun disconnect()
 
-    suspend fun getTags() : ResponseEntity<List<TagEntity>, List<String>>
+    suspend fun getTags(): ResponseEntity<List<TagEntity>, List<String>>
+
+    fun shareGroup(
+        scope: CoroutineScope,
+        groupId: Long,
+        shareDTO: ShareDTO,
+        baseCallback: BaseCallback<Unit>
+    )
 }

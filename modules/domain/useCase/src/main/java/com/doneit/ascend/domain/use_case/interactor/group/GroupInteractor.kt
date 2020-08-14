@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketEvent
 import com.doneit.ascend.domain.entity.TagEntity
+import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
@@ -238,7 +239,7 @@ internal class GroupInteractor(
         groupGateway.sendSocketMessage(
             String.format(
                 EVENT_WITH_ID_TEMPLATE,
-                if(isConnected) SocketEvent.PARTICIPANT_CONNECTED.toString() else SocketEvent.PARTICIPANT_DISCONNECTED.toString(),
+                if (isConnected) SocketEvent.PARTICIPANT_CONNECTED.toString() else SocketEvent.PARTICIPANT_DISCONNECTED.toString(),
                 userId
             )
         )
@@ -246,6 +247,20 @@ internal class GroupInteractor(
 
     override fun disconnect() {
         groupGateway.disconnect()
+    }
+
+    override fun shareGroup(
+        coroutineScope: CoroutineScope,
+        groupId: Long,
+        shareDTO: ShareDTO,
+        baseCallback: BaseCallback<Unit>
+    ) {
+        return groupGateway.shareGroup(
+            coroutineScope,
+            groupId,
+            shareDTO,
+            baseCallback
+        )
     }
 
     companion object {

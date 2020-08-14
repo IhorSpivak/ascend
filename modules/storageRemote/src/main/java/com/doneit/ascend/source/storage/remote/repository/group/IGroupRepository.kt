@@ -2,6 +2,7 @@ package com.doneit.ascend.source.storage.remote.repository.group
 
 import com.doneit.ascend.source.storage.remote.data.request.SearchUserRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.ShareRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.*
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.SearchUserListResponse
@@ -37,13 +38,27 @@ interface IGroupRepository {
 
     suspend fun getParticipants(groupId: Long, request: GroupParticipantsRequest): RemoteResponse<ParticipantListResponse, ErrorsListResponse>
 
-    suspend fun updateNote(groupId: Long, request: UpdateNoteRequest): RemoteResponse<OKResponse, ErrorsListResponse>
+    suspend fun updateNote(
+        groupId: Long,
+        request: UpdateNoteRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse>
 
-    suspend fun cancelGroup(groupId: Long, request: CancelGroupRequest): RemoteResponse<OKResponse, ErrorsListResponse>
+    suspend fun cancelGroup(
+        groupId: Long,
+        request: CancelGroupRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse>
 
-    suspend fun inviteToGroup(groupId: Long, request: InviteToGroupRequest): RemoteResponse<OKResponse, ErrorsListResponse>
+    suspend fun inviteToGroup(
+        groupId: Long,
+        request: InviteToGroupRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun searchUsers(searchRequest: SearchUserRequest): RemoteResponse<SearchUserListResponse, ErrorsListResponse>
 
     suspend fun getTags(): RemoteResponse<TagListResponse, ErrorsListResponse>
+
+    suspend fun shareGroup(
+        groupId: Long,
+        shareRequest: ShareRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse>
 }

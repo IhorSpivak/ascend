@@ -2,12 +2,13 @@ package com.doneit.ascend.domain.use_case.interactor.user
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.doneit.ascend.domain.entity.MessageSocketEntity
-import com.doneit.ascend.domain.entity.user.AuthEntity
 import com.doneit.ascend.domain.entity.RateEntity
-import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.entity.user.AuthEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
+import kotlinx.coroutines.CoroutineScope
 
 interface UserUseCase {
 
@@ -54,4 +55,11 @@ interface UserUseCase {
     suspend fun changeEmail(dto: ChangeEmailDTO): ResponseEntity<Unit, List<String>>
 
     suspend fun updateFirebase(firebaseId: String): ResponseEntity<Unit, List<String>>
+
+    fun shareUser(
+        coroutineScope: CoroutineScope,
+        userId: Long,
+        shareDTO: ShareDTO,
+        baseCallback: BaseCallback<Unit>
+    )
 }

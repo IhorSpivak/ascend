@@ -1,7 +1,7 @@
 package com.doneit.ascend.source.storage.remote.api
 
 import com.doneit.ascend.source.storage.remote.data.request.LeaveCommentRequest
-import com.doneit.ascend.source.storage.remote.data.request.community_feed.SharePostRequest
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.ShareRequest
 import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.community_feed.CommentsResponse
@@ -80,5 +80,8 @@ interface CommunityFeedApi {
     ): Deferred<Response<PostResponse>>
 
     @POST(" /api/v1/posts/{post_id}/share")
-    fun sharePost(@Path("post_id") postId: Long, @Body sharePostRequest: SharePostRequest): Deferred<Response<OKResponse>>
+    fun sharePost(
+        @Path("post_id") postId: Long,
+        @Body shareRequest: ShareRequest
+    ): Deferred<Response<OKResponse>>
 }

@@ -2,6 +2,7 @@ package com.doneit.ascend.source.storage.remote.repository.user
 
 import com.doneit.ascend.source.storage.remote.api.UserApi
 import com.doneit.ascend.source.storage.remote.data.request.*
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.ShareRequest
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.RatesResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
@@ -179,6 +180,13 @@ internal class UserRepository(
     }
 
     override suspend fun updateFirebase(firebaseId: String): RemoteResponse<OKResponse, ErrorsListResponse> {
-        return execute({ api.updateFirebase(firebaseId)}, ErrorsListResponse::class.java)
+        return execute({ api.updateFirebase(firebaseId) }, ErrorsListResponse::class.java)
+    }
+
+    override suspend fun shareUser(
+        userId: Long,
+        request: ShareRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.shareProfile(userId, request) }, ErrorsListResponse::class.java)
     }
 }

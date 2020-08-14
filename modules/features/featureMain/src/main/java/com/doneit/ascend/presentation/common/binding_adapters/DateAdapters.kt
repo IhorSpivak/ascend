@@ -23,14 +23,16 @@ fun TextView.setDate(dateTime: Date?) {
 @BindingAdapter("app:setDate")
 fun setDate(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date?) {
     try {
-        view.text = DAY_MONTH_FORMAT.toDefaultFormatter().format(dateTime)
+        dateTime?.let {
+            view.text = DAY_MONTH_FORMAT.toDefaultFormatter().format(dateTime)
+        }
     } catch (e: Exception) {
         e.printStackTrace()
     }
 }
 
 @BindingAdapter("app:setTime")
-fun setTime(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date) {
+fun setTime(view: androidx.appcompat.widget.AppCompatTextView, dateTime: Date?) {
     try {
         dateTime?.let {
             view.text = view.context.getTimeFormat().format(it)

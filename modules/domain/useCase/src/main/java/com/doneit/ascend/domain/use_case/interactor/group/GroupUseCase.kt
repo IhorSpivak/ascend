@@ -6,6 +6,7 @@ import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.SocketEventEntity
 import com.doneit.ascend.domain.entity.TagEntity
+import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
@@ -81,4 +82,11 @@ interface GroupUseCase {
     fun participantConnectionStatus(userId: String, isConnected: Boolean)
 
     fun disconnect()
+
+    fun shareGroup(
+        coroutineScope: CoroutineScope,
+        groupId: Long,
+        shareDTO: ShareDTO,
+        baseCallback: BaseCallback<Unit>
+    )
 }

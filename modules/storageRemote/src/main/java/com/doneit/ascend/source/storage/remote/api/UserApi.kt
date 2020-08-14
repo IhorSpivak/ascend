@@ -1,6 +1,7 @@
 package com.doneit.ascend.source.storage.remote.api
 
 import com.doneit.ascend.source.storage.remote.data.request.*
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.ShareRequest
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.RatesResponse
 import com.doneit.ascend.source.storage.remote.data.response.SearchUserListResponse
@@ -82,11 +83,18 @@ interface UserApi {
     fun searchUsersByEmailAsync(@Query("email") email: String): Deferred<Response<SearchUserListResponse>>
 
     @GET("users/search")
-    fun searchUsersAsync(@Query("page") page: Int?,
-                        @Query("per_page") perPage: Int?,
-                        @Query("sort_column") sortColumn: String?,
-                        @Query("sort_type") sortType: String?,
-                        @Query("full_name") fullName: String?,
-                        @Query("email") email: String?
+    fun searchUsersAsync(
+        @Query("page") page: Int?,
+        @Query("per_page") perPage: Int?,
+        @Query("sort_column") sortColumn: String?,
+        @Query("sort_type") sortType: String?,
+        @Query("full_name") fullName: String?,
+        @Query("email") email: String?
     ): Deferred<Response<SearchUserListResponse>>
+
+    @POST(" /api/v1/users/{user_id}/profile/share")
+    fun shareProfile(
+        @Path("user_id") userId: Long,
+        @Body shareRequest: ShareRequest
+    ): Deferred<Response<OKResponse>>
 }

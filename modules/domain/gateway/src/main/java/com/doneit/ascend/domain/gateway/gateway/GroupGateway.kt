@@ -10,6 +10,7 @@ import androidx.paging.toLiveData
 import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.ParticipantEntity
 import com.doneit.ascend.domain.entity.TagEntity
+import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.common.ResponseEntity
 import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.entity.group.GroupCredentialsEntity
@@ -396,5 +397,21 @@ internal class GroupGateway(
                 it?.errors
             }
         )
+    }
+
+    override fun shareGroup(
+        scope: CoroutineScope,
+        groupId: Long,
+        shareDTO: ShareDTO,
+        baseCallback: BaseCallback<Unit>
+    ) {
+        scope.launch(Dispatchers.IO) {
+            val response = remote.shareGroup(groupId, shareDTO.toRequest())
+            if (response.isSuccessful) {
+                baseCallback.onSuccess(Unit)
+            } else {
+                baseCallback.onError(response.message)
+            }
+        }
     }
 }

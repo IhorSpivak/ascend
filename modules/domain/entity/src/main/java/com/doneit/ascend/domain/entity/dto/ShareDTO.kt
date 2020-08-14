@@ -1,6 +1,6 @@
 package com.doneit.ascend.domain.entity.dto
 
-class SharePostDTO(
+class ShareDTO(
     val chatIds: List<Long>? = null,
     val userIds: List<Long>? = null
 )

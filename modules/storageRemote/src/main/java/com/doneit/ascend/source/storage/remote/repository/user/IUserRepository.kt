@@ -1,6 +1,7 @@
 package com.doneit.ascend.source.storage.remote.repository.user
 
 import com.doneit.ascend.source.storage.remote.data.request.*
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.ShareRequest
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.RatesResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
@@ -48,4 +49,9 @@ interface IUserRepository {
     suspend fun changeEmail(request: ChangeEmailRequest): RemoteResponse<OKResponse, ErrorsListResponse>
 
     suspend fun updateFirebase(firebaseId: String): RemoteResponse<OKResponse, ErrorsListResponse>
+
+    suspend fun shareUser(
+        userId: Long,
+        request: ShareRequest
+    ): RemoteResponse<OKResponse, ErrorsListResponse>
 }

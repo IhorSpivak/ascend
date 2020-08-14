@@ -6,7 +6,7 @@ import com.doneit.ascend.domain.entity.common.BaseCallback
 import com.doneit.ascend.domain.entity.community_feed.*
 import com.doneit.ascend.domain.entity.dto.CommentsDTO
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
-import com.doneit.ascend.domain.entity.dto.SharePostDTO
+import com.doneit.ascend.domain.entity.dto.ShareDTO
 import com.doneit.ascend.domain.use_case.PagedList
 import kotlinx.coroutines.CoroutineScope
 
@@ -85,7 +85,7 @@ interface ICommunityFeedGateway {
     fun sharePost(
         scope: CoroutineScope,
         postId: Long,
-        sharePostDTO: SharePostDTO,
+        shareDTO: ShareDTO,
         baseCallback: BaseCallback<Unit>
     )
 

@@ -2,6 +2,7 @@ package com.doneit.ascend.source.storage.remote.api
 
 import com.doneit.ascend.source.storage.remote.data.request.SetGroupCredentialsRequest
 import com.doneit.ascend.source.storage.remote.data.request.SubscribeGroupRequest
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.ShareRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.CancelGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.InviteToGroupRequest
 import com.doneit.ascend.source.storage.remote.data.request.group.UpdateNoteRequest
@@ -74,14 +75,29 @@ interface GroupApi {
     fun updateNote(@Path("groupId") groupId: Long, @Body request: UpdateNoteRequest): Deferred<Response<OKResponse>>
 
     @POST("groups/{groupId}/cancel")
-    fun cancelGroup(@Path("groupId") groupId: Long, @Body request: CancelGroupRequest): Deferred<Response<OKResponse>>
+    fun cancelGroup(
+        @Path("groupId") groupId: Long,
+        @Body request: CancelGroupRequest
+    ): Deferred<Response<OKResponse>>
 
     @POST("groups/{groupId}/invite")
-    fun inviteToGroup(@Path("groupId") groupId: Long, @Body request: InviteToGroupRequest): Deferred<Response<OKResponse>>
+    fun inviteToGroup(
+        @Path("groupId") groupId: Long,
+        @Body request: InviteToGroupRequest
+    ): Deferred<Response<OKResponse>>
 
     @DELETE("groups/{groupId}/invite/{inviteId}")
-    fun deleteInviteAsync(@Path("groupId") groupId: Long, @Path("inviteId") inviteId: Long): Deferred<Response<OKResponse>>
+    fun deleteInviteAsync(
+        @Path("groupId") groupId: Long,
+        @Path("inviteId") inviteId: Long
+    ): Deferred<Response<OKResponse>>
 
     @GET("tags")
     fun getTags(): Deferred<Response<TagListResponse>>
+
+    @POST("groups/{groupId}/share")
+    fun shareGroup(
+        @Path("groupId") groupId: Long,
+        @Body shareRequest: ShareRequest
+    ): Deferred<Response<OKResponse>>
 }

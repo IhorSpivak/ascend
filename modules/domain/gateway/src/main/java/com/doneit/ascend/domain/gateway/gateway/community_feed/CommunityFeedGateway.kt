@@ -12,7 +12,7 @@ import com.doneit.ascend.domain.entity.community_feed.Comment
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.CommentsDTO
 import com.doneit.ascend.domain.entity.dto.CommunityFeedDTO
-import com.doneit.ascend.domain.entity.dto.SharePostDTO
+import com.doneit.ascend.domain.entity.dto.ShareDTO
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toRequest
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toEntity
@@ -282,11 +282,11 @@ class CommunityFeedGateway(
     override fun sharePost(
         scope: CoroutineScope,
         postId: Long,
-        sharePostDTO: SharePostDTO,
+        shareDTO: ShareDTO,
         baseCallback: BaseCallback<Unit>
     ) {
         scope.launch(Dispatchers.IO) {
-            val response = communityRemote.sharePost(postId, sharePostDTO.toRequest())
+            val response = communityRemote.sharePost(postId, shareDTO.toRequest())
             if (response.isSuccessful) {
                 baseCallback.onSuccess(Unit)
             } else {

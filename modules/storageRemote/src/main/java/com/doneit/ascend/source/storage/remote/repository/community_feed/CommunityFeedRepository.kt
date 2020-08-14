@@ -6,7 +6,7 @@ import com.doneit.ascend.source.storage.remote.data.request.AttachmentRequest
 import com.doneit.ascend.source.storage.remote.data.request.LeaveCommentRequest
 import com.doneit.ascend.source.storage.remote.data.request.community_feed.CommentsRequest
 import com.doneit.ascend.source.storage.remote.data.request.community_feed.PostsRequest
-import com.doneit.ascend.source.storage.remote.data.request.community_feed.SharePostRequest
+import com.doneit.ascend.source.storage.remote.data.request.community_feed.ShareRequest
 import com.doneit.ascend.source.storage.remote.data.response.CommentResponse
 import com.doneit.ascend.source.storage.remote.data.response.OKResponse
 import com.doneit.ascend.source.storage.remote.data.response.common.RemoteResponse
@@ -110,10 +110,10 @@ internal class CommunityFeedRepository(
 
     override suspend fun sharePost(
         postId: Long,
-        sharePostRequest: SharePostRequest
+        shareRequest: ShareRequest
     ): RemoteResponse<OKResponse, ErrorsListResponse> {
         return execute({
-            api.sharePost(postId, sharePostRequest)
+            api.sharePost(postId, shareRequest)
         }, ErrorsListResponse::class.java)
     }
 

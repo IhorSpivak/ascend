@@ -44,7 +44,9 @@ class SharePostBottomSheetFragment : BottomSheetDialogFragment(), KodeinAware {
                 instance(),
                 instance(tag = "user"),
                 instance(tag = "shareType"),
-                instance(tag = "id")
+                instance(tag = "id"),
+                instance(),
+                instance()
             )
         }
 
