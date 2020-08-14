@@ -37,8 +37,7 @@ class NotificationViewHolder(
             else -> R.string.by
         }
 
-        binding.owner =
-            "${binding.root.context.getString(ownerFormat)} ${item.owner?.fullName}"
+        binding.owner = "${binding.root.context.getString(ownerFormat)} ${item.owner?.fullName}"
 
         binding.ibDelete.setOnClickListener {
             onDeleteListener.invoke(item.id!!)

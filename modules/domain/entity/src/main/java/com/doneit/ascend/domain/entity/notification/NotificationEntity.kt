@@ -7,6 +7,7 @@ data class NotificationEntity(
     val notificationType: NotificationType,
     val groupId: Long?,
     val groupName: String?,
+    val entity_name: String?,
     val createdAt: Date?,
     val updatedAt: Date?,
     val title: String,

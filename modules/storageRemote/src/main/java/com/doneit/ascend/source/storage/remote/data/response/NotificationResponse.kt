@@ -11,6 +11,8 @@ data class NotificationResponse(
     val groupId: Long,
     @SerializedName("group_name")
     val groupName: String,
+    @SerializedName("entity_name")
+    val entity_name: String,
     @SerializedName("created_at")
     val createdAt: String,
     @SerializedName("updated_at")
