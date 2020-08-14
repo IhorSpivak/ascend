@@ -166,19 +166,15 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@id/tvDescription"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginTop="16dp">
 
             <com.doneit.ascend.presentation.views.attachment_view.AttachmentView
                 android:id="@+id/imvFirst"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-
                 android:padding="1dp"
                 android:scaleType="centerCrop"
                 android:cropToPadding="true"
-
                 android:visibility="@{postModel.attachments.size() > 0}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/imvSecond"
