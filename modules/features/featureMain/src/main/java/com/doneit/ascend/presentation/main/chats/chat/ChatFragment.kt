@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.chats.chat
 
 import android.Manifest
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.core.view.doOnLayout
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -109,8 +111,33 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             ::showMenuOnUserClick,
             { _, id -> viewModel.showDetailedUser(id) },
             { _, member -> viewModel.showLiveStreamUser(member) },
-            { viewModel.previewAttachment(it) }
+            {
+                it.contentType?.let { _ ->
+                    viewModel.previewAttachment(it)
+                } ?: kotlin.run {
+                    val downloadsFolder =
+                        requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+                    previewFile(File(downloadsFolder, it.name).toUri())
+                }
+            }
         )
+    }
+
+    private fun previewFile(uri: Uri) {
+        Intent(Intent.ACTION_VIEW).apply {
+            val fileUri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().applicationContext.packageName + ".fileprovider",
+                File(uri.path.orEmpty())
+            )
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            data = fileUri
+            try {
+                startActivity(Intent.createChooser(this, getString(R.string.preview)))
+            } catch (e: ActivityNotFoundException) {
+                1
+            }
+        }
     }
 
     fun getContainerId() = R.id.new_chat_container
