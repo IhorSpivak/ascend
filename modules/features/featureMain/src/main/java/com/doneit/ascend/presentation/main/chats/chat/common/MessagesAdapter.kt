@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.MessageAttachment
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageType
+import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.main.chats.chat.holder.*
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
@@ -17,7 +18,8 @@ class MessagesAdapter(
     private val onImageLongClick: (v: View, id: Long) -> Unit,
     private val onImageClick: (view: View, id: Long) -> Unit,
     private val onImageWebinarClick: (view: View, member: MemberEntity) -> Unit,
-    private val previewAttachment: (MessageAttachment) -> Unit
+    private val previewAttachment: (MessageAttachment) -> Unit,
+    private val onSeeMoreClick: (Post) -> Unit
 ) : PagedListAdapter<MessageEntity, BaseMessageHolder>(MessageDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseMessageHolder {
@@ -52,7 +54,7 @@ class MessagesAdapter(
                 { view: View, l: Long -> },
                 onImageWebinarClick
             )
-            Type.SHARE_POST.ordinal -> ShareViewHolder.create(parent)
+            Type.SHARE_POST.ordinal -> ShareViewHolder.create(parent, onSeeMoreClick)
             Type.ATTACHMENT_OWN.ordinal -> AttachmentOwnViewHolder.create(
                 parent,
                 onButtonClick,

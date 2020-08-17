@@ -119,7 +119,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                         requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
                     previewFile(File(downloadsFolder, it.name).toUri())
                 }
-            }
+            },
+            viewModel::showPostDetails
         )
     }
 

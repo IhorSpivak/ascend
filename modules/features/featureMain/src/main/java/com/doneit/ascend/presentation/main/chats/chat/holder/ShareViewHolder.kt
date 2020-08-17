@@ -2,7 +2,6 @@ package com.doneit.ascend.presentation.main.chats.chat.holder
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,23 +9,22 @@ import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.doneit.ascend.domain.entity.OwnerEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.ContentType
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.community_feed.PostNullable
+import com.doneit.ascend.presentation.common.setOnSingleClickListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ListItemSharedMessageBinding
 import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
-import kotlinx.android.parcel.Parcelize
-import java.util.*
 
 class ShareViewHolder private constructor(
-    itemView: View
+    itemView: View,
+    private val onSeeMoreClick: (Post) -> Unit
 ) : BaseMessageHolder(itemView) {
 
     private val binding: ListItemSharedMessageBinding = DataBindingUtil.getBinding(itemView)!!
@@ -40,6 +38,12 @@ class ShareViewHolder private constructor(
         with(binding) {
             member = memberEntity
             this.messageEntity = messageEntity
+            postView.viewPostContent.visibilityOfSeeAll = true
+            postView.viewPostContent.tvSeeMore.setOnSingleClickListener {
+                onSeeMoreClick(
+                    messageEntity.post ?: return@setOnSingleClickListener
+                )
+            }
             PostNullable.create(messageEntity.post).let {
                 postModel = it
                 isOwner = it.isOwner == true
@@ -77,14 +81,15 @@ class ShareViewHolder private constructor(
     }
 
     companion object {
-        fun create(parent: ViewGroup): ShareViewHolder {
+        fun create(parent: ViewGroup, onSeeMoreClick: (Post) -> Unit): ShareViewHolder {
             return ShareViewHolder(
                 DataBindingUtil.inflate<ListItemSharedMessageBinding>(
                     LayoutInflater.from(parent.context),
                     R.layout.list_item_shared_message,
                     parent,
                     false
-                ).root
+                ).root,
+                onSeeMoreClick
             )
         }
     }

@@ -8,6 +8,7 @@ import com.doneit.ascend.domain.entity.MessageAttachment
 import com.doneit.ascend.domain.entity.MessageSocketEntity
 import com.doneit.ascend.domain.entity.chats.*
 import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.community_feed.Size
 import com.doneit.ascend.domain.entity.dto.MessageDTO
 import com.doneit.ascend.domain.entity.dto.MessageListDTO
@@ -213,6 +214,10 @@ class ChatViewModel(
                 !it.leaved && !it.removed
             }, chatWithUser.user
         )
+    }
+
+    override fun showPostDetails(post: Post) {
+        router.navigateToPostDetails(chatWithUser.user, post)
     }
 
     override fun showLiveStreamUser(member: MemberEntity) {

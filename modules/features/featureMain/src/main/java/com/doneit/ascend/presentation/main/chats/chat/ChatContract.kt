@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
@@ -36,12 +37,14 @@ interface ChatContract {
         fun onDeleteChat()
         fun onReportChatOwner(content: String)
         fun goToUserList(channel: ChatEntity)
+        fun showPostDetails(post: Post)
         fun onReport(content: String, id: Long)
         fun onLeave()
     }
 
     interface Router {
         fun onBack()
+        fun navigateToPostDetails(user: UserEntity, post: Post)
         fun navigateToEditChannel(channel: ChatEntity)
         fun navigateToAddChannelMembers()
         fun goToDetailedUser(id: Long)
