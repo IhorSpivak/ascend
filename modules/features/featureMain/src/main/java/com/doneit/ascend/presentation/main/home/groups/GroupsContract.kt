@@ -17,7 +17,12 @@ interface GroupsContract {
 
         fun onStartChatClick(groupId: Long, groupType: GroupType)
         fun onGroupClick(model: GroupEntity)
-        fun updateFilter(filter: TagEntity? = null, userId: Long? = null)
+        fun updateFilter(
+            filter: TagEntity? = null,
+            userId: Long? = null,
+            groupType: GroupType? = null
+        )
+
         fun checkUser(user: UserEntity)
     }
 
