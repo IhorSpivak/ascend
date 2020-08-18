@@ -714,15 +714,20 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             data?.data?.let {
                 lastFileUri = it
             }
-            if (MediaValidator.isUriSupported(requireContext(), lastFileUri)) {
-                viewModel.sendMessage(
-                    message = "",
-                    attachmentType = getMimeType(),
-                    attachmentUrl = lastFileUri.toString()
-                )
-            } else {
-                showDefaultError(getString(R.string.file_not_supported))
-            }
+            MediaValidator.executeIfUriSupported(requireContext(), lastFileUri,
+                onError = {
+                    when(it){
+                        MediaValidator.ValidationError.SIZE -> showDefaultError(getString(R.string.file_incorrect_size))
+                        MediaValidator.ValidationError.FORMAT -> showDefaultError(getString(R.string.file_not_supported))
+                    }
+                },
+                action = {
+                    viewModel.sendMessage(
+                        message = "",
+                        attachmentType = getMimeType(),
+                        attachmentUrl = lastFileUri.toString()
+                    )
+                })
             super.onActivityResult(requestCode, resultCode, data)
         }
     }

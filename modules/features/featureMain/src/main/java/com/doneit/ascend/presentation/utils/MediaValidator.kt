@@ -5,7 +5,7 @@ import android.net.Uri
 
 object MediaValidator {
 
-    private val supportedFormats = arrayOf(
+    val supportedFormats = arrayOf(
         "pdf",
         "txt",
         "doc",
@@ -21,9 +21,27 @@ object MediaValidator {
         "heif"
     )
 
-    fun isUriSupported(context: Context, uri: Uri): Boolean {
+    const val allowedSizeInBytes = 1000000 * 100
+
+    inline fun executeIfUriSupported(
+        context: Context,
+        uri: Uri,
+        onError: (ValidationError) -> Unit,
+        action: () -> Unit
+    ) {
         val type = context.contentResolver.getType(uri)
-            ?.substringAfter('/') ?: return false
-        return supportedFormats.contains(type)
+            ?.substringAfter('/') ?: return
+        context.contentResolver.openInputStream(uri)?.use {
+            when {
+                !supportedFormats.contains(type) -> onError(ValidationError.FORMAT)
+                it.available() >= allowedSizeInBytes -> onError(ValidationError.SIZE)
+                else -> action()
+            }
+        }
+    }
+
+    enum class ValidationError {
+        SIZE,
+        FORMAT
     }
 }
