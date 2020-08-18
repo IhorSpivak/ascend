@@ -5,6 +5,7 @@ import com.doneit.ascend.domain.entity.AttendeeEntity
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.community_feed.Attachment
+import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -44,6 +45,9 @@ class WebinarVideoChatRouter(
     override fun onBack() {
         activity.userInteractionListener = null
         activity.supportFragmentManager.popBackStack()
+    }
+
+    override fun navigateToPostDetails(user: UserEntity, post: Post) {
     }
 
     override fun navigateToEditChannel(channel: ChatEntity) {

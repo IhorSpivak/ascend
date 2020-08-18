@@ -126,7 +126,16 @@
                             android:layout_height="match_parent"
                             app:controller_layout_id="@layout/exo_player_view_create_post"
                             app:resize_mode="fixed_width"
-                            app:surface_type="texture_view" />
+                            app:surface_type="texture_view"
+                            app:use_controller="false" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/fabPlay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_baseline_play"
+                            app:fabCustomSize="40dp"/>
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/attachmentImage"

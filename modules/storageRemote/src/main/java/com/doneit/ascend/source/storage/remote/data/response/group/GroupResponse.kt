@@ -21,6 +21,7 @@ data class GroupResponse(
     @SerializedName("updated_at") val updatedAt: String,
     @SerializedName("owner") val owner: OwnerResponse,
     @SerializedName("subscribed") val subscribed: Boolean,
+    @SerializedName("banner") val banner: BannerResponse?,
     @SerializedName("invited") val invited: Boolean,
     @SerializedName("blocked") val blocked: Boolean,
     @SerializedName("participants_count") val participantsCount: Int,

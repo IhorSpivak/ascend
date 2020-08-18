@@ -18,6 +18,10 @@
         <variable
             name="visibilityOfSend"
             type="Boolean" />
+
+        <variable
+            name="visibilityOfSeeAll"
+            type="Boolean" />
     </data>
 
     <RelativeLayout
@@ -94,6 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTime"
             android:layout_marginStart="16dp"
+            android:maxLines="9"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:autoLink="web"
@@ -104,8 +109,6 @@
             android:textSize="16sp"
             android:visibility="@{postModel.description.length() > 0}"
             tools:text="Veniam proident ut consequat in commodo non. Occaecat dolor pariatur ipsum non eu anim pariatur consectetur ex voluptate laboris. Incididunt sit eu enim amet." />
-
-
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -125,7 +128,8 @@
             android:textAllCaps="false"
             android:textAppearance="@style/TextNormal.TextButton"
             android:textColor="@{postModel.likedMe?@color/colorAccent:@color/light_gray_b1bf,default=@color/light_gray_b1bf}"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="@{!visibilityOfSeeAll}" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnShare"
@@ -143,7 +147,8 @@
             android:textAllCaps="false"
             android:textAppearance="@style/TextNormal.TextButton"
             android:textColor="@color/light_gray_b1bf"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="@{!visibilityOfSeeAll}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/btnComments"
@@ -159,26 +164,38 @@
             android:text="@{@plurals/x_likes(postModel.likesCount != null ? postModel.likesCount : 0, postModel.likesCount != null ? postModel.likesCount : 0)+`, `+@plurals/x_comments(postModel.commentsCount != null ? postModel.commentsCount : 0, postModel.commentsCount != null ? postModel.commentsCount : 0)}"
             android:textAppearance="@style/TextNormal"
             android:textSize="12sp"
+            android:visibility="@{!visibilityOfSeeAll}"
             tools:text="128 comments, 21 like" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSeeMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mivAttachments"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:gravity="end|center_vertical"
+            android:padding="8dp"
+            android:text="@string/see_more"
+            android:textAppearance="@style/TextNormal"
+            android:textSize="14sp"
+            android:visibility="@{visibilityOfSeeAll, default=gone}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mivAttachments"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@id/tvDescription"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginTop="16dp">
 
             <com.doneit.ascend.presentation.views.attachment_view.AttachmentView
                 android:id="@+id/imvFirst"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-
+                android:cropToPadding="true"
                 android:padding="1dp"
                 android:scaleType="centerCrop"
-                android:cropToPadding="true"
-
                 android:visibility="@{postModel.attachments.size() > 0}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/imvSecond"
@@ -190,11 +207,9 @@
                 android:id="@+id/imvSecond"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-
-
-                android:scaleType="centerCrop"
                 android:cropToPadding="true"
                 android:padding="1dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@id/imvThird"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -206,9 +221,9 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
 
-                android:scaleType="centerCrop"
                 android:cropToPadding="true"
                 android:padding="1dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -220,9 +235,9 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
 
-                android:scaleType="centerCrop"
                 android:cropToPadding="true"
                 android:padding="1dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imvFirst"
@@ -232,7 +247,6 @@
 
             <com.doneit.ascend.presentation.views.attachment_view.AttachmentView
                 android:id="@+id/imvFifth"
-
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:cropToPadding="true"

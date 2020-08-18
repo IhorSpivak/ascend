@@ -11,6 +11,7 @@ data class NotificationLocal(
     val notificationType: String,
     val groupId: Long?,
     val groupName: String?,
+    val entity_name: String?,
     val createdAt: String?,
     val updatedAt: String?,
     val title: String,

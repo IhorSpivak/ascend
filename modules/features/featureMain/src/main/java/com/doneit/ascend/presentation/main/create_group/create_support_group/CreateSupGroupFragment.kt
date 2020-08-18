@@ -103,8 +103,8 @@ class CreateSupGroupFragment :
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         GroupAction.values().forEach {
-            if (arguments!!.containsKey(it.toString())) {
-                group = arguments!!.getParcelable(it.toString())
+            if (requireArguments().containsKey(it.toString())) {
+                group = requireArguments().getParcelable(it.toString())
                 if (group != null) {
                     what = it.toString()
                     viewModel.loadParticipants(group!!.id, what.orEmpty())

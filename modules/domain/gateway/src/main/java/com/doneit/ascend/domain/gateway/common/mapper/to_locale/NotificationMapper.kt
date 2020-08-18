@@ -12,6 +12,7 @@ fun NotificationEntity.toLocal(): NotificationLocal {
         notificationType.toString(),
         groupId,
         groupName,
+        entity_name,
         createdAt?.toRemoteString(),
         updatedAt?.toRemoteString(),
         title,

@@ -57,7 +57,7 @@ class MMPostsFragment : BaseFragment<FragmentMasterMindPostBinding>() {
     private val communityAdapter by lazy {
         CommunityAdapter(
             onCommunitySelect = { community ->
-                viewModel.getPostList(id,community.title.toLowerCase())
+                viewModel.getPostList(userId.toInt(),community.title.toLowerCase())
             }
         )
     }
@@ -67,6 +67,10 @@ class MMPostsFragment : BaseFragment<FragmentMasterMindPostBinding>() {
             postClickListeners(), user
 
         ) to { binding.rvPosts }
+    }
+
+    private val userId: Long by lazy {
+        requireArguments().getLong(KEY_MM_ID)
     }
 
     private var currentDialog: AlertDialog? = null
@@ -118,12 +122,12 @@ class MMPostsFragment : BaseFragment<FragmentMasterMindPostBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        val id =  requireArguments().getLong(KEY_MM_ID)
+
         binding.apply {
             communityList.adapter = communityAdapter
             rvPosts.itemAnimator = null
         }
-        viewModel.getPostList(id.toInt(),"recovery")
+        viewModel.getPostList(userId.toInt(),"recovery")
         viewModel.initUser(user)
         initPostsAdapter
         viewModel.apply {

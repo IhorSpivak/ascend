@@ -51,12 +51,13 @@ class AttachmentOtherViewHolder private constructor(
             mediaContainer.visibleOrGone(attachment.type != AttachmentType.FILE)
             attachmentImage.visibleOrGone(attachment.type == AttachmentType.IMAGE)
             attachmentVideo.visibleOrGone(attachment.type == AttachmentType.VIDEO)
+            fabPlay.visibleOrGone(attachment.type == AttachmentType.VIDEO)
             attachmentFile.visibleOrGone(attachment.type == AttachmentType.FILE)
             val res = if (!isFileExist(attachment.name)) {
                 R.drawable.ic_download
             } else R.drawable.ic_sent_message
             download.setImageResource(res)
-            root.setOnClickListener {
+            messageContainer.setOnClickListener {
                 if (!isFileExist(attachment.name)) {
                     downloadFile(attachment.url, attachment.name)
                 } else previewAttachment(attachment)
@@ -68,6 +69,7 @@ class AttachmentOtherViewHolder private constructor(
                     attachmentVideo.player = player
                     player.playWhenReady = false
                     player.prepare(createMediaSource(itemView.context, attachment.url))
+                    attachmentVideo.setOnClickListener { previewAttachment(attachment) }
                 }
                 else -> Unit
             }

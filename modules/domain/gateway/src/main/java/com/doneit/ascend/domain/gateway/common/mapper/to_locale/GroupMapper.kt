@@ -3,19 +3,17 @@ package com.doneit.ascend.domain.gateway.common.mapper.to_locale
 import com.doneit.ascend.domain.entity.OwnerEntity
 import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
+import com.doneit.ascend.domain.entity.group.Banner
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.NoteEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRemoteString
-import com.doneit.ascend.source.storage.local.data.GroupLocal
-import com.doneit.ascend.source.storage.local.data.NoteLocal
-import com.doneit.ascend.source.storage.local.data.OwnerLocal
-import com.doneit.ascend.source.storage.local.data.TagLocal
+import com.doneit.ascend.source.storage.local.data.*
 import com.doneit.ascend.source.storage.local.data.dto.GroupFilter
 
 fun GroupListDTO.toLocal(isUpcoming: Boolean = false): GroupFilter {
     return GroupFilter(
-        sortType?.ordinal,
-        groupStatus?.ordinal,
+        sortType = sortType?.ordinal,
+        groupStatus = groupStatus?.ordinal,
         groupType = groupType?.ordinal,
         userId = userId,
         isUpcoming = isUpcoming
@@ -25,35 +23,41 @@ fun GroupListDTO.toLocal(isUpcoming: Boolean = false): GroupFilter {
 
 fun GroupEntity.toLocal(): GroupLocal {
     return GroupLocal(
-        id,
-        name,
-        description,
-        startTime?.toRemoteString(),
-        status?.ordinal,
-        groupType?.ordinal,
-        price,
-        image?.toLocal(),
-        meetingsCount,
-        pastMeetingsCount,
-        passedCount,
-        createdAt?.toRemoteString(),
-        updatedAt?.toRemoteString(),
-        owner?.toLocal(),
-        subscribed,
-        invited,
-        blocked,
-        participantsCount,
-        invitesCount,
-        daysOfWeek.map { it.ordinal },
-        note?.toLocale(),
-        meetingFormat,
-        tag?.toLocal(),
-        isPrivate,
-        dates,
-        themes,
-        duration
+        id = id,
+        name = name,
+        description = description,
+        startTime = startTime?.toRemoteString(),
+        status = status?.ordinal,
+        groupType = groupType?.ordinal,
+        price = price,
+        image = image?.toLocal(),
+        meetingsCount = meetingsCount,
+        pastMeetingsCount = pastMeetingsCount,
+        passedCount = passedCount,
+        createdAt = createdAt?.toRemoteString(),
+        updatedAt = updatedAt?.toRemoteString(),
+        owner = owner?.toLocal(),
+        banner = banner?.toLocal(),
+        subscribed = subscribed,
+        invited = invited,
+        blocked = blocked,
+        participantsCount = participantsCount,
+        invitesCount = invitesCount,
+        daysOfWeek = daysOfWeek.map { it.ordinal },
+        note = note?.toLocale(),
+        meetingFormat = meetingFormat,
+        tag = tag?.toLocal(),
+        isPrivate = isPrivate,
+        dates = dates,
+        themes = themes,
+        duration = duration
     )
 }
+
+fun Banner.toLocal() = BannerLocal(
+    title = title,
+    bannerType = bannerType
+)
 
 fun OwnerEntity.toLocal(): OwnerLocal {
     return OwnerLocal(
@@ -69,15 +73,15 @@ fun OwnerEntity.toLocal(): OwnerLocal {
 
 fun TagEntity.toLocal(): TagLocal {
     return TagLocal(
-        id,
-        tag
+        id = id,
+        tag = tag
     )
 }
 
 fun NoteEntity.toLocale(): NoteLocal {
     return NoteLocal(
-        -1,
-        content,
-        updatedAt.toRemoteString()
+        id = -1,
+        content = content,
+        updatedAt = updatedAt.toRemoteString()
     )
 }

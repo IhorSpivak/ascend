@@ -70,7 +70,8 @@ import com.doneit.ascend.presentation.main.home.community_feed.comments_view.Com
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostContract
 import com.doneit.ascend.presentation.main.home.community_feed.create_post.CreatePostFragment
 import com.doneit.ascend.presentation.main.home.community_feed.post_details.PostDetailsContract
-import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewFragment
+import com.doneit.ascend.presentation.main.home.community_feed.post_details.PostDetailsFragment
+import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewActivity
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostContract
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
@@ -207,6 +208,10 @@ class MainRouter(
     override fun onBack() {
         manager.popBackStack(SharePostBottomSheetFragment::class.java.simpleName, 0)
         manager.popBackStack()
+    }
+
+    override fun navigateToPostDetails(user: UserEntity, post: Post) {
+        manager.replaceWithBackStack(containerIdFull, PostDetailsFragment.newInstance(user, post))
     }
 
     override fun goToDetailedUser(id: Long) {
@@ -602,10 +607,7 @@ class MainRouter(
     }
 
     override fun navigateToPreview(attachments: List<Attachment>, selected: Int) {
-        manager.replaceWithBackStack(
-            containerIdFull,
-            PreviewFragment.newInstance(attachments, selected)
-        )
+        activity.startActivity(PreviewActivity.createIntent(activity, attachments, selected))
     }
 
     override fun navigateToSharedPostChat(chat: ChatEntity, user: UserEntity, chatType: ChatType) {

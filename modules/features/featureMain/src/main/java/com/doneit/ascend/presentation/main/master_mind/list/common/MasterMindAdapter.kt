@@ -1,7 +1,6 @@
 package com.doneit.ascend.presentation.main.master_mind.list.common
 
 import android.view.ViewGroup
-import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import com.doneit.ascend.domain.entity.MasterMindEntity
 

@@ -11,6 +11,7 @@
     <!--Error messages-->
     <string name="error_password">The password should contain at least 1 number, 1 latin letter, from 6 till 48 symbols.</string>
     <string name="error_password_confirm">Passwords don\’t match</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 
     <!--Dialog messages-->
     <string name="title_error">Error</string>
@@ -746,5 +747,8 @@
     <string name="nul">0</string>
     <string name="preview">Preview</string>
     <string name="workshops_cannot_be_purchased">Workshops cannot be purchased in the app</string>
+    <string name="file_not_supported">This file extension is not supported</string>
+    <string name="file_incorrect_size">Error The file size can’t be more than 100 Mb</string>
+    <string name="see_more">See more</string>
 
 </resources>

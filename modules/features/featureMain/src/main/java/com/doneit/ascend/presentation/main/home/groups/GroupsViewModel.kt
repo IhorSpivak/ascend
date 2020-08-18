@@ -69,7 +69,7 @@ class GroupsViewModel(
         router.navigateToVideoChat(groupId, groupType)
     }
 
-    override fun updateFilter(filter: TagEntity?, userId: Long?) {
+    override fun updateFilter(filter: TagEntity?, userId: Long?, groupType: GroupType?) {
         viewModelScope.launch {
             isRefreshing.postValue(true)
             val model = GroupListDTO(

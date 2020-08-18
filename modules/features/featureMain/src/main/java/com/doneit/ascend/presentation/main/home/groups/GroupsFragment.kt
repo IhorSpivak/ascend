@@ -6,6 +6,7 @@ import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.TagEntity
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentTabGroupsBinding
@@ -14,6 +15,7 @@ import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorList
 import com.doneit.ascend.presentation.utils.showDefaultError
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import kotlinx.android.synthetic.main.fragment_tab_groups.*
 import org.kodein.di.generic.instance
 
 class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
@@ -41,6 +43,10 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
         requireArguments().getLong(KEY_USER_ID)
     }
 
+    private val groupType: GroupType? by lazy {
+        requireArguments().getSerializable(KEY_GROUP_TYPE) as GroupType
+    }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
@@ -48,20 +54,19 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
 
             radioGroup.setOnCheckedChangeListener { radioGroup, i ->
                 val view = radioGroup.children.firstOrNull { it.id == i }
-                view?.let { viewModel.updateFilter(it.tag as TagEntity, userId) }
-                    ?: viewModel.updateFilter(userId = userId)
+                view?.let { viewModel.updateFilter(it.tag as TagEntity, userId, groupType) }
+                    ?: viewModel.updateFilter(userId = userId, groupType = groupType)
             }
         }
-
-
 
         viewModel.isRefreshing.observe(viewLifecycleOwner, Observer {
             binding.swipeRefresh.isRefreshing = it
         })
+
         binding.swipeRefresh.setOnRefreshListener {
             binding.radioGroup.children.firstOrNull { (it as Chip).isChecked }.run {
-                this?.let { viewModel.updateFilter(it.tag as TagEntity?, userId) }
-                    ?: viewModel.updateFilter(userId = userId)
+                this?.let { viewModel.updateFilter(it.tag as TagEntity?, userId, groupType) }
+                    ?: viewModel.updateFilter(userId = userId, groupType = groupType)
             }
         }
 
@@ -81,7 +86,7 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateFilter(userId = userId)
+        viewModel.updateFilter(userId = userId, groupType = groupType)
     }
 
     private fun addChipToViewGroup(chipGroup: ChipGroup, tags: List<TagEntity>) {
@@ -100,15 +105,22 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
         }
     }
 
+    override fun onDestroyView() {
+        rv_groups.adapter = null
+        super.onDestroyView()
+    }
+
     companion object {
 
         private const val KEY_USER_ID = "user_id"
+        private const val KEY_GROUP_TYPE = "key_group_type"
 
-        fun newInstance(userId: Long? = null): GroupsFragment {
+        fun newInstance(userId: Long? = null, groupType: GroupType? = null): GroupsFragment {
             return GroupsFragment().apply {
                 arguments = Bundle().apply {
                     userId?.let {
                         putLong(KEY_USER_ID, userId)
+                        putSerializable(KEY_GROUP_TYPE, groupType)
                     }
                 }
             }
