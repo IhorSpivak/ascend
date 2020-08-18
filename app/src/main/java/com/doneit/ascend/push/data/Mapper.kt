@@ -12,6 +12,7 @@ fun RemoteMessage.toEntity(): NotificationEntity {
         this.notification?.title!!,
         null,
         null,
+        null,
         "",
         null,
         false

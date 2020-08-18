@@ -36,7 +36,8 @@
                 app:collapsedTitleGravity="center"
                 app:contentScrim="@color/colorPrimary"
                 app:expandedTitleGravity="center_horizontal"
-                app:expandedTitleMarginBottom="50dp"
+                app:expandedTitleMarginBottom="45dp"
+                app:expandedTitleTextAppearance="@style/Title"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:scrimAnimationDuration="200"
                 app:title="@{model.profile.fullName}"
@@ -63,34 +64,20 @@
                         app:url="@{model.profile.image.url}" />
 
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvLocation"
-                        style="@style/TextNormal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="28dp"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="center"
-                        android:text="@{model.profile.location}"
-                        android:textColor="#7E7D8F"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/ivImage"
-                        tools:text="Location" />
+
 
                     <androidx.appcompat.widget.AppCompatRatingBar
                         android:id="@+id/rbRating"
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="48dp"
                         android:numStars="5"
                         android:rating="@{model.profile.rating}"
                         android:theme="@style/RatingBarTheme"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+                        app:layout_constraintTop_toBottomOf="@+id/ivImage" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvShortDescription"
@@ -101,7 +88,6 @@
                         android:layout_marginTop="6dp"
                         android:layout_marginEnd="20dp"
                         android:gravity="center"
-                        android:maxLines="1"
                         android:text="@{model.profile.masterMind?model.masterMindDescription + @string/type_mastermind:@string/type_regular_user}"
                         android:visibility="@{model.profile != null}"
                         app:layout_constraintEnd_toEndOf="parent"

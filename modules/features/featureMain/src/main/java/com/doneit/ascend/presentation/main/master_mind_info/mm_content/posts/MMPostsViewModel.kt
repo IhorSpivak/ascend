@@ -39,8 +39,6 @@ class MMPostsViewModel(
     override lateinit var user: UserEntity
     override var posts = MutableLiveData<PagedList<Post>>()
         private set
-
-
     override fun initUser(user: UserEntity) {
         this.user = user
         user.community?.let {
@@ -55,6 +53,8 @@ class MMPostsViewModel(
             viewModelScope, CommunityFeedDTO(user_id = userId, perPage = 10, community = community, sortType = SortType.DESC)
         ) as MutableLiveData<PagedList<Post>>
     }
+
+
 
 
     override fun onNewPostClick() {
