@@ -21,6 +21,7 @@ data class GroupLocal(
     @ColumnInfo(name = "created_at") val createdAt: String?,
     @ColumnInfo(name = "updated_at") val updatedAt: String?,
     @Embedded(prefix = "owner") val owner: OwnerLocal?,
+    @Embedded(prefix = "banner") val banner: BannerLocal?,
     val subscribed: Boolean?,
     val invited: Boolean?,
     val blocked: Boolean?,
