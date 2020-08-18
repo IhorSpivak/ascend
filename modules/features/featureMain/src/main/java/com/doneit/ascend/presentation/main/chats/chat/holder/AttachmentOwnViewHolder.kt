@@ -60,11 +60,6 @@ class AttachmentOwnViewHolder private constructor(
                 R.drawable.ic_download
             } else R.drawable.ic_sent_message
             download.setImageResource(res)
-            myMessageContainer.setOnClickListener {
-                if (!isFileExist(attachment.name)) {
-                    downloadFile(attachment.url, attachment.name)
-                } else previewAttachment(attachment)
-            }
             when (attachment.type) {
                 AttachmentType.VIDEO -> {
                     val player = SimpleExoPlayer.Builder(itemView.context)
@@ -72,9 +67,18 @@ class AttachmentOwnViewHolder private constructor(
                     attachmentVideo.player = player
                     player.playWhenReady = false
                     player.prepare(createMediaSource(itemView.context, attachment.url))
-                    attachmentVideo.setOnClickListener { previewAttachment(attachment) }
+                    myMessageContainer.setOnClickListener { previewAttachment(attachment) }
                 }
-                else -> Unit
+                AttachmentType.IMAGE -> {
+                    myMessageContainer.setOnClickListener { previewAttachment(attachment) }
+                }
+                else -> {
+                    myMessageContainer.setOnClickListener {
+                        if (!isFileExist(attachment.name)) {
+                            downloadFile(attachment.url, attachment.name)
+                        } else previewAttachment(attachment)
+                    }
+                }
             }
         }
     }
