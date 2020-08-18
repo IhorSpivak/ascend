@@ -35,12 +35,13 @@
                 android:fitsSystemWindows="true"
                 app:collapsedTitleGravity="center"
                 app:contentScrim="@color/colorPrimary"
-                app:expandedTitleGravity="center_horizontal"
-                app:expandedTitleMarginBottom="45dp"
+                app:expandedTitleGravity="center|top"
+
+                app:expandedTitleMarginTop="190dp"
                 app:expandedTitleTextAppearance="@style/Title"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:scrimAnimationDuration="200"
-                app:title="@{model.profile.fullName}"
+                app:title="djsdjsdsdsddp"
 
                 >
 

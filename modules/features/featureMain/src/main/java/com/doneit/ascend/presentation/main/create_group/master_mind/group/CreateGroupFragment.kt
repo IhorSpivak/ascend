@@ -159,12 +159,12 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
         binding.price.editText.apply {
             setOnFocusChangeListener { _, b ->
                 if (b) {
-                    scroll.scrollTo(0, chooseSchedule.top)
+                    scroll.scrollTo(0, chooseSchedule.bottom)
                     viewModel.onPriceClick(price.editText)
                 }
             }
             price.editText.setOnClickListener {
-                scroll.scrollTo(0, chooseSchedule.top)
+                scroll.scrollTo(0, chooseSchedule.bottom)
                 viewModel.onPriceClick(price.editText)
             }
         }

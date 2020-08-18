@@ -71,7 +71,7 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
 
     private fun sendNotification(messageTitle: String) {
 
-//        //TODO: figure out how to show SplashActivity in case of background app start:
+//        //TODO: figure out how to show SplashActivity  in case of background app start:
 //        val intent = Intent(this, MainActivity::class.java)
 //        intent.putExtra(Constants.KEY_GROUP_ID, id)
 //        val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
