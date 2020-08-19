@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.common.CommunityArrayAdapter
 import com.doneit.ascend.presentation.dialog.PermissionsRequiredDialog
+import com.doneit.ascend.presentation.main.BuildConfig
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
 import com.doneit.ascend.presentation.main.base.BaseActivity
@@ -119,7 +120,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
             viewModel.onCreateGroupClick()
         }
         viewModel.userShare.observe(this, Observer {
-            shareTo(Constants.DEEP_LINK_PROFILE_URL + it.id)
+            shareTo(BuildConfig.BASE_URL + Constants.DEEP_LINK_PROFILE_URL + it.id)
         })
         viewModel.communities.observe(this, Observer { communities ->
             val adapter = CommunityArrayAdapter(this, binding.communityDropDown, communities)

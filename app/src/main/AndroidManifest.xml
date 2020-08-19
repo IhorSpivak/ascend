@@ -42,7 +42,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="ascend.com"
+                    android:host="ascend-backend.herokuapp.com"
                     android:scheme="http" />
                 <data
                     android:host="www.ascend-backend.herokuapp.com"

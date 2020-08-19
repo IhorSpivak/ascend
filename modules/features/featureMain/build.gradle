@@ -7,7 +7,7 @@ android {
     with flavorConfig
 
     compileSdkVersion sdk_compile_version
-
+    flavorDimensions "type"
     defaultConfig {
         minSdkVersion sdk_min_version
         targetSdkVersion sdk_compile_version
@@ -20,6 +20,18 @@ android {
             annotationProcessorOptions {
                 includeCompileClasspath true
             }
+        }
+    }
+
+    productFlavors {
+        dev {
+            dimension "type"
+            buildConfigField "String", "BASE_URL", "\"https://ascend-backend.herokuapp.com/api/v1/\""
+        }
+
+        prod {
+            dimension "type"
+            buildConfigField "String", "BASE_URL", "\"https://app.ascend.video/api/v1/\""
         }
     }
 
