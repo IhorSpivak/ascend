@@ -90,6 +90,7 @@
                 app:tint="@{@color/master_mind_color}"
                 app:text="@{model.createGroupModel.scheduleTime.observableField}" />
 
+
             <com.doneit.ascend.presentation.views.EditWithError
                 android:id="@+id/numberOfMeetings"
                 android:layout_width="match_parent"
@@ -107,6 +108,7 @@
                 app:src="@{@drawable/ic_hand_number}"
                 app:tint="@{@color/master_mind_color}"
                 app:text="@={model.createGroupModel.numberOfMeetings.observableField}" />
+
 
             <ImageView
                 android:id="@+id/iconDuration"
