@@ -1,6 +1,7 @@
 package com.doneit.ascend.retrofit
 
 import android.content.Context
+import com.doneit.ascend.BuildConfig
 import com.doneit.ascend.retrofit.common.AuthInterceptor
 import com.doneit.ascend.retrofit.common.HeaderInterceptor
 import com.doneit.ascend.retrofit.common.RedirectInterceptor
@@ -46,7 +47,7 @@ object RetrofitModule {
             builder.addInterceptor(instance<AuthInterceptor>())
             builder.addInterceptor(HeaderInterceptor())
 
-            if (RetrofitConfig.enableLogging) {
+            if (BuildConfig.FLAVOR == "dev") {
                 val loggingInterceptor = HttpLoggingInterceptor()
                 loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
                 builder.addInterceptor(loggingInterceptor)
