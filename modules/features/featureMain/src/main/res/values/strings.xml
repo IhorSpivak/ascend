@@ -661,6 +661,9 @@
     <string name="leave_message"><b>%s</b> left this chat</string>
     <string name="remove_message"><b>%s</b> was removed from chat</string>
     <string name="shared_message_post"><b>%s</b> shared a post</string>
+    <string name="shared_message_group"><b>%s</b> shared a group</string>
+    <string name="shared_message_attachment"><b>%s</b> send an attachment</string>
+    <string name="shared_message_profile"><b>%s</b> shared a profile</string>
     <string name="chats_member_online">online</string>
     <string name="chats_member_offline">offline</string>
     <string name="search_hint">Search</string>

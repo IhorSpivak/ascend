@@ -35,7 +35,8 @@ class GroupEntity(
     val pastMeetingsCount: Int?,
     val dates: List<String>?,
     val themes: List<String>?,
-    val duration: Int
+    val duration: Int,
+    val community: String?
 ) : SearchEntity(id), Parcelable {
 
     val timeInProgress: Long
@@ -100,7 +101,8 @@ class GroupEntity(
             pastMeetingsCount,
             dates,
             themes,
-            duration
+            duration,
+            community
         )
     }
 

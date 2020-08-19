@@ -1,13 +1,255 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="com.doneit.ascend.presentation.utils.extensions.DateExtensionsKt" />
+
+        <variable
+            name="messageEntity"
+            type="com.doneit.ascend.domain.entity.chats.MessageEntity" />
+
+        <variable
+            name="memberEntity"
+            type="com.doneit.ascend.domain.entity.chats.MemberEntity" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="22 march 2020" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/member_message_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/time">
+
+            <com.doneit.ascend.presentation.views.MasterMindIcon
+                android:id="@+id/user_image"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:name="@{memberEntity.fullName}"
+                app:url="@{memberEntity.image.thumbnail.url}" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/isOnline"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/green_chat_status"
+                app:layout_constraintEnd_toEndOf="@id/user_image"
+                app:layout_constraintTop_toTopOf="@id/user_image" />
+
+            <TextView
+                android:id="@+id/corner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:background="@drawable/ic_message_corner"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/user_image"
+                app:tint="@color/colorAccent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/message_container"
+                android:minWidth="240dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/message_background"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/user_image">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:ellipsize="end"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="@{memberEntity.fullName}"
+                    android:textColor="@color/light_gray_8f"
+                    android:textSize="12sp"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintEnd_toStartOf="@id/message_time"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@tools:sample/lorem/random" />
+
+                <TextView
+                    android:id="@+id/message"
+                    style="@style/TextNormal"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="4dp"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:text="@{messageEntity.message}"
+                    android:textAlignment="viewStart"
+                    android:textColorLink="@color/default_font_color"
+                    android:textSize="16sp"
+                    tools:ignore="MissingConstraints"
+                    tools:text="@tools:sample/lorem/random" />
+
+                <FrameLayout
+                    android:id="@+id/mediaContainer"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/user_name">
+
+                    <com.google.android.exoplayer2.ui.PlayerView
+                        android:id="@+id/attachmentVideo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:controller_layout_id="@layout/exo_player_view_create_post"
+                        app:resize_mode="fixed_width"
+                        app:surface_type="texture_view"
+                        app:use_controller="false" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/fabPlay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_baseline_play"
+                        app:fabCustomSize="40dp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/attachmentImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:setImage="@{messageEntity.attachment.url}" />
+
+                </FrameLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/my_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/user_name">
+
+                    <com.doneit.ascend.presentation.views.MasterMindIcon
+                        android:id="@+id/masterMindIcon"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:name="@{messageEntity.sharedUser.fullName}"
+                        app:url="@{messageEntity.sharedUser.image.thumbnail.url}" />
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@{messageEntity.sharedUser.fullName}"
+                        android:textColor="@color/clear_button_color"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/masterMindIcon"
+                        tools:text="@tools:sample/lorem" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvLocation"
+                        style="@style/TextNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@{messageEntity.sharedUser.location}"
+                        android:textColor="#7E7D8F"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/name"
+                        tools:text="Location" />
+
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/rbRating"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:rating="@{messageEntity.sharedUser.rating}"
+                        android:theme="@style/RatingBarTheme"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvLocation" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvShortDescription"
+                        style="@style/TextNormal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textColor="@color/clear_button_color"
+                        android:visibility="@{messageEntity.sharedUser!= null}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rbRating"
+                        tools:text="MasterMind" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/message_time"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@{DateExtensionsKt.getTimeFormat(context).format(messageEntity.createdAt)}"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@id/user_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="SmallSp"
+                    tools:text="123kl1;2" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

@@ -78,7 +78,7 @@ fun UserProfileResponse.toEntity(): UserEntity {
         null,
         description,
         null,
-        null,
+        rating,
         rated ?: false,
         myRating,
         followed ?: false,

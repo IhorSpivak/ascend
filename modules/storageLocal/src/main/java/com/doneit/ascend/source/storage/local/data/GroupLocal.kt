@@ -34,5 +34,6 @@ data class GroupLocal(
     val isPrivate: Boolean,
     @ColumnInfo(name = "dates") var dates: List<String>?,
     @ColumnInfo(name = "themes") var themes: List<String>?,
-    val duration: Int
+    val duration: Int,
+    val community: String?
 )

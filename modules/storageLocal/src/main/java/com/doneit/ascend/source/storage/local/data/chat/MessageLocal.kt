@@ -3,6 +3,8 @@ package com.doneit.ascend.source.storage.local.data.chat
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.doneit.ascend.source.storage.local.data.GroupLocal
+import com.doneit.ascend.source.storage.local.data.UserLocal
 
 @Entity(tableName = "messages")
 data class MessageLocal(
@@ -17,5 +19,9 @@ data class MessageLocal(
     val chatId: Long,
     val postId: Long?,
     @Embedded(prefix = "attachment")
-    val attachment: MessageAttachmentLocal?
+    val attachment: MessageAttachmentLocal?,
+    @Embedded(prefix = "shared_user")
+    val sharedUser: UserLocal?,
+    @Embedded(prefix = "shared_group")
+    val sharedGroup: GroupLocal?
 )

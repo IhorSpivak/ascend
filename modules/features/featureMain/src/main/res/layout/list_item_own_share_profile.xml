@@ -66,6 +66,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/my_message_rectangle"
                     android:layout_width="wrap_content"
+                    android:minWidth="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="48dp"
                     android:layout_marginEnd="14dp"
@@ -111,6 +112,8 @@
 
                         <com.doneit.ascend.presentation.views.MasterMindIcon
                             android:id="@+id/masterMindIcon"
+                            app:name="@{messageEntity.sharedUser.fullName}"
+                            app:url="@{messageEntity.sharedUser.image.thumbnail.url}"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -118,6 +121,9 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
+                            android:textColor="@color/colorWhite"
+                            android:gravity="center"
+                            tools:text="@tools:sample/lorem"
                             android:id="@+id/name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -154,11 +160,10 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvShortDescription"
                             style="@style/TextNormal"
+                            android:textColor="@color/colorWhite"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
                             android:layout_marginTop="6dp"
-                            android:layout_marginEnd="20dp"
                             android:gravity="center"
                             android:maxLines="1"
                             android:visibility="@{messageEntity.sharedUser!= null}"

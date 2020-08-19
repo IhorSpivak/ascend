@@ -46,7 +46,9 @@ fun MessageEntity.toLocal(chatId: Long): MessageWithPost {
             status.toString(),
             chatId,
             postId = post?.id,
-            attachment = attachment?.toLocal()
+            attachment = attachment?.toLocal(),
+            sharedGroup = sharedGroup?.toLocal(),
+            sharedUser = sharedUser?.toUserLocal()
         ),
         post = post?.toLocal()
     )

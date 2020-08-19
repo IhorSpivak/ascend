@@ -25,8 +25,14 @@ class ShareGroupViewHolder(
         with(binding) {
             member = memberEntity
             this.messageEntity = messageEntity
-            messageEntity.sharedGroup?.let {
-                groupModel = it
+            messageEntity.sharedGroup?.let { group ->
+                groupModel = group
+                community = group.community
+                theme = if (group.pastMeetingsCount == group.meetingsCount) {
+                    group.pastMeetingsCount?.let { group.themes?.get(it - 1) }
+                } else {
+                    group.pastMeetingsCount?.let { group.themes?.get(it) }
+                }
             }
         }
     }

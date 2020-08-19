@@ -84,7 +84,8 @@ fun GroupResponse.toEntity(): GroupEntity {
         pastMeetingsCount = pastMeetingsCount,
         dates = dates,
         themes = themes,
-        duration = duration
+        duration = duration,
+        community = community
     )
 }
 
@@ -198,7 +199,8 @@ fun GroupLocal.toEntity(): GroupEntity {
         pastMeetingsCount = pastMeetingsCount,
         dates = dates,
         themes = themes,
-        duration = duration
+        duration = duration,
+        community = community
     )
 }
 

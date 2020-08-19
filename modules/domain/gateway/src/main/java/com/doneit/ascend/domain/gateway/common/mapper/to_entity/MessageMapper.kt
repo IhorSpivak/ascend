@@ -49,7 +49,9 @@ fun MessageWithPost.toEntity(): MessageEntity {
         messageLocal.updatedAt?.let { Date(it) },
         status = messageLocal.status.toMessageStatus(),
         post = post?.toEntity(),
-        attachment = messageLocal.attachment?.toEntity()
+        attachment = messageLocal.attachment?.toEntity(),
+        sharedUser = messageLocal.sharedUser?.toUserEntity(),
+        sharedGroup = messageLocal.sharedGroup?.toEntity()
     )
 }
 

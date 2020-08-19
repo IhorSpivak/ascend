@@ -26,7 +26,6 @@ data class MessageResponse(
     val post: PostResponse?,
     @SerializedName("attachment")
     val attachment: MessageAttachmentResponse?,
-    //TODO: server is not ready, change values of serialized name:
     @SerializedName("user")
     val sharedUser: UserProfileResponse?,
     @SerializedName("group")

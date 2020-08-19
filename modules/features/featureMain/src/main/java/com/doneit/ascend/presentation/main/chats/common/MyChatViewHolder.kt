@@ -68,6 +68,24 @@ class MyChatViewHolder(
                         getMemberNameById(item, it.userId, user, binding.root.context)
                     )
                 }
+                MessageType.PROFILE_SHARE -> {
+                    itemView.message.text = binding.root.context.resources.getString(
+                        R.string.shared_message_profile,
+                        getMemberNameById(item, it.userId, user, binding.root.context)
+                    )
+                }
+                MessageType.ATTACHMENT -> {
+                    itemView.message.text = binding.root.context.resources.getString(
+                        R.string.shared_message_attachment,
+                        getMemberNameById(item, it.userId, user, binding.root.context)
+                    )
+                }
+                MessageType.GROUP_SHARE -> {
+                    itemView.message.text = binding.root.context.resources.getString(
+                        R.string.shared_message_group,
+                        getMemberNameById(item, it.userId, user, binding.root.context)
+                    )
+                }
                 else -> itemView.message.text = it.message
             }
         } ?: run {

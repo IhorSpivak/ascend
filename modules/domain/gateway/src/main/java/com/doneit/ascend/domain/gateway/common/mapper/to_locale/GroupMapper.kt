@@ -50,7 +50,8 @@ fun GroupEntity.toLocal(): GroupLocal {
         isPrivate = isPrivate,
         dates = dates,
         themes = themes,
-        duration = duration
+        duration = duration,
+        community = community
     )
 }
 

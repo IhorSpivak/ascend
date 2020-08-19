@@ -27,6 +27,7 @@ data class UserProfileResponse(
     @SerializedName("rated") val rated: Boolean?,
     @SerializedName("followed") val followed: Boolean?,
     @SerializedName("allow_rating") val allowRating: Boolean?,
+    @SerializedName("rating") val rating: Float?,
     @SerializedName("groups_count") val groupsCount: Int?,
     @SerializedName("followers_count") val followersCount: Int?,
     @SerializedName("my_rating") val myRating: Int?,

@@ -12,6 +12,9 @@ import com.doneit.ascend.presentation.main.databinding.ListItemOtherShareProfile
 class ProfileShareOtherViewHolder(
     itemView: View
 ) : BaseMessageHolder(itemView) {
+
+    private val binding: ListItemOtherShareProfileBinding = DataBindingUtil.getBinding(itemView)!!
+
     override fun bind(
         messageEntity: MessageEntity,
         nextMessage: MessageEntity?,
@@ -19,7 +22,10 @@ class ProfileShareOtherViewHolder(
         chatOwner: MemberEntity,
         currentUserId: Long
     ) {
-
+        with(binding) {
+            this.memberEntity = memberEntity
+            this.messageEntity = messageEntity
+        }
     }
 
     companion object {

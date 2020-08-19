@@ -34,5 +34,6 @@ data class GroupResponse(
     @SerializedName("past_meetings_count") val pastMeetingsCount: Int,
     @SerializedName("times") val dates: List<String>?,
     @SerializedName("themes") val themes: List<String>?,
-    @SerializedName("duration") val duration: Int
+    @SerializedName("duration") val duration: Int,
+    @SerializedName("community") val community: String?
 )
