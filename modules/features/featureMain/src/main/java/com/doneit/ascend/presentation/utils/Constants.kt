@@ -25,8 +25,8 @@ object Constants {
 
     const val SUPPORT_EMAIL = "support@ascend2u.com"
 
-    const val PRIVACY_POLICY = "https://support.ascend2u.com/en/article/privacy-policy"
-    const val TERMS_OF_USAGE = "https://support.ascend2u.com/en/article/terms-conditions "
+    const val PRIVACY_POLICY = "https://ascend-web-staging.herokuapp.com/privacy_policy"
+    const val TERMS_OF_USAGE = "https://ascend-web-staging.herokuapp.com/terms_conditions"
 
     const val AM = "AM"
     const val PM = "PM"

@@ -49,14 +49,14 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
         Log.d("CHECK_KEY_MESSAGE", p0.toString())
         p0.notification?.let {
 
-//            if (p0.data.containsKey(GROUP_KEY)) {
-//                sendNotification(it.title.orEmpty(), p0.data.getValue(GROUP_KEY).toLong())
-//                useCase.notificationReceived(p0.toEntity())
-//            }
-//            if (p0.data.containsKey(MESSAGE_KEY)) {
-//                sendNotification(it.title.orEmpty(), p0.data.getValue(GROUP_KEY).toLong())
-//            }
-            sendNotification(it.title.orEmpty())
+            if (p0.data.containsKey(GROUP_KEY)) {
+                sendNotificationWithClick(it.title.orEmpty(), p0.data.getValue(GROUP_KEY).toLong())
+                useCase.notificationReceived(p0.toEntity())
+            } else{
+                sendNotification(it.title.orEmpty())
+            }
+
+
 
         }
 
@@ -69,22 +69,20 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
         }
     }
 
-    private fun sendNotification(messageTitle: String) {
-
-//        //TODO: figure out how to show SplashActivity  in case of background app start:
-//        val intent = Intent(this, MainActivity::class.java)
-//        intent.putExtra(Constants.KEY_GROUP_ID, id)
-//        val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-//            PendingIntent.FLAG_UPDATE_CURRENT)
+    private fun sendNotificationWithClick(messageTitle: String, id: Long) {
+        //TODO: figure out how to show SplashActivity  in case of background app start:
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra(Constants.KEY_GROUP_ID, id)
+        val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-                //TODO: no icon for pushes:
             .setSmallIcon(R.drawable.ic_ascend_splash_logo)
             .setContentTitle(messageTitle)
             .setContentText(null)
             .setAutoCancel(true)
             .setSound(defaultSoundUri)
-//            .setContentIntent(pendingIntent)
+            .setContentIntent(pendingIntent)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -93,11 +91,31 @@ class AscendFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
         }
         notificationManager.notify(0, notificationBuilder.build())
     }
+
+    private fun sendNotification(messageTitle: String) {
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_ascend_splash_logo)
+            .setContentTitle(messageTitle)
+            .setContentText(null)
+            .setAutoCancel(true)
+            .setSound(defaultSoundUri)
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(channel)
+        }
+        notificationManager.notify(0, notificationBuilder.build())
+    }
+
     companion object{
         private const val CHANNEL_NAME = "ascend_notification"
         private const val CHANNEL_ID = "ascend_n"
-        private const val GROUP_KEY = "entity_id"
+        private const val GROUP_KEY = "group_id"
         private const val MESSAGE_KEY = "message"
+        private const val POST_KEY = "post_id"
 
 
 //        meeting_started
