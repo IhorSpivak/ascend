@@ -144,7 +144,8 @@ ext {
 
     def firebase = [
             messaging: "com.google.firebase:firebase-messaging:$firebase_version",
-            analitycs: "com.google.firebase:firebase-analytics:17.2.2"
+            analitycs: "com.google.firebase:firebase-analytics:17.2.2",
+            crashlytics: "com.google.firebase:firebase-crashlytics:17.2.1"
     ]
     def amazonaws = [
             sdk: "com.amazonaws:aws-android-sdk-mobile-client:$amazonaws_version",
@@ -183,6 +184,7 @@ ext {
 
             [configuration: "implementation", dependency: firebase.messaging],
             [configuration: "implementation", dependency: firebase.analitycs],
+            [configuration: "implementation", dependency: firebase.crashlytics],
 
             [configuration: "implementation", dependency: amazonaws.sdk],
             [configuration: "implementation", dependency: amazonaws.s3],
