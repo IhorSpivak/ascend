@@ -36,6 +36,9 @@ class PostDetailsViewModel(
     init {
         currentPost.value = post
         currentPostNullable.value = PostNullable.create(post)
+        currentPostNullable.addSource(currentPost) {
+            currentPostNullable.value = PostNullable.create(post)
+        }
         currentPost.addSource(commentsCount) {
             this.post.commentsCount = it
             currentPost.value = this.post
