@@ -2,10 +2,7 @@ package com.doneit.ascend.retrofit
 
 import android.content.Context
 import com.doneit.ascend.BuildConfig
-import com.doneit.ascend.retrofit.common.AuthInterceptor
-import com.doneit.ascend.retrofit.common.HeaderInterceptor
-import com.doneit.ascend.retrofit.common.RedirectInterceptor
-import com.doneit.ascend.retrofit.common.RetrofitConfig
+import com.doneit.ascend.retrofit.common.*
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -47,9 +44,10 @@ object RetrofitModule {
             builder.addInterceptor(instance<AuthInterceptor>())
             builder.addInterceptor(HeaderInterceptor())
 
-            if (BuildConfig.FLAVOR == "dev") {
+            if (BuildConfig.DEBUG) {
                 val loggingInterceptor = HttpLoggingInterceptor()
                 loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+                builder.addInterceptor(ContentTypeInterceptor(loggingInterceptor))
                 builder.addInterceptor(loggingInterceptor)
             }
 
