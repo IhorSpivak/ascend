@@ -68,6 +68,10 @@ class WebinarVideoChatRouter(
     ) {
     }
 
+    override fun navigateToDetails(group: GroupEntity) {
+        //not used
+    }
+
     override fun navigateToPreview(attachments: List<Attachment>, selected: Int) {
     }
 

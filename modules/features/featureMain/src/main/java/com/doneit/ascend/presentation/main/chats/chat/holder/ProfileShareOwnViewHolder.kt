@@ -6,11 +6,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.presentation.common.setOnSingleClickListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemOwnShareProfileBinding
 
 class ProfileShareOwnViewHolder(
-    itemView: View
+    itemView: View,
+    private val onProfileClick: (UserEntity) -> Unit
 ) : BaseMessageHolder(itemView) {
 
     private val binding: ListItemOwnShareProfileBinding = DataBindingUtil.getBinding(itemView)!!
@@ -24,12 +27,16 @@ class ProfileShareOwnViewHolder(
     ) {
         with(binding) {
             this.messageEntity = messageEntity
+            itemView.setOnSingleClickListener {
+                messageEntity.sharedUser?.let { user -> onProfileClick(user) }
+            }
         }
     }
 
     companion object {
         fun create(
-            parent: ViewGroup
+            parent: ViewGroup,
+            onProfileClick: (UserEntity) -> Unit
         ): ProfileShareOwnViewHolder {
             return ProfileShareOwnViewHolder(
                 DataBindingUtil.inflate<ListItemOwnShareProfileBinding>(
@@ -37,7 +44,8 @@ class ProfileShareOwnViewHolder(
                     R.layout.list_item_own_share_profile,
                     parent,
                     false
-                ).root
+                ).root,
+                onProfileClick
             )
         }
     }

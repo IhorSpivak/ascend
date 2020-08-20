@@ -8,6 +8,8 @@ import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.chats.MessageType
 import com.doneit.ascend.domain.entity.community_feed.Post
+import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.chats.chat.ChatFragment
 import com.doneit.ascend.presentation.main.chats.chat.holder.*
 import com.doneit.ascend.presentation.models.chat.ChatWithUser
@@ -19,7 +21,9 @@ class MessagesAdapter(
     private val onImageClick: (view: View, id: Long) -> Unit,
     private val onImageWebinarClick: (view: View, member: MemberEntity) -> Unit,
     private val previewAttachment: (MessageAttachment) -> Unit,
-    private val onSeeMoreClick: (Post) -> Unit
+    private val onSeeMoreClick: (Post) -> Unit,
+    private val onSharedProfileClick: (UserEntity) -> Unit,
+    private val onSharedGroupClick: (GroupEntity) -> Unit
 ) : PagedListAdapter<MessageEntity, BaseMessageHolder>(MessageDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseMessageHolder {
@@ -64,9 +68,15 @@ class MessagesAdapter(
                 parent,
                 previewAttachment
             )
-            Type.SHARE_GROUP.ordinal -> ShareGroupViewHolder.create(parent)
-            Type.SHARE_PROFILE_OWN.ordinal -> ProfileShareOwnViewHolder.create(parent)
-            Type.SHARE_PROFILE_OTHER.ordinal -> ProfileShareOtherViewHolder.create(parent)
+            Type.SHARE_GROUP.ordinal -> ShareGroupViewHolder.create(parent, onSharedGroupClick)
+            Type.SHARE_PROFILE_OWN.ordinal -> ProfileShareOwnViewHolder.create(
+                parent,
+                onSharedProfileClick
+            )
+            Type.SHARE_PROFILE_OTHER.ordinal -> ProfileShareOtherViewHolder.create(
+                parent,
+                onSharedProfileClick
+            )
             else -> throw IllegalArgumentException("Unsupported view type $viewType")
         }
     }

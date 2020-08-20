@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.entity.community_feed.Size
 import com.doneit.ascend.domain.entity.dto.MessageDTO
 import com.doneit.ascend.domain.entity.dto.MessageListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -222,6 +223,10 @@ class ChatViewModel(
 
     override fun showLiveStreamUser(member: MemberEntity) {
         router.goToLiveStreamUser(member)
+    }
+
+    override fun showGroup(group: GroupEntity) {
+        router.navigateToDetails(group)
     }
 
     override fun goToEditChannel(channel: ChatEntity) {

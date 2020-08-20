@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.dialog.*
 import com.doneit.ascend.presentation.dialog.common.CardsAdapter
-import com.doneit.ascend.presentation.main.BuildConfig
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.common.gone
@@ -121,7 +120,7 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
         binding.apply {
 
             btnShare.setOnClickListener {
-                shareTo(BuildConfig.BASE_URL + Constants.DEEP_LINK_GROUP_URL + viewModel.group.value!!.id)
+                shareTo(Constants.DEEP_LINK_GROUP_URL + viewModel.group.value!!.id)
             }
             mmDelete.setOnClickListener {
                 currentDialog = createDeleteDialog()

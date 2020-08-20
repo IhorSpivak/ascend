@@ -6,11 +6,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
+import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.presentation.common.setOnSingleClickListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemSharedGroupBinding
 
 class ShareGroupViewHolder(
-    itemView: View
+    itemView: View,
+    private val onSharedGroupClick: (GroupEntity) -> Unit
 ) : BaseMessageHolder(itemView) {
 
     private val binding: ListItemSharedGroupBinding = DataBindingUtil.getBinding(itemView)!!
@@ -18,6 +21,7 @@ class ShareGroupViewHolder(
     override fun bind(
         messageEntity: MessageEntity,
         nextMessage: MessageEntity?,
+
         memberEntity: MemberEntity,
         chatOwner: MemberEntity,
         currentUserId: Long
@@ -33,13 +37,18 @@ class ShareGroupViewHolder(
                 } else {
                     group.pastMeetingsCount?.let { group.themes?.get(it) }
                 }
+                itemView.setOnSingleClickListener {
+                    onSharedGroupClick(group)
+                }
             }
+
         }
     }
 
     companion object {
         fun create(
-            parent: ViewGroup
+            parent: ViewGroup,
+            onSharedGroupClick: (GroupEntity) -> Unit
         ): ShareGroupViewHolder {
             return ShareGroupViewHolder(
                 DataBindingUtil.inflate<ListItemSharedGroupBinding>(
@@ -47,7 +56,8 @@ class ShareGroupViewHolder(
                     R.layout.list_item_shared_group,
                     parent,
                     false
-                ).root
+                ).root,
+                onSharedGroupClick
             )
         }
     }

@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.dialog.ReportAbuseDialog
-import com.doneit.ascend.presentation.main.BuildConfig
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindInfoBinding
 import com.doneit.ascend.presentation.main.home.common.MMProfileTabAdapter
@@ -56,7 +55,7 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
             }.also { it.show() }
         }
         btnShare.setOnClickListener {
-            shareTo(BuildConfig.BASE_URL + Constants.DEEP_LINK_PROFILE_URL + viewModel.profile.value!!.id)
+            shareTo(Constants.DEEP_LINK_PROFILE_URL + viewModel.profile.value!!.id)
         }
 
         btnBack.setOnClickListener {

@@ -9,6 +9,7 @@ import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.dto.ChatType
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
 import com.doneit.ascend.presentation.main.chats.new_chat.add_members.AddMemberContract
@@ -31,6 +32,7 @@ interface ChatContract {
         fun onUnblockUserClick(member: MemberEntity)
         fun showDetailedUser(userId: Long)
         fun showLiveStreamUser(member: MemberEntity)
+        fun showGroup(group: GroupEntity)
         fun goToEditChannel(channel: ChatEntity)
         fun onDelete(message: MessageEntity)
         fun previewAttachment(attachment: MessageAttachment)
@@ -56,6 +58,7 @@ interface ChatContract {
             user: UserEntity
         )
 
+        fun navigateToDetails(group: GroupEntity)
         fun navigateToPreview(attachments: List<Attachment>, selected: Int)
         fun goToLiveStreamUser(member: MemberEntity)
     }

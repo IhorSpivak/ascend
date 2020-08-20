@@ -255,7 +255,6 @@ class MainRouter(
     }
 
     override fun navigateToDetails(group: GroupEntity) {
-        manager.popBackStack()
         replaceFullWithMainUpdate(GroupInfoFragment.newInstance(group.id))
     }
 

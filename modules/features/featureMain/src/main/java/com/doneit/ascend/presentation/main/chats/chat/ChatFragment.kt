@@ -120,7 +120,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                     previewFile(File(downloadsFolder, it.name).toUri())
                 }
             },
-            viewModel::showPostDetails
+            viewModel::showPostDetails,
+            { viewModel.showDetailedUser(it.id) },
+            { viewModel.showGroup(it) }
         )
     }
 
