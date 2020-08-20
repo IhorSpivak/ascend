@@ -119,13 +119,12 @@ import com.doneit.ascend.presentation.profile.rating.ProfileRatingsFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.age.AgeFragment
 import com.doneit.ascend.presentation.profile.regular_user.community.CommunityFragment
-import com.doneit.ascend.presentation.utils.Constants.PRIVACY_POLICY
-import com.doneit.ascend.presentation.utils.Constants.TERMS_OF_USAGE
 import com.doneit.ascend.presentation.utils.GroupAction
 import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import com.doneit.ascend.presentation.video_chat_webinar.WebinarVideoChatActivity
 import com.doneit.ascend.presentation.web_page.WebPageContract
+import com.doneit.ascend.presentation.web_page.WebPageFragment
 import com.vrgsoft.core.presentation.router.FragmentRouter
 import com.yalantis.ucrop.UCrop
 import com.doneit.ascend.presentation.main.home.channels.ChannelsContract as ChannelsContactTab
@@ -269,14 +268,6 @@ class MainRouter(
 
     override fun navigateToMyChats() {
         replaceFullWithMainUpdate(MyChatsFragment())
-    }
-
-    override fun navigateToTerms() {
-        activity.openLink(TERMS_OF_USAGE)
-    }
-
-    override fun navigateToPrivacyPolicy() {
-        activity.openLink(PRIVACY_POLICY)
     }
 
     override fun navigateToHome() {
@@ -434,10 +425,7 @@ class MainRouter(
     }
 
     override fun navigateToRatings() {
-        manager.replaceWithBackStack(
-            containerIdFull,
-            ProfileRatingsFragment()
-        )
+        manager.replaceWithBackStack(containerIdFull, ProfileRatingsFragment())
     }
 
     override fun navigateToChangePhone() {
@@ -460,10 +448,7 @@ class MainRouter(
     }
 
     override fun navigateToChangePassword() {
-        manager.replaceWithBackStack(
-            containerIdFull,
-            ChangePasswordFragment()
-        )
+        manager.replaceWithBackStack(containerIdFull, ChangePasswordFragment())
     }
 
     override fun navigateToEditEmail() {
@@ -478,10 +463,15 @@ class MainRouter(
     }
 
     override fun navigateToPayments(isMasterMind: Boolean) {
-        manager.replaceWithBackStack(
-            containerIdFull,
-            PaymentsFragment.newInstance(isMasterMind)
-        )
+        manager.replaceWithBackStack(containerIdFull, PaymentsFragment.newInstance(isMasterMind))
+    }
+
+    override fun navigateToTerms() {
+        manager.replaceWithBackStack(containerId,WebPageFragment.newInstance("Terms and Condition", "terms_and_conditions"))
+    }
+
+    override fun navigateToPrivacyPolicy() {
+        manager.replaceWithBackStack(containerIdFull, WebPageFragment.newInstance("Privacy Policy", "privacy_policy"))
     }
 
     override fun navigateToBlockedUsers() {

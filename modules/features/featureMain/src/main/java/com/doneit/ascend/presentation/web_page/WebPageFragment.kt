@@ -1,13 +1,10 @@
 package com.doneit.ascend.presentation.web_page
 
-import android.content.Intent
 import android.os.Bundle
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.text.Html
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
+import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentWebPageBinding
 import com.doneit.ascend.presentation.models.PresentationMessage
 import com.doneit.ascend.presentation.utils.Messages
@@ -17,7 +14,7 @@ import com.doneit.ascend.presentation.web_page.common.WebPageArgs
 import kotlinx.android.synthetic.main.fragment_web_page.*
 import org.kodein.di.generic.instance
 
-class WebPageFragment : ArgumentedFragment<FragmentWebPageBinding, WebPageArgs>() {
+class WebPageFragment : BaseFragment<FragmentWebPageBinding>() {
 
     override val viewModelModule = WebPageViewModelModule.get(this)
     override val viewModel: WebPageContract.ViewModel by instance()
@@ -25,36 +22,23 @@ class WebPageFragment : ArgumentedFragment<FragmentWebPageBinding, WebPageArgs>(
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
         binding.executePendingBindings()
+        viewModel.getPage(WebPageArgs(requireArguments().getString(PAGE_TITLE).toString(), requireArguments().getString(PAGE_TYPE).toString()))
 
-        wvContent.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
-                return true
-            }
-
-            override fun shouldOverrideUrlLoading(
-                view: WebView,
-                request: WebResourceRequest
-            ): Boolean {
-                val intent = Intent(Intent.ACTION_VIEW, request.url)
-                view.context.startActivity(intent)
-                return true
-            }
-        }
-
-        val webSetting = wvContent.settings
-        webSetting.javaScriptEnabled = false
-        webSetting.displayZoomControls = true
 
         viewModel.content.observe(this, Observer {
             it?.let { pageIt ->
-                wvContent.loadData(pageIt.content, "text/html;", "UTF-8")
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    page_content.text = (Html.fromHtml(pageIt.content,Html.FROM_HTML_MODE_LEGACY));
+                } else {
+                    page_content.text = Html.fromHtml(pageIt.content);
+                }
             }
         })
 
         imBack.setOnClickListener {
             viewModel.onBackClick()
         }
+
     }
 
     override fun handleSuccessMessage(message: PresentationMessage) {
@@ -75,4 +59,21 @@ class WebPageFragment : ArgumentedFragment<FragmentWebPageBinding, WebPageArgs>(
             }
         }
     }
+
+    companion object {
+        const val PAGE_TYPE = "PAGE_TYPE"
+        const val PAGE_TITLE = "PAGE_TITLE"
+
+
+        fun newInstance(title: String?, page_type: String?): WebPageFragment {
+            val fragment = WebPageFragment()
+            fragment.arguments = Bundle().apply {
+                putString(PAGE_TITLE, title)
+                putString(PAGE_TYPE, page_type)
+            }
+            return fragment
+        }
+
+    }
+
 }
