@@ -44,7 +44,7 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
     }
 
     private val groupType: GroupType? by lazy {
-        requireArguments().getSerializable(KEY_GROUP_TYPE) as GroupType
+        requireArguments().getSerializable(KEY_GROUP_TYPE) as? GroupType
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {

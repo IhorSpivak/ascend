@@ -69,7 +69,7 @@ class CreateSupGroupFragment :
 
     private val meetingTypesAdapter by lazy {
         MeetingFormatsAdapter(
-            context!!.resources.getStringArray(
+            resources.getStringArray(
                 R.array.meeting_formats
             )
         )
@@ -86,7 +86,7 @@ class CreateSupGroupFragment :
             val removedIndex = viewModel.removeMember(it)
             if (removedIndex != -1) {
                 membersAdapter.remove(removedIndex)
-                if(membersAdapter.itemCount < 50){
+                if (membersAdapter.itemCount < 50) {
                     add_member_container.visibility = View.VISIBLE
                 }
 
@@ -105,16 +105,15 @@ class CreateSupGroupFragment :
         GroupAction.values().forEach {
             if (requireArguments().containsKey(it.toString())) {
                 group = requireArguments().getParcelable(it.toString())
-                if (group != null) {
+                group?.let { group ->
                     what = it.toString()
-                    viewModel.loadParticipants(group!!.id, what.orEmpty())
+                    viewModel.loadParticipants(group.id, what.orEmpty())
                 }
             }
         }
         binding.apply {
             model = viewModel
             adapter = adapter
-
             actionTitle = if (what == null) {
                 getString(R.string.create_create)
             } else {
@@ -155,7 +154,7 @@ class CreateSupGroupFragment :
             applyMultilineFilter(description)
         }
         viewModel.members.observe(this, Observer {
-            if(it.size > 49){
+            if (it.size > 49) {
                 add_member_container.visibility = View.GONE
             }
             viewModel.createGroupModel.participants.set(it.map {
@@ -410,7 +409,11 @@ class CreateSupGroupFragment :
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 if (p2 > 0) {
-                    viewModel.createGroupModel.tags.observableField.set((viewModel.tags.value?.get(p2 - 1)?.id ?: 0).toString())
+                    viewModel.createGroupModel.tags.observableField.set(
+                        (viewModel.tags.value?.get(
+                            p2 - 1
+                        )?.id ?: 0).toString()
+                    )
                     binding.tagHint.visible()
                 }
             }

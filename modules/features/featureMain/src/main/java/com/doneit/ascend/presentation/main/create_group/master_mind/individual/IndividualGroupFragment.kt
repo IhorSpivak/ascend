@@ -2,9 +2,7 @@ package com.doneit.ascend.presentation.main.create_group.master_mind.individual
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -14,7 +12,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
 import android.widget.SpinnerAdapter
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
@@ -25,7 +22,6 @@ import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
-import com.doneit.ascend.presentation.main.create_group.CreateGroupHostFragment
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.Duration
 import com.doneit.ascend.presentation.main.create_group.master_mind.common.InvitedMembersAdapter
@@ -68,7 +64,6 @@ class IndividualGroupFragment(
         }
     }
 
-    private var tempUri: Uri? = null
     private var currentPhotoPath: String? = null
     override val viewModel: IndividualGroupContract.ViewModel by instance()
 
@@ -194,7 +189,7 @@ class IndividualGroupFragment(
 
     private fun selectFromGallery() {
         hideKeyboard()
-        EzPermission.with(context!!)
+        EzPermission.with(requireContext())
             .permissions(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -212,7 +207,7 @@ class IndividualGroupFragment(
 
     private fun takeAPhoto() {
         hideKeyboard()
-        EzPermission.with(context!!)
+        EzPermission.with(requireContext())
             .permissions(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -229,7 +224,7 @@ class IndividualGroupFragment(
                         ).apply {
                             currentPhotoPath = absolutePath
                         }.also {file ->
-                            FileProvider.getUriForFile(context!!, "com.doneit.ascend.fileprovider", file)?.also {
+                            FileProvider.getUriForFile(requireContext(), "com.doneit.ascend.fileprovider", file)?.also {
                                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
                                 startActivityForResult(cameraIntent,
                                     PHOTO_REQUEST_CODE
@@ -266,7 +261,7 @@ class IndividualGroupFragment(
                         sourcePath
                     ).let {
                         if (it.isEmpty()) {
-                            context!!.copyToStorage(sourcePath)
+                            requireContext().copyToStorage(sourcePath)
                         } else {
                             it
                         }
@@ -299,10 +294,5 @@ class IndividualGroupFragment(
     companion object {
         private const val GALLERY_REQUEST_CODE = 42
         private const val PHOTO_REQUEST_CODE = 43
-        private fun Context.hasPermissions(): Boolean{
-            return (PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, CreateGroupHostFragment.PERMISSIONS[0]) &&
-                    PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, CreateGroupHostFragment.PERMISSIONS[1]) &&
-                    PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, CreateGroupHostFragment.PERMISSIONS[2]))
-        }
     }
 }

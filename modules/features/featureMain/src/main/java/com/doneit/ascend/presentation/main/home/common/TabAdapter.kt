@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.doneit.ascend.domain.entity.user.UserEntity
-import com.doneit.ascend.presentation.main.home.channels.ChannelsFragment
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedFragment
 import com.doneit.ascend.presentation.main.home.daily.DailyFragment
 import com.doneit.ascend.presentation.main.home.groups.GroupsFragment
@@ -36,7 +35,7 @@ class TabAdapter(
                 {DailyFragment()},
                 {WebinarsFragment()},
                 {CommunityFeedFragment.newInstance(userEntity)},
-                {GroupsFragment()},
+                {GroupsFragment.newInstance()},
                 {MasterMindFragment()}
             )
 

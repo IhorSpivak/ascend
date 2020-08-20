@@ -1,6 +1,5 @@
 package com.doneit.ascend.presentation.main.create_group
 
-import android.Manifest
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -53,25 +52,16 @@ class CreateGroupHostFragment : BaseFragment<FragmentHostCreateGroupBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         GroupAction.values().forEach {
-            if (arguments!!.containsKey(it.toString())){
-                group = arguments!!.getParcelable(it.toString())
+            if (requireArguments().containsKey(it.toString())){
+                group = requireArguments().getParcelable(it.toString())
                 if (group != null){
                     what = it.toString()
                 }
             }
         }
-        val args = arguments!!.getParcelable<CreateGroupArgs>(ArgumentedFragment.KEY_ARGS)!!
+        val args = requireArguments().getParcelable<CreateGroupArgs>(ArgumentedFragment.KEY_ARGS)!!
         viewModel.handleBaseNavigation(args, group, what)
     }
 
     fun getContainerId() = R.id.container
-
-    companion object{
-        const val REQUEST_PERMISSION = 0
-        val PERMISSIONS = arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
-        )
-    }
 }
