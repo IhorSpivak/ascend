@@ -8,27 +8,39 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateHorGroupItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
+import com.doneit.ascend.presentation.utils.convertGroupTypeToString
 
 class GroupHorViewHolder(
     private val binding: TemplateHorGroupItemBinding
 ) : SearchViewHolder(binding.root) {
 
-    fun bind(item: GroupEntity, user: UserEntity?, onButtonClick: (GroupEntity) -> Unit, communityGroup: String?) {
+    fun bind(
+        item: GroupEntity,
+        user: UserEntity?,
+        onButtonClick: (GroupEntity) -> Unit,
+        communityGroup: String?
+    ) {
         binding.apply {
             this.item = item
-            if (communityGroup == null || communityGroup.isEmpty()) {
-                community = user?.community
-            }else{
-                community = communityGroup
+            community = if (communityGroup == null || communityGroup.isEmpty()) {
+                user?.community
+            } else {
+                communityGroup
             }
             this.user = user
-            theme = if (item.pastMeetingsCount == item.meetingsCount){
+            groupTypeText = convertGroupTypeToString(
+                itemView.context,
+                user?.community ?: communityGroup.orEmpty(),
+                item.groupType,
+                item.isPrivate
+            )
+            theme = if (item.pastMeetingsCount == item.meetingsCount) {
                 item.pastMeetingsCount?.let { item.themes?.get(it - 1) }
-            }else{
+            } else {
                 item.pastMeetingsCount?.let { item.themes?.get(it) }
             }
         }
-        if(user == null) {
+        if (user == null) {
             hideButtons()
         } else {
             binding.apply {

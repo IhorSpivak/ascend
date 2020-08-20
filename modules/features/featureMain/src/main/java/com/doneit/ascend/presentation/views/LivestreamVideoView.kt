@@ -9,17 +9,16 @@ open class LivestreamVideoView : VideoView {
     private var mForceHeight = 0
     private var mForceWidth = 0
 
-    constructor(context: Context?) : super(context) {}
-    constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0) {}
+    constructor(context: Context?) : super(context)
+    constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context?, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
         defStyle
-    ) {
-    }
+    )
 
     fun setDimensions(orientation: Int, width: Int, height: Int) {
-        mForceWidth = if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        mForceWidth = if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             height * height / width
         } else {
             width
@@ -28,6 +27,6 @@ open class LivestreamVideoView : VideoView {
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        setMeasuredDimension(mForceWidth, mForceHeight);
+        setMeasuredDimension(mForceWidth, mForceHeight)
     }
 }

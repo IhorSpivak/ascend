@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.doneit.ascend.domain.entity.group.GroupType"/>
-        <import type="com.doneit.ascend.domain.entity.group.GroupStatus"/>
+
+        <import type="com.doneit.ascend.domain.entity.group.GroupType" />
+
+        <import type="com.doneit.ascend.domain.entity.group.GroupStatus" />
+
         <variable
             name="item"
             type="com.doneit.ascend.domain.entity.group.GroupEntity" />
@@ -21,6 +24,7 @@
         <variable
             name="community"
             type="String" />
+
         <variable
             name="user"
             type="com.doneit.ascend.domain.entity.user.UserEntity" />
@@ -29,14 +33,18 @@
             name="theme"
             type="String" />
 
+        <variable
+            name="groupTypeText"
+            type="String" />
+
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="16dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="4dp">
 
@@ -52,22 +60,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:setImage="@{item.image.url}"
-                app:placeholder="@{@drawable/group_item_placeholder}"/>
+                app:placeholder="@{@drawable/group_item_placeholder}"
+                app:setImage="@{item.image.url}" />
 
             <TextView
+                style="@style/TextNormal.White"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
-                android:padding="4dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/bg_shadow_rounded"
-                style="@style/TextNormal.White"
-                android:textSize="12sp"
+                android:padding="4dp"
                 android:text="@{community}"
-                tools:text="Recovery"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Recovery" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/dateTimeBox"
@@ -157,8 +165,8 @@
                 android:id="@+id/group_type_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/ownerName"
-                app:layout_constraintStart_toStartOf="@id/ivOwnerImage">
+                app:layout_constraintStart_toStartOf="@id/ivOwnerImage"
+                app:layout_constraintTop_toBottomOf="@id/ownerName">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/tvMMGContainer"
@@ -169,9 +177,9 @@
                     android:background="@drawable/bg_r4_519f"
                     android:orientation="horizontal"
                     android:visibility="@{item.groupType == GroupType.MASTER_MIND || item.groupType == GroupType.INDIVIDUAL, default=gone}"
+                    app:layout_constraintBottom_toTopOf="@id/support_tag"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/support_tag">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/tvInividual"
@@ -194,7 +202,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="4dp"
-                        android:text="@string/master_mind_group"
+                        android:text="@{groupTypeText}"
                         android:textSize="12sp"
                         android:visibility="@{item.groupType == GroupType.MASTER_MIND || item.groupType == GroupType.INDIVIDUAL, default = gone}"
                         app:layout_constraintStart_toEndOf="@id/tvInividual"
@@ -207,14 +215,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
                     android:background="@drawable/bg_r4_9dc0"
                     android:orientation="horizontal"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
                     android:visibility="@{item.groupType == GroupType.SUPPORT, default=gone}"
+                    app:layout_constraintBottom_toTopOf="@id/support_tag"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/support_tag">
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/tvSupportPrivate"
@@ -229,7 +237,7 @@
                         android:textSize="12sp"
                         android:visibility="@{item.private, default=gone}"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tvSupportMarker"
@@ -237,10 +245,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="4dp"
-                        android:text="@string/support_group"
+                        android:text="@{groupTypeText}"
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@id/tvSupportPrivate"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tvSupportMarkerType"
@@ -252,36 +260,37 @@
                         android:text="@{@string/support_group_type(item.meetingFormat)}"
                         android:textSize="12sp"
                         app:layout_constraintStart_toEndOf="@id/tvSupportMarker"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/tvWebinarMarker"
+                    style="@style/TextNormal.White"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_r4_4b39"
                     android:padding="4dp"
-                    style="@style/TextNormal.White"
-                    android:textSize="12sp"
                     android:text="@string/webinars"
+                    android:textSize="12sp"
                     android:visibility="@{item.groupType == GroupType.WEBINAR, default = gone}"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:background="@drawable/bg_r4_4b39"/>
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
                     android:id="@+id/meetings"
+                    style="@style/TextNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:padding="4dp"
-                    style="@style/TextNormal"
                     android:textSize="12sp"
-                    app:text="@{@string/meetings_count_with_theme(item.pastMeetingsCount, item.meetingsCount, theme)}"
                     android:visibility="@{item.groupType == GroupType.WEBINAR, default = gone}"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvWebinarMarker"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:text="@{@string/meetings_count_with_theme(item.pastMeetingsCount, item.meetingsCount, theme)}" />
 
                 <TextView
                     android:id="@+id/support_tag"
@@ -290,12 +299,12 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_r4_519f"
                     android:padding="4dp"
-                    android:textSize="12sp"
                     android:text="@{item.tag.tag}"
                     android:textColor="@android:color/white"
+                    android:textSize="12sp"
                     android:visibility="@{item.groupType == GroupType.SUPPORT, default=gone}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.Barrier
@@ -303,7 +312,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="group_type_container"/>
+                app:constraint_referenced_ids="group_type_container" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -319,13 +328,13 @@
                     style="@style/TextNormal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="20dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/button_join_background"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
                     android:text="@string/join_to_discussion"
                     android:textAllCaps="true"
                     android:textSize="24sp"
@@ -336,18 +345,18 @@
                     style="@style/TextNormal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="20dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/button_start_background"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
                     android:text="@{item.groupType == GroupType.WEBINAR? @string/start_webinar : @string/start_group}"
                     android:textAllCaps="true"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
-                    android:visibility="@{item.owner.id == user.id &amp;&amp; item.starting &amp;&amp; item.status == GroupStatus.ACTIVE}"/>
+                    android:visibility="@{item.owner.id == user.id &amp;&amp; item.starting &amp;&amp; item.status == GroupStatus.ACTIVE}" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
