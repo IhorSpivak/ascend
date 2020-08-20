@@ -20,7 +20,7 @@ class WebPageViewModel(
     override val title = MutableLiveData<String>()
     override val content = MutableLiveData<PageEntity>()
 
-    override fun applyArguments(args: WebPageArgs) {
+    override fun getPage(args: WebPageArgs) {
         title.postValue(args.title)
 
         GlobalScope.launch {
@@ -35,7 +35,12 @@ class WebPageViewModel(
         }
     }
 
+
     override fun onBackClick() {
         router.onBack()
+    }
+
+    override fun applyArguments(args: WebPageArgs) {
+        TODO("Not yet implemented")
     }
 }

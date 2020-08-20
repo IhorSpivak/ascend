@@ -10,6 +10,8 @@ interface WebPageContract {
         val title: LiveData<String>
         val content: LiveData<PageEntity>
 
+        fun getPage(args: WebPageArgs)
+
         fun onBackClick()
     }
 

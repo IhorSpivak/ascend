@@ -15,12 +15,11 @@ import com.doneit.ascend.presentation.login.sign_up.SignUpContract
 import com.doneit.ascend.presentation.login.sign_up.SignUpFragment
 import com.doneit.ascend.presentation.login.sign_up.verify_phone.VerifyPhoneFragment
 import com.doneit.ascend.presentation.login.utils.LoginHelper
-import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.Constants.RC_SIGN_IN
-import com.doneit.ascend.presentation.utils.extensions.openLink
 import com.doneit.ascend.presentation.utils.extensions.replace
 import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.web_page.WebPageContract
+import com.doneit.ascend.presentation.web_page.WebPageFragment
 import com.vrgsoft.core.presentation.fragment.argumented.ArgumentedFragment
 
 class LogInLocalRouter(
@@ -51,11 +50,11 @@ class LogInLocalRouter(
     }
 
     override fun navigateToTerms() {
-        activity.openLink(Constants.TERMS_OF_USAGE)
+        activity.supportFragmentManager.replaceWithBackStack(R.id.container,  WebPageFragment.newInstance("Terms and Condition", "terms_and_conditions"))
     }
 
     override fun navigateToPrivacyPolicy() {
-        activity.openLink(Constants.PRIVACY_POLICY)
+        activity.supportFragmentManager.replaceWithBackStack(R.id.container,  WebPageFragment.newInstance("Privacy Policy", "privacy_policy"))
     }
 
     override fun navigateToNewPassword(phone: String) {
