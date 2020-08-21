@@ -9,6 +9,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeBinding
 import com.doneit.ascend.presentation.main.home.common.TabAdapter
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import org.kodein.di.generic.instance
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -30,6 +31,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
+        hideKeyboard()
         listener?.apply {
             setSearchEnabled(true)
             setFilterEnabled(false)
