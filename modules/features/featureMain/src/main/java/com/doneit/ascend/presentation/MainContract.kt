@@ -9,12 +9,13 @@ import com.doneit.ascend.presentation.models.PresentationCommunityModel
 import com.vrgsoft.networkmanager.livedata.SingleLiveEvent
 
 interface MainContract {
-    interface ViewModel: BaseViewModel {
+    interface ViewModel : BaseViewModel {
         val hasUnread: LiveData<Boolean>
         val hasUnreadMessages: LiveData<Boolean>
         val isMasterMind: LiveData<Boolean>
         val communities: LiveData<List<PresentationCommunityModel>>
         val userShare: SingleLiveEvent<UserEntity>
+        val user: LiveData<UserEntity?>
 
         fun saveCommunity(community: String)
         fun getUnreadMessageCount()

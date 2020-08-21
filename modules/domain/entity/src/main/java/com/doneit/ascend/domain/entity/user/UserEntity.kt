@@ -36,6 +36,9 @@ data class UserEntity(
     val isMasterMind: Boolean,
     val community: String?,
     val visitedGroupCount: Int,
+    val haveSubscription: Boolean,
+    val subscriptionTrial: Boolean,
+    val subscriptionCanceled: Boolean,
     val birthday: Date?,
     val created_channels_count: Int,
     val communities: List<String>?

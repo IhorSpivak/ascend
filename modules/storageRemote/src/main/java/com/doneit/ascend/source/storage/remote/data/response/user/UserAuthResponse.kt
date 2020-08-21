@@ -32,5 +32,8 @@ data class UserAuthResponse(
     @SerializedName("role") val role: String?,
     @SerializedName("community") val community: String?,
     @SerializedName("created_channels_count") val created_channels_count: Int?,
-    @SerializedName("communities") val communities: List<String>?
+    @SerializedName("communities") val communities: List<String>?,
+    @SerializedName("have_subscription") val haveSubscription: Boolean?,
+    @SerializedName("subscription_trial") val subscriptionTrial: Boolean?,
+    @SerializedName("subscription_cancelled") val subscriptionCanceled: Boolean?
 )

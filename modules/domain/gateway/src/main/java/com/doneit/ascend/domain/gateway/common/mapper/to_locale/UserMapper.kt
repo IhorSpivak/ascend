@@ -45,7 +45,11 @@ fun UserEntity.toUserLocal(): UserLocal {
         groupsCount = groupsCount,
         myRating = myRating,
         created_channels_count = created_channels_count,
-        followersCount = followersCount
+        followersCount = followersCount,
+        haveSubscription = haveSubscription,
+        subscriptionTrial = subscriptionTrial,
+        subscriptionCanceled = subscriptionCanceled
+
     )
 }
 
@@ -81,8 +85,10 @@ fun UserLocal.merge(newModel: UserProfileResponse): UserLocal {
         groupsCount = groupsCount,
         myRating = myRating,
         created_channels_count = newModel.created_channels_count ?: 0,
-        followersCount = followersCount
-
+        followersCount = followersCount,
+        haveSubscription = haveSubscription,
+        subscriptionTrial = subscriptionTrial,
+        subscriptionCanceled = subscriptionCanceled
     )
 }
 
@@ -118,7 +124,10 @@ fun UserLocal.merge(newModel: UserAuthResponse): UserLocal {
         groupsCount = groupsCount,
         myRating = myRating,
         created_channels_count = newModel.created_channels_count ?: 0,
-        followersCount = followersCount
+        followersCount = followersCount,
+        haveSubscription = newModel.haveSubscription ?: false,
+        subscriptionTrial = newModel.subscriptionTrial ?: false,
+        subscriptionCanceled = newModel.subscriptionCanceled ?: false
     )
 }
 

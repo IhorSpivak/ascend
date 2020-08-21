@@ -37,5 +37,8 @@ data class UserLocal(
     val community: String? = "",
     val birthday: String? = "",
     val created_channels_count: Int,
-    val communities: List<String>?
+    val communities: List<String>?,
+    val haveSubscription: Boolean,
+    val subscriptionTrial: Boolean,
+    val subscriptionCanceled: Boolean
 )

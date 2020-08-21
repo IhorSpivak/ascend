@@ -59,36 +59,36 @@
                         app:layout_constraintTop_toTopOf="@id/btbNotification" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <Spinner
                             android:id="@+id/communityDropDown"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:overlapAnchor="false"
                             android:background="@color/colorWhite"
-                            android:spinnerMode="dropdown"
                             android:dropDownWidth="wrap_content"
                             android:dropDownVerticalOffset="12dp"
                             android:gravity="center"
+                            android:overlapAnchor="false"
+                            android:spinnerMode="dropdown"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvTitle"
+                            style="@style/Title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            style="@style/Title"
-                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -154,8 +154,8 @@
                         android:paddingTop="15dp"
                         android:paddingEnd="8dp"
                         android:paddingBottom="15dp"
-                        android:tint="@color/light_gray_8f"
                         android:src="@drawable/ic_arrow_share"
+                        android:tint="@color/light_gray_8f"
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btnShare"
@@ -183,9 +183,9 @@
                         android:id="@+id/hasChatMessages"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_unread_indicator"
-                        android:layout_marginBottom="14dp"
                         android:layout_marginEnd="14dp"
+                        android:layout_marginBottom="14dp"
+                        android:src="@drawable/ic_unread_indicator"
                         android:visibility="@{model.hasUnreadMessages, default = gone}"
                         app:layout_constraintBottom_toBottomOf="@id/btnChat"
                         app:layout_constraintEnd_toEndOf="@id/btnChat" />
@@ -240,12 +240,12 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <androidx.cardview.widget.CardView
-            android:visibility="@{model.isMasterMind, default = gone}"
             android:id="@+id/fabCreateGroup"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="16dp"
+            android:visibility="@{model.isMasterMind &amp;&amp; model.user != null &amp;&amp; model.user.haveSubscription, default = gone}"
             app:cardBackgroundColor="@color/selector_btn_enabled"
             app:cardCornerRadius="28dp"
             app:cardElevation="4dp"

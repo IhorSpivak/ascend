@@ -17,80 +17,86 @@ import com.vrgsoft.core.gateway.orZero
 
 fun AuthResponse.toEntity(): AuthEntity {
     return AuthEntity(
-        token,
-        user.toEntity()
+        token = token,
+        userEntity = user.toEntity()
     )
 }
 
 fun UserAuthResponse.toEntity(): UserEntity {
     return UserEntity(
-        id,
-        fullName,
-        email,
-        phone,
-        location,
-        createdAt?.toDate(),
-        updatedAt?.toDate(),
-        meetingStarted,
-        newGroups,
-        inviteToMeeting,
-        RegistrationType.REGULAR,
-        unansweredQuestions?.size ?: 0,
-        unreadNotificationsCount ?: 0,
-        blockedUsersCount ?: 0,
-        image?.toEntity(),
-        displayName,
-        description,
-        bio,
-        rating,
-        rated ?: false,
-        myRating,
-        followed ?: false,
-        followersCount ?: 0,
-        allowRating ?: false,
-        groupsCount.orZero(),
-        role == MM_ROLE,
-        community,
-        visitedGroupsCount ?: 0,
-        getDefaultCalendar().time,
-        created_channels_count ?: 0,
-        communities
+        id = id,
+        fullName = fullName,
+        email = email,
+        phone = phone,
+        location = location,
+        createdAt = createdAt?.toDate(),
+        updatedAt = updatedAt?.toDate(),
+        meetingStarted = meetingStarted,
+        newGroups = newGroups,
+        inviteToMeeting = inviteToMeeting,
+        registrationType = RegistrationType.REGULAR,
+        unansweredQuestionsCount = unansweredQuestions?.size ?: 0,
+        unreadNotificationsCount = unreadNotificationsCount ?: 0,
+        blockedUsersCount = blockedUsersCount ?: 0,
+        image = image?.toEntity(),
+        displayName = displayName,
+        description = description,
+        bio = bio,
+        rating = rating,
+        rated = rated ?: false,
+        myRating = myRating,
+        followed = followed ?: false,
+        followersCount = followersCount ?: 0,
+        allowRating = allowRating ?: false,
+        groupsCount = groupsCount.orZero(),
+        isMasterMind = role == MM_ROLE,
+        community = community,
+        visitedGroupCount = visitedGroupsCount ?: 0,
+        birthday = getDefaultCalendar().time,
+        created_channels_count = created_channels_count ?: 0,
+        communities = communities,
+        haveSubscription = haveSubscription ?: false,
+        subscriptionTrial = subscriptionTrial ?: false,
+        subscriptionCanceled = subscriptionCanceled ?: false
     )
 }
 
 fun UserProfileResponse.toEntity(): UserEntity {
     return UserEntity(
-        id,
-        fullName,
-        email,
-        phone,
-        location,
-        createdAt?.toDate(),
-        updatedAt?.toDate(),
-        meetingStarted,
-        newGroups,
-        inviteToMeeting,
-        RegistrationType.fromRemoteString(socialType),
-        unansweredQuestions?.size ?: 0,
-        unreadNotificationsCount ?: 0,
-        blockedUsersCount ?: 0,
-        image?.toEntity(),
-        null,
-        description,
-        null,
-        rating,
-        rated ?: false,
-        myRating,
-        followed ?: false,
-        followersCount ?: 0,
-        allowRating ?: false,
-        groupsCount.orZero(),
-        role == MM_ROLE,
-        community,
-        visitedGroupsCount,
-        birthday?.toDate(),
-        created_channels_count ?: 0,
-        communities = communities
+        id = id,
+        fullName = fullName,
+        email = email,
+        phone = phone,
+        location = location,
+        createdAt = createdAt?.toDate(),
+        updatedAt = updatedAt?.toDate(),
+        meetingStarted = meetingStarted,
+        newGroups = newGroups,
+        inviteToMeeting = inviteToMeeting,
+        registrationType = RegistrationType.fromRemoteString(socialType),
+        unansweredQuestionsCount = unansweredQuestions?.size ?: 0,
+        unreadNotificationsCount = unreadNotificationsCount ?: 0,
+        blockedUsersCount = blockedUsersCount ?: 0,
+        image = image?.toEntity(),
+        displayName = null,
+        description = description,
+        bio = null,
+        rating = rating,
+        rated = rated ?: false,
+        myRating = myRating,
+        followed = followed ?: false,
+        followersCount = followersCount ?: 0,
+        allowRating = allowRating ?: false,
+        groupsCount = groupsCount.orZero(),
+        isMasterMind = role == MM_ROLE,
+        community = community,
+        visitedGroupCount = visitedGroupsCount,
+        birthday = birthday?.toDate(),
+        created_channels_count = created_channels_count ?: 0,
+        communities = communities,
+        haveSubscription = haveSubscription ?: false,
+        subscriptionTrial = subscriptionTrial ?: false,
+        subscriptionCanceled = subscriptionCanceled ?: false
     )
 }
 
@@ -126,26 +132,29 @@ fun UserLocal.toUserEntity(): UserEntity {
         allowRating = allowRating,
         groupsCount = groupsCount,
         created_channels_count = created_channels_count,
-        followersCount = followersCount
+        followersCount = followersCount,
+        haveSubscription = haveSubscription,
+        subscriptionTrial = subscriptionTrial,
+        subscriptionCanceled = subscriptionCanceled
     )
 }
 
 fun RateResponse.toEntity(): RateEntity {
     return RateEntity(
-        value,
-        userId,
-        fullName,
-        image.toEntity(),
-        createdAt.toDate()!!,
-        updatedAt.toDate()
+        value = value,
+        userId = userId,
+        fullName = fullName,
+        image = image.toEntity(),
+        createdAt = createdAt.toDate()!!,
+        updatedAt = updatedAt.toDate()
     )
 }
 
 fun SearchUsersResponse.toEntity(): AttendeeEntity {
     return AttendeeEntity(
-        id,
-        fullName,
-        email,
-        image?.url
+        id = id,
+        fullName = fullName,
+        email = email,
+        imageUrl = image?.url
     )
 }

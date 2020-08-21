@@ -37,7 +37,7 @@ class MainViewModel(
     override val isMasterMind = MutableLiveData<Boolean>(false)
     override val communities = MutableLiveData<List<PresentationCommunityModel>>()
     override val userShare = SingleLiveEvent<UserEntity>()
-    private val user = MutableLiveData<UserEntity?>()
+    override val user = MutableLiveData<UserEntity?>()
     private val localUser = userUseCase.getUserLive()
     private val userObserver: Observer<UserEntity?> = Observer {
         it?.let {
