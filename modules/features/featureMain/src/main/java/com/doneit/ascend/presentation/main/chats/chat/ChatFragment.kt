@@ -327,6 +327,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private fun getMediaIntent(): Intent {
         return Intent.createChooser(
             Intent(Intent.ACTION_GET_CONTENT).apply {
+                putExtra(Intent.EXTRA_LOCAL_ONLY, true)
                 type = MIME_TYPE_IMAGE
             }, getString(R.string.select_from_gallery)
         )
@@ -335,6 +336,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private fun getVideoIntent(): Intent {
         return Intent.createChooser(
             Intent(Intent.ACTION_GET_CONTENT).apply {
+                putExtra(Intent.EXTRA_LOCAL_ONLY, true)
                 type = MIME_TYPE_VIDEO
             }, getString(R.string.take_video)
         )
@@ -343,6 +345,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private fun getFileIntent(): Intent {
         return Intent.createChooser(
             Intent(Intent.ACTION_GET_CONTENT).apply {
+                putExtra(Intent.EXTRA_LOCAL_ONLY, true)
                 type = MIME_TYPE_ALL
             }, getString(R.string.take_file)
         )
