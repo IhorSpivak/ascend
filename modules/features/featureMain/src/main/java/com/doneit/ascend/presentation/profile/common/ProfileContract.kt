@@ -14,6 +14,7 @@ import com.vrgsoft.networkmanager.livedata.SingleLiveManager
 interface ProfileContract {
     interface ViewModel : BaseViewModel {
 
+        val email: LiveData<String>
         val user: LiveData<PresentationUserModel?>
         val showPhotoDialog: SingleLiveManager<Unit>
 
@@ -41,11 +42,18 @@ interface ProfileContract {
         fun onBlockedUsersClick()
     }
 
-    interface Router : EditBioContract.Router, MMProfileContract.Router, UserProfileContract.Router {
+    interface Router : EditBioContract.Router, MMProfileContract.Router,
+        UserProfileContract.Router {
         fun navigateToLogin()
         fun navigateToTerms()
         fun navigateToPrivacyPolicy()
-        fun navigateToGroupList(userId: Long?, groupType: GroupType?, isMyGroups: Boolean?, mmName: String?)
+        fun navigateToGroupList(
+            userId: Long?,
+            groupType: GroupType?,
+            isMyGroups: Boolean?,
+            mmName: String?
+        )
+
         fun navigateToNotifications()
         fun navigateToAvatarUCropActivity(
             sourceUri: Uri,

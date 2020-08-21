@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.profile.common
 
 import android.net.Uri
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.viewModelScope
@@ -57,6 +58,13 @@ class ProfileViewModel(
     override val birthdaySelected = MutableLiveData<Date>()
     override val questions = MutableLiveData<List<PresentationCommunityModel>>()
     override val canSave = MutableLiveData<Boolean>()
+    override val email = MediatorLiveData<String>().apply {
+        addSource(user) {
+            if (!it.email.orEmpty().endsWith("@ascend.internal")) {
+                value = it.email
+            }
+        }
+    }
 
     private var selectedCommunity: String? = null
     private val minBirthday by lazy {

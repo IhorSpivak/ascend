@@ -179,7 +179,7 @@
                     android:id="@+id/editEmail"
                     layout="@layout/template_profile_field"
                     app:fieldName="@{@string/email}"
-                    app:fieldValue="@{model.user.email}"
+                    app:fieldValue="@{model.email}"
                     app:fieldValueIfEmpty="@{@string/empty}"
                     app:iconRes="@{@drawable/ic_email}"
                     app:isGone="@{model.user.registrationType != PresentationRegistrationType.REGULAR}" />
