@@ -159,13 +159,13 @@ fun CreateAttachmentFileModel.toEntity(): CreateAttachmentDTO {
     )
 }
 
-fun MessageSocketEntity.toEntity(): MessageEntity{
+fun MessageSocketEntity.toEntity(): MessageEntity {
     return MessageEntity(
         id,
-        message?:"",
-        edited?: false,
-        type?.toMessageType()?: MessageType.MESSAGE,
-        userId?:0,
+        message ?: "",
+        edited ?: false,
+        type?.toMessageType() ?: MessageType.MESSAGE,
+        userId ?: 0,
         createdAt!!.toDate(),
         updatedAt!!.toDate(),
         status!!.toMessageStatus()
@@ -203,8 +203,8 @@ fun String.toMessageStatus(): MessageStatus {
     }
 }
 
-fun String.toDate(): Date? {
-    return Constants.REMOTE_DATE_FORMAT_FULL.toDefaultFormatter().parse(this)
+fun String.toDate(): Date {
+    return Constants.REMOTE_DATE_FORMAT_FULL.toDefaultFormatter().parse(this) ?: Date()
 }
 
 private fun String.toDefaultFormatter(): SimpleDateFormat {
@@ -213,8 +213,8 @@ private fun String.toDefaultFormatter(): SimpleDateFormat {
     return formatter
 }
 
-fun String.toMessageType(): MessageType{
-    return when{
+fun String.toMessageType(): MessageType {
+    return when {
         this == MessageType.INVITE.toString() -> MessageType.INVITE
         this == MessageType.LEAVE.toString() -> MessageType.LEAVE
         this == MessageType.USER_REMOVED.toString() -> MessageType.USER_REMOVED

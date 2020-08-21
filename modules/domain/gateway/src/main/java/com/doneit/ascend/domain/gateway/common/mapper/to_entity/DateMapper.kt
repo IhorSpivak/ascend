@@ -4,8 +4,8 @@ import com.doneit.ascend.domain.gateway.common.mapper.Constants
 import com.doneit.ascend.domain.gateway.common.toDefaultFormatter
 import java.util.*
 
-fun String.toDate(): Date? {
-    return Constants.REMOTE_DATE_FORMAT_FULL.toDefaultFormatter().parse(this)
+fun String.toDate(): Date {
+    return Constants.REMOTE_DATE_FORMAT_FULL.toDefaultFormatter().parse(this) ?: Date()
 }
 
 fun String.toShortDate(): Date? {

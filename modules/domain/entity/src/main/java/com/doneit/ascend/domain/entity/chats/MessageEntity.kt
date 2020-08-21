@@ -15,7 +15,7 @@ data class MessageEntity(
     val edited: Boolean = false,
     val type: MessageType,
     val userId: Long,
-    val createdAt: Date?,
+    val createdAt: Date,
     val updatedAt: Date?,
     val status: MessageStatus,
     var isMarkAsReadSentToApprove: Boolean = false,

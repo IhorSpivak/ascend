@@ -45,7 +45,7 @@ fun MessageWithPost.toEntity(): MessageEntity {
         messageLocal.edited,
         messageLocal.type.toMessageType(),
         messageLocal.userId,
-        messageLocal.createdAt?.let { Date(it) },
+        messageLocal.createdAt?.let { Date(it) } ?: Date(),
         messageLocal.updatedAt?.let { Date(it) },
         status = messageLocal.status.toMessageStatus(),
         post = post?.toEntity(),

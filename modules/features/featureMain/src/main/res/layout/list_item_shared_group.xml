@@ -127,15 +127,15 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
+            android:visibility="@{groupModel.id &gt; 0L ? View.VISIBLE : View.GONE}"
+            app:community="@{community}"
+            app:item="@{groupModel}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sharedPost"
-            android:visibility="@{groupModel.id &gt; 0L ? View.VISIBLE : View.GONE}"
-            app:item="@{groupModel}"
-            app:user="@{user}"
             app:theme="@{theme}"
-            app:community="@{community}" />
+            app:user="@{user}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
