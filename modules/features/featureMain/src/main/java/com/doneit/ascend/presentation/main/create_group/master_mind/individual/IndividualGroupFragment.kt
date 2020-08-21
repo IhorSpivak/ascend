@@ -152,12 +152,12 @@ class IndividualGroupFragment(
             price.editText.apply {
                 setOnFocusChangeListener { view, b ->
                     if (b){
-                        scroll.scrollTo(0, numberOfMeetings.top)
+                        scroll.scrollTo(0, durationPicker.top)
                         viewModel.onPriceClick(price.editText)
                     }
                 }
                 price.editText.setOnClickListener {
-                    scroll.scrollTo(0, numberOfMeetings.top)
+                    scroll.scrollTo(0, durationPicker.top)
                     viewModel.onPriceClick(price.editText)
                 }
             }

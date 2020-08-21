@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.home.channels.ChannelsFragment
 import com.doneit.ascend.presentation.main.home.groups.GroupsFragment
+import com.doneit.ascend.presentation.main.master_mind_info.mm_content.livestreams.MMLiveStreamsFragment
 import com.doneit.ascend.presentation.main.master_mind_info.mm_content.posts.MMPostsFragment
 
 class MMProfileTabAdapter(
@@ -38,7 +39,7 @@ class MMProfileTabAdapter(
         ): MMProfileTabAdapter {
 
             val fragments: ArrayList<() -> Fragment> = arrayListOf(
-                { ChannelsFragment.getInstance() },
+                { MMLiveStreamsFragment.newInstance(userId,user) },
                 { GroupsFragment.newInstance(userId, GroupType.SUPPORT) },
                 { ChannelsFragment.getInstance() },
                 { ChannelsFragment.getInstance() },
