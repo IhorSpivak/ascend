@@ -16,6 +16,7 @@ import com.doneit.ascend.presentation.utils.extensions.MESSAGE_FORMATTER
 import com.doneit.ascend.presentation.utils.extensions.calculateDate
 import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
 import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -67,7 +68,29 @@ class AttachmentOwnViewHolder private constructor(
                     attachmentVideo.player = player
                     player.playWhenReady = false
                     player.prepare(createMediaSource(itemView.context, attachment.url))
-                    myMessageContainer.setOnClickListener { previewAttachment(attachment) }
+                    player.addListener(object : Player.EventListener {
+                        override fun onPlayerStateChanged(
+                            playWhenReady: Boolean,
+                            playbackState: Int
+                        ) {
+                            when (playbackState) {
+                                Player.STATE_IDLE -> {
+                                }
+                                Player.STATE_BUFFERING -> {
+                                }
+                                Player.STATE_READY -> {
+                                    myMessageContainer.setOnClickListener {
+                                        previewAttachment(
+                                            attachment
+                                        )
+                                    }
+                                }
+                                Player.STATE_ENDED -> {
+                                }
+                            }
+                        }
+                    })
+
                 }
                 AttachmentType.IMAGE -> {
                     myMessageContainer.setOnClickListener { previewAttachment(attachment) }

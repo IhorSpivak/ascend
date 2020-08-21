@@ -80,7 +80,7 @@ class ChatViewModel(
 
     private suspend fun initRequestCycle() {
         while (true) {
-            delay(5000)
+            delay(20000)
             refreshModel()
         }
     }
