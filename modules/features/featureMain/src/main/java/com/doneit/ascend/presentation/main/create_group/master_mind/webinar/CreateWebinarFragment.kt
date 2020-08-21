@@ -29,6 +29,7 @@ import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.argumented.ArgumentedFragment
+import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.create_group.CreateGroupArgs
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
@@ -41,6 +42,7 @@ import com.doneit.ascend.presentation.main.databinding.FragmentCreateWebinarBind
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
+import com.doneit.ascend.presentation.views.PriceKeyboard
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
 import kotlinx.coroutines.Dispatchers
@@ -177,15 +179,35 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
                 scrollableContainer.requestFocus()
                 viewModel.addMember(viewModel.createGroupModel.groupType!!)
             }
-            binding.webinarPrice.editTextView.apply {
-                setOnFocusChangeListener { _, b ->
+            webinarPrice.editTextView.let {
+                var text = it.text.toString()
+                keyboardLayout.setBackground(R.color.red_webinar_color)
+                keyboardLayout.onButtonsClick = object : PriceKeyboard.OnButtonsClick {
+                    override fun onDoneClick() {
+                        text = it.text.toString()
+                        viewModel.okPriceClick(it.text.toString())
+                        keyboardLayout.gone()
+                    }
+
+                    override fun onCancelClick() {
+                        viewModel.okPriceClick(text)
+                        keyboardLayout.gone()
+                    }
+
+                }
+                it.setOnFocusChangeListener { _, b ->
                     if (b) {
+                        text = it.text.toString()
                         hideKeyboard()
-                        viewModel.onPriceClick(binding.webinarPrice.editTextView)
+                        keyboardLayout.editor = it
+                        keyboardLayout.visible()
+                    } else {
+                        viewModel.okPriceClick(text)
+                        keyboardLayout.gone()
                     }
                 }
-                binding.webinarPrice.editTextView.setOnClickListener {
-                    viewModel.onPriceClick(binding.webinarPrice.editTextView)
+                it.setOnClickListener {
+                    keyboardLayout.visible()
                 }
             }
             description.multilineEditText.setOnEditorActionListener(object :

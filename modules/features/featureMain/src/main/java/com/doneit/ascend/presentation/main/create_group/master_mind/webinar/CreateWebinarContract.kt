@@ -47,5 +47,6 @@ interface CreateWebinarContract {
         fun updateFieldValidators()
         fun loadParticipants(groupId: Long, what: String)
         fun getValidatorListener(): () -> Unit
+        fun okPriceClick(price: String)
     }
 }

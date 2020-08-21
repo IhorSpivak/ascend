@@ -27,7 +27,7 @@ class PricePickerFragment(
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
-            background = when(viewModel.createGroupModel.groupType){
+            background = when (viewModel.createGroupModel.groupType) {
                 GroupType.SUPPORT -> resources.getColor(R.color.support_color)
                 GroupType.INDIVIDUAL -> resources.getColor(R.color.master_mind_color)
                 GroupType.MASTER_MIND -> resources.getColor(R.color.master_mind_color)
@@ -36,13 +36,13 @@ class PricePickerFragment(
             }
             btnCancel.setOnClickListener {
                 viewModel.createGroupModel.price.observableField.get().let {
-                    if (it!!.isNotEmpty()){
+                    if (it!!.isNotEmpty()) {
                         editor.text.apply {
                             this?.clear()
                             this?.append(it)
                         }
                         viewModel.backClick()
-                    }else{
+                    } else {
                         editor.text?.clear()
                         viewModel.backClick()
                     }
@@ -71,14 +71,16 @@ class PricePickerFragment(
     private val clickHandle = View.OnClickListener {
         if (it.id == R.id.key_backspace) {
             editor.text.apply {
-                this?.length.let {length ->
-                    if (length!! > 0){
-                        this?.delete(length-1, length)
+                this?.length.let { length ->
+                    if (length!! > 0 && editor.selectionStart > 0) {
+                        this?.delete(editor.selectionStart - 1, editor.selectionStart)
                     }
                 }
             }
         } else {
-            editor.text?.append((it as TextView).text)
+            editor.text?.apply {
+                insert(editor.selectionStart, (it as TextView).text);
+            }
         }
     }
 }

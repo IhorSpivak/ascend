@@ -19,7 +19,9 @@ import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.create_group.CreateGroupHostContract
 import com.doneit.ascend.presentation.main.create_group.create_support_group.common.DurationAdapter
@@ -29,6 +31,7 @@ import com.doneit.ascend.presentation.main.databinding.FragmentCreateIndividualG
 import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
+import com.doneit.ascend.presentation.views.PriceKeyboard
 import kotlinx.android.synthetic.main.fragment_create_individual_group.*
 import kotlinx.android.synthetic.main.view_edit_with_error.view.*
 import kotlinx.android.synthetic.main.view_multiline_edit_with_error.view.*
@@ -149,16 +152,37 @@ class IndividualGroupFragment(
                 hideKeyboard()
                 createImageBottomDialog().show(childFragmentManager, null)
             }
-            price.editText.apply {
-                setOnFocusChangeListener { view, b ->
-                    if (b){
+            price.editTextView.let {
+                var text = it.text.toString()
+                keyboardLayout.setBackground(R.color.master_mind_color)
+                keyboardLayout.onButtonsClick = object : PriceKeyboard.OnButtonsClick {
+                    override fun onDoneClick() {
+                        text = it.text.toString()
+                        viewModel.okPriceClick(it.text.toString())
+                        keyboardLayout.gone()
+                    }
+
+                    override fun onCancelClick() {
+                        viewModel.okPriceClick(text)
+                        keyboardLayout.gone()
+                    }
+
+                }
+                it.setOnFocusChangeListener { _, b ->
+                    if (b) {
                         scroll.scrollTo(0, numberOfMeetings.top)
-                        viewModel.onPriceClick(price.editText)
+                        text = it.text.toString()
+                        hideKeyboard()
+                        keyboardLayout.editor = it
+                        keyboardLayout.visible()
+                    } else {
+                        viewModel.okPriceClick(text)
+                        keyboardLayout.gone()
                     }
                 }
-                price.editText.setOnClickListener {
+                it.setOnClickListener {
                     scroll.scrollTo(0, numberOfMeetings.top)
-                    viewModel.onPriceClick(price.editText)
+                    keyboardLayout.visible()
                 }
             }
             scroll.setOnFocusChangeListener { v, b ->

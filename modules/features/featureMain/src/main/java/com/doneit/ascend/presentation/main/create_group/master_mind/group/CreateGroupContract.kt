@@ -39,5 +39,6 @@ interface CreateGroupContract {
         fun addMember(groupType: GroupType)
         fun inviteToGroup(participants: List<String>)
         fun onPriceClick(editor: TextInputEditText)
+        fun okPriceClick(price: String)
     }
 }

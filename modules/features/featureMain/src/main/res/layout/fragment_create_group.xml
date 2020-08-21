@@ -19,345 +19,366 @@
 
     </data>
 
-    <ScrollView
-        android:id="@+id/scroll"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/blMain">
+        android:background="@color/colorPrimary"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/mainContainer"
+        <ScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:clickable="true"
-            android:focusableInTouchMode="true">
-
-            <com.doneit.ascend.presentation.views.EditWithError
-                android:id="@+id/userName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                app:error="@{model.createGroupModel.name.observableError}"
-                app:hint='@{model.supportTitle != null?@string/group_name(context.getString(model.supportTitle)).replace("Coaching ", ""):""}'
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:maxLength="@{32}"
-                app:saveState="@{false}"
-                app:src="@{@drawable/ic_header}"
-                app:text="@={model.createGroupModel.name.observableField}"
-                app:tint="@{@color/master_mind_color}"/>
-
-            <com.doneit.ascend.presentation.views.EditWithError
-                android:id="@+id/startDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="@dimen/create_group_top_margin"
-                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                app:digits="@{@string/allow_date_digits}"
-                app:error="@{model.createGroupModel.startDate.observableError}"
-                app:hint="@{@string/start_date}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/userName"
-                app:noFocusable="@{true}"
-                app:saveState="@{false}"
-                app:src="@{@drawable/ic_favorite_date}"
-                app:tint="@{@color/master_mind_color}"
-                app:text="@{model.createGroupModel.startDate.observableField}" />
-
-            <com.doneit.ascend.presentation.views.MultilineEditWithError
-                android:id="@+id/chooseSchedule"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="@dimen/create_group_top_margin"
-                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                app:error="@{model.createGroupModel.scheduleTime.observableError}"
-                app:hint="@{@string/choose_schedule}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/startDate"
-                app:noFocusable="@{true}"
-                app:saveState="@{false}"
-                app:src="@{@drawable/ic_schedule}"
-                app:tint="@{@color/master_mind_color}"
-                app:text="@{model.createGroupModel.scheduleTime.observableField}" />
-
-
-            <com.doneit.ascend.presentation.views.EditWithError
-                android:id="@+id/numberOfMeetings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="@dimen/create_group_top_margin"
-                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                app:error="@{model.createGroupModel.numberOfMeetings.observableError}"
-                app:hint="@{@string/number_of_meetings}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chooseSchedule"
-                app:noFocusable="@{true}"
-                app:saveState="@{false}"
-                app:src="@{@drawable/ic_hand_number}"
-                app:tint="@{@color/master_mind_color}"
-                app:text="@={model.createGroupModel.numberOfMeetings.observableField}" />
-
-
-            <ImageView
-                android:id="@+id/iconDuration"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginTop="52dp"
-                android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:src="@drawable/ic_duration"
-                app:layout_constraintTop_toBottomOf="@+id/numberOfMeetings"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                android:layout_marginBottom="8dp"
-                style="@style/HintStyle"
-                android:id="@+id/duration_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/duration_hours"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@+id/durationPicker"
-                app:layout_constraintBottom_toTopOf="@+id/durationPicker" />
-
-
-            <Spinner
-                android:id="@+id/durationPicker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="52dp"
-                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                android:background="@null"
-                android:spinnerMode="dropdown"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iconDuration"
-                app:layout_constraintTop_toBottomOf="@id/numberOfMeetings" />
-
-            <View
-                android:id="@+id/underlineDuration"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/light_gray_e9f0"
-                app:layout_constraintEnd_toEndOf="@id/durationPicker"
-                app:layout_constraintStart_toStartOf="@id/durationPicker"
-                app:layout_constraintTop_toBottomOf="@id/durationPicker" />
-
-            <com.doneit.ascend.presentation.views.EditWithError
-                android:id="@+id/price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="52dp"
-                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                app:error="@{model.createGroupModel.price.observableError}"
-                app:hint="@{@string/price}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/underlineDuration"
-                app:maxLength="@{7}"
-                app:hasCursor="@{true}"
-                app:saveState="@{false}"
-                app:src="@{@drawable/ic_price}"
-                app:text="@{model.createGroupModel.price.observableField}"
-                app:tint="@{@color/master_mind_color}"/>
-
-            <com.doneit.ascend.presentation.views.MultilineEditWithError
-                android:id="@+id/description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="@dimen/create_group_top_margin"
-                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                app:digits="@{@string/allow_description_digits}"
-                app:error="@{model.createGroupModel.description.observableError}"
-                app:hint="@{@string/description}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/price"
-                app:maxLength="@{500}"
-                app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
-                app:saveState="@{false}"
-                app:src="@{@drawable/ic_description}"
-                app:tint="@{@color/master_mind_color}"
-                app:text="@={model.createGroupModel.description.observableField}" />
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/blMain">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/uploadImagePlaceHolder"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginStart="@dimen/create_group_horizontal_margin"
-                android:layout_marginTop="@dimen/create_group_top_margin"
-                android:layout_marginEnd="@dimen/create_group_horizontal_margin"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/placeholderDash"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_dash_stroke_accent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ivUploadFileIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:src="@drawable/ic_upload_file"
-                    android:tint="@color/master_mind_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvUploadFile"
-                    style="@style/TextNormal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text='@{model.supportTitle != null?@string/upload_group_image(context.getString(model.supportTitle)):""}'
-                    android:textSize="16sp"
-                    android:textColor="@color/master_mind_color"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ivUploadFileIcon" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/grPlaceholder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.VISIBLE : View.GONE}"
-                    app:constraint_referenced_ids="ivUploadFileIcon,tvUploadFile,placeholderDash" />
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    app:cardBackgroundColor="@android:color/transparent"
-                    app:cardCornerRadius="5dp"
-                    app:cardElevation="0dp">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/transparent"
-                        android:scaleType="centerCrop"
-                        app:path="@{model.createGroupModel.image.observableField}"/>
-                </androidx.cardview.widget.CardView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/icEdit"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/ic_edit_round"
-                android:scaleType="center"
-                android:src="@drawable/ic_pen"
-                android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.GONE : View.VISIBLE}"
-                app:layout_constraintStart_toStartOf="@+id/uploadImagePlaceHolder"
-                app:layout_constraintTop_toTopOf="@+id/uploadImagePlaceHolder" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_invite_members"
-                style="@style/TextNormal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/create_webinar_invite"
-                android:textColor="@color/master_mind_color"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/uploadImagePlaceHolder" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mainContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="32dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_view_invite_members"
-                app:layout_constraintBottom_toBottomOf="parent">
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <com.doneit.ascend.presentation.views.EditWithError
+                    android:id="@+id/userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:error="@{model.createGroupModel.name.observableError}"
+                    app:hint='@{model.supportTitle != null?@string/group_name(context.getString(model.supportTitle)).replace("Coaching ", ""):""}'
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:maxLength="@{32}"
+                    app:saveState="@{false}"
+                    app:src="@{@drawable/ic_header}"
+                    app:text="@={model.createGroupModel.name.observableField}"
+                    app:tint="@{@color/master_mind_color}" />
+
+                <com.doneit.ascend.presentation.views.EditWithError
+                    android:id="@+id/startDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="@dimen/create_group_top_margin"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:digits="@{@string/allow_date_digits}"
+                    app:error="@{model.createGroupModel.startDate.observableError}"
+                    app:hint="@{@string/start_date}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userName"
+                    app:noFocusable="@{true}"
+                    app:saveState="@{false}"
+                    app:src="@{@drawable/ic_favorite_date}"
+                    app:text="@{model.createGroupModel.startDate.observableField}"
+                    app:tint="@{@color/master_mind_color}" />
+
+                <com.doneit.ascend.presentation.views.MultilineEditWithError
+                    android:id="@+id/chooseSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="@dimen/create_group_top_margin"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:error="@{model.createGroupModel.scheduleTime.observableError}"
+                    app:hint="@{@string/choose_schedule}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/startDate"
+                    app:noFocusable="@{true}"
+                    app:saveState="@{false}"
+                    app:src="@{@drawable/ic_schedule}"
+                    app:text="@{model.createGroupModel.scheduleTime.observableField}"
+                    app:tint="@{@color/master_mind_color}" />
+
+
+                <com.doneit.ascend.presentation.views.EditWithError
+                    android:id="@+id/numberOfMeetings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="@dimen/create_group_top_margin"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:error="@{model.createGroupModel.numberOfMeetings.observableError}"
+                    app:hint="@{@string/number_of_meetings}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/chooseSchedule"
+                    app:noFocusable="@{true}"
+                    app:saveState="@{false}"
+                    app:src="@{@drawable/ic_hand_number}"
+                    app:text="@={model.createGroupModel.numberOfMeetings.observableField}"
+                    app:tint="@{@color/master_mind_color}" />
+
+
+                <ImageView
+                    android:id="@+id/iconDuration"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="52dp"
+                    android:src="@drawable/ic_duration"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/numberOfMeetings" />
+
+                <TextView
+                    android:id="@+id/duration_title"
+                    style="@style/HintStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/duration_hours"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/durationPicker"
+                    app:layout_constraintStart_toStartOf="@+id/durationPicker" />
+
+
+                <Spinner
+                    android:id="@+id/durationPicker"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="52dp"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    android:background="@null"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iconDuration"
+                    app:layout_constraintTop_toBottomOf="@id/numberOfMeetings" />
+
+                <View
+                    android:id="@+id/underlineDuration"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/light_gray_e9f0"
+                    app:layout_constraintEnd_toEndOf="@id/durationPicker"
+                    app:layout_constraintStart_toStartOf="@id/durationPicker"
+                    app:layout_constraintTop_toBottomOf="@id/durationPicker" />
+
+                <com.doneit.ascend.presentation.views.EditWithError
+                    android:id="@+id/price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="52dp"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:error="@{model.createGroupModel.price.observableError}"
+                    app:hasCursor="@{true}"
+                    app:hint="@{@string/price}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/underlineDuration"
+                    app:maxLength="@{7}"
+                    app:saveState="@{false}"
+                    app:src="@{@drawable/ic_price}"
+                    app:text="@{model.createGroupModel.price.observableField}"
+                    app:tint="@{@color/master_mind_color}" />
+
+                <com.doneit.ascend.presentation.views.MultilineEditWithError
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="@dimen/create_group_top_margin"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:digits="@{@string/allow_description_digits}"
+                    app:error="@{model.createGroupModel.description.observableError}"
+                    app:hint="@{@string/description}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/price"
+                    app:maxLength="@{500}"
+                    app:multilineInput="@{InputType.TYPE_TEXT_FLAG_MULTI_LINE}"
+                    app:saveState="@{false}"
+                    app:src="@{@drawable/ic_description}"
+                    app:text="@={model.createGroupModel.description.observableField}"
+                    app:tint="@{@color/master_mind_color}" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/add_member_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:id="@+id/uploadImagePlaceHolder"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="@dimen/create_group_horizontal_margin"
+                    android:layout_marginTop="@dimen/create_group_top_margin"
+                    android:layout_marginEnd="@dimen/create_group_horizontal_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/description">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/add_member_template_round"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/ic_dash_round"
+                        android:id="@+id/placeholderDash"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_dash_stroke_accent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivUploadFileIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:src="@drawable/ic_upload_file"
+                        android:tint="@color/master_mind_color"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/add_member_template_plus"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvUploadFile"
+                        style="@style/TextNormal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_member_plus"
-                        android:tint="@color/light_gray_b1bf"
-                        app:layout_constraintBottom_toBottomOf="@id/add_member_template_round"
-                        app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
-                        app:layout_constraintStart_toStartOf="@id/add_member_template_round"
-                        app:layout_constraintTop_toTopOf="@id/add_member_template_round" />
+                        android:layout_marginTop="15dp"
+                        android:text='@{model.supportTitle != null?@string/upload_group_image(context.getString(model.supportTitle)):""}'
+                        android:textColor="@color/master_mind_color"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ivUploadFileIcon" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/text_view_add_member"
-                        style="@style/TextNormal"
-                        android:layout_width="80dp"
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/grPlaceholder"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="8dp"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/red_hat_font"
-                        android:gravity="center_horizontal|top"
-                        android:lines="2"
-                        android:text="@string/create_webinar_add_member"
-                        android:textColor="@color/light_gray_b1bf"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
-                        app:layout_constraintStart_toStartOf="@+id/add_member_template_round"
-                        app:layout_constraintTop_toBottomOf="@id/add_member_template_round" />
+                        android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.VISIBLE : View.GONE}"
+                        app:constraint_referenced_ids="ivUploadFileIcon,tvUploadFile,placeholderDash" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        app:cardBackgroundColor="@android:color/transparent"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="0dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:scaleType="centerCrop"
+                            app:path="@{model.createGroupModel.image.observableField}" />
+                    </androidx.cardview.widget.CardView>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_added_members"
-                    android:layout_width="0dp"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icEdit"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ic_edit_round"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_pen"
+                    android:visibility="@{model.createGroupModel.image.observableField.isEmpty() ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="@+id/uploadImagePlaceHolder"
+                    app:layout_constraintTop_toTopOf="@+id/uploadImagePlaceHolder" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_view_invite_members"
+                    style="@style/TextNormal"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/create_webinar_invite"
+                    android:textColor="@color/master_mind_color"
+                    android:textSize="24sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/add_member_container"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/uploadImagePlaceHolder" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="32dp"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias="0"
-                    tools:listitem="@layout/attendee_list_item" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_view_invite_members">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/add_member_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/add_member_template_round"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:background="@drawable/ic_dash_round"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/add_member_template_plus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_member_plus"
+                            android:tint="@color/light_gray_b1bf"
+                            app:layout_constraintBottom_toBottomOf="@id/add_member_template_round"
+                            app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
+                            app:layout_constraintStart_toStartOf="@id/add_member_template_round"
+                            app:layout_constraintTop_toTopOf="@id/add_member_template_round" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/text_view_add_member"
+                            style="@style/TextNormal"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="8dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/red_hat_font"
+                            android:gravity="center_horizontal|top"
+                            android:lines="2"
+                            android:text="@string/create_webinar_add_member"
+                            android:textColor="@color/light_gray_b1bf"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="@id/add_member_template_round"
+                            app:layout_constraintStart_toStartOf="@+id/add_member_template_round"
+                            app:layout_constraintTop_toBottomOf="@id/add_member_template_round" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view_added_members"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/add_member_container"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0"
+                        tools:listitem="@layout/attendee_list_item" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+        </ScrollView>
+
+        <com.doneit.ascend.presentation.views.PriceKeyboard
+            android:id="@+id/keyboard_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
