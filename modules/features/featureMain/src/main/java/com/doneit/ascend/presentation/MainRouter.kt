@@ -82,6 +82,7 @@ import com.doneit.ascend.presentation.main.master_mind.MasterMindFragment
 import com.doneit.ascend.presentation.main.master_mind.list.ListContract
 import com.doneit.ascend.presentation.main.master_mind_info.MMInfoContract
 import com.doneit.ascend.presentation.main.master_mind_info.MMInfoFragment
+import com.doneit.ascend.presentation.main.master_mind_info.mm_content.livestreams.MMLiveStreamsContract
 import com.doneit.ascend.presentation.main.notification.NotificationContract
 import com.doneit.ascend.presentation.main.notification.NotificationFragment
 import com.doneit.ascend.presentation.main.search.SearchContract
@@ -174,6 +175,7 @@ class MainRouter(
     GoalsListContract.Router,
     AttendeesContract.Router,
     WebinarsContract.Router,
+    MMLiveStreamsContract .Router,
     com.doneit.ascend.presentation.main.home.groups.GroupsContract.Router,
     MyChatsContract.Router,
     NewChatContract.Router,
@@ -467,7 +469,7 @@ class MainRouter(
     }
 
     override fun navigateToTerms() {
-        manager.replaceWithBackStack(containerId,WebPageFragment.newInstance("Terms and Condition", "terms_and_conditions"))
+        manager.replaceWithBackStack(containerIdFull,WebPageFragment.newInstance("Terms and Condition", "terms_and_conditions"))
     }
 
     override fun navigateToPrivacyPolicy() {
