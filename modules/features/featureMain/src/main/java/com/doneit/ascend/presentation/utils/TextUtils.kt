@@ -9,7 +9,6 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Patterns
 import android.widget.EditText
-import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -260,7 +259,7 @@ fun convertGroupTypeToString(
     return context.getString(res)
 }
 
-fun convertCommunityToResId(community: String, type: GroupType?): Int? {
+fun convertCommunityToResId(community: String, type: GroupType?): Int {
     val titlePair = when (community) {
         Community.LIFESTYLE.title,
         Community.SPIRITUAL.title -> R.string.collaboration to R.string.group
@@ -274,7 +273,7 @@ fun convertCommunityToResId(community: String, type: GroupType?): Int? {
         GroupType.INDIVIDUAL,
         GroupType.MASTER_MIND -> titlePair.second
         GroupType.SUPPORT -> titlePair.first
-        else -> null
+        else -> R.string.webinars
     }
 }
 
@@ -286,7 +285,7 @@ fun TextView.addReadMoreTo( text: String) {
         .lessLabelColor(Color.WHITE)
         .labelUnderLine(true)
         .expandAnimation(true)
-        .build();
+        .build()
 
     readMoreOption.addReadMoreTo(this, text)
 }

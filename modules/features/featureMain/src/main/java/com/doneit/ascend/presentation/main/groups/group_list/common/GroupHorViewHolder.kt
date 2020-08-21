@@ -8,7 +8,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.TemplateHorGroupItemBinding
 import com.doneit.ascend.presentation.main.search.common.SearchViewHolder
-import com.doneit.ascend.presentation.utils.convertGroupTypeToString
+import com.doneit.ascend.presentation.utils.convertCommunityToResId
 
 class GroupHorViewHolder(
     private val binding: TemplateHorGroupItemBinding
@@ -28,11 +28,11 @@ class GroupHorViewHolder(
                 communityGroup
             }
             this.user = user
-            groupTypeText = convertGroupTypeToString(
-                itemView.context,
-                user?.community ?: communityGroup.orEmpty(),
-                item.groupType,
-                item.isPrivate
+            groupTypeText = itemView.context.getString(
+                convertCommunityToResId(
+                    user?.community ?: communityGroup.orEmpty(),
+                    item.groupType
+                )
             )
             theme = if (item.pastMeetingsCount == item.meetingsCount) {
                 item.pastMeetingsCount?.let { item.themes?.get(it - 1) }
