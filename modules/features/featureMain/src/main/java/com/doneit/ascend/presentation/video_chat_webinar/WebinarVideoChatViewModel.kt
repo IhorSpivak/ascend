@@ -172,12 +172,7 @@ class WebinarVideoChatViewModel(
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     fun onPause() {
-        viewModelScope.launch {
-            delay(LIVESTREAM_DELAY)
-            groupUseCase.participantConnectionStatus(currentUser.id.toString(), false)
-        }
-
-
+        groupUseCase.participantConnectionStatus(currentUser.id.toString(), false)
     }
 
     override fun init(groupId: Long) {
