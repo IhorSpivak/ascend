@@ -1,11 +1,8 @@
 package com.doneit.ascend.presentation.video_chat_webinar
 
 import android.os.CountDownTimer
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.ChatSocketEvent
 import com.doneit.ascend.domain.entity.MessageSocketEntity
@@ -69,13 +66,13 @@ class WebinarVideoChatViewModel(
     WebinarChatPreviewContract.ViewModel, WebinarVideoChatContract.ViewModel,
     OwnerOptionsContract.ViewModel, QuestionContract.ViewModel,
     WebinarVideoChatInProgressContract.ViewModel, WebinarFinishedContract.ViewModel,
-    LivestreamUserActionsContract.ViewModel {
+    LivestreamUserActionsContract.ViewModel, LifecycleObserver {
 
     override val groupInfo = MutableLiveData<GroupEntity>()
     override val isVideoEnabled = MutableLiveData(true)
     override val isAudioRecording = MutableLiveData(true)
     override val isQuestionSent = MutableLiveData<Boolean>()
-    override val isMMConnected = MutableLiveData<Boolean>()
+    override val isMMConnected = MutableLiveData<Boolean>(true)
     override val isMuted = MutableLiveData<Boolean>()
     override val hasUnreadQuestion = LockableLiveData(false)
     override val hasUnreadMessage = MutableLiveData(false)
@@ -167,8 +164,19 @@ class WebinarVideoChatViewModel(
         }
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    fun onResume() {
+        groupUseCase.participantConnectionStatus(currentUser.id.toString(), true)
+    }
+
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    fun onPause() {
+        groupUseCase.participantConnectionStatus(currentUser.id.toString(), false)
+    }
+
     override fun init(groupId: Long) {
-        if(this.groupId == -1L) {
+        if (this.groupId == -1L) {
             this.groupId = groupId
             getParticipants()
             postDefaultValues()
@@ -179,7 +187,8 @@ class WebinarVideoChatViewModel(
 
                     if (result.isSuccessful) {
                         groupInfo.value = result.successModel!!
-                        isMMConnected.value = result.successModel!!.owner?.connected
+                        isMMConnected.value =
+                            result.successModel!!.owner?.connected ?: false || result.successModel!!.owner?.id == currentUser.id
                         result.successModel!!
                     } else {
                         showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
@@ -598,7 +607,8 @@ class WebinarVideoChatViewModel(
                     if (user.userId == groupInfo.value?.owner?.id.toString()) {
                         viewModelScope.launch {
                             delay(LIVESTREAM_DELAY)
-                            isMMConnected.value = false
+                            isMMConnected.value =
+                                false || groupInfo.value?.owner?.id == currentUser.id
                         }
                     } else {
                         participants.value = participants.value!!.minus(user)
