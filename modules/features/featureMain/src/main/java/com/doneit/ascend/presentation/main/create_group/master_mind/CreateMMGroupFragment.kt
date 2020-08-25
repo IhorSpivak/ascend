@@ -159,7 +159,13 @@ class CreateMMGroupFragment : ArgumentedFragment<FragmentCreateMmGroupBinding, C
         val fragment = when (action) {
             CreateMMGroupContract.Navigation.TO_GROUP -> {
                 viewModel.createGroupModel.groupType = GroupType.MASTER_MIND
-                CreateGroupFragment()
+                CreateGroupFragment().apply {
+                    arguments = Bundle().apply {
+                        if (group != null) {
+                            putParcelable(what, group)
+                        }
+                    }
+                }
             }
             CreateMMGroupContract.Navigation.TO_INDIVIDUAL -> {
                 viewModel.createGroupModel.groupType = GroupType.INDIVIDUAL

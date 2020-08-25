@@ -29,6 +29,7 @@ interface CreateGroupContract {
         val nonMembers: MutableList<String>
         val supportTitle: LiveData<Int>
 
+        fun loadParticipants(groupId: Long, what: String)
         fun addNewParticipant()
         fun removeMember(member: AttendeeEntity): Int
         fun completeClick()

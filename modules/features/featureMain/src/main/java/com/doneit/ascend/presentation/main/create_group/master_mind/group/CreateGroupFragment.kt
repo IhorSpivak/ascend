@@ -16,6 +16,7 @@ import androidx.core.content.FileProvider
 import androidx.core.view.GestureDetectorCompat
 import androidx.lifecycle.Observer
 import com.androidisland.ezpermission.EzPermission
+import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.common.DefaultGestureDetectorListener
 import com.doneit.ascend.presentation.dialog.ChooseImageBottomDialog
 import com.doneit.ascend.presentation.main.R
@@ -113,6 +114,15 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
+        GroupAction.values().forEach {
+            if (arguments?.containsKey(it.toString()) == true) {
+                val group = requireArguments().getParcelable<GroupEntity>(it.toString())
+                group?.let { currentGroup ->
+                    val what = it.toString()
+                    viewModel.loadParticipants(currentGroup.id, what)
+                }
+            }
+        }
         binding.apply {
             binding.model = viewModel
             adapter = adapter

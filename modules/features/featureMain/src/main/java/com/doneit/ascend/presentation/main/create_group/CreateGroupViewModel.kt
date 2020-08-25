@@ -700,7 +700,7 @@ class CreateGroupViewModel(
         }
         selectedMembers.addAll(group.attendees ?: emptyList())
         members.postValue(selectedMembers.toMutableList())
-        if (group.participantsCount!! > 0) {
+        if ((group.participantsCount ?: 0) > 0) {
             loadParticipants(group.id, what)
         }
     }
