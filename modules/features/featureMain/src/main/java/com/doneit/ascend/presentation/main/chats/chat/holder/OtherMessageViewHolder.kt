@@ -40,7 +40,9 @@ class OtherMessageViewHolder(
                     onImageWebinarClick(it, memberEntity)
                 }
             }
-            messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt!!)
+            if(messageEntity.createdAt != null) {
+                messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt)
+            }
             time.apply {
                 text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
                 visibleOrGone(

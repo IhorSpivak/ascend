@@ -12,10 +12,7 @@ import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemOtherMessageAttachmentBinding
-import com.doneit.ascend.presentation.utils.extensions.MESSAGE_FORMATTER
-import com.doneit.ascend.presentation.utils.extensions.calculateDate
-import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
-import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
+import com.doneit.ascend.presentation.utils.extensions.*
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -46,6 +43,9 @@ class AttachmentOtherViewHolder private constructor(
                         nextMessage.createdAt!!
                     )
                 )
+            }
+            if(messageEntity.createdAt != null) {
+                messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt!!)
             }
             val attachment = messageEntity.attachment ?: return
             mediaContainer.visibleOrGone(attachment.type != AttachmentType.FILE)

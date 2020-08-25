@@ -10,6 +10,7 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.common.setOnSingleClickListener
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemOtherShareProfileBinding
+import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 
 class ProfileShareOtherViewHolder(
     itemView: View,
@@ -28,6 +29,9 @@ class ProfileShareOtherViewHolder(
         with(binding) {
             this.memberEntity = memberEntity
             this.messageEntity = messageEntity
+            if(messageEntity.createdAt != null) {
+                messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt!!)
+            }
             itemView.setOnSingleClickListener {
                 messageEntity.sharedUser?.let { user -> onProfileClick(user) }
             }

@@ -8,8 +8,10 @@ import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.common.setOnSingleClickListener
+import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemSharedGroupBinding
+import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
 
 class ShareGroupViewHolder(
     itemView: View,
@@ -28,10 +30,14 @@ class ShareGroupViewHolder(
     ) {
         with(binding) {
             member = memberEntity
+
             this.messageEntity = messageEntity
             messageEntity.sharedGroup?.let { group ->
                 groupModel = group
                 community = group.community
+                if(messageEntity.createdAt != null) {
+                    messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt!!)
+                }
                 theme = if (group.pastMeetingsCount == group.meetingsCount) {
                     group.pastMeetingsCount?.let { group.themes?.get(it - 1) }
                 } else {
@@ -43,6 +49,8 @@ class ShareGroupViewHolder(
             }
 
         }
+
+
     }
 
     companion object {
