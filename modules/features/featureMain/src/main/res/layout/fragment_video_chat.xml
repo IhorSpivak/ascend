@@ -31,8 +31,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="invisible"
-            app:mirror="true"
-            app:scaleType="balanced" />
+            app:tviMirror="true"
+            app:tviScaleType="balanced" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/placeholder"
