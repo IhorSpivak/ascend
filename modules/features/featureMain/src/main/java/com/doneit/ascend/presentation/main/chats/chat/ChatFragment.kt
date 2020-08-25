@@ -14,12 +14,13 @@ import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import androidx.core.view.doOnLayout
+import androidx.core.view.doOnNextLayout
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.androidisland.ezpermission.EzPermission
 import com.bumptech.glide.Glide
 import com.doneit.ascend.domain.entity.chats.ChatEntity
@@ -94,7 +95,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private var currentDialog: AlertDialog? = null
     private var menuResId: Int = -1
     private var kickOrReportUserId: Long = -1
-    private var isFirstLaunch = true
+    private var messageListRenderCount = 0
+    private var hasEnded = true
     private var lastFileUri = Uri.EMPTY
 
     private val chatWithUser: ChatWithUser by lazy {
@@ -188,6 +190,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                             }
                         }
                     }
+                }
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    hasEnded = newState == SCROLL_STATE_IDLE
                 }
             })
     }
@@ -446,16 +453,15 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         }
     }
 
-    private fun handleMessages(list: PagedList<MessageEntity>) {
-        messagesAdapter.submitList(list) {
-            binding.messageList.doOnLayout {
-                if (isFirstLaunch) {
-                    isFirstLaunch = false
-                    (binding.messageList.layoutManager as LinearLayoutManager)
-                        .scrollToPosition(0)
-                }
+    private fun handleMessages(list: PagedList<MessageEntity>) = with(binding) {
+        messagesAdapter.submitList(list)
+        messageList.doOnNextLayout {
+            if (messageListRenderCount <= 1) {
+                (messageList.layoutManager as LinearLayoutManager).scrollToPosition(0)
             }
+            messageListRenderCount++
         }
+        performScrollWithStatus(list)
     }
 
     private fun performScrollWithStatus(list: List<MessageEntity>) {
@@ -475,7 +481,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         binding.messageList.adapter?.let {
             val lm = binding.messageList.layoutManager as LinearLayoutManager
             val first = lm.findFirstCompletelyVisibleItemPosition()
-            if (first < 5 && first != 0) {
+            if (first < 2 && first != 0 && hasEnded) {
                 scrollToPos(0)
             }
         }
