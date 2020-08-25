@@ -11,6 +11,7 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.common.gone
 import com.doneit.ascend.presentation.main.databinding.FragmentChannelsBinding
+import com.doneit.ascend.presentation.main.home.channels.dialog.ChannelsDialogInfo
 import com.doneit.ascend.presentation.main.home.community_feed.channels.common.ChannelAdapter
 import com.doneit.ascend.presentation.utils.extensions.visible
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -73,32 +74,16 @@ class ChannelsFragment : BaseFragment<FragmentChannelsBinding>() {
     }
 
     private fun showChannelsDialogInfo(channel: ChatEntity) {
-        val view = layoutInflater.inflate(R.layout.dialog_bottom_sheet_channels, null)
-        val dialog = BottomSheetDialog(context!!)
-        dialog.setContentView(view)
-        view.titleChannel.text = channel.title
-        when (channel.isPrivate) {
-            true -> view.channelType.text = resources.getString(R.string.private_channel)
-            false -> view.channelType.text = resources.getString(R.string.public_channel)
+        ChannelsDialogInfo.getInstance(
+            channel,
+            onJoinChannel = {
+                viewModel.onJoinChannel(channel)
+            }
+        ).let {
+            activity?.supportFragmentManager?.let { fragmentManager ->
+                it.show(fragmentManager, it.tag)
+            }
         }
-        view.user_name.text = channel.owner?.fullName
-        view.descriptionChannel.text = channel.description
-        view.qtyMembers.text = """${channel.membersCount} members"""
-        Glide.with(this)
-            .load(channel.image?.url)
-            .apply(RequestOptions.circleCropTransform())
-            .into(view.channelImage)
-
-        Glide.with(this)
-            .load(channel.owner?.image?.url)
-            .apply(RequestOptions.circleCropTransform())
-            .into(view.userIcon)
-
-        view.btn_join.setOnClickListener {
-            dialog.dismiss()
-            viewModel.onJoinChannel(channel)
-        }
-        dialog.show()
     }
 
 
