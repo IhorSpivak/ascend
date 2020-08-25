@@ -30,6 +30,7 @@ import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
+import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
 import com.doneit.ascend.presentation.utils.extensions.shareTo
 import com.doneit.ascend.presentation.utils.extensions.toCapitalLetter
 import com.doneit.ascend.presentation.utils.extensions.visible
@@ -134,6 +135,13 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
         setBottomNavigationListeners()
         setBackStackHandler()
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        hideKeyboard()
+
     }
 
     private fun setBackStackHandler() {
