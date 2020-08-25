@@ -245,7 +245,7 @@
             android:layout_height="56dp"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="16dp"
-            android:visibility="@{model.isMasterMind &amp;&amp; model.user != null &amp;&amp; model.user.haveSubscription, default = gone}"
+            android:visibility="@{model.isMasterMind, default = gone}"
             app:cardBackgroundColor="@color/selector_btn_enabled"
             app:cardCornerRadius="28dp"
             app:cardElevation="4dp"
