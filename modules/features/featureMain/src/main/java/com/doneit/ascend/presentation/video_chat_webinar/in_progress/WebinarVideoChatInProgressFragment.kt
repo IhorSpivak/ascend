@@ -89,6 +89,7 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
                 true
             }
         }
+        viewLifecycleOwner.lifecycle.addObserver(viewModel)
         addAdapterDataObserver()
     }
 
@@ -125,11 +126,17 @@ class WebinarVideoChatInProgressFragment : BaseFragment<FragmentVideoChatWebinar
         surfaceView.holder.addCallback(this)
     }
 
+
+    override fun onResume() {
+        super.onResume()
+    }
+
     override fun onPause() {
         rtmpCamera?.stopPreview()
         rtmpCamera?.stopStream()
         super.onPause()
     }
+
 
     private fun startVideo(model: StartWebinarVideoModel) {
         requireContext().requestPermissions(
