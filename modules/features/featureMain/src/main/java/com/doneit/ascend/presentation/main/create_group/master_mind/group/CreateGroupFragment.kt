@@ -114,15 +114,6 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        GroupAction.values().forEach {
-            if (arguments?.containsKey(it.toString()) == true) {
-                val group = requireArguments().getParcelable<GroupEntity>(it.toString())
-                group?.let { currentGroup ->
-                    val what = it.toString()
-                    viewModel.loadParticipants(currentGroup.id, what)
-                }
-            }
-        }
         binding.apply {
             binding.model = viewModel
             adapter = adapter
