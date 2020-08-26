@@ -20,39 +20,39 @@ import java.util.*
 
 fun EditPhoneModel.toEntity(): ChangePhoneDTO {
     return ChangePhoneDTO(
-        password.observableField.getNotNull(),
-        getPhone(),
-        code.observableField.getNotNull()
+        password = password.observableField.getNotNull(),
+        phoneNumber = getPhone(),
+        code = code.observableField.getNotNull()
     )
 }
 
 fun PresentationChangePasswordModel.toEntity(): ChangePasswordDTO {
     return ChangePasswordDTO(
-        currentPassword.observableField.getNotNull(),
-        newPassword.observableField.getNotNull(),
-        confirmPassword.observableField.getNotNull()
+        currentPassword = currentPassword.observableField.getNotNull(),
+        password = newPassword.observableField.getNotNull(),
+        passwordConfirmation = confirmPassword.observableField.getNotNull()
     )
 }
 
 fun EditEmailModel.toEntity(): ChangeEmailDTO {
     return ChangeEmailDTO(
-        email.observableField.getNotNull(),
-        password.observableField.getNotNull()
+        email = email.observableField.getNotNull(),
+        password = password.observableField.getNotNull()
     )
 }
 
 fun CardEntity.toPresentation(): PresentationCardModel {
     return PresentationCardModel(
-        id,
-        name,
-        brand,
-        country,
-        expMonth,
-        expYear,
-        last4,
-        createdAt,
-        updatedAt,
-        isDefault
+        id = id,
+        name = name,
+        brand = brand,
+        country = country,
+        expMonth = expMonth,
+        expYear = expYear,
+        last4 = last4,
+        cratedAt = createdAt,
+        updatedAt = updatedAt,
+        isSelected = isDefault
     )
 }
 
@@ -74,19 +74,19 @@ fun String.toPresentationCommunity(isSelected: Boolean): PresentationCommunityMo
 
 fun SocketUserEntity.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
-        ParticipantSourcePriority.SOCKET,
-        userId.toString(),
-        fullName,
-        image,
-        isHandRisen
+        source = ParticipantSourcePriority.SOCKET,
+        userId = userId.toString(),
+        fullName = fullName,
+        image = image,
+        isHandRisen = isHandRisen
     )
 }
 
 fun SocketUserEntity.toWebinarPresentation(): WebinarChatParticipant {
     return WebinarChatParticipant(
-        userId.toString(),
-        fullName,
-        image,
+        userId = userId.toString(),
+        fullName = fullName,
+        image = image,
         isConnected = true
     )
 }
@@ -102,10 +102,10 @@ fun ParticipantEntity.toWebinarPresentation(): WebinarChatParticipant {
 
 fun ParticipantEntity.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
-        ParticipantSourcePriority.REQUEST,
-        id.toString(),
-        fullName,
-        image,
+        source = ParticipantSourcePriority.REQUEST,
+        userId = id.toString(),
+        fullName = fullName,
+        image = image,
         isSpeaker = isSpeaker,
         isHandRisen = isHandRisen,
         isMuted = isMuted
@@ -114,7 +114,7 @@ fun ParticipantEntity.toPresentation(): PresentationChatParticipant {
 
 fun RemoteParticipant.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
-        ParticipantSourcePriority.TWILIO,
+        source = ParticipantSourcePriority.TWILIO,
         userId = identity,
         remoteParticipant = this
     )
@@ -122,7 +122,7 @@ fun RemoteParticipant.toPresentation(): PresentationChatParticipant {
 
 fun LocalParticipant.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
-        ParticipantSourcePriority.TWILIO,
+        source = ParticipantSourcePriority.TWILIO,
         userId = identity,
         localParticipant = this,
         isOwner = true
@@ -131,7 +131,7 @@ fun LocalParticipant.toPresentation(): PresentationChatParticipant {
 
 fun OwnerEntity.toPresentation(): PresentationChatParticipant {
     return PresentationChatParticipant(
-        ParticipantSourcePriority.REQUEST,
+        source = ParticipantSourcePriority.REQUEST,
         userId = id.toString(),
         fullName = fullName,
         isOwner = true
@@ -161,26 +161,30 @@ fun CreateAttachmentFileModel.toEntity(): CreateAttachmentDTO {
 
 fun MessageSocketEntity.toEntity(): MessageEntity {
     return MessageEntity(
-        id,
-        message ?: "",
-        edited ?: false,
-        type?.toMessageType() ?: MessageType.MESSAGE,
-        userId ?: 0,
-        createdAt!!.toDate(),
-        updatedAt!!.toDate(),
-        status!!.toMessageStatus()
+        id = id,
+        message = message ?: "",
+        edited = edited ?: false,
+        type = type?.toMessageType() ?: MessageType.MESSAGE,
+        userId = userId ?: 0,
+        createdAt = createdAt!!.toDate(),
+        updatedAt = updatedAt!!.toDate(),
+        status = status!!.toMessageStatus(),
+        post = post,
+        attachment = attachment,
+        sharedGroup = sharedGroup,
+        sharedUser = sharedUser
     )
 }
 
 fun QuestionSocketEntity.toEntity(): WebinarQuestionEntity {
     return WebinarQuestionEntity(
-        id,
-        question,
-        createdAt?.toDate(),
-        updatedAt?.toDate(),
-        userId,
-        fullName,
-        image
+        id = id,
+        content = question,
+        createdAt = createdAt?.toDate(),
+        updatedAt = updatedAt?.toDate(),
+        userId = userId,
+        fullName = fullName,
+        image = image
     )
 }
 
@@ -214,10 +218,14 @@ private fun String.toDefaultFormatter(): SimpleDateFormat {
 }
 
 fun String.toMessageType(): MessageType {
-    return when {
-        this == MessageType.INVITE.toString() -> MessageType.INVITE
-        this == MessageType.LEAVE.toString() -> MessageType.LEAVE
-        this == MessageType.USER_REMOVED.toString() -> MessageType.USER_REMOVED
+    return when(this) {
+        MessageType.INVITE.toString() -> MessageType.INVITE
+        MessageType.LEAVE.toString() -> MessageType.LEAVE
+        MessageType.USER_REMOVED.toString() -> MessageType.USER_REMOVED
+        MessageType.ATTACHMENT.toString() -> MessageType.ATTACHMENT
+        MessageType.POST_SHARE.toString() -> MessageType.POST_SHARE
+        MessageType.GROUP_SHARE.toString() -> MessageType.GROUP_SHARE
+        MessageType.PROFILE_SHARE.toString() -> MessageType.PROFILE_SHARE
         else -> MessageType.MESSAGE
     }
 }

@@ -13,9 +13,8 @@ import com.doneit.ascend.presentation.main.databinding.ListItemSystemMessageBind
 class SystemMessageViewHolder(
     itemView: View
 ) : BaseMessageHolder(itemView) {
-    override fun bind(
+    fun bind(
         messageEntity: MessageEntity,
-        nextMessage: MessageEntity?,
         memberEntity: MemberEntity,
         chatOwner: MemberEntity,
         currentUserId: Long

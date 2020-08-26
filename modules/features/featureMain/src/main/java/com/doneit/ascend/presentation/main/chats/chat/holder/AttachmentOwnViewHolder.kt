@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.AttachmentType
 import com.doneit.ascend.domain.entity.MessageAttachment
-import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemOwnMessageAttachmentBinding
@@ -27,12 +26,9 @@ class AttachmentOwnViewHolder private constructor(
 ) : BaseAttachmentHolder(itemView) {
 
 
-    override fun bind(
+    fun bind(
         messageEntity: MessageEntity,
-        nextMessage: MessageEntity?,
-        memberEntity: MemberEntity,
-        chatOwner: MemberEntity,
-        currentUserId: Long
+        nextMessage: MessageEntity?
     ) {
         DataBindingUtil.bind<ListItemOwnMessageAttachmentBinding>(itemView)?.apply {
             this.messageEntity = messageEntity
@@ -44,11 +40,11 @@ class AttachmentOwnViewHolder private constructor(
                 onDeleteClick(messageEntity)
             }
             time.apply {
-                text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
+                text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt)
                 visibleOrGone(
                     nextMessage == null || calculateDate(
-                        messageEntity.createdAt!!,
-                        nextMessage.createdAt!!
+                        messageEntity.createdAt,
+                        nextMessage.createdAt
                     )
                 )
             }

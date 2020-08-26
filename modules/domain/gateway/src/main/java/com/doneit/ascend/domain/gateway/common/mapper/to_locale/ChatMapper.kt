@@ -14,7 +14,7 @@ fun ChatEntity.toLocal(): ChatWithLastMessage {
             id = id,
             membersCount = membersCount,
             createdAt = createdAt?.toRemoteString(),
-            updatedAt = lastMessage?.let { it.createdAt?.toRemoteString() }
+            updatedAt = lastMessage?.let { it.createdAt.toRemoteString() }
                 ?: updatedAt?.toRemoteString(),
             online = online,
             blocked = blocked,
@@ -41,7 +41,7 @@ fun MessageEntity.toLocal(chatId: Long): MessageWithPost {
             userId,
             edited,
             type.toString(),
-            createdAt?.time,
+            createdAt.time,
             updatedAt?.time,
             status.toString(),
             chatId,

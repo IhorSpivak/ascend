@@ -19,18 +19,15 @@ class ProfileShareOtherViewHolder(
 
     private val binding: ListItemOtherShareProfileBinding = DataBindingUtil.getBinding(itemView)!!
 
-    override fun bind(
+    fun bind(
         messageEntity: MessageEntity,
-        nextMessage: MessageEntity?,
-        memberEntity: MemberEntity,
-        chatOwner: MemberEntity,
-        currentUserId: Long
+        memberEntity: MemberEntity
     ) {
         with(binding) {
             this.memberEntity = memberEntity
             this.messageEntity = messageEntity
             if(messageEntity.createdAt != null) {
-                messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt!!)
+                messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt)
             }
             itemView.setOnSingleClickListener {
                 messageEntity.sharedUser?.let { user -> onProfileClick(user) }

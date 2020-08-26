@@ -3,7 +3,7 @@ package com.doneit.ascend.presentation.main.chats.chat.holder
 import android.os.Environment
 import android.view.View
 import com.doneit.ascend.presentation.main.base.GlobalTaskManager
-import com.doneit.ascend.presentation.main.chats.chat.common.NotificationSampleListener
+import com.doneit.ascend.presentation.main.chats.chat.common.DownloadNotificationListener
 import com.liulishuo.okdownload.DownloadListener
 import com.liulishuo.okdownload.DownloadTask
 import java.io.File
@@ -35,13 +35,21 @@ abstract class BaseAttachmentHolder(
     }
 
     private fun initListener(filename: String): DownloadListener {
-        return NotificationSampleListener(itemView.context).apply {
+        return DownloadNotificationListener(itemView.context).apply {
             attachTaskEndRunnable(Runnable {
                 resourceDownloaded()
             })
+            setProgressChangedListener(
+                object : DownloadNotificationListener.OnProgressChangedListener {
+                    override fun onProgressChanged(newOffset: Long, totalLength: Long) {
+                        updateProgress(newOffset, totalLength)
+                    }
+                })
             initNotification(filename)
         }
     }
+
+    protected open fun updateProgress(newOffset: Long, totalLength: Long) {}
 
     protected abstract fun resourceDownloaded()
 }

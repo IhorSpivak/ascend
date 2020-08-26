@@ -28,12 +28,10 @@ class ShareViewHolder private constructor(
 ) : BaseMessageHolder(itemView) {
 
     private val binding: ListItemSharedMessageBinding = DataBindingUtil.getBinding(itemView)!!
-    override fun bind(
+
+    fun bind(
         messageEntity: MessageEntity,
-        nextMessage: MessageEntity?,
-        memberEntity: MemberEntity,
-        chatOwner: MemberEntity,
-        currentUserId: Long
+        memberEntity: MemberEntity
     ) {
         with(binding) {
             member = memberEntity

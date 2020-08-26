@@ -52,7 +52,7 @@ fun BannerResponse.toEntity() = Banner(
 )
 
 fun GroupResponse.toEntity(): GroupEntity {
-    val startT = startTime.toDate()!!
+    val startT = startTime.toDate()
     val dayOffset = -1 * startT.getDayOffset()
 
     return GroupEntity(
@@ -97,7 +97,7 @@ private fun getDays(list: List<Int>?, dayOffset: Int): List<CalendarDayEntity> {
 fun NoteResponse.toEntity(): NoteEntity {
     return NoteEntity(
         content = content,
-        updatedAt = updatedAt.toDate()!!
+        updatedAt = updatedAt.toDate()
     )
 }
 
@@ -212,7 +212,7 @@ fun BannerLocal.toEntity() = Banner(
 fun NoteLocal.toLocale(): NoteEntity {
     return NoteEntity(
         content = content,
-        updatedAt = updatedAt.toDate()!!
+        updatedAt = updatedAt.toDate()
     )
 }
 
@@ -253,7 +253,11 @@ fun ChatSocketEventMessage.toEntity(): MessageSocketEntity {
         userId = userId,
         createdAt = createdAt,
         updatedAt = updatedAt,
-        event = ChatSocketEvent.fromRemoteString(event.orEmpty())
+        event = ChatSocketEvent.fromRemoteString(event.orEmpty()),
+        post = post?.toEntity(),
+        attachment = attachment?.toEntity(),
+        sharedUser = sharedUser?.toEntity(),
+        sharedGroup = sharedGroup?.toEntity()
     )
 }
 

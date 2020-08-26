@@ -753,5 +753,6 @@
     <string name="file_not_supported">This file extension is not supported</string>
     <string name="file_incorrect_size">Error The file size can’t be more than 100 Mb</string>
     <string name="see_more">See more</string>
+    <string name="label_uploading">uploading...</string>
 
 </resources>

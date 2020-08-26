@@ -25,27 +25,25 @@ class AttachmentOtherViewHolder private constructor(
 ) : BaseAttachmentHolder(itemView) {
 
 
-    override fun bind(
+    fun bind(
         messageEntity: MessageEntity,
         nextMessage: MessageEntity?,
-        memberEntity: MemberEntity,
-        chatOwner: MemberEntity,
-        currentUserId: Long
+        memberEntity: MemberEntity
     ) {
         DataBindingUtil.bind<ListItemOtherMessageAttachmentBinding>(itemView)?.apply {
             this.messageEntity = messageEntity
             this.memberEntity = memberEntity
             time.apply {
-                text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
+                text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt)
                 visibleOrGone(
                     nextMessage == null || calculateDate(
-                        messageEntity.createdAt!!,
-                        nextMessage.createdAt!!
+                        messageEntity.createdAt,
+                        nextMessage.createdAt
                     )
                 )
             }
             if(messageEntity.createdAt != null) {
-                messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt!!)
+                messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt)
             }
             val attachment = messageEntity.attachment ?: return
             mediaContainer.visibleOrGone(attachment.type != AttachmentType.FILE)

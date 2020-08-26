@@ -4,6 +4,7 @@ import com.doneit.ascend.domain.entity.AttachmentEntity
 import com.doneit.ascend.domain.entity.AttachmentType
 import com.doneit.ascend.source.storage.local.data.AttachmentLocal
 import com.doneit.ascend.source.storage.remote.data.response.AttachmentResponse
+import java.util.*
 
 fun AttachmentResponse.toEntity(): AttachmentEntity {
     return AttachmentEntity(
@@ -15,8 +16,8 @@ fun AttachmentResponse.toEntity(): AttachmentEntity {
         userId,
         private,
         attachmentType.toAttachmentType(),
-        createdAt.toDate()!!,
-        updatedAt.toDate()!!
+        createdAt.toDate(),
+        updatedAt.toDate()
     )
 }
 
@@ -38,11 +39,19 @@ fun AttachmentLocal.toEntity(): AttachmentEntity {
         userId,
         privacy,
         attachmentType,
-        createdAt.toDate()!!,
-        updatedAt.toDate()!!
+        createdAt.toDate(),
+        updatedAt.toDate()
     )
 }
 
 fun String.toAttachmentType(): AttachmentType {
     return AttachmentType.valueOf(this.toUpperCase())
+}
+
+fun String.mimeToAttachmentType(): AttachmentType {
+    return try {
+        AttachmentType.valueOf(substringBeforeLast('/').toUpperCase(Locale.getDefault()))
+    } catch (e: IllegalArgumentException) {
+        AttachmentType.FILE
+    }
 }

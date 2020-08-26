@@ -19,12 +19,10 @@ class OtherMessageViewHolder(
     private val chatType: ChatType
 ) : BaseMessageHolder(itemView) {
 
-    override fun bind(
+    fun bind(
         messageEntity: MessageEntity,
         nextMessage: MessageEntity?,
-        memberEntity: MemberEntity,
-        chatOwner: MemberEntity,
-        currentUserId: Long
+        memberEntity: MemberEntity
     ) {
         DataBindingUtil.bind<ListItemOtherMessageBinding>(itemView)?.apply {
             this.memberEntity = memberEntity
@@ -40,15 +38,13 @@ class OtherMessageViewHolder(
                     onImageWebinarClick(it, memberEntity)
                 }
             }
-            if(messageEntity.createdAt != null) {
-                messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt)
-            }
+            messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt)
             time.apply {
-                text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
+                text = MESSAGE_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt)
                 visibleOrGone(
                     nextMessage == null || calculateDate(
-                        messageEntity.createdAt!!,
-                        nextMessage.createdAt!!
+                        messageEntity.createdAt,
+                        nextMessage.createdAt
                     )
                 )
                 userImage.visible(messageEntity.userId != nextMessage?.userId)

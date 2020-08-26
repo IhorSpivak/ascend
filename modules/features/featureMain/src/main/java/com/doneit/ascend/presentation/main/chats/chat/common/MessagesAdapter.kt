@@ -85,15 +85,70 @@ class MessagesAdapter(
         val message = getItem(position)!!
         val nextMessage = if (position != itemCount - 1) getItem(position + 1) else null
         val member = chatWithUser.chat.members.firstOrNull { it.id == message.userId } ?: return
-        holder.bind(
-            messageEntity = message,
-            nextMessage = nextMessage,
-            memberEntity = member,
-            currentUserId = chatWithUser.user.id,
-            chatOwner = chatWithUser.chat.members.firstOrNull {
-                it.id == chatWithUser.chat.chatOwnerId
-            } ?: return
-        )
+
+        when (getItemViewType(position)) {
+            Type.OWN.ordinal -> {
+                if (chatWithUser.chatType != ChatType.WEBINAR_CHAT) {
+                    (holder as OwnMessageViewHolder).bind(
+                        messageEntity = message,
+                        nextMessage = nextMessage
+                    )
+                } else {
+                    (holder as WebinarMessageViewHolder).bind(
+                        messageEntity = message,
+                        nextMessage = nextMessage,
+                        memberEntity = member,
+                        currentUserId = chatWithUser.user.id
+                    )
+                }
+            }
+            Type.SYSTEM.ordinal -> (holder as SystemMessageViewHolder).bind(
+                messageEntity = message,
+                memberEntity = member,
+                chatOwner = chatWithUser.chat.members.firstOrNull {
+                    it.id == chatWithUser.chat.chatOwnerId
+                } ?: return,
+                currentUserId = chatWithUser.user.id
+            )
+            Type.OTHER.ordinal -> if (chatWithUser.chatType != ChatType.WEBINAR_CHAT) {
+                (holder as OtherMessageViewHolder).bind(
+                    messageEntity = message,
+                    memberEntity = member,
+                    nextMessage = nextMessage
+                )
+            } else {
+                (holder as WebinarMessageViewHolder).bind(
+                    messageEntity = message,
+                    memberEntity = member,
+                    nextMessage = nextMessage,
+                    currentUserId = chatWithUser.user.id
+                )
+            }
+            Type.SHARE_POST.ordinal -> (holder as ShareViewHolder).bind(
+                memberEntity = member,
+                messageEntity = message
+            )
+            Type.ATTACHMENT_OWN.ordinal -> (holder as AttachmentOwnViewHolder).bind(
+                messageEntity = message,
+                nextMessage = nextMessage
+            )
+            Type.ATTACHMENT_OTHER.ordinal -> (holder as AttachmentOtherViewHolder).bind(
+                messageEntity = message,
+                memberEntity = member,
+                nextMessage = nextMessage
+            )
+            Type.SHARE_PROFILE_OWN.ordinal -> (holder as ProfileShareOwnViewHolder).bind(
+                messageEntity = message
+            )
+            Type.SHARE_PROFILE_OTHER.ordinal -> (holder as ProfileShareOtherViewHolder).bind(
+                messageEntity = message,
+                memberEntity = member
+            )
+            Type.SHARE_GROUP.ordinal -> (holder as ShareGroupViewHolder).bind(
+                memberEntity = member,
+                messageEntity = message
+            )
+        }
     }
 
     override fun getItemViewType(position: Int): Int {

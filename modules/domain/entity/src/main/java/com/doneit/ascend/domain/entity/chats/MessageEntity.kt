@@ -10,7 +10,7 @@ import java.util.*
 
 @Parcelize
 data class MessageEntity(
-    val id: Long,
+    var id: Long,
     val message: String,
     val edited: Boolean = false,
     val type: MessageType,

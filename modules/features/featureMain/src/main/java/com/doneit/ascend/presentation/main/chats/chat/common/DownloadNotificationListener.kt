@@ -18,16 +18,24 @@ import com.liulishuo.okdownload.core.cause.EndCause
 import com.liulishuo.okdownload.core.listener.DownloadListener4WithSpeed
 import com.liulishuo.okdownload.core.listener.assist.Listener4SpeedAssistExtend.Listener4SpeedModel
 
-class NotificationSampleListener(context: Context) : DownloadListener4WithSpeed() {
+class DownloadNotificationListener(
+    context: Context
+) : DownloadListener4WithSpeed() {
     private lateinit var builder: NotificationCompat.Builder
-    private var totalLength = 0
+    private var totalLength = 0L
     private var manager: NotificationManager? = null
     private var taskEndRunnable: Runnable? = null
     private val context: Context = context.applicationContext
     private var action: NotificationCompat.Action? = null
 
+    private var onProgressChangedListener: OnProgressChangedListener? = null
+
     fun attachTaskEndRunnable(taskEndRunnable: Runnable?) {
         this.taskEndRunnable = taskEndRunnable
+    }
+
+    fun setProgressChangedListener(listener: OnProgressChangedListener) {
+        onProgressChangedListener = listener
     }
 
     fun releaseTaskEndRunnable() {
@@ -45,7 +53,7 @@ class NotificationSampleListener(context: Context) : DownloadListener4WithSpeed(
             val channel = NotificationChannel(
                 channelId,
                 OPERATION_INFO,
-                NotificationManager.IMPORTANCE_MIN
+                NotificationManager.IMPORTANCE_DEFAULT
             )
             manager!!.createNotificationChannel(channel)
         }
@@ -104,7 +112,7 @@ class NotificationSampleListener(context: Context) : DownloadListener4WithSpeed(
         }
         builder.setProgress(info.totalLength.toInt(), info.totalOffset.toInt(), true)
         manager!!.notify(task.id, builder.build())
-        totalLength = info.totalLength.toInt()
+        totalLength = info.totalLength
     }
 
     override fun progressBlock(
@@ -119,7 +127,8 @@ class NotificationSampleListener(context: Context) : DownloadListener4WithSpeed(
         taskSpeed: SpeedCalculator
     ) {
         builder.setContentText("Downloading : ${taskSpeed.speed()}")
-        builder.setProgress(totalLength, currentOffset.toInt(), false)
+        builder.setProgress(totalLength.toInt(), currentOffset.toInt(), false)
+        onProgressChangedListener?.onProgressChanged(currentOffset, totalLength)
         manager!!.notify(task.id, builder.build())
     }
 
@@ -161,6 +170,10 @@ class NotificationSampleListener(context: Context) : DownloadListener4WithSpeed(
             // ignored.
             100
         )
+    }
+
+    interface OnProgressChangedListener {
+        fun onProgressChanged(newOffset: Long, totalLength: Long)
     }
 
     companion object {

@@ -140,7 +140,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             try {
                 startActivity(Intent.createChooser(this, getString(R.string.preview)))
             } catch (e: ActivityNotFoundException) {
-                1
             }
         }
     }

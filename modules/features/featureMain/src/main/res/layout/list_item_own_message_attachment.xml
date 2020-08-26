@@ -108,12 +108,26 @@
                         tools:ignore="MissingConstraints"
                         tools:text="@tools:sample/lorem/random" />
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/uploading_label"
+                        style="@style/TextNormal.White"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_uploading"
+                        android:textSize="10sp"
+                        android:visibility="@{messageEntity.id == -1L}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="SmallSp" />
+
                     <FrameLayout
                         android:id="@+id/mediaContainer"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
                         android:layout_marginTop="8dp"
-                        android:visibility="gone"
+                        android:alpha="@{messageEntity.id == -1L?0.6f:1f}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
@@ -134,8 +148,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_baseline_play"
-                            app:fabCustomSize="40dp"/>
+                            app:fabCustomSize="40dp"
+                            app:srcCompat="@drawable/ic_baseline_play" />
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/attachmentImage"
@@ -217,6 +231,16 @@
                             tools:text="24.09.19 12:32 pm" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{messageEntity.id == -1L}"
+                        app:layout_constraintBottom_toBottomOf="@id/mediaContainer"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/my_name" />
+
                     <TextView
                         android:id="@+id/my_message_time"
                         style="@style/TextNormal.White"
@@ -226,7 +250,8 @@
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@id/my_name"
                         app:layout_constraintEnd_toStartOf="@id/my_message_status"
-                        tools:text="10:07" />
+                        tools:text="10:07"
+                        tools:ignore="SmallSp" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/my_message_status"

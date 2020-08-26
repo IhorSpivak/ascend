@@ -8,10 +8,9 @@ import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.presentation.common.setOnSingleClickListener
-import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemSharedGroupBinding
-import com.doneit.ascend.presentation.utils.extensions.toTimeStampFormat
+import com.doneit.ascend.presentation.utils.extensions.getTimeFormat
 
 class ShareGroupViewHolder(
     itemView: View,
@@ -20,13 +19,9 @@ class ShareGroupViewHolder(
 
     private val binding: ListItemSharedGroupBinding = DataBindingUtil.getBinding(itemView)!!
 
-    override fun bind(
+    fun bind(
         messageEntity: MessageEntity,
-        nextMessage: MessageEntity?,
-
-        memberEntity: MemberEntity,
-        chatOwner: MemberEntity,
-        currentUserId: Long
+        memberEntity: MemberEntity
     ) {
         with(binding) {
             member = memberEntity
@@ -36,7 +31,7 @@ class ShareGroupViewHolder(
                 groupModel = group
                 community = group.community
                 if(messageEntity.createdAt != null) {
-                    messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt!!)
+                    messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt)
                 }
                 theme = if (group.pastMeetingsCount == group.meetingsCount) {
                     group.pastMeetingsCount?.let { group.themes?.get(it - 1) }

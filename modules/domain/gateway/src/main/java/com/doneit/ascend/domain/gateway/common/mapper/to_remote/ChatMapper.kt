@@ -1,6 +1,11 @@
 package com.doneit.ascend.domain.gateway.common.mapper.to_remote
 
+import com.doneit.ascend.domain.entity.chats.MessageType
 import com.doneit.ascend.domain.entity.dto.*
+import com.doneit.ascend.domain.gateway.common.mapper.to_entity.mimeToAttachmentType
+import com.doneit.ascend.source.storage.local.data.chat.MessageAttachmentLocal
+import com.doneit.ascend.source.storage.local.data.chat.MessageLocal
+import com.doneit.ascend.source.storage.local.data.chat.MessageWithPost
 import com.doneit.ascend.source.storage.remote.data.request.*
 
 fun ChatListDTO.toRequest(): MyChatsListRequest {
@@ -106,6 +111,31 @@ fun MessageDTO.toRequest(): MessageRequest {
                 url = attachmentUrl
             )
         }
+    )
+}
+
+fun MessageDTO.toMessageWithPost(filename: String): MessageWithPost {
+    return MessageWithPost(
+        MessageLocal(
+            -1L,
+            message = message,
+            userId = userId,
+            edited = false,
+            type = MessageType.ATTACHMENT.toString(),
+            createdAt = System.currentTimeMillis(),
+            updatedAt = null,
+            status = "sent",
+            chatId = id,
+            postId = null,
+            attachment = MessageAttachmentLocal(
+                filename,
+                "",
+                attachmentType.mimeToAttachmentType().ordinal,
+                attachmentUrl
+            ),
+            sharedGroup = null,
+            sharedUser = null
+        ), null
     )
 }
 

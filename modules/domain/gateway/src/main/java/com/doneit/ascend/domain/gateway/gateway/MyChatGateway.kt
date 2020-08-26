@@ -1,6 +1,8 @@
 package com.doneit.ascend.domain.gateway.gateway
 
 import android.accounts.AccountManager
+import android.content.ContentResolver
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
@@ -12,6 +14,7 @@ import com.doneit.ascend.domain.entity.dto.*
 import com.doneit.ascend.domain.gateway.common.mapper.toResponseEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_entity.toEntity
 import com.doneit.ascend.domain.gateway.common.mapper.to_locale.toLocal
+import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toMessageWithPost
 import com.doneit.ascend.domain.gateway.common.mapper.to_remote.toRequest
 import com.doneit.ascend.domain.gateway.gateway.base.BaseGateway
 import com.doneit.ascend.domain.gateway.gateway.boundaries.BlockedUsersBoundaryCallback
@@ -26,6 +29,7 @@ import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.source.storage.remote.data.request.group.ChatSocketCookies
 import com.doneit.ascend.source.storage.remote.repository.chats.IMyChatsRepository
 import com.doneit.ascend.source.storage.remote.repository.chats.socket.IChatSocketRepository
+import com.doneit.ascend.source.storage.remote.util.MultipartConverter.getFilenameAndSizeFromUri
 import com.vrgsoft.networkmanager.NetworkManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
@@ -34,6 +38,7 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 
 class MyChatGateway(
+    private val contentResolver: ContentResolver,
     private val local: com.doneit.ascend.source.storage.local.repository.chats.IMyChatsRepository,
     private val remote: IMyChatsRepository,
     private val remoteSocket: IChatSocketRepository,
@@ -230,6 +235,10 @@ class MyChatGateway(
     }
 
     override suspend fun sendMessage(request: MessageDTO): ResponseEntity<Unit, List<String>> {
+        if (request.attachmentUrl.isNotBlank()) {
+            val name = contentResolver.getFilenameAndSizeFromUri(Uri.parse(request.attachmentUrl)).first
+            local.insertMessage(request.toMessageWithPost(name))
+        }
         return executeRemote { remote.sendMessage(request.toRequest()) }.toResponseEntity(
             {
                 Unit

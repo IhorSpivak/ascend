@@ -22,11 +22,10 @@ class WebinarMessageViewHolder(
     private val onImageClick: (view: View, member: MemberEntity) -> Unit
 ) : BaseMessageHolder(binding.root) {
 
-    override fun bind(
+    fun bind(
         messageEntity: MessageEntity,
         nextMessage: MessageEntity?,
         memberEntity: MemberEntity,
-        chatOwner: MemberEntity,
         currentUserId: Long
     ) {
         binding.apply {
@@ -48,13 +47,12 @@ class WebinarMessageViewHolder(
             userImage.setOnClickListener {
                 onImageClick(it, memberEntity)
             }
-            sendTime = root.context.getTimeFormat().format(messageEntity.createdAt!!)
-            time.text =
-                START_TIME_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt!!)
+            sendTime = root.context.getTimeFormat().format(messageEntity.createdAt)
+            time.text = START_TIME_FORMATTER.toDefaultFormatter().format(messageEntity.createdAt)
             time.visibleOrGone(
                 nextMessage == null || calculateDate(
-                    messageEntity.createdAt!!,
-                    nextMessage.createdAt!!
+                    messageEntity.createdAt,
+                    nextMessage.createdAt
                 )
             )
             if (nextMessage == null) {

@@ -162,6 +162,7 @@ class ChatViewModel(
                 MessageDTO(
                     chatWithUser.chat.id,
                     message,
+                    chatWithUser.user.id,
                     attachmentUrl,
                     attachmentType
                 )
@@ -316,7 +317,7 @@ class ChatViewModel(
     }
 
     override fun markMessageAsRead(message: MessageEntity) {
-        if (message.userId != chatWithUser.user.id && message.status != MessageStatus.READ && message.isMarkAsReadSentToApprove.not()) {
+        if (message.userId != chatWithUser.user.id && message.status != MessageStatus.READ && message.isMarkAsReadSentToApprove.not() && message.id != -1L) {
             message.isMarkAsReadSentToApprove = true
             viewModelScope.launch {
                 chatUseCase.markMessageAsRead(message.id).let {

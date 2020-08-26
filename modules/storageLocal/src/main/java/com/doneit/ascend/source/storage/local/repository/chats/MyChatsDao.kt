@@ -3,12 +3,17 @@ package com.doneit.ascend.source.storage.local.repository.chats
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
+import com.doneit.ascend.source.storage.local.data.UserLocal
 import com.doneit.ascend.source.storage.local.data.chat.*
 import com.doneit.ascend.source.storage.local.data.community_feed.PostAttachmentLocal
 import com.doneit.ascend.source.storage.local.data.community_feed.PostLocal
 
 @Dao
 abstract class MyChatsDao {
+
+    @Query("SELECT * FROM users LIMIT 1")
+    abstract fun getUser(): UserLocal
+
     @Query("SELECT * FROM chat ORDER BY updatedAt DESC")
     abstract fun getAll(): DataSource.Factory<Int, ChatWithLastMessage>
 
@@ -135,6 +140,9 @@ abstract class MyChatsDao {
 
     @Transaction
     open suspend fun insertMessageWithPost(message: MessageWithPost) {
+        if (message.messageLocal.userId == getUser().id) {
+            removeMessage(-1L)
+        }
         insertMessage(message.messageLocal)
         message.post?.let {
             insertPost(it.postLocal)
