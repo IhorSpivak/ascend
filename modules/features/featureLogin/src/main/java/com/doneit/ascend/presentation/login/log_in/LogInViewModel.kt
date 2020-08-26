@@ -80,7 +80,7 @@ class LogInViewModel(
             if (requestEntity.isSuccessful) {
                 requestEntity.successModel?.let {
 
-                    if (requestEntity.successModel!!.userEntity.unansweredQuestionsCount > 0 &&
+                    if (requestEntity.successModel!!.userEntity.community.isNullOrEmpty() &&
                         it.userEntity.isMasterMind.not()
                     ) {
                         router.navigateToFirstTimeLogin()
