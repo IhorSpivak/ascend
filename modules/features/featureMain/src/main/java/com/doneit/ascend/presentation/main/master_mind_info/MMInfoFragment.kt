@@ -71,7 +71,7 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
                 Toast.makeText(requireContext(), "Send Error", Toast.LENGTH_LONG).show()
             }
         }
-        viewModel.user.observe(this, Observer {
+        viewModel.profile.observe(this, Observer {
             it ?: return@Observer
             binding.vpGroups.adapter = MMProfileTabAdapter.newInstance(
                 childFragmentManager,

@@ -56,7 +56,9 @@ class MMLiveStreamsFragment : BaseFragment<FragmentMmLiveStreamsBinding>(){
             model = viewModel
         }
 
+
         viewModel.updateFilter(WebinarFilter.FAMILY)
+        user!!.community = "family"
         viewModel.checkUser(user!!)
 
 

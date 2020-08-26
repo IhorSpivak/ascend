@@ -27,8 +27,8 @@ class MMInfoViewModel(
     private val masterMindUseCase: MasterMindUseCase
 ) : BaseViewModelImpl(), MMInfoContract.ViewModel {
 
-    private val groupId = MutableLiveData<Long>()
-    override val profile = groupId.switchMap { masterMindUseCase.getProfile(it) }
+    private val idProfile = MutableLiveData<Long>()
+    override val profile = idProfile.switchMap { masterMindUseCase.getProfile(it) }
     override val user: LiveData<UserEntity?> = userUseCase.getUserLive()
 
     override val isFollowVisible = MutableLiveData(false)
@@ -70,8 +70,8 @@ class MMInfoViewModel(
     }
 
     override fun getListOfTitles(): List<Int> {
-        user.value?.let {
-            return when (it.community) {
+        profile.value?.let {
+            return when (it.community!!.capitalize()) {
                 Community.SUCCESS.title,
                 Community.INDUSTRY.title -> listOf(
                     R.string.webinars,
@@ -135,7 +135,7 @@ class MMInfoViewModel(
     }
 
     override fun setProfileId(id: Long) {
-        groupId.postValue(id)
+        idProfile.postValue(id)
     }
 
     override fun report(content: String) {

@@ -183,7 +183,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
     }
 
     override fun setTitle(title: String) {
-        binding.tvTitle.text = title
+        binding.tvTitle.text = title.toUpperCase()
         binding.tvTitle.visible()
         binding.communityDropDown.gone()
     }
