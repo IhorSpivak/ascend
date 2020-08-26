@@ -48,10 +48,7 @@ class MMLiveStreamsViewModel (
 
     override val groups = groupListModel.switchMap {
         groupUseCase.getGroupListPaged(viewModelScope, it).map {
-            GroupListWithUserPaged(
-                it,
-                user
-            )
+            GroupListWithUserPaged(it, user)
         }
     }
 

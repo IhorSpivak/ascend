@@ -12,10 +12,7 @@ import com.doneit.ascend.domain.entity.chats.MemberEntity
 import com.doneit.ascend.domain.entity.chats.MessageEntity
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemOwnMessageAttachmentBinding
-import com.doneit.ascend.presentation.utils.extensions.MESSAGE_FORMATTER
-import com.doneit.ascend.presentation.utils.extensions.calculateDate
-import com.doneit.ascend.presentation.utils.extensions.toDefaultFormatter
-import com.doneit.ascend.presentation.utils.extensions.visibleOrGone
+import com.doneit.ascend.presentation.utils.extensions.*
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
@@ -39,6 +36,10 @@ class AttachmentOwnViewHolder private constructor(
     ) {
         DataBindingUtil.bind<ListItemOwnMessageAttachmentBinding>(itemView)?.apply {
             this.messageEntity = messageEntity
+
+            myMessageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt)
+
+
             ibDelete.setOnClickListener {
                 onDeleteClick(messageEntity)
             }
@@ -57,6 +58,9 @@ class AttachmentOwnViewHolder private constructor(
             attachmentVideo.visibleOrGone(attachment.type == AttachmentType.VIDEO)
             fabPlay.visibleOrGone(attachment.type == AttachmentType.VIDEO)
             attachmentFile.visibleOrGone(attachment.type == AttachmentType.FILE)
+
+
+
             val res = if (!isFileExist(attachment.name)) {
                 R.drawable.ic_download
             } else R.drawable.ic_sent_message

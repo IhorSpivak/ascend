@@ -34,7 +34,7 @@ data class UserEntity(
     val allowRating: Boolean,
     val groupsCount: Int,
     val isMasterMind: Boolean,
-    val community: String?,
+    var community: String?,
     val visitedGroupCount: Int,
     val haveSubscription: Boolean,
     val subscriptionTrial: Boolean,
