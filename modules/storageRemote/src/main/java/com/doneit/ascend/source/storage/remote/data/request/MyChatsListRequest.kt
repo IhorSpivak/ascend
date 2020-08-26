@@ -8,17 +8,31 @@ class MyChatsListRequest(
     perPage: Int?,
     sortColumn: String?,
     sortType: String?,
+
     val title: String?,
+
     @SerializedName("created_at_from")
     val createdAtFrom: String?,
+
     @SerializedName("created_at_to")
     val createdAtTo: String?,
+
     @SerializedName("updated_at_from")
     val updatedAtFrom: String?,
+
     @SerializedName("updated_at_to")
     val updatedAtTo: String?,
+
     @SerializedName("chat_type")
     val chatType: String?,
+
     @SerializedName("all_channels")
-    val allChannels: Boolean?
+    val allChannels: Boolean?,
+
+    @SerializedName("owner_id")
+    val ownerId: Long? = null,
+
+    @SerializedName("community")
+    val community: String? = null
+
 ) : BasePagedModel(page, perPage, sortColumn, sortType)

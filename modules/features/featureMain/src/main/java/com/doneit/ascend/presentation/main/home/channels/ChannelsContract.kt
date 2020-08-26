@@ -14,8 +14,9 @@ interface ChannelsContract {
         val channelList: LiveData<PagedList<ChatEntity>>
         val user: LiveData<UserEntity?>
 
+        fun setUser(user: UserEntity)
         fun fetchCommunityList()
-        fun fetchChannelsList()
+        fun fetchChannelsList(community: Community? = null)
         fun onChannelPressed(channel: ChatEntity)
         fun onJoinChannel(channel: ChatEntity)
     }

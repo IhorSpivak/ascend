@@ -22,7 +22,9 @@ interface ChatApi {
         @Query("updated_at_from") updatedAtFrom: String?,
         @Query("updated_at_to") updatedAtTo: String?,
         @Query("chat_type") chatType: String?,
-        @Query("all_channels") allChannels: Boolean?
+        @Query("all_channels") allChannels: Boolean?,
+        @Query("owner_id") ownerId: Long? = null,
+        @Query("community") community: String? = null
     ): Deferred<Response<MyChatsListResponse>>
 
     @GET("chats/{id}")

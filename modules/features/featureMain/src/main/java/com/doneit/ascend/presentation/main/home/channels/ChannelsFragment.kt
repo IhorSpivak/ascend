@@ -1,10 +1,12 @@
 package com.doneit.ascend.presentation.main.home.channels
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.doneit.ascend.domain.entity.chats.ChatEntity
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.common.RvLazyAdapter
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -13,17 +15,20 @@ import com.doneit.ascend.presentation.main.home.channels.adapter.CommunityAdapte
 import com.doneit.ascend.presentation.main.home.channels.dialog.ChannelsDialogInfo
 import com.doneit.ascend.presentation.main.home.community_feed.channels.common.ChannelAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.dialog_bottom_sheet_channels.view.*
 import org.kodein.di.generic.instance
 
 class ChannelsFragment : BaseFragment<FragmentChannelsTabBinding>() {
+
+    private val args by lazy { arguments?.getParcelable<Args>(EXTRA_ARGS) }
 
     override val viewModelModule = ChannelsViewModelModule.get(this)
     override val viewModel: ChannelsContract.ViewModel by instance()
 
     private val communityAdapter by lazy { CommunityAdapter(
         onCommunitySelect = { community ->
-
+            viewModel.fetchChannelsList(community)
         }
     ) }
 
@@ -54,6 +59,7 @@ class ChannelsFragment : BaseFragment<FragmentChannelsTabBinding>() {
                 channelAdapter.submitList(channelList)
             })
 
+            args?.user?.let { setUser(it) }
             fetchCommunityList()
         }
     }
@@ -83,7 +89,18 @@ class ChannelsFragment : BaseFragment<FragmentChannelsTabBinding>() {
 
     companion object {
 
-        fun getInstance() = ChannelsFragment()
+        private const val EXTRA_ARGS = "EXTRA_ARGS"
+
+        @Parcelize
+        private data class Args(
+            val user: UserEntity
+        ): Parcelable
+
+        fun getInstance(user: UserEntity) = ChannelsFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(EXTRA_ARGS, Args(user))
+            }
+        }
 
     }
 

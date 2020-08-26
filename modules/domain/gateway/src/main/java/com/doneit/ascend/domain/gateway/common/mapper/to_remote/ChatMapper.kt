@@ -31,7 +31,9 @@ fun ChatListDTO.toRequest(page: Int): MyChatsListRequest {
         updatedAtTo = updatedAtTo,
         updatedAtFrom = updatedAtFrom,
         chatType = chatType?.toString(),
-        allChannels = allChannels
+        allChannels = allChannels,
+        ownerId = ownerId,
+        community = community
     )
 }
 

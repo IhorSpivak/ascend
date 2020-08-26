@@ -41,10 +41,10 @@ class MMProfileTabAdapter(
             val fragments: ArrayList<() -> Fragment> = arrayListOf(
                 { MMLiveStreamsFragment.newInstance(userId,user) },
                 { GroupsFragment.newInstance(userId, GroupType.SUPPORT) },
-                { ChannelsFragment.getInstance() },
-                { ChannelsFragment.getInstance() },
+                { ChannelsFragment.getInstance(user) },
+                { ChannelsFragment.getInstance(user) },
                 { MMPostsFragment.newInstance(userId, user) },
-                { ChannelsFragment.getInstance() }
+                { ChannelsFragment.getInstance(user) }
             )
 
             return MMProfileTabAdapter(fragmentManager, fragments, titles)

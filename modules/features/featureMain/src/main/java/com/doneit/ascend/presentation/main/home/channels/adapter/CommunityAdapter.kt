@@ -62,9 +62,8 @@ class CommunityAdapter(
                     val previousSelectedPosition = selectedPosition
                     selectedPosition = adapterPosition
 
-                    onCommunitySelect(communityList[adapterPosition])
-
                     notifyItemChanged(previousSelectedPosition, Any())
+                    onCommunitySelect(communityList[adapterPosition])
 
                     scrollSelectedPosition()
                 }
@@ -78,6 +77,10 @@ class CommunityAdapter(
                 this.community = community
 
                 name.isSelected = selectedPosition == adapterPosition
+
+                if (selectedPosition == adapterPosition) {
+                    onCommunitySelect(communityList[adapterPosition])
+                }
             }
         }
 

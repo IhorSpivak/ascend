@@ -9,6 +9,7 @@ import com.doneit.ascend.domain.entity.dto.ChatListDTO
 import com.doneit.ascend.domain.entity.dto.ChatType
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.user.Community
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
 import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
@@ -21,32 +22,37 @@ import kotlinx.coroutines.launch
 @ViewModelDiModule
 class ChannelsViewModel(
     private val router: ChannelsContract.Router,
-    private val chatUseCase: ChatUseCase,
-    userUseCase: UserUseCase
+    private val chatUseCase: ChatUseCase
 ): BaseViewModelImpl(), ChannelsContract.ViewModel {
 
     override val communityList = MutableLiveData<List<Community>>()
     override var channelList = MediatorLiveData<PagedList<ChatEntity>>()
-    override val user = userUseCase.getUserLive()
+    override val user = MutableLiveData<UserEntity>()
 
+    private var selectedCommunity: Community? = null
     private lateinit var channels: LiveData<PagedList<ChatEntity>>
 
-    init {
-        fetchChannelsList()
+    override fun setUser(user: UserEntity) {
+        this.user.postValue(user)
     }
 
     override fun fetchCommunityList() {
         communityList.postValue(Community.values().toList())
     }
 
-    override fun fetchChannelsList() {
+    override fun fetchChannelsList(community: Community?) {
+        community?.let {
+            selectedCommunity = community
+        }
         val model = ChatListDTO(
             perPage = COUNT_ON_PAGE_CHANNELS,
             sortColumn = SORT_COLUMN_CHANNELS,
             sortType = SortType.DESC,
             title = null,
             allChannels = true,
-            chatType = ChatType.CHANNEL
+            chatType = ChatType.CHANNEL,
+            ownerId = user.value?.id,
+            community = selectedCommunity?.title
         )
         channels = chatUseCase.loadChats(viewModelScope, model)
         channelList.addSource(channels) {
