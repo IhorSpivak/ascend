@@ -26,10 +26,8 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentAttachmentsBinding
 import com.doneit.ascend.presentation.models.PresentationMessage
-import com.doneit.ascend.presentation.utils.Constants
-import com.doneit.ascend.presentation.utils.Messages
+import com.doneit.ascend.presentation.utils.*
 import com.doneit.ascend.presentation.utils.extensions.copyToClipboard
-import com.doneit.ascend.presentation.utils.showAddAttachmentDialog
 import com.doneit.ascend.presentation.video_chat.attachments.common.AttachmentsAdapter
 import com.doneit.ascend.presentation.video_chat.attachments.listeners.PickiTListener
 import com.hbisoft.pickit.PickiT
@@ -59,7 +57,10 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
                             viewModel.uploadFile(path)
                         }
                     }
-                }
+
+                    override fun PickiTonUriReturned() {
+                    }
+                }, activity
             )
         }
 
@@ -92,6 +93,7 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
     override val viewModel: AttachmentsContract.ViewModel by instance()
     private val router: AttachmentsContract.Router by instance()
     private val pickit: PickiT by instance()
+    private var lastFileUri = Uri.EMPTY
 
     private val adapter: AttachmentsAdapter by lazy {
         AttachmentsAdapter({
@@ -176,7 +178,9 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
     private fun showAttachmentDialog() {
         showAddAttachmentDialog({
             requestWritePermissions(getString(R.string.add_attachments_denied)) {
-                val galleryIntent = Intent(Intent.ACTION_PICK)
+                val galleryIntent = Intent(Intent.ACTION_PICK).apply {
+                    putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+                }
                 galleryIntent.type = "image/*"
 
                 startActivityForResult(
@@ -186,7 +190,9 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
             }
         }, {
             requestWritePermissions(getString(R.string.gallery_denied)) {
-                val fileIntent = Intent(Intent.ACTION_GET_CONTENT)
+                val fileIntent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                    putExtra(Intent.EXTRA_LOCAL_ONLY, true)
+                }
                 //TODO: add filter:
                 fileIntent.type = "*/*"
 
@@ -224,21 +230,32 @@ class AttachmentsFragment : BaseFragment<FragmentAttachmentsBinding>() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                GALLERY_REQUEST_CODE -> {
-                    if (data?.data != null) {
+            data?.data?.let {
+                lastFileUri = it
+                when (requestCode) {
+                    GALLERY_REQUEST_CODE -> {
                         viewModel.setAttachmentType(AttachmentType.IMAGE)
-                        pickit.getPath(data.data, Build.VERSION.SDK_INT)
                     }
-                }
-                FILE_REQUEST_CODE -> {
-                    if (data?.data != null) {
+                    FILE_REQUEST_CODE -> {
                         viewModel.setAttachmentType(AttachmentType.FILE)
-                        pickit.getPath(data.data, Build.VERSION.SDK_INT)
                     }
                 }
+                validate(it)
             }
         }
+    }
+
+    private fun validate(data: Uri) {
+        MediaValidator.executeIfUriSupported(requireContext(), lastFileUri,
+            onError = {
+                when (it) {
+                    MediaValidator.ValidationError.SIZE -> showDefaultError(getString(R.string.file_incorrect_size))
+                    MediaValidator.ValidationError.FORMAT -> showDefaultError(getString(R.string.file_not_supported))
+                }
+            },
+            action = {
+                pickit.getPath(data, Build.VERSION.SDK_INT)
+            })
     }
 
     private fun handleNavigation(action: AttachmentsContract.Navigation) {

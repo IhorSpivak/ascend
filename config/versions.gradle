@@ -63,7 +63,7 @@ ext {
             phoneCodes      : "com.github.joielechong:countrycodepicker:2.4.1",
             stripe          : "com.stripe:stripe-android:12.8.2",
             twilio          : "com.twilio:video-android:5.10.2",
-            pickit          : "com.github.HBiSoft:PickiT:0.1.9",
+            pickit          : "com.github.HBiSoft:PickiT:0.1.14",
             exoPlayer       : "com.google.android.exoplayer:exoplayer:$exoPlayer_version",
             exoPlayerUI     : "com.google.android.exoplayer:exoplayer-ui:$exoPlayer_version"
     ]

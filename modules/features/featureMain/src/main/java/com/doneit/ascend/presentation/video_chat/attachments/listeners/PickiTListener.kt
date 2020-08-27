@@ -3,6 +3,9 @@ package com.doneit.ascend.presentation.video_chat.attachments.listeners
 import com.hbisoft.pickit.PickiTCallbacks
 
 open class PickiTListener: PickiTCallbacks {
+    override fun PickiTonUriReturned() {
+    }
+
     override fun PickiTonProgressUpdate(progress: Int) {
     }
 

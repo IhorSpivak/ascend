@@ -169,15 +169,7 @@ fun PresentationGroupListModel.toDTO(default: GroupListDTO): GroupListDTO {
 }
 
 private fun String.toFloatS(): Float? {
-    var res: Float? = null
-
-    try {
-        res = this.toFloat()
-    } catch (e: NumberFormatException) {
-        e.printStackTrace()
-    }
-
-    return res
+        return this.toFloatOrNull() ?: 0f
 }
 
 private fun List<CalendarDayEntity>.toDays(): List<Int> {
