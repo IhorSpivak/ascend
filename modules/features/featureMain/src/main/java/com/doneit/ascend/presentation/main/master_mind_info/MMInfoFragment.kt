@@ -86,6 +86,8 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
             if (viewModel.getListOfTitles().isEmpty()) {
                 return@Observer
             }
+            viewModel.isFollowVisible.postValue(!it.followed)
+            viewModel.isUnfollowVisible.postValue(it.followed)
             binding.vpGroups.adapter = MMProfileTabAdapter.newInstance(
                 childFragmentManager,
                 userId,

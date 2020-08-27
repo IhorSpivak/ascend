@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -18,8 +19,8 @@ interface MMInfoContract {
         val showRatingBar: LiveData<Boolean>
         val enableFollow: LiveData<Boolean>
         val enableUnfollow: LiveData<Boolean>
-        val isFollowVisible: LiveData<Boolean>
-        val isUnfollowVisible: LiveData<Boolean>
+        val isFollowVisible: MutableLiveData<Boolean>
+        val isUnfollowVisible: MutableLiveData<Boolean>
         val rated: LiveData<Boolean>
         val myRating: LiveData<Int?>
         val sendReportStatus: SingleLiveManager<Boolean>
