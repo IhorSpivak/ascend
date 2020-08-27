@@ -36,9 +36,9 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
 
     override val viewModel: MMProfileContract.ViewModel by instance()
 
-    private val compressedPhotoPath by lazy { context!!.getCompressedImagePath() }
-    private val tempPhotoUri by lazy { context!!.createTempPhotoUri() }
-    private val cropPhotoUri by lazy { context!!.createCropPhotoUri() }
+    private val compressedPhotoPath by lazy { requireContext().getCompressedImagePath() }
+    private val tempPhotoUri by lazy { requireContext().createTempPhotoUri() }
+    private val cropPhotoUri by lazy { requireContext().createCropPhotoUri() }
     var listener: MainActivityListener? = null
 
     override fun onAttach(context: Context) {
@@ -153,7 +153,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
     private fun showPhotoDialog() {
 
         showChangePhotoDialog({
-            EzPermission.with(context!!)
+            EzPermission.with(requireContext())
                 .permissions(
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -177,7 +177,7 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
                     }
                 }
         }, {
-            EzPermission.with(context!!)
+            EzPermission.with(requireContext())
                 .permissions(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ).request { granted, denied, _ ->
@@ -213,7 +213,6 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             when (requestCode) {
                 GALLERY_REQUEST_CODE -> {
                     data?.let {
-                        val galleryPhotoUri = context!!.copyFile(data.data!!, tempPhotoUri)
                         viewModel.onAvatarSelected(data.data!!, cropPhotoUri, this)
                     }
                 }

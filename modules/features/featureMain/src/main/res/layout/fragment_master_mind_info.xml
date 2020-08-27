@@ -15,7 +15,6 @@
     </data>
 
 
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,15 +37,8 @@
                 app:collapsedTitleGravity="center"
                 app:contentScrim="@color/colorPrimary"
                 app:expandedTitleGravity="center|top"
-
-                app:expandedTitleMarginTop="190dp"
-                app:expandedTitleTextAppearance="@style/Title"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:scrimAnimationDuration="200"
-
-                app:title="@{model.profile.fullName}"
-
-                >
+                app:scrimAnimationDuration="200">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -67,7 +59,16 @@
                         app:name="@{model.profile.fullName}"
                         app:url="@{model.profile.image.url}" />
 
-
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/TextBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@{model.profile.fullName}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ivImage"
+                        tools:text="Name example" />
 
 
                     <androidx.appcompat.widget.AppCompatRatingBar
@@ -199,10 +200,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:background="@android:color/transparent"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
                         android:paddingStart="8dp"
+                        android:paddingTop="16dp"
                         android:paddingEnd="8dp"
+                        android:paddingBottom="16dp"
                         android:src="@drawable/ic_info"
                         android:tint="@color/light_gray_8f"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
@@ -213,10 +214,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:background="@android:color/transparent"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
                         android:paddingStart="8dp"
+                        android:paddingTop="16dp"
                         android:paddingEnd="8dp"
+                        android:paddingBottom="16dp"
                         android:src="@drawable/ic_share"
                         android:tint="@color/light_gray_8f" />
 
@@ -229,10 +230,10 @@
                         android:layout_toStartOf="@id/btnInto"
                         android:background="@android:color/transparent"
                         android:onClick="@{() -> model.onShareInAppClick()}"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
                         android:paddingStart="8dp"
+                        android:paddingTop="16dp"
                         android:paddingEnd="8dp"
+                        android:paddingBottom="16dp"
                         android:src="@drawable/ic_arrow_share"
                         android:tint="@color/light_gray_8f" />
                 </androidx.appcompat.widget.Toolbar>

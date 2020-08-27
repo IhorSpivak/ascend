@@ -10,7 +10,9 @@ import com.doneit.ascend.presentation.main.databinding.FragmentMasterMindInfoBin
 import com.doneit.ascend.presentation.main.home.common.MMProfileTabAdapter
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.extensions.shareTo
+import com.google.android.material.appbar.AppBarLayout
 import org.kodein.di.generic.instance
+import kotlin.math.abs
 
 class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
 
@@ -25,9 +27,17 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         viewModel.setProfileId(userId)
+        setupToolbar()
         setupBinding()
         observeData()
         setClickListeners()
+    }
+
+    private fun setupToolbar() = with(binding) {
+        mainBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+            clCollapsing.title = if (abs(verticalOffset) != mainBar.totalScrollRange) " "
+            else viewModel.profile.value?.fullName
+        })
     }
 
     private fun setupBinding() = with(binding) {
