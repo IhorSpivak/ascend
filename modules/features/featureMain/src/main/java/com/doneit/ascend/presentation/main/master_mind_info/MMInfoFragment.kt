@@ -83,6 +83,9 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
         }
         viewModel.profile.observe(this, Observer {
             it ?: return@Observer
+            if (viewModel.getListOfTitles().isEmpty()) {
+                return@Observer
+            }
             binding.vpGroups.adapter = MMProfileTabAdapter.newInstance(
                 childFragmentManager,
                 userId,

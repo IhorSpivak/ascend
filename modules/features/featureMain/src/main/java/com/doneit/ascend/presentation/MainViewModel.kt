@@ -48,7 +48,6 @@ class MainViewModel(
 
     init {
         localUser.observeForever(userObserver)
-
         viewModelScope.launch {
             val result = questionUseCase.getList()
             val userLocal = userUseCase.getUser()
@@ -168,7 +167,7 @@ class MainViewModel(
     }
 
     override fun onCleared() {
-        user.removeObserver(userObserver)
+        localUser.removeObserver(userObserver)
         super.onCleared()
     }
 }

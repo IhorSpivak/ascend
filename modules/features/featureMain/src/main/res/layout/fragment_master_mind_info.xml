@@ -245,6 +245,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager.widget.ViewPager
+            android:visibility="@{!model.getListOfTitles().isEmpty()}"
             android:id="@+id/vpGroups"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.master_mind_info
 
 import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.dto.CreateChatDTO
 import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -29,7 +30,7 @@ class MMInfoViewModel(
 
     private val idProfile = MutableLiveData<Long>()
     override val profile = idProfile.switchMap { masterMindUseCase.getProfile(it) }
-    override val user: LiveData<UserEntity?> = userUseCase.getUserLive()
+    override val user = MutableLiveData<UserEntity?>()
 
     override val isFollowVisible = MutableLiveData(false)
     override val isUnfollowVisible = MutableLiveData(false)
@@ -41,13 +42,24 @@ class MMInfoViewModel(
     override val myRating = profile.map { it?.myRating }
 
     override val sendReportStatus = SingleLiveManager<Boolean>()
+
     @ExperimentalStdlibApi
     override val masterMindDescription =
-        profile.map { it?.communities?.joinToString(postfix = " ") {
-            it.capitalize(Locale.getDefault())
-        }.orEmpty() }
+        profile.map {
+            it?.communities?.joinToString(postfix = " ") {
+                it.capitalize(Locale.getDefault())
+            }.orEmpty()
+        }
+
+    private val localUser = userUseCase.getUserLive()
+    private val userObserver: Observer<UserEntity?> = Observer {
+        it?.let {
+            user.postValue(it)
+        }
+    }
 
     init {
+        localUser.observeForever(userObserver)
         showRatingBar.addSource(user) {
             updateUIVisibility(it, profile.value)
         }
@@ -61,7 +73,9 @@ class MMInfoViewModel(
         viewModelScope.launch {
             chatUseCase.createChat(CreateChatDTO("", listOf(id.toInt() ))).let {
                 if (it.isSuccessful) {
-                    router.navigateToChat(it.successModel!!, user.value!!, ChatType.CHAT)
+                    user.value?.let { user ->
+                        router.navigateToChat(it.successModel!!, user, ChatType.CHAT)
+                    }
                 } else {
                     showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                 }
@@ -70,8 +84,8 @@ class MMInfoViewModel(
     }
 
     override fun getListOfTitles(): List<Int> {
-        profile.value?.let {
-            return when (it.community!!.capitalize()) {
+        profile.value?.community?.let {
+            return when (it.capitalize()) {
                 Community.SUCCESS.title,
                 Community.INDUSTRY.title -> listOf(
                     R.string.webinars,
@@ -114,7 +128,7 @@ class MMInfoViewModel(
                     R.string.posts,
                     R.string.bio
                 )
-                else -> throw IllegalArgumentException("Unknown community: ${it.community}")
+                else -> throw IllegalArgumentException("Unknown community: $it")
             }
         }
         return emptyList()
@@ -209,5 +223,11 @@ class MMInfoViewModel(
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        localUser.removeObserver(userObserver)
+        super.onCleared()
+
     }
 }
