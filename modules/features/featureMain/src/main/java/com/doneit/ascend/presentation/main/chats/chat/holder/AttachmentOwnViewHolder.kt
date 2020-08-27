@@ -22,7 +22,8 @@ import com.google.android.exoplayer2.util.Util
 class AttachmentOwnViewHolder private constructor(
     itemView: View,
     private val onDeleteClick: (message: MessageEntity) -> Unit,
-    private val previewAttachment: (MessageAttachment) -> Unit
+    private val previewAttachment: (MessageAttachment) -> Unit,
+    private val cancelUpload: (MessageAttachment) -> Unit
 ) : BaseAttachmentHolder(itemView) {
 
 
@@ -32,10 +33,7 @@ class AttachmentOwnViewHolder private constructor(
     ) {
         DataBindingUtil.bind<ListItemOwnMessageAttachmentBinding>(itemView)?.apply {
             this.messageEntity = messageEntity
-
             myMessageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt)
-
-
             ibDelete.setOnClickListener {
                 onDeleteClick(messageEntity)
             }
@@ -49,12 +47,12 @@ class AttachmentOwnViewHolder private constructor(
                 )
             }
             val attachment = messageEntity.attachment ?: return
+            btnStop.setOnClickListener { cancelUpload(attachment) }
             mediaContainer.visibleOrGone(attachment.type != AttachmentType.FILE)
             attachmentImage.visibleOrGone(attachment.type == AttachmentType.IMAGE)
             attachmentVideo.visibleOrGone(attachment.type == AttachmentType.VIDEO)
             fabPlay.visibleOrGone(attachment.type == AttachmentType.VIDEO)
             attachmentFile.visibleOrGone(attachment.type == AttachmentType.FILE)
-
 
 
             val res = if (!isFileExist(attachment.name)) {
@@ -79,10 +77,12 @@ class AttachmentOwnViewHolder private constructor(
                                 Player.STATE_BUFFERING -> {
                                 }
                                 Player.STATE_READY -> {
-                                    myMessageContainer.setOnClickListener {
-                                        previewAttachment(
-                                            attachment
-                                        )
+                                    if (messageEntity.id != -1L) {
+                                        myMessageContainer.setOnClickListener {
+                                            previewAttachment(
+                                                attachment
+                                            )
+                                        }
                                     }
                                 }
                                 Player.STATE_ENDED -> {
@@ -93,13 +93,17 @@ class AttachmentOwnViewHolder private constructor(
 
                 }
                 AttachmentType.IMAGE -> {
-                    myMessageContainer.setOnClickListener { previewAttachment(attachment) }
+                    if (messageEntity.id != -1L) {
+                        myMessageContainer.setOnClickListener { previewAttachment(attachment) }
+                    }
                 }
                 else -> {
-                    myMessageContainer.setOnClickListener {
-                        if (!isFileExist(attachment.name)) {
-                            downloadFile(attachment.url, attachment.name)
-                        } else previewAttachment(attachment)
+                    if (messageEntity.id != -1L) {
+                        myMessageContainer.setOnClickListener {
+                            if (!isFileExist(attachment.name)) {
+                                downloadFile(attachment.url, attachment.name)
+                            } else previewAttachment(attachment)
+                        }
                     }
                 }
             }
@@ -125,7 +129,8 @@ class AttachmentOwnViewHolder private constructor(
         fun create(
             parent: ViewGroup,
             onDeleteClick: (message: MessageEntity) -> Unit,
-            previewAttachment: (MessageAttachment) -> Unit
+            previewAttachment: (MessageAttachment) -> Unit,
+            onCancelUploadClick: (MessageAttachment) -> Unit
         ): AttachmentOwnViewHolder {
             return AttachmentOwnViewHolder(
                 DataBindingUtil.inflate<ListItemOwnMessageAttachmentBinding>(
@@ -135,7 +140,8 @@ class AttachmentOwnViewHolder private constructor(
                     false
                 ).root,
                 onDeleteClick,
-                previewAttachment
+                previewAttachment,
+                onCancelUploadClick
             )
         }
     }

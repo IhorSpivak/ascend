@@ -124,7 +124,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             },
             viewModel::showPostDetails,
             { viewModel.showDetailedUser(it.id) },
-            { viewModel.showGroup(it) }
+            viewModel::showGroup,
+            viewModel::cancelUpload
         )
     }
 

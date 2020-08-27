@@ -23,7 +23,8 @@ class MessagesAdapter(
     private val previewAttachment: (MessageAttachment) -> Unit,
     private val onSeeMoreClick: (Post) -> Unit,
     private val onSharedProfileClick: (UserEntity) -> Unit,
-    private val onSharedGroupClick: (GroupEntity) -> Unit
+    private val onSharedGroupClick: (GroupEntity) -> Unit,
+    private val cancelUpload: (MessageAttachment) -> Unit
 ) : PagedListAdapter<MessageEntity, BaseMessageHolder>(MessageDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseMessageHolder {
@@ -62,7 +63,8 @@ class MessagesAdapter(
             Type.ATTACHMENT_OWN.ordinal -> AttachmentOwnViewHolder.create(
                 parent,
                 onButtonClick,
-                previewAttachment
+                previewAttachment,
+                cancelUpload
             )
             Type.ATTACHMENT_OTHER.ordinal -> AttachmentOtherViewHolder.create(
                 parent,

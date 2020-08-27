@@ -33,6 +33,7 @@ interface ChatContract {
         fun showDetailedUser(userId: Long)
         fun showLiveStreamUser(member: MemberEntity)
         fun showGroup(group: GroupEntity)
+        fun cancelUpload(attachment: MessageAttachment)
         fun goToEditChannel(channel: ChatEntity)
         fun onDelete(message: MessageEntity)
         fun previewAttachment(attachment: MessageAttachment)

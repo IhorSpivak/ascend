@@ -24,9 +24,7 @@ import com.doneit.ascend.presentation.models.toEntity
 import com.doneit.ascend.presentation.utils.extensions.toErrorMessage
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 @CreateFactory
 @ViewModelDiModule
@@ -38,6 +36,8 @@ class ChatViewModel(
     private val groupUseCase: GroupUseCase,
     private val chatWithUser: ChatWithUser
 ) : BaseViewModelImpl(), ChatContract.ViewModel {
+
+    private var attachmentUploadScope = CoroutineScope(Job() + Dispatchers.IO)
 
     override val membersCountGroup: MutableLiveData<Int> = MutableLiveData()
     override val chat = MutableLiveData(chatWithUser)
@@ -157,7 +157,10 @@ class ChatViewModel(
     }
 
     override fun sendMessage(message: String, attachmentType: String, attachmentUrl: String) {
-        viewModelScope.launch {
+        val requiredScope = if (attachmentUrl.isEmpty()) {
+            viewModelScope
+        } else attachmentUploadScope
+        requiredScope.launch {
             chatUseCase.sendMessage(
                 MessageDTO(
                     chatWithUser.chat.id,
@@ -228,6 +231,14 @@ class ChatViewModel(
 
     override fun showGroup(group: GroupEntity) {
         router.navigateToDetails(group)
+    }
+
+    override fun cancelUpload(attachment: MessageAttachment) {
+        attachmentUploadScope.cancel()
+        attachmentUploadScope = CoroutineScope(Job() + Dispatchers.IO)
+        viewModelScope.launch(Dispatchers.IO) {
+            chatUseCase.removeMessageLocal(-1L)
+        }
     }
 
     override fun goToEditChannel(channel: ChatEntity) {
@@ -332,6 +343,7 @@ class ChatViewModel(
     override fun onCleared() {
         socketMessage.removeObserver(observer)
         chatUseCase.disconnect()
+        attachmentUploadScope.cancel()
         super.onCleared()
     }
 
@@ -384,4 +396,6 @@ class ChatViewModel(
             false
         )
     }
+
+
 }
