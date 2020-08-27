@@ -15,7 +15,15 @@ internal class RedirectInterceptor(
         val newRequest = chain.request().newBuilder().build()
 
         val response = chain.proceed(newRequest)
-        if (response.code ==  HttpURLConnection.HTTP_UNAUTHORIZED && newRequest.url.toString() != RetrofitConfig.baseUrl + URL_UNAUTHORIZED) {
+
+        var isUnauthorisedUrl = false
+        URL_UNAUTHORIZED.forEach { unauthorisedUrl ->
+            if (newRequest.url.toString() == RetrofitConfig.baseUrl + unauthorisedUrl) {
+                isUnauthorisedUrl = true
+            }
+        }
+
+        if (response.code == HttpURLConnection.HTTP_UNAUTHORIZED && !isUnauthorisedUrl) {
             Intent(context, LogInActivity::class.java).apply {
                 this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -30,6 +38,7 @@ internal class RedirectInterceptor(
 
     companion object {
         private const val LOGOUT = "logout"
-        private const val URL_UNAUTHORIZED = "sessions"
+        private val URL_UNAUTHORIZED = arrayListOf("sessions", "users/forgot_password")
     }
+
 }

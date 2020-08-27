@@ -96,4 +96,5 @@ class LogInLocalRouter(
     override fun navigateToFirstTimeLogin() {
         activity.supportFragmentManager.replace(R.id.container, FirstTimeLoginFragment())
     }
+
 }

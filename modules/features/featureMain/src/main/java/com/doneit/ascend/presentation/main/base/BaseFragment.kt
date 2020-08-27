@@ -123,7 +123,11 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
 
         viewModel.errorMessage.observe(this) {
             it?.let {
-                handleErrorMessage(it)
+                activity?.runOnUiThread {
+                    context?.let { context ->
+                        handleErrorMessage(it)
+                    }
+                }
             }
         }
 
@@ -219,7 +223,7 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     open fun handleErrorMessage(message: PresentationMessage) {
         when (message.id) {
             Messages.DEFAULT_ERROR.getId() -> {
-                showDefaultError(message.content!!)
+                showDefaultError(message.content ?: "")
             }
         }
     }
@@ -237,4 +241,5 @@ abstract class BaseFragment<B : ViewDataBinding> : Fragment(), KodeinAware {
     companion object {
         private const val IS_PROGRESS_SHOWN_KEY = "IS_PROGRESS_SHOWN_KEY"
     }
+
 }

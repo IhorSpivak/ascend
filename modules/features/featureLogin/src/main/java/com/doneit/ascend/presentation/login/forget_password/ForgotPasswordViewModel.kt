@@ -57,12 +57,12 @@ class ForgotPasswordViewModel(
                     router.navigateToNewPassword(phoneModel.toEntity())
                 }
             } else {
-                if(requestEntity.errorModel!!.isNotEmpty()){
+                if(requestEntity.errorModel?.isNullOrEmpty() != true){
                     errorMessage.call(
                         PresentationMessage(
                             Messages.DEFAULT_ERROR.getId(),
                             null,
-                            requestEntity.errorModel!!.first()
+                            requestEntity.errorModel?.first()
                         )
                     )
                 }
