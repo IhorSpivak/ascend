@@ -1,6 +1,9 @@
 package com.doneit.ascend.presentation.login
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.login.first_time_login.FirstTimeLoginContract
 import com.doneit.ascend.presentation.login.first_time_login.FirstTimeLoginFragment
@@ -21,6 +24,7 @@ import com.doneit.ascend.presentation.utils.extensions.replaceWithBackStack
 import com.doneit.ascend.presentation.web_page.WebPageContract
 import com.doneit.ascend.presentation.web_page.WebPageFragment
 import com.vrgsoft.core.presentation.fragment.argumented.ArgumentedFragment
+
 
 class LogInLocalRouter(
     private val activity: LogInActivity,
@@ -50,11 +54,21 @@ class LogInLocalRouter(
     }
 
     override fun navigateToTerms() {
-        activity.supportFragmentManager.replaceWithBackStack(R.id.container,  WebPageFragment.newInstance("Terms and Condition", "terms_and_conditions"))
+        activity.supportFragmentManager.replaceWithBackStack(
+            R.id.container, WebPageFragment.newInstance(
+                "Terms and Condition",
+                "terms_and_conditions"
+            )
+        )
     }
 
     override fun navigateToPrivacyPolicy() {
-        activity.supportFragmentManager.replaceWithBackStack(R.id.container,  WebPageFragment.newInstance("Privacy Policy", "privacy_policy"))
+        activity.supportFragmentManager.replaceWithBackStack(
+            R.id.container, WebPageFragment.newInstance(
+                "Privacy Policy",
+                "privacy_policy"
+            )
+        )
     }
 
     override fun navigateToNewPassword(phone: String) {
@@ -82,7 +96,17 @@ class LogInLocalRouter(
         outerRouter.goToMain(bundle)
     }
 
+    private fun closeKeyboard() {
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        var view = activity.currentFocus
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
     override fun goToMain() {
+        closeKeyboard()
         outerRouter.goToMain(Bundle())
     }
 
