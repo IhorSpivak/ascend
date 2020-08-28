@@ -30,10 +30,7 @@ import com.doneit.ascend.presentation.profile.master_mind.MMProfileFragment
 import com.doneit.ascend.presentation.profile.regular_user.UserProfileFragment
 import com.doneit.ascend.presentation.utils.CalendarPickerUtil
 import com.doneit.ascend.presentation.utils.Constants
-import com.doneit.ascend.presentation.utils.extensions.hideKeyboard
-import com.doneit.ascend.presentation.utils.extensions.shareTo
-import com.doneit.ascend.presentation.utils.extensions.toCapitalLetter
-import com.doneit.ascend.presentation.utils.extensions.visible
+import com.doneit.ascend.presentation.utils.extensions.*
 import com.doneit.ascend.presentation.video_chat.VideoChatActivity
 import org.kodein.di.Kodein
 import org.kodein.di.direct
@@ -166,8 +163,9 @@ class MainActivity : BaseActivity(), MainActivityListener {
                     true
                 }
                 R.id.my_content -> {
-                    viewModel.navigateToMyContent()
-                    false //TODO change to true when fragment will be implemented
+                    this.openLink("https://course.ascend.video/")
+                    //viewModel.navigateToMyContent()
+                    false
                 }
                 R.id.ascension_plan -> {
                     //viewModel.navigateToAscensionPlan()

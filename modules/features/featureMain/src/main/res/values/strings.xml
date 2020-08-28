@@ -18,7 +18,7 @@
 
     <!--Menu Items-->
     <string name="home">Home</string>
-    <string name="my_content">My Content</string>
+    <string name="courses">Courses</string>
     <string name="ascension_plan">Ascension Plan</string>
     <string name="profile">Profile</string>
     <string name="empty"> </string>
