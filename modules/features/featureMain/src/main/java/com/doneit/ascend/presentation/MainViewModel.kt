@@ -34,7 +34,7 @@ class MainViewModel(
         notificationUseCase.getUnreadLive().map { it.find { it.isRead.not() } != null }
 
     override val hasUnreadMessages = MutableLiveData<Boolean>(false)
-    override val isMasterMind = MutableLiveData<Boolean>(false)
+    override val createGroupButtonVisibility = MutableLiveData(false)
     override val communities = MutableLiveData<List<PresentationCommunityModel>>()
     override val userShare = SingleLiveEvent<UserEntity>()
     override val user = MutableLiveData<UserEntity?>()
@@ -42,7 +42,9 @@ class MainViewModel(
     private val userObserver: Observer<UserEntity?> = Observer {
         it?.let {
             user.postValue(it)
-            isMasterMind.postValue(it.isMasterMind)
+            createGroupButtonVisibility.postValue(
+                it.isMasterMind && it.stripeRequiredFieldsFilled && it.stripeFieldsNeeded.isEmpty() || it.haveSubscription
+            )
         }
     }
 

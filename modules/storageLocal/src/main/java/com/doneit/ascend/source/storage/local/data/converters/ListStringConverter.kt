@@ -13,7 +13,11 @@ class ListStringConverter {
         @TypeConverter
         @JvmStatic
         fun toString(s: String?): List<String>?{
-            return s?.split(",")
+            return if (s.isNullOrEmpty().not()) {
+                s?.split(",")
+            } else {
+                emptyList()
+            }
         }
     }
 }

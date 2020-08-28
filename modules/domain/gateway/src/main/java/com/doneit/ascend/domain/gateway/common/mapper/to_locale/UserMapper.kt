@@ -48,8 +48,9 @@ fun UserEntity.toUserLocal(): UserLocal {
         followersCount = followersCount,
         haveSubscription = haveSubscription,
         subscriptionTrial = subscriptionTrial,
-        subscriptionCanceled = subscriptionCanceled
-
+        subscriptionCanceled = subscriptionCanceled,
+        stripeFieldsNeeded = stripeFieldsNeeded.orEmpty(),
+        stripeRequiredFieldsFilled = stripeRequiredFieldsFilled
     )
 }
 
@@ -88,7 +89,9 @@ fun UserLocal.merge(newModel: UserProfileResponse): UserLocal {
         followersCount = followersCount,
         haveSubscription = haveSubscription,
         subscriptionTrial = subscriptionTrial,
-        subscriptionCanceled = subscriptionCanceled
+        subscriptionCanceled = subscriptionCanceled,
+        stripeFieldsNeeded = stripeFieldsNeeded.orEmpty(),
+        stripeRequiredFieldsFilled = stripeRequiredFieldsFilled
     )
 }
 
@@ -127,7 +130,9 @@ fun UserLocal.merge(newModel: UserAuthResponse): UserLocal {
         followersCount = followersCount,
         haveSubscription = newModel.haveSubscription ?: false,
         subscriptionTrial = newModel.subscriptionTrial ?: false,
-        subscriptionCanceled = newModel.subscriptionCanceled ?: false
+        subscriptionCanceled = newModel.subscriptionCanceled ?: false,
+        stripeFieldsNeeded = newModel.stripeFieldsNeeded.orEmpty(),
+        stripeRequiredFieldsFilled = newModel.stripeRequiredFieldsFilled ?: false
     )
 }
 

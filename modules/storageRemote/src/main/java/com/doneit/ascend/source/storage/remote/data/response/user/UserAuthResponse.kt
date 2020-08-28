@@ -35,5 +35,7 @@ data class UserAuthResponse(
     @SerializedName("communities") val communities: List<String>?,
     @SerializedName("have_subscription") val haveSubscription: Boolean?,
     @SerializedName("subscription_trial") val subscriptionTrial: Boolean?,
-    @SerializedName("subscription_cancelled") val subscriptionCanceled: Boolean?
+    @SerializedName("subscription_cancelled") val subscriptionCanceled: Boolean?,
+    @SerializedName("stripe_fields_needed") val stripeFieldsNeeded: List<String>?,
+    @SerializedName("stripe_required_fields_filled") val stripeRequiredFieldsFilled: Boolean?
 )

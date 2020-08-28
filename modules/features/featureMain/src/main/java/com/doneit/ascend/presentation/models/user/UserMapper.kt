@@ -27,7 +27,9 @@ fun UserEntity.toPresentation(): PresentationUserModel {
         isMasterMind,
         community,
         visitedGroupCount,
-        birthday
+        birthday,
+        stripeFieldsNeeded,
+        stripeRequiredFieldsFilled
     )
 }
 

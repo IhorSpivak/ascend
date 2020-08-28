@@ -41,7 +41,9 @@ data class UserEntity(
     val subscriptionCanceled: Boolean,
     val birthday: Date?,
     val created_channels_count: Int,
-    val communities: List<String>?
+    val communities: List<String>?,
+    val stripeFieldsNeeded: List<String>,
+    val stripeRequiredFieldsFilled: Boolean
 ) : Parcelable {
     val age: Int?
         get() {

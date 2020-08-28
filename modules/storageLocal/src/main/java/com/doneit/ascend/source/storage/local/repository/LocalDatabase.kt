@@ -55,7 +55,7 @@ import com.doneit.ascend.source.storage.local.repository.webinar_question.Webina
         PostLocal::class,
         CommentLocal::class
     ],
-    version = 2
+    version = 3
 )
 @TypeConverters(
     ListIntConverter::class,

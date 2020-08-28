@@ -57,7 +57,9 @@ fun UserAuthResponse.toEntity(): UserEntity {
         communities = communities,
         haveSubscription = haveSubscription ?: false,
         subscriptionTrial = subscriptionTrial ?: false,
-        subscriptionCanceled = subscriptionCanceled ?: false
+        subscriptionCanceled = subscriptionCanceled ?: false,
+        stripeFieldsNeeded = stripeFieldsNeeded.orEmpty(),
+        stripeRequiredFieldsFilled = stripeRequiredFieldsFilled ?: false
     )
 }
 
@@ -96,7 +98,9 @@ fun UserProfileResponse.toEntity(): UserEntity {
         communities = communities,
         haveSubscription = haveSubscription ?: false,
         subscriptionTrial = subscriptionTrial ?: false,
-        subscriptionCanceled = subscriptionCanceled ?: false
+        subscriptionCanceled = subscriptionCanceled ?: false,
+        stripeFieldsNeeded = stripeFieldsNeeded.orEmpty(),
+        stripeRequiredFieldsFilled = stripeRequiredFieldsFilled ?: false
     )
 }
 
@@ -135,7 +139,9 @@ fun UserLocal.toUserEntity(): UserEntity {
         followersCount = followersCount,
         haveSubscription = haveSubscription,
         subscriptionTrial = subscriptionTrial,
-        subscriptionCanceled = subscriptionCanceled
+        subscriptionCanceled = subscriptionCanceled,
+        stripeFieldsNeeded = stripeFieldsNeeded,
+        stripeRequiredFieldsFilled = stripeRequiredFieldsFilled
     )
 }
 

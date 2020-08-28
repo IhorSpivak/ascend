@@ -40,5 +40,7 @@ data class UserLocal(
     val communities: List<String>?,
     val haveSubscription: Boolean,
     val subscriptionTrial: Boolean,
-    val subscriptionCanceled: Boolean
+    val subscriptionCanceled: Boolean,
+    val stripeFieldsNeeded: List<String>,
+    val stripeRequiredFieldsFilled: Boolean
 )

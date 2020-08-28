@@ -12,7 +12,7 @@ interface MainContract {
     interface ViewModel : BaseViewModel {
         val hasUnread: LiveData<Boolean>
         val hasUnreadMessages: LiveData<Boolean>
-        val isMasterMind: LiveData<Boolean>
+        val createGroupButtonVisibility: LiveData<Boolean>
         val communities: LiveData<List<PresentationCommunityModel>>
         val userShare: SingleLiveEvent<UserEntity>
         val user: LiveData<UserEntity?>

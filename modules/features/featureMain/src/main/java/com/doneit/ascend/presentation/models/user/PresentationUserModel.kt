@@ -27,7 +27,9 @@ data class PresentationUserModel(
     val isMasterMind: Boolean,
     val community: String?,
     val visitedGroupCount: Int,
-    val birthday: Date?
+    val birthday: Date?,
+    val stripeFieldsNeeded: List<String>?,
+    val stripeRequiredFieldsFilled: Boolean
 ) {
     val age: Int?
         get() {
