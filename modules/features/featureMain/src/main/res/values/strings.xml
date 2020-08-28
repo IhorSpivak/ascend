@@ -49,7 +49,7 @@
     <string name="filter_groups">Filter Groups</string>
     <string name="select_days_of_week">Select Days of Week</string>
     <string name="preferred_time">Preferred Time</string>
-    <string name="number_of_participants">Number of participants</string>
+    <string name="group_type">Group type</string>
     <string name="group">Group Coaching</string>
     <string name="workshop">Workshop</string>
     <string name="individual"> Private coaching</string>

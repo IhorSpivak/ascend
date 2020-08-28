@@ -16,7 +16,7 @@ import com.doneit.ascend.source.storage.remote.repository.base.BaseRepository
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 internal class GroupRepository(
@@ -94,7 +94,7 @@ internal class GroupRepository(
                     MultipartBody.Part.createFormData(
                         "image",
                         file.name,
-                        RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                        file.asRequestBody("image/*".toMediaTypeOrNull())
                     )
                 )
                 addPart(
@@ -207,7 +207,7 @@ internal class GroupRepository(
                         MultipartBody.Part.createFormData(
                             "image",
                             file.name,
-                            RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                            file.asRequestBody("image/*".toMediaTypeOrNull())
                         )
                     )
                 }
@@ -259,7 +259,8 @@ internal class GroupRepository(
                 listRequest.startTimeFrom,
                 listRequest.startTimeTo,
                 listRequest.community,
-                listRequest.tagId
+                listRequest.tagId,
+                listRequest.days
             )
         }, ErrorsListResponse::class.java)
     }

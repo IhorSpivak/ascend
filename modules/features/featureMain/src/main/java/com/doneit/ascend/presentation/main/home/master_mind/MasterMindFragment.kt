@@ -2,21 +2,26 @@ package com.doneit.ascend.presentation.main.home.master_mind
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeGroupsBinding
+import com.doneit.ascend.presentation.main.filter.FilterFragment
+import com.doneit.ascend.presentation.main.filter.FilterListener
+import com.doneit.ascend.presentation.main.filter.FilterModel
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
 
-class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
+class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>(), FilterListener<FilterModel> {
 
     override val viewModel: MasterMindContract.ViewModel by instance()
 
     private val adapter: GroupHorListAdapter by lazy {
-        GroupHorListAdapter(null,
+        GroupHorListAdapter(
+            null,
             {
                 viewModel.onGroupClick(it.id)
             },
@@ -32,17 +37,24 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        binding.model = viewModel
-        binding.apply {
-            hasGroups = true
-            networkStatus = (activity as BaseActivity).isNetworkAvailable
-        }
+        setupBinding()
+        observeData()
+        setListeners()
+    }
 
-        val decorator =
-            SideListDecorator(paddingTop = resources.getDimension(R.dimen.search_list_top_padding).toInt())
-        binding.rvGroups.addItemDecoration(decorator)
-        binding.rvGroups.adapter = adapter
+    private fun setupBinding() = with(binding) {
+        model = viewModel
+        hasGroups = true
+        networkStatus = (activity as BaseActivity).isNetworkAvailable
+        rvGroups.addItemDecoration(
+            SideListDecorator(
+                paddingTop = resources.getDimension(R.dimen.search_list_top_padding).toInt()
+            )
+        )
+        rvGroups.adapter = adapter
+    }
 
+    private fun observeData() {
         viewModel.groups.observe(viewLifecycleOwner, Observer {
             binding.hasGroups = it.groups.isNullOrEmpty().not()
             binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
@@ -50,9 +62,17 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
             adapter.submitList(it.groups)
             binding.srLayout.isRefreshing = false
         })
+    }
 
+    private fun setListeners() {
         binding.srLayout.setOnRefreshListener {
             viewModel.updateData()
+        }
+        binding.tvFilter.setOnClickListener {
+            FilterFragment.newInstance(viewModel.filter).show(
+                childFragmentManager,
+                FilterFragment::class.java.simpleName
+            )
         }
     }
 
@@ -60,5 +80,20 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>() {
         super.onResume()
         viewModel.updateData()
         binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
+    }
+
+    override fun updateFilter(filter: FilterModel) {
+        viewModel.requestModel.value?.let { groupsDTO ->
+            viewModel.updateRequestModel(
+                GroupListDTO(
+                    perPage = groupsDTO.perPage,
+                    sortColumn = groupsDTO.sortColumn,
+                    sortType = groupsDTO.sortType,
+                    groupType = groupsDTO.groupType,
+                    groupStatus = groupsDTO.groupStatus,
+                    daysOfWeen = filter.selectedDays.map { it.ordinal }
+                )
+            )
+        }
     }
 }

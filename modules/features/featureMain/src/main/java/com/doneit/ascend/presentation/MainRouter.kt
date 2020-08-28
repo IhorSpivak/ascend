@@ -75,7 +75,6 @@ import com.doneit.ascend.presentation.main.home.community_feed.preview.PreviewAc
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostContract
 import com.doneit.ascend.presentation.main.home.daily.DailyContract
-import com.doneit.ascend.presentation.main.home.master_mind.filter.FilterFragment
 import com.doneit.ascend.presentation.main.home.webinars.WebinarsContract
 import com.doneit.ascend.presentation.main.master_mind.MasterMindContract
 import com.doneit.ascend.presentation.main.master_mind.MasterMindFragment
@@ -175,7 +174,7 @@ class MainRouter(
     GoalsListContract.Router,
     AttendeesContract.Router,
     WebinarsContract.Router,
-    MMLiveStreamsContract .Router,
+    MMLiveStreamsContract.Router,
     com.doneit.ascend.presentation.main.home.groups.GroupsContract.Router,
     MyChatsContract.Router,
     NewChatContract.Router,
@@ -469,11 +468,17 @@ class MainRouter(
     }
 
     override fun navigateToTerms() {
-        manager.replaceWithBackStack(containerIdFull,WebPageFragment.newInstance("Terms and Condition", "terms_and_conditions"))
+        manager.replaceWithBackStack(
+            containerIdFull,
+            WebPageFragment.newInstance("Terms and Condition", "terms_and_conditions")
+        )
     }
 
     override fun navigateToPrivacyPolicy() {
-        manager.replaceWithBackStack(containerIdFull, WebPageFragment.newInstance("Privacy Policy", "privacy_policy"))
+        manager.replaceWithBackStack(
+            containerIdFull,
+            WebPageFragment.newInstance("Privacy Policy", "privacy_policy")
+        )
     }
 
     override fun navigateToBlockedUsers() {
@@ -532,10 +537,6 @@ class MainRouter(
         }
 
         replaceFullWithMainUpdate(fragment)
-    }
-
-    override fun navigateToGroupsFilter() {
-        manager.add(containerIdFull, FilterFragment())
     }
 
     override fun navigateToSpiritualActionSteps() {

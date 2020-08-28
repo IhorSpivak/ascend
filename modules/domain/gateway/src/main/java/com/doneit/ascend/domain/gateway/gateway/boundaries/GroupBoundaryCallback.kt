@@ -19,7 +19,9 @@ class GroupBoundaryCallback(
     override suspend fun fetchPage() {
         val response = remote.getGroupsList(masterMindListModel.toRequest(pageIndexToLoad))
         if (response.isSuccessful) {
-            val model = response.successModel!!.groups.map { it.toEntity() }
+            val model = response.successModel!!.groups.filter {
+                it.daysOfWeek == masterMindListModel.daysOfWeen || masterMindListModel.daysOfWeen.isNullOrEmpty()
+            }.map { it.toEntity() }
 
             val loadedCount = model.size
             val remoteCount = response.successModel!!.count

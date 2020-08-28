@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.utils.Constants
 import com.doneit.ascend.presentation.utils.TextOvalDrawable
+import java.util.*
 
 fun List<String>.toErrorMessage(): String {
     val res = StringBuilder()
@@ -86,5 +87,14 @@ fun Context.createPlaceholderDrawable(title: String, overrideSize: Boolean = fal
 }
 
 fun String.toCapitalLetter(): String {
-    return this.substring(0, 1).toUpperCase() + this.substring(1).toLowerCase();
+    return this.substring(0, 1).toUpperCase() + this.substring(1).toLowerCase()
+}
+
+fun Int.minutesToMills(): Long {
+    return this * 60 * 1000L
+}
+
+fun Date.toDayTime(): String {
+    val formatter = "h:mm aa".toGMTFormatter()
+    return formatter.format(this)
 }

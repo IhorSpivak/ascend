@@ -1,100 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/daysContainer"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="24dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout>
 
-    <ToggleButton
-        android:id="@+id/btn_su"
-        style="@style/TextNormal"
-        android:layout_width="0dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/daysContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_weight="1"
-        android:background="@drawable/day_button_selector"
-        android:textColor="@drawable/day_button_text_selector"
-        android:textOff="@string/su"
-        android:textOn="@string/su"
-        android:textSize="14sp" />
+        android:layout_marginTop="24dp">
 
-    <ToggleButton
-        android:id="@+id/btn_mo"
-        style="@style/TextNormal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:background="@drawable/day_button_selector"
-        android:textColor="@drawable/day_button_text_selector"
-        android:textOff="@string/mo"
-        android:textOn="@string/mo"
-        android:textSize="14sp" />
+        <ToggleButton
+            android:id="@+id/btn_su"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/day_button_selector"
+            android:textColor="@drawable/day_button_text_selector"
+            android:textOff="@string/su"
+            android:textOn="@string/su"
+            android:textSize="14sp" />
 
-    <ToggleButton
-        android:id="@+id/btn_tu"
-        style="@style/TextNormal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:background="@drawable/day_button_selector"
-        android:textColor="@drawable/day_button_text_selector"
-        android:textOff="@string/tu"
-        android:textOn="@string/tu"
-        android:textSize="14sp" />
+        <ToggleButton
+            android:id="@+id/btn_mo"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/day_button_selector"
+            android:textColor="@drawable/day_button_text_selector"
+            android:textOff="@string/mo"
+            android:textOn="@string/mo"
+            android:textSize="14sp" />
 
-    <ToggleButton
-        android:id="@+id/btn_we"
-        style="@style/TextNormal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:background="@drawable/day_button_selector"
-        android:textColor="@drawable/day_button_text_selector"
-        android:textOff="@string/we"
-        android:textOn="@string/we"
-        android:textSize="14sp" />
+        <ToggleButton
+            android:id="@+id/btn_tu"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/day_button_selector"
+            android:textColor="@drawable/day_button_text_selector"
+            android:textOff="@string/tu"
+            android:textOn="@string/tu"
+            android:textSize="14sp" />
 
-    <ToggleButton
-        android:id="@+id/btn_th"
-        style="@style/TextNormal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:background="@drawable/day_button_selector"
-        android:textColor="@drawable/day_button_text_selector"
-        android:textOff="@string/th"
-        android:textOn="@string/th"
-        android:textSize="14sp" />
+        <ToggleButton
+            android:id="@+id/btn_we"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/day_button_selector"
+            android:textColor="@drawable/day_button_text_selector"
+            android:textOff="@string/we"
+            android:textOn="@string/we"
+            android:textSize="14sp" />
 
-    <ToggleButton
-        android:id="@+id/btn_fr"
-        style="@style/TextNormal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:background="@drawable/day_button_selector"
-        android:text="@string/fr"
-        android:textColor="@drawable/day_button_text_selector"
-        android:textOff="@string/fr"
-        android:textOn="@string/fr"
-        android:textSize="14sp" />
+        <ToggleButton
+            android:id="@+id/btn_th"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/day_button_selector"
+            android:textColor="@drawable/day_button_text_selector"
+            android:textOff="@string/th"
+            android:textOn="@string/th"
+            android:textSize="14sp" />
 
-    <ToggleButton
-        android:id="@+id/btn_sa"
-        style="@style/TextNormal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:background="@drawable/day_button_selector"
-        android:textColor="@drawable/day_button_text_selector"
-        android:textOff="@string/sa"
-        android:textOn="@string/sa"
-        android:textSize="14sp" />
+        <ToggleButton
+            android:id="@+id/btn_fr"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/day_button_selector"
+            android:text="@string/fr"
+            android:textColor="@drawable/day_button_text_selector"
+            android:textOff="@string/fr"
+            android:textOn="@string/fr"
+            android:textSize="14sp" />
 
-</LinearLayout>
+        <ToggleButton
+            android:id="@+id/btn_sa"
+            style="@style/TextNormal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/day_button_selector"
+            android:textColor="@drawable/day_button_text_selector"
+            android:textOff="@string/sa"
+            android:textOn="@string/sa"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</layout>

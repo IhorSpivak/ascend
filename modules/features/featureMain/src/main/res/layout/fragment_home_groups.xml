@@ -37,12 +37,12 @@
 
                 <TextView
                     style="@style/TextNormal"
+                    android:id="@+id/tv_filter"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_r4_f4f7"
                     android:gravity="center"
-                    android:onClick="@{(v) -> model.onFilterClick()}"
                     android:text="@string/filter_groups"
                     android:textSize="16sp" />
 

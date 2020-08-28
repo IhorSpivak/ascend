@@ -68,7 +68,8 @@ fun GroupListDTO.toRequest(): GroupListRequest {
         startDateFrom?.toRemoteString(),
         startDateTo?.toRemoteString(),
         community,
-        tagId
+        tagId,
+        daysOfWeen.orEmpty()
     )
 }
 
@@ -86,7 +87,8 @@ fun GroupListDTO.toRequest(currPage: Int): GroupListRequest {
         startDateFrom?.toRemoteString(),
         startDateTo?.toRemoteString(),
         community,
-        tagId
+        tagId,
+        daysOfWeen.orEmpty()
     )
 }
 

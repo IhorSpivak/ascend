@@ -14,13 +14,11 @@ import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.presentation.main.filter.DayOfWeek
+import com.doneit.ascend.presentation.main.filter.FilterModel
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
-import com.doneit.ascend.presentation.models.group.PresentationGroupListModel
-import com.doneit.ascend.presentation.models.group.toDTO
-import com.doneit.ascend.presentation.utils.extensions.toGMTFormatter
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
-import java.util.*
 
 @CreateFactory
 @ViewModelDiModule
@@ -30,16 +28,23 @@ class MasterMindViewModel(
     private val router: MasterMindContract.Router
 ) : BaseViewModelImpl(), MasterMindContract.ViewModel {
 
-    private val formingRequestModel = PresentationGroupListModel()
     override val requestModel = MutableLiveData(defaultRequest)
 
     private val _groups = requestModel.switchMap { groupUseCase.getGroupListPaged(viewModelScope, it) }
     private val user = userUseCase.getUserLive()
 
     override val groups = MediatorLiveData<GroupListWithUserPaged>()
-    override val dataSource = List(INTERVALS_COUNT) {
-        Date(it * TIME_INTERVAL.minutesToMills()).toDayTime()
-    }
+    override val filter: FilterModel
+        get() {
+            return FilterModel(
+                requestModel.value?.daysOfWeen
+                    .orEmpty()
+                    .map { DayOfWeek.values()[it] }
+                    .toMutableList(),
+                System.currentTimeMillis(),//TODO
+                System.currentTimeMillis()
+            )
+        }
 
     init {
         groups.addSource(_groups) {
@@ -49,15 +54,6 @@ class MasterMindViewModel(
         groups.addSource(user) {
             updateListData(it, _groups.value)
         }
-    }
-
-    private fun Date.toDayTime(): String {
-        val formatter = "h:mm aa".toGMTFormatter()
-        return formatter.format(this)
-    }
-
-    private fun Int.minutesToMills(): Long {
-        return this * 60 * 1000L
     }
 
     private fun updateListData(user: UserEntity?, pagedList: PagedList<GroupEntity>?) {
@@ -71,16 +67,12 @@ class MasterMindViewModel(
         }
     }
 
-    override fun apply() {
-        requestModel.postValue(formingRequestModel.toDTO(defaultRequest))
-    }
-
-    override fun cancel() {
-        router.onBack()
-    }
-
     override fun updateData() {
         requestModel.postValue(requestModel.value)
+    }
+
+    override fun updateRequestModel(requestModel: GroupListDTO) {
+        this.requestModel.value = requestModel
     }
 
     override fun onStartChatClick(groupId: Long, groupType: GroupType) {
@@ -91,10 +83,6 @@ class MasterMindViewModel(
         router.navigateToGroupInfo(groupId)
     }
 
-    override fun onFilterClick() {
-        router.navigateToGroupsFilter()
-    }
-
     companion object {
         val defaultRequest = GroupListDTO(
             perPage = 10,
@@ -103,8 +91,5 @@ class MasterMindViewModel(
             groupType = GroupType.MASTER_MIND,
             groupStatus = GroupStatus.UPCOMING
         )
-
-        private const val TIME_INTERVAL = 5//5 min
-        private const val INTERVALS_COUNT = 24 * 60 / TIME_INTERVAL//1 day
     }
 }

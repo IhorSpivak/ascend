@@ -27,10 +27,10 @@
             <!-- TODO: add radio group dinamically depending on servers community -->
             <RadioGroup
                 android:id="@+id/radio_group"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:gravity="left"
+                android:gravity="start"
                 android:orientation="horizontal"
                 android:paddingBottom="20dp"
                 app:layout_constraintEnd_toEndOf="parent"

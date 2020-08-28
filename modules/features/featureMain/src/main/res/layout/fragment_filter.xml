@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.home.master_mind.filter.FilterContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.filter.FilterContract.ViewModel" />
 
     </data>
 
@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:padding="20dp"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/tvSelectedDays"
@@ -59,6 +59,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toStartOf="@id/tvTO"
+                app:layout_constraintTop_toBottomOf="@id/tvPrefTime"
                 app:wheel_atmospheric="true"
                 app:wheel_curved="true"
                 app:wheel_cyclic="true"
@@ -66,9 +68,7 @@
                 app:wheel_item_space="30dp"
                 app:wheel_item_text_color="#D1D1D1"
                 app:wheel_item_text_size="23sp"
-                app:wheel_selected_item_text_color="@color/colorAccent"
-                app:layout_constraintEnd_toStartOf="@id/tvTO"
-                app:layout_constraintTop_toBottomOf="@id/tvPrefTime" />
+                app:wheel_selected_item_text_color="@color/colorAccent" />
 
             <TextView
                 android:id="@+id/tvTO"
@@ -85,6 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
+                app:layout_constraintStart_toEndOf="@id/tvTO"
+                app:layout_constraintTop_toBottomOf="@id/tvPrefTime"
                 app:wheel_atmospheric="true"
                 app:wheel_curved="true"
                 app:wheel_cyclic="true"
@@ -92,9 +94,7 @@
                 app:wheel_item_space="30dp"
                 app:wheel_item_text_color="#D1D1D1"
                 app:wheel_item_text_size="23sp"
-                app:wheel_selected_item_text_color="@color/colorAccent"
-                app:layout_constraintStart_toEndOf="@id/tvTO"
-                app:layout_constraintTop_toBottomOf="@id/tvPrefTime" />
+                app:wheel_selected_item_text_color="@color/colorAccent" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/timeBarrier"
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/number_of_participants"
+                android:text="@string/group_type"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/timeBarrier" />
 
@@ -123,23 +123,27 @@
 
                 <RadioButton
                     android:id="@+id/radio0"
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:background="@drawable/pref_time_selector"
                     android:button="@android:color/transparent"
                     android:checked="true"
                     android:gravity="center"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:text="@string/group"
                     android:textColor="@color/pref_time_text_selector" />
 
                 <RadioButton
                     android:id="@+id/radio1"
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/pref_time_selector"
                     android:button="@android:color/transparent"
                     android:gravity="center"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:text="@string/individual"
                     android:textColor="@color/pref_time_text_selector" />
 
@@ -156,10 +160,9 @@
                 android:text="@string/btn_cancel"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
-                android:onClick="@{(v) -> model.cancel()}"
+                app:layout_constraintEnd_toStartOf="@id/btnApply"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rgParticipants"
-                app:layout_constraintEnd_toStartOf="@id/btnApply"/>
+                app:layout_constraintTop_toBottomOf="@id/rgParticipants" />
 
             <Button
                 android:id="@+id/btnApply"
@@ -170,11 +173,10 @@
                 android:backgroundTint="@color/selector_btn_enabled"
                 android:text="@string/apply"
                 android:textSize="16sp"
-                android:onClick="@{(v) -> model.apply()}"
-                app:layout_constraintTop_toTopOf="@id/btnCancel"
                 app:layout_constraintBottom_toBottomOf="@id/btnCancel"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnCancel"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="@id/btnCancel" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

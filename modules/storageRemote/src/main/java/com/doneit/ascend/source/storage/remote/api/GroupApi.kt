@@ -36,7 +36,8 @@ interface GroupApi {
         @Query("start_time_from") startTimeFrom: String?,
         @Query("start_time_to") startTimeTo: String?,
         @Query("community") community: String?,
-        @Query("tag_id") tagId: Int?
+        @Query("tag_id") tagId: Int?,
+        @Query("wdays") wdays:List<Int>?
     ): Deferred<Response<GroupListResponse>>
 
     @GET("groups/{id}")

@@ -6,7 +6,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.home.master_mind.filter.FilterContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.filter.FilterContract.ViewModel" />
 
     </data>
 
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/number_of_participants"
+                android:text="@string/group_type"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/timeBarrier" />
 
@@ -156,7 +156,6 @@
                 android:text="@string/btn_cancel"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
-                android:onClick="@{(v) -> model.cancel()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rgParticipants"
                 app:layout_constraintEnd_toStartOf="@id/btnApply"/>
@@ -170,7 +169,6 @@
                 android:backgroundTint="@color/selector_btn_enabled"
                 android:text="@string/apply"
                 android:textSize="16sp"
-                android:onClick="@{(v) -> model.apply()}"
                 app:layout_constraintTop_toTopOf="@id/btnCancel"
                 app:layout_constraintBottom_toBottomOf="@id/btnCancel"
                 app:layout_constraintStart_toEndOf="@id/btnCancel"
