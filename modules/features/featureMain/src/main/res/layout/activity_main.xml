@@ -47,7 +47,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/hasNotification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/hasChatMessages"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -191,7 +191,9 @@
                         app:layout_constraintEnd_toEndOf="@id/btnChat" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </androidx.appcompat.widget.Toolbar>
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -252,20 +254,28 @@
             app:layout_anchor="@id/bottom_app_bar"
             app:layout_anchorGravity="bottom|center_horizontal">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="16dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_camera_plus" />
+
         </androidx.cardview.widget.CardView>
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/container_full"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="4dp"
-            android:outlineProvider="none" />
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#00000000">
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/container_full"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:outlineProvider="none" />
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
