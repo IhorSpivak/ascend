@@ -170,8 +170,8 @@ class MainActivity : BaseActivity(), MainActivityListener {
                     false //TODO change to true when fragment will be implemented
                 }
                 R.id.ascension_plan -> {
-                    viewModel.navigateToAscensionPlan()
-                    true
+                    //viewModel.navigateToAscensionPlan()
+                    false //TODO change to true when activate button
                 }
                 R.id.profile -> {
                     viewModel.navigateToProfile()
