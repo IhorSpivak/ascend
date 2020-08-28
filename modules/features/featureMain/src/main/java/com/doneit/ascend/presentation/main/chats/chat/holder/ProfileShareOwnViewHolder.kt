@@ -20,7 +20,7 @@ class ProfileShareOwnViewHolder(
     fun bind(messageEntity: MessageEntity) {
         with(binding) {
             this.messageEntity = messageEntity
-            itemView.setOnSingleClickListener {
+            myMessage.setOnSingleClickListener {
                 messageEntity.sharedUser?.let { user -> onProfileClick(user) }
             }
         }

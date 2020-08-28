@@ -59,11 +59,6 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
         btnMessage.setOnClickListener {
             viewModel.startChatWithMM(mmId = userId)
         }
-        btnInto.setOnClickListener {
-            currentDialog = ReportAbuseDialog.create(requireContext()) {
-                viewModel.sendReport(it)
-            }.also { it.show() }
-        }
         btnShare.setOnClickListener {
             shareTo(Constants.DEEP_LINK_PROFILE_URL + viewModel.profile.value!!.id)
         }

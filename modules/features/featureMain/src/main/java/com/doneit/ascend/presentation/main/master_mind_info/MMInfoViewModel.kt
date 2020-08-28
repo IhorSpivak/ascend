@@ -165,7 +165,11 @@ class MMInfoViewModel(
 
     override fun onShareInAppClick() {
         user.value?.let {
-            router.navigateToShare(it.id, it, SharePostBottomSheetFragment.ShareType.PROFILE)
+            router.navigateToShare(
+                profile.value!!.id,
+                it,
+                SharePostBottomSheetFragment.ShareType.PROFILE
+            )
         }
     }
 

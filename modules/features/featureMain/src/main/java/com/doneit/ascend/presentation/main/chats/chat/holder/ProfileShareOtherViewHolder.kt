@@ -29,7 +29,7 @@ class ProfileShareOtherViewHolder(
             if(messageEntity.createdAt != null) {
                 messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt)
             }
-            itemView.setOnSingleClickListener {
+            myMessage.setOnSingleClickListener {
                 messageEntity.sharedUser?.let { user -> onProfileClick(user) }
             }
         }
