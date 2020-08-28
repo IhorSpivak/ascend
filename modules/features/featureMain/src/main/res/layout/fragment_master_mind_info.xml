@@ -135,11 +135,12 @@
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="5dp"
                             android:layout_weight="1"
+                            android:backgroundTint="@color/cancel_color"
                             android:background="@drawable/ic_bg_btn_joined"
                             android:enabled="@{model.enableUnfollow}"
                             android:onClick="@{() -> model.onUnfollowClick()}"
                             android:text="@string/btn_unfollow"
-                            android:textColor="@color/default_font_color"
+                            android:textColor="@color/colorPrimary"
                             android:visibility="@{model.isUnfollowVisible(),default=gone}" />
 
 
