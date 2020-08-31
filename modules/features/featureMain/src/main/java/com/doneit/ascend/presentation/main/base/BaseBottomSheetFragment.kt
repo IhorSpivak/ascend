@@ -49,8 +49,6 @@ abstract class BaseBottomSheetFragment<B : ViewDataBinding> : BottomSheetDialogF
 
     override val kodeinTrigger = KodeinTrigger()
 
-    abstract val viewModel: BaseViewModel
-
     //endregion
     protected fun <T> observe(ld: LiveData<T>, handler: (T) -> Unit) {
         ld.observe(viewLifecycleOwner::getLifecycle) {
@@ -110,12 +108,6 @@ abstract class BaseBottomSheetFragment<B : ViewDataBinding> : BottomSheetDialogF
 
         binding.apply {
             lifecycleOwner = this@BaseBottomSheetFragment
-        }
-
-        viewModel.progressDialog.observe(this) {
-            it?.let {
-                showProgress(it)
-            }
         }
 
         //initDialog()

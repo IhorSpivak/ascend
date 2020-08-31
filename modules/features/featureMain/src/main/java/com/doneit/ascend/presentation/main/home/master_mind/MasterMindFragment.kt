@@ -8,14 +8,15 @@ import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeGroupsBinding
-import com.doneit.ascend.presentation.main.filter.FilterFragment
 import com.doneit.ascend.presentation.main.filter.FilterListener
-import com.doneit.ascend.presentation.main.filter.FilterModel
+import com.doneit.ascend.presentation.main.filter.base_filter.BaseFilter
+import com.doneit.ascend.presentation.main.filter.community_filter.CommunityFilterFragment
+import com.doneit.ascend.presentation.main.filter.community_filter.CommunityFilterModel
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
 
-class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>(), FilterListener<FilterModel> {
+class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>(), FilterListener<CommunityFilterModel> {
 
     override val viewModel: MasterMindContract.ViewModel by instance()
 
@@ -69,9 +70,9 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>(), FilterList
             viewModel.updateData()
         }
         binding.tvFilter.setOnClickListener {
-            FilterFragment.newInstance(viewModel.filter).show(
+            CommunityFilterFragment.newInstance(viewModel.filter).show(
                 childFragmentManager,
-                FilterFragment::class.java.simpleName
+                BaseFilter::class.java.simpleName
             )
         }
     }
@@ -82,7 +83,7 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>(), FilterList
         binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
     }
 
-    override fun updateFilter(filter: FilterModel) {
+    override fun updateFilter(filter: CommunityFilterModel) {
         viewModel.requestModel.value?.let { groupsDTO ->
             viewModel.updateRequestModel(
                 GroupListDTO(
@@ -91,7 +92,10 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>(), FilterList
                     sortType = groupsDTO.sortType,
                     groupType = groupsDTO.groupType,
                     groupStatus = groupsDTO.groupStatus,
-                    daysOfWeen = filter.selectedDays.map { it.ordinal }
+                    daysOfWeen = filter.selectedDays.map { it.ordinal },
+                    timeFrom = filter.timeFrom,
+                    timeTo = filter.timeTo,
+                    community = filter.community?.title
                 )
             )
         }

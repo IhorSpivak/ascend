@@ -35,6 +35,8 @@ interface GroupApi {
         @Query("my_groups") myGroups: Boolean?,
         @Query("start_time_from") startTimeFrom: String?,
         @Query("start_time_to") startTimeTo: String?,
+        @Query("time_from") timeFrom: Long?,
+        @Query("time_to") timeTo: Long?,
         @Query("community") community: String?,
         @Query("tag_id") tagId: Int?,
         @Query("wdays") wdays:List<Int>?

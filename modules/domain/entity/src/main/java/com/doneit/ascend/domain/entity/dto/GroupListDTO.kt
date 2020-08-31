@@ -17,6 +17,8 @@ class GroupListDTO(
     val myGroups: Boolean? = null,
     val startDateFrom: Date? = null,
     val startDateTo: Date? = null,
+    val timeFrom: Long? = null,
+    val timeTo: Long? = null,
     val daysOfWeen: List<Int>? = null,
     val numberOfParticipants: GroupTypeParticipants? = null,
     val community: String? = null,

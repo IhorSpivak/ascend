@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.base.BaseViewModel
-import com.doneit.ascend.presentation.main.filter.FilterModel
+import com.doneit.ascend.presentation.main.filter.community_filter.CommunityFilterModel
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 
 interface MasterMindContract {
     interface ViewModel : BaseViewModel {
         val groups: LiveData<GroupListWithUserPaged>
         val requestModel: LiveData<GroupListDTO>
-        val filter: FilterModel
+        val filter: CommunityFilterModel
 
         fun updateData()
         fun updateRequestModel(requestModel: GroupListDTO)

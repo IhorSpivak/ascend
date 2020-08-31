@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 open class FilterModel(
-    val selectedDays: MutableList<DayOfWeek>,
-    var timeFrom: Long,
-    var timeTo: Long
+    open val selectedDays: MutableList<DayOfWeek> = mutableListOf(),
+    open var timeFrom: Long = 0,
+    open var timeTo: Long = 0
 ) : Parcelable

@@ -16,6 +16,8 @@ class GroupListRequest(
     @SerializedName("my_groups") val myGroups: Boolean?,
     @SerializedName("start_time_from") val startTimeFrom: String?,
     @SerializedName("start_time_to") val startTimeTo: String?,
+    @SerializedName("time_from") val timeFrom: Long?,
+    @SerializedName("time_to") val timeTo: Long?,
     @SerializedName("community") val community: String?,
     @SerializedName("tag_id") val tagId: Int?,
     @SerializedName("ways") val days: List<Int>?

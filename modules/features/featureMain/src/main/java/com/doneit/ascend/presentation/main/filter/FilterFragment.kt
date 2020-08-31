@@ -2,26 +2,28 @@ package com.doneit.ascend.presentation.main.filter
 
 import android.app.Dialog
 import android.os.Bundle
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseBottomSheetFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentFilterBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import org.kodein.di.Kodein
-import org.kodein.di.generic.instance
+import java.text.SimpleDateFormat
+import java.util.*
 
-open class FilterFragment : BaseBottomSheetFragment<FragmentFilterBinding>() {
+abstract class FilterFragment<T : FilterModel> : BaseBottomSheetFragment<FragmentFilterBinding>() {
 
-    override val viewModelModule: Kodein.Module
-        get() = FilterViewModelModule.get(this)
-
-    override val viewModel: FilterContract.ViewModel<FilterModel> by instance()
+    protected abstract val viewModel: FilterContract.ViewModel<T>
 
     @Suppress("unchecked_cast")
-    protected open val filterListener: FilterListener<FilterModel> by lazy {
+    protected open val filterListener: FilterListener<T> by lazy {
         require(requireParentFragment() is FilterListener<*>) {
             "Parent fragment should implement FilterListener"
         }
-        requireParentFragment() as FilterListener<FilterModel>
+        requireParentFragment() as FilterListener<T>
+    }
+
+    override fun getLayoutRes(): Int {
+        return R.layout.fragment_filter
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -37,7 +39,7 @@ open class FilterFragment : BaseBottomSheetFragment<FragmentFilterBinding>() {
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         val initFilter =
-            requireNotNull(requireArguments().getParcelable<FilterModel>(KEY_INIT_FILTER))
+            requireNotNull(requireArguments().getParcelable<T>(KEY_INIT_FILTER))
         setupBinding()
         initFilter(initFilter)
     }
@@ -51,7 +53,7 @@ open class FilterFragment : BaseBottomSheetFragment<FragmentFilterBinding>() {
         setClickListeners()
     }
 
-    private fun initFilter(initFilter: FilterModel) = with(binding.daysOfWeek) {
+    protected open fun initFilter(initFilter: T) = with(binding.daysOfWeek) {
         viewModel.setFilter(initFilter)
         initFilter.selectedDays.forEach {
             when (it) {
@@ -64,6 +66,8 @@ open class FilterFragment : BaseBottomSheetFragment<FragmentFilterBinding>() {
                 DayOfWeek.SATURDAY -> btnSa.isChecked = true
             }
         }
+        binding.fromPicker.setSelectedItemPosition(initFilter.timeFrom.toInt() / 5, false)
+        binding.toPicker.setSelectedItemPosition(initFilter.timeTo.toInt() / 5, false)
     }
 
     private fun configureDayButtons() = with(binding.daysOfWeek) {
@@ -77,12 +81,15 @@ open class FilterFragment : BaseBottomSheetFragment<FragmentFilterBinding>() {
     }
 
     private fun configureStartEndDate() = with(binding) {
-        fromPicker.setOnItemSelectedListener { _, data, position ->
-            (data as String)
+        fromPicker.setOnItemSelectedListener { _, data, _ ->
+            viewModel.selectStartDate(getMinutesOfDay(data as String))
+        }
+        toPicker.setOnItemSelectedListener { _, data, _ ->
+            viewModel.selectEndDate(getMinutesOfDay(data as String))
         }
     }
 
-    private fun setClickListeners() = with(binding) {
+    protected open fun setClickListeners() = with(binding) {
         btnApply.setOnClickListener {
             filterListener.updateFilter(viewModel.filter)
             dismiss()
@@ -92,14 +99,16 @@ open class FilterFragment : BaseBottomSheetFragment<FragmentFilterBinding>() {
         }
     }
 
-    companion object {
-
-        private const val KEY_INIT_FILTER = "key_init_filter"
-
-        fun newInstance(model: FilterModel) = FilterFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(KEY_INIT_FILTER, model)
-            }
+    private fun getMinutesOfDay(data: String): Long {
+        val timeFormat = SimpleDateFormat("h:mm aa", Locale.getDefault())
+        val date = requireNotNull(timeFormat.parse(data))
+        val calendar = Calendar.getInstance().apply {
+            time = date
         }
+        return calendar.get(Calendar.HOUR_OF_DAY).toLong() * 60L + calendar.get(Calendar.MINUTE)
+    }
+
+    companion object {
+        const val KEY_INIT_FILTER = "key_init_filter"
     }
 }

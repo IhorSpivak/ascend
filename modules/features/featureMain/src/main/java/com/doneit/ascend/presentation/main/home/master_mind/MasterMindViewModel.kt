@@ -10,15 +10,17 @@ import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.filter.DayOfWeek
-import com.doneit.ascend.presentation.main.filter.FilterModel
+import com.doneit.ascend.presentation.main.filter.community_filter.CommunityFilterModel
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
+import java.util.*
 
 @CreateFactory
 @ViewModelDiModule
@@ -30,19 +32,27 @@ class MasterMindViewModel(
 
     override val requestModel = MutableLiveData(defaultRequest)
 
-    private val _groups = requestModel.switchMap { groupUseCase.getGroupListPaged(viewModelScope, it) }
+    private val _groups =
+        requestModel.switchMap { groupUseCase.getGroupListPaged(viewModelScope, it) }
     private val user = userUseCase.getUserLive()
 
     override val groups = MediatorLiveData<GroupListWithUserPaged>()
-    override val filter: FilterModel
+    override val filter: CommunityFilterModel
         get() {
-            return FilterModel(
-                requestModel.value?.daysOfWeen
+            return CommunityFilterModel(
+                selectedDays = requestModel.value?.daysOfWeen
                     .orEmpty()
                     .map { DayOfWeek.values()[it] }
                     .toMutableList(),
-                System.currentTimeMillis(),//TODO
-                System.currentTimeMillis()
+                timeFrom = requestModel.value?.timeFrom ?: 0L,
+                timeTo = requestModel.value?.timeTo ?: 0L,
+                community = requestModel.value?.community?.let {
+                    Community.valueOf(
+                        it.toUpperCase(
+                            Locale.getDefault()
+                        )
+                    )
+                }
             )
         }
 

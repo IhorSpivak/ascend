@@ -121,7 +121,7 @@ internal class GroupRepository(
     ): RemoteResponse<GroupResponse, ErrorsListResponse> {
         return execute({
 
-            var builder = MultipartBody.Builder()
+            val builder = MultipartBody.Builder()
             request.let {
                 if (it.name != null) {
                     builder.addPart(MultipartBody.Part.createFormData("name", it.name))
@@ -258,6 +258,8 @@ internal class GroupRepository(
                 listRequest.myGroups,
                 listRequest.startTimeFrom,
                 listRequest.startTimeTo,
+                listRequest.timeFrom,
+                listRequest.timeTo,
                 listRequest.community,
                 listRequest.tagId,
                 listRequest.days

@@ -5,9 +5,9 @@ import com.doneit.ascend.presentation.utils.extensions.minutesToMills
 import com.doneit.ascend.presentation.utils.extensions.toDayTime
 import java.util.*
 
-open class FilterViewModel : BaseViewModelImpl(), FilterContract.ViewModel<FilterModel> {
+abstract class FilterViewModel<T : FilterModel> : BaseViewModelImpl(), FilterContract.ViewModel<T> {
 
-    override val filter: FilterModel = initFilterModel()
+    override val filter: T by lazy { initFilterModel() }
 
     override val dataSource: List<String> = List(INTERVALS_COUNT) {
         Date(it * TIME_INTERVAL.minutesToMills()).toDayTime()
@@ -27,19 +27,14 @@ open class FilterViewModel : BaseViewModelImpl(), FilterContract.ViewModel<Filte
         filter.timeTo = endDate
     }
 
-    override fun setFilter(filter: FilterModel) {
+    override fun setFilter(filter: T) {
         this.filter.selectedDays.addAll(filter.selectedDays)
         this.filter.timeFrom = filter.timeFrom
         this.filter.timeTo = filter.timeTo
     }
 
-    private fun initFilterModel(): FilterModel {
-        return FilterModel(
-            mutableListOf(),
-            System.currentTimeMillis(),
-            System.currentTimeMillis()
-        )
-    }
+    protected abstract fun initFilterModel(): T
+
     companion object {
         private const val TIME_INTERVAL = 5//5 min
         private const val INTERVALS_COUNT = 24 * 60 / TIME_INTERVAL//1 day

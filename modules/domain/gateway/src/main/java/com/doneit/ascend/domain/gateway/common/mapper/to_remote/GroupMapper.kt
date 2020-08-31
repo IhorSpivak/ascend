@@ -12,41 +12,41 @@ fun CreateGroupDTO.toCreateGroupRequest(): CreateGroupRequest {
     val dayOffset = startTime?.getDayOffset()?: 0
 
     return CreateGroupRequest(
-        name,
-        description,
-        startTime?.toRemoteString(),
-        groupType,
-        price?.toPrice(),
-        participants,
-        days?.applyDaysOffset(dayOffset),
-        meetingsCount,
-        meetingFormat,
-        privacy,
-        tags,
-        dates,
-        themes,
-        duration
+        name = name,
+        description = description,
+        startTime = startTime?.toRemoteString(),
+        groupType = groupType,
+        price = price?.toPrice(),
+        participants = participants,
+        days = days?.applyDaysOffset(dayOffset),
+        meetingsCount = meetingsCount,
+        meetingFormat = meetingFormat,
+        private = privacy,
+        tagId = tags,
+        times = dates,
+        themes = themes,
+        duration = duration
     )
 }
 fun UpdateGroupDTO.toUpdateGroupRequest(): UpdateGroupRequest {
     val dayOffset = startTime?.getDayOffset()?: 0
 
     return UpdateGroupRequest(
-        name,
-        description,
-        startTime?.toRemoteString(),
-        groupType,
-        price?.toPrice(),
-        participants,
-        participantsToDelete,
-        days?.applyDaysOffset(dayOffset),
-        meetingsCount,
-        meetingFormat,
-        privacy,
-        tags,
-        times,
-        themes,
-        duration
+        name = name,
+        description = description,
+        startTime = startTime?.toRemoteString(),
+        groupType = groupType,
+        price = price?.toPrice(),
+        participants = participants,
+        removedParticipants = participantsToDelete,
+        days = days?.applyDaysOffset(dayOffset),
+        meetingsCount = meetingsCount,
+        meetingFormat = meetingFormat,
+        private = privacy,
+        tagId = tags,
+        times = times,
+        themes = themes,
+        duration = duration
     )
 }
 
@@ -56,57 +56,61 @@ fun Float.toPrice(): Int {
 
 fun GroupListDTO.toRequest(): GroupListRequest {
     return GroupListRequest(
-        page,
-        perPage,
-        sortColumn,
-        sortType?.toString(),
-        name,
-        userId,
-        groupType?.toString(),
-        groupStatus.toString(),
-        myGroups,
-        startDateFrom?.toRemoteString(),
-        startDateTo?.toRemoteString(),
-        community,
-        tagId,
-        daysOfWeen.orEmpty()
+        page = page,
+        perPage = perPage,
+        sortColumn = sortColumn,
+        sortType = sortType?.toString(),
+        name = name,
+        userId = userId,
+        groupType = groupType?.toString(),
+        status = groupStatus.toString(),
+        myGroups = myGroups,
+        startTimeFrom = startDateFrom?.toRemoteString(),
+        startTimeTo = startDateTo?.toRemoteString(),
+        timeFrom = timeFrom,
+        timeTo = timeTo,
+        community = community,
+        tagId = tagId,
+        days = daysOfWeen.orEmpty()
     )
 }
 
 fun GroupListDTO.toRequest(currPage: Int): GroupListRequest {
     return GroupListRequest(
-        currPage,
-        perPage,
-        sortColumn,
-        sortType?.toString(),
-        name,
-        userId,
-        groupType?.toString(),
-        groupStatus.toString(),
-        myGroups,
-        startDateFrom?.toRemoteString(),
-        startDateTo?.toRemoteString(),
-        community,
-        tagId,
-        daysOfWeen.orEmpty()
+        page = currPage,
+        perPage = perPage,
+        sortColumn = sortColumn,
+        sortType = sortType?.toString(),
+        name = name,
+        userId = userId,
+        groupType = groupType?.toString(),
+        status = groupStatus.toString(),
+        myGroups = myGroups,
+        startTimeFrom = startDateFrom?.toRemoteString(),
+        startTimeTo = startDateTo?.toRemoteString(),
+        timeFrom = timeFrom,
+        timeTo = timeTo,
+        community = community,
+        tagId = tagId,
+        days = daysOfWeen.orEmpty()
     )
 }
 
 fun SubscribeGroupDTO.toRequest(): SubscribeGroupRequest {
     return SubscribeGroupRequest(
-        paymentSourceId,
-        paymentSourceType?.toString()
+        paymentSourceId = paymentSourceId,
+        paymentSourceType = paymentSourceType?.toString()
     )
 }
 
 fun ParticipantListDTO.toRequest(): GroupParticipantsRequest {
     return GroupParticipantsRequest(
-        page,
-        perPage,
-        sortColumn,
-        sortType?.toString(),
-        fullName,
-        connected
+        page = page,
+        perPage = perPage,
+        sortColumn = sortColumn,
+        sortType = sortType?.toString(),
+        fullName = fullName,
+        connected = connected
     )
 }
 
