@@ -54,6 +54,7 @@
     <string name="workshop">Workshop</string>
     <string name="individual"> Private coaching</string>
     <string name="closed_group"> Closed</string>
+    <string name="undefined">Undefined</string>
     <string name="apply">Apply</string>
     <string name="to">to</string>
 

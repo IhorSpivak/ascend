@@ -19,9 +19,9 @@ class GroupViewHolder(
             this.item = item
             this.user = user
             this.theme = if (item.pastMeetingsCount == item.meetingsCount) {
-                item.pastMeetingsCount?.let { item.themes?.get(it - 1) }
+                item.pastMeetingsCount?.let { item.themes?.getOrNull(it - 1) }
             } else {
-                item.pastMeetingsCount?.let { item.themes?.get(it) }
+                item.pastMeetingsCount?.let { item.themes?.getOrNull(it) }
             }
             convertCommunityToResId(
                 user?.community.orEmpty(),

@@ -30,13 +30,13 @@ class ShareGroupViewHolder(
             messageEntity.sharedGroup?.let { group ->
                 groupModel = group
                 community = group.community
-                if(messageEntity.createdAt != null) {
+                if (messageEntity.createdAt != null) {
                     messageTime.text = root.context.getTimeFormat().format(messageEntity.createdAt)
                 }
                 theme = if (group.pastMeetingsCount == group.meetingsCount) {
-                    group.pastMeetingsCount?.let { group.themes?.get(it - 1) }
+                    group.pastMeetingsCount?.let { group.themes?.getOrNull(it - 1) }
                 } else {
-                    group.pastMeetingsCount?.let { group.themes?.get(it) }
+                    group.pastMeetingsCount?.let { group.themes?.getOrNull(it) }
                 }
                 itemView.setOnSingleClickListener {
                     onSharedGroupClick(group)

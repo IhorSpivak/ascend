@@ -267,7 +267,7 @@ fun convertCommunityToResId(community: String, type: GroupType?): Int {
         Community.FAMILY.title -> R.string.group_title to R.string.group
         Community.SUCCESS.title,
         Community.INDUSTRY.title -> R.string.collaboration to R.string.workshop
-        else -> throw IllegalStateException("Unsupported community detected")
+        else -> R.string.undefined to R.string.undefined
     }
     return when (type) {
         GroupType.INDIVIDUAL,

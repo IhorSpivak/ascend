@@ -28,16 +28,11 @@ class GroupHorViewHolder(
                 communityGroup
             }
             this.user = user
-            groupTypeText = itemView.context.getString(
-                convertCommunityToResId(
-                    user?.community ?: communityGroup.orEmpty(),
-                    item.groupType
-                )
-            )
+            groupTypeText = itemView.context.getString(convertCommunityToResId(user?.community ?: communityGroup.orEmpty(), item.groupType))
             theme = if (item.pastMeetingsCount == item.meetingsCount) {
-                item.pastMeetingsCount?.let { item.themes?.get(it - 1) }
+                item.pastMeetingsCount?.let { item.themes?.getOrNull(it - 1) }
             } else {
-                item.pastMeetingsCount?.let { item.themes?.get(it) }
+                item.pastMeetingsCount?.let { item.themes?.getOrNull(it) }
             }
         }
         if (user == null) {
