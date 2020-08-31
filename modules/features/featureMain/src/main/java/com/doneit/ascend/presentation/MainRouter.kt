@@ -61,6 +61,7 @@ import com.doneit.ascend.presentation.main.groups.group_list.GroupListContract
 import com.doneit.ascend.presentation.main.home.HomeContract
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedContract
+import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedFragment
 import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsContract
 import com.doneit.ascend.presentation.main.home.community_feed.channels.ChannelsFragment
 import com.doneit.ascend.presentation.main.home.community_feed.channels.create_channel.CreateChannelContract
@@ -269,6 +270,10 @@ class MainRouter(
 
     override fun navigateToMyChats() {
         replaceFullWithMainUpdate(MyChatsFragment())
+    }
+
+    override fun navigateToCommunityFeedFragment(user: UserEntity) {
+        popOrReplaceWithBackStack { CommunityFeedFragment.newInstance(user) }
     }
 
     override fun navigateToHome() {

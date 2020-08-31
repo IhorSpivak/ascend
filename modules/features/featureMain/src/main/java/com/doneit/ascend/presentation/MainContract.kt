@@ -30,6 +30,7 @@ interface MainContract {
         fun onHomeClick()
         fun navigateToMyContent()
         fun navigateToAscensionPlan()
+        fun navigateToCommunityFeed()
         fun navigateToProfile()
         fun tryToNavigateToGroupInfo(id: Long)
         fun tryToNavigateToProfile(id: Long)
@@ -41,7 +42,7 @@ interface MainContract {
         fun navigateToGroupInfo(id: Long)
         fun navigateToLogin()
         fun navigateToMyChats()
-
+        fun navigateToCommunityFeedFragment(user: UserEntity)
         fun navigateToCreateGroupMM()
         fun navigateToCreateGroup(type: GroupType)
         fun navigateToHome()

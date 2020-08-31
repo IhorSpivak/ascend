@@ -16,6 +16,7 @@ import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.PagedList
+import com.doneit.ascend.presentation.MainActivityListener
 import com.doneit.ascend.presentation.common.RvLazyAdapter
 import com.doneit.ascend.presentation.dialog.DeleteDialog
 import com.doneit.ascend.presentation.dialog.QuestionButtonType
@@ -49,8 +50,19 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
         }
     }
 
+    var listener: MainActivityListener? = null
+
     override fun onResume() {
         super.onResume()
+        listener?.apply {
+            setSearchEnabled(false)
+            setFilterEnabled(true)
+            setChatEnabled(true)
+            setShareEnabled(false)
+            setShareInAppEnabled(false)
+            setTitle(getString(R.string.ascension_plan))
+            getUnreadMessageCount()
+        }
         hideKeyboard()
         activity?.currentFocus?.clearFocus()
     }
@@ -69,6 +81,9 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        listener = (context as MainActivityListener).apply {
+            setTitle(getString(R.string.ascension_plan))
+        }
         context.registerReceiver(newPostReceiver, IntentFilter(ACTION_NEW_POST))
     }
 

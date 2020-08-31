@@ -168,8 +168,8 @@ class MainActivity : BaseActivity(), MainActivityListener {
                     false
                 }
                 R.id.ascension_plan -> {
-                    //viewModel.navigateToAscensionPlan()
-                    false //TODO change to true when activate button
+                    viewModel.navigateToCommunityFeed()
+                    true
                 }
                 R.id.profile -> {
                     viewModel.navigateToProfile()

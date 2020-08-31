@@ -116,6 +116,12 @@ class MainViewModel(
         router.navigateToAscensionPlan()
     }
 
+    override fun navigateToCommunityFeed() {
+        user.value?.let {
+            router.navigateToCommunityFeedFragment(it)
+        }
+    }
+
     override fun navigateToProfile() {
         user.value?.let {
             if (it.isMasterMind) {
