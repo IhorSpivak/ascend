@@ -10,8 +10,9 @@ import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeGroupsBinding
 import com.doneit.ascend.presentation.main.filter.FilterListener
 import com.doneit.ascend.presentation.main.filter.base_filter.BaseFilter
-import com.doneit.ascend.presentation.main.filter.community_filter.CommunityFilterFragment
 import com.doneit.ascend.presentation.main.filter.community_filter.CommunityFilterModel
+import com.doneit.ascend.presentation.main.filter.tag_filter.TagFilterFragment
+import com.doneit.ascend.presentation.main.filter.tag_filter.TagFilterModel
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
@@ -70,7 +71,7 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>(), FilterList
             viewModel.updateData()
         }
         binding.tvFilter.setOnClickListener {
-            CommunityFilterFragment.newInstance(viewModel.filter).show(
+            TagFilterFragment.newInstance(TagFilterModel()).show(
                 childFragmentManager,
                 BaseFilter::class.java.simpleName
             )
