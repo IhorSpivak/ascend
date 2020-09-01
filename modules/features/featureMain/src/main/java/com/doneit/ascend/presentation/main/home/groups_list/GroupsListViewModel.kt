@@ -1,4 +1,4 @@
-package com.doneit.ascend.presentation.main.home.master_mind
+package com.doneit.ascend.presentation.main.home.groups_list
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,51 +10,28 @@ import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
-import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
-import com.doneit.ascend.presentation.main.filter.DayOfWeek
-import com.doneit.ascend.presentation.main.filter.community_filter.CommunityFilterModel
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
-import java.util.*
 
 @CreateFactory
 @ViewModelDiModule
-class MasterMindViewModel(
+class GroupsListViewModel(
     private val groupUseCase: GroupUseCase,
     private val userUseCase: UserUseCase,
-    private val router: MasterMindContract.Router
-) : BaseViewModelImpl(), MasterMindContract.ViewModel {
+    private val router: GroupsListContract.Router
+) : BaseViewModelImpl(), GroupsListContract.ViewModel {
 
     override val requestModel = MutableLiveData(defaultRequest)
 
-    private val _groups =
-        requestModel.switchMap { groupUseCase.getGroupListPaged(viewModelScope, it) }
+    private val _groups = requestModel.switchMap { groupUseCase.getGroupListPaged(viewModelScope, it) }
     private val user = userUseCase.getUserLive()
 
     override val groups = MediatorLiveData<GroupListWithUserPaged>()
-    override val filter: CommunityFilterModel
-        get() {
-            return CommunityFilterModel(
-                selectedDays = requestModel.value?.daysOfWeen
-                    .orEmpty()
-                    .map { DayOfWeek.values()[it] }
-                    .toMutableList(),
-                timeFrom = requestModel.value?.timeFrom ?: 0L,
-                timeTo = requestModel.value?.timeTo ?: 0L,
-                community = requestModel.value?.community?.let {
-                    Community.valueOf(
-                        it.toUpperCase(
-                            Locale.getDefault()
-                        )
-                    )
-                }
-            )
-        }
 
     init {
         groups.addSource(_groups) {
@@ -77,8 +54,8 @@ class MasterMindViewModel(
         }
     }
 
-    override fun updateData() {
-        requestModel.postValue(requestModel.value)
+    override fun updateData(userId: Long?) {
+        requestModel.postValue(requestModel.value?.copy(userId = userId))
     }
 
     override fun updateRequestModel(requestModel: GroupListDTO) {

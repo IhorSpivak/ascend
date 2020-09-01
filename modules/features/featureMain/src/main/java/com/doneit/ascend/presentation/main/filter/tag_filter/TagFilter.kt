@@ -14,7 +14,7 @@ abstract class TagFilter<T : TagFilterModel> : BaseFilter<T>() {
 
     abstract override val viewModel: TagFilterAbstractContract.ViewModel<T>
 
-    private var initWithTag: TagEntity? = null
+    private var initWithTagId: Int? = null
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         super.viewCreated(savedInstanceState)
@@ -32,7 +32,7 @@ abstract class TagFilter<T : TagFilterModel> : BaseFilter<T>() {
 
     override fun initFilter(initFilter: T) {
         super.initFilter(initFilter)
-        initWithTag = initFilter.selectedTag
+        initWithTagId = initFilter.selectedTagId
     }
 
     private fun handleTags(tags: List<TagEntity>) = with(binding) {
@@ -53,6 +53,6 @@ abstract class TagFilter<T : TagFilterModel> : BaseFilter<T>() {
             val tag = group.findViewById<Chip>(checkedId)?.tag as? TagEntity
             tag?.let { viewModel.tagSelected(it) }
         }
-        chipGroup.check(chipGroup.getChildAt(tags.indexOf(initWithTag)).id)
+        chipGroup.check(initWithTagId ?: return@with)
     }
 }

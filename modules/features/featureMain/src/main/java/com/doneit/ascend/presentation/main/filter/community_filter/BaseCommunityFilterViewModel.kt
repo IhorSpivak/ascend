@@ -13,4 +13,9 @@ abstract class BaseCommunityFilterViewModel<T : CommunityFilterModel> :
     override fun communitySelected(community: Community) {
         filter.community = community
     }
+
+    override fun setFilter(filter: T) {
+        super.setFilter(filter)
+        this.filter.community = filter.community
+    }
 }

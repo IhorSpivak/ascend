@@ -171,7 +171,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tvParticipantsNumber">
 
                 <RadioButton
-                    android:id="@+id/radio0"
+                    android:id="@+id/radioPublic"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:background="@drawable/pref_time_selector"
@@ -184,7 +184,7 @@
                     android:textColor="@color/pref_time_text_selector" />
 
                 <RadioButton
-                    android:id="@+id/radio1"
+                    android:id="@+id/radioPrivate"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"

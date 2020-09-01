@@ -1,8 +1,8 @@
 package com.doneit.ascend.domain.entity.dto
 
 open class BasePagedDTO(
-   val page: Int?,
-   val perPage: Int?,
-   val sortColumn: String?,
-   val sortType: SortType?
+   open val page: Int?,
+   open val perPage: Int?,
+   open val sortColumn: String?,
+   open val sortType: SortType?
 )

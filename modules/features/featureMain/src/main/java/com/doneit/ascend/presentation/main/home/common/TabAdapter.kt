@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.home.daily.DailyFragment
 import com.doneit.ascend.presentation.main.home.groups.GroupsFragment
-import com.doneit.ascend.presentation.main.home.master_mind.MasterMindFragment
+import com.doneit.ascend.presentation.main.home.groups_list.GroupsListFragment
 import com.doneit.ascend.presentation.main.home.webinars.WebinarsFragment
 
 class TabAdapter(
@@ -35,7 +35,7 @@ class TabAdapter(
                 {WebinarsFragment()},
                 //{CommunityFeedFragment.newInstance(userEntity)},
                 {GroupsFragment.newInstance()},
-                {MasterMindFragment()}
+                {GroupsListFragment()}
             )
 
             return TabAdapter(fragmentManager, fragments, titles)

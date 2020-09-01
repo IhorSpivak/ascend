@@ -143,7 +143,7 @@ class MainRouter(
     AscensionPlanContract.Router,
     CreateSpiritualContract.Router,
     CreateGoalsContract.Router,
-    com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract.Router,
+    com.doneit.ascend.presentation.main.home.groups_list.GroupsListContract.Router,
     DailyContract.Router,
     CreateGroupHostContract.Router,
     GroupInfoContract.Router,

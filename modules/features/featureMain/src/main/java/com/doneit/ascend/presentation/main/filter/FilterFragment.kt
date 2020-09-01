@@ -15,11 +15,11 @@ abstract class FilterFragment<T : FilterModel> : BaseBottomSheetFragment<Fragmen
     protected abstract val viewModel: FilterContract.ViewModel<T>
 
     @Suppress("unchecked_cast")
-    protected open val filterListener: FilterListener<T> by lazy {
+    protected open val filterListener: FilterListener<FilterModel> by lazy {
         require(requireParentFragment() is FilterListener<*>) {
             "Parent fragment should implement FilterListener"
         }
-        requireParentFragment() as FilterListener<T>
+        requireParentFragment() as FilterListener<FilterModel>
     }
 
     override fun getLayoutRes(): Int {

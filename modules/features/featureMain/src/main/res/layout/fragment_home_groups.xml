@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.doneit.ascend.presentation.main.home.master_mind.MasterMindContract.ViewModel" />
+            type="com.doneit.ascend.presentation.main.home.groups_list.GroupsListContract.ViewModel" />
 
         <variable
             name="hasGroups"

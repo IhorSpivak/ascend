@@ -1,25 +1,32 @@
-package com.doneit.ascend.presentation.main.home.master_mind
+package com.doneit.ascend.presentation.main.home.groups_list
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import com.doneit.ascend.domain.entity.dto.GroupListDTO
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.BaseFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentHomeGroupsBinding
 import com.doneit.ascend.presentation.main.filter.FilterListener
+import com.doneit.ascend.presentation.main.filter.FilterModel
+import com.doneit.ascend.presentation.main.filter.FilterType
 import com.doneit.ascend.presentation.main.filter.base_filter.BaseFilter
-import com.doneit.ascend.presentation.main.filter.community_filter.CommunityFilterModel
-import com.doneit.ascend.presentation.main.filter.tag_filter.TagFilterFragment
-import com.doneit.ascend.presentation.main.filter.tag_filter.TagFilterModel
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
 
-class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>(), FilterListener<CommunityFilterModel> {
+class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
+    FilterListener<FilterModel> {
 
-    override val viewModel: MasterMindContract.ViewModel by instance()
+    override val viewModel: GroupsListContract.ViewModel by instance()
+
+    private val groupType: GroupType? by lazy {
+        arguments?.getSerializable(GROUP_TYPE_KEY) as? GroupType
+    }
+    private val userId: Long? by lazy {
+        arguments?.getLong(USER_ID_KEY)
+    }
 
     private val adapter: GroupHorListAdapter by lazy {
         GroupHorListAdapter(
@@ -68,10 +75,15 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>(), FilterList
 
     private fun setListeners() {
         binding.srLayout.setOnRefreshListener {
-            viewModel.updateData()
+            viewModel.updateData(userId)
         }
         binding.tvFilter.setOnClickListener {
-            TagFilterFragment.newInstance(TagFilterModel()).show(
+            val filterType = when (groupType) {
+                GroupType.SUPPORT -> FilterType.TAG
+                GroupType.MASTER_MIND -> FilterType.GROUP_TYPE
+                else -> FilterType.COMMUNITY
+            }
+            FilterFactory.create(viewModel.requestModel.value, filterType).show(
                 childFragmentManager,
                 BaseFilter::class.java.simpleName
             )
@@ -80,25 +92,29 @@ class MasterMindFragment : BaseFragment<FragmentHomeGroupsBinding>(), FilterList
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateData()
+        viewModel.updateData(userId)
         binding.networkStatus = (activity as BaseActivity).isNetworkAvailable
     }
 
-    override fun updateFilter(filter: CommunityFilterModel) {
+    override fun updateFilter(filter: FilterModel) {
         viewModel.requestModel.value?.let { groupsDTO ->
-            viewModel.updateRequestModel(
-                GroupListDTO(
-                    perPage = groupsDTO.perPage,
-                    sortColumn = groupsDTO.sortColumn,
-                    sortType = groupsDTO.sortType,
-                    groupType = groupsDTO.groupType,
-                    groupStatus = groupsDTO.groupStatus,
-                    daysOfWeen = filter.selectedDays.map { it.ordinal },
-                    timeFrom = filter.timeFrom,
-                    timeTo = filter.timeTo,
-                    community = filter.community?.title
-                )
-            )
+            viewModel.updateRequestModel(filter.toDTO(groupsDTO))
         }
+    }
+
+    companion object {
+
+        private const val GROUP_TYPE_KEY = "key_group_type"
+        private const val USER_ID_KEY = "key_user_id"
+
+        fun newInstance(userId: Long? = null, groupType: GroupType? = null) =
+            GroupsListFragment().apply {
+                arguments = Bundle().apply {
+                    groupType?.let {
+                        putSerializable(GROUP_TYPE_KEY, it)
+                        putLong(USER_ID_KEY, userId ?: return@let)
+                    }
+                }
+            }
     }
 }

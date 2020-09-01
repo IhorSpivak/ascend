@@ -5,11 +5,11 @@ import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.group.GroupTypeParticipants
 import java.util.*
 
-class GroupListDTO(
-    page: Int? = null,
-    perPage: Int? = null,
-    sortColumn: String? = null,
-    sortType: SortType? = null,
+data class GroupListDTO(
+    override val page: Int? = null,
+    override val perPage: Int? = null,
+    override val sortColumn: String? = null,
+    override val sortType: SortType? = null,
     val name: String? = null,
     val userId: Long? = null,
     val groupType: GroupType? = null,
