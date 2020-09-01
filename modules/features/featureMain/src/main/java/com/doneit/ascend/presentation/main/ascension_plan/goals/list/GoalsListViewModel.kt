@@ -15,6 +15,7 @@ import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.RepeatTyp
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.TimeCommitmentEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.TimeCommitmentType
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.ascension_plan.goals.list.common.GoalsListArgs
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.vrgsoft.annotations.CreateFactory
@@ -84,7 +85,7 @@ class GoalsListViewModel (
             for (i in 1..10){
                 list += GoalEntity(
                     id = i,
-                    name = "Goal Name",
+                    name = R.string.goal_name,
                     actionStepList = getItemsChild(),
                     type = GoalType.ALL,
                     duration = GoalDurationEntity(GoalDurationType.MONTHS, 3)
@@ -97,17 +98,12 @@ class GoalsListViewModel (
             for (i in 1..10){
                 list += SpiritualActionStepEntity(
                     i,
-                    "Name",
+                    R.string.name,
                     false,
-                    TimeCommitmentEntity(
-                        TimeCommitmentType.MINUTE,
-                        15
-                    ),
+                    TimeCommitmentEntity(TimeCommitmentType.MINUTE, 15),
                     1582800063344,
                     RepeatType.DAY,
-                    SpiritualActionStepEntity.RepeatDayEntity(
-                        10
-                    ),
+                    SpiritualActionStepEntity.RepeatDayEntity(10),
                     null,
                     null
                 )
@@ -121,4 +117,5 @@ class GoalsListViewModel (
             return Source()
         }
     }
+    
 }

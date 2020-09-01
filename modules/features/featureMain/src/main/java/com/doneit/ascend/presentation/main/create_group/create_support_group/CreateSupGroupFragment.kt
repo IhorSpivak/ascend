@@ -77,7 +77,7 @@ class CreateSupGroupFragment :
 
     private val durationAdapter by lazy {
         DurationAdapter(
-            SupportDuration.values().map { it.label }.toTypedArray()
+            SupportDuration.values().map { it.label }
         )
     }
 

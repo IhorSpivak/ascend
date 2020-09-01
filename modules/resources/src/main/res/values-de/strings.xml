@@ -1,5 +1,65 @@
 <resources>
-    <string name="app_name">Ascend</string>
+    <string name="title">Ascend</string>
+    <string name="subtitle">Spiritual</string>
+
+    <string name="phone_number">Phone Number</string>
+
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Confirm Password</string>
+
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="new_password">New Password</string>
+    <string name="first_time_login">First Time Login</string>
+    <string name="forgot_password_title">Forgot Password</string>
+    <string name="dont_have_account_title">Don\'t have an account? <b>Sign Up</b> here</string>
+    <string name="social_title">Login with social</string>
+    <string name="or">- or -</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="privacy">Privacy Policy</string>
+    <string name="agreement">I agree with <b>Terms and Conditions</b> &amp; <b>Privacy Policy</b></string>
+    <string name="terms_link">Terms and Conditions</string>
+    <string name="privacy_link">Privacy Policy</string>
+    <string name="already_member">Already a member? <b>Sing In</b></string>
+
+    <string name="sign_up_continue">Continue</string>
+
+    <string name="verify_phone_header">Enter the 4-digit code sent to you at %s</string>
+
+    <string name="reset_password">Reset Password</string>
+
+    <!--Errors messages-->
+    <string name="error_login">Wrong phone number or password.</string>
+    <string name="error_full_name">Please, enter your Full Name correctly</string>
+    <string name="error_email">The email is incorrect. Please, make sure you entered correct data</string>
+    <string name="error_phone">The number is invalid. Please check it once again</string>
+
+    <!--New Password-->
+    <string name="enter_code_from_sms">Code</string>
+    <string name="enter_code_sent_you">Enter the 4-digit code\nsent to you at %s</string>
+    <string name="haven_code_sms">Haven\'t received the code yet?</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="save_new_password">Save New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="allow_code_digits">01234567890</string>
+
+    <!--First Time Login-->
+    <string name="first_time_login_title">Before signing in please complete the questionnaire</string>
+    <string name="complete">Complete</string>
+    <string name="add_your_answer">Add your answer</string>
+    <string name="answer_error">Size from 2 till 48 symbols and spacebars, case sensitive, latin letters only.</string>
+
+    <!--Dialog messages-->
+    <string name="title_password_sent">Password Sent</string>
+    <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>
+
+
+
+
+    <!-- Feature Main -->
     <string name="main_title">Ascend</string>
     <string name="profile_title">Profile</string>
     <string name="your_account">Your Account is blocked</string>
@@ -96,7 +156,6 @@
     <string name="error_start_date">The Start date cannot be past. Please check.</string>
     <string name="error_start_time">The Start date cannot be past. Please check.</string>
     <string name="error_price">The Price can contain from 1 till 6 digits</string>
-    <string name="error_email">The email is incorrect. Please, make sure you entered correct data</string>
     <string name="error_number_of_meetings">The Number Of Meetings should be between 1 and 365</string>
     <string name="error_number_of_meetings_count">Schedule does not match the number of meetings</string>
     <string name="error_description">The Group Description from 2 till 500 symbols</string>
@@ -311,10 +370,6 @@
     <string name="you_rating_is">You rating is %d/5</string>
 
     <!--Regular User Profile-->
-    <string name="full_name">Full Name</string>
-    <string name="email">Email</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="password">Password</string>
     <string name="age">Age</string>
     <string name="location">Location</string>
     <string name="notification_settings">Notification Settings</string>
@@ -325,7 +380,6 @@
     <string name="contact_support">Contact Support</string>
     <string name="tap_to_change">Tap to change</string>
     <string name="terms">Terms and Conditions</string>
-    <string name="privacy">Privacy Policy</string>
     <string name="take_a_photo">Take A Photo</string>
     <string name="select_from_gallery">Select From Gallery</string>
     <string name="attach_file">Attach File</string>
@@ -342,7 +396,6 @@
     <string name="gallery_denied">Please, change your photos access  permissions in your device settings to use the app fully.</string>
     <string name="add_attachments_denied">Please, change your file access  permissions in your device settings to use the app fully.</string>
     <string name="move_and_scale">Move and Scale</string>
-    <string name="error_full_name">Please, enter your Full Name correctly</string>
     <string name="error_display_name">Please, enter your Display Name correctly</string>
     <string name="error_short_description">Please, enter your short description correctly</string>
 
@@ -364,7 +417,6 @@
     <string name="edit_phone_title">Edit Phone Number</string>
     <string name="edit_phone_continue">Continue</string>
     <string name="phone_format">+%s</string>
-    <string name="error_phone">The number is invalid. Please check it once again</string><!--the same string is in logIn module-->
     <string name="password_hint">Current Password</string>
     <string name="verify_phone_title">Verify Phone Number</string>
     <string name="verify_header">Enter the 4-digit code\n sent to you at %s</string>
@@ -381,8 +433,6 @@
     <!--Change password-->
     <string name="change_password">Change Password</string>
     <string name="current_password">Current Password</string>
-    <string name="new_password">New Password</string>
-    <string name="confirm_new_password">Confirm New Password</string>
     <string name="save_password">Save New Password</string>
 
     <!--Change email-->
@@ -405,8 +455,6 @@
     <string name="choose_community">Choose a community</string>
 
     <!--Dialog messages-->
-    <string name="title_password_sent">Password Sent</string>
-    <string name="content_password_sent">Please, check your SMS box and follow the instructions to complete the reset password.</string>
     <string name="toast_unexpected_error">Unexpected error</string>
     <string name="toast_cannot_retrieve_cropped_image">Cannot retrieve cropped image</string>
     <string name="edit_name">Edit Name</string>
@@ -676,7 +724,7 @@
     <string name="questions">Questions</string>
     <string name="chat">Chat</string>
     <string name="title_chats_members">Chat Members</string>
-    <string name="community_feed_post_something">Post Something...</string>
+    <string name="community_feed_post_something">Post Something…</string>
     <string name="community_feed_welcome_title">Welcome to the %s community feed</string>
     <string name="community_feed_recommended_channels_title">Recommended Channels</string>
     <string name="community_feed_see_all">See All</string>
@@ -754,6 +802,45 @@
     <string name="file_not_supported">This file extension is not supported</string>
     <string name="file_incorrect_size">Error The file size can’t be more than 100 Mb</string>
     <string name="see_more">See more</string>
-    <string name="label_uploading">uploading...</string>
+    <string name="label_uploading">uploading…</string>
 
+    <string name="name">Name</string>
+    <string name="completed">Completed</string>
+
+    <string name="value_days">%s days</string>
+    <string name="value_weeks">%s weeks</string>
+    <string name="value_months">%s months</string>
+    <string name="value_years">%s years</string>
+    <string name="value_times_per_day">%s times per day</string>
+    <string name="value_minutes">%s min</string>
+    <string name="value_hours">%s hr</string>
+
+    <string name="downloading_value">Downloading %s</string>
+    <string name="downloading_file">Downloading file</string>
+    <string name="download_successfully_completed">Download successfully completed!</string>
+    <string name="download_failed">Download failed!</string>
+    <string name="the_task_strarted">The task is started</string>
+    <string name="downloading_progress_value">Downloading : %s</string>
+
+    <string name="duration">Duration</string>
+    <string name="one_hour">1 hour</string>
+    <string name="one_hour_fifteen_minutes">1h 15min</string>
+    <string name="one_hour_thirty_minutes">1h 30min</string>
+    <string name="one_hour_forty_five_minutes">1h 45min</string>
+    <string name="two_hours">2 hours</string>
+    <string name="three_hours">3 hours</string>
+    <string name="four_hours">4 hours</string>
+    <string name="five_hours">5 hours</string>
+    <string name="six_hours">6 hours</string>
+    <string name="seven_hours">7 hours</string>
+    <string name="eight_hours">8 hours</string>
+
+    <string name="value_members">%d members</string>
+
+    <string name="recovery">Recovery</string>
+    <string name="lifestyle">Lifestyle</string>
+    <string name="industry">Industry</string>
+    <string name="family">Family</string>
+    <string name="success">Success</string>
+    <string name="spiritual">Spiritual</string>
 </resources>

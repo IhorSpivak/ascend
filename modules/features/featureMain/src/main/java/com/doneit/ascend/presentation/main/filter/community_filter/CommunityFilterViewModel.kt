@@ -13,10 +13,10 @@ import java.util.*
 class CommunityFilterViewModel : FilterViewModel<CommunityFilterModel>(),
     CommunityFilterContract.ViewModel {
 
-    override val communities: LiveData<List<String>> = MutableLiveData(Community.values().map { it.title })
+    override val communities: LiveData<List<Community>> = MutableLiveData(Community.values().toList())
 
-    override fun communitySelected(community: String) {
-        filter.community = Community.valueOf(community.toUpperCase(Locale.getDefault()))
+    override fun communitySelected(community: Community) {
+        filter.community = community
     }
 
     override fun initFilterModel(): CommunityFilterModel {

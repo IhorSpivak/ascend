@@ -55,10 +55,11 @@ dependencies {
         add(it.configuration, it.dependency, it.options)
     }
 
+    implementation project(':modules:resources')
+
     implementation project(':modules:domain:entity')
     implementation project(':modules:domain:useCase')
     api project(':modules:features:featureMain')
-
 
     implementation 'com.facebook.android:facebook-login:5.11.2'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'

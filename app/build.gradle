@@ -81,6 +81,8 @@ dependencies {
         add(it.configuration, it.dependency, it.options)
     }
 
+    implementation project(':modules:resources')
+
     implementation project(':modules:features:featureMain')
     implementation project(':modules:features:featureSplash')
     implementation project(':modules:features:featureLogin')

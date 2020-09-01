@@ -1,5 +1,7 @@
 include ':app',
 
+        ':modules:resources',
+
         ':modules:storageLocal',
         ':modules:storageRemote',
 

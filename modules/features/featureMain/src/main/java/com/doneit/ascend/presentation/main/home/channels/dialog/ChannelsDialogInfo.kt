@@ -31,7 +31,7 @@ class ChannelsDialogInfo: BottomSheetDialogFragment() {
             }
             user_name.text = channel.owner?.fullName
             descriptionChannel.text = channel.description
-            qtyMembers.text = "${channel.membersCount} members"
+            qtyMembers.text = context?.getString(R.string.value_members, channel.membersCount)
             Glide.with(this)
                 .load(channel.image?.url)
                 .apply(RequestOptions.circleCropTransform())

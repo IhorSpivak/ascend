@@ -5,6 +5,7 @@ import androidx.paging.DataSource
 import androidx.paging.ItemKeyedDataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
+import com.doneit.ascend.R
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.RepeatType
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.TimeCommitmentEntity
@@ -61,7 +62,7 @@ class SpiritualActionListViewModel(
             for (i in 1..10){
                 list += SpiritualActionStepEntity(
                     i,
-                    "Name",
+                    R.string.name,
                     false,
                     TimeCommitmentEntity(
                         TimeCommitmentType.MINUTE,
@@ -87,7 +88,7 @@ class SpiritualActionListViewModel(
             for (i in 1..10){
                 list += SpiritualActionStepEntity(
                     i,
-                    "Name",
+                    R.string.name,
                     false,
                     TimeCommitmentEntity(
                         TimeCommitmentType.MINUTE,

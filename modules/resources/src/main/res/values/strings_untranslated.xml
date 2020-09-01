@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name" translatable="false">Ascend</string>
+    <string name="facebook_app_id" translatable="false">523439921558272</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb523439921558272</string>
+    <string name="twitter_consumer_key" translatable="false">QuUS4uhda9xPk4ySCv0w2aimU</string>
+    <string name="twitter_consumer_secret" translatable="false">qI1VxvWbHbyKpwW8xEcBrukpPCN6a6z01sV8GnNG8G6eg1mwRi</string>
+
+    <string name="server_client_id" translatable="false">782179262877-blgh224u0eldj7ck2e15t8cc7pc0u18j.apps.googleusercontent.com</string>
+    <string name="server_client_secret" translatable="false">RNLVTGVFmqE-0O85WJVvHaYJ</string>
+</resources>

@@ -197,7 +197,6 @@ class CreateChannelFragment : BaseFragment<FragmentNewChannelBinding>() {
     fun getContainerId() = R.id.new_chat_container
 
     companion object {
-        const val RESULT = "result"
         private const val IMAGE_FILENAME = "temp_image"
 
         private const val KEY_CHANNEL = "CHANNEL"

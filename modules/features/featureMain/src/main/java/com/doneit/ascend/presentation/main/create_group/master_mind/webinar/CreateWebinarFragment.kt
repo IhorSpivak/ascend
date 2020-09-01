@@ -87,7 +87,7 @@ class CreateWebinarFragment : ArgumentedFragment<FragmentCreateWebinarBinding, C
 
     private val durationAdapter by lazy {
         DurationAdapter(
-            Duration.values().map { it.label }.toTypedArray()
+            Duration.values().map { it.label }
         )
     }
 

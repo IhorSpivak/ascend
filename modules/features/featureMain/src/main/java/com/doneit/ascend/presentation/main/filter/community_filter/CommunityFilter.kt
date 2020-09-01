@@ -37,7 +37,7 @@ abstract class CommunityFilter<T : CommunityFilterModel> : BaseFilter<T>() {
         initWithCommunity = initFilter.community
     }
 
-    private fun handleCommunities(communities: List<String>) = with(binding) {
+    private fun handleCommunities(communities: List<Community>) = with(binding) {
         for (community in communities) {
             radioGroup.addView(
                 RadioButton(requireContext()).apply {
@@ -60,7 +60,7 @@ abstract class CommunityFilter<T : CommunityFilterModel> : BaseFilter<T>() {
                             resources.getDimensionPixelSize(R.dimen.default_margin_small)
                         )
                     }
-                    text = community
+                    text = getString(community.resId)
                     setTextColor(
                         ContextCompat.getColorStateList(
                             requireContext(),

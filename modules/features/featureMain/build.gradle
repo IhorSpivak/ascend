@@ -66,9 +66,11 @@ dependencies {
         add(it.configuration, it.dependency, it.options)
     }
 
+    implementation project(':modules:resources')
+
     implementation project(':modules:domain:useCase')
 
-    implementation 'androidx.core:core-ktx:1.1.0'//todo move to versions or remove
+    implementation "androidx.core:core-ktx:$androidx_core_version"
 
     implementation 'com.androidisland.ezpermission:ezpermission:0.1.4'
     implementation 'com.ms-square:expandableTextView:0.1.4'

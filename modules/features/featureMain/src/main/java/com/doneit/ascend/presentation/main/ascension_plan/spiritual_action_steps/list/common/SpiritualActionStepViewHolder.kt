@@ -24,25 +24,31 @@ class SpiritualActionStepViewHolder(
     fun bind(item: SpiritualActionStepEntity) {
         binding.apply {
             textViewSpiritualActionId.text = (position + 1).toString()
-            textViewSpiritualActionName.text = item.name
+            item.name?.let { nameResId ->
+                textViewSpiritualActionName.text = textViewSpiritualActionName.context.getString(nameResId)
+            }
             item.timeCommitment.apply {
-                when(type){
-                    TimeCommitmentType.MINUTE -> textViewSpiritualActionCommitmentTime.text = value.toString().plus(" min")
-                    TimeCommitmentType.HOUR -> textViewSpiritualActionCommitmentTime.text = value.toString().plus(" hr")
+                textViewSpiritualActionCommitmentTime.context.let { context ->
+                    when (type) {
+                        TimeCommitmentType.MINUTE -> textViewSpiritualActionCommitmentTime.text = context.getString(R.string.value_minutes, value.toString())
+                        TimeCommitmentType.HOUR -> textViewSpiritualActionCommitmentTime.text = context.getString(R.string.value_hours, value.toString())
+                    }
                 }
             }
             item.repeatType.apply {
-                when(this){
-                    RepeatType.DAY -> textViewSpiritualActionReiteration.text = item.timesCount!!.value.toString().plus(" times per day")
-                    RepeatType.WEEK -> textViewSpiritualActionReiteration.text = item.weekList!!.value.let {
-                        it!!.joinToString(separator = " | ") { it.toString().subSequence(0, 2) }
+                textViewSpiritualActionReiteration.context.let { context ->
+                    when (this) {
+                        RepeatType.DAY -> textViewSpiritualActionReiteration.text = context.getString(R.string.value_times_per_day, (item.timesCount?.value ?: 0).toString())
+                        RepeatType.WEEK -> textViewSpiritualActionReiteration.text = item.weekList?.value?.let {
+                            it.joinToString(separator = " | ") { it.toString().subSequence(0, 2) }
+                        }
+                        RepeatType.MONTH -> textViewSpiritualActionReiteration.text = (item.monthRange?.value ?: 0).toString()
                     }
-                    RepeatType.MONTH -> textViewSpiritualActionReiteration.text = item.monthRange!!.value.toString()
                 }
             }
             item.isCompleted.apply {
-                textViewSpiritualActionDone.text = if (this){
-                    "Completed"
+                textViewSpiritualActionDone.text = if (this) {
+                    textViewSpiritualActionDone.context.getString(R.string.completed)
                 }else{
                     Date(item.deadline).toDayShortMonthYear()
                 }

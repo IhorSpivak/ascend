@@ -45,7 +45,7 @@ abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivit
     }
 
     private fun updateBaseContextLocale(context: Context?): Context? {
-        if(context != null){
+        /*if(context != null){
             val locale = Locale("EN")
             Locale.setDefault(locale)
 
@@ -54,7 +54,7 @@ abstract class BaseActivity : com.vrgsoft.core.presentation.activity.BaseActivit
             } else {
                 updateResourcesLocaleLegacy(context, locale)
             }
-        }
+        }*/
         return context
     }
 

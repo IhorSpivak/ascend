@@ -33,14 +33,16 @@ class GoalViewHolder(
 
     fun bind(item: GoalEntity) {
         binding.apply {
-            textViewGoalId.text = position.toString()
-            textViewGoalName.text = item.name
+            textViewGoalId.text = adapterPosition.toString()
+            textViewGoalName.text = textViewGoalName.context.getString(item.name)
             item.duration.apply {
-                when(type){
-                    GoalDurationType.DAYS -> textViewGoalCommitmentTime.text = value.toString().plus(" days")
-                    GoalDurationType.WEEKS -> textViewGoalCommitmentTime.text = value.toString().plus(" weeks")
-                    GoalDurationType.MONTHS -> textViewGoalCommitmentTime.text = value.toString().plus(" months")
-                    GoalDurationType.YEARS -> textViewGoalCommitmentTime.text = value.toString().plus(" years")
+                textViewGoalCommitmentTime.context.let { context ->
+                    when(type){
+                        GoalDurationType.DAYS -> textViewGoalCommitmentTime.text = context.getString(R.string.value_days, value.toString())
+                        GoalDurationType.WEEKS -> textViewGoalCommitmentTime.text = context.getString(R.string.value_weeks, value.toString())
+                        GoalDurationType.MONTHS -> textViewGoalCommitmentTime.text = context.getString(R.string.value_months, value.toString())
+                        GoalDurationType.YEARS -> textViewGoalCommitmentTime.text = context.getString(R.string.value_years, value.toString())
+                    }
                 }
             }
 

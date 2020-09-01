@@ -52,20 +52,19 @@ class DownloadNotificationListener(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
-                OPERATION_INFO,
+                context.getString(R.string.downloading_file),
                 NotificationManager.IMPORTANCE_DEFAULT
             )
-            manager!!.createNotificationChannel(channel)
+            manager?.createNotificationChannel(channel)
         }
         builder = NotificationCompat.Builder(context, channelId)
         builder.setDefaults(Notification.DEFAULT_LIGHTS)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setPriority(NotificationCompat.PRIORITY_MIN)
-            .setContentTitle(OPERATION_INFO)
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText("Downloading $filename")
+            .setContentTitle(context.getString(R.string.downloading_file))
+            .setStyle(NotificationCompat.BigTextStyle()
+                    .bigText(context.getString(R.string.downloading_value, filename))
             )
             .setSmallIcon(R.mipmap.ic_launcher)
         if (action != null) {
@@ -78,9 +77,9 @@ class DownloadNotificationListener(
         builder.setTicker("taskStart")
         builder.setOngoing(true)
         builder.setAutoCancel(false)
-        builder.setContentText("The task is started")
+        builder.setContentText(context.getString(R.string.the_task_strarted))
         builder.setProgress(0, 0, true)
-        manager!!.notify(task.id, builder.build())
+        manager?.notify(task.id, builder.build())
     }
 
     override fun connectStart(
@@ -88,7 +87,7 @@ class DownloadNotificationListener(
         requestHeaderFields: Map<String, List<String>>
     ) {
         builder.setProgress(0, 0, true)
-        manager!!.notify(task.id, builder.build())
+        manager?.notify(task.id, builder.build())
     }
 
     override fun connectEnd(
@@ -96,7 +95,7 @@ class DownloadNotificationListener(
         responseHeaderFields: Map<String, List<String>>
     ) {
         builder.setProgress(0, 0, true)
-        manager!!.notify(task.id, builder.build())
+        manager?.notify(task.id, builder.build())
     }
 
     override fun infoReady(
@@ -126,10 +125,10 @@ class DownloadNotificationListener(
         task: DownloadTask, currentOffset: Long,
         taskSpeed: SpeedCalculator
     ) {
-        builder.setContentText("Downloading : ${taskSpeed.speed()}")
+        builder.setContentText(context.getString(R.string.downloading_progress_value, taskSpeed.speed()))
         builder.setProgress(totalLength.toInt(), currentOffset.toInt(), false)
         onProgressChangedListener?.onProgressChanged(currentOffset, totalLength)
-        manager!!.notify(task.id, builder.build())
+        manager?.notify(task.id, builder.build())
     }
 
     override fun blockEnd(
@@ -153,19 +152,18 @@ class DownloadNotificationListener(
             builder.setProgress(1, 1, false)
             builder.setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText(SUCCESS)
+                    .bigText(context.getString(R.string.download_successfully_completed))
             )
         } else {
             builder.setProgress(1, 1, false)
             builder.setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText(FAIL)
+                    .bigText(context.getString(R.string.download_failed))
             )
         }
-        Handler(Looper.getMainLooper()).postDelayed(
-            {
-                if (taskEndRunnable != null) taskEndRunnable!!.run()
-                manager!!.notify(task.id, builder.build())
+        Handler(Looper.getMainLooper()).postDelayed({
+                if (taskEndRunnable != null) taskEndRunnable?.run()
+                manager?.notify(task.id, builder.build())
             }, // because of on some android phone too frequency notify for same id would be
             // ignored.
             100
@@ -174,12 +172,6 @@ class DownloadNotificationListener(
 
     interface OnProgressChangedListener {
         fun onProgressChanged(newOffset: Long, totalLength: Long)
-    }
-
-    companion object {
-        private const val OPERATION_INFO = "Downloading file"
-        private const val SUCCESS = "Download successfully completed!"
-        private const val FAIL = "Download failed!"
     }
 
 }

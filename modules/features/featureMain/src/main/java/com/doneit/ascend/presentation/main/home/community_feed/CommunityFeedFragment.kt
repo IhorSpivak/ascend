@@ -232,7 +232,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
         }
         view.user_name.text = channel.owner?.fullName
         view.descriptionChannel.text = channel.description
-        view.qtyMembers.text = """${channel.membersCount} members"""
+        view.qtyMembers.text = context?.getString(R.string.value_members, channel.membersCount)
         Glide.with(this)
             .load(channel.image?.url)
             .apply(RequestOptions.circleCropTransform())

@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion sdk_compile_version
@@ -13,7 +12,13 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
 
     buildTypes {
@@ -33,23 +38,19 @@ android {
         }
     }
 
-    androidExtensions {
-        experimental = true
-    }
-
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    rootProject.entityModule.each {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    rootProject.gatewayModule.each {
         add(it.configuration, it.dependency, it.options)
     }
-
-    implementation project(':modules:resources')
-
-    implementation "androidx.core:core-ktx:$androidx_core_version"
 }

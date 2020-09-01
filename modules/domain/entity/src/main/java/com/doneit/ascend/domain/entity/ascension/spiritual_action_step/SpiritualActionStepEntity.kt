@@ -1,13 +1,14 @@
 package com.doneit.ascend.domain.entity.ascension.spiritual_action_step
 
 import android.os.Parcelable
+import androidx.annotation.StringRes
 import com.doneit.ascend.domain.entity.CalendarDayEntity
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class SpiritualActionStepEntity(
     val id: Int,
-    val name: String?,
+    @StringRes val name: Int?,
     val isCompleted: Boolean,
     val timeCommitment: TimeCommitmentEntity,
     val deadline: Long,

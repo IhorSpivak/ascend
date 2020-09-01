@@ -1,23 +1,21 @@
 package com.doneit.ascend.presentation.main.create_group.master_mind.common
 
+import androidx.annotation.StringRes
+import com.doneit.ascend.presentation.main.R
+
 enum class Duration(
     val time: Int,
-    val label: String
+    @StringRes val label: Int
 ) {
-    DURATION(-1, "Duration"),
-    HOUR(60, "1 hour"),
-    TWO_HOURS(120, "2 hours"),
-    THREE_HOURS(180, "3 hours"),
-    FOUR_HOURS(240, "4 hours"),
-    FIVE_HOURS(300, "5 hours"),
-    SIX_HOURS(360, "6 hours"),
-    SEVEN_HOURS(420, "7 hours"),
-    EIGHT_HOUR(480, "8 hours");
-
-
-    override fun toString(): String {
-        return label
-    }
+    DURATION(-1, R.string.duration),
+    HOUR(60, R.string.one_hour),
+    TWO_HOURS(120, R.string.two_hours),
+    THREE_HOURS(180, R.string.three_hours),
+    FOUR_HOURS(240, R.string.four_hours),
+    FIVE_HOURS(300, R.string.five_hours),
+    SIX_HOURS(360, R.string.six_hours),
+    SEVEN_HOURS(420, R.string.seven_hours),
+    EIGHT_HOUR(480, R.string.eight_hours);
 
     companion object {
         fun fromDuration(time: Int): Duration {

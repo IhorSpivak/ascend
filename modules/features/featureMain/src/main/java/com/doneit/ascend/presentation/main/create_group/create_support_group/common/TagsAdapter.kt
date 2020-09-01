@@ -30,7 +30,6 @@ class TagsAdapter(
                 it.title.setTextColor(view.resources.getColor(R.color.light_gray_b1bf))
             }
         }
-        "".isNullOrBlank()
         return view
     }
 

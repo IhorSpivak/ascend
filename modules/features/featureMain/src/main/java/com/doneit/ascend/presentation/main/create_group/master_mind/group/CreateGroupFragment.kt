@@ -59,7 +59,7 @@ class CreateGroupFragment : BaseFragment<FragmentCreateGroupBinding>() {
 
     private val durationAdapter by lazy {
         DurationAdapter(
-            Duration.values().map { it.label }.toTypedArray()
+            Duration.values().map { it.label }
         )
     }
 

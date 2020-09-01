@@ -10,12 +10,12 @@ import com.doneit.ascend.presentation.main.R
 import kotlinx.android.synthetic.main.view_spinner_title.view.*
 
 class DurationAdapter(
-    val types: Array<String>
+    val types: List<Int>
 ) : BaseAdapter() {
 
     override fun getItemId(p0: Int) = 0L
 
-    override fun getItem(position: Int): String? = types[position]
+    override fun getItem(position: Int): Int? = types[position]
 
     override fun getView(position: Int, recycledView: View?, parent: ViewGroup): View {
         val view = recycledView ?: LayoutInflater
@@ -24,12 +24,11 @@ class DurationAdapter(
 
         view?.let {
             it.title.hint = view.resources.getString(R.string.meeting_format)
-            it.title.text = types[position]
+            it.title.text = it.context.getString(types[position])
             if (position == 0) {
                 it.title.setTextColor(view.resources.getColor(R.color.light_gray_b1bf))
             }
         }
-        "".isNullOrBlank()
         return view
     }
 
@@ -50,10 +49,10 @@ class DurationAdapter(
 
         view?.let {
             if (it.tag != null) {
-                (it.tag as FormatHolder).bind(types[position])
+                (it.tag as FormatHolder).bind(it.context.getString(types[position]))
             } else {
                 val holder = FormatHolder(view)
-                holder.bind(types[position])
+                holder.bind(it.context.getString((types[position])))
                 it.tag = holder
             }
             return it

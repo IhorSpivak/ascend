@@ -56,7 +56,7 @@ class LogInLocalRouter(
     override fun navigateToTerms() {
         activity.supportFragmentManager.replaceWithBackStack(
             R.id.container, WebPageFragment.newInstance(
-                "Terms and Condition",
+                R.string.terms_and_conditions,
                 "terms_and_conditions"
             )
         )
@@ -65,7 +65,7 @@ class LogInLocalRouter(
     override fun navigateToPrivacyPolicy() {
         activity.supportFragmentManager.replaceWithBackStack(
             R.id.container, WebPageFragment.newInstance(
-                "Privacy Policy",
+                R.string.privacy,
                 "privacy_policy"
             )
         )

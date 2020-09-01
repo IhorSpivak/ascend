@@ -17,6 +17,7 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanContract
 import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
 import com.doneit.ascend.presentation.main.ascension_plan.create_goal.CreateGoalsContract
@@ -475,14 +476,14 @@ class MainRouter(
     override fun navigateToTerms() {
         manager.replaceWithBackStack(
             containerIdFull,
-            WebPageFragment.newInstance("Terms and Condition", "terms_and_conditions")
+            WebPageFragment.newInstance(R.string.terms_and_conditions, "terms_and_conditions")
         )
     }
 
     override fun navigateToPrivacyPolicy() {
         manager.replaceWithBackStack(
             containerIdFull,
-            WebPageFragment.newInstance("Privacy Policy", "privacy_policy")
+            WebPageFragment.newInstance(R.string.privacy, "privacy_policy")
         )
     }
 

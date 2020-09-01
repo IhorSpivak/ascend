@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.web_page
 
 import android.os.Bundle
 import android.text.Html
+import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -22,16 +23,13 @@ class WebPageFragment : BaseFragment<FragmentWebPageBinding>() {
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.model = viewModel
         binding.executePendingBindings()
-        viewModel.getPage(WebPageArgs(requireArguments().getString(PAGE_TITLE).toString(), requireArguments().getString(PAGE_TYPE).toString()))
-
+        arguments?.let { arguments ->
+            viewModel.getPage(WebPageArgs(getString(arguments.getInt(PAGE_TITLE)), requireArguments().getString(PAGE_TYPE).toString()))
+        }
 
         viewModel.content.observe(this, Observer {
             it?.let { pageIt ->
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                    page_content.text = (Html.fromHtml(pageIt.content,Html.FROM_HTML_MODE_LEGACY));
-                } else {
-                    page_content.text = Html.fromHtml(pageIt.content);
-                }
+                page_content.text = (HtmlCompat.fromHtml(pageIt.content, HtmlCompat.FROM_HTML_MODE_LEGACY))
             }
         })
 
@@ -64,11 +62,10 @@ class WebPageFragment : BaseFragment<FragmentWebPageBinding>() {
         const val PAGE_TYPE = "PAGE_TYPE"
         const val PAGE_TITLE = "PAGE_TITLE"
 
-
-        fun newInstance(title: String?, page_type: String?): WebPageFragment {
+        fun newInstance(title: Int?, page_type: String?): WebPageFragment {
             val fragment = WebPageFragment()
             fragment.arguments = Bundle().apply {
-                putString(PAGE_TITLE, title)
+                title?.let { putInt(PAGE_TITLE, title) }
                 putString(PAGE_TYPE, page_type)
             }
             return fragment
