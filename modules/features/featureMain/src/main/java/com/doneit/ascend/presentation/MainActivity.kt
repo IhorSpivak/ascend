@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -103,6 +104,11 @@ class MainActivity : BaseActivity(), MainActivityListener {
         binding.lifecycleOwner = this
         binding.model = viewModel
         super.onCreate(savedInstanceState)
+
+        if (resources.getBoolean(R.bool.portrait_only)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+
         viewModel.onHomeClick()
 
         fun getExtra(key: String, action: (Long) -> Unit) {

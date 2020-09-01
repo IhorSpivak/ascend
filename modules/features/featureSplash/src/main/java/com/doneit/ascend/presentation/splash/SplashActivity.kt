@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.splash
 
 import android.animation.Animator
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
 import android.view.animation.LinearInterpolator
@@ -36,6 +37,10 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (resources.getBoolean(R.bool.portrait_only)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+
         setContentView(R.layout.activity_splash)
 
         val extras = intent?.extras?: Bundle()

@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.login
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -37,6 +38,10 @@ class LogInActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (resources.getBoolean(R.bool.portrait_only)) {
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
 
         FacebookSdk.sdkInitialize(applicationContext)
         setContentView(R.layout.activity_log_in)

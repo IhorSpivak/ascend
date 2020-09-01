@@ -24,7 +24,7 @@ fun androidx.fragment.app.FragmentManager.replace(
 ) {
     beginTransaction()
         .replace(containerId, fragment, fragment::class.java.simpleName)
-        .commit()
+        .commitAllowingStateLoss()
 }
 
 @SuppressLint("CheckResult")
