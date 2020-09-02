@@ -132,8 +132,8 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/ic_cancel_attachment"
                         android:visibility="@{messageEntity.id == -1}"
-                        app:layout_constraintTop_toTopOf="@id/uploading_label"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/uploading_label" />
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/topBarrier"
@@ -281,6 +281,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="6dp"
                         android:src="@{messageEntity.status == MessageStatus.READ? @drawable/ic_readed_label : @drawable/ic_not_readed_label}"
+                        android:visibility="@{messageEntity.id != -1}"
                         app:layout_constraintBottom_toBottomOf="@id/my_message_time"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
