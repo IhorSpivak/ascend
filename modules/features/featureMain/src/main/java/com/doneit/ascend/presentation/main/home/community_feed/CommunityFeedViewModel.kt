@@ -1,6 +1,8 @@
 package com.doneit.ascend.presentation.main.home.community_feed
 
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.common.BaseCallback
@@ -31,34 +33,49 @@ class CommunityFeedViewModel(
     private val chatUseCase: ChatUseCase,
     private val router: CommunityFeedContract.Router
 ) : BaseViewModelImpl(), CommunityFeedContract.ViewModel {
-    override val posts = postsUseCase.loadPosts(
-        viewModelScope, CommunityFeedDTO(
-            perPage = 10,
-            sortType = SortType.DESC
+
+    override val community: MediatorLiveData<String?> = MediatorLiveData()
+    override val posts =
+        Transformations.switchMap(community) {
+            postsUseCase.loadPosts(
+                viewModelScope, CommunityFeedDTO(
+                    perPage = 10,
+                    sortType = SortType.DESC
+                )
+            )
+        }
+
+    override val channels = Transformations.switchMap(community) {
+        chatUseCase.loadChats(
+            viewModelScope,
+            ChatListDTO(
+                perPage = 10,
+                sortColumn = "members_count",
+                sortType = SortType.DESC,
+                allChannels = true,
+                chatType = ChatType.CHANNEL
+            )
         )
-    )
-    override val channels = chatUseCase.loadChats(
-        viewModelScope,
-        ChatListDTO(
-            perPage = 10,
-            sortColumn = "members_count",
-            sortType = SortType.DESC,
-            allChannels = true,
-            chatType = ChatType.CHANNEL
-        )
-    )
+    }
 
     private val socketMessage = postsUseCase.commentStream
     private lateinit var observer: Observer<CommunityFeedSocketEntity?>
-    override lateinit var user: UserEntity
-        private set
+    override val user = userUseCase.getUserLive()
+
 
     override fun initUser(user: UserEntity) {
-        this.user = user
+        observer = getMessageObserver()
+        socketMessage.observeForever(observer)
         user.community?.let {
             postsUseCase.connectToChannel(it.toLowerCase())
-            observer = getMessageObserver()
-            socketMessage.observeForever(observer)
+        }
+    }
+
+    init {
+        community.addSource(user) {
+            if (it?.community != null && community.value != it.community) {
+                community.postValue(it.community)
+            }
         }
     }
 
@@ -83,7 +100,7 @@ class CommunityFeedViewModel(
 
     override fun onChannelClick(channel: ChatEntity) {
         if (channel.isSubscribed) {
-            router.navigateToChannel(channel, user)
+            router.navigateToChannel(channel, user.value!!)
         } else {
 
         }
@@ -185,13 +202,13 @@ class CommunityFeedViewModel(
     override fun onJoinChannel(channel: ChatEntity) {
         viewModelScope.launch {
             if (chatUseCase.joinChannel(viewModelScope, channel.id).isSuccessful) {
-                router.navigateToChannel(channel, user)
+                router.navigateToChannel(channel, user.value!!)
             }
         }
     }
 
     override fun onSharePostClick(id: Long) {
-        router.navigateToShare(id, user, SharePostBottomSheetFragment.ShareType.POST)
+        router.navigateToShare(id, user.value!!, SharePostBottomSheetFragment.ShareType.POST)
     }
 
     override fun onCleared() {

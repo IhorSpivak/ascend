@@ -15,12 +15,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.doneit.ascend.presentation.common.CommunityArrayAdapter
 import com.doneit.ascend.presentation.dialog.PermissionsRequiredDialog
 import com.doneit.ascend.presentation.main.R
-import com.doneit.ascend.presentation.main.ascension_plan.AscensionPlanFragment
 import com.doneit.ascend.presentation.main.base.BaseActivity
 import com.doneit.ascend.presentation.main.base.CommonViewModelFactory
 import com.doneit.ascend.presentation.main.common.gone
+import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ActivityMainBinding
 import com.doneit.ascend.presentation.main.home.HomeFragment
+import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedFragment
 import com.doneit.ascend.presentation.main.home.groups_list.GroupsListContract
 import com.doneit.ascend.presentation.main.home.groups_list.GroupsListViewModel
 import com.doneit.ascend.presentation.main.home.groups_list.GroupsListViewModelFactory
@@ -152,7 +153,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
                 binding.mainBottomNavigationView.selectedItemId =
                     when (supportFragmentManager.findFragmentById(getContainerId())) {
                         is HomeFragment -> R.id.home
-                        is AscensionPlanFragment -> R.id.ascension_plan
+                        is CommunityFeedFragment -> R.id.ascension_plan
                         is UserProfileFragment, is MMProfileFragment -> R.id.profile
                         else -> return@addOnBackStackChangedListener
                     }
@@ -265,7 +266,10 @@ class MainActivity : BaseActivity(), MainActivityListener {
     private val communityListener: AdapterView.OnItemSelectedListener by lazy {
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                viewModel.saveCommunity((binding.communityDropDown.selectedItem as PresentationCommunityModel).title.toCapitalLetter())
+                viewModel.saveCommunity(
+                    (binding.communityDropDown.selectedItem as PresentationCommunityModel).title.toCapitalLetter(),
+                    binding.mainBottomNavigationView.selectedItemId
+                )
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {

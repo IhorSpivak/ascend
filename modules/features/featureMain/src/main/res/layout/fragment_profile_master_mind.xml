@@ -289,7 +289,7 @@
                 app:iconRes="@{@drawable/ic_community}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/notSettings"/>
+                app:layout_constraintTop_toBottomOf="@+id/notSettings" />
 
             <include
                 android:id="@+id/paymentPortal"
@@ -383,10 +383,29 @@
                 android:onClick="@{() -> model.onPolicyClick()}"
                 android:text="@string/privacy"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTerms" />
+
+            <Button
+                android:id="@+id/btnDeactivateAccount"
+                style="@style/AppTheme.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="27dp"
+                android:background="@drawable/deactivate_button_background"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/deactivate_account"
+                android:textColor="@color/clear_button_color"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPrivacy" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

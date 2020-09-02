@@ -10,6 +10,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.doneit.ascend.domain.entity.chats.ChatEntity
@@ -33,6 +34,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_bottom_sheet_channels.view.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
+import java.util.*
 
 class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     override val viewModel: CommunityFeedContract.ViewModel by instance()
@@ -55,12 +57,11 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     override fun onResume() {
         super.onResume()
         listener?.apply {
-            setSearchEnabled(false)
-            setFilterEnabled(true)
+            setSearchEnabled(true)
+            setFilterEnabled(false)
             setChatEnabled(true)
             setShareEnabled(false)
             setShareInAppEnabled(false)
-            setTitle(getString(R.string.ascension_plan))
             getUnreadMessageCount()
         }
         hideKeyboard()
@@ -70,20 +71,15 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     private val initPostsAdapter: PostsAdapter by RvLazyAdapter {
         PostsAdapter(
             postClickListeners(),
-            user
+            viewModel.user.value!!
         ) to { binding.rvPosts }
     }
 
     private var currentDialog: AlertDialog? = null
-    private val user by lazy {
-        requireArguments().getParcelable<UserEntity>(KEY_USER)!!
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = (context as MainActivityListener).apply {
-            setTitle(getString(R.string.ascension_plan))
-        }
+        listener = (context as MainActivityListener)
         context.registerReceiver(newPostReceiver, IntentFilter(ACTION_NEW_POST))
     }
 
@@ -112,7 +108,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     private fun showComments(it: Long) {
         CommentsViewBottomSheetFragment.newInstance(
             it,
-            requireArguments().getParcelable(KEY_USER)!!
+            viewModel.user.value!!
         )
             .show(
                 childFragmentManager,
@@ -121,12 +117,26 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        viewModel.initUser(user)
-        initPostsAdapter
-        binding.rvPosts.itemAnimator = null
-        observeData()
+        viewModel.user.observe(this, Observer {
+            it ?: return@Observer
+            viewModel.initUser(it)
+        })
+        viewModel.community.observe(this, Observer {
+            setTitle(it)
+            initPostsAdapter
+            binding.rvPosts.itemAnimator = null
+            observeData()
+        })
+
     }
 
+    private fun setTitle(community: String?) {
+        var title = getString(R.string.main_title)
+        community?.let {
+            title = it
+        }
+        listener?.setCommunityTitle(title.toUpperCase(Locale.getDefault()))
+    }
 
 
     private fun observeData() {
@@ -212,7 +222,7 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
     }
 
     private fun handleChatNavigation(channel: ChatEntity) {
-        if (channel.chatOwnerId == viewModel.user.id) {
+        if (channel.chatOwnerId == viewModel.user.value!!.id) {
             viewModel.onChannelClick(channel)
         }
         when (channel.isSubscribed) {

@@ -17,7 +17,7 @@ interface MainContract {
         val userShare: SingleLiveEvent<UserEntity>
         val user: LiveData<UserEntity?>
 
-        fun saveCommunity(community: String)
+        fun saveCommunity(community: String, fragmentId: Int)
         fun getUnreadMessageCount()
         fun onNotificationClick()
         fun onSearchClick()

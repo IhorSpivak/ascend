@@ -29,7 +29,7 @@ class AscensionPlanFragment : BaseFragment<FragmentAscensionPlanBinding>() {
         super.onResume()
         listener?.apply {
             setSearchEnabled(false)
-            setFilterEnabled(true)
+            setFilterEnabled(false)
             setChatEnabled(true)
             setShareEnabled(false)
             setShareInAppEnabled(false)

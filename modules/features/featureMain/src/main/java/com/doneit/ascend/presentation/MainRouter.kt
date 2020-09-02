@@ -274,7 +274,7 @@ class MainRouter(
     }
 
     override fun navigateToCommunityFeedFragment(user: UserEntity) {
-        popOrReplaceWithBackStack { CommunityFeedFragment.newInstance(user) }
+        popOrReplace { CommunityFeedFragment.newInstance(user) }
     }
 
     override fun navigateToHome() {

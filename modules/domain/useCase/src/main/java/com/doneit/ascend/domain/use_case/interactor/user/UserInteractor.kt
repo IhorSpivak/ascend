@@ -22,6 +22,10 @@ internal class UserInteractor(
         return userGateway.signOut()
     }
 
+    override suspend fun deactivateAccount(): ResponseEntity<Unit, List<String>> {
+        return userGateway.deactivateAccount()
+    }
+
     override fun removeAccounts() {
         return userGateway.removeAccounts()
     }

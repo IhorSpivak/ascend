@@ -37,8 +37,8 @@ object Constants {
     const val KEY_GROUP_ID = "group_id"
     const val KEY_PROFILE_ID = "profile_id"
 
-    const val DEEP_LINK_PROFILE_URL = "https://ascend.video/profile/"
-    const val DEEP_LINK_GROUP_URL = "https://ascend.video/group/"
+    const val DEEP_LINK_PROFILE_URL = "http://ascend.video/user/"
+    const val DEEP_LINK_GROUP_URL = "http://ascend.video/group/"
 
     const val MAX_MEMBERS_COUNT = 50
 }

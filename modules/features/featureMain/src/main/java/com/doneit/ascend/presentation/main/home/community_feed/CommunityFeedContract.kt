@@ -13,7 +13,8 @@ interface CommunityFeedContract {
     interface ViewModel : BaseViewModel {
         val posts: LiveData<PagedList<Post>>
         val channels: LiveData<PagedList<ChatEntity>>
-        val user: UserEntity
+        val user: LiveData<UserEntity?>
+        val community: LiveData<String?>
 
         fun initUser(user: UserEntity)
         fun onEditPostClick(post: Post)

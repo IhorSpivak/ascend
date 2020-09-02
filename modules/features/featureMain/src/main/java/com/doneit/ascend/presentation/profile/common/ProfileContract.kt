@@ -21,6 +21,7 @@ interface ProfileContract {
         fun fetchData()
         fun onEditPhotoClick()
         fun onLogoutClick()
+        fun onDeactivateAccount()
         fun onTermsClick()
         fun onPolicyClick()
         fun onSeeMyGroupsClick()

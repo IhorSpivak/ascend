@@ -16,6 +16,8 @@ interface UserUseCase {
 
     suspend fun signOut(): ResponseEntity<Unit, List<String>>
 
+    suspend fun deactivateAccount(): ResponseEntity<Unit, List<String>>
+
     fun removeAccounts()
 
     suspend fun socialSignIn(socialLogInDTO: SocialLogInDTO): ResponseEntity<AuthEntity, List<String>>

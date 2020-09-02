@@ -124,6 +124,23 @@ internal class UserGateway(
         return result
     }
 
+    override suspend fun deactivateAccount(): ResponseEntity<Unit, List<String>> {
+        val result = executeRemote { remote.deactivateAccount() }.toResponseEntity(
+            {
+                Unit
+            },
+            {
+                it?.errors
+            }
+        )
+
+        if (result.isSuccessful) {
+            removeAccounts()
+        }
+
+        return result
+    }
+
     override suspend fun deleteAccount(): ResponseEntity<Unit, List<String>> {
         val result = executeRemote { remote.deleteAccount() }.toResponseEntity(
             {

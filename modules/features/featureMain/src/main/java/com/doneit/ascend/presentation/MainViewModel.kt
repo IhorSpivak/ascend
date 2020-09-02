@@ -12,6 +12,7 @@ import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.notification.NotificationUseCase
 import com.doneit.ascend.domain.use_case.interactor.question.QuestionUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
+import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.home.community_feed.share_post.SharePostBottomSheetFragment
 import com.doneit.ascend.presentation.models.PresentationCommunityModel
@@ -64,13 +65,20 @@ class MainViewModel(
         }
     }
 
-    override fun saveCommunity(community: String) {
+    override fun saveCommunity(community: String, fragmentId: Int) {
         community.let { newCommunity ->
             if (newCommunity != localUser.value?.community) {
                 viewModelScope.launch {
                     val result = answerUseCase.createAnswers(AnswersDTO(newCommunity, listOf()))
                     if (result.isSuccessful) {
-                        router.navigateToHome()
+                        when (fragmentId) {
+                            R.id.home -> {
+                                router.navigateToHome()
+                            }
+                            R.id.ascension_plan -> {
+                                navigateToCommunityFeed()
+                            }
+                        }
                     } else {
                         showDefaultErrorMessage(result.errorModel!!.toErrorMessage())
                     }

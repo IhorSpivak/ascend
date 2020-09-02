@@ -24,6 +24,9 @@ interface UserApi {
     @DELETE("sessions/logout")
     fun signOut(): Deferred<Response<OKResponse>>
 
+    @POST("users/deactivate")
+    fun deactivateAccount(): Deferred<Response<OKResponse>>
+
     @POST("users")
     fun signUp(@Body request: SignUpRequest): Deferred<Response<AuthResponse>>
 

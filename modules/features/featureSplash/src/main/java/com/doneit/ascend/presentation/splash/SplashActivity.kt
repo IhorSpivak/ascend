@@ -101,7 +101,7 @@ class SplashActivity : BaseActivity() {
 
 
     companion object{
-        const val DEEP_LINK_TYPE_PROFILE = "profile"
+        const val DEEP_LINK_TYPE_PROFILE = "user"
         const val DEEP_LINK_TYPE_GROUP = "group"
         const val KEY_GROUP_ID = "group_id"
         const val KEY_PROFILE_ID = "profile_id"

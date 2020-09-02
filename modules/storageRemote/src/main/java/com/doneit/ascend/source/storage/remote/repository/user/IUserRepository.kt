@@ -19,6 +19,8 @@ interface IUserRepository {
 
     suspend fun signOut(): RemoteResponse<OKResponse, ErrorsListResponse>
 
+    suspend fun deactivateAccount(): RemoteResponse<OKResponse, ErrorsListResponse>
+
     suspend fun signUp(request: SignUpRequest): RemoteResponse<AuthResponse, ErrorsListResponse>
 
     suspend fun deleteAccount(): RemoteResponse<OKResponse, ErrorsListResponse>

@@ -31,6 +31,10 @@ internal class UserRepository(
         return execute({ api.signOut() }, ErrorsListResponse::class.java)
     }
 
+    override suspend fun deactivateAccount(): RemoteResponse<OKResponse, ErrorsListResponse> {
+        return execute({ api.deactivateAccount() }, ErrorsListResponse::class.java)
+    }
+
     override suspend fun socialSignIn(request: SocialLoginRequest): RemoteResponse<AuthResponse, ErrorsListResponse> {
         return execute({ api.socialSignInAsync(request) }, ErrorsListResponse::class.java)
     }

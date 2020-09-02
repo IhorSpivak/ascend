@@ -843,4 +843,10 @@
     <string name="family">Family</string>
     <string name="success">Success</string>
     <string name="spiritual">Spiritual</string>
+
+    <string name="deactivate_account" translatable="false">Deactivate My Account</string>
+    <string name="deactivate_title" translatable="false">Deactivate Your Account?</string>
+    <string name="deactivate_description" translatable="false">This action will cancel your participation in the groups, as well as cancel any groups that you have created. Also, your profile will not appear in search results. To resume using the application, log in again using your username and password.</string>
+    <string name="deactivate_ok" translatable="false">Cancel</string>
+    <string name="deactivate_cancel" translatable="false">Yes, Deactivate</string>
 </resources>

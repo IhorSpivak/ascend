@@ -7,8 +7,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import androidx.appcompat.app.AlertDialog
 import com.androidisland.ezpermission.EzPermission
 import com.doneit.ascend.presentation.MainActivityListener
+import com.doneit.ascend.presentation.dialog.DialogPattern
 import com.doneit.ascend.presentation.dialog.EditFieldDialog
 import com.doneit.ascend.presentation.dialog.EditFieldDialogOptions
 import com.doneit.ascend.presentation.main.R
@@ -30,6 +32,8 @@ import org.kodein.di.generic.provider
 
 
 class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
+
+    private var currentDialog: AlertDialog? = null
 
     override val viewModelModule = Kodein.Module(this::class.java.simpleName) {
         bind<UserProfileContract.ViewModel>() with provider { vmShared<ProfileViewModel>(instance()) }
@@ -124,6 +128,23 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
 
         community.setOnClickListener {
             viewModel.onCommunityClick()
+        }
+        binding.btnDeactivateAccount.setOnClickListener {
+            currentDialog = createDeactivateDialog()
+            currentDialog?.show()
+        }
+    }
+
+    private fun createDeactivateDialog(): AlertDialog {
+        return DialogPattern.create(
+            requireContext(),
+            getString(R.string.deactivate_title),
+            getString(R.string.deactivate_description),
+            getString(R.string.deactivate_ok),
+            getString(R.string.deactivate_cancel)
+        ) {
+            currentDialog?.dismiss()
+            viewModel.onDeactivateAccount()
         }
     }
 

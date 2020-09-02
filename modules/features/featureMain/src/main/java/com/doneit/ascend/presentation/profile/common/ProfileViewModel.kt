@@ -155,6 +155,17 @@ class ProfileViewModel(
         }
     }
 
+    override fun onDeactivateAccount() {
+        viewModelScope.launch {
+            val requestEntity = userUseCase.deactivateAccount()
+            if (requestEntity.isSuccessful) {
+                router.navigateToLogin()
+            } else {
+                showDefaultErrorMessage(requestEntity.errorModel!!.toErrorMessage())
+            }
+        }
+    }
+
     override fun onTermsClick() {
         router.navigateToTerms()
     }
