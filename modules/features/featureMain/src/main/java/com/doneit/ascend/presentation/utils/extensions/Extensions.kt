@@ -95,6 +95,6 @@ fun Int.minutesToMills(): Long {
 }
 
 fun Date.toDayTime(): String {
-    val formatter = "h:mm aa".toGMTFormatter()
+    val formatter = "K:mm aa".toGMTFormatter()
     return formatter.format(this)
 }
