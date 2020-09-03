@@ -53,6 +53,7 @@ abstract class TagFilter<T : TagFilterModel> : BaseFilter<T>() {
             val tag = group.findViewById<Chip>(checkedId)?.tag as? TagEntity
             tag?.let { viewModel.tagSelected(it) }
         }
+        expand()
         chipGroup.check(initWithTagId ?: return@with)
     }
 }

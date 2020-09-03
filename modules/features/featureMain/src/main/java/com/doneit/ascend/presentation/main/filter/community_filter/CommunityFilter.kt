@@ -75,5 +75,6 @@ abstract class CommunityFilter<T : CommunityFilterModel> : BaseFilter<T>() {
                 }
             )
         }
+        expand()
     }
 }

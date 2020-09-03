@@ -108,7 +108,7 @@
                 style="@style/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/community"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
@@ -155,7 +155,7 @@
                 style="@style/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/group_type"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
@@ -173,26 +173,24 @@
                 <RadioButton
                     android:id="@+id/radioPublic"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/pref_time_selector"
                     android:button="@android:color/transparent"
                     android:checked="true"
                     android:gravity="center"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
+                    android:padding="8dp"
                     android:text="@string/group"
                     android:textColor="@color/pref_time_text_selector" />
 
                 <RadioButton
                     android:id="@+id/radioPrivate"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/pref_time_selector"
                     android:button="@android:color/transparent"
                     android:gravity="center"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
+                    android:padding="8dp"
                     android:text="@string/individual"
                     android:textColor="@color/pref_time_text_selector" />
 

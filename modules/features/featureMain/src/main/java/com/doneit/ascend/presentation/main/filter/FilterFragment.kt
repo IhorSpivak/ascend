@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.filter
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseBottomSheetFragment
 import com.doneit.ascend.presentation.main.databinding.FragmentFilterBinding
@@ -32,8 +33,29 @@ abstract class FilterFragment<T : FilterModel> : BaseBottomSheetFragment<Fragmen
                 val d = this as BottomSheetDialog
                 BottomSheetBehavior.from(
                     d.findViewById(com.google.android.material.R.id.design_bottom_sheet)!!
-                ).setState(BottomSheetBehavior.STATE_EXPANDED)
+                ).apply {
+                    state = BottomSheetBehavior.STATE_EXPANDED
+                    addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                        override fun onStateChanged(bottomSheet: View, newState: Int) {
+                            if (newState == BottomSheetBehavior.STATE_HALF_EXPANDED || newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                                state = BottomSheetBehavior.STATE_HIDDEN
+                            }
+                        }
+
+                        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                        }
+
+                    })
+                }
             }
+        }
+    }
+
+    protected fun expand() {
+        BottomSheetBehavior.from(
+            requireDialog().findViewById(com.google.android.material.R.id.design_bottom_sheet)!!
+        ).apply {
+            state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 
@@ -100,7 +122,7 @@ abstract class FilterFragment<T : FilterModel> : BaseBottomSheetFragment<Fragmen
     }
 
     private fun getMinutesOfDay(data: String): Long {
-        val timeFormat = SimpleDateFormat("K:mm aa", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("K:mm aa", Locale.ENGLISH)
         val date = requireNotNull(timeFormat.parse(data))
         val calendar = Calendar.getInstance().apply {
             time = date
