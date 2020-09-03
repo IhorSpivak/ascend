@@ -9,14 +9,14 @@ import com.doneit.ascend.presentation.main.home.webinars.common.WebinarFilter
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 
 interface WebinarsContract {
-    interface ViewModel: BaseViewModel {
+    interface ViewModel : BaseViewModel {
         val isRefreshing: LiveData<Boolean>
         val userLiveData: LiveData<UserEntity>
         val groups: LiveData<GroupListWithUserPaged>
 
         fun onStartChatClick(groupId: Long, groupType: GroupType)
         fun onGroupClick(model: GroupEntity)
-        fun updateFilter(filter: WebinarFilter)
+        fun updateFilter(filter: WebinarFilter, userId: Long? = null)
         fun checkUser(user: UserEntity)
     }
 

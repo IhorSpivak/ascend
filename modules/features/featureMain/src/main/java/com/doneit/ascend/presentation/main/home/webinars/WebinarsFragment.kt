@@ -13,9 +13,13 @@ import com.doneit.ascend.presentation.main.home.webinars.common.WebinarFilter
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
 
-class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>(){
+class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>() {
     override val viewModelModule = WebinarsViewModelModule.get(this)
     override val viewModel: WebinarsContract.ViewModel by instance()
+
+    private val userId: Long? by lazy {
+        arguments?.getLong(USER_ID)
+    }
 
     private val adapter: GroupHorListAdapter by lazy {
         GroupHorListAdapter(
@@ -33,6 +37,7 @@ class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>(){
             null
         )
     }
+
     override fun viewCreated(savedInstanceState: Bundle?) {
         binding.apply {
             model = viewModel
@@ -41,7 +46,10 @@ class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>(){
                 radioGroup.children.forEach {
                     if (it.id == i) {
                         (it as RadioButton).let {
-                            viewModel.updateFilter(WebinarFilter.values()[radioGroup.indexOfChild(it)])
+                            viewModel.updateFilter(
+                                WebinarFilter.values()[radioGroup.indexOfChild(it)],
+                                userId
+                            )
                         }
                     }
                 }
@@ -49,7 +57,7 @@ class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>(){
         }
         viewModel.groups.observe(viewLifecycleOwner, Observer {
             adapter.setUser(it.user)
-            binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }?.let {
+            binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }.let {
                 adapter.setCommunity(WebinarFilter.values()[it].toString().capitalize())
             }
             adapter.submitList(it.groups)
@@ -58,8 +66,8 @@ class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>(){
             binding.swipeRefresh.isRefreshing = it
         })
         binding.swipeRefresh.setOnRefreshListener {
-            binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }?.let {
-                viewModel.updateFilter(WebinarFilter.values()[it])
+            binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }.let {
+                viewModel.updateFilter(WebinarFilter.values()[it], userId)
             }
         }
         viewModel.userLiveData.observe(viewLifecycleOwner, Observer { user ->
@@ -76,8 +84,21 @@ class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>(){
 
     override fun onResume() {
         super.onResume()
-        binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }?.let {
-            viewModel.updateFilter(WebinarFilter.values()[it])
+        binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }.let {
+            if (it != -1) {
+                viewModel.updateFilter(WebinarFilter.values()[it], userId)
+            }
+        }
+    }
+
+    companion object {
+
+        private const val USER_ID = "key_user_id"
+
+        fun newInstance(userId: Long? = null) = WebinarsFragment().apply {
+            arguments = Bundle().apply {
+                userId?.let { putLong(USER_ID, it) }
+            }
         }
     }
 }
