@@ -23,6 +23,7 @@ abstract class TagFilter<T : TagFilterModel> : BaseFilter<T>() {
 
     override fun setupBinding() = with(binding) {
         super.setupBinding()
+        tvTagsTitle.visible()
         chipGroup.visible()
     }
 

@@ -135,6 +135,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </HorizontalScrollView>
 
+            <TextView
+                android:id="@+id/tv_tags_title"
+                style="@style/Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/tags"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/communities_scroll" />
+
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group"
                 android:layout_width="match_parent"
@@ -143,11 +154,10 @@
                 android:orientation="horizontal"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:paddingBottom="20dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/communities_scroll"
+                app:layout_constraintTop_toBottomOf="@id/tv_tags_title"
                 app:singleSelection="true" />
 
             <TextView
