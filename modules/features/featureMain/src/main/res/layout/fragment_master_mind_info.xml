@@ -21,7 +21,6 @@
         android:layout_above="@+id/bottom_navigation"
         android:fitsSystemWindows="true">
 
-
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/mainBar"
             android:layout_width="match_parent"
