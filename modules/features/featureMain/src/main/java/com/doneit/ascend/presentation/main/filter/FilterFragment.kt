@@ -35,6 +35,8 @@ abstract class FilterFragment<T : FilterModel> : BaseBottomSheetFragment<Fragmen
                     d.findViewById(com.google.android.material.R.id.design_bottom_sheet)!!
                 ).apply {
                     state = BottomSheetBehavior.STATE_EXPANDED
+                    halfExpandedRatio = 0.001f
+                    skipCollapsed = true
                     addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
                         override fun onStateChanged(bottomSheet: View, newState: Int) {
                             if (newState == BottomSheetBehavior.STATE_HALF_EXPANDED || newState == BottomSheetBehavior.STATE_COLLAPSED) {
