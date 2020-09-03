@@ -22,11 +22,7 @@ class GroupHorViewHolder(
     ) {
         binding.apply {
             this.item = item
-            community = if (communityGroup == null || communityGroup.isEmpty()) {
-                user?.community
-            } else {
-                communityGroup
-            }
+            community = item.community
             this.user = user
             groupTypeText = itemView.context.getString(convertCommunityToResId(user?.community ?: communityGroup.orEmpty(), item.groupType))
             theme = if (item.pastMeetingsCount == item.meetingsCount) {

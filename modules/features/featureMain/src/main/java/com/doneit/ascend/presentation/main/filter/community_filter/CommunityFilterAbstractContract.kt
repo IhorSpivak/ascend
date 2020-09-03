@@ -8,7 +8,7 @@ interface CommunityFilterAbstractContract {
     interface ViewModel<T : CommunityFilterModel> : FilterContract.ViewModel<T> {
         val communities: LiveData<List<Community>>
 
-        fun communitySelected(community: Community)
+        fun communitySelected(community: Community, isChecked: Boolean)
     }
 }
 

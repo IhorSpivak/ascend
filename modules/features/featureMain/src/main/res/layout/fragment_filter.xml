@@ -118,18 +118,18 @@
                 android:id="@+id/communities_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_communities_title">
 
-                <RadioGroup
+                <LinearLayout
                     android:id="@+id/radio_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
                     android:gravity="start"
                     android:orientation="horizontal"
-                    android:paddingBottom="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -141,14 +141,14 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:orientation="horizontal"
-                android:paddingBottom="20dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
                 android:visibility="gone"
-                app:singleSelection="true"
-                app:layout_constraintTop_toBottomOf="@id/communities_scroll"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/communities_scroll"
+                app:singleSelection="true" />
 
             <TextView
                 android:id="@+id/tvParticipantsNumber"

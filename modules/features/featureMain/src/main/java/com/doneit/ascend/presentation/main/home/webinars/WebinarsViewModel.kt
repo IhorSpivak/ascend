@@ -53,7 +53,7 @@ class WebinarsViewModel (
         }
     }
 
-    override fun updateFilter(filter: WebinarFilter, userId: Long?) {
+    override fun updateFilter(filter: String, userId: Long?) {
         viewModelScope.launch {
             isRefreshing.postValue(true)
             val model = GroupListDTO(
@@ -64,7 +64,7 @@ class WebinarsViewModel (
                 groupType = GroupType.WEBINAR,
                 groupStatus = null,
                 myGroups = null,
-                community = filter.toString()
+                community = filter
             )
             groupListModel.postValue(model)
             webinarFilterLiveData.postValue(webinarFilter)

@@ -2,7 +2,7 @@ package com.doneit.ascend.presentation.main.filter.community_filter
 
 import android.os.Bundle
 import android.view.ViewGroup
-import android.widget.RadioButton
+import android.widget.CheckBox
 import android.widget.RadioGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -15,7 +15,7 @@ abstract class CommunityFilter<T : CommunityFilterModel> : BaseFilter<T>() {
 
     abstract override val viewModel: CommunityFilterAbstractContract.ViewModel<T>
 
-    private var initWithCommunity: Community? = null
+    private var initWithCommunity: List<Community>? = null
 
     override fun viewCreated(savedInstanceState: Bundle?) {
         super.viewCreated(savedInstanceState)
@@ -40,7 +40,7 @@ abstract class CommunityFilter<T : CommunityFilterModel> : BaseFilter<T>() {
     private fun handleCommunities(communities: List<Community>) = with(binding) {
         for (community in communities) {
             radioGroup.addView(
-                RadioButton(requireContext()).apply {
+                CheckBox(requireContext()).apply {
                     layoutParams = RadioGroup.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
@@ -61,6 +61,7 @@ abstract class CommunityFilter<T : CommunityFilterModel> : BaseFilter<T>() {
                         )
                     }
                     text = getString(community.resId)
+                    isChecked = initWithCommunity.orEmpty().contains(community)
                     setTextColor(
                         ContextCompat.getColorStateList(
                             requireContext(),
@@ -70,10 +71,9 @@ abstract class CommunityFilter<T : CommunityFilterModel> : BaseFilter<T>() {
                     typeface = ResourcesCompat.getFont(requireContext(), R.font.red_hat_font)
                     buttonDrawable = null
                     setBackgroundResource(R.drawable.webinar_type_filter_button)
-                    setOnClickListener { viewModel.communitySelected(community) }
+                    setOnCheckedChangeListener { _, isChecked -> viewModel.communitySelected(community, isChecked) }
                 }
             )
         }
-        radioGroup.check(radioGroup.getChildAt(initWithCommunity?.ordinal ?: return).id)
     }
 }

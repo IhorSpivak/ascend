@@ -1,9 +1,8 @@
 package com.doneit.ascend.presentation.main.home.webinars
 
 import android.os.Bundle
-import android.widget.RadioButton
+import android.widget.CheckBox
 import androidx.core.view.children
-import androidx.core.view.get
 import androidx.lifecycle.Observer
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseFragment
@@ -42,53 +41,58 @@ class WebinarsFragment : BaseFragment<FragmentWebinarsBinding>() {
         binding.apply {
             model = viewModel
             rvGroups.adapter = adapter
-            radioGroup.setOnCheckedChangeListener { radioGroup, i ->
-                radioGroup.children.forEach {
-                    if (it.id == i) {
-                        (it as RadioButton).let {
-                            viewModel.updateFilter(
-                                WebinarFilter.values()[radioGroup.indexOfChild(it)],
-                                userId
-                            )
-                        }
-                    }
-                }
+        }
+        observeData()
+        setListeners()
+    }
+
+    private fun setListeners() = with(binding) {
+        swipeRefresh.setOnRefreshListener {
+            updateFilter()
+        }
+        for(child in radioContainer.children){
+            (child as CheckBox).setOnCheckedChangeListener { _, _ ->
+                updateFilter()
             }
         }
+    }
+
+    private fun observeData() {
         viewModel.groups.observe(viewLifecycleOwner, Observer {
             adapter.setUser(it.user)
-            binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }.let {
-                adapter.setCommunity(WebinarFilter.values()[it].toString().capitalize())
-            }
+            binding.radioContainer.children
+                .withIndex()
+                .filter { (it.value as CheckBox).isChecked }
+                .joinToString {
+                    WebinarFilter.values()[it.index].toString().toLowerCase()
+                }.let { adapter.setCommunity(it) }
             adapter.submitList(it.groups)
         })
         viewModel.isRefreshing.observe(viewLifecycleOwner, Observer {
             binding.swipeRefresh.isRefreshing = it
         })
-        binding.swipeRefresh.setOnRefreshListener {
-            binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }.let {
-                viewModel.updateFilter(WebinarFilter.values()[it], userId)
-            }
-        }
         viewModel.userLiveData.observe(viewLifecycleOwner, Observer { user ->
             viewModel.checkUser(user)
             WebinarFilter.values().firstOrNull {
                 it.toString() == user.community!!.toLowerCase()
             }?.ordinal?.let {
-                binding.radioGroup.apply {
-                    check(this[it].id)
-                }
+                (binding.radioContainer.getChildAt(it) as CheckBox).isChecked = true
             }
         })
     }
 
     override fun onResume() {
         super.onResume()
-        binding.radioGroup.children.indexOfFirst { (it as RadioButton).isChecked }.let {
-            if (it != -1) {
-                viewModel.updateFilter(WebinarFilter.values()[it], userId)
-            }
-        }
+        updateFilter()
+    }
+
+    private fun updateFilter() {
+        binding.radioContainer.children
+            .withIndex()
+            .filter { (it.value as CheckBox).isChecked }
+            .joinToString(separator = ",") {
+                WebinarFilter.values()[it.index].toString().toLowerCase()
+            }.let { viewModel.updateFilter(it, userId) }
     }
 
     companion object {

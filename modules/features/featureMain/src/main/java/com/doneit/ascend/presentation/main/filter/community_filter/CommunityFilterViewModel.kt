@@ -13,10 +13,6 @@ class CommunityFilterViewModel : BaseCommunityFilterViewModel<CommunityFilterMod
 
     override val communities: LiveData<List<Community>> = MutableLiveData(Community.values().toList())
 
-    override fun communitySelected(community: Community) {
-        filter.community = community
-    }
-
     override fun initFilterModel(): CommunityFilterModel {
         return CommunityFilterModel()
     }

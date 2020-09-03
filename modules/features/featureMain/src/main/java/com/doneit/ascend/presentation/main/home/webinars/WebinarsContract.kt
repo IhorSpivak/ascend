@@ -5,7 +5,6 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.base.BaseViewModel
-import com.doneit.ascend.presentation.main.home.webinars.common.WebinarFilter
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 
 interface WebinarsContract {
@@ -16,7 +15,7 @@ interface WebinarsContract {
 
         fun onStartChatClick(groupId: Long, groupType: GroupType)
         fun onGroupClick(model: GroupEntity)
-        fun updateFilter(filter: WebinarFilter, userId: Long? = null)
+        fun updateFilter(filter: String, userId: Long? = null)
         fun checkUser(user: UserEntity)
     }
 

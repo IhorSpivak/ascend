@@ -25,8 +25,8 @@
             android:layout_height="wrap_content">
 
             <!-- TODO: add radio group dinamically depending on servers community -->
-            <RadioGroup
-                android:id="@+id/radio_group"
+            <LinearLayout
+                android:id="@+id/radio_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
@@ -37,7 +37,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/recovery"
                     style="@style/WebinarFilterRadioButton"
                     android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
                     android:text="@string/webinars_list_recovery"
                     android:textSize="14sp" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/fitness"
                     style="@style/WebinarFilterRadioButton"
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                     android:textAlignment="center"
                     android:textSize="14sp" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/industry"
                     style="@style/WebinarFilterRadioButton"
                     android:layout_width="wrap_content"
@@ -79,7 +79,7 @@
                     android:textAlignment="center"
                     android:textSize="14sp" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/family"
                     style="@style/WebinarFilterRadioButton"
                     android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
                     android:text="@string/webinars_list_family"
                     android:textSize="14sp" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/spiritual"
                     style="@style/WebinarFilterRadioButton"
                     android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                     android:text="@string/webinars_list_spiritual"
                     android:textSize="14sp" />
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/success"
                     style="@style/WebinarFilterRadioButton"
                     android:layout_width="wrap_content"
@@ -120,7 +120,7 @@
                     android:text="@string/webinars_list_success"
                     android:textSize="14sp" />
 
-            </RadioGroup>
+            </LinearLayout>
         </HorizontalScrollView>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
