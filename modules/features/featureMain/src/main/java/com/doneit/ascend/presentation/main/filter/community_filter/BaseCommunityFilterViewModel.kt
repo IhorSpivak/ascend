@@ -15,6 +15,7 @@ abstract class BaseCommunityFilterViewModel<T : CommunityFilterModel> :
             filter.community = filter.community.orEmpty().append(community)
         }else {
             filter.community = filter.community?.filter { it != community }
+            if(filter.community.isNullOrEmpty()) filter.community = null
         }
     }
 
