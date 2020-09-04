@@ -29,7 +29,7 @@ class GroupsListViewModel(
     override val requestModel = MutableLiveData(defaultRequest)
 
     private val _groups = requestModel.switchMap { groupUseCase.getGroupListPaged(viewModelScope, it) }
-    private val user = userUseCase.getUserLive()
+    override val user = userUseCase.getUserLive()
 
     override val groups = MediatorLiveData<GroupListWithUserPaged>()
 

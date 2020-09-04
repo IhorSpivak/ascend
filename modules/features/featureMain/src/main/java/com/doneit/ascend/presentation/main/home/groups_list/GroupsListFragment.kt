@@ -1,8 +1,10 @@
 package com.doneit.ascend.presentation.main.home.groups_list
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.doneit.ascend.domain.entity.group.GroupType
+import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.common.SideListDecorator
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.base.BaseActivity
@@ -13,6 +15,7 @@ import com.doneit.ascend.presentation.main.filter.FilterModel
 import com.doneit.ascend.presentation.main.filter.FilterType
 import com.doneit.ascend.presentation.main.filter.base_filter.BaseFilter
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
+import com.doneit.ascend.presentation.utils.convertCommunityToResId
 import com.doneit.ascend.presentation.utils.showDefaultError
 import org.kodein.di.generic.instance
 
@@ -63,6 +66,19 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
         rvGroups.adapter = adapter
     }
 
+    @SuppressLint("DefaultLocale")
+    private fun setButtonTitle(userEntity: UserEntity) {
+        binding.tvFilter.text = when (groupType) {
+            GroupType.WEBINAR,
+            GroupType.SUPPORT,
+            GroupType.MASTER_MIND -> getString(
+                R.string.filter_groups_template,
+                getString(convertCommunityToResId(userEntity.community.orEmpty(), groupType))
+            )
+            else -> getString(R.string.filter_groups)
+        }
+    }
+
     private fun observeData() {
         viewModel.groups.observe(viewLifecycleOwner, Observer {
             binding.hasGroups = it.groups.isNullOrEmpty().not()
@@ -70,6 +86,10 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
             adapter.setUser(it.user)
             adapter.submitList(it.groups)
             binding.srLayout.isRefreshing = false
+        })
+        viewModel.user.observe(viewLifecycleOwner, Observer {
+            it ?: return@Observer
+            setButtonTitle(it)
         })
     }
 
