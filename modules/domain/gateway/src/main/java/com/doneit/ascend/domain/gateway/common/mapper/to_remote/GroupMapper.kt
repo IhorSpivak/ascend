@@ -67,8 +67,8 @@ fun GroupListDTO.toRequest(): GroupListRequest {
         myGroups = myGroups,
         startTimeFrom = startDateFrom?.toRemoteString(),
         startTimeTo = startDateTo?.toRemoteString(),
-        timeFrom = timeFrom,
-        timeTo = timeTo,
+        timeFrom = timeFrom?.toGMTTimestamp(),
+        timeTo = timeTo?.toGMTTimestamp(),
         community = community,
         tagId = tagId,
         days = daysOfWeen.orEmpty()
@@ -88,8 +88,8 @@ fun GroupListDTO.toRequest(currPage: Int): GroupListRequest {
         myGroups = myGroups,
         startTimeFrom = startDateFrom?.toRemoteString(),
         startTimeTo = startDateTo?.toRemoteString(),
-        timeFrom = timeFrom,
-        timeTo = timeTo,
+        timeFrom = timeFrom?.toGMTTimestamp(),
+        timeTo = timeTo?.toGMTTimestamp(),
         community = community,
         tagId = tagId,
         days = daysOfWeen.orEmpty()
