@@ -850,4 +850,6 @@
     <string name="deactivate_description" translatable="false">This action will cancel your participation in the groups, as well as cancel any groups that you have created. Also, your profile will not appear in search results. To resume using the application, log in again using your username and password.</string>
     <string name="deactivate_ok" translatable="false">Yes, Deactivate</string>
     <string name="deactivate_cancel" translatable="false">Cancel</string>
+
+    <string name="your_rating" translatable="false">Your Rating</string>
 </resources>

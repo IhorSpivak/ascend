@@ -29,6 +29,7 @@ import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.SpiritualActionStepsFragment
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.SpiritualActionListContract
 import com.doneit.ascend.presentation.main.base.BaseFragment
+import com.doneit.ascend.presentation.main.bio.BioContract
 import com.doneit.ascend.presentation.main.chats.MyChatsContract
 import com.doneit.ascend.presentation.main.chats.MyChatsFragment
 import com.doneit.ascend.presentation.main.chats.chat.ChatContract
@@ -137,6 +138,7 @@ class MainRouter(
 ) : FragmentRouter(activity.supportFragmentManager),
     BottomNavigationChangeListener,
     MainContract.Router,
+    BioContract.Router,
     ProfileContract.Router,
     com.doneit.ascend.presentation.profile.master_mind.MMProfileContract.Router,
     HomeContract.Router,

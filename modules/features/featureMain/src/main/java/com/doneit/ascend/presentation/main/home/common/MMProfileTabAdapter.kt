@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.presentation.main.bio.BioFragment
 import com.doneit.ascend.presentation.main.home.channels.ChannelsFragment
 import com.doneit.ascend.presentation.main.home.groups_list.GroupsListFragment
 import com.doneit.ascend.presentation.main.master_mind_info.mm_content.posts.MMPostsFragment
@@ -41,7 +42,7 @@ class MMProfileTabAdapter(
                 { GroupsListFragment.newInstance(userId, GroupType.MASTER_MIND) },
                 { ChannelsFragment.getInstance(user) },
                 { MMPostsFragment.newInstance(userId, user) },
-                { ChannelsFragment.getInstance(user) }
+                { BioFragment.getInstance(user) }
             )
 
             return MMProfileTabAdapter(fragmentManager, fragments, titles)
