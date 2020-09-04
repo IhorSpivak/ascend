@@ -1,17 +1,19 @@
 package com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.switchMap
 import androidx.paging.DataSource
 import androidx.paging.ItemKeyedDataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import com.doneit.ascend.R
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.RepeatType
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.SpiritualActionStepEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.TimeCommitmentEntity
 import com.doneit.ascend.domain.entity.ascension.spiritual_action_step.TimeCommitmentType
-import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.main.ascension_plan.spiritual_action_steps.list.common.SpiritualActionListArgs
+import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
+import com.doneit.ascend.resources.R
 import com.vrgsoft.annotations.CreateFactory
 import com.vrgsoft.annotations.ViewModelDiModule
 import java.util.concurrent.Executors
