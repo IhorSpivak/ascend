@@ -69,12 +69,12 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
     @SuppressLint("DefaultLocale")
     private fun setButtonTitle(userEntity: UserEntity) {
         binding.tvFilter.text = when (groupType) {
-            GroupType.WEBINAR,
-            GroupType.SUPPORT,
-            GroupType.MASTER_MIND -> getString(
+            GroupType.WEBINAR -> getString(
                 R.string.filter_groups_template,
                 getString(convertCommunityToResId(userEntity.community.orEmpty(), groupType))
             )
+            GroupType.SUPPORT,
+            GroupType.MASTER_MIND -> getString(R.string.filter_groups)
             else -> getString(R.string.filter_groups)
         }
     }

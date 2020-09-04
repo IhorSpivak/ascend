@@ -17,7 +17,7 @@ class GroupTypeFilterFragment : CommunityFilter<GroupTypeFilterModel>() {
     override fun setupBinding() {
         super.setupBinding()
         with(binding) {
-            rgParticipants.visible()
+            svGroupType.visible()
             tvParticipantsNumber.visible()
             rgParticipants.setOnCheckedChangeListener { _, checkedId ->
                 if (checkedId == radioPublic.id) viewModel.setGroupType(GroupType.MASTER_MIND)

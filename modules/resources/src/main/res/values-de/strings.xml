@@ -107,12 +107,13 @@
 
     <!--Groups filter-->
     <string name="filter_groups">Filter Groups</string>
+    <string name="filter_groups_template">Filter %s</string>
     <string name="select_days_of_week">Select Days of Week</string>
     <string name="preferred_time">Preferred Time</string>
     <string name="group_type">Group type</string>
     <string name="group">Group Coaching</string>
     <string name="workshop">Workshop</string>
-    <string name="individual"> Private coaching</string>
+    <string name="individual"> Private Coaching</string>
     <string name="closed_group"> Closed</string>
     <string name="undefined">Undefined</string>
     <string name="apply">Apply</string>
