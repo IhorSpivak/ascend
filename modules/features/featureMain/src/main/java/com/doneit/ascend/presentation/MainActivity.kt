@@ -22,8 +22,6 @@ import com.doneit.ascend.presentation.main.common.visible
 import com.doneit.ascend.presentation.main.databinding.ActivityMainBinding
 import com.doneit.ascend.presentation.main.home.HomeFragment
 import com.doneit.ascend.presentation.main.home.community_feed.CommunityFeedFragment
-import com.doneit.ascend.presentation.main.home.groups_list.GroupsListContract
-import com.doneit.ascend.presentation.main.home.groups_list.GroupsListViewModel
 import com.doneit.ascend.presentation.main.home.groups_list.GroupsListViewModelFactory
 import com.doneit.ascend.presentation.models.PresentationCommunityModel
 import com.doneit.ascend.presentation.profile.common.ProfileViewModel
@@ -87,9 +85,6 @@ class MainActivity : BaseActivity(), MainActivityListener {
         //todo fix wrong lifecycle for this model
         bind<ViewModelProvider.Factory>(tag = "MasterMindGroups") with singleton {
             GroupsListViewModelFactory(instance(), instance(), instance())
-        }
-        bind<GroupsListContract.ViewModel>() with provider {
-            vm<GroupsListViewModel>(instance(tag = "MasterMindGroups"))
         }
     }
 

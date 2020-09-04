@@ -8,7 +8,6 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
-import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
@@ -54,6 +53,10 @@ class GroupsListViewModel(
         }
     }
 
+    override fun setGroupType(groupType: GroupType?) {
+        requestModel.value = requestModel.value?.copy(groupType = groupType)
+    }
+
     override fun updateData(userId: Long?) {
         requestModel.postValue(requestModel.value?.copy(userId = userId))
     }
@@ -74,9 +77,7 @@ class GroupsListViewModel(
         val defaultRequest = GroupListDTO(
             perPage = 10,
             sortType = SortType.DESC,
-            sortColumn = GroupEntity.START_TIME_KEY,
-            groupType = GroupType.MASTER_MIND,
-            groupStatus = GroupStatus.UPCOMING
+            sortColumn = GroupEntity.START_TIME_KEY
         )
     }
 }

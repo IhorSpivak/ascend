@@ -17,10 +17,14 @@ import com.doneit.ascend.presentation.main.filter.base_filter.BaseFilter
 import com.doneit.ascend.presentation.main.groups.group_list.common.GroupHorListAdapter
 import com.doneit.ascend.presentation.utils.convertCommunityToResId
 import com.doneit.ascend.presentation.utils.showDefaultError
+import org.kodein.di.Kodein
 import org.kodein.di.generic.instance
 
 class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
     FilterListener<FilterModel> {
+
+    override val viewModelModule: Kodein.Module
+        get() = GroupsListViewModelModule.get(this)
 
     override val viewModel: GroupsListContract.ViewModel by instance()
 
@@ -49,6 +53,7 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
+        viewModel.setGroupType(groupType)
         setupBinding()
         observeData()
         setListeners()
