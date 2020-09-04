@@ -14,20 +14,19 @@ import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
-import com.vrgsoft.annotations.CreateFactory
-import com.vrgsoft.annotations.ViewModelDiModule
 
-@CreateFactory
-@ViewModelDiModule
 class GroupsListViewModel(
     private val groupUseCase: GroupUseCase,
     private val userUseCase: UserUseCase,
-    private val router: GroupsListContract.Router
+    private val router: GroupsListContract.Router,
+    private val userId: Long?,
+    private val groupType: GroupType?
 ) : BaseViewModelImpl(), GroupsListContract.ViewModel {
 
-    override val requestModel = MutableLiveData(defaultRequest)
+    override val requestModel = MutableLiveData(getDefaultRequest())
 
-    private val _groups = requestModel.switchMap { groupUseCase.getGroupListPaged(viewModelScope, it) }
+    private val _groups =
+        requestModel.switchMap { groupUseCase.getGroupListPaged(viewModelScope, it) }
     override val user = userUseCase.getUserLive()
 
     override val groups = MediatorLiveData<GroupListWithUserPaged>()
@@ -53,10 +52,6 @@ class GroupsListViewModel(
         }
     }
 
-    override fun setGroupType(groupType: GroupType?) {
-        requestModel.value = requestModel.value?.copy(groupType = groupType)
-    }
-
     override fun updateData(userId: Long?) {
         requestModel.postValue(requestModel.value?.copy(userId = userId))
     }
@@ -73,11 +68,11 @@ class GroupsListViewModel(
         router.navigateToGroupInfo(groupId)
     }
 
-    companion object {
-        val defaultRequest = GroupListDTO(
-            perPage = 10,
-            sortType = SortType.DESC,
-            sortColumn = GroupEntity.START_TIME_KEY
-        )
-    }
+    private fun getDefaultRequest() = GroupListDTO(
+        perPage = 10,
+        sortType = SortType.DESC,
+        sortColumn = GroupEntity.START_TIME_KEY,
+        userId = userId,
+        groupType = groupType
+    )
 }

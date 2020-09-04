@@ -24,7 +24,7 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
     FilterListener<FilterModel> {
 
     override val viewModelModule: Kodein.Module
-        get() = GroupsListViewModelModule.get(this)
+        get() = GroupsListViewModelModule.get(this, groupType, userId)
 
     override val viewModel: GroupsListContract.ViewModel by instance()
 
@@ -53,7 +53,6 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
     }
 
     override fun viewCreated(savedInstanceState: Bundle?) {
-        viewModel.setGroupType(groupType)
         setupBinding()
         observeData()
         setListeners()

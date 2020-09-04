@@ -13,7 +13,6 @@ interface GroupsListContract {
         val user: LiveData<UserEntity?>
         val requestModel: LiveData<GroupListDTO>
 
-        fun setGroupType(groupType: GroupType?)
         fun updateData(userId: Long? = null)
         fun updateRequestModel(requestModel: GroupListDTO)
         fun onStartChatClick(groupId: Long, groupType: GroupType)
