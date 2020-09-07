@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.home.groups_list
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.common.SideListDecorator
@@ -24,12 +25,15 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
     FilterListener<FilterModel> {
 
     override val viewModelModule: Kodein.Module
-        get() = GroupsListViewModelModule.get(this, groupType, userId)
+        get() = GroupsListViewModelModule.get(this, groupType, userId, groupStatus)
 
     override val viewModel: GroupsListContract.ViewModel by instance()
 
     private val groupType: GroupType? by lazy {
         arguments?.getSerializable(GROUP_TYPE_KEY) as? GroupType
+    }
+    private val groupStatus: GroupStatus? by lazy {
+        arguments?.getSerializable(GROUP_STATUS_KEY) as? GroupStatus
     }
     private val userId: Long? by lazy {
         arguments?.getLong(USER_ID_KEY)
@@ -129,16 +133,19 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
     companion object {
 
         private const val GROUP_TYPE_KEY = "key_group_type"
+        private const val GROUP_STATUS_KEY = "key_group_status"
         private const val USER_ID_KEY = "key_user_id"
 
-        fun newInstance(userId: Long? = null, groupType: GroupType? = null) =
-            GroupsListFragment().apply {
-                arguments = Bundle().apply {
-                    groupType?.let {
-                        putSerializable(GROUP_TYPE_KEY, it)
-                        putLong(USER_ID_KEY, userId ?: return@let)
-                    }
-                }
+        fun newInstance(
+            userId: Long? = null,
+            groupType: GroupType? = null,
+            groupStatus: GroupStatus? = null
+        ) = GroupsListFragment().apply {
+            arguments = Bundle().apply {
+                groupType?.let { putSerializable(GROUP_TYPE_KEY, it) }
+                userId?.let { putLong(USER_ID_KEY, it) }
+                groupStatus?.let { putSerializable(GROUP_STATUS_KEY, it) }
             }
+        }
     }
 }

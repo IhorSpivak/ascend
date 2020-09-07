@@ -3,11 +3,10 @@ package com.doneit.ascend.presentation.main.home.common
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.entity.group.GroupStatus
+import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.home.daily.DailyFragment
-import com.doneit.ascend.presentation.main.home.groups.GroupsFragment
 import com.doneit.ascend.presentation.main.home.groups_list.GroupsListFragment
-import com.doneit.ascend.presentation.main.home.webinars.WebinarsFragment
 
 class TabAdapter(
     fragmentManager: FragmentManager,
@@ -28,14 +27,16 @@ class TabAdapter(
     }
 
     companion object {
-        fun newInstance(fragmentManager: FragmentManager, userEntity: UserEntity, titles: List<String>): TabAdapter {
+        fun newInstance(
+            fragmentManager: FragmentManager,
+            titles: List<String>
+        ): TabAdapter {
 
             val fragments: ArrayList<() -> Fragment> = arrayListOf(
-                {DailyFragment()},
-                {WebinarsFragment()},
-                //{CommunityFeedFragment.newInstance(userEntity)},
-                {GroupsFragment.newInstance()},
-                {GroupsListFragment()}
+                { DailyFragment() },
+                { GroupsListFragment.newInstance(groupType = GroupType.WEBINAR, groupStatus = GroupStatus.UPCOMING) },
+                { GroupsListFragment.newInstance(groupType = GroupType.SUPPORT, groupStatus = GroupStatus.UPCOMING) },
+                { GroupsListFragment.newInstance(groupType = GroupType.MASTER_MIND, groupStatus = GroupStatus.UPCOMING) }
             )
 
             return TabAdapter(fragmentManager, fragments, titles)

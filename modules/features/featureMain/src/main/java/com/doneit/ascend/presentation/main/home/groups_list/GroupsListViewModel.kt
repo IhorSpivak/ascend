@@ -8,6 +8,7 @@ import androidx.paging.PagedList
 import com.doneit.ascend.domain.entity.dto.GroupListDTO
 import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupEntity
+import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
@@ -16,11 +17,12 @@ import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
 import com.doneit.ascend.presentation.models.group.GroupListWithUserPaged
 
 class GroupsListViewModel(
+    userUseCase: UserUseCase,
     private val groupUseCase: GroupUseCase,
-    private val userUseCase: UserUseCase,
     private val router: GroupsListContract.Router,
     private val userId: Long?,
-    private val groupType: GroupType?
+    private val groupType: GroupType?,
+    private val groupStatus: GroupStatus?
 ) : BaseViewModelImpl(), GroupsListContract.ViewModel {
 
     override val requestModel = MutableLiveData(getDefaultRequest())
@@ -73,6 +75,7 @@ class GroupsListViewModel(
         sortType = SortType.DESC,
         sortColumn = GroupEntity.START_TIME_KEY,
         userId = userId,
-        groupType = groupType
+        groupType = groupType,
+        groupStatus = groupStatus
     )
 }

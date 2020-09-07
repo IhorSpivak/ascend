@@ -58,7 +58,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             binding.vpGroups.adapter = TabAdapter.newInstance(
                 childFragmentManager,
-                it,
                 viewModel.getListOfTitles().map {
                     getString(it)
                 }
