@@ -49,7 +49,7 @@ fun UserEntity.toUserLocal(): UserLocal {
         haveSubscription = haveSubscription,
         subscriptionTrial = subscriptionTrial,
         subscriptionCanceled = subscriptionCanceled,
-        stripeFieldsNeeded = stripeFieldsNeeded.orEmpty(),
+        stripeFieldsNeeded = stripeFieldsNeeded,
         stripeRequiredFieldsFilled = stripeRequiredFieldsFilled
     )
 }
@@ -73,7 +73,7 @@ fun UserLocal.merge(newModel: UserProfileResponse): UserLocal {
         image = newModel.image?.toLocal(),
         displayName = displayName,
         description = description,
-        bio = bio,
+        bio = newModel.bio,
         rating = rating,
         isMasterMind = newModel.role == MM_ROLE,
         visitedGroupCount = visitedGroupCount,
@@ -90,7 +90,7 @@ fun UserLocal.merge(newModel: UserProfileResponse): UserLocal {
         haveSubscription = haveSubscription,
         subscriptionTrial = subscriptionTrial,
         subscriptionCanceled = subscriptionCanceled,
-        stripeFieldsNeeded = stripeFieldsNeeded.orEmpty(),
+        stripeFieldsNeeded = stripeFieldsNeeded,
         stripeRequiredFieldsFilled = stripeRequiredFieldsFilled
     )
 }

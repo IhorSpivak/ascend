@@ -22,6 +22,7 @@ data class UserProfileResponse(
     @SerializedName("visited_groups_count") val visitedGroupsCount: Int,
     @SerializedName("image") val image: ImageResponse?,
     @SerializedName("description") val description: String?,
+    @SerializedName("bio") val bio: String?,
     @SerializedName("birthday") val birthday: String?,
     @SerializedName("role") val role: String?,
     @SerializedName("rated") val rated: Boolean?,

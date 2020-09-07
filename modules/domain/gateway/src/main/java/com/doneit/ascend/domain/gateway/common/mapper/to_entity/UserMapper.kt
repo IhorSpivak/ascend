@@ -82,7 +82,7 @@ fun UserProfileResponse.toEntity(): UserEntity {
         image = image?.toEntity(),
         displayName = null,
         description = description,
-        bio = null,
+        bio = bio,
         rating = rating,
         rated = rated ?: false,
         myRating = myRating,
@@ -151,7 +151,7 @@ fun RateResponse.toEntity(): RateEntity {
         userId = userId,
         fullName = fullName,
         image = image.toEntity(),
-        createdAt = createdAt.toDate()!!,
+        createdAt = createdAt.toDate(),
         updatedAt = updatedAt.toDate()
     )
 }
