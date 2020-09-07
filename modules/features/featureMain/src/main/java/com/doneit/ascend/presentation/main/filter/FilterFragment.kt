@@ -107,9 +107,17 @@ abstract class FilterFragment<T : FilterModel> : BaseBottomSheetFragment<Fragmen
     private fun configureStartEndDate() = with(binding) {
         fromPicker.setOnItemSelectedListener { _, data, _ ->
             viewModel.selectStartDate(getMinutesOfDay(data as String))
+            if (viewModel.filter.timeFrom > viewModel.filter.timeTo) {
+                toPicker.selectedItemPosition = (getMinutesOfDay(data).toInt() / 5) + 1
+                viewModel.selectEndDate(getMinutesOfDay(data) + 5)
+            }
         }
         toPicker.setOnItemSelectedListener { _, data, _ ->
             viewModel.selectEndDate(getMinutesOfDay(data as String))
+            if (viewModel.filter.timeTo < viewModel.filter.timeFrom) {
+                fromPicker.selectedItemPosition = (getMinutesOfDay(data).toInt() / 5) - 1
+                viewModel.selectStartDate(getMinutesOfDay(data) - 5)
+            }
         }
     }
 
