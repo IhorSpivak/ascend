@@ -136,11 +136,6 @@ class MMProfileFragment : BaseFragment<FragmentProfileMasterMindBinding>() {
             viewModel.onNotificationSettingsClick()
         }
 
-        paymentPortal.setOnClickListener {
-            viewModel.user.value?.let {
-                viewModel.onPaymentsClick(it.isMasterMind)
-            }
-        }
         blockedUsers.setOnClickListener {
             viewModel.onBlockedUsersClick()
         }

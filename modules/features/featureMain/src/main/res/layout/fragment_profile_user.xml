@@ -254,13 +254,6 @@
                     app:iconRes="@{@drawable/ic_community}" />
 
                 <include
-                    android:id="@+id/paymentPortal"
-                    layout="@layout/template_profile_field"
-                    app:fieldName="@{@string/payments}"
-                    app:fieldValue="@{@string/empty}"
-                    app:iconRes="@{@drawable/ic_payment}" />
-
-                <include
                     layout="@layout/template_profile_field"
                     app:fieldName="@{@string/privacy_settings}"
                     app:fieldValue="@{@string/empty}"

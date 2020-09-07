@@ -108,12 +108,6 @@ class UserProfileFragment : BaseFragment<FragmentProfileUserBinding>() {
             viewModel.onNotificationSettingsClick()
         }
 
-        paymentPortal.setOnClickListener {
-            viewModel.user.value?.let {
-                viewModel.onPaymentsClick(it.isMasterMind)
-            }
-        }
-
         age.setOnClickListener {
             viewModel.onAgeClick()
         }
