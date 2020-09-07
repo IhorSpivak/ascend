@@ -22,7 +22,7 @@
     <item
         android:id="@+id/ascension_plan"
         android:icon="@drawable/ic_check_list"
-        android:title="@string/ascension_plan"
+        android:title="@string/feed"
         app:showAsAction="ifRoom" />
 
     <item

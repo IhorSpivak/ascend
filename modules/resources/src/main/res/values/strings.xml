@@ -852,4 +852,5 @@
     <string name="deactivate_cancel" translatable="false">Cancel</string>
 
     <string name="your_rating" translatable="false">Your Rating</string>
+    <string name="feed" translatable="false">Feed</string>
 </resources>
