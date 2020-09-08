@@ -40,7 +40,10 @@ class GroupsFragment : BaseFragment<FragmentTabGroupsBinding>() {
     }
 
     private val userId: Long? by lazy {
-        requireArguments().getLong(KEY_USER_ID)
+        requireArguments().getLong(KEY_USER_ID, -1).let {
+            if(it == -1L) null
+            else it
+        }
     }
 
     private val groupType: GroupType? by lazy {
