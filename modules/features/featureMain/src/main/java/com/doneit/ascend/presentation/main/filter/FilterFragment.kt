@@ -132,7 +132,7 @@ abstract class FilterFragment<T : FilterModel> : BaseBottomSheetFragment<Fragmen
     }
 
     private fun getMinutesOfDay(data: String): Long {
-        val timeFormat = SimpleDateFormat("K:mm aa", Locale.ENGLISH)
+        val timeFormat = SimpleDateFormat("h:mm aa", Locale.US)
         val date = requireNotNull(timeFormat.parse(data))
         val calendar = Calendar.getInstance().apply {
             time = date

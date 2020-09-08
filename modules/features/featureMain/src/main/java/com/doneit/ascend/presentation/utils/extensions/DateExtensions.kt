@@ -144,6 +144,12 @@ fun String.toDefaultFormatter(): SimpleDateFormat {
     return SimpleDateFormat(this, Locale.ENGLISH)
 }
 
+fun String.toUSGMTFormatter(): SimpleDateFormat {
+    val formatter = SimpleDateFormat(this, Locale.US)
+    formatter.timeZone = TimeZone.getTimeZone("GMT")
+    return formatter
+}
+
 fun String.toGMTFormatter(): SimpleDateFormat {
     val formatter = SimpleDateFormat(this, Locale.ENGLISH)
     formatter.timeZone = TimeZone.getTimeZone("GMT")
