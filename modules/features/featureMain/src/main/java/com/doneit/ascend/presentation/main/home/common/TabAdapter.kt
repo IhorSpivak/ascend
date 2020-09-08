@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.home.common
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.presentation.main.home.daily.DailyFragment
@@ -34,9 +35,9 @@ class TabAdapter(
 
             val fragments: ArrayList<() -> Fragment> = arrayListOf(
                 { DailyFragment() },
-                { GroupsListFragment.newInstance(groupType = GroupType.WEBINAR, groupStatus = GroupStatus.UPCOMING) },
-                { GroupsListFragment.newInstance(groupType = GroupType.SUPPORT, groupStatus = GroupStatus.UPCOMING) },
-                { GroupsListFragment.newInstance(groupType = GroupType.MASTER_MIND, groupStatus = GroupStatus.UPCOMING) }
+                { GroupsListFragment.newInstance(groupType = GroupType.WEBINAR, groupStatus = GroupStatus.UPCOMING, sortType = SortType.ASC) },
+                { GroupsListFragment.newInstance(groupType = GroupType.SUPPORT, groupStatus = GroupStatus.UPCOMING, sortType = SortType.ASC) },
+                { GroupsListFragment.newInstance(groupType = GroupType.MASTER_MIND, groupStatus = GroupStatus.UPCOMING, sortType = SortType.ASC) }
             )
 
             return TabAdapter(fragmentManager, fragments, titles)

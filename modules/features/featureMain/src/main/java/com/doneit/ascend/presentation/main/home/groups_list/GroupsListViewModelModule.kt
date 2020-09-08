@@ -1,6 +1,7 @@
 package com.doneit.ascend.presentation.main.home.groups_list
 
 import androidx.lifecycle.ViewModelProvider
+import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.vrgsoft.core.presentation.fragment.BaseFactory
@@ -15,12 +16,13 @@ object GroupsListViewModelModule {
         fragment: GroupsListFragment,
         groupType: GroupType?,
         userId: Long?,
-        groupStatus: GroupStatus?
+        groupStatus: GroupStatus?,
+        sortType: SortType?
     ) = Kodein.Module("GroupsList") {
         bind<ViewModelProvider.Factory>(tag = "GroupsList") with singleton {
             object : BaseFactory<GroupsListViewModel>() {
                 override fun createViewModel(): GroupsListViewModel = GroupsListViewModel(
-                    instance(), instance(), instance(), userId, groupType, groupStatus
+                    instance(), instance(), instance(), userId, groupType, groupStatus, sortType
                 )
             }
         }

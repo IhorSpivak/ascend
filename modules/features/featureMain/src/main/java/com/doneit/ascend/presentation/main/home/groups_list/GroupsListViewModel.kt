@@ -22,7 +22,8 @@ class GroupsListViewModel(
     private val router: GroupsListContract.Router,
     private val userId: Long?,
     private val groupType: GroupType?,
-    private val groupStatus: GroupStatus?
+    private val groupStatus: GroupStatus?,
+    private val sortType: SortType?
 ) : BaseViewModelImpl(), GroupsListContract.ViewModel {
 
     override val requestModel = MutableLiveData(getDefaultRequest())
@@ -72,7 +73,7 @@ class GroupsListViewModel(
 
     private fun getDefaultRequest() = GroupListDTO(
         perPage = 10,
-        sortType = SortType.DESC,
+        sortType = sortType,
         sortColumn = GroupEntity.START_TIME_KEY,
         userId = userId,
         groupType = groupType,

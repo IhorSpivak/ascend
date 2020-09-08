@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.home.groups_list
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
@@ -25,7 +26,7 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
     FilterListener<FilterModel> {
 
     override val viewModelModule: Kodein.Module
-        get() = GroupsListViewModelModule.get(this, groupType, userId, groupStatus)
+        get() = GroupsListViewModelModule.get(this, groupType, userId, groupStatus, sortType)
 
     override val viewModel: GroupsListContract.ViewModel by instance()
 
@@ -36,7 +37,14 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
         arguments?.getSerializable(GROUP_STATUS_KEY) as? GroupStatus
     }
     private val userId: Long? by lazy {
-        arguments?.getLong(USER_ID_KEY)
+        arguments?.getLong(USER_ID_KEY, Long.MIN_VALUE)?.let {
+            if (it == Long.MIN_VALUE) {
+                null
+            } else it
+        }
+    }
+    private val sortType: SortType? by lazy {
+        arguments?.getSerializable(SORT_TYPE_KEY) as? SortType
     }
 
     private val adapter: GroupHorListAdapter by lazy {
@@ -135,16 +143,19 @@ class GroupsListFragment : BaseFragment<FragmentHomeGroupsBinding>(),
         private const val GROUP_TYPE_KEY = "key_group_type"
         private const val GROUP_STATUS_KEY = "key_group_status"
         private const val USER_ID_KEY = "key_user_id"
+        private const val SORT_TYPE_KEY = "key_sort_type"
 
         fun newInstance(
             userId: Long? = null,
             groupType: GroupType? = null,
-            groupStatus: GroupStatus? = null
+            groupStatus: GroupStatus? = null,
+            sortType: SortType? = null
         ) = GroupsListFragment().apply {
             arguments = Bundle().apply {
                 groupType?.let { putSerializable(GROUP_TYPE_KEY, it) }
                 userId?.let { putLong(USER_ID_KEY, it) }
                 groupStatus?.let { putSerializable(GROUP_STATUS_KEY, it) }
+                sortType?.let { putSerializable(SORT_TYPE_KEY, it) }
             }
         }
     }

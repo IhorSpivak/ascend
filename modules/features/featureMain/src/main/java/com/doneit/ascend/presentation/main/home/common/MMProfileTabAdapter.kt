@@ -3,6 +3,7 @@ package com.doneit.ascend.presentation.main.home.common
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.doneit.ascend.domain.entity.dto.SortType
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.presentation.main.bio.BioFragment
@@ -37,9 +38,9 @@ class MMProfileTabAdapter(
         ): MMProfileTabAdapter {
 
             val fragments: ArrayList<() -> Fragment> = arrayListOf(
-                { GroupsListFragment.newInstance(userId, GroupType.WEBINAR) },
-                { GroupsListFragment.newInstance(userId, GroupType.SUPPORT) },
-                { GroupsListFragment.newInstance(userId, GroupType.MASTER_MIND) },
+                { GroupsListFragment.newInstance(userId, GroupType.WEBINAR, sortType = SortType.DESC) },
+                { GroupsListFragment.newInstance(userId, GroupType.SUPPORT, sortType = SortType.DESC) },
+                { GroupsListFragment.newInstance(userId, GroupType.MASTER_MIND, sortType = SortType.DESC) },
                 { ChannelsFragment.getInstance(user) },
                 { MMPostsFragment.newInstance(userId, user) },
                 { BioFragment.getInstance(user) }
