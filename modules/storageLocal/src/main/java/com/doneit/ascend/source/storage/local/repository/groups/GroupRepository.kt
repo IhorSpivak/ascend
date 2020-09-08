@@ -18,7 +18,7 @@ internal class GroupRepository(
     }
 
     override suspend fun getUpcomingGroupList(filter: GroupFilter): DataSource.Factory<Int, GroupLocal> {
-        return if(filter.isUpcoming!!) {
+        return if(filter.groupStatus ?: 0 < 3) {
             dao.getUpcomingASC(filter.userId!!)
         } else {
             dao.getAllDESC(filter.groupStatus)
