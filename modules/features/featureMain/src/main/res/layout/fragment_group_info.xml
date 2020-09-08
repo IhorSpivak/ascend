@@ -295,7 +295,7 @@
                     <TextView
                         android:id="@+id/user_banned_message"
                         style="@style/TextNormal.White"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:background="#FF2D55"
                         android:clickable="true"
@@ -306,7 +306,10 @@
                         android:text="@string/error_group_user_banned"
                         android:visibility="@{model.group.blocked, default = gone}"
                         app:layout_constraintBottom_toTopOf="@id/buttonsBarrier"
-                        app:layout_constraintTop_toBottomOf="@id/brMaster" />
+                        app:layout_constraintEnd_toEndOf="@+id/btnSubscribed"
+                        app:layout_constraintStart_toStartOf="@+id/btnSubscribed"
+                        app:layout_constraintTop_toTopOf="@+id/btnSubscribed"
+                        tools:visibility="visible" />
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/buttonsBarrier"
