@@ -53,7 +53,12 @@ abstract class TagFilter<T : TagFilterModel> : BaseFilter<T>() {
         }
         chipGroup.setOnCheckedChangeListener { group, checkedId ->
             val tag = group.findViewById<Chip>(checkedId)?.tag as? TagEntity
-            tag?.let { viewModel.tagSelected(it) }
+
+            tag?.let {
+                viewModel.tagSelected(it)
+            }?: kotlin.run {
+                viewModel.clearTags()
+            }
         }
         expand()
         initWithTagId ?: return@with

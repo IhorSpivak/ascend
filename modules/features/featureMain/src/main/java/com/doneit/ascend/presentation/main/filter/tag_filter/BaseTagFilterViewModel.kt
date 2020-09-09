@@ -23,6 +23,10 @@ abstract class BaseTagFilterViewModel<T : TagFilterModel>(
         }
     }
 
+    override fun clearTags() {
+        filter.selectedTagId = null
+    }
+
     override fun tagSelected(tag: TagEntity) {
         if (filter.selectedTagId != tag.id) {
             filter.selectedTagId = tag.id

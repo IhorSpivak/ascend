@@ -8,6 +8,7 @@ interface TagFilterAbstractContract {
     interface ViewModel<T : TagFilterModel> : FilterContract.ViewModel<T> {
         val tags: LiveData<List<TagEntity>>
 
+        fun clearTags()
         fun tagSelected(tag: TagEntity)
     }
 }
