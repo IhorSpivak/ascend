@@ -288,11 +288,13 @@
                         android:background="@drawable/button_join_background"
                         android:text="@{group.groupType == GroupType.WEBINAR?@string/join_to_livestream:@string/join_to_discussion}"
                         android:textAllCaps="true"
+                        android:fontFamily="@font/red_hat_font"
                         android:textColor="@color/default_font_color"
                         app:layout_constraintTop_toBottomOf="@id/brMaster"
                         app:setVisibility="@{model.btnJoinVisible}" />
 
                     <TextView
+                        android:textSize="24sp"
                         android:id="@+id/user_banned_message"
                         style="@style/TextNormal.White"
                         android:layout_width="0dp"

@@ -312,7 +312,7 @@
     <string name="attendees">&lt;b>%d&lt;/b> Attendees</string>
     <string name="no_attendees">No attendees yet</string>
     <string name="error_group_user_removed">You are removed from group</string>
-    <string name="error_group_user_banned">You have been banned by the Livestream\norganizer and cannot join.</string>
+    <string name="error_group_user_banned">You Blocked</string>
     <string name="duplicate_group">Duplicate</string>
     <string name="cancel_group">Cancel</string>
     <string name="edit_group">Edit</string>
