@@ -2,6 +2,7 @@ package com.doneit.ascend.presentation.main.filter.tag_filter
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import com.doneit.ascend.domain.entity.TagEntity
 import com.doneit.ascend.presentation.main.R
@@ -55,6 +56,8 @@ abstract class TagFilter<T : TagFilterModel> : BaseFilter<T>() {
             tag?.let { viewModel.tagSelected(it) }
         }
         expand()
-        chipGroup.check(initWithTagId ?: return@with)
+        initWithTagId ?: return@with
+        val id = chipGroup.children.firstOrNull { (it.tag as? TagEntity)?.id == initWithTagId }?.id
+        chipGroup.check(id ?: return@with)
     }
 }
