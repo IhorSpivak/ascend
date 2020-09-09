@@ -18,6 +18,7 @@ interface PostDetailsContract {
         fun likePost()
         fun unlikePost()
         fun reportUser(reason: String)
+        fun blockUser()
         fun attachmentClicked(attachments: List<Attachment>, selected: Int)
         fun onSharePostClick(user: UserEntity)
     }

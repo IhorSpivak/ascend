@@ -198,11 +198,13 @@ class CommunityFeedFragment : BaseFragment<FragmentCommunityFeedBinding>() {
 
     private fun showAbuseDialog(userId: Long) {
         currentDialog = ReportAbuseDialog.create(
-            requireContext()
-        ) {
-            currentDialog?.dismiss()
-            viewModel.reportUser(it, userId)
-        }
+            requireContext(), {
+                currentDialog?.dismiss()
+                viewModel.reportUser(it, userId)
+            }, {
+                currentDialog?.dismiss()
+                viewModel.blockUser(userId)
+            })
         currentDialog?.show()
     }
 

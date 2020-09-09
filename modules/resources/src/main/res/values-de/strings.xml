@@ -844,4 +844,5 @@
     <string name="family">Family</string>
     <string name="success">Success</string>
     <string name="spiritual">Spiritual</string>
+    <string name="block_this_user">Block this user?</string>
 </resources>

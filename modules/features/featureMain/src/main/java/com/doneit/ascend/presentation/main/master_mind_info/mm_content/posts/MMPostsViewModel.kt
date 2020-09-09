@@ -167,6 +167,16 @@ class MMPostsViewModel(
         }
     }
 
+    override fun blockUser(userId: Long) {
+        viewModelScope.launch {
+            chatUseCase.blockUser(userId).let {
+                if (it.isSuccessful.not()) {
+                    showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                }
+            }
+        }
+    }
+
     override fun attachmentClicked(attachments: List<Attachment>, selected: Int) {
         router.navigateToPreview(attachments, selected)
     }

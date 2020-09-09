@@ -12,6 +12,7 @@ interface ParticipantOptionsContract {
         fun onNotesClick()
         fun onChatClick()
         fun reportGroupOwner(content: String)
+        fun blockGroupOwner()
         fun leaveGroup()
         fun onBackClick()
     }

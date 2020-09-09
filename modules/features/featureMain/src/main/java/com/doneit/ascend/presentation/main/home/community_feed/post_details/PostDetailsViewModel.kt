@@ -7,6 +7,7 @@ import com.doneit.ascend.domain.entity.community_feed.Attachment
 import com.doneit.ascend.domain.entity.community_feed.Post
 import com.doneit.ascend.domain.entity.community_feed.PostNullable
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.community_feed.CommunityFeedUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.home.community_feed.comments_view.CommentsViewViewModel
@@ -22,6 +23,7 @@ class PostDetailsViewModel(
     communityFeedUseCase: CommunityFeedUseCase,
     private val postsUseCase: CommunityFeedUseCase,
     private val userUseCase: UserUseCase,
+    private val chatUseCase: ChatUseCase,
     private val router: PostDetailsContract.Router,
     post: Post
 ) : CommentsViewViewModel(communityFeedUseCase, postId = post.id, router = router),
@@ -95,6 +97,16 @@ class PostDetailsViewModel(
     override fun reportUser(reason: String) {
         viewModelScope.launch {
             userUseCase.report(reason, post.owner.id.toString()).let {
+                if (it.isSuccessful.not()) {
+                    showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                }
+            }
+        }
+    }
+
+    override fun blockUser() {
+        viewModelScope.launch {
+            chatUseCase.blockUser(post.owner.id).let {
                 if (it.isSuccessful.not()) {
                     showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
                 }

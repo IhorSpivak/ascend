@@ -14,7 +14,8 @@ class ReportAbuseDialog {
     companion object {
         fun create(
             context: Context,
-            call: ((String) -> Unit)
+            call: ((String) -> Unit),
+            call2: (() -> Unit)
         ): AlertDialog {
 
             val mDialogView =
@@ -35,6 +36,9 @@ class ReportAbuseDialog {
 
             mDialogView.btnClose.setOnClickListener {
                 dialog.dismiss()
+            }
+            mDialogView.btnBlock.setOnClickListener {
+                call2.invoke()
             }
 
             mDialogView.btnPositive.isEnabled = false

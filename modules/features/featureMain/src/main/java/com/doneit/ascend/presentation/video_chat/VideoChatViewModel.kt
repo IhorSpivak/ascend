@@ -12,6 +12,7 @@ import com.doneit.ascend.domain.entity.group.GroupEntity
 import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.minutesToMillis
 import com.doneit.ascend.domain.entity.user.UserEntity
+import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -46,6 +47,7 @@ import kotlin.concurrent.timerTask
 class VideoChatViewModel(
     private val userUseCase: UserUseCase,
     private val groupUseCase: GroupUseCase,
+    private val chatUseCase: ChatUseCase,
     val participantsManager: ParticipantsManager
 ) : BaseViewModelImpl(),
     VideoChatContract.ViewModel,
@@ -403,11 +405,27 @@ class VideoChatViewModel(
         }
     }
 
+    override fun blockGroupOwner() {
+        groupInfo.value?.let {
+            block(it.owner!!.id.toString())
+        }
+    }
+
     override fun report(content: String, participantId: String) {
         viewModelScope.launch {
             val res = userUseCase.report(content, participantId)
             if (res.isSuccessful.not()) {
                 showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
+            }
+        }
+    }
+
+    override fun block(participantId: String) {
+        viewModelScope.launch {
+            chatUseCase.blockUser(participantId.toLong()).let {
+                if (it.isSuccessful.not()) {
+                    showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                }
             }
         }
     }

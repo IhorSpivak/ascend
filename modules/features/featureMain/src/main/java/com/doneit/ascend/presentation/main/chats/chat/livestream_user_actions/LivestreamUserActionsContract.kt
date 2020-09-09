@@ -7,6 +7,7 @@ interface LivestreamUserActionsContract {
 
         fun remove(userId: Long)
         fun report(content: String, participantId: String)
+        fun block(participantId: String)
         fun onBackClick()
     }
 }

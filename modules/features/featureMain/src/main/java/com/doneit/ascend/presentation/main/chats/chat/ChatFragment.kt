@@ -228,11 +228,17 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             chat = chatWithUser.chat
             when (chatWithUser.chat.chatType) {
                 InnerChatType.CHAT -> {
-                    Glide.with(groupPlaceholder)
-                        .load(R.drawable.ic_group_placeholder)
-                        .circleCrop()
-                        .into(groupPlaceholder)
-                    if (chatWithUser.chat.isPrivate) {
+                    if (chatWithUser.chat.members.size != PRIVATE_CHAT_MEMBER_COUNT) {
+                        url = chatWithUser.chat.image?.url
+                        statusOrCount = resources.getString(
+                            R.string.chats_member_count,
+                            chatWithUser.chat.membersCount
+                        )
+                        Glide.with(groupPlaceholder)
+                            .load(R.drawable.ic_group_placeholder)
+                            .circleCrop()
+                            .into(groupPlaceholder)
+                    } else {
                         image.setOnClickListener {
                             viewModel.showDetailedUser(
                                 chatWithUser.chat.members.firstOrNull {
@@ -392,7 +398,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     }
 
     private fun defineMenuResId() {
-        menuResId = if (!chatWithUser.chat.isPrivate) {
+        menuResId = if (chatWithUser.chat.members.size != PRIVATE_CHAT_MEMBER_COUNT) {
             if (chatWithUser.user.id == chatWithUser.chat.chatOwnerId) {
                 if (chatWithUser.chat.chatType == GeneralChatType.CHAT) {
                     R.menu.chat_mm_group_menu
@@ -433,7 +439,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
 
     private fun handleChat(chat: ChatWithUser) {
         binding.chat = chat.chat
-        if (!chat.chat.isPrivate || chat.chat.chatType == InnerChatType.CHANNEL) {
+        if (chatWithUser.chat.members.size != PRIVATE_CHAT_MEMBER_COUNT || chat.chat.chatType == InnerChatType.CHANNEL) {
             binding.url = chatWithUser.chat.image?.url
             binding.statusOrCount = resources.getString(
                 R.string.chats_member_count,
@@ -621,18 +627,21 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
                 getString(R.string.chats_mm_block_description),
                 getString(R.string.chats_mm_block_button),
                 getString(R.string.chats_mm_block_cancel)
-            ) { viewModel.onBlockUserClick(it) }.show()
+            ) { viewModel.onBlockUserClick(it.id) }.show()
         }
     }
 
     private fun showReportSingleDialog() {
         if (kickOrReportUserId > 0) {
             currentDialog = ReportAbuseDialog.create(
-                requireContext()
-            ) {
-                currentDialog?.dismiss()
-                viewModel.onReport(it, kickOrReportUserId)
-            }
+                requireContext(),
+                {
+                    currentDialog?.dismiss()
+                    viewModel.onReport(it, kickOrReportUserId)
+                }, {
+                    currentDialog?.dismiss()
+                    viewModel.onBlockUserClick(kickOrReportUserId)
+                })
             currentDialog?.show()
         }
     }
@@ -641,11 +650,13 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
         chatWithUser.chat.members.firstOrNull { it.id != chatWithUser.user.id }
             ?.let { member ->
                 currentDialog = ReportAbuseDialog.create(
-                    requireContext()
-                ) {
-                    currentDialog?.dismiss()
-                    viewModel.onReport(it, member.id)
-                }
+                    requireContext(), {
+                        currentDialog?.dismiss()
+                        viewModel.onReport(it, member.id)
+                    }, {
+                        currentDialog?.dismiss()
+                        viewModel.onBlockUserClick(member.id)
+                    })
                 currentDialog?.show()
             }
     }
@@ -693,11 +704,14 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
     private fun reportOnOwner() {
         context?.let { context ->
             currentDialog = ReportAbuseDialog.create(
-                context
-            ) {
-                currentDialog?.dismiss()
-                viewModel.onReportChatOwner(it)
-            }
+                context,
+                {
+                    currentDialog?.dismiss()
+                    viewModel.onReportChatOwner(it)
+                }, {
+                    currentDialog?.dismiss()
+                    viewModel.onBlockUserClick(chatWithUser.chat.chatOwnerId)
+                })
             currentDialog?.show()
         }
     }
@@ -727,7 +741,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(), PopupMenu.OnMenuItemCl
             }
             MediaValidator.executeIfUriSupported(requireContext(), lastFileUri,
                 onError = {
-                    when(it){
+                    when (it) {
                         MediaValidator.ValidationError.SIZE -> showDefaultError(getString(R.string.file_incorrect_size))
                         MediaValidator.ValidationError.FORMAT -> showDefaultError(getString(R.string.file_not_supported))
                     }

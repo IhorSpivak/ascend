@@ -74,10 +74,13 @@ class ParticipantOptionsFragment : BaseFragment<FragmentWebinarParticipantOption
     }
 
     private fun showReportAbuseDialog() {
-        reportAbuseDialog = ReportAbuseDialog.create(context!!) {
+        reportAbuseDialog = ReportAbuseDialog.create(requireContext(), {
             viewModel.reportGroupOwner(it)
             reportAbuseDialog?.dismiss()
-        }
+        }, {
+            viewModel.blockGroupOwner()
+            reportAbuseDialog?.dismiss()
+        })
         reportAbuseDialog?.show()
     }
 

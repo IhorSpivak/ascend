@@ -321,6 +321,12 @@ class WebinarVideoChatViewModel(
         }
     }
 
+    override fun blockGroupOwner() {
+        groupInfo.value?.let {
+            block(it.owner!!.id.toString())
+        }
+    }
+
     override fun leaveGroup() {
         navigation.postValue(WebinarVideoChatContract.Navigation.FINISH_ACTIVITY)
     }
@@ -335,6 +341,15 @@ class WebinarVideoChatViewModel(
             val res = userUseCase.report(content, participantId)
             if (res.isSuccessful.not()) {
                 showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
+            }
+        }
+    }
+
+    override fun block(participantId: String) {
+        val memberId = participantId.toLong()
+        viewModelScope.launch {
+            chatUseCase.blockUser(memberId).let {
+                //TODO: ?
             }
         }
     }

@@ -185,11 +185,13 @@ class PostDetailsFragment : BaseFragment<FragmentPostDetailsBinding>() {
 
     private fun showAbuseDialog() {
         currentDialog = ReportAbuseDialog.create(
-            requireContext()
-        ) {
-            currentDialog?.dismiss()
-            viewModel.reportUser(it)
-        }
+            requireContext(), {
+                currentDialog?.dismiss()
+                viewModel.reportUser(it)
+            }, {
+                currentDialog?.dismiss()
+                viewModel.blockUser()
+            })
         currentDialog?.show()
     }
 

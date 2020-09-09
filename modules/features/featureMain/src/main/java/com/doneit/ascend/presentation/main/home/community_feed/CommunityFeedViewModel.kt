@@ -185,6 +185,16 @@ class CommunityFeedViewModel(
         }
     }
 
+    override fun blockUser(userId: Long) {
+        viewModelScope.launch {
+            chatUseCase.blockUser(userId).let {
+                if (it.isSuccessful) {
+                    //TODO:
+                }
+            }
+        }
+    }
+
     override fun attachmentClicked(attachments: List<Attachment>, selected: Int) {
         router.navigateToPreview(attachments, selected)
     }

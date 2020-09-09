@@ -312,7 +312,7 @@
     <string name="attendees">&lt;b>%d&lt;/b> Attendees</string>
     <string name="no_attendees">No attendees yet</string>
     <string name="error_group_user_removed">You are removed from group</string>
-    <string name="error_group_user_banned">You Blocked</string>
+    <string name="error_group_user_banned">YOU BLOCKED</string>
     <string name="duplicate_group">Duplicate</string>
     <string name="cancel_group">Cancel</string>
     <string name="edit_group">Edit</string>
@@ -335,6 +335,7 @@
     <string name="delete_content_webinar">If you delete a Livestream, it cannot be restored and all funds will be returned to the participants.</string>
     <string name="leave_content">If you leave,\n You can\'t join this group again.</string>
     <string name="btn_send">Send</string>
+    <string name="block_this_user">Block this user?</string>
     <string name="enter_reason">Enter a reason</string>
     <string name="report_abuse">Report Abuse</string>
     <string name="reason">Reason</string>

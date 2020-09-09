@@ -32,16 +32,20 @@ class UserChatOptionsFragment : BaseFragment<FragmentUserChatOptionsBinding>() {
             showReportAbuseDialog()
         }
 
-        if(savedInstanceState?.getBoolean(IS_DIALOG_SHOWN_KEY) == true) {
+        if (savedInstanceState?.getBoolean(IS_DIALOG_SHOWN_KEY) == true) {
             showReportAbuseDialog()
         }
     }
 
     private fun showReportAbuseDialog() {
-        reportAbuseDialog = ReportAbuseDialog.create(context!!) {
-            viewModel.reportGroupOwner(it)
-            reportAbuseDialog?.dismiss()
-        }
+        reportAbuseDialog = ReportAbuseDialog.create(requireContext(),
+            {
+                viewModel.reportGroupOwner(it)
+                reportAbuseDialog?.dismiss()
+            }, {
+                viewModel.blockGroupOwner()
+                reportAbuseDialog?.dismiss()
+            })
         reportAbuseDialog?.show()
     }
 

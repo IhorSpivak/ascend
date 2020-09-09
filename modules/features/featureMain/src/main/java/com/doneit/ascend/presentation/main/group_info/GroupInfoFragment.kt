@@ -160,10 +160,12 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 currentDialog = createDeleteDialog()
             }
             icAbuse.setOnClickListener {
-                currentDialog = ReportAbuseDialog.create(context!!) {
+                currentDialog = ReportAbuseDialog.create(requireContext(), {
                     viewModel.report(it)
                     currentDialog?.dismiss()
-                }
+                }, {
+                    viewModel.block()
+                })
                 currentDialog?.show()
             }
 

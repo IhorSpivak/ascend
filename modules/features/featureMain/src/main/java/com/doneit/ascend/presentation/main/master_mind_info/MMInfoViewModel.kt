@@ -163,6 +163,18 @@ class MMInfoViewModel(
         }
     }
 
+    override fun block() {
+        profile.value?.let {
+            viewModelScope.launch {
+                chatUseCase.blockUser(it.id).let {
+                    if (it.isSuccessful.not()) {
+                        showDefaultErrorMessage(it.errorModel!!.toErrorMessage())
+                    }
+                }
+            }
+        }
+    }
+
     override fun onShareInAppClick() {
         user.value?.let {
             router.navigateToShare(

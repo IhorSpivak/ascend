@@ -194,12 +194,15 @@ class ChatViewModel(
         onChatDetailsClick()
     }
 
-    override fun onBlockUserClick(member: MemberEntity) {
+    override fun onBlockUserClick(memberId: Long) {
         viewModelScope.launch {
-            chatUseCase.blockUser(member.id).let {
+            chatUseCase.blockUser(memberId).let {
                 if (it.isSuccessful) {
+                    val blockedMember = chat.value!!.chat.members.find {
+                        it.id == memberId
+                    }
                     userUseCase.update(chatWithUser.user.apply { blockedUsersCount += 1 })
-                    chatUseCase.addBlockedUser(member.toBlockedUser())
+                    blockedMember?.toBlockedUser()?.let { member -> chatUseCase.addBlockedUser(member) }
                     router.onBack()
                 }
             }

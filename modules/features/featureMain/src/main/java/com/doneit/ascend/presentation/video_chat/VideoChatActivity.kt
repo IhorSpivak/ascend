@@ -40,6 +40,7 @@ class VideoChatActivity : BaseActivity() {
             VideoChatViewModel(
                 instance(),
                 instance(),
+                instance(),
                 instance()
             )
         }

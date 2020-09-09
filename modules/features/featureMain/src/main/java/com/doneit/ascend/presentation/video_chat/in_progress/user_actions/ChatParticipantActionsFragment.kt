@@ -49,10 +49,13 @@ class ChatParticipantActionsFragment : BaseFragment<FragmentChatParticipantActio
     }
 
     private fun showReportAbuseDialog(participantId: String) {
-        reportAbuseDialog = ReportAbuseDialog.create(context!!) {
+        reportAbuseDialog = ReportAbuseDialog.create(requireContext(), {
             viewModel.report(it, participantId)
             reportAbuseDialog?.dismiss()
-        }
+        }, {
+            viewModel.block(participantId)
+            reportAbuseDialog?.dismiss()
+        })
         reportAbuseDialog?.show()
     }
 

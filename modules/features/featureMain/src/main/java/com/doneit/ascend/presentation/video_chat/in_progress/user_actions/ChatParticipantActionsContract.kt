@@ -9,6 +9,7 @@ interface ChatParticipantActionsContract {
         val participants: LiveData<List<PresentationChatParticipant>>
 
         fun report(content: String, participantId: String)
+        fun block(participantId: String)
         fun allowToSay(userId: String)
         fun removeChatParticipant(userId: String)
         fun switchMuted(user: PresentationChatParticipant)

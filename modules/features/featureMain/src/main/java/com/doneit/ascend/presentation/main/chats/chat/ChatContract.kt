@@ -28,7 +28,7 @@ interface ChatContract {
         fun inviteUser()
         fun onImageClick()
         fun onChatDetailsClick()
-        fun onBlockUserClick(member: MemberEntity)
+        fun onBlockUserClick(id: Long)
         fun onUnblockUserClick(member: MemberEntity)
         fun showDetailedUser(userId: Long)
         fun showLiveStreamUser(member: MemberEntity)

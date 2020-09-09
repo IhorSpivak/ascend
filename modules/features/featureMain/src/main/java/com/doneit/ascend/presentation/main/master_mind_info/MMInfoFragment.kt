@@ -48,10 +48,13 @@ class MMInfoFragment : BaseFragment<FragmentMasterMindInfoBinding>() {
 
     private fun setClickListeners() = with(binding) {
         btnInto.setOnClickListener {
-            currentDialog = ReportAbuseDialog.create(requireContext()) {
+            currentDialog = ReportAbuseDialog.create(requireContext(), {
                 currentDialog?.dismiss()
                 viewModel.report(it)
-            }.also { it.show() }
+            }, {
+                currentDialog?.dismiss()
+                viewModel.block()
+            }).also { it.show() }
         }
         btnBack.setOnClickListener {
             viewModel.goBack()

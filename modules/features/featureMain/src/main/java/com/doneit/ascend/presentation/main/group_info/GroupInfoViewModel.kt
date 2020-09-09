@@ -13,6 +13,7 @@ import com.doneit.ascend.domain.entity.group.GroupStatus
 import com.doneit.ascend.domain.entity.group.GroupType
 import com.doneit.ascend.domain.entity.user.UserEntity
 import com.doneit.ascend.domain.use_case.interactor.cards.CardsUseCase
+import com.doneit.ascend.domain.use_case.interactor.chats.ChatUseCase
 import com.doneit.ascend.domain.use_case.interactor.group.GroupUseCase
 import com.doneit.ascend.domain.use_case.interactor.user.UserUseCase
 import com.doneit.ascend.presentation.main.base.BaseViewModelImpl
@@ -34,6 +35,7 @@ class GroupInfoViewModel(
     private val router: GroupInfoContract.Router,
     private val groupUseCase: GroupUseCase,
     private val userUseCase: UserUseCase,
+    private val chatUseCase: ChatUseCase,
     cardsUseCase: CardsUseCase
 ) : BaseViewModelImpl(), GroupInfoContract.ViewModel {
 
@@ -222,6 +224,16 @@ class GroupInfoViewModel(
                 val res = userUseCase.report(content, it.owner!!.id.toString())
                 if (res.isSuccessful.not()) {
                     showDefaultErrorMessage(res.errorModel!!.toErrorMessage())
+                }
+            }
+        }
+    }
+
+    override fun block() {
+        viewModelScope.launch {
+            chatUseCase.blockUser(group.value!!.owner!!.id).let {
+                if (it.isSuccessful) {
+                    router.onBack()
                 }
             }
         }

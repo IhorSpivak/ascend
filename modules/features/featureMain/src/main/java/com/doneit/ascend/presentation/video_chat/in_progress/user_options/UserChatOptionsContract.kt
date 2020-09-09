@@ -20,6 +20,7 @@ interface UserChatOptionsContract {
         fun switchCamera()
         fun switchHand()
         fun reportGroupOwner(content: String)
+        fun blockGroupOwner()
         fun finishCall()
         fun onBackClick()
     }

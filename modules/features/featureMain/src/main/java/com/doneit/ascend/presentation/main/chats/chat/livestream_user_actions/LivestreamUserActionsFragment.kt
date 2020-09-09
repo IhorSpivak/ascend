@@ -40,10 +40,13 @@ class LivestreamUserActionsFragment : BaseFragment<FragmentLivestreamParticipant
     }
 
     private fun showReportAbuseDialog(participantId: String) {
-        reportAbuseDialog = ReportAbuseDialog.create(requireContext()) {
+        reportAbuseDialog = ReportAbuseDialog.create(requireContext(), {
             viewModel.report(it, participantId)
             reportAbuseDialog?.dismiss()
-        }
+        }, {
+            viewModel.block(participantId)
+            reportAbuseDialog?.dismiss()
+        })
         reportAbuseDialog?.show()
     }
 

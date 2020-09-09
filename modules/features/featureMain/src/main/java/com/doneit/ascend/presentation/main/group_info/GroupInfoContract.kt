@@ -45,6 +45,7 @@ interface GroupInfoContract {
         fun cancelGroup(reason: String)
         fun inviteToGroup(reason: List<String>)
         fun report(content: String)
+        fun block()
         fun onAddPaymentClick()
         fun onMMClick()
         fun onViewClick(attendees: List<AttendeeEntity>)
