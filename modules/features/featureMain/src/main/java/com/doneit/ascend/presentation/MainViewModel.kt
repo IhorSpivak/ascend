@@ -109,6 +109,8 @@ class MainViewModel(
             } else {
                 router.navigateToCreateGroup(GroupType.SUPPORT)
             }
+        } ?: run {
+            router.navigateToLogin()
         }
     }
 
@@ -180,6 +182,10 @@ class MainViewModel(
         localUser.value?.let {
             router.navigateToShare(it.id, it, SharePostBottomSheetFragment.ShareType.PROFILE)
         }
+    }
+
+    override fun startChat(groupId: Long) {
+        router.navigateToVideoChat(groupId, GroupType.WEBINAR)
     }
 
     override fun onCleared() {

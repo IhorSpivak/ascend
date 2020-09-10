@@ -26,6 +26,7 @@ interface MainContract {
         fun onShareClick()
         fun onShareInAppClick()
 
+        fun startChat(groupId: Long)
         fun onCreateGroupClick()
         fun onHomeClick()
         fun navigateToMyContent()
@@ -37,6 +38,7 @@ interface MainContract {
     }
 
     interface Router {
+        fun navigateToVideoChat(groupId: Long, groupType: GroupType)
         fun navigateToSearch()
         fun navigateToNotifications()
         fun navigateToGroupInfo(id: Long)

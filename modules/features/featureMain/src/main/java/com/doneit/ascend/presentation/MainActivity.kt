@@ -88,22 +88,22 @@ class MainActivity : BaseActivity(), MainActivityListener {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        fun getExtra(key: String, action: (Long) -> Unit) {
+            intent?.extras?.getLong(key)?.let {
+                if (it > 0) action(it)
+            }
+        }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.model = viewModel
         super.onCreate(savedInstanceState)
-
+        parseIntent(intent)
         if (resources.getBoolean(R.bool.portrait_only)) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
 
         viewModel.onHomeClick()
 
-        fun getExtra(key: String, action: (Long) -> Unit) {
-            intent?.extras?.getLong(key)?.let {
-                if (it > 0) action(it)
-            }
-        }
         getExtra(Constants.KEY_GROUP_ID) { viewModel.tryToNavigateToGroupInfo(it) }
         getExtra(Constants.KEY_PROFILE_ID) { viewModel.tryToNavigateToProfile(it) }
 
@@ -133,6 +133,31 @@ class MainActivity : BaseActivity(), MainActivityListener {
         super.onResume()
         hideKeyboard()
 
+    }
+
+    private fun parseIntent(intent: Intent?) {
+        intent ?: return
+        if (intent.scheme == Constants.DEEP_LINK_APP_SCHEME) {
+            intent.data?.let {
+                fun getIdFromPath(): Long? {
+                    return it.path
+                        ?.substring(1)
+                        ?.substringBefore('/')
+                        ?.toLongOrNull()
+                }
+                when {
+                    it.path.orEmpty().endsWith(Constants.DEEP_LINK_START_SUFFIX) -> {
+                        viewModel.tryToNavigateToGroupInfo(getIdFromPath() ?: return)
+                    }
+                    it.path.orEmpty().endsWith(Constants.DEEP_LINK_JOIN_SUFFIX) -> {
+                        viewModel.tryToNavigateToGroupInfo(getIdFromPath() ?: return)
+                    }
+                    it.host.orEmpty() == Constants.DEEP_LINK_PATH_CREATE_GROUP -> {
+                        viewModel.onCreateGroupClick()
+                    }
+                }
+            }
+        }
     }
 
     private fun setBackStackHandler() {
@@ -183,7 +208,11 @@ class MainActivity : BaseActivity(), MainActivityListener {
     override fun setCommunityTitle(title: String) {
         binding.tvTitle.gone()
         binding.communityDropDown.visible()
-        viewModel.communities.value?.indexOfFirst { it.title.toUpperCase(Locale.getDefault()) == title.toUpperCase(Locale.getDefault()) }?.also {
+        viewModel.communities.value?.indexOfFirst {
+            it.title.toUpperCase(Locale.getDefault()) == title.toUpperCase(
+                Locale.getDefault()
+            )
+        }?.also {
             binding.communityDropDown.setSelection(it)
         }
     }
@@ -234,6 +263,7 @@ class MainActivity : BaseActivity(), MainActivityListener {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        parseIntent(intent)
         intent?.extras?.get(Constants.KEY_GROUP_ID)?.let {
             viewModel.tryToNavigateToGroupInfo(it as Long)
         }

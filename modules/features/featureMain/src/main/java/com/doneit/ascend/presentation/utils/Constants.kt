@@ -37,6 +37,11 @@ object Constants {
     const val KEY_GROUP_ID = "group_id"
     const val KEY_PROFILE_ID = "profile_id"
 
+    const val DEEP_LINK_APP_SCHEME = "ascend.video"
+    const val DEEP_LINK_START_SUFFIX = "start"
+    const val DEEP_LINK_JOIN_SUFFIX = "join"
+    const val DEEP_LINK_PATH_CREATE_GROUP = "create_group"
+
     const val DEEP_LINK_PROFILE_URL = "http://ascend.video/user/"
     const val DEEP_LINK_GROUP_URL = "http://ascend.video/group/"
 

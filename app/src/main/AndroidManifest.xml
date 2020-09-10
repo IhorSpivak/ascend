@@ -65,7 +65,28 @@
             android:launchMode="singleTop"
             android:parentActivityName=".presentation.login.LogInActivity"
             android:windowSoftInputMode="adjustResize|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="create_group"
+                    android:scheme="ascend.video" />
+            </intent-filter>
 
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="group"
+                    android:pathPattern="/.*/start"
+                    android:scheme="ascend.video" />
+                <data
+                    android:host="group"
+                    android:pathPattern="/.*/join"
+                    android:scheme="ascend.video" />
+            </intent-filter>
         </activity>
 
         <meta-data
