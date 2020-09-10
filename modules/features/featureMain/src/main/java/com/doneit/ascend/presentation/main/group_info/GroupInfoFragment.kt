@@ -91,9 +91,6 @@ class GroupInfoFragment : BaseFragment<FragmentGroupInfoBinding>() {
                 }
                 webinarThemeAdapter.submitList(group.themes)
             }
-            if (group.groupType == GroupType.INDIVIDUAL) {
-                binding.attendeesContainer.gone()
-            }
             binding.tvSchedule.text = builder.toString()
             membersAdapter.submitList(group.attendees.orEmpty().toMutableList())
             binding.viewAttendees.setOnClickListener {
