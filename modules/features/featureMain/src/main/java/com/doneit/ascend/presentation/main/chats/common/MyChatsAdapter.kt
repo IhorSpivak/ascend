@@ -6,8 +6,7 @@ import com.doneit.ascend.domain.entity.chats.ChatEntity
 import com.doneit.ascend.domain.entity.user.UserEntity
 
 
-class MyChatsAdapter(
-    private val onItemClick: (chat: ChatEntity) -> Unit,
+class MyChatsAdapter(private val onItemClick: (chat: ChatEntity) -> Unit,
     private val onDeleteListener: (chat: ChatEntity) -> Unit
 ) : PagedListAdapter<ChatEntity, MyChatViewHolder>(ChatDiffCallback()) {
 

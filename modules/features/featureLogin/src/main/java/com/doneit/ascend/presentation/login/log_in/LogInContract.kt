@@ -23,7 +23,7 @@ interface LogInContract {
         fun privacyPolicyClick()
         fun forgotPasswordClick()
         fun onFacebookLoginClick()
-        fun onFacebookLogin(accessToken: AccessToken)
+        fun (accessToken: AccessToken)
         fun onGoogleLoginClick()
         fun loginWithGoogle(idToken: String)
         fun onTwitterLoginClick()

@@ -9,9 +9,7 @@ import com.doneit.ascend.domain.entity.user.Community
 import com.doneit.ascend.presentation.main.R
 import com.doneit.ascend.presentation.main.databinding.ListItemCommunitySelectBinding
 
-class CommunityAdapter(
-    private val onCommunitySelect: (Community) -> Unit = {}
-): RecyclerView.Adapter<CommunityAdapter.ViewHolder>() {
+class CommunityAdapter(private val onCommunitySelect: (Community) -> Unit = {}): RecyclerView.Adapter<CommunityAdapter.ViewHolder>() {
 
     private val communityList = ArrayList<Community>()
     private var selectedPosition = 0

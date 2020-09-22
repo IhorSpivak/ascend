@@ -39,11 +39,8 @@ fun androidx.fragment.app.FragmentManager.addWithBackStack(
 }
 
 @SuppressLint("CheckResult")
-fun androidx.fragment.app.FragmentManager.replaceWithBackStack(
-    containerId: Int,
-    fragment: androidx.fragment.app.Fragment
-) {
-    beginTransaction()
+fun androidx.fragment.app.FragmentManager.replaceWithBackStack(containerId: Int, fragment: androidx.fragment.app.Fragment
+) { beginTransaction()
         .replace(containerId, fragment, fragment::class.java.simpleName)
         .addToBackStack(fragment::class.java.simpleName)
         .commit()

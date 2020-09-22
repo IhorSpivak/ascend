@@ -60,7 +60,7 @@ class LogInFragment : BaseFragment<FragmentLoginBinding>() {
         viewModel.facebookNeedLoginSubject.observe(this) {
             if (it != null && it) {
                 val accessToken = AccessToken.getCurrentAccessToken()
-                val isLoggedIn = accessToken != null && !accessToken.isExpired
+                val isLoggedIn = accessToken != null && !accessToken.
 
                 if (isLoggedIn) {
                     viewModel.onFacebookLogin(accessToken)

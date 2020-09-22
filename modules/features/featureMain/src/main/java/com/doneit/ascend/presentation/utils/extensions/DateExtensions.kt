@@ -206,6 +206,10 @@ fun Context.getTimeType(): String {
     }
 }
 
+fun getDefaultCalendar(): Calendar {
+    return Calendar.getInstance()
+}
+
 fun calculateDate(currentMessageTime: Date, previousMessageTime: Date): Boolean {
     val current = getDefaultCalendar().apply { time = currentMessageTime }
     val previous = getDefaultCalendar().apply { time = previousMessageTime }

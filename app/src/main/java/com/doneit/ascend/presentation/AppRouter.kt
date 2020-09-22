@@ -23,11 +23,9 @@ class AppRouter(private val app: Context) : ISplashRouter,
     private inline fun <reified T : Any> startActivity(args: Bundle = Bundle(), clear: Boolean = false) {
         val intent = Intent(app, T::class.java).apply {
             putExtras(args)
-
             if (clear) {
                 addFlags(FLAG_ACTIVITY_CLEAR_TASK)
             }
-
             addFlags(FLAG_ACTIVITY_NEW_TASK)
         }
 
